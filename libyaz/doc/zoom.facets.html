@@ -1,0 +1,56 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>5. ZOOM Facets</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="YAZ User's Guide and Reference"><link rel="up" href="zoom.html" title="Chapter 3. ZOOM"><link rel="prev" href="zoom.records.html" title="4. Records"><link rel="next" href="zoom.scan.html" title="6. Scan"></head><body><link rel="stylesheet" type="text/css" href="common/style1.css"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">5. ZOOM Facets</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="zoom.records.html">Prev</a> </td><th width="60%" align="center">Chapter 3. ZOOM</th><td width="20%" align="right"> <a accesskey="n" href="zoom.scan.html">Next</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="zoom.facets"></a>5. ZOOM Facets</h2></div></div></div><p>
+    Facets are only supported for a few Z39.50 targets. It is a relatively
+    new non-standard Z39.50 extension (see facets.asn in the YAZ source).
+    However, facets are usually supported for
+    <a class="ulink" href="http://lucene.apache.org/solr/" target="_top">Solr</a> and SRU 2.0 targets.
+   </p><p>
+    Facets may be specified by the
+     <a class="link" href="zoom.html#zoom.facets.option">facets</a> option before a
+    search is sent. See <a class="xref" href="facets.html" title="8. Facets">Section 8, &#8220;Facets&#8221;</a> for the notation.
+    For inspection of the returned facets, the following functions are
+    available:
+   </p><pre class="synopsis">
+    ZOOM_facet_field *ZOOM_resultset_facets(ZOOM_resultset r);
+
+    size_t ZOOM_resultset_facets_size(ZOOM_resultset r);
+
+    ZOOM_facet_field ZOOM_resultset_get_facet_field(ZOOM_resultset r,
+                                                    const char *facet_name);
+
+    ZOOM_facet_field ZOOM_resultset_get_facet_field_by_index(ZOOM_resultset r,
+                                                             int pos);
+
+    const char *ZOOM_facet_field_name(ZOOM_facet_field facet_field);
+
+    size_t ZOOM_facet_field_term_count(ZOOM_facet_field facet_field);
+
+    const char *ZOOM_facet_field_get_term(ZOOM_facet_field facet_field,
+                                          size_t idx, int *freq);
+   </pre><p>
+    References to temporary structures are returned by all functions.
+    They are only valid as long the Result set is valid.
+   </p><p><a name="zoom.resultset.facets"></a>
+    All facet fields may be returned by a call to
+    <code class="function">ZOOM_resultset_facets</code>. The length of the array is
+    given by <code class="function">ZOOM_resultset_facets_size</code>. The array is
+    zero-based and the last entry will be at
+    <code class="function">ZOOM_resultset_facets_size(result_set)</code>-1.
+   </p><p><a name="zoom.resultset.get_facet_field"></a>
+    Facet fields can also be fetched via its name using
+    <code class="function">ZOOM_resultset_get_facet_field</code>.
+    Or by its index (starting from 0) by a call to
+    <code class="function">ZOOM_resultset_get_facet_field_by_index</code>.
+    Both of these functions return NULL if name is not found or index is
+    out of bounds.
+   </p><p>
+   Function <code class="function">ZOOM_facet_field_name</code> gets the request
+    facet name from a returned facet field.
+   </p><p>
+    Function <code class="function">ZOOM_facet_field_get_term</code> returns the
+    idx'th term and term count for a facet field.
+    Idx must between 0 and
+    <code class="function">ZOOM_facet_field_term_count</code>-1, otherwise the
+    returned reference will be <code class="literal">NULL</code>. On a valid idx, the
+    value of the freq reference will be the term count.
+    The <code class="literal">freq</code> parameter must be valid pointer to integer.
+   </p></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="zoom.records.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="zoom.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="zoom.scan.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">4. Records </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 6. Scan</td></tr></table></div></body></html>

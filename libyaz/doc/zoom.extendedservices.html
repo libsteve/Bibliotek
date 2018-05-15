@@ -1,0 +1,133 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>7. Extended Services</title><meta name="generator" content="DocBook XSL Stylesheets V1.79.1"><link rel="home" href="index.html" title="YAZ User's Guide and Reference"><link rel="up" href="zoom.html" title="Chapter 3. ZOOM"><link rel="prev" href="zoom.scan.html" title="6. Scan"><link rel="next" href="zoom.options.html" title="8. Options"></head><body><link rel="stylesheet" type="text/css" href="common/style1.css"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">7. Extended Services</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="zoom.scan.html">Prev</a> </td><th width="60%" align="center">Chapter 3. ZOOM</th><td width="20%" align="right"> <a accesskey="n" href="zoom.options.html">Next</a></td></tr></table><hr></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="zoom.extendedservices"></a>7. Extended Services</h2></div></div></div><p>
+    ZOOM offers an interface to a subset of the Z39.50 extended services
+    as well as a few privately defined ones:
+   </p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p>
+      Z39.50 Item Order (ILL).
+      See <a class="xref" href="zoom.extendedservices.html#zoom.item.order" title="7.1. Item Order">Section 7.1, &#8220;Item Order&#8221;</a>.
+     </p></li><li class="listitem"><p>
+      Record Update. This allows a client to insert, modify or delete
+      records.
+      See <a class="xref" href="zoom.extendedservices.html#zoom.record.update" title="7.2. Record Update">Section 7.2, &#8220;Record Update&#8221;</a>.
+     </p></li><li class="listitem"><p>
+      Database Create. This a non-standard feature. Allows a client
+      to create a database.
+      See <a class="xref" href="zoom.extendedservices.html#zoom.database.create" title="7.3. Database Create">Section 7.3, &#8220;Database Create&#8221;</a>.
+     </p></li><li class="listitem"><p>
+      Database Drop. This a non-standard feature. Allows a client
+      to delete/drop a database.
+      See <a class="xref" href="zoom.extendedservices.html#zoom.database.drop" title="7.4. Database Drop">Section 7.4, &#8220;Database Drop&#8221;</a>.
+     </p></li><li class="listitem"><p>
+      Commit operation. This a non-standard feature. Allows a client
+      to commit operations.
+      See <a class="xref" href="zoom.extendedservices.html#zoom.commit" title="7.5. Commit Operation">Section 7.5, &#8220;Commit Operation&#8221;</a>.
+     </p></li></ul></div><p>
+    To create an extended service operation, a <code class="literal">ZOOM_package</code>
+    must be created. The operation is a five step operation. The
+    package is created, package is configured by means of options,
+    the package is sent, result is inspected (by means of options),
+    the package is destroyed.
+   </p><pre class="synopsis">
+    ZOOM_package ZOOM_connection_package(ZOOM_connection c,
+                                         ZOOM_options options);
+
+    const char *ZOOM_package_option_get(ZOOM_package p,
+                                        const char *key);
+    void ZOOM_package_option_set(ZOOM_package p, const char *key,
+                                 const char *val);
+    void ZOOM_package_send(ZOOM_package p, const char *type);
+
+    void ZOOM_package_destroy(ZOOM_package p);
+   </pre><p>
+    The <code class="function">ZOOM_connection_package</code> creates a
+    package for the connection given using the options specified.
+   </p><p>
+    Functions <code class="function">ZOOM_package_option_get</code> and
+    <code class="function">ZOOM_package_option_set</code> gets and sets
+    options.
+   </p><p>
+    <code class="function">ZOOM_package_send</code> sends
+    the package the via connection specified in
+    <code class="function">ZOOM_connection_package</code>.
+    The <em class="parameter"><code>type</code></em> specifies the actual extended service
+    package type to be sent.
+   </p><div class="table"><a name="zoom.extendedservices.type"></a><p class="title"><b>Table 3.6. Extended Service Type</b></p><div class="table-contents"><table class="table" summary="Extended Service Type" border="1"><colgroup><col class="value"><col class="description"></colgroup><thead><tr><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>itemorder</td><td>Item Order</td></tr><tr><td>update</td><td>Record Update</td></tr><tr><td>create</td><td>Database Create</td></tr><tr><td>drop</td><td>Database Drop</td></tr><tr><td>commit</td><td>Commit Operation</td></tr></tbody></table></div></div><br class="table-break"><div class="table"><a name="zoom.extendedservices.options"></a><p class="title"><b>Table 3.7. Extended Service Common Options</b></p><div class="table-contents"><table class="table" summary="Extended Service Common Options" border="1"><colgroup><col class="name"><col class="description"><col class="default"></colgroup><thead><tr><th>Option</th><th>Description</th><th>Default</th></tr></thead><tbody><tr><td>package-name</td><td>Extended Service Request package name. Must be specified
+       as part of a request.</td><td>none</td></tr><tr><td>user-id</td><td>User ID of Extended Service Package. Is a request option.</td><td>none</td></tr><tr><td>function</td><td>
+	Function of package - one of <code class="literal">create</code>,
+	<code class="literal">delete</code>, <code class="literal">modify</code>. Is
+	a request option.
+       </td><td><code class="literal">create</code></td></tr><tr><td>waitAction</td><td>
+	Wait action for package. Possible values:
+	<code class="literal">wait</code>, <code class="literal">waitIfPossible</code>,
+	<code class="literal">dontWait</code> or <code class="literal">dontReturnPackage</code>.
+       </td><td><code class="literal">waitIfPossible</code></td></tr><tr><td>operationStatus</td><td>
+	Read after response. One of: done, accepted or failure.
+	Inspect with <code class="function">ZOOM_pacakage_option_get</code>.
+       </td><td>none</td></tr><tr><td>targetReference</td><td>
+	Target Reference. This is part of the response as returned
+	by the target. Read it after a successful operation.
+	Inspect with <code class="function">ZOOM_pacakage_option_get</code>.
+       </td><td>none</td></tr><tr><td>taskStatus</td><td>
+	Read after response: One of: pending, active, complete, aborted.
+       </td><td>none</td></tr><tr><td>esError</td><td>
+	Read after response: is set to diagnostic code for response.
+       </td><td>none</td></tr><tr><td>esAddinfo</td><td>
+	Read after response: is set to additional info for response.
+       </td><td>none</td></tr></tbody></table></div></div><br class="table-break"><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="zoom.item.order"></a>7.1. Item Order</h3></div></div></div><p>
+     For Item Order, <code class="literal">type</code> must be set to
+     <code class="literal">itemorder</code> in
+     <code class="function">ZOOM_package_send</code>.
+    </p><div class="table"><a name="zoom.item.order.options"></a><p class="title"><b>Table 3.8. Item Order Options</b></p><div class="table-contents"><table class="table" summary="Item Order Options" border="1"><colgroup><col class="name"><col class="description"><col class="default"></colgroup><thead><tr><th>Option</th><th>Description</th><th>Default</th></tr></thead><tbody><tr><td>contact-name</td><td>ILL contact name</td><td>none</td></tr><tr><td>contact-phone</td><td>ILL contact phone</td><td>none</td></tr><tr><td>contact-email</td><td>ILL contact email</td><td>none</td></tr><tr><td>itemorder-setname</td><td>Name of result set for record</td><td>default</td></tr><tr><td>itemorder-item</td><td>Position for item (record) requested. An integer</td><td>1</td></tr></tbody></table></div></div><br class="table-break"><p>
+     There are two variants of item order: ILL-variant and
+     XML document variant. In order to use the XML variant the setting
+     <code class="literal">doc</code> must hold the XML item order document. If that
+     setting is unset, the ILL-variant is used.
+    </p><div class="table"><a name="zoom.illrequest.options"></a><p class="title"><b>Table 3.9. ILL Request Options</b></p><div class="table-contents"><table class="table" summary="ILL Request Options" border="1"><colgroup><col class="name"></colgroup><thead><tr><th>Option</th></tr></thead><tbody><tr><td>protocol-version-num</td></tr><tr><td>transaction-id,initial-requester-id,person-or-institution-symbol,person</td></tr><tr><td>transaction-id,initial-requester-id,person-or-institution-symbol,institution</td></tr><tr><td>transaction-id,initial-requester-id,name-of-person-or-institution,name-of-person</td></tr><tr><td>transaction-id,initial-requester-id,name-of-person-or-institution,name-of-institution</td></tr><tr><td>transaction-id,transaction-group-qualifier</td></tr><tr><td>transaction-id,transaction-qualifier</td></tr><tr><td>transaction-id,sub-transaction-qualifier</td></tr><tr><td>service-date-time,this,date</td></tr><tr><td>service-date-time,this,time</td></tr><tr><td>service-date-time,original,date</td></tr><tr><td>service-date-time,original,time</td></tr><tr><td>requester-id,person-or-institution-symbol,person</td></tr><tr><td>requester-id,person-or-institution-symbol,institution</td></tr><tr><td>requester-id,name-of-person-or-institution,name-of-person</td></tr><tr><td>requester-id,name-of-person-or-institution,name-of-institution</td></tr><tr><td>responder-id,person-or-institution-symbol,person</td></tr><tr><td>responder-id,person-or-institution-symbol,institution</td></tr><tr><td>responder-id,name-of-person-or-institution,name-of-person</td></tr><tr><td>responder-id,name-of-person-or-institution,name-of-institution</td></tr><tr><td>transaction-type</td></tr><tr><td>delivery-address,postal-address,name-of-person-or-institution,name-of-person</td></tr><tr><td>delivery-address,postal-address,name-of-person-or-institution,name-of-institution</td></tr><tr><td>delivery-address,postal-address,extended-postal-delivery-address</td></tr><tr><td>delivery-address,postal-address,street-and-number</td></tr><tr><td>delivery-address,postal-address,post-office-box</td></tr><tr><td>delivery-address,postal-address,city</td></tr><tr><td>delivery-address,postal-address,region</td></tr><tr><td>delivery-address,postal-address,country</td></tr><tr><td>delivery-address,postal-address,postal-code</td></tr><tr><td>delivery-address,electronic-address,telecom-service-identifier</td></tr><tr><td>delivery-address,electronic-address,telecom-service-addreess</td></tr><tr><td>billing-address,postal-address,name-of-person-or-institution,name-of-person</td></tr><tr><td>billing-address,postal-address,name-of-person-or-institution,name-of-institution</td></tr><tr><td>billing-address,postal-address,extended-postal-delivery-address</td></tr><tr><td>billing-address,postal-address,street-and-number</td></tr><tr><td>billing-address,postal-address,post-office-box</td></tr><tr><td>billing-address,postal-address,city</td></tr><tr><td>billing-address,postal-address,region</td></tr><tr><td>billing-address,postal-address,country</td></tr><tr><td>billing-address,postal-address,postal-code</td></tr><tr><td>billing-address,electronic-address,telecom-service-identifier</td></tr><tr><td>billing-address,electronic-address,telecom-service-addreess</td></tr><tr><td>ill-service-type</td></tr><tr><td>requester-optional-messages,can-send-RECEIVED</td></tr><tr><td>requester-optional-messages,can-send-RETURNED</td></tr><tr><td>requester-optional-messages,requester-SHIPPED</td></tr><tr><td>requester-optional-messages,requester-CHECKED-IN</td></tr><tr><td>search-type,level-of-service</td></tr><tr><td>search-type,need-before-date</td></tr><tr><td>search-type,expiry-date</td></tr><tr><td>search-type,expiry-flag</td></tr><tr><td>place-on-hold</td></tr><tr><td>client-id,client-name</td></tr><tr><td>client-id,client-status</td></tr><tr><td>client-id,client-identifier</td></tr><tr><td>item-id,item-type</td></tr><tr><td>item-id,call-number</td></tr><tr><td>item-id,author</td></tr><tr><td>item-id,title</td></tr><tr><td>item-id,sub-title</td></tr><tr><td>item-id,sponsoring-body</td></tr><tr><td>item-id,place-of-publication</td></tr><tr><td>item-id,publisher</td></tr><tr><td>item-id,series-title-number</td></tr><tr><td>item-id,volume-issue</td></tr><tr><td>item-id,edition</td></tr><tr><td>item-id,publication-date</td></tr><tr><td>item-id,publication-date-of-component</td></tr><tr><td>item-id,author-of-article</td></tr><tr><td>item-id,title-of-article</td></tr><tr><td>item-id,pagination</td></tr><tr><td>item-id,ISBN</td></tr><tr><td>item-id,ISSN</td></tr><tr><td>item-id,additional-no-letters</td></tr><tr><td>item-id,verification-reference-source</td></tr><tr><td>copyright-complicance</td></tr><tr><td>retry-flag</td></tr><tr><td>forward-flag</td></tr><tr><td>requester-note</td></tr><tr><td>forward-note</td></tr></tbody></table></div></div><br class="table-break"></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="zoom.record.update"></a>7.2. Record Update</h3></div></div></div><p>
+     For Record Update, <code class="literal">type</code> must be set to
+     <code class="literal">update</code> in
+     <code class="function">ZOOM_package_send</code>.
+    </p><div class="table"><a name="zoom.record.update.options"></a><p class="title"><b>Table 3.10. Record Update Options</b></p><div class="table-contents"><table class="table" summary="Record Update Options" border="1"><colgroup><col class="name"><col class="description"><col class="default"></colgroup><thead><tr><th>Option</th><th>Description</th><th>Default</th></tr></thead><tbody><tr><td>action</td><td>
+	 The update action. One of
+	 <code class="literal">specialUpdate</code>,
+	 <code class="literal">recordInsert</code>,
+	 <code class="literal">recordReplace</code>,
+	 <code class="literal">recordDelete</code>,
+	 <code class="literal">elementUpdate</code>.
+	</td><td><code class="literal">specialUpdate (recordInsert for updateVersion=1 which does not support specialUpdate)</code></td></tr><tr><td>recordIdOpaque</td><td>Opaque Record ID</td><td>none</td></tr><tr><td>recordIdNumber</td><td>Record ID number</td><td>none</td></tr><tr><td>recordIdString</td><td>Record ID string</td><td>none</td></tr><tr><td>record</td><td>The record itself</td><td>none</td></tr><tr><td>recordOpaque</td><td>Specifies an opaque record which is
+	  encoded as an ASN.1 ANY type with the OID as given by option
+	  <code class="literal">syntax</code> (see below).
+	  Option <code class="literal">recordOpaque</code> is an alternative
+	  to record - and <code class="literal">record</code> option (above) is
+	  ignored if recordOpaque is set. This option is only available in
+	  YAZ 3.0.35 and later, and is meant to facilitate Updates with
+	  servers from OCLC.
+	</td><td>none</td></tr><tr><td>syntax</td><td>The record syntax (transfer syntax). Is a string that
+	 is a known record syntax.
+	</td><td>no syntax</td></tr><tr><td>databaseName</td><td>Database from connection object</td><td>Default</td></tr><tr><td>correlationInfo.note</td><td>Correlation Info Note (string)</td><td>none</td></tr><tr><td>correlationInfo.id</td><td>Correlation Info ID (integer)</td><td>none</td></tr><tr><td>elementSetName</td><td>Element Set for Record</td><td>none</td></tr><tr><td>updateVersion</td><td>Record Update version which holds one of the values
+	 1, 2 or 3. Each version has a distinct OID:
+	 1.2.840.10003.9.5
+	 (<a class="ulink" href="http://www.loc.gov/z3950/agency/markup/18.html#auxiliaryStatus4" target="_top">first version</a>) ,
+	 1.2.840.10003.9.5.1
+	 (second version) and
+	 1.2.840.10003.9.5.1.1
+	 (<a class="ulink" href="http://www.loc.gov/z3950/agency/defns/update-es-rev1.html" target="_top">third and
+	  newest version</a>).
+	</td><td>3</td></tr></tbody></table></div></div><br class="table-break"></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="zoom.database.create"></a>7.3. Database Create</h3></div></div></div><p>
+     For Database Create, <code class="literal">type</code> must be set to
+     <code class="literal">create</code> in
+     <code class="function">ZOOM_package_send</code>.
+    </p><div class="table"><a name="zoom.database.create.options"></a><p class="title"><b>Table 3.11. Database Create Options</b></p><div class="table-contents"><table class="table" summary="Database Create Options" border="1"><colgroup><col class="name"><col class="description"><col class="default"></colgroup><thead><tr><th>Option</th><th>Description</th><th>Default</th></tr></thead><tbody><tr><td>databaseName</td><td>Database from connection object</td><td>Default</td></tr></tbody></table></div></div><br class="table-break"></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="zoom.database.drop"></a>7.4. Database Drop</h3></div></div></div><p>
+     For Database Drop, <code class="literal">type</code> must be set to
+     <code class="literal">drop</code> in
+     <code class="function">ZOOM_package_send</code>.
+    </p><div class="table"><a name="zoom.database.drop.options"></a><p class="title"><b>Table 3.12. Database Drop Options</b></p><div class="table-contents"><table class="table" summary="Database Drop Options" border="1"><colgroup><col class="name"><col class="description"><col class="default"></colgroup><thead><tr><th>Option</th><th>Description</th><th>Default</th></tr></thead><tbody><tr><td>databaseName</td><td>Database from connection object</td><td>Default</td></tr></tbody></table></div></div><br class="table-break"></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="zoom.commit"></a>7.5. Commit Operation</h3></div></div></div><p>
+     For Commit, <code class="literal">type</code> must be set to
+     <code class="literal">commit</code> in
+     <code class="function">ZOOM_package_send</code>.
+    </p></div><div class="sect2"><div class="titlepage"><div><div><h3 class="title"><a name="zoom.extended.services.behavior"></a>7.6. Protocol behavior</h3></div></div></div><p>
+     All the extended services are Z39.50-only.
+    </p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><h3 class="title">Note</h3><p>
+      The database create, drop, and commit services are privately defined
+      operations.
+      Refer to <code class="filename">esadmin.asn</code> in YAZ for the ASN.1
+      definitions.
+     </p></div></div></div><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="zoom.scan.html">Prev</a> </td><td width="20%" align="center"><a accesskey="u" href="zoom.html">Up</a></td><td width="40%" align="right"> <a accesskey="n" href="zoom.options.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">6. Scan </td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top"> 8. Options</td></tr></table></div></body></html>
