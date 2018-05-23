@@ -16,5 +16,7 @@ FOUNDATION_EXPORT const unsigned char BibliotekVersionString[];
 
 #import "BibConnection.h"
 #import "BibOptions.h"
-#import "BibQuery.h"
-#import "BibResultSet.h"
+#import "BibFetchRequestt.h"
+#import "BibQueryNotation.h"
+#import "BibRecord.h"
+#import "BibSortStrategy.h"

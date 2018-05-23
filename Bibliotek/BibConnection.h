@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+@class BibFetchRequest;
 @class BibOptions;
-@class BibResultSet;
-@class BibQuery;
+@class BibRecord;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -36,7 +36,7 @@ NS_SWIFT_NAME(Connection)
 
 #pragma mark - Search
 
-- (BibResultSet *)resultsMatchingQuery:(BibQuery *)query NS_SWIFT_NAME(resultsMatching(query:));
+- (NSArray<BibRecord *> *)fetchRecordsWithRequest:(BibFetchRequest *)request NS_SWIFT_NAME(fetchRecords(request:));
 
 @end
 

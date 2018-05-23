@@ -1,16 +1,14 @@
 //
-//  BibQuery.m
+//  BibFetchRequest.m
 //  Bibliotek
 //
-//  Created by Steve Brunwasser on 5/14/18.
+//  Created by Steve Brunwasser on 5/23/18.
 //  Copyright © 2018 Steve Brunwasser. All rights reserved.
 //
 
-#import "BibQuery.h"
-#import "BibQuery.Private.h"
-#import <yaz/zoom.h>
+#import "BibFetchRequest.Private.h"
 
-@implementation BibQuery {
+@implementation BibFetchRequest {
     ZOOM_query _zoom_query;
 }
 
@@ -25,12 +23,12 @@
         _zoom_query = ZOOM_query_create();
         char const *const rawQuery = [_query cStringUsingEncoding:NSUTF8StringEncoding];
         switch (notation) {
-        case BibQueryNotationPqf:
-            ZOOM_query_prefix(_zoom_query, rawQuery);
-            break;
-        case BibQueryNotationCql:
-            ZOOM_query_cql(_zoom_query, rawQuery);
-            break;
+            case BibQueryNotationPqf:
+                ZOOM_query_prefix(_zoom_query, rawQuery);
+                break;
+            case BibQueryNotationCql:
+                ZOOM_query_cql(_zoom_query, rawQuery);
+                break;
         }
     }
     return self;
@@ -65,17 +63,10 @@
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
-    BibQuery *query = [[BibQuery alloc] initWithQuery:_query notation:_notation];
-    query.criteria = _criteria;
-    query.strategy = _strategy;
-    return query;
+    BibFetchRequest *request = [[BibFetchRequest alloc] initWithQuery:_query notation:_notation];
+    request.criteria = _criteria;
+    request.strategy = _strategy;
+    return request;
 }
 
 @end
-
-BibSortStrategy const BibSortStrategyZ3950 = @"z39.50";
-BibSortStrategy const BibSortStrategyType7 = @"type7";
-BibSortStrategy const BibSortStrategyCql = @"cql";
-BibSortStrategy const BibSortStrategySrull = @"srull";
-BibSortStrategy const BibSortStrategySolr = @"solr";
-BibSortStrategy const BibSortStrategyEmbed = @"embed";

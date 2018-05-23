@@ -12,18 +12,18 @@
 		AA59055320AA43DD00D41982 /* BibConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AA59055120AA43DD00D41982 /* BibConnection.m */; };
 		AA59055620AA486C00D41982 /* BibOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = AA59055420AA486B00D41982 /* BibOptions.h */; };
 		AA59055720AA486C00D41982 /* BibOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA59055520AA486C00D41982 /* BibOptions.m */; };
-		AA59055A20AA5A8400D41982 /* BibQuery.h in Headers */ = {isa = PBXBuildFile; fileRef = AA59055820AA5A8400D41982 /* BibQuery.h */; };
-		AA59055B20AA5A8400D41982 /* BibQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = AA59055920AA5A8400D41982 /* BibQuery.m */; };
-		AA59055E20AA636200D41982 /* BibResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = AA59055C20AA636200D41982 /* BibResultSet.h */; };
-		AA59055F20AA636200D41982 /* BibResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = AA59055D20AA636200D41982 /* BibResultSet.m */; };
 		AA59056520AB3E8600D41982 /* BibOptions.Private.h in Headers */ = {isa = PBXBuildFile; fileRef = AA59056420AB3E5A00D41982 /* BibOptions.Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		AA59056820AB419C00D41982 /* BibConnection.Private.h in Headers */ = {isa = PBXBuildFile; fileRef = AA59056720AB419900D41982 /* BibConnection.Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		AA59056920AB422000D41982 /* BibResultSet.Private.h in Headers */ = {isa = PBXBuildFile; fileRef = AA59056620AB404E00D41982 /* BibResultSet.Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		AA59056B20AB423400D41982 /* BibQuery.Private.h in Headers */ = {isa = PBXBuildFile; fileRef = AA59056A20AB423400D41982 /* BibQuery.Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		AA59056E20AB489200D41982 /* BibRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = AA59056C20AB489200D41982 /* BibRecord.h */; };
 		AA59056F20AB489200D41982 /* BibRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AA59056D20AB489200D41982 /* BibRecord.m */; };
 		AA59057120AB48B200D41982 /* BibRecord.Private.h in Headers */ = {isa = PBXBuildFile; fileRef = AA59057020AB48A600D41982 /* BibRecord.Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		AA59F0D720A9FACF00D41982 /* Bibliotek.h in Headers */ = {isa = PBXBuildFile; fileRef = AA59F0D520A9FACF00D41982 /* Bibliotek.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA6D18D620B5B6CC00603E61 /* BibFetchRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = AA6D18D420B5B6CC00603E61 /* BibFetchRequest.h */; };
+		AA6D18D720B5B6CC00603E61 /* BibFetchRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6D18D520B5B6CC00603E61 /* BibFetchRequest.m */; };
+		AA6D18D920B5B9FC00603E61 /* BibFetchRequest.Private.h in Headers */ = {isa = PBXBuildFile; fileRef = AA6D18D820B5B9FC00603E61 /* BibFetchRequest.Private.h */; };
+		AA6D18DC20B5BCAA00603E61 /* BibSortStrategy.h in Headers */ = {isa = PBXBuildFile; fileRef = AA6D18DA20B5BCAA00603E61 /* BibSortStrategy.h */; };
+		AA6D18DD20B5BCAA00603E61 /* BibSortStrategy.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6D18DB20B5BCAA00603E61 /* BibSortStrategy.m */; };
+		AA6D18DF20B5BD3500603E61 /* BibQueryNotation.h in Headers */ = {isa = PBXBuildFile; fileRef = AA6D18DE20B5BD3500603E61 /* BibQueryNotation.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,7 +34,7 @@
 			remoteGlobalIDString = AA5900EA20AA275F00D41982;
 			remoteInfo = "yaz-config";
 		};
-		AA7DD93120AB9260003FB9C8 /* PBXContainerItemProxy */ = {
+		AA6D18E020B5BEE300603E61 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AA59F0C920A9FACF00D41982 /* Project object */;
 			proxyType = 1;
@@ -1135,20 +1135,20 @@
 		AA59055120AA43DD00D41982 /* BibConnection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibConnection.m; sourceTree = "<group>"; };
 		AA59055420AA486B00D41982 /* BibOptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibOptions.h; sourceTree = "<group>"; };
 		AA59055520AA486C00D41982 /* BibOptions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibOptions.m; sourceTree = "<group>"; };
-		AA59055820AA5A8400D41982 /* BibQuery.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibQuery.h; sourceTree = "<group>"; };
-		AA59055920AA5A8400D41982 /* BibQuery.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibQuery.m; sourceTree = "<group>"; };
-		AA59055C20AA636200D41982 /* BibResultSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibResultSet.h; sourceTree = "<group>"; };
-		AA59055D20AA636200D41982 /* BibResultSet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibResultSet.m; sourceTree = "<group>"; };
 		AA59056420AB3E5A00D41982 /* BibOptions.Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibOptions.Private.h; sourceTree = "<group>"; };
-		AA59056620AB404E00D41982 /* BibResultSet.Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibResultSet.Private.h; sourceTree = "<group>"; };
 		AA59056720AB419900D41982 /* BibConnection.Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibConnection.Private.h; sourceTree = "<group>"; };
-		AA59056A20AB423400D41982 /* BibQuery.Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibQuery.Private.h; sourceTree = "<group>"; };
 		AA59056C20AB489200D41982 /* BibRecord.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibRecord.h; sourceTree = "<group>"; };
 		AA59056D20AB489200D41982 /* BibRecord.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibRecord.m; sourceTree = "<group>"; };
 		AA59057020AB48A600D41982 /* BibRecord.Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibRecord.Private.h; sourceTree = "<group>"; };
 		AA59F0D220A9FACF00D41982 /* Bibliotek.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Bibliotek.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA59F0D520A9FACF00D41982 /* Bibliotek.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bibliotek.h; sourceTree = "<group>"; };
 		AA59F0D620A9FACF00D41982 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AA6D18D420B5B6CC00603E61 /* BibFetchRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibFetchRequest.h; sourceTree = "<group>"; };
+		AA6D18D520B5B6CC00603E61 /* BibFetchRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibFetchRequest.m; sourceTree = "<group>"; };
+		AA6D18D820B5B9FC00603E61 /* BibFetchRequest.Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibFetchRequest.Private.h; sourceTree = "<group>"; };
+		AA6D18DA20B5BCAA00603E61 /* BibSortStrategy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibSortStrategy.h; sourceTree = "<group>"; };
+		AA6D18DB20B5BCAA00603E61 /* BibSortStrategy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibSortStrategy.m; sourceTree = "<group>"; };
+		AA6D18DE20B5BD3500603E61 /* BibQueryNotation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibQueryNotation.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2449,18 +2449,18 @@
 				AA59055020AA43DD00D41982 /* BibConnection.h */,
 				AA59056720AB419900D41982 /* BibConnection.Private.h */,
 				AA59055120AA43DD00D41982 /* BibConnection.m */,
+				AA6D18D420B5B6CC00603E61 /* BibFetchRequest.h */,
+				AA6D18D820B5B9FC00603E61 /* BibFetchRequest.Private.h */,
+				AA6D18D520B5B6CC00603E61 /* BibFetchRequest.m */,
 				AA59055420AA486B00D41982 /* BibOptions.h */,
 				AA59056420AB3E5A00D41982 /* BibOptions.Private.h */,
 				AA59055520AA486C00D41982 /* BibOptions.m */,
-				AA59055820AA5A8400D41982 /* BibQuery.h */,
-				AA59056A20AB423400D41982 /* BibQuery.Private.h */,
-				AA59055920AA5A8400D41982 /* BibQuery.m */,
-				AA59055C20AA636200D41982 /* BibResultSet.h */,
-				AA59056620AB404E00D41982 /* BibResultSet.Private.h */,
-				AA59055D20AA636200D41982 /* BibResultSet.m */,
+				AA6D18DE20B5BD3500603E61 /* BibQueryNotation.h */,
 				AA59056C20AB489200D41982 /* BibRecord.h */,
 				AA59057020AB48A600D41982 /* BibRecord.Private.h */,
 				AA59056D20AB489200D41982 /* BibRecord.m */,
+				AA6D18DA20B5BCAA00603E61 /* BibSortStrategy.h */,
+				AA6D18DB20B5BCAA00603E61 /* BibSortStrategy.m */,
 				AA59F0D620A9FACF00D41982 /* Info.plist */,
 			);
 			path = Bibliotek;
@@ -2473,17 +2473,17 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA59056B20AB423400D41982 /* BibQuery.Private.h in Headers */,
 				AA59057120AB48B200D41982 /* BibRecord.Private.h in Headers */,
 				AA59055220AA43DD00D41982 /* BibConnection.h in Headers */,
 				AA59F0D720A9FACF00D41982 /* Bibliotek.h in Headers */,
+				AA6D18DC20B5BCAA00603E61 /* BibSortStrategy.h in Headers */,
 				AA59056520AB3E8600D41982 /* BibOptions.Private.h in Headers */,
-				AA59055E20AA636200D41982 /* BibResultSet.h in Headers */,
 				AA59055620AA486C00D41982 /* BibOptions.h in Headers */,
-				AA59056920AB422000D41982 /* BibResultSet.Private.h in Headers */,
 				AA59056E20AB489200D41982 /* BibRecord.h in Headers */,
-				AA59055A20AA5A8400D41982 /* BibQuery.h in Headers */,
+				AA6D18D920B5B9FC00603E61 /* BibFetchRequest.Private.h in Headers */,
 				AA59056820AB419C00D41982 /* BibConnection.Private.h in Headers */,
+				AA6D18D620B5B6CC00603E61 /* BibFetchRequest.h in Headers */,
+				AA6D18DF20B5BD3500603E61 /* BibQueryNotation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2534,7 +2534,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				AA7DD93220AB9260003FB9C8 /* PBXTargetDependency */,
+				AA6D18E120B5BEE300603E61 /* PBXTargetDependency */,
 			);
 			name = Bibliotek;
 			productName = YazKit;
@@ -2597,9 +2597,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA59055720AA486C00D41982 /* BibOptions.m in Sources */,
-				AA59055F20AA636200D41982 /* BibResultSet.m in Sources */,
+				AA6D18D720B5B6CC00603E61 /* BibFetchRequest.m in Sources */,
 				AA59056F20AB489200D41982 /* BibRecord.m in Sources */,
-				AA59055B20AA5A8400D41982 /* BibQuery.m in Sources */,
+				AA6D18DD20B5BCAA00603E61 /* BibSortStrategy.m in Sources */,
 				AA59055320AA43DD00D41982 /* BibConnection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2612,10 +2612,10 @@
 			target = AA5900EA20AA275F00D41982 /* yaz-config */;
 			targetProxy = AA59054620AA2ED200D41982 /* PBXContainerItemProxy */;
 		};
-		AA7DD93220AB9260003FB9C8 /* PBXTargetDependency */ = {
+		AA6D18E120B5BEE300603E61 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AA5900E620AA274F00D41982 /* libyaz */;
-			targetProxy = AA7DD93120AB9260003FB9C8 /* PBXContainerItemProxy */;
+			targetProxy = AA6D18E020B5BEE300603E61 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

@@ -8,10 +8,12 @@
 
 #import "BibConnection.h"
 #import "BibConnection.Private.h"
+#import "BibFetchRequest.h"
+#import "BibFetchRequest.Private.h"
 #import "BibOptions.h"
 #import "BibOptions.Private.h"
-#import "BibQuery.h"
-#import "BibResultSet.h"
+#import "BibRecord.h"
+#import "BibRecord.Private.h"
 #import <yaz/zoom.h>
 
 @implementation BibConnection {
@@ -68,8 +70,20 @@
 
 #pragma mark - Search
 
-- (BibResultSet *)resultsMatchingQuery:(BibQuery *)query {
-    return [[BibResultSet alloc] initWithConnection:self query:query];
+- (NSArray<BibRecord *> *)fetchRecordsWithRequest:(BibFetchRequest *)request {
+    ZOOM_resultset resultSet = ZOOM_connection_search(_connection, request.zoomQuery);
+    NSMutableArray *array = [NSMutableArray new];
+    size_t const count = ZOOM_resultset_size(resultSet);
+    ZOOM_record *buffer = calloc(count, sizeof(ZOOM_record));
+    ZOOM_resultset_records(resultSet, buffer, 0, count);
+    for (int i = 0; i < count; i += 1) {
+        ZOOM_record const record = buffer[i];
+        if (record == nil) { break; }
+        [array addObject:[[BibRecord alloc] initWithZoomRecord:record]];
+    }
+    free(buffer);
+    ZOOM_resultset_destroy(resultSet);
+    return [array copy];
 }
 
 @end
