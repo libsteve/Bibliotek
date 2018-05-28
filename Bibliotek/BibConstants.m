@@ -1,12 +1,19 @@
 //
-//  BibSortStrategy.m
+//  BibConstants.m
 //  Bibliotek
 //
-//  Created by Steve Brunwasser on 5/23/18.
+//  Created by Steve Brunwasser on 5/27/18.
 //  Copyright © 2018 Steve Brunwasser. All rights reserved.
 //
 
-#import "BibSortStrategy.h"
+#import "BibConstants.h"
+
+#pragma mark Authentication Mode
+
+BibAuthenticationMode const BibAuthenticationModeBasic = @"basic";
+BibAuthenticationMode const BibAuthenticationModeUrl = @"url";
+
+#pragma mark - Sort Strategy
 
 BibSortStrategy const BibSortStrategyZ3950 = @"z39.50";
 BibSortStrategy const BibSortStrategyType7 = @"type7";

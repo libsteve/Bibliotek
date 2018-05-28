@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NSString *BibRecordFieldTag NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(Record.Field.Tag);
+typedef NSString *BibRecordFieldTag NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(Record.FieldTag);
 
 extern BibRecordFieldTag const BibRecordFieldTagIsbn;
 extern BibRecordFieldTag const BibRecordFieldTagLCC NS_SWIFT_NAME(lcc);

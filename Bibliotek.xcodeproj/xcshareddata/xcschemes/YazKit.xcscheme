@@ -28,7 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "AAAA428320B9F32900BDB52B"
+               BuildableName = "BibliotekTests.xctest"
+               BlueprintName = "BibliotekTests"
+               ReferencedContainer = "container:Bibliotek.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "AA59F0D120A9FACF00D41982"
+            BuildableName = "Bibliotek.framework"
+            BlueprintName = "Bibliotek"
+            ReferencedContainer = "container:Bibliotek.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>

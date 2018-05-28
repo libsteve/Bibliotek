@@ -44,9 +44,7 @@
     NSString *const key = NSStringFromSelector(@selector(criteria));
     [self willChangeValueForKey:key];
     _criteria = [criteria copy];
-    char const *const rawCriteria = [_criteria cStringUsingEncoding:NSUTF8StringEncoding];
-    char const *const strategy = [_strategy cStringUsingEncoding:NSUTF8StringEncoding];
-    ZOOM_query_sortby2(_zoom_query, strategy, rawCriteria);
+    ZOOM_query_sortby2(_zoom_query, [_strategy UTF8String], [_criteria UTF8String]);
     [self didChangeValueForKey:key];
 }
 
@@ -54,9 +52,7 @@
     NSString *const key = NSStringFromSelector(@selector(strategy));
     [self willChangeValueForKey:key];
     _strategy = [strategy copy];
-    char const *const rawStrategy = [_strategy cStringUsingEncoding:NSUTF8StringEncoding];
-    char const *const criteria = [_criteria cStringUsingEncoding:NSUTF8StringEncoding];
-    ZOOM_query_sortby2(_zoom_query, rawStrategy, criteria);
+    ZOOM_query_sortby2(_zoom_query, [_strategy UTF8String], [_criteria UTF8String]);
     [self didChangeValueForKey:key];
 }
 

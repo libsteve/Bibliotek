@@ -10,45 +10,40 @@
 #import "BibConnection.Private.h"
 #import "BibFetchRequest.h"
 #import "BibFetchRequest.Private.h"
-#import "BibOptions.h"
-#import "BibOptions.Private.h"
 #import "BibRecord.h"
 #import "BibRecord.Private.h"
 #import <yaz/zoom.h>
 
+NSInteger const kDefaultPort = 210;
+NSString *const kDefaultDatabase = @"Default";
+
 @implementation BibConnection {
     ZOOM_connection _connection;
-    BibOptions *_Nullable _options;
 }
 
 @synthesize zoomConnection = _connection;
 
 #pragma mark - Initializers
 
-- (instancetype)initWithHost:(NSString *)host error:(NSError **)error {
-    return [self initWithHost:host port:0 options:nil error:error];
+- (instancetype)initWithHost:(NSString *)host error:(NSError * _Nullable __autoreleasing *)error {
+    return [self initWithHost:host port:kDefaultPort database:kDefaultDatabase error:error];
 }
 
-- (instancetype)initWithHost:(NSString *)host port:(int)port error:(NSError **)error {
-    return [self initWithHost:host port:port options:nil error:error];
+- (instancetype)initWithHost:(NSString *)host port:(NSInteger)port error:(NSError * _Nullable __autoreleasing *)error {
+    return [self initWithHost:host port:port database:kDefaultDatabase error:error];
 }
 
-- (instancetype)initWithHost:(NSString *)host options:(BibOptions *)options error:(inout NSError **)error {
-    return [self initWithHost:host port:0 options:options error: error];
+- (instancetype)initWithHost:(NSString *)host database:(NSString *)database error:(NSError * _Nullable __autoreleasing *)error {
+    return [self initWithHost:host port:kDefaultPort database:database error:error];
 }
 
-- (instancetype)initWithHost:(NSString *)host port:(int)port options:(BibOptions *)options error:(inout NSError **)error {
+- (instancetype)initWithHost:(NSString *)host port:(NSInteger)port database:(NSString *)database error:(NSError **)error {
     if (self = [super init]) {
         _host = [host copy];
         _port = port;
-        _options = [options copy];
         char const *const rawHost = [_host UTF8String];
-        if (_options == nil) {
-            _connection = ZOOM_connection_new(rawHost, port);;
-        } else {
-            _connection = ZOOM_connection_create(_options.zoomOptions);
-            ZOOM_connection_connect(_connection, rawHost, port);
-        }
+        _connection = ZOOM_connection_new(rawHost, (int32_t)port);
+        self.database = database;
         char const *name = NULL;
         char const *info = NULL;
         int code = ZOOM_connection_error(_connection, &name, &info);
@@ -66,6 +61,50 @@
 
 - (void)dealloc {
     ZOOM_connection_destroy(_connection);
+}
+
+#pragma mark - Options
+
+- (void)setDatabase:(NSString *)databaseName {
+    _database = [databaseName copy];
+    char const *const value = [_database UTF8String];
+    ZOOM_connection_option_set(_connection, "databaseName", value);
+}
+
+- (void)setUser:(NSString *)user {
+    _user = [user copy];
+    char const *const value = [_user UTF8String];
+    ZOOM_connection_option_set(_connection, "user", value);
+}
+
+- (void)setGroup:(NSString *)group {
+    _group = [group copy];
+    char const *const value = [_group UTF8String];
+    ZOOM_connection_option_set(_connection, "group", value);
+}
+
+- (void)setPassword:(NSString *)password {
+    _password = [password copy];
+    char const *const value = [_password UTF8String];
+    ZOOM_connection_option_set(_connection, "password", value);
+}
+
+- (void)setAuthentication:(BibAuthenticationMode)authentication {
+    _authentication = [authentication copy];
+    char const *const value = [_authentication UTF8String];
+    ZOOM_connection_option_set(_connection, "authenticationMode", value);
+}
+
+- (void)setLang:(NSString *)lang {
+    _lang = [lang copy];
+    char const *const value = [_lang UTF8String];
+    ZOOM_connection_option_set(_connection, "lang", value);
+}
+
+- (void)setCharset:(NSString *)charset {
+    _charset = [charset copy];
+    char const *const value = [_charset UTF8String];
+    ZOOM_connection_option_set(_connection, "charset", value);
 }
 
 #pragma mark - Search

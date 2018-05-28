@@ -7,8 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BibQueryNotation.h"
-#import "BibSortStrategy.h"
+#import "BibConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
