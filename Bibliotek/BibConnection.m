@@ -12,6 +12,8 @@
 #import "BibFetchRequest.Private.h"
 #import "BibRecord.h"
 #import "BibRecord.Private.h"
+#import "BibRecordList.h"
+#import "BibRecordList.Private.h"
 #import <yaz/zoom.h>
 
 NSInteger const kDefaultPort = 210;
@@ -95,10 +97,32 @@ NSString *const kDefaultDatabase = @"Default";
     ZOOM_connection_option_set(_connection, "authenticationMode", value);
 }
 
+@synthesize lang = _lang;
+
+- (NSString *)lang {
+    if (_lang == nil) {
+        char const *const value = ZOOM_connection_option_get(_connection, "lang");
+        if (value == nil) { return nil; }
+        _lang = [NSString stringWithUTF8String:value];
+    }
+    return _lang;
+}
+
 - (void)setLang:(NSString *)lang {
     _lang = [lang copy];
     char const *const value = [_lang UTF8String];
     ZOOM_connection_option_set(_connection, "lang", value);
+}
+
+@synthesize charset = _charset;
+
+- (NSString *)charset {
+    if (_charset == nil) {
+        char const *const value = ZOOM_connection_option_get(_connection, "charset");
+        if (value == nil) { return nil; }
+        _charset = [NSString stringWithUTF8String:value];
+    }
+    return _charset;
 }
 
 - (void)setCharset:(NSString *)charset {
@@ -109,27 +133,21 @@ NSString *const kDefaultDatabase = @"Default";
 
 #pragma mark - Search
 
-- (NSArray<BibRecord *> *)fetchRecordsWithRequest:(BibFetchRequest *)request {
+- (BibRecordList *)feetchRecordsWithRequest:(BibFetchRequest *)request error:(NSError **)error {
     ZOOM_resultset resultSet = ZOOM_connection_search(_connection, request.zoomQuery);
-    NSMutableArray *array = [NSMutableArray new];
-    size_t const count = ZOOM_resultset_size(resultSet);
-    ZOOM_record *buffer = calloc(count, sizeof(ZOOM_record));
-    ZOOM_resultset_records(resultSet, buffer, 0, count);
-    for (int i = 0; i < count; i += 1) {
-        ZOOM_record const record = buffer[i];
-        if (record == nil) { break; }
-        [array addObject:[[BibRecord alloc] initWithZoomRecord:record]];
+    char const *name = NULL;
+    char const *info = NULL;
+    int code = ZOOM_connection_error(_connection, &name, &info);
+    if (code != 0) {
+        if (error != NULL) {
+            NSDictionary *userInfo = @{ BibConnectionErrorName : @(name),
+                                        BibConnectionErrorInfo : @(info) };
+            *error = [NSError errorWithDomain:BibConnectionErrorDomain code:code userInfo:userInfo];
+        }
+        return nil;
     }
-    free(buffer);
-    ZOOM_resultset_destroy(resultSet);
-    return [array copy];
+    return [[BibRecordList alloc] initWithZoomResultSet:resultSet connection:self request:request];
 }
 
 @end
 
-#pragma mark - Error Domain
-
-NSErrorDomain const BibConnectionErrorDomain = @"BibConnectionErrorDomain";
-
-NSErrorUserInfoKey const BibConnectionErrorName = @"BibConnectionErrorName";
-NSErrorUserInfoKey const BibConnectionErrorInfo = @"BibConnectionErrorInfo";

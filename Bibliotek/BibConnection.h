@@ -11,6 +11,7 @@
 
 @class BibFetchRequest;
 @class BibRecord;
+@class BibRecordList;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -44,7 +45,7 @@ NS_SWIFT_NAME(Connection)
 
 #pragma mark - Search
 
-- (NSArray<BibRecord *> *)fetchRecordsWithRequest:(BibFetchRequest *)request NS_SWIFT_NAME(fetchRecords(request:));
+- (BibRecordList *)feetchRecordsWithRequest:(BibFetchRequest *)request error:(NSError *_Nullable __autoreleasing *_Nullable)error NS_SWIFT_NAME(fetchRecords(request:));
 
 @end
 

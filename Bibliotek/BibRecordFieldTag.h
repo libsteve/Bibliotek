@@ -17,7 +17,7 @@ extern BibRecordFieldTag const BibRecordFieldTagAuthor;
 extern BibRecordFieldTag const BibRecordFieldTagTitle;
 extern BibRecordFieldTag const BibRecordFieldTagEdition;
 extern BibRecordFieldTag const BibRecordFieldTagPublication;
-extern BibRecordFieldTag const BibRecordFieldTagPhysicslDescription;
+extern BibRecordFieldTag const BibRecordFieldTagPhysicalDescription;
 extern BibRecordFieldTag const BibRecordFieldTagNote;
 extern BibRecordFieldTag const BibRecordFieldTagBibliography;
 extern BibRecordFieldTag const BibRecordFieldTagSummary;

@@ -8,7 +8,14 @@
 
 #import "BibConstants.h"
 
-#pragma mark Authentication Mode
+#pragma mark Error Domain
+
+NSErrorDomain const BibConnectionErrorDomain = @"BibConnectionErrorDomain";
+
+NSErrorUserInfoKey const BibConnectionErrorName = @"BibConnectionErrorName";
+NSErrorUserInfoKey const BibConnectionErrorInfo = @"BibConnectionErrorInfo";
+
+#pragma mark - Authentication Mode
 
 BibAuthenticationMode const BibAuthenticationModeBasic = @"basic";
 BibAuthenticationMode const BibAuthenticationModeUrl = @"url";
