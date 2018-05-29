@@ -45,6 +45,7 @@ NSString *const kDefaultDatabase = @"Default";
         _port = port;
         char const *const rawHost = [_host UTF8String];
         _connection = ZOOM_connection_new(rawHost, (int32_t)port);
+        ZOOM_connection_option_set(_connection, "async", "1");
         self.database = database;
         char const *name = NULL;
         char const *info = NULL;
@@ -133,7 +134,7 @@ NSString *const kDefaultDatabase = @"Default";
 
 #pragma mark - Search
 
-- (BibRecordList *)feetchRecordsWithRequest:(BibFetchRequest *)request error:(NSError **)error {
+- (BibRecordList *)fetchRecordsWithRequest:(BibFetchRequest *)request error:(NSError **)error {
     ZOOM_resultset resultSet = ZOOM_connection_search(_connection, request.zoomQuery);
     char const *name = NULL;
     char const *info = NULL;

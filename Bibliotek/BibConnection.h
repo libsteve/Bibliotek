@@ -45,7 +45,7 @@ NS_SWIFT_NAME(Connection)
 
 #pragma mark - Search
 
-- (BibRecordList *)feetchRecordsWithRequest:(BibFetchRequest *)request error:(NSError *_Nullable __autoreleasing *_Nullable)error NS_SWIFT_NAME(fetchRecords(request:));
+- (nullable BibRecordList *)fetchRecordsWithRequest:(BibFetchRequest *)request error:(NSError *__autoreleasing _Nullable *_Nullable)error NS_SWIFT_NAME(fetchRecords(request:));
 
 @end
 

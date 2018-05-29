@@ -44,7 +44,13 @@
     NSString *const key = NSStringFromSelector(@selector(criteria));
     [self willChangeValueForKey:key];
     _criteria = [criteria copy];
-    ZOOM_query_sortby2(_zoom_query, [_strategy UTF8String], [_criteria UTF8String]);
+    if (_strategy && _criteria) {
+        ZOOM_query_sortby2(_zoom_query, [_strategy UTF8String], [_criteria UTF8String]);
+    } else if (_criteria) {
+        ZOOM_query_sortby(_zoom_query, [_criteria UTF8String]);
+    } else {
+        ZOOM_query_sortby(_zoom_query, "");
+    }
     [self didChangeValueForKey:key];
 }
 
@@ -52,7 +58,13 @@
     NSString *const key = NSStringFromSelector(@selector(strategy));
     [self willChangeValueForKey:key];
     _strategy = [strategy copy];
-    ZOOM_query_sortby2(_zoom_query, [_strategy UTF8String], [_criteria UTF8String]);
+    if (_strategy && _criteria) {
+        ZOOM_query_sortby2(_zoom_query, [_strategy UTF8String], [_criteria UTF8String]);
+    } else if (_criteria) {
+        ZOOM_query_sortby(_zoom_query, [_criteria UTF8String]);
+    } else {
+        ZOOM_query_sortby(_zoom_query, "");
+    }
     [self didChangeValueForKey:key];
 }
 
