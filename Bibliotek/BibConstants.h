@@ -53,4 +53,22 @@ extern BibSortStrategy const BibSortStrategySolr;
 /// type7 for Z39.50, cql for SRU, solr for Solr protocol.
 extern BibSortStrategy const BibSortStrategyEmbed;
 
+#pragma mark - Bibliographic Attributes
+
+typedef NSString *BibQueryAttribute NS_STRING_ENUM NS_SWIFT_NAME(QueryAttribute);
+
+extern BibQueryAttribute const BibQueryAttributePersonalName;
+extern BibQueryAttribute const BibQueryAttributeTitle;
+extern BibQueryAttribute const BibQueryAttributeTitleSeries;
+extern BibQueryAttribute const BibQueryAttributeIsbn;
+extern BibQueryAttribute const BibQueryAttributeDDC NS_SWIFT_NAME(ddc);
+extern BibQueryAttribute const BibQueryAttributeLCC NS_SWIFT_NAME(lcc);
+extern BibQueryAttribute const BibQueryAttributeSubjectHeading;
+extern BibQueryAttribute const BibQueryAttributeAuthor;
+extern BibQueryAttribute const BibQueryAttributeBodyOfText;
+extern BibQueryAttribute const BibQueryAttributeAny;
+extern BibQueryAttribute const bibQueryAttributePublisher;
+extern BibQueryAttribute const BibQueryAttributeAnywhere;
+extern BibQueryAttribute const bibQueryAttributeAuthorTitleSubject;
+
 NS_ASSUME_NONNULL_END
