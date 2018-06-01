@@ -30,6 +30,7 @@
 		AAAA42A320BB156100BDB52B /* BibRecordList.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAA42A120BB156100BDB52B /* BibRecordList.m */; };
 		AAAA42A520BB187000BDB52B /* BibRecordList.Private.h in Headers */ = {isa = PBXBuildFile; fileRef = AAAA42A420BB187000BDB52B /* BibRecordList.Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		AAAA42A920BC697E00BDB52B /* BibClassification.Private.h in Headers */ = {isa = PBXBuildFile; fileRef = AAAA42A820BC697E00BDB52B /* BibClassification.Private.h */; };
+		AACEDD6420C1A946004ACA07 /* BibConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACEDD6320C1A946004ACA07 /* BibConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1162,6 +1163,7 @@
 		AAAA42A120BB156100BDB52B /* BibRecordList.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibRecordList.m; sourceTree = "<group>"; };
 		AAAA42A420BB187000BDB52B /* BibRecordList.Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibRecordList.Private.h; sourceTree = "<group>"; };
 		AAAA42A820BC697E00BDB52B /* BibClassification.Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibClassification.Private.h; sourceTree = "<group>"; };
+		AACEDD6320C1A946004ACA07 /* BibConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2477,6 +2479,7 @@
 				AA59055120AA43DD00D41982 /* BibConnection.m */,
 				AAAA429C20BB0E3600BDB52B /* BibConstants.h */,
 				AAAA429D20BB0E3600BDB52B /* BibConstants.m */,
+				AACEDD6320C1A946004ACA07 /* BibConstants.swift */,
 				AA6D18D420B5B6CC00603E61 /* BibFetchRequest.h */,
 				AA6D18D820B5B9FC00603E61 /* BibFetchRequest.Private.h */,
 				AA6D18D520B5B6CC00603E61 /* BibFetchRequest.m */,
@@ -2613,7 +2616,7 @@
 					};
 					AA59F0D120A9FACF00D41982 = {
 						CreatedOnToolsVersion = 9.3;
-						LastSwiftMigration = 0930;
+						LastSwiftMigration = 0940;
 					};
 					AAAA428320B9F32900BDB52B = {
 						CreatedOnToolsVersion = 9.3.1;
@@ -2670,6 +2673,7 @@
 				AAAA427920B85BB800BDB52B /* BibClassification.m in Sources */,
 				AAAA42A320BB156100BDB52B /* BibRecordList.m in Sources */,
 				AA59055320AA43DD00D41982 /* BibConnection.m in Sources */,
+				AACEDD6420C1A946004ACA07 /* BibConstants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2962,6 +2966,7 @@
 		AAAA428D20B9F32A00BDB52B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -2984,6 +2989,7 @@
 		AAAA428E20B9F32A00BDB52B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
