@@ -9,72 +9,107 @@
 #import "BibFetchRequest.Private.h"
 
 @implementation BibFetchRequest {
+@protected
+    __unsafe_unretained BibFetchRequestScope _scope;
+    __unsafe_unretained BibFetchRequestStructure _structure;
+    __unsafe_unretained BibFetchRequestSearchStrategy _strategy;
+    NSArray *_keywords;
+    NSString *_query;
     ZOOM_query _zoom_query;
 }
 
 @synthesize zoomQuery = _zoom_query;
 
-#pragma mark - Initialization
+- (instancetype)init {
+    return [self initWithKeywords:@[] scope:BibFetchRequestScopeAny];
+}
 
-- (instancetype)initWithQuery:(NSString *)query notation:(BibQueryNotation)notation {
+- (instancetype)initWithKeywords:(NSArray<NSString *> *)keywords scope:(BibFetchRequestScope)scope {
+    return [self initWithKeywords:keywords scope:scope structure:BibFetchRequestStructurePhrase strategy:BibFetchRequestSearchStrategyStrict];
+}
+
+- (instancetype)initWithKeywords:(NSArray<NSString *> *)keywords scope:(BibFetchRequestScope)scope structure:(BibFetchRequestStructure)structure strategy:(BibFetchRequestSearchStrategy)strategy {
     if (self = [super init]) {
-        _query = [query copy];
-        _notation = notation;
-        _zoom_query = ZOOM_query_create();
-        char const *const rawQuery = [_query cStringUsingEncoding:NSUTF8StringEncoding];
-        switch (notation) {
-            case BibQueryNotationPqf:
-                ZOOM_query_prefix(_zoom_query, rawQuery);
-                break;
-            case BibQueryNotationCql:
-                ZOOM_query_cql(_zoom_query, rawQuery);
-                break;
-        }
+        _scope = scope;
+        _structure = structure;
+        _strategy = strategy;
+        _keywords = [keywords copy];
+        _query = [self query];
+        ZOOM_query_prefix(_zoom_query, [_query UTF8String]);
     }
     return self;
+}
+
+- (instancetype)initWithRequest:(BibFetchRequest *)request {
+    return [self initWithKeywords:_keywords scope:_scope structure:_structure strategy:_strategy];
 }
 
 - (void)dealloc {
     ZOOM_query_destroy(_zoom_query);
 }
 
-#pragma mark - Sorting
-
-- (void)setCriteria:(NSString *)criteria {
-    NSString *const key = NSStringFromSelector(@selector(criteria));
-    [self willChangeValueForKey:key];
-    _criteria = [criteria copy];
-    if (_strategy && _criteria) {
-        ZOOM_query_sortby2(_zoom_query, [_strategy UTF8String], [_criteria UTF8String]);
-    } else if (_criteria) {
-        ZOOM_query_sortby(_zoom_query, [_criteria UTF8String]);
-    } else {
-        ZOOM_query_sortby(_zoom_query, "");
-    }
-    [self didChangeValueForKey:key];
-}
-
-- (void)setStrategy:(BibSortStrategy)strategy {
-    NSString *const key = NSStringFromSelector(@selector(strategy));
-    [self willChangeValueForKey:key];
-    _strategy = [strategy copy];
-    if (_strategy && _criteria) {
-        ZOOM_query_sortby2(_zoom_query, [_strategy UTF8String], [_criteria UTF8String]);
-    } else if (_criteria) {
-        ZOOM_query_sortby(_zoom_query, [_criteria UTF8String]);
-    } else {
-        ZOOM_query_sortby(_zoom_query, "");
-    }
-    [self didChangeValueForKey:key];
-}
-
-#pragma mark - NSCopying
-
 - (id)copyWithZone:(NSZone *)zone {
-    BibFetchRequest *request = [[BibFetchRequest alloc] initWithQuery:_query notation:_notation];
-    request.criteria = _criteria;
-    request.strategy = _strategy;
-    return request;
+    return [[BibFetchRequest allocWithZone:zone] initWithRequest:self];
+}
+
+- (id)mutableCopyWithZone:(NSZone *)zone {
+    return [[BibMutableFetchRequest allocWithZone:zone] initWithRequest:self];
+}
+
+- (NSString *)query {
+    if (_query) { return _query; }
+    NSString *searchString = nil;
+    switch (_keywords.count) {
+        case 0:
+            searchString = @"";
+            break;
+        case 1:
+            searchString = _keywords.firstObject;
+            break;
+        default: {
+            NSMutableString *phrase = [NSMutableString string];
+            for (NSString *word in _keywords.objectEnumerator) {
+                if (phrase.length > 0) {
+                    [phrase appendString:@" "];
+                }
+                [phrase appendString:word];
+            }
+            searchString = [phrase copy];
+        }
+    }
+    return [NSString stringWithFormat:@"%@ %@ %@ %@", _scope, _structure, _strategy, searchString];
+}
+
+@end
+
+@implementation BibMutableFetchRequest
+
+@dynamic scope;
+- (void)setScope:(BibFetchRequestScope)scope {
+    _query = nil;
+    _scope = scope;
+    ZOOM_query_prefix(_zoom_query, [[self query] UTF8String]);
+}
+
+@dynamic structure;
+- (void)setStructure:(BibFetchRequestStructure)structure {
+    _query = nil;
+    _structure = structure;
+    ZOOM_query_prefix(_zoom_query, [[self query] UTF8String]);
+}
+
+@dynamic strategy;
+- (void)setStrategy:(BibFetchRequestSearchStrategy)strategy {
+    _query = nil;
+    _strategy = strategy;
+    ZOOM_query_prefix(_zoom_query, [[self query] UTF8String]);
+}
+
+@dynamic keywords;
+- (void)setKeywords:(NSArray<NSString *> *)keywords {
+    _query = nil;
+    _keywords = [keywords copy];
+    ZOOM_query_prefix(_zoom_query, [[self query] UTF8String]);
 }
 
 @end

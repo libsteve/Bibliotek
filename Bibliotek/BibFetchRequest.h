@@ -9,24 +9,39 @@
 #import <Foundation/Foundation.h>
 #import "BibConstants.h"
 
+@class BibFetchRequest;
+
 NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(FetchRequest)
-@interface BibFetchRequest : NSObject <NSCopying>
+@interface BibFetchRequest: NSObject <NSCopying, NSMutableCopying>
 
-@property(nonatomic, readonly, copy) NSString *query;
+@property(nonatomic, readonly, assign) BibFetchRequestScope scope;
 
-/// Defaults to @c BibQueryNotationPqf (@c QueryNotation.pqf in Swift).
-@property(nonatomic, readonly, assign) BibQueryNotation notation;
+@property(nonatomic, readonly, assign) BibFetchRequestStructure structure;
 
-@property(nonatomic, readwrite, copy, nullable) BibSortStrategy strategy;
+@property(nonatomic, readonly, assign) BibFetchRequestSearchStrategy strategy;
 
-@property(nonatomic, readwrite, copy, nullable) NSString *criteria;
+@property(nonatomic, readonly, copy) NSArray<NSString *> *keywords;
 
-- (instancetype)initWithQuery:(NSString *)query notation:(BibQueryNotation)notation NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithKeywords:(NSArray<NSString *> *)keywords scope:(BibFetchRequestScope)scope NS_SWIFT_NAME(init(keywords:scope:));
 
-- (instancetype)init NS_UNAVAILABLE;
-+ (instancetype)new NS_UNAVAILABLE;
+- (instancetype)initWithKeywords:(NSArray<NSString *> *)keywords scope:(BibFetchRequestScope)scope structure:(BibFetchRequestStructure)structure strategy:(BibFetchRequestSearchStrategy)strategy NS_SWIFT_NAME(init(keywords:scope:structure:strategy:)) NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)initWithRequest:(BibFetchRequest *)request;
+
+@end
+
+NS_SWIFT_NAME(MutableFetchRequest)
+@interface BibMutableFetchRequest: BibFetchRequest
+
+@property(nonatomic, readwrite, assign) BibFetchRequestScope scope;
+
+@property(nonatomic, readwrite, assign) BibFetchRequestStructure structure;
+
+@property(nonatomic, readwrite, assign) BibFetchRequestSearchStrategy strategy;
+
+@property(nonatomic, readwrite, copy) NSArray<NSString *> *keywords;
 
 @end
 
