@@ -1164,6 +1164,8 @@
 		AAAA42A420BB187000BDB52B /* BibRecordList.Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibRecordList.Private.h; sourceTree = "<group>"; };
 		AAAA42A820BC697E00BDB52B /* BibClassification.Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibClassification.Private.h; sourceTree = "<group>"; };
 		AACEDD6320C1A946004ACA07 /* BibConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibConstants.swift; sourceTree = "<group>"; };
+		AACEDD6520C4757A004ACA07 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		AACEDD6620C47583004ACA07 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2454,6 +2456,8 @@
 				AA5900EE20AA2B8300D41982 /* libyaz */,
 				AAAA428520B9F32A00BDB52B /* BibliotekTests */,
 				AA59F0D320A9FACF00D41982 /* Products */,
+				AACEDD6520C4757A004ACA07 /* LICENSE */,
+				AACEDD6620C47583004ACA07 /* README.md */,
 				AA59054820AA359000D41982 /* libyaz.dylib */,
 			);
 			sourceTree = "<group>";
