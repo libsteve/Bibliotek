@@ -6,6 +6,12 @@ A library for interacting with libraries using the Z39.50 protocol, powered by Y
 References
 ---
 
+### Z39.50 Endpoints
+
+- [zbrary Directory of Z39.50 and SRU Targets][zbrary]
+
+[zbrary]: http://www.z-brary.com
+
 ### Official Specifications from the Library of Congress
 
 - [The bib-1 Attribute Set][bib1]
