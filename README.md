@@ -34,10 +34,14 @@ References
 - [Z39.50 Object-Orientation Model (ZOOM)][yaz-zoom]
 - [Queries with BIB-1 Attributes][yaz-bib-1]
 - [PQF Query Format][yaz-pqf-format]
+    - [PQF Query Examples][yaz-pqf-examples]
+- [ZOOM Records][yaz-zoom-records]
 
 [yaz-zoom]: https://software.indexdata.com/yaz/doc/zoom.html#zoom-connection-z39.50
 [yaz-pqf-format]: https://software.indexdata.com/yaz/doc/tools.html#PQF
 [yaz-bib-1]: https://software.indexdata.com/zebra/doc/querymodel-rpn.html#querymodel-bib1
+[yaz-pqf-examples]: https://software.indexdata.com/yaz/doc/tools.html#PQF-examples
+[yaz-zoom-records]: https://software.indexdata.com/yaz/doc/zoom.records.html
 
 ### Other Specifications
 
@@ -48,3 +52,9 @@ References
 [marc-json]: https://github.com/marc4j/marc4j/wiki/MARC-in-JSON-Description
 [marc-json-schema]: https://github.com/thisismattmiller/marc-json-schema
 [marc-json-proposal]: https://rossfsinger.com/blog/2010/09/a-proposal-to-serialize-marc-in-json/
+
+### Other Sources
+
+- [Torroidal Code's isbn2.py][isbn2.py]
+
+[isbn2.py]: https://gist.github.com/toroidal-code/6415977
