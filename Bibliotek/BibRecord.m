@@ -85,9 +85,9 @@
 }
 
 - (NSString *)isbn {
-    for (NSDictionary *field in (NSArray *)_json[@"fields"]) {
+    for (NSDictionary *field in (NSArray *)self.json[@"fields"]) {
         if ([field.allKeys containsObject:@"020"]) {
-            for (NSDictionary *subfield in (NSArray *)field[@"020"]) {
+            for (NSDictionary *subfield in (NSDictionary *)field[@"020"][@"subfields"]) {
                 if ([subfield.allKeys containsObject:@"a"]) {
                     return subfield[@"a"];
                 }
@@ -102,7 +102,7 @@
 - (NSArray *)classifications {
     if (_classifications == nil) {
         NSMutableArray *array = [NSMutableArray array];
-        for (NSDictionary *field in (NSArray *)_json[@"fields"]) {
+        for (NSDictionary *field in (NSArray *)self.json[@"fields"]) {
             BibClassification *classification = [[BibClassification alloc] initFromField:field];
             if (classification) {
                 [array addObject:classification];

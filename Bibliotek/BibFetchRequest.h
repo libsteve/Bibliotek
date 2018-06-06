@@ -16,11 +16,11 @@ NS_ASSUME_NONNULL_BEGIN
 NS_SWIFT_NAME(FetchRequest)
 @interface BibFetchRequest: NSObject <NSCopying, NSMutableCopying>
 
-@property(nonatomic, readonly, assign) BibFetchRequestScope scope;
+@property(nonatomic, readonly, strong) BibFetchRequestScope scope;
 
-@property(nonatomic, readonly, assign) BibFetchRequestStructure structure;
+@property(nonatomic, readonly, strong) BibFetchRequestStructure structure;
 
-@property(nonatomic, readonly, assign) BibFetchRequestSearchStrategy strategy;
+@property(nonatomic, readonly, strong) BibFetchRequestSearchStrategy strategy;
 
 @property(nonatomic, readonly, copy) NSArray<NSString *> *keywords;
 
@@ -35,11 +35,11 @@ NS_SWIFT_NAME(FetchRequest)
 NS_SWIFT_NAME(MutableFetchRequest)
 @interface BibMutableFetchRequest: BibFetchRequest
 
-@property(nonatomic, readwrite, assign) BibFetchRequestScope scope;
+@property(nonatomic, readwrite, strong) BibFetchRequestScope scope;
 
-@property(nonatomic, readwrite, assign) BibFetchRequestStructure structure;
+@property(nonatomic, readwrite, strong) BibFetchRequestStructure structure;
 
-@property(nonatomic, readwrite, assign) BibFetchRequestSearchStrategy strategy;
+@property(nonatomic, readwrite, strong) BibFetchRequestSearchStrategy strategy;
 
 @property(nonatomic, readwrite, copy) NSArray<NSString *> *keywords;
 

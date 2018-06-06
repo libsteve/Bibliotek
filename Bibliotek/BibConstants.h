@@ -26,7 +26,7 @@ typedef NS_ENUM(NSInteger, BibFetchRequestNotation) {
 
 #pragma mark - Authentication Mode
 
-typedef NSString *BibAuthenticationMode NS_STRING_ENUM NS_SWIFT_NAME(AuthenticationMode);
+typedef NSString *BibAuthenticationMode NS_TYPED_ENUM NS_SWIFT_NAME(AuthenticationMode);
 
 extern BibAuthenticationMode const BibAuthenticationModeBasic;
 extern BibAuthenticationMode const BibAuthenticationModeUrl;
@@ -55,7 +55,7 @@ extern BibSortStrategy const BibSortStrategyEmbed;
 
 #pragma mark - Bibliographic Fields
 
-typedef NSString *BibFetchRequestScope NS_STRING_ENUM NS_SWIFT_NAME(FetchRequest.Scope);
+typedef NSString *BibFetchRequestScope NS_TYPED_ENUM NS_SWIFT_NAME(FetchRequest.Scope);
 
 extern BibFetchRequestScope const BibFetchRequestScopePersonalName;
 extern BibFetchRequestScope const BibFetchRequestScopeTitle;
@@ -77,7 +77,7 @@ extern NSString *BibFetchRequestScopeDescription(BibFetchRequestScope const scop
 
 #pragma mark - Query Structure
 
-typedef NSString *BibFetchRequestStructure NS_STRING_ENUM NS_SWIFT_NAME(FetchRequest.Structure);
+typedef NSString *BibFetchRequestStructure NS_TYPED_ENUM NS_SWIFT_NAME(FetchRequest.Structure);
 
 extern BibFetchRequestStructure const BibFetchRequestStructurePhrase;
 extern BibFetchRequestStructure const BibFetchRequestStructureWord;
@@ -92,7 +92,7 @@ extern NSString *BibFetchRequestStructureDescription(BibFetchRequestStructure co
 
 #pragma mark - Query Search Strategy
 
-typedef NSString *BibFetchRequestSearchStrategy NS_STRING_ENUM NS_SWIFT_NAME(FetchRequest.SearchStrategy);
+typedef NSString *BibFetchRequestSearchStrategy NS_TYPED_ENUM NS_SWIFT_NAME(FetchRequest.SearchStrategy);
 
 extern BibFetchRequestSearchStrategy const BibFetchRequestSearchStrategySuffix;
 extern BibFetchRequestSearchStrategy const BibFetchRequestSearchStrategyPrefix;

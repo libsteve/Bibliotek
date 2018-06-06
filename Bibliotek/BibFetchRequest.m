@@ -10,9 +10,9 @@
 
 @implementation BibFetchRequest {
 @protected
-    __unsafe_unretained BibFetchRequestScope _scope;
-    __unsafe_unretained BibFetchRequestStructure _structure;
-    __unsafe_unretained BibFetchRequestSearchStrategy _strategy;
+    BibFetchRequestScope _scope;
+    BibFetchRequestStructure _structure;
+    BibFetchRequestSearchStrategy _strategy;
     NSArray *_keywords;
     NSString *_query;
     ZOOM_query _zoom_query;
@@ -35,6 +35,7 @@
         _strategy = strategy;
         _keywords = [keywords copy];
         _query = [self query];
+        _zoom_query = ZOOM_query_create();
         ZOOM_query_prefix(_zoom_query, [_query UTF8String]);
     }
     return self;
