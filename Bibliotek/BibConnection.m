@@ -47,11 +47,13 @@ NSString *const kDefaultDatabase = @"Default";
         _connection = ZOOM_connection_new(rawHost, (int32_t)port);
         ZOOM_connection_option_set(_connection, "async", "1");
         self.database = database;
-        char const *name = NULL;
-        char const *info = NULL;
-        int code = ZOOM_connection_error(_connection, &name, &info);
-        if (code != 0) {
+        int const eventPosition = ZOOM_event(1, &_connection);
+        int const eventType = (eventPosition == 0) ? ZOOM_EVENT_UNKNOWN : ZOOM_connection_last_event(_connection);
+        if (eventType != ZOOM_EVENT_CONNECT) {
             if (error != NULL) {
+                char const *name = "UNKNOWN";
+                char const *info = "NONE";
+                int const code = ZOOM_connection_error(_connection, &name, &info);
                 NSDictionary *userInfo = @{ BibConnectionErrorName : @(name),
                                             BibConnectionErrorInfo : @(info) };
                 *error = [NSError errorWithDomain:BibConnectionErrorDomain code:code userInfo:userInfo];
