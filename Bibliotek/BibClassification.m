@@ -21,18 +21,19 @@
 }
 
 - (instancetype)initFromField:(NSDictionary *)field {
-    NSArray<NSDictionary *> *subfields = nil;
+    NSDictionary<NSString *, NSDictionary *> *subfields = nil;
     NSString *system = nil;
     NSString *classification = nil;
     NSString *item = nil;
-    if ((subfields = (NSArray *)field[@"050"])) {
+    if ((subfields = (NSDictionary *)field[@"050"])) {
         system = BibClassificationSystemLCC;
-    } else if ((subfields = (NSArray *)field[@"082"])) {
+    } else if ((subfields = (NSDictionary *)field[@"082"])) {
         system = BibClassificationSystemDDC;
     } else {
         return nil;
     }
-    for (NSDictionary *subfield in subfields) {
+    _official = [subfields[@"ind1"] isEqual:@"0"];
+    for (NSDictionary *subfield in (NSDictionary *)subfields[@"subfields"]) {
         classification = classification ?: subfield[@"a"];
         item = item ?: subfield[@"b"];
     }

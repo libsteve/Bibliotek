@@ -43,21 +43,9 @@ NSString *const kDefaultDatabase = @"Default";
     if (self = [super init]) {
         _host = [host copy];
         _port = port;
-        char const *const rawHost = [_host UTF8String];
-        _connection = ZOOM_connection_new(rawHost, (int32_t)port);
-        ZOOM_connection_option_set(_connection, "async", "1");
+        _connection = ZOOM_connection_new([_host UTF8String], (int)_port);
         self.database = database;
-        int const eventPosition = ZOOM_event(1, &_connection);
-        int const eventType = (eventPosition == 0) ? ZOOM_EVENT_UNKNOWN : ZOOM_connection_last_event(_connection);
-        if (eventType != ZOOM_EVENT_CONNECT) {
-            if (error != NULL) {
-                char const *name = "UNKNOWN";
-                char const *info = "NONE";
-                int const code = ZOOM_connection_error(_connection, &name, &info);
-                NSDictionary *userInfo = @{ BibConnectionErrorName : @(name),
-                                            BibConnectionErrorInfo : @(info) };
-                *error = [NSError errorWithDomain:BibConnectionErrorDomain code:code userInfo:userInfo];
-            }
+        if ([self error:error]) {
             return nil;
         }
     }
@@ -66,6 +54,21 @@ NSString *const kDefaultDatabase = @"Default";
 
 - (void)dealloc {
     ZOOM_connection_destroy(_connection);
+}
+
+- (BOOL)error:(NSError *__autoreleasing *)error {
+    char const *name = "Unknown failure";
+    char const *info = "No known information";
+    int const code = ZOOM_connection_error(_connection, &name, &info);
+    if (code == 0) {
+        return NO;
+    }
+    if (error != NULL) {
+        NSDictionary *const userInfo = @{ BibConnectionErrorName : @(name),
+                                          BibConnectionErrorInfo : @(info) };
+        *error = [NSError errorWithDomain:BibConnectionErrorDomain code:code userInfo:userInfo];
+    }
+    return YES;
 }
 
 #pragma mark - Options
@@ -138,19 +141,10 @@ NSString *const kDefaultDatabase = @"Default";
 
 - (BibRecordList *)fetchRecordsWithRequest:(BibFetchRequest *)request error:(NSError **)error {
     ZOOM_resultset resultSet = ZOOM_connection_search(_connection, request.zoomQuery);
-    char const *name = NULL;
-    char const *info = NULL;
-    int code = ZOOM_connection_error(_connection, &name, &info);
-    if (code != 0) {
-        if (error != NULL) {
-            NSDictionary *userInfo = @{ BibConnectionErrorName : @(name),
-                                        BibConnectionErrorInfo : @(info) };
-            *error = [NSError errorWithDomain:BibConnectionErrorDomain code:code userInfo:userInfo];
-        }
+    if ([self error:error]) {
         return nil;
     }
     return [[BibRecordList alloc] initWithZoomResultSet:resultSet connection:self request:request];
 }
 
 @end
-

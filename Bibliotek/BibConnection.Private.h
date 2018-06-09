@@ -16,4 +16,6 @@ extern NSString *const kDefaultDatabase;
 
 @property(nonatomic, readonly, assign, nonnull) ZOOM_connection zoomConnection;
 
+- (BOOL)error:(NSError **)error;
+
 @end

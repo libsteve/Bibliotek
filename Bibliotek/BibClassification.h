@@ -18,6 +18,7 @@ NS_SWIFT_NAME(Classification)
 @property(nonatomic, readwrite, assign) BibClassificationSystem system;
 @property(nonatomic, readwrite, copy) NSString *classification;
 @property(nonatomic, readwrite, copy, nullable) NSString *item;
+@property(nonatomic, readwrite, assign, getter=isOfficial) BOOL official;
 
 - (instancetype)initWithClassification:(NSString *)classification item:(nullable NSString *)item system:(BibClassificationSystem)system NS_SWIFT_NAME(init(_:item:system:));
 

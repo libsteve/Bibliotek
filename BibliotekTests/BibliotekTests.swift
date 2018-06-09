@@ -11,7 +11,15 @@ import Foundation
 @testable import Bibliotek
 
 class BibliotekTests: XCTestCase {
-    func testFetchSucceeds() {
+    func testConnectSucceeds() {
+        XCTAssertNoThrow(try Connection(host: "z3950.loc.gov", port: 7090, database: "VOYAGER"))
+    }
+
+    func testConnectFails() {
+        XCTAssertThrowsError(try Connection(host: "beep.blork.invalidtld"))
+    }
+
+    func testFetchWord() {
         do {
             let c = try Connection(host: "z3950.loc.gov", port: 7090, database: "VOYAGER")
             let r = MutableFetchRequest()
