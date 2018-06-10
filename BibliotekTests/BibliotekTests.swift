@@ -51,4 +51,30 @@ class BibliotekTests: XCTestCase {
             XCTFail("Connection could not be made. \(error)")
         }
     }
+
+    func testLccClassification() {
+        let field = Record.Field(json: ["050" : ["ind1" : " ",
+                                                 "ind2" : "0",
+                                                 "subfields" : [["a" : "1010101"],
+                                                                ["b" : "ABABABA"]]]])!
+        let classification = Classification(field: field)
+        XCTAssertNotNil(classification)
+        XCTAssertEqual(classification!.system, .lcc)
+        XCTAssertEqual(classification!.classification, "1010101")
+        XCTAssertEqual(classification!.item, "ABABABA")
+        XCTAssertTrue(classification!.isOfficial)
+    }
+
+    func testDdcClassification() {
+        let field = Record.Field(json: ["082" : ["ind1" : " ",
+                                                 "ind2" : "0",
+                                                 "subfields" : [["a" : "1010101"],
+                                                                ["b" : "ABABABA"]]]])!
+        let classification = Classification(field: field)
+        XCTAssertNotNil(classification)
+        XCTAssertEqual(classification!.system, .ddc)
+        XCTAssertEqual(classification!.classification, "1010101")
+        XCTAssertEqual(classification!.item, "ABABABA")
+        XCTAssertTrue(classification!.isOfficial)
+    }
 }

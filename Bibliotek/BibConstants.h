@@ -103,4 +103,46 @@ extern BibFetchRequestSearchStrategy const BibFetchRequestSearchStrategyRegex;
 
 extern NSString *BibFetchRequestSearchStrategyDescription(BibFetchRequestSearchStrategy const strategy) NS_REFINED_FOR_SWIFT;
 
+#pragma mark - Record Field Tags
+
+typedef NSString *BibRecordFieldTag NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(Record.FieldTag);
+
+extern BibRecordFieldTag const BibRecordFieldTagIsbn;
+extern BibRecordFieldTag const BibRecordFieldTagLCC NS_SWIFT_NAME(lcc);
+extern BibRecordFieldTag const BibRecordFieldTagDDC NS_SWIFT_NAME(ddc);
+extern BibRecordFieldTag const BibRecordFieldTagAuthor;
+extern BibRecordFieldTag const BibRecordFieldTagTitle;
+extern BibRecordFieldTag const BibRecordFieldTagEdition;
+extern BibRecordFieldTag const BibRecordFieldTagPublication;
+extern BibRecordFieldTag const BibRecordFieldTagPhysicalDescription;
+extern BibRecordFieldTag const BibRecordFieldTagNote;
+extern BibRecordFieldTag const BibRecordFieldTagBibliography;
+extern BibRecordFieldTag const BibRecordFieldTagSummary;
+extern BibRecordFieldTag const BibRecordFieldTagSubject;
+extern BibRecordFieldTag const BibRecordFieldTagGenre;
+extern BibRecordFieldTag const BibRecordFieldTagSeries;
+
+extern NSString *BibRecordFieldTagDescription(BibRecordFieldTag const tag) NS_REFINED_FOR_SWIFT;
+
+#pragma mark - Record Field Indicator
+
+typedef char BibRecordFieldIndicator NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(Record.FieldIndicator);
+
+extern NSString *BibRecordFieldIndicatorDescription(BibRecordFieldIndicator const indicator) NS_REFINED_FOR_SWIFT;
+
+#pragma mark - Record Field Code
+
+typedef char BibRecordFieldCode NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(Record.FieldCode);
+
+extern NSString *BibRecordFieldCodeDescription(BibRecordFieldCode const code) NS_REFINED_FOR_SWIFT;
+
+#pragma mark - Classification System
+
+typedef NSString *BibClassificationSystem NS_STRING_ENUM NS_SWIFT_NAME(Classification.System);
+
+extern BibClassificationSystem const BibClassificationSystemLCC NS_SWIFT_NAME(lcc);
+extern BibClassificationSystem const BibClassificationSystemDDC NS_SWIFT_NAME(ddc);
+
+extern NSString *BibClassificationSystemDescription(BibClassificationSystem const system) NS_REFINED_FOR_SWIFT;
+
 NS_ASSUME_NONNULL_END

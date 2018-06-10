@@ -30,6 +30,8 @@ NS_SWIFT_NAME(RecordList)
 - (NSArray<BibRecord *> *)recordsInRange:(NSRange)range;
 - (NSEnumerator<BibRecord *> *)recordEnumerator NS_SWIFT_NAME(makeIterator());
 
+- (BibRecord *)objectAtIndexedSubscript:(NSUInteger)index;
+
 @end
 
 NS_ASSUME_NONNULL_END

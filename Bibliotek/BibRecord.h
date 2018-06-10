@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class BibClassification;
+@class BibRecordField;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,8 +20,12 @@ NS_SWIFT_NAME(Record)
 @property(nonatomic, readonly, copy) NSString *schema;
 @property(nonatomic, readonly, copy) NSString *database;
 
+@property(nonatomic, readonly, copy) NSArray<BibRecordField *> *fields;
+
 @property(nonatomic, readonly, copy) NSString *isbn;
 @property(nonatomic, readonly, copy) NSArray<BibClassification *> *classifications;
+
+- (instancetype)initWithFields:(NSArray<BibRecordField *> *)fields;
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)new NS_UNAVAILABLE;

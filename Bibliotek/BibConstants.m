@@ -48,22 +48,22 @@ BibFetchRequestScope const BibFetchRequestScopeAnywhere = @"@attr 1=1035";
 BibFetchRequestScope const BibFetchRequestScopeAuthorTitleSubject = @"@attr 1=1036";
 
 NSString *BibFetchRequestScopeDescription(BibFetchRequestScope const scope) {
-    if (scope == BibFetchRequestScopePersonalName) return @"Personal-Name";
-    if (scope == BibFetchRequestScopeTitle) return @"Title";
-    if (scope == BibFetchRequestScopeTitleSeries) return @"Title-Series";
-    if (scope == BibFetchRequestScopeIsbn) return @"ISBN";
-    if (scope == BibFetchRequestScopeDDC) return @"DDC";
-    if (scope == BibFetchRequestScopeLCC) return @"LCC";
-    if (scope == BibFetchRequestScopeSubject) return @"Subject";
-    if (scope == BibFetchRequestScopeLanguage) return @"Language";
-    if (scope == BibFetchRequestScopeName) return @"Name";
-    if (scope == BibFetchRequestScopeAuthor) return @"Author";
-    if (scope == BibFetchRequestScopeBodyOfText) return @"Body-of-Text";
-    if (scope == BibFetchRequestScopeAny) return @"Any";
-    if (scope == BibFetchRequestScopePublisher) return @"Publisher";
-    if (scope == BibFetchRequestScopeAnywhere) return @"Anywhere";
-    if (scope == BibFetchRequestScopeAuthorTitleSubject) return @"Author-Title-Subject";
-    return @"Invalid BibFetchRequestScope";
+    if ([scope isEqualToString:BibFetchRequestScopePersonalName]) return @"Personal-Name";
+    if ([scope isEqualToString:BibFetchRequestScopeTitle]) return @"Title";
+    if ([scope isEqualToString:BibFetchRequestScopeTitleSeries]) return @"Title-Series";
+    if ([scope isEqualToString:BibFetchRequestScopeIsbn]) return @"ISBN";
+    if ([scope isEqualToString:BibFetchRequestScopeDDC]) return @"Dewey-Decimal-Classification";
+    if ([scope isEqualToString:BibFetchRequestScopeLCC]) return @"Library-of-Congress-Classification";
+    if ([scope isEqualToString:BibFetchRequestScopeSubject]) return @"Subject";
+    if ([scope isEqualToString:BibFetchRequestScopeLanguage]) return @"Language";
+    if ([scope isEqualToString:BibFetchRequestScopeName]) return @"Name";
+    if ([scope isEqualToString:BibFetchRequestScopeAuthor]) return @"Author";
+    if ([scope isEqualToString:BibFetchRequestScopeBodyOfText]) return @"Body-of-Text";
+    if ([scope isEqualToString:BibFetchRequestScopeAny]) return @"Any";
+    if ([scope isEqualToString:BibFetchRequestScopePublisher]) return @"Publisher";
+    if ([scope isEqualToString:BibFetchRequestScopeAnywhere]) return @"Anywhere";
+    if ([scope isEqualToString:BibFetchRequestScopeAuthorTitleSubject]) return @"Author-Title-Subject";
+    return @"Invalid Request Scope";
 }
 
 #pragma mark - Query Structure
@@ -78,15 +78,15 @@ BibFetchRequestStructure const BibFetchRequestStructureFreeFormText = @"@attr 4=
 BibFetchRequestStructure const BibFetchRequestStructureDocumentText = @"@attr 4=106";
 
 NSString *BibFetchRequestStructureDescription(BibFetchRequestStructure const structure) {
-    if (structure == BibFetchRequestStructurePhrase) return @"Phrase";
-    if (structure == BibFetchRequestStructureWord) return @"Word";
-    if (structure == BibFetchRequestStructureKey) return @"Key";
-    if (structure == BibFetchRequestStructureYear) return @"Year";
-    if (structure == BibFetchRequestStructureDate) return @"Date";
-    if (structure == BibFetchRequestStructureWordList) return @"Word-List";
-    if (structure == BibFetchRequestStructureFreeFormText) return @"Free-Form-Text";
-    if (structure == BibFetchRequestStructureDocumentText) return @"Document-Text";
-    return @"Invalid BibFetchRequestStructure";
+    if ([structure isEqualToString:BibFetchRequestStructurePhrase]) return @"Phrase";
+    if ([structure isEqualToString:BibFetchRequestStructureWord]) return @"Word";
+    if ([structure isEqualToString:BibFetchRequestStructureKey]) return @"Key";
+    if ([structure isEqualToString:BibFetchRequestStructureYear]) return @"Year";
+    if ([structure isEqualToString:BibFetchRequestStructureDate]) return @"Date";
+    if ([structure isEqualToString:BibFetchRequestStructureWordList]) return @"Word-List";
+    if ([structure isEqualToString:BibFetchRequestStructureFreeFormText]) return @"Free-Form-Text";
+    if ([structure isEqualToString:BibFetchRequestStructureDocumentText]) return @"Document-Text";
+    return @"Invalid Request Structure";
 }
 
 #pragma mark - Query Search Strategy
@@ -99,11 +99,67 @@ BibFetchRequestSearchStrategy const BibFetchRequestSearchStrategyFuzzy = @"@attr
 BibFetchRequestSearchStrategy const BibFetchRequestSearchStrategyRegex = @"@attr 5=102";
 
 NSString *BibFetchRequestSearchStrategyDescription(BibFetchRequestSearchStrategy const strategy) {
-    if (strategy == BibFetchRequestSearchStrategySuffix) return @"Suffix";
-    if (strategy == BibFetchRequestSearchStrategyPrefix) return @"Prefix";
-    if (strategy == BibFetchRequestSearchStrategySubstring) return @"Substring";
-    if (strategy == BibFetchRequestSearchStrategyStrict) return @"Strict";
-    if (strategy == BibFetchRequestSearchStrategyFuzzy) return @"Fuzzy";
-    if (strategy == BibFetchRequestSearchStrategyRegex) return @"Regex";
-    return @"Invalid BibFetchRequestSearchStrategy";
+    if ([strategy isEqualToString:BibFetchRequestSearchStrategySuffix]) return @"Suffix";
+    if ([strategy isEqualToString:BibFetchRequestSearchStrategyPrefix]) return @"Prefix";
+    if ([strategy isEqualToString:BibFetchRequestSearchStrategySubstring]) return @"Substring";
+    if ([strategy isEqualToString:BibFetchRequestSearchStrategyStrict]) return @"Strict";
+    if ([strategy isEqualToString:BibFetchRequestSearchStrategyFuzzy]) return @"Fuzzy";
+    if ([strategy isEqualToString:BibFetchRequestSearchStrategyRegex]) return @"Regex";
+    return @"Invalid Request Search Strategy";
+}
+
+#pragma mark - Record Field Tags
+
+BibRecordFieldTag const BibRecordFieldTagIsbn = @"020";
+BibRecordFieldTag const BibRecordFieldTagLCC = @"050";
+BibRecordFieldTag const BibRecordFieldTagDDC = @"082";
+BibRecordFieldTag const BibRecordFieldTagAuthor = @"100";
+BibRecordFieldTag const BibRecordFieldTagTitle = @"245";
+BibRecordFieldTag const BibRecordFieldTagEdition = @"250";
+BibRecordFieldTag const BibRecordFieldTagPublication = @"264";
+BibRecordFieldTag const BibRecordFieldTagPhysicalDescription = @"300";
+BibRecordFieldTag const BibRecordFieldTagNote = @"500";
+BibRecordFieldTag const BibRecordFieldTagBibliography = @"504";
+BibRecordFieldTag const BibRecordFieldTagSummary = @"520";
+BibRecordFieldTag const BibRecordFieldTagSubject = @"650";
+BibRecordFieldTag const BibRecordFieldTagGenre = @"655";
+BibRecordFieldTag const BibRecordFieldTagSeries = @"940";
+
+NSString *BibRecordFieldTagDescription(BibRecordFieldTag const tag) {
+    if ([tag isEqualToString: BibRecordFieldTagIsbn]) return @"ISBN";
+    if ([tag isEqualToString: BibRecordFieldTagLCC]) return @"LCC";
+    if ([tag isEqualToString: BibRecordFieldTagDDC]) return @"DDC";
+    if ([tag isEqualToString: BibRecordFieldTagAuthor]) return @"Author";
+    if ([tag isEqualToString: BibRecordFieldTagTitle]) return @"Title";
+    if ([tag isEqualToString: BibRecordFieldTagEdition]) return @"Edition";
+    if ([tag isEqualToString: BibRecordFieldTagPublication]) return @"Publication";
+    if ([tag isEqualToString: BibRecordFieldTagPhysicalDescription]) return @"Physical-Description";
+    if ([tag isEqualToString: BibRecordFieldTagNote]) return @"Note";
+    if ([tag isEqualToString: BibRecordFieldTagBibliography]) return @"Bibliography";
+    if ([tag isEqualToString: BibRecordFieldTagSummary]) return @"Summary";
+    if ([tag isEqualToString: BibRecordFieldTagSubject]) return @"Subject";
+    if ([tag isEqualToString: BibRecordFieldTagGenre]) return @"Genre";
+    if ([tag isEqualToString: BibRecordFieldTagSeries]) return @"Series";
+    return @"Invalid Record Field Tag";
+}
+
+#pragma mark - Record Field Indicator
+
+NSString *BibRecordFieldIndicatorDescription(BibRecordFieldIndicator const indicator) {
+    return [NSString stringWithFormat:@"%c", indicator];
+}
+
+#pragma mark - Record Field Code
+
+NSString *BibRecordFieldCodeDescription(BibRecordFieldCode const code) {
+    return [NSString stringWithFormat:@"$%c", code];
+}
+
+#pragma mark - Classification System
+
+BibClassificationSystem const BibClassificationSystemLCC = @"Library of Congress";
+BibClassificationSystem const BibClassificationSystemDDC = @"Dewey Decimal";
+
+NSString *BibClassificationSystemDescription(BibClassificationSystem const system) {
+    return [NSString stringWithFormat:@"%@ System", system];
 }

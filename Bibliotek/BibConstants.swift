@@ -8,20 +8,56 @@
 
 import Foundation
 
-extension FetchRequest.Scope: CustomStringConvertible {
+extension FetchRequest.Scope: CustomStringConvertible, Equatable, Hashable {
     public var description: String {
         return __BibFetchRequestScopeDescription(self)
     }
 }
 
-extension FetchRequest.Structure: CustomStringConvertible {
+extension FetchRequest.Structure: CustomStringConvertible, Equatable, Hashable {
     public var description: String {
         return __BibFetchRequestStructureDescription(self)
     }
 }
 
-extension FetchRequest.SearchStrategy: CustomStringConvertible {
+extension FetchRequest.SearchStrategy: CustomStringConvertible, Equatable, Hashable {
     public var description: String {
         return __BibFetchRequestSearchStrategyDescription(self)
+    }
+}
+
+extension Record.FieldTag: CustomStringConvertible, ExpressibleByStringLiteral, Equatable, Hashable {
+    public var description: String {
+        return __BibRecordFieldTagDescription(self)
+    }
+
+    public init(stringLiteral: String) {
+        self.init(stringLiteral)
+    }
+}
+
+extension Record.FieldIndicator: CustomStringConvertible, ExpressibleByStringLiteral, Equatable, Hashable {
+    public var description: String {
+        return __BibRecordFieldIndicatorDescription(self)
+    }
+
+    public init(stringLiteral: String) {
+        self.init(Int8(stringLiteral.utf8.first?.byteSwapped ?? 0))
+    }
+}
+
+extension Record.FieldCode: CustomStringConvertible, ExpressibleByStringLiteral, Equatable, Hashable {
+    public var description: String {
+        return __BibRecordFieldCodeDescription(self)
+    }
+
+    public init(stringLiteral: String) {
+        self.init(Int8(stringLiteral.utf8.first?.byteSwapped ?? 0))
+    }
+}
+
+extension Classification.System: CustomStringConvertible, Equatable, Hashable {
+    public var description: String {
+        return __BibClassificationSystemDescription(self)
     }
 }

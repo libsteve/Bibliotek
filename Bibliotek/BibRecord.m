@@ -7,14 +7,14 @@
 //
 
 #import "BibClassification.h"
-#import "BibClassification.Private.h"
 #import "BibRecord.h"
 #import "BibRecord.Private.h"
+#import "BibClassification.h"
+#import "BibRecordField.h"
 #import <yaz/zoom.h>
 
 @implementation BibRecord {
     ZOOM_record _record;
-    NSDictionary *_json;
 }
 
 @synthesize zoomRecord = _record;
@@ -28,8 +28,18 @@
     return self;
 }
 
+- (instancetype)initWithFields:(NSArray<BibRecordField *> *)fields {
+    if (self = [super init]) {
+        _syntax = @"USMARC";
+        _schema = @"USMARC";
+        _database = @"Default";
+        _fields = [fields copy];
+    }
+    return self
+}
+
 - (void)dealloc {
-    ZOOM_record_destroy(_record);
+    if (_record != nil) { ZOOM_record_destroy(_record); }
 }
 
 #pragma mark - Properties
@@ -73,25 +83,29 @@
     return _database;
 }
 
-- (NSDictionary *)json {
-    if (_json == nil) {
+@synthesize fields = _fields;
+
+- (NSArray<BibRecordField *> *)fields {
+    if (_fields == nil) {
         int length = 0;
         char const *const type = "json; charset=marc8";
         char const *const bytes = ZOOM_record_get(_record, type, &length);
-        NSData *data = [NSData dataWithBytes:bytes length:length];
-        _json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        NSData *const data = [NSData dataWithBytes:bytes length:length];
+        NSDictionary *const json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        NSMutableArray *fields = [NSMutableArray new];
+        for (NSDictionary *content in [json[@"fields"] objectEnumerator]) {
+            BibRecordField *field = [[BibRecordField alloc] initWithJson:content];
+            if (field != nil) { [fields addObject:field]; }
+        }
+        _fields = [fields copy];
     }
-    return _json;
+    return _fields;
 }
 
 - (NSString *)isbn {
-    for (NSDictionary *field in (NSArray *)self.json[@"fields"]) {
-        if ([field.allKeys containsObject:@"020"]) {
-            for (NSDictionary *subfield in (NSDictionary *)field[@"020"][@"subfields"]) {
-                if ([subfield.allKeys containsObject:@"a"]) {
-                    return subfield[@"a"];
-                }
-            }
+    for (BibRecordField *field in [self fields]) {
+        if ([field.fieldTag isEqualToString:BibRecordFieldTagIsbn]) {
+            return field['a'];
         }
     }
     return nil;
@@ -102,11 +116,9 @@
 - (NSArray *)classifications {
     if (_classifications == nil) {
         NSMutableArray *array = [NSMutableArray array];
-        for (NSDictionary *field in (NSArray *)self.json[@"fields"]) {
-            BibClassification *classification = [[BibClassification alloc] initFromField:field];
-            if (classification) {
-                [array addObject:classification];
-            }
+        for (BibRecordField *field in [self fields]) {
+            BibClassification *classification = [BibClassification classificationWithField:field];
+            if (classification != nil) { [array addObject:classification]; }
         }
         _classifications = [array copy];
     }
