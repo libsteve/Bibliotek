@@ -35,6 +35,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		AA37679420CDB82A00CF101D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA59F0C920A9FACF00D41982 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA37678C20CDB6E900CF101D;
+			remoteInfo = "yaz-buildconf";
+		};
+		AA37679620CDB83000CF101D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA59F0C920A9FACF00D41982 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA37679020CDB79800CF101D;
+			remoteInfo = "brew-bundle";
+		};
 		AA59054620AA2ED200D41982 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AA59F0C920A9FACF00D41982 /* Project object */;
@@ -197,6 +211,35 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXLegacyTarget section */
+		AA37678C20CDB6E900CF101D /* yaz-buildconf */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "";
+			buildConfigurationList = AA37678D20CDB6E900CF101D /* Build configuration list for PBXLegacyTarget "yaz-buildconf" */;
+			buildPhases = (
+			);
+			buildToolPath = "$(PROJECT_DIR)/libyaz/buildconf.sh";
+			buildWorkingDirectory = "$(PROJECT_DIR)/libyaz";
+			dependencies = (
+				AA37679720CDB83000CF101D /* PBXTargetDependency */,
+			);
+			name = "yaz-buildconf";
+			passBuildSettingsInEnvironment = 1;
+			productName = "yaz-init";
+		};
+		AA37679020CDB79800CF101D /* yaz-tools */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "bundle install";
+			buildConfigurationList = AA37679120CDB79800CF101D /* Build configuration list for PBXLegacyTarget "yaz-tools" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/local/bin/brew;
+			buildWorkingDirectory = "$(PROJECT_DIR)";
+			dependencies = (
+			);
+			name = "yaz-tools";
+			passBuildSettingsInEnvironment = 1;
+			productName = "brew-bundle";
+		};
 		AA5900E620AA274F00D41982 /* libyaz */ = {
 			isa = PBXLegacyTarget;
 			buildArgumentsString = install;
@@ -221,6 +264,7 @@
 			buildToolPath = "$(PROJECT_DIR)/libyaz/configure";
 			buildWorkingDirectory = "$(PROJECT_DIR)/libyaz";
 			dependencies = (
+				AA37679520CDB82A00CF101D /* PBXTargetDependency */,
 			);
 			name = "yaz-config";
 			passBuildSettingsInEnvironment = 1;
@@ -274,6 +318,12 @@
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Steve Brunwasser";
 				TargetAttributes = {
+					AA37678C20CDB6E900CF101D = {
+						CreatedOnToolsVersion = 10.0;
+					};
+					AA37679020CDB79800CF101D = {
+						CreatedOnToolsVersion = 10.0;
+					};
 					AA5900E620AA274F00D41982 = {
 						CreatedOnToolsVersion = 9.3;
 					};
@@ -305,6 +355,8 @@
 				AA59F0D120A9FACF00D41982 /* Bibliotek */,
 				AA5900E620AA274F00D41982 /* libyaz */,
 				AA5900EA20AA275F00D41982 /* yaz-config */,
+				AA37678C20CDB6E900CF101D /* yaz-buildconf */,
+				AA37679020CDB79800CF101D /* yaz-tools */,
 				AAAA428320B9F32900BDB52B /* BibliotekTests */,
 			);
 		};
@@ -356,6 +408,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		AA37679520CDB82A00CF101D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA37678C20CDB6E900CF101D /* yaz-buildconf */;
+			targetProxy = AA37679420CDB82A00CF101D /* PBXContainerItemProxy */;
+		};
+		AA37679720CDB83000CF101D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA37679020CDB79800CF101D /* yaz-tools */;
+			targetProxy = AA37679620CDB83000CF101D /* PBXContainerItemProxy */;
+		};
 		AA59054720AA2ED200D41982 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AA5900EA20AA275F00D41982 /* yaz-config */;
@@ -369,6 +431,62 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		AA37678E20CDB6E900CF101D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEBUGGING_SYMBOLS = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 8T447DZKLE;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		AA37678F20CDB6E900CF101D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 8T447DZKLE;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		AA37679220CDB79800CF101D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEBUGGING_SYMBOLS = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 8T447DZKLE;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		AA37679320CDB79800CF101D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 8T447DZKLE;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		AA5900E720AA275000D41982 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -679,6 +797,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		AA37678D20CDB6E900CF101D /* Build configuration list for PBXLegacyTarget "yaz-buildconf" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA37678E20CDB6E900CF101D /* Debug */,
+				AA37678F20CDB6E900CF101D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA37679120CDB79800CF101D /* Build configuration list for PBXLegacyTarget "yaz-tools" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA37679220CDB79800CF101D /* Debug */,
+				AA37679320CDB79800CF101D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		AA5900E920AA275000D41982 /* Build configuration list for PBXLegacyTarget "libyaz" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
