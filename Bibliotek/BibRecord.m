@@ -30,8 +30,8 @@
 
 - (instancetype)initWithFields:(NSArray<BibRecordField *> *)fields {
     if (self = [super init]) {
-        _syntax = @"USMARC";
-        _schema = @"USMARC";
+        _syntax = @"Usmarc";
+        _schema = @"Usmarc";
         _database = @"Default";
         _fields = [fields copy];
     }
@@ -45,7 +45,6 @@
 #pragma mark - Properties
 
 @synthesize syntax = _syntax;
-
 - (NSString *)syntax {
     if (_syntax == nil) {
         char const *const type = "syntax";
@@ -58,7 +57,6 @@
 }
 
 @synthesize schema = _schema;
-
 - (NSString *)schema {
     if (_schema == nil) {
         char const *const type = "schema";
@@ -71,7 +69,6 @@
 }
 
 @synthesize database = _database;
-
 - (NSString *)database {
     if (_database == nil) {
         char const *const type = "database";
@@ -84,7 +81,6 @@
 }
 
 @synthesize fields = _fields;
-
 - (NSArray<BibRecordField *> *)fields {
     if (_fields == nil) {
         int length = 0;
@@ -105,32 +101,37 @@
     return _fields;
 }
 
+@synthesize isbn10 = _isbn10;
 - (NSString *)isbn10 {
-    for (BibRecordField *field in [self fields]) {
-        if ([field.fieldTag isEqualToString:BibRecordFieldTagIsbn]) {
-            NSString *isbn = field['a'];
-            if ([isbn length] == 10) {
-                return isbn;
+    if (_isbn10 == nil) {
+        for (BibRecordField *field in [self fields]) {
+            if ([field.fieldTag isEqualToString:BibRecordFieldTagIsbn]) {
+                NSString *isbn = field['a'];
+                if ([isbn length] == 10) {
+                    return (_isbn10 = isbn);
+                }
             }
         }
     }
-    return nil;
+    return _isbn10;
 }
 
+@synthesize isbn13 = _isbn13;
 - (NSString *)isbn13 {
-    for (BibRecordField *field in [self fields]) {
-        if ([field.fieldTag isEqualToString:BibRecordFieldTagIsbn]) {
-            NSString *isbn = field['a'];
-            if ([isbn length] == 13) {
-                return isbn;
+    if (_isbn13 == nil) {
+        for (BibRecordField *field in [self fields]) {
+            if ([field.fieldTag isEqualToString:BibRecordFieldTagIsbn]) {
+                NSString *isbn = field['a'];
+                if ([isbn length] == 13) {
+                    return (_isbn13 = isbn);
+                }
             }
         }
     }
-    return nil;
+    return _isbn13;
 }
 
 @synthesize classifications = _classifications;
-
 - (NSArray *)classifications {
     if (_classifications == nil) {
         NSMutableArray *array = [NSMutableArray array];
@@ -143,11 +144,49 @@
     return _classifications;
 }
 
+@synthesize title = _title;
+- (NSString *)title {
+    if (_title == nil) {
+        for (BibRecordField *field in [self fields]) {
+            if ([field.fieldTag isEqualToString:BibRecordFieldTagTitle]) {
+                _title = [field['a'] copy];
+                if ([_title hasSuffix:@" :"]) {
+                    _title = [_title substringToIndex:[_title length] - 2];
+                }
+                return _title;
+            }
+        }
+    }
+    return _title;
+}
+
+@synthesize subtitle = _subtitle;
+- (NSString *)subtitle {
+    if (_subtitle == nil) {
+        for (BibRecordField *field in [self fields]) {
+            if ([field.fieldTag isEqualToString:BibRecordFieldTagTitle]) {
+                _subtitle = [field['b'] copy];
+                return _subtitle;
+            }
+        }
+    }
+    return _subtitle;
+}
+
 - (NSString *)description {
     NSMutableString *string = [NSMutableString new];
     for (BibRecordField *field in [[self fields] objectEnumerator]) {
-        if (![string isEqualToString:@""]) { [string appendString:@"\n"]; }
+        if (![string isEqualToString:@""]) { [string appendString:@"\n "]; }
         [string appendString:[field description]];
+    }
+    return [NSString stringWithFormat:@"[%@]", string];
+}
+
+- (NSString *)debugDescription {
+    NSMutableString *string = [NSMutableString new];
+    for (BibRecordField *field in [[self fields] objectEnumerator]) {
+        if (![string isEqualToString:@""]) { [string appendString:@"\n"]; }
+        [string appendString:[field debugDescription]];
     }
     return string;
 }

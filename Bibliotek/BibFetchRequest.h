@@ -13,15 +13,22 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// A description of properties that can be used to find records from a database.
 NS_SWIFT_NAME(FetchRequest)
 @interface BibFetchRequest: NSObject <NSCopying, NSMutableCopying>
 
+/// The semantic meaning for any keywords used in this request.
+///
+/// For example, @c BibFetchRequestScopeIsbn would match records whose ISBN number is found in the keywords list.
 @property(nonatomic, readonly, strong) BibFetchRequestScope scope;
 
+/// The method with which a fetch request should treat keywords.
 @property(nonatomic, readonly, strong) BibFetchRequestStructure structure;
 
+/// The location within the search scope to match keywords within a fetch request.
 @property(nonatomic, readonly, strong) BibFetchRequestSearchStrategy strategy;
 
+/// A list of keyword strings that matching records should contain.
 @property(nonatomic, readonly, copy) NSArray<NSString *> *keywords;
 
 - (instancetype)initWithKeywords:(NSArray<NSString *> *)keywords scope:(BibFetchRequestScope)scope NS_SWIFT_NAME(init(keywords:scope:));

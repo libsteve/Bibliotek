@@ -57,7 +57,7 @@ class BibliotekTests: XCTestCase {
                                                  "ind2" : "0",
                                                  "subfields" : [["a" : "1010101"],
                                                                 ["b" : "ABABABA"]]]])!
-        XCTAssertEqual(field.description, "050  0 $a1010101$bABABABA")
+        XCTAssertEqual(field.debugDescription, "050  0 $a1010101$bABABABA")
         let classification = Classification(field: field)
         XCTAssertNotNil(classification)
         XCTAssertEqual(classification!.system, .lcc)
@@ -71,7 +71,7 @@ class BibliotekTests: XCTestCase {
                                                  "ind2" : "0",
                                                  "subfields" : [["a" : "1010101"],
                                                                 ["b" : "ABABABA"]]]])!
-        XCTAssertEqual(field.description, "082  0 $a1010101$bABABABA")
+        XCTAssertEqual(field.debugDescription, "082  0 $a1010101$bABABABA")
         let classification = Classification(field: field)
         XCTAssertNotNil(classification)
         XCTAssertEqual(classification!.system, .ddc)
