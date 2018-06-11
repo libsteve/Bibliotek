@@ -35,7 +35,7 @@
         _database = @"Default";
         _fields = [fields copy];
     }
-    return self
+    return self;
 }
 
 - (void)dealloc {
