@@ -10,6 +10,7 @@
 
 @class BibClassification;
 @class BibRecordField;
+@class BibTitleStatement;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -36,10 +37,7 @@ NS_SWIFT_NAME(Record)
 @property(nonatomic, readonly, copy) NSArray<BibClassification *> *classifications;
 
 /// The title of the item represented by this record.
-@property(nonatomic, readonly, copy) NSString *title;
-
-/// The subtitle of the item represented by this record.
-@property(nonatomic, readonly, nullable, copy) NSString *subtitle;
+@property(nonatomic, readonly, copy) BibTitleStatement *titleStatement;
 
 /// Create a record containing information from the given fields.
 /// \param fields A list of raw data fields with which to populate the record.

@@ -33,14 +33,20 @@
 
 - (instancetype)initWithField:(BibRecordField *)field {
     BibClassificationSystem system = nil;
+    NSString *classification = nil;
+    NSString *item = nil;
     if ([field.fieldTag isEqualToString:BibRecordFieldTagLCC]) {
         system = BibClassificationSystemLCC;
+        classification = field['a'];
+        item = field['b'];
     } else if ([field.fieldTag isEqualToString:BibRecordFieldTagDDC]) {
         system = BibClassificationSystemDDC;
+        classification = field['a'];
+        item = field['2'];
     } else {
         return nil;
     }
-    if (self = [self initWithClassification:[field['a'] copy] item:[field['b'] copy] system:system]) {
+    if (self = [self initWithClassification:classification item:item system:system]) {
         _official = (field.secondIndicator == '0');
     }
     return self;

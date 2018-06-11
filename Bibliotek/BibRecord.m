@@ -11,6 +11,7 @@
 #import "BibRecord.Private.h"
 #import "BibClassification.h"
 #import "BibRecordField.h"
+#import "BibTitleStatement.h"
 #import <yaz/zoom.h>
 
 @implementation BibRecord {
@@ -144,33 +145,17 @@
     return _classifications;
 }
 
-@synthesize title = _title;
-- (NSString *)title {
-    if (_title == nil) {
+@synthesize titleStatement = _titleStatement;
+- (BibTitleStatement *)titleStatement {
+    if (_titleStatement == nil) {
         for (BibRecordField *field in [self fields]) {
-            if ([field.fieldTag isEqualToString:BibRecordFieldTagTitle]) {
-                _title = [field['a'] copy];
-                if ([_title hasSuffix:@" :"]) {
-                    _title = [_title substringToIndex:[_title length] - 2];
-                }
-                return _title;
+            BibTitleStatement *statement = [BibTitleStatement statementWithField:field];
+            if (statement != nil) {
+                return (_titleStatement = statement);
             }
         }
     }
-    return _title;
-}
-
-@synthesize subtitle = _subtitle;
-- (NSString *)subtitle {
-    if (_subtitle == nil) {
-        for (BibRecordField *field in [self fields]) {
-            if ([field.fieldTag isEqualToString:BibRecordFieldTagTitle]) {
-                _subtitle = [field['b'] copy];
-                return _subtitle;
-            }
-        }
-    }
-    return _subtitle;
+    return _titleStatement;
 }
 
 - (NSString *)description {

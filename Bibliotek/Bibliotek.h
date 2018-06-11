@@ -21,3 +21,4 @@ FOUNDATION_EXPORT const unsigned char BibliotekVersionString[];
 #import "BibClassification.h"
 #import "BibRecordField.h"
 #import "BibRecordList.h"
+#import "BibTitleStatement.h"

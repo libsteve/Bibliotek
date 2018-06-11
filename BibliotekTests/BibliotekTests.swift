@@ -55,28 +55,44 @@ class BibliotekTests: XCTestCase {
     func testLccClassification() {
         let field = Record.Field(json: ["050" : ["ind1" : " ",
                                                  "ind2" : "0",
-                                                 "subfields" : [["a" : "1010101"],
-                                                                ["b" : "ABABABA"]]]])!
-        XCTAssertEqual(field.debugDescription, "050  0 $a1010101$bABABABA")
+                                                 "subfields" : [["a" : "PM8008"],
+                                                                ["b" : ".O37 2009"]]]])!
+        XCTAssertEqual(field.debugDescription, "050  0 $aPM8008$b.O37 2009")
         let classification = Classification(field: field)
         XCTAssertNotNil(classification)
         XCTAssertEqual(classification!.system, .lcc)
-        XCTAssertEqual(classification!.classification, "1010101")
-        XCTAssertEqual(classification!.item, "ABABABA")
+        XCTAssertEqual(classification!.classification, "PM8008")
+        XCTAssertEqual(classification!.item, ".O37 2009")
         XCTAssertTrue(classification!.isOfficial)
     }
 
     func testDdcClassification() {
         let field = Record.Field(json: ["082" : ["ind1" : " ",
                                                  "ind2" : "0",
-                                                 "subfields" : [["a" : "1010101"],
-                                                                ["b" : "ABABABA"]]]])!
-        XCTAssertEqual(field.debugDescription, "082  0 $a1010101$bABABABA")
+                                                 "subfields" : [["a" : "499/.99"],
+                                                                ["2" : "22"]]]])!
+        XCTAssertEqual(field.debugDescription, "082  0 $222$a499/.99")
         let classification = Classification(field: field)
         XCTAssertNotNil(classification)
         XCTAssertEqual(classification!.system, .ddc)
-        XCTAssertEqual(classification!.classification, "1010101")
-        XCTAssertEqual(classification!.item, "ABABABA")
+        XCTAssertEqual(classification!.classification, "499/.99")
+        XCTAssertEqual(classification!.item, "22")
         XCTAssertTrue(classification!.isOfficial)
+    }
+
+    func testTitle() {
+        let rawTitle = "In the land of invented languages :"
+        let rawSubtitle = "Esperanto rock stars, Klingon poets, Loglan lovers, and the mad dreamers who tried to build a perfect language /"
+        let rawAuthor = "Arika Okrent."
+        let field = Record.Field(json: ["245" : ["ind1" : "1",
+                                                 "ind2" : "0",
+                                                 "subfields" : [["a" : rawTitle],
+                                                                ["b" : rawSubtitle],
+                                                                ["c" : rawAuthor]]]])!
+        XCTAssertEqual(field.debugDescription, "245 10 $aIn the land of invented languages :$bEsperanto rock stars, Klingon poets, Loglan lovers, and the mad dreamers who tried to build a perfect language /$cArika Okrent.")
+        let record = Record(fields: [field])
+        XCTAssertEqual(record.titleStatement.title, "In the land of invented languages")
+        XCTAssertEqual(record.titleStatement.subtitles, ["Esperanto rock stars, Klingon poets, Loglan lovers, and the mad dreamers who tried to build a perfect language"])
+        XCTAssertEqual(record.titleStatement.responsibilities, ["Arika Okrent"])
     }
 }

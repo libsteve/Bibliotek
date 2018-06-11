@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA08F3EF20CED0B4001BF39F /* BibTitleStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = AA08F3ED20CED0B4001BF39F /* BibTitleStatement.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA08F3F020CED0B4001BF39F /* BibTitleStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = AA08F3EE20CED0B4001BF39F /* BibTitleStatement.m */; };
 		AA37677720CD7A7500CF101D /* BibRecordField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA37677620CD7A7500CF101D /* BibRecordField.swift */; };
 		AA37678620CD905900CF101D /* BibRecordField.h in Headers */ = {isa = PBXBuildFile; fileRef = AA37678420CD905900CF101D /* BibRecordField.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA37678720CD905900CF101D /* BibRecordField.m in Sources */ = {isa = PBXBuildFile; fileRef = AA37678520CD905900CF101D /* BibRecordField.m */; };
@@ -68,6 +70,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AA08F3ED20CED0B4001BF39F /* BibTitleStatement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibTitleStatement.h; sourceTree = "<group>"; };
+		AA08F3EE20CED0B4001BF39F /* BibTitleStatement.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibTitleStatement.m; sourceTree = "<group>"; };
 		AA37677620CD7A7500CF101D /* BibRecordField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibRecordField.swift; sourceTree = "<group>"; };
 		AA37678420CD905900CF101D /* BibRecordField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibRecordField.h; sourceTree = "<group>"; };
 		AA37678520CD905900CF101D /* BibRecordField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibRecordField.m; sourceTree = "<group>"; };
@@ -170,6 +174,8 @@
 				AA37678420CD905900CF101D /* BibRecordField.h */,
 				AA37678520CD905900CF101D /* BibRecordField.m */,
 				AA37677620CD7A7500CF101D /* BibRecordField.swift */,
+				AA08F3ED20CED0B4001BF39F /* BibTitleStatement.h */,
+				AA08F3EE20CED0B4001BF39F /* BibTitleStatement.m */,
 				AA59F0D620A9FACF00D41982 /* Info.plist */,
 			);
 			path = Bibliotek;
@@ -201,6 +207,7 @@
 				AA59056820AB419C00D41982 /* BibConnection.Private.h in Headers */,
 				AA6D18D620B5B6CC00603E61 /* BibFetchRequest.h in Headers */,
 				AAAA42A220BB156100BDB52B /* BibRecordList.h in Headers */,
+				AA08F3EF20CED0B4001BF39F /* BibTitleStatement.h in Headers */,
 				AA37678620CD905900CF101D /* BibRecordField.h in Headers */,
 				AAAA42A520BB187000BDB52B /* BibRecordList.Private.h in Headers */,
 			);
@@ -387,6 +394,7 @@
 				AADE536420CE25F00043CE5B /* BibClassification.swift in Sources */,
 				AA59056F20AB489200D41982 /* BibRecord.m in Sources */,
 				AAAA429F20BB0E3600BDB52B /* BibConstants.m in Sources */,
+				AA08F3F020CED0B4001BF39F /* BibTitleStatement.m in Sources */,
 				AA37677720CD7A7500CF101D /* BibRecordField.swift in Sources */,
 				AAAA427920B85BB800BDB52B /* BibClassification.m in Sources */,
 				AAAA42A320BB156100BDB52B /* BibRecordList.m in Sources */,
@@ -697,6 +705,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DERIVED_FILE_DIR)/lib";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = brun.steve.Bibliotek;
@@ -731,6 +740,7 @@
 					"@loader_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DERIVED_FILE_DIR)/lib";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = brun.steve.Bibliotek;

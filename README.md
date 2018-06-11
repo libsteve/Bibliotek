@@ -31,6 +31,7 @@ References
     - [020 ISBN][marc-isbn]
     - [050 Library of Congress Classification][marc-lcc]
     - [082 Dewey Decimal Classification][marc-ddc]
+    - [245 Title Statement][marc-title]
     - [520 Summary][marc-summary]
 - [MARCXML Schema][marcxml]
     - [Single Record Example][marcxml-example]
@@ -42,6 +43,7 @@ References
 [marc-isbn]: http://www.loc.gov/marc/bibliographic/bd020.html
 [marc-lcc]: http://www.loc.gov/marc/bibliographic/bd050.html
 [marc-ddc]: http://www.loc.gov/marc/bibliographic/bd082.html
+[marc-title]: https://www.loc.gov/marc/bibliographic/bd245.html
 [marc-summary]: http://www.loc.gov/marc/bibliographic/bd520.html
 [marcxml]: http://www.loc.gov/standards/marcxml/
 [marcxml-example]: http://www.loc.gov/standards/marcxml/Sandburg/sandburg.xml
