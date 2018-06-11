@@ -118,18 +118,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		AA37677520CD798800CF101D /* BibRecordFields */ = {
-			isa = PBXGroup;
-			children = (
-				AAAA427620B85BB800BDB52B /* BibClassification.h */,
-				AAAA427720B85BB800BDB52B /* BibClassification.m */,
-				AA37678420CD905900CF101D /* BibRecordField.h */,
-				AA37678520CD905900CF101D /* BibRecordField.m */,
-				AA37677620CD7A7500CF101D /* BibRecordField.swift */,
-			);
-			path = BibRecordFields;
-			sourceTree = "<group>";
-		};
 		AA59F0C820A9FACF00D41982 = {
 			isa = PBXGroup;
 			children = (
@@ -156,6 +144,8 @@
 			isa = PBXGroup;
 			children = (
 				AA59F0D520A9FACF00D41982 /* Bibliotek.h */,
+				AAAA427620B85BB800BDB52B /* BibClassification.h */,
+				AAAA427720B85BB800BDB52B /* BibClassification.m */,
 				AA59055020AA43DD00D41982 /* BibConnection.h */,
 				AA59056720AB419900D41982 /* BibConnection.Private.h */,
 				AA59055120AA43DD00D41982 /* BibConnection.m */,
@@ -171,7 +161,9 @@
 				AA59056C20AB489200D41982 /* BibRecord.h */,
 				AA59057020AB48A600D41982 /* BibRecord.Private.h */,
 				AA59056D20AB489200D41982 /* BibRecord.m */,
-				AA37677520CD798800CF101D /* BibRecordFields */,
+				AA37678420CD905900CF101D /* BibRecordField.h */,
+				AA37678520CD905900CF101D /* BibRecordField.m */,
+				AA37677620CD7A7500CF101D /* BibRecordField.swift */,
 				AA59F0D620A9FACF00D41982 /* Info.plist */,
 			);
 			path = Bibliotek;
