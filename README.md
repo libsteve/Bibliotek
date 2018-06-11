@@ -3,6 +3,18 @@ Bibliotek
 
 A library for interacting with libraries using the Z39.50 protocol, powered by YAZ.
 
+Instructions
+---
+
+1. Clone the repository and all its submodules to your local machine.
+
+        git clone --recurse-submodules https://github.com/Altece/Bibliotek.git
+
+2. Open the Xcode project, select the `Configure` scheme, and build. 
+    This will install all the necessary tools with Homebrew and build YAZ into the project's build product's directory.
+    
+3. Switch to the `Bibliotek` scheme to build and modify the Bibliotek library.
+
 References
 ---
 
