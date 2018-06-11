@@ -22,8 +22,10 @@ NS_SWIFT_NAME(Record)
 
 @property(nonatomic, readonly, copy) NSArray<BibRecordField *> *fields;
 
-@property(nonatomic, readonly, copy) NSString *isbn;
+@property(nonatomic, readonly, nullable, copy) NSString *isbn10;
+@property(nonatomic, readonly, nullable, copy) NSString *isbn13;
 @property(nonatomic, readonly, copy) NSArray<BibClassification *> *classifications;
+@property(nonatomic, readonly, copy) NSArray<NSString *> *titles;
 
 - (instancetype)initWithFields:(NSArray<BibRecordField *> *)fields;
 

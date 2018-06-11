@@ -46,7 +46,7 @@ class BibliotekTests: XCTestCase {
             XCTAssertEqual(rs.count, 1)
             let record = rs.first
             XCTAssertNotNil(record)
-            XCTAssertEqual(record!.isbn, r.keywords.first!)
+            XCTAssertEqual(record!.isbn13!, r.keywords.first!)
         } catch {
             XCTFail("Connection could not be made. \(error)")
         }
@@ -57,6 +57,7 @@ class BibliotekTests: XCTestCase {
                                                  "ind2" : "0",
                                                  "subfields" : [["a" : "1010101"],
                                                                 ["b" : "ABABABA"]]]])!
+        XCTAssertEqual(field.description, "050  0 $a1010101$bABABABA")
         let classification = Classification(field: field)
         XCTAssertNotNil(classification)
         XCTAssertEqual(classification!.system, .lcc)
@@ -70,6 +71,7 @@ class BibliotekTests: XCTestCase {
                                                  "ind2" : "0",
                                                  "subfields" : [["a" : "1010101"],
                                                                 ["b" : "ABABABA"]]]])!
+        XCTAssertEqual(field.description, "082  0 $a1010101$bABABABA")
         let classification = Classification(field: field)
         XCTAssertNotNil(classification)
         XCTAssertEqual(classification!.system, .ddc)

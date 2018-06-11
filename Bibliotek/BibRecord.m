@@ -97,15 +97,33 @@
             BibRecordField *field = [[BibRecordField alloc] initWithJson:content];
             if (field != nil) { [fields addObject:field]; }
         }
+        [fields sortUsingComparator:^NSComparisonResult(BibRecordField *left, BibRecordField *right) {
+            return [[left description] compare:[right description]];
+        }];
         _fields = [fields copy];
     }
     return _fields;
 }
 
-- (NSString *)isbn {
+- (NSString *)isbn10 {
     for (BibRecordField *field in [self fields]) {
         if ([field.fieldTag isEqualToString:BibRecordFieldTagIsbn]) {
-            return field['a'];
+            NSString *isbn = field['a'];
+            if ([isbn length] == 10) {
+                return isbn;
+            }
+        }
+    }
+    return nil;
+}
+
+- (NSString *)isbn13 {
+    for (BibRecordField *field in [self fields]) {
+        if ([field.fieldTag isEqualToString:BibRecordFieldTagIsbn]) {
+            NSString *isbn = field['a'];
+            if ([isbn length] == 13) {
+                return isbn;
+            }
         }
     }
     return nil;
@@ -123,6 +141,15 @@
         _classifications = [array copy];
     }
     return _classifications;
+}
+
+- (NSString *)description {
+    NSMutableString *string = [NSMutableString new];
+    for (BibRecordField *field in [[self fields] objectEnumerator]) {
+        if (![string isEqualToString:@""]) { [string appendString:@"\n"]; }
+        [string appendString:[field description]];
+    }
+    return string;
 }
 
 @end
