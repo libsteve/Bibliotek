@@ -61,6 +61,10 @@
     return (_count == 0) ? nil : [self recordAtIndex:_count - 1];
 }
 
+- (NSArray<BibRecord *> *)allRecords {
+    return [[self recordEnumerator] allObjects];
+}
+
 - (NSEnumerator<BibRecord *> *)recordEnumerator {
     return [[BibRecordListEnumerator alloc] initWithRecordList:self];
 }
@@ -95,6 +99,10 @@
 
 - (BibRecord *)objectAtIndexedSubscript:(NSUInteger)index {
     return [self recordAtIndex:index];
+}
+
+- (NSString *)description {
+    return [[self allRecords] description];
 }
 
 @end

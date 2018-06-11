@@ -28,7 +28,7 @@ NS_SWIFT_NAME(RecordList)
 @property(nonatomic, readonly, assign) NSUInteger count;
 
 /// A list of all records in this collection.
-@property(nonatomic, readonly, strong) NSArray<BibRecordList *> *allRecords;
+@property(nonatomic, readonly, strong) NSArray<BibRecord *> *allRecords;
 
 /// The first record in the collection.
 @property(nonatomic, readonly, strong, nullable) BibRecord *firstRecord NS_SWIFT_NAME(first);
