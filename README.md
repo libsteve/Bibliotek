@@ -43,7 +43,7 @@ References
 [marc-lcc]: http://www.loc.gov/marc/bibliographic/bd050.html
 [marc-ddc]: http://www.loc.gov/marc/bibliographic/bd082.html
 [marc-summary]: http://www.loc.gov/marc/bibliographic/bd520.html
-[narcxml]: http://www.loc.gov/standards/marcxml/
+[marcxml]: http://www.loc.gov/standards/marcxml/
 [marcxml-example]: http://www.loc.gov/standards/marcxml/Sandburg/sandburg.xml
 [marc-characterset]: https://www.loc.gov/marc/specifications/specchargeneral.html
 
