@@ -36,6 +36,7 @@ References
 - [MARCXML Schema][marcxml]
     - [Single Record Example][marcxml-example]
 - [Marc 21 Character Sets][marc-characterset]
+- [International Standard Bibliographic Description][isbd]
 
 
 [bib1]: http://www.loc.gov/z3950/agency/bib1.html
@@ -48,6 +49,7 @@ References
 [marcxml]: http://www.loc.gov/standards/marcxml/
 [marcxml-example]: http://www.loc.gov/standards/marcxml/Sandburg/sandburg.xml
 [marc-characterset]: https://www.loc.gov/marc/specifications/specchargeneral.html
+[isbd]: https://www.ifla.org/files/assets/cataloguing/isbd/isbd-cons_20110321.pdf
 
 ### YAZ Documentation from IndexData
 

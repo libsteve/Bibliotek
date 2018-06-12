@@ -34,6 +34,8 @@ class BibliotekTests: XCTestCase {
         }
     }
 
+    // NOTE: The information for the following tests is real data pertaining to "In the Land of Invented Languages"—a great book—and is provided by the Library of Congress's VOYAGER database.
+
     func testFetchIsbn() {
         do {
             let c = try Connection(host: "z3950.loc.gov", port: 7090, database: "VOYAGER")
@@ -94,5 +96,56 @@ class BibliotekTests: XCTestCase {
         XCTAssertEqual(record.titleStatement.title, "In the land of invented languages")
         XCTAssertEqual(record.titleStatement.subtitles, ["Esperanto rock stars, Klingon poets, Loglan lovers, and the mad dreamers who tried to build a perfect language"])
         XCTAssertEqual(record.titleStatement.responsibilities, ["Arika Okrent"])
+    }
+
+    func testAuthors() {
+        let author = "Okrent, Arika."
+        let field = Record.Field(json: ["100" : ["ind1" : "1",
+                                                 "ind2" : " ",
+                                                 "subfields" : ["a" : author]]])!
+        XCTAssertEqual(field.debugDescription, "100 1  $a\(author)")
+        let record = Record(fields: [field])
+        XCTAssertEqual(record.authors, [author])
+    }
+
+    func testEdition() {
+        let edition = "1st ed."
+        let field = Record.Field(json: ["250" : ["ind1" : " ",
+                                                 "ind2" : " ",
+                                                 "subfields" : ["a" : edition]]])!
+        XCTAssertEqual(field.debugDescription, "250    $a1st ed.")
+        let record = Record(fields: [field])
+        XCTAssertEqual(record.editions, [edition])
+    }
+
+    func testSubjects() {
+        let subjects = ["Blissymbolics.",
+                        "Esperanto.",
+                        "Klingon (Artificial language).",
+                        "Languages, Artificial.",
+                        "Loglan (Artificial language).",
+                        "Lojban (Artificial language)."]
+        let fields = subjects.map {
+            Record.Field(json: ["650" : ["ind1" : " ",
+                                         "ind2" : "0",
+                                         "subfields" : ["a" : $0]]])!
+        }
+        zip(subjects, fields).forEach { subject, field in
+            XCTAssertEqual(field.debugDescription, "650  0 $a\(subject)")
+        }
+        let record = Record(fields: fields)
+        XCTAssertEqual(record.subjects, subjects)
+    }
+
+    func testSummaries() {
+        let summary = """
+        Okrent tells the fascinating and highly entertaining history of man's enduring quest to build a better language. Peopled with charming eccentrics and exasperating megalomaniacs, the land of invented languages is a place where you can recite the Lord's Prayer in John Wilkins's Philosophical Language, say your wedding vows in Loglan, and read "Alice's Adventures in Wonderland" in Lojban--not to mention Babm, Blissymbolics, and the nearly nine hundred other invented languages featured in this language-lover's book.
+        """
+        let field = Record.Field(json: ["520" : ["ind1" : " ",
+                                                 "ind2" : " ",
+                                                 "subfields" : ["a" : summary]]])!
+        XCTAssertEqual(field.debugDescription, "520    $a\(summary)")
+        let record = Record(fields: [field])
+        XCTAssertEqual(record.summaries, [summary])
     }
 }

@@ -32,8 +32,13 @@
     NSString *const second = content[@"ind2"];
     if (second == nil || second.length != 1) { return nil; }
     NSMutableDictionary *const dictionary = [NSMutableDictionary new];
-    for (NSDictionary *subfield in [(NSArray *)content[@"subfields"] reverseObjectEnumerator]) {
-        [dictionary addEntriesFromDictionary:subfield];
+    id const subfields = content[@"subfields"];
+    if ([subfields isKindOfClass:[NSArray class]]) {
+        for (NSDictionary *subfield in [(NSArray *)subfields reverseObjectEnumerator]) {
+            [dictionary addEntriesFromDictionary:subfield];
+        }
+    } else if ([subfields isKindOfClass:[NSDictionary class]]) {
+        [dictionary addEntriesFromDictionary:subfields];
     }
     return [self initWithFieldTag:tag firstIndicator:[first characterAtIndex:0] secondIndicator:[second characterAtIndex:0] subfields:[dictionary copy]];
 }

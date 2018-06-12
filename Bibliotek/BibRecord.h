@@ -39,6 +39,18 @@ NS_SWIFT_NAME(Record)
 /// The title of the item represented by this record.
 @property(nonatomic, readonly, copy) BibTitleStatement *titleStatement;
 
+/// The authors of the represented item
+@property(nonatomic, readonly, copy) NSArray<NSString *> *authors;
+
+/// Edition descriptions applicable to the represented item.
+@property(nonatomic, readonly, copy) NSArray<NSString *> *editions;
+
+/// A list of subjects to which the represented item belongs.
+@property(nonatomic, readonly, copy) NSArray<NSString *> *subjects;
+
+/// A list of statements describing the represented item.
+@property(nonatomic, readonly, copy) NSArray<NSString *> *summaries;
+
 /// Create a record containing information from the given fields.
 /// \param fields A list of raw data fields with which to populate the record.
 - (instancetype)initWithFields:(NSArray<BibRecordField *> *)fields NS_SWIFT_NAME(init(fields:));
