@@ -11,9 +11,11 @@ Instructions
         git clone --recurse-submodules https://github.com/Altece/Bibliotek.git
 
 2. Open the Xcode project, select the `Configure` scheme, and build. 
-    This will install all the necessary tools with Homebrew and build YAZ into the project's build product's directory.
+    This will install all the necessary tools with [Homebrew][brew], and then will build YAZ into the project's build product's directory.
     
 3. Switch to the `Bibliotek` scheme to build and modify the Bibliotek library.
+
+[brew]: https://brew.sh
 
 References
 ---
