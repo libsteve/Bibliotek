@@ -1,7 +1,10 @@
 Bibliotek
 ===
 
-A Swift and Objective-C library for interacting with libraries using the Z39.50 protocol, powered by YAZ.
+A Swift and Objective-C library for communicating with library databases using [the Z39.50 protocol][z3950], powered by [YAZ][yaz].
+
+[z3950]: https://en.wikipedia.org/wiki/Z39.50
+[yaz]: https://www.indexdata.com/resources/software/yaz/
 
 Instructions
 ---
