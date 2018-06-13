@@ -17,6 +17,12 @@ extension RecordList: Sequence, Collection {
     }
 }
 
+extension RecordList: CustomPlaygroundDisplayConvertible {
+    public var playgroundDescription: Any {
+        return allRecords
+    }
+}
+
 public class RecordListIterator: IteratorProtocol {
     private let enumerator: NSEnumerator
 

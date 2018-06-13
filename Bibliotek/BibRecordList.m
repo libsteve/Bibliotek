@@ -105,6 +105,10 @@
     return [[self allRecords] description];
 }
 
+- (NSString *)debugDescription {
+    return [[self allRecords] debugDescription];
+}
+
 @end
 
 #pragma mark - Record Enumerator

@@ -58,12 +58,12 @@
 - (NSString *)description {
     NSMutableString *const subtitles = [NSMutableString new];
     for (NSString *subtitle in [self subtitles]) {
-        if (![subtitles isEqualToString:@""]) { [subtitles appendString:@", "]; }
+        if (![subtitles isEqualToString:@""]) { [subtitles appendString:@" "]; }
         [subtitles appendString:[NSString stringWithFormat:@"(%@)", subtitle]];
     }
     NSMutableString *const people = [NSMutableString new];
     for (NSString *person in [self people]) {
-        if (![people isEqualToString:@""]) { [people appendString:@", "]; }
+        if (![people isEqualToString:@""]) { [people appendString:@" "]; }
         [people appendString:[NSString stringWithFormat:@"(%@)", person]];
     }
     return [NSString stringWithFormat:@"Title: (%@); Subtitles: %@; People: %@", [self title], subtitles, people];
