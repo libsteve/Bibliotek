@@ -31,11 +31,12 @@ With a record, you can access information about the title, author, subject, and 
 
 ```swift
 let record = records.first!
-let title = record.titleStatement.title
-let subtitle = record.titleStatement.subtitle.first!
-let subject = record.subjects.first!
-let author = records.authors.first!
-let number = records.classifications.first(where: { $0.system == .lcc })
+let statement = record.titleStatement
+statement.title
+statement.subtitles
+record.subjects
+records.authors
+records.classifications
 ```
 
 Instructions
