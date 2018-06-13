@@ -236,9 +236,9 @@
     NSMutableString *const string = [NSMutableString new];
     for (BibRecordField *field in [[self fields] objectEnumerator]) {
         if (![string isEqualToString:@""]) { [string appendString:@"\n "]; }
-        [string appendString:[field description]];
+        [string appendString:[NSString stringWithFormat:@"(%@)", [field description]]];
     }
-    return [NSString stringWithFormat:@"[%@]", string];
+    return [string copy];
 }
 
 - (NSString *)debugDescription {

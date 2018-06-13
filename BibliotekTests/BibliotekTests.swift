@@ -95,7 +95,20 @@ class BibliotekTests: XCTestCase {
         let record = Record(fields: [field])
         XCTAssertEqual(record.titleStatement.title, "In the land of invented languages")
         XCTAssertEqual(record.titleStatement.subtitles, ["Esperanto rock stars, Klingon poets, Loglan lovers, and the mad dreamers who tried to build a perfect language"])
-        XCTAssertEqual(record.titleStatement.responsibilities, ["Arika Okrent"])
+        XCTAssertEqual(record.titleStatement.people, ["Arika Okrent"])
+    }
+
+    func testTitleFetched() {
+        do {
+            let c = try Connection(host: "z3950.loc.gov", port: 7090, database: "VOYAGER")
+            let r = FetchRequest(keywords: ["9780385527880"], scope: .isbn)
+            let record = (try c.fetchRecords(request: r)).first!
+            XCTAssertEqual(record.titleStatement.title, "In the land of invented languages")
+            XCTAssertEqual(record.titleStatement.subtitles, ["Esperanto rock stars, Klingon poets, Loglan lovers, and the mad dreamers who tried to build a perfect language"])
+            XCTAssertEqual(record.titleStatement.people, ["Arika Okrent"])
+        } catch {
+            XCTFail("Connection could not be made. \(error)")
+        }
     }
 
     func testAuthors() {

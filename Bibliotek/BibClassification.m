@@ -86,13 +86,13 @@
 
 - (NSString *)description {
     if (_item == nil) {
-        return [_classification copy];
+        return [NSString stringWithFormat:@"%@: %@", BibClassificationSystemDescription(_system), _classification];
     }
-    return [NSString stringWithFormat:@"%@ %@", _classification, _item];
+    return [NSString stringWithFormat:@"%@: %@ %@", BibClassificationSystemDescription(_system), _classification, _item];
 }
 
 - (NSString *)debugDescription {
-    return [NSString stringWithFormat:@"<%@: classificiation: '%@' item: '%@' system: %@>", [self className], _classification, _item, _system];
+    return [NSString stringWithFormat:@"%@: '%@' '%@'", _system, _classification, _item];
 }
 
 @end

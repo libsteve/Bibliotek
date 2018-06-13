@@ -63,7 +63,7 @@ NSString *BibFetchRequestScopeDescription(BibFetchRequestScope const scope) {
     if ([scope isEqualToString:BibFetchRequestScopePublisher]) return @"Publisher";
     if ([scope isEqualToString:BibFetchRequestScopeAnywhere]) return @"Anywhere";
     if ([scope isEqualToString:BibFetchRequestScopeAuthorTitleSubject]) return @"Author-Title-Subject";
-    return @"Invalid Request Scope";
+    return [NSString stringWithFormat:@"Unknown-Scope(%@)", scope];
 }
 
 #pragma mark - Query Structure
@@ -86,7 +86,7 @@ NSString *BibFetchRequestStructureDescription(BibFetchRequestStructure const str
     if ([structure isEqualToString:BibFetchRequestStructureWordList]) return @"Word-List";
     if ([structure isEqualToString:BibFetchRequestStructureFreeFormText]) return @"Free-Form-Text";
     if ([structure isEqualToString:BibFetchRequestStructureDocumentText]) return @"Document-Text";
-    return @"Invalid Request Structure";
+    return [NSString stringWithFormat:@"Unknown-Structure(%@)", structure];
 }
 
 #pragma mark - Query Search Strategy
@@ -105,7 +105,7 @@ NSString *BibFetchRequestSearchStrategyDescription(BibFetchRequestSearchStrategy
     if ([strategy isEqualToString:BibFetchRequestSearchStrategyStrict]) return @"Strict";
     if ([strategy isEqualToString:BibFetchRequestSearchStrategyFuzzy]) return @"Fuzzy";
     if ([strategy isEqualToString:BibFetchRequestSearchStrategyRegex]) return @"Regex";
-    return @"Invalid Request Search Strategy";
+    return [NSString stringWithFormat:@"Unknown-Strategy(%@)", strategy];
 }
 
 #pragma mark - Record Field Tags
@@ -140,7 +140,7 @@ NSString *BibRecordFieldTagDescription(BibRecordFieldTag const tag) {
     if ([tag isEqualToString: BibRecordFieldTagSubject]) return @"Subject";
     if ([tag isEqualToString: BibRecordFieldTagGenre]) return @"Genre";
     if ([tag isEqualToString: BibRecordFieldTagSeries]) return @"Series";
-    return @"Invalid Record Field Tag";
+    return [NSString stringWithFormat:@"Unknown-Tag(%@)", tag];
 }
 
 #pragma mark - Record Field Indicator

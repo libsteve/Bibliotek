@@ -13,3 +13,9 @@ extension Classification {
         return lhs.isSimilar(to: rhs)
     }
 }
+
+extension Classification: CustomPlaygroundDisplayConvertible {
+    public var playgroundDescription: Any {
+        return description
+    }
+}

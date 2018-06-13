@@ -6,6 +6,38 @@ A Swift and Objective-C library for communicating with library databases using [
 [z3950]: https://en.wikipedia.org/wiki/Z39.50
 [yaz]: https://www.indexdata.com/resources/software/yaz/
 
+Usage Example
+---
+
+Connect to the Library of Congress's VOYAGER database.
+
+```swift
+let connection = try! Connection(host: "z3950.loc.gov", port: 7090, database: "VOYAGER")
+```
+
+Create a request to find books with some ISBN number.
+
+```swift
+let request = FetchRequest(keywords: ["9780385527880"], scope: .isbn)
+```
+
+Submit the request to a connection to receive results.
+
+```swift
+let records = try! connection.fetchRecords(request: request)
+```
+
+With a record, you can access information about the title, author, subject, and more.
+
+```swift
+let record = records.first!
+let title = record.titleStatement.title
+let subtitle = record.titleStatement.subtitle.first!
+let subject = record.subjects.first!
+let author = records.authors.first!
+let number = records.classifications.first(where: { $0.system == .lcc })
+```
+
 Instructions
 ---
 

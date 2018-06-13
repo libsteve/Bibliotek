@@ -23,7 +23,7 @@ NS_SWIFT_NAME(TitleStatement)
 @property(nonatomic, readonly, copy) NSArray<NSString *> *subtitles;
 
 /// A list of authors and contributors, possibly including their respective roles.
-@property(nonatomic, readonly, copy) NSArray<NSString *> *responsibilities;
+@property(nonatomic, readonly, copy) NSArray<NSString *> *people;
 
 /// Create a title statement from the given field representation.
 /// \param field A record field which may or may not contain title statement information.

@@ -50,12 +50,14 @@
 - (NSString *)description {
     NSMutableString *entry = [NSMutableString string];
     for (NSString *key in [[_subfields allKeys] sortedArrayUsingSelector:@selector(compare:)]) {
-        if (![entry isEqualToString:@""]) { [entry appendString:@", "]; }
+        if (![entry isEqualToString:@""]) { [entry appendString:@" "]; }
         NSString *const value = _subfields[key];
         char const code = [key characterAtIndex:0];
-        [entry appendFormat:@"%@ : “%@”", BibRecordFieldCodeDescription(code), value];
+        [entry appendFormat:@"(%c: %@)", code, value];
     }
-    return [NSString stringWithFormat:@"[%@: %c%c [%@]]", BibRecordFieldTagDescription(_fieldTag), _firstIndicator, _secondIndicator, entry];
+    char const first = (_firstIndicator == ' ') ? '#' : _firstIndicator;
+    char const second = (_secondIndicator == ' ') ? '#' : _secondIndicator;
+    return [NSString stringWithFormat:@"%@: %c%c %@", BibRecordFieldTagDescription(_fieldTag), first, second, entry];
 }
 
 - (NSString *)debugDescription {

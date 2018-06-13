@@ -13,3 +13,9 @@ extension Record.Field {
         return (__firstIndicator, __secondIndicator)
     }
 }
+
+extension Record.Field: CustomPlaygroundDisplayConvertible {
+    public var playgroundDescription: Any {
+        return description
+    }
+}
