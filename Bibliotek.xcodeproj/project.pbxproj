@@ -9,11 +9,10 @@
 /* Begin PBXBuildFile section */
 		AA08F3EF20CED0B4001BF39F /* BibTitleStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = AA08F3ED20CED0B4001BF39F /* BibTitleStatement.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA08F3F020CED0B4001BF39F /* BibTitleStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = AA08F3EE20CED0B4001BF39F /* BibTitleStatement.m */; };
+		AA14E83720D8D2AD00430A87 /* libyaz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA14E82A20D8C84B00430A87 /* libyaz.dylib */; };
 		AA37677720CD7A7500CF101D /* BibRecordField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA37677620CD7A7500CF101D /* BibRecordField.swift */; };
 		AA37678620CD905900CF101D /* BibRecordField.h in Headers */ = {isa = PBXBuildFile; fileRef = AA37678420CD905900CF101D /* BibRecordField.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA37678720CD905900CF101D /* BibRecordField.m in Sources */ = {isa = PBXBuildFile; fileRef = AA37678520CD905900CF101D /* BibRecordField.m */; };
-		AA37678920CDB34000CF101D /* Brewfile in Resources */ = {isa = PBXBuildFile; fileRef = AA37678820CDB34000CF101D /* Brewfile */; };
-		AA59054920AA359000D41982 /* libyaz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA59054820AA359000D41982 /* libyaz.dylib */; };
 		AA59055220AA43DD00D41982 /* BibConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = AA59055020AA43DD00D41982 /* BibConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA59055320AA43DD00D41982 /* BibConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AA59055120AA43DD00D41982 /* BibConnection.m */; };
 		AA59056820AB419C00D41982 /* BibConnection.Private.h in Headers */ = {isa = PBXBuildFile; fileRef = AA59056720AB419900D41982 /* BibConnection.Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -23,7 +22,7 @@
 		AA59F0D720A9FACF00D41982 /* Bibliotek.h in Headers */ = {isa = PBXBuildFile; fileRef = AA59F0D520A9FACF00D41982 /* Bibliotek.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA6D18D620B5B6CC00603E61 /* BibFetchRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = AA6D18D420B5B6CC00603E61 /* BibFetchRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA6D18D720B5B6CC00603E61 /* BibFetchRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6D18D520B5B6CC00603E61 /* BibFetchRequest.m */; };
-		AA6D18D920B5B9FC00603E61 /* BibFetchRequest.Private.h in Headers */ = {isa = PBXBuildFile; fileRef = AA6D18D820B5B9FC00603E61 /* BibFetchRequest.Private.h */; };
+		AA6D18D920B5B9FC00603E61 /* BibFetchRequest.Private.h in Headers */ = {isa = PBXBuildFile; fileRef = AA6D18D820B5B9FC00603E61 /* BibFetchRequest.Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		AA9F66D320D0C51E00CE4DA7 /* BibRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9F66D220D0C51E00CE4DA7 /* BibRecord.swift */; };
 		AA9F66D520D1720200CE4DA7 /* BibTitleStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9F66D420D1720200CE4DA7 /* BibTitleStatement.swift */; };
 		AAAA427820B85BB800BDB52B /* BibClassification.h in Headers */ = {isa = PBXBuildFile; fileRef = AAAA427620B85BB800BDB52B /* BibClassification.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -41,26 +40,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		AA37679420CDB82A00CF101D /* PBXContainerItemProxy */ = {
+		AA14E83420D8D13F00430A87 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AA59F0C920A9FACF00D41982 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = AA37678C20CDB6E900CF101D;
-			remoteInfo = "yaz-buildconf";
-		};
-		AA37679620CDB83000CF101D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AA59F0C920A9FACF00D41982 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = AA37679020CDB79800CF101D;
-			remoteInfo = "brew-bundle";
-		};
-		AA59054620AA2ED200D41982 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AA59F0C920A9FACF00D41982 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = AA5900EA20AA275F00D41982;
+			remoteGlobalIDString = AA14E83020D8D10400430A87;
 			remoteInfo = "yaz-config";
+		};
+		AA14E83820D8D34000430A87 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA59F0C920A9FACF00D41982 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA5900E620AA274F00D41982;
+			remoteInfo = libyaz;
 		};
 		AAAA428A20B9F32A00BDB52B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -74,11 +66,12 @@
 /* Begin PBXFileReference section */
 		AA08F3ED20CED0B4001BF39F /* BibTitleStatement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibTitleStatement.h; sourceTree = "<group>"; };
 		AA08F3EE20CED0B4001BF39F /* BibTitleStatement.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibTitleStatement.m; sourceTree = "<group>"; };
+		AA14E82720D8C2FD00430A87 /* configure */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = configure; sourceTree = "<group>"; };
+		AA14E82A20D8C84B00430A87 /* libyaz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libyaz.dylib; path = lib/libyaz.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA37677620CD7A7500CF101D /* BibRecordField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibRecordField.swift; sourceTree = "<group>"; };
 		AA37678420CD905900CF101D /* BibRecordField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibRecordField.h; sourceTree = "<group>"; };
 		AA37678520CD905900CF101D /* BibRecordField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibRecordField.m; sourceTree = "<group>"; };
 		AA37678820CDB34000CF101D /* Brewfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Brewfile; sourceTree = "<group>"; };
-		AA59054820AA359000D41982 /* libyaz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libyaz.dylib; path = ../../Intermediates.noindex/YazKit.build/DerivedSources/lib/libyaz.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA59055020AA43DD00D41982 /* BibConnection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibConnection.h; sourceTree = "<group>"; };
 		AA59055120AA43DD00D41982 /* BibConnection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibConnection.m; sourceTree = "<group>"; };
 		AA59056720AB419900D41982 /* BibConnection.Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibConnection.Private.h; sourceTree = "<group>"; };
@@ -116,7 +109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA59054920AA359000D41982 /* libyaz.dylib in Frameworks */,
+				AA14E83720D8D2AD00430A87 /* libyaz.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,6 +124,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AA14E83620D8D2AD00430A87 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		AA59F0C820A9FACF00D41982 = {
 			isa = PBXGroup;
 			children = (
@@ -138,10 +138,12 @@
 				AAAA428520B9F32A00BDB52B /* BibliotekTests */,
 				AA9F66D120D0C0F000CE4DA7 /* Bibliotek.playground */,
 				AA59F0D320A9FACF00D41982 /* Products */,
+				AA14E82720D8C2FD00430A87 /* configure */,
 				AACEDD6520C4757A004ACA07 /* LICENSE */,
 				AACEDD6620C47583004ACA07 /* README.md */,
 				AA37678820CDB34000CF101D /* Brewfile */,
-				AA59054820AA359000D41982 /* libyaz.dylib */,
+				AA14E82A20D8C84B00430A87 /* libyaz.dylib */,
+				AA14E83620D8D2AD00430A87 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -211,12 +213,12 @@
 				AA59F0D720A9FACF00D41982 /* Bibliotek.h in Headers */,
 				AAAA429E20BB0E3600BDB52B /* BibConstants.h in Headers */,
 				AA59056E20AB489200D41982 /* BibRecord.h in Headers */,
-				AA6D18D920B5B9FC00603E61 /* BibFetchRequest.Private.h in Headers */,
 				AA59056820AB419C00D41982 /* BibConnection.Private.h in Headers */,
 				AA6D18D620B5B6CC00603E61 /* BibFetchRequest.h in Headers */,
 				AAAA42A220BB156100BDB52B /* BibRecordList.h in Headers */,
 				AA08F3EF20CED0B4001BF39F /* BibTitleStatement.h in Headers */,
 				AA37678620CD905900CF101D /* BibRecordField.h in Headers */,
+				AA6D18D920B5B9FC00603E61 /* BibFetchRequest.Private.h in Headers */,
 				AAAA42A520BB187000BDB52B /* BibRecordList.Private.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -224,34 +226,19 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXLegacyTarget section */
-		AA37678C20CDB6E900CF101D /* yaz-buildconf */ = {
+		AA14E83020D8D10400430A87 /* config */ = {
 			isa = PBXLegacyTarget;
 			buildArgumentsString = "";
-			buildConfigurationList = AA37678D20CDB6E900CF101D /* Build configuration list for PBXLegacyTarget "yaz-buildconf" */;
+			buildConfigurationList = AA14E83120D8D10400430A87 /* Build configuration list for PBXLegacyTarget "config" */;
 			buildPhases = (
 			);
-			buildToolPath = "$(PROJECT_DIR)/libyaz/buildconf.sh";
-			buildWorkingDirectory = "$(PROJECT_DIR)/libyaz";
-			dependencies = (
-				AA37679720CDB83000CF101D /* PBXTargetDependency */,
-			);
-			name = "yaz-buildconf";
-			passBuildSettingsInEnvironment = 1;
-			productName = "yaz-init";
-		};
-		AA37679020CDB79800CF101D /* yaz-tools */ = {
-			isa = PBXLegacyTarget;
-			buildArgumentsString = "bundle install";
-			buildConfigurationList = AA37679120CDB79800CF101D /* Build configuration list for PBXLegacyTarget "yaz-tools" */;
-			buildPhases = (
-			);
-			buildToolPath = /usr/local/bin/brew;
+			buildToolPath = "$(PROJECT_DIR)/configure";
 			buildWorkingDirectory = "$(PROJECT_DIR)";
 			dependencies = (
 			);
-			name = "yaz-tools";
+			name = config;
 			passBuildSettingsInEnvironment = 1;
-			productName = "brew-bundle";
+			productName = libyaz;
 		};
 		AA5900E620AA274F00D41982 /* libyaz */ = {
 			isa = PBXLegacyTarget;
@@ -262,26 +249,11 @@
 			buildToolPath = /usr/bin/make;
 			buildWorkingDirectory = "$(PROJECT_DIR)/libyaz";
 			dependencies = (
-				AA59054720AA2ED200D41982 /* PBXTargetDependency */,
+				AA14E83520D8D13F00430A87 /* PBXTargetDependency */,
 			);
 			name = libyaz;
 			passBuildSettingsInEnvironment = 1;
 			productName = libyaz;
-		};
-		AA5900EA20AA275F00D41982 /* yaz-config */ = {
-			isa = PBXLegacyTarget;
-			buildArgumentsString = "--prefix=$(PROJECT_DERIVED_FILE_DIR) --enable-threads --enable-shared --enable-static --without-xml2";
-			buildConfigurationList = AA5900EB20AA276000D41982 /* Build configuration list for PBXLegacyTarget "yaz-config" */;
-			buildPhases = (
-			);
-			buildToolPath = "$(PROJECT_DIR)/libyaz/configure";
-			buildWorkingDirectory = "$(PROJECT_DIR)/libyaz";
-			dependencies = (
-				AA37679520CDB82A00CF101D /* PBXTargetDependency */,
-			);
-			name = "yaz-config";
-			passBuildSettingsInEnvironment = 1;
-			productName = "yaz-config";
 		};
 /* End PBXLegacyTarget section */
 
@@ -298,6 +270,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				AA14E83920D8D34000430A87 /* PBXTargetDependency */,
 			);
 			name = Bibliotek;
 			productName = YazKit;
@@ -331,16 +304,7 @@
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Steve Brunwasser";
 				TargetAttributes = {
-					AA37678C20CDB6E900CF101D = {
-						CreatedOnToolsVersion = 10.0;
-					};
-					AA37679020CDB79800CF101D = {
-						CreatedOnToolsVersion = 10.0;
-					};
 					AA5900E620AA274F00D41982 = {
-						CreatedOnToolsVersion = 9.3;
-					};
-					AA5900EA20AA275F00D41982 = {
 						CreatedOnToolsVersion = 9.3;
 					};
 					AA59F0D120A9FACF00D41982 = {
@@ -366,11 +330,9 @@
 			projectRoot = "";
 			targets = (
 				AA59F0D120A9FACF00D41982 /* Bibliotek */,
-				AA5900E620AA274F00D41982 /* libyaz */,
-				AA5900EA20AA275F00D41982 /* yaz-config */,
-				AA37678C20CDB6E900CF101D /* yaz-buildconf */,
-				AA37679020CDB79800CF101D /* yaz-tools */,
 				AAAA428320B9F32900BDB52B /* BibliotekTests */,
+				AA5900E620AA274F00D41982 /* libyaz */,
+				AA14E83020D8D10400430A87 /* config */,
 			);
 		};
 /* End PBXProject section */
@@ -380,7 +342,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA37678920CDB34000CF101D /* Brewfile in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -426,20 +387,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		AA37679520CDB82A00CF101D /* PBXTargetDependency */ = {
+		AA14E83520D8D13F00430A87 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = AA37678C20CDB6E900CF101D /* yaz-buildconf */;
-			targetProxy = AA37679420CDB82A00CF101D /* PBXContainerItemProxy */;
+			target = AA14E83020D8D10400430A87 /* config */;
+			targetProxy = AA14E83420D8D13F00430A87 /* PBXContainerItemProxy */;
 		};
-		AA37679720CDB83000CF101D /* PBXTargetDependency */ = {
+		AA14E83920D8D34000430A87 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = AA37679020CDB79800CF101D /* yaz-tools */;
-			targetProxy = AA37679620CDB83000CF101D /* PBXContainerItemProxy */;
-		};
-		AA59054720AA2ED200D41982 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = AA5900EA20AA275F00D41982 /* yaz-config */;
-			targetProxy = AA59054620AA2ED200D41982 /* PBXContainerItemProxy */;
+			target = AA5900E620AA274F00D41982 /* libyaz */;
+			targetProxy = AA14E83820D8D34000430A87 /* PBXContainerItemProxy */;
 		};
 		AAAA428B20B9F32A00BDB52B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -449,7 +405,7 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		AA37678E20CDB6E900CF101D /* Debug */ = {
+		AA14E83220D8D10400430A87 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -457,45 +413,44 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
+				OTHER_CFLAGS = (
+					"-H$(SDKROOT)/usr/include/libxml2",
+					"$($YAZCONFIG",
+					"--cflags",
+					"threads)",
+				);
+				OTHER_LDFLAGS = (
+					"-L$(SDKROOT)/usr/lib/libxml2.dylib",
+					"$($YAZCONFIG",
+					"--libs",
+					"threads)",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				YAZ_CONFIG = "$(PROJECT_DIR)/libyaz/yaz-config";
+				YAZ_VERSION = "yaz-5.25.0";
 			};
 			name = Debug;
 		};
-		AA37678F20CDB6E900CF101D /* Release */ = {
+		AA14E83320D8D10400430A87 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
+				OTHER_CFLAGS = (
+					"-H$(SDKROOT)/usr/include/libxml2",
+					"$($YAZCONFIG",
+					"--cflags",
+					"threads)",
+				);
+				OTHER_LDFLAGS = (
+					"-L$(SDKROOT)/usr/lib/libxml2.dylib",
+					"$($YAZCONFIG",
+					"--libs",
+					"threads)",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
-		AA37679220CDB79800CF101D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEBUGGING_SYMBOLS = YES;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		AA37679320CDB79800CF101D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				YAZ_CONFIG = "$(PROJECT_DIR)/libyaz/yaz-config";
+				YAZ_VERSION = "yaz-5.25.0";
 			};
 			name = Release;
 		};
@@ -544,33 +499,6 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				YAZ_CONFIG = "$(PROJECT_DIR)/libyaz/yaz-config";
-				YAZ_VERSION = "yaz-5.25.0";
-			};
-			name = Release;
-		};
-		AA5900EC20AA276000D41982 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEBUGGING_SYMBOLS = YES;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				YAZ_VERSION = "yaz-5.25.0";
-			};
-			name = Debug;
-		};
-		AA5900ED20AA276000D41982 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				YAZ_VERSION = "yaz-5.25.0";
 			};
 			name = Release;
@@ -706,7 +634,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DERIVED_FILE_DIR)/include";
+				HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/include";
 				INFOPLIST_FILE = Bibliotek/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -714,7 +642,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DERIVED_FILE_DIR)/lib";
+				LIBRARY_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/lib";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
@@ -741,7 +669,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DERIVED_FILE_DIR)/include";
+				HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/include";
 				INFOPLIST_FILE = Bibliotek/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -749,7 +677,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DERIVED_FILE_DIR)/lib";
+				LIBRARY_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/lib";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
@@ -811,20 +739,11 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		AA37678D20CDB6E900CF101D /* Build configuration list for PBXLegacyTarget "yaz-buildconf" */ = {
+		AA14E83120D8D10400430A87 /* Build configuration list for PBXLegacyTarget "config" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				AA37678E20CDB6E900CF101D /* Debug */,
-				AA37678F20CDB6E900CF101D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		AA37679120CDB79800CF101D /* Build configuration list for PBXLegacyTarget "yaz-tools" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				AA37679220CDB79800CF101D /* Debug */,
-				AA37679320CDB79800CF101D /* Release */,
+				AA14E83220D8D10400430A87 /* Debug */,
+				AA14E83320D8D10400430A87 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -834,15 +753,6 @@
 			buildConfigurations = (
 				AA5900E720AA275000D41982 /* Debug */,
 				AA5900E820AA275000D41982 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		AA5900EB20AA276000D41982 /* Build configuration list for PBXLegacyTarget "yaz-config" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				AA5900EC20AA276000D41982 /* Debug */,
-				AA5900ED20AA276000D41982 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

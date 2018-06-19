@@ -9,6 +9,10 @@ A Swift and Objective-C library for communicating with library databases using [
 Usage Example
 ---
 
+```swift
+import Bibliotek
+```
+
 Connect to the Library of Congress's VOYAGER database.
 
 ```swift
@@ -42,14 +46,12 @@ records.classifications
 Instructions
 ---
 
-1. Clone the repository and all its submodules to your local machine.
+Clone the repository and all its submodules to your local machine.
 
         git clone --recurse-submodules https://github.com/Altece/Bibliotek.git
 
-2. Open the Xcode project, select the `Configure` scheme, and build. 
-    This will install all the necessary tools with [Homebrew][brew], and then will build YAZ into the project's build product's directory.
-    
-3. Switch to the `Bibliotek` scheme to build and modify the Bibliotek library.
+When you build the `Bibliotek` target for the first time, the `./configure` script will be run to install
+prerequisite tools with [Homebrew][brew] before proceeding to build YAZ into the project's build product's directory.
 
 [brew]: https://brew.sh
 
