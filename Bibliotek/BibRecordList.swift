@@ -30,7 +30,7 @@ public class RecordListIterator: IteratorProtocol {
         self.enumerator = enumerator
     }
 
-    public func next() -> Record? {
+    public func next() -> RecordStore? {
         return enumerator.nextObject() as? Record
     }
 }

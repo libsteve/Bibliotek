@@ -10,8 +10,6 @@
 #import "BibConnection.Private.h"
 #import "BibFetchRequest.h"
 #import "BibFetchRequest.Private.h"
-#import "BibRecord.h"
-#import "BibRecord.Private.h"
 #import "BibRecordList.h"
 #import "BibRecordList.Private.h"
 #import <yaz/zoom.h>

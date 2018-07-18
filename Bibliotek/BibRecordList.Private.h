@@ -18,7 +18,7 @@
 
 @end
 
-@interface BibRecordListEnumerator: NSEnumerator<BibRecord *>
+@interface BibRecordListEnumerator: NSEnumerator<id<BibRecord>>
 
 - (instancetype)initWithRecordList:(BibRecordList *)recordList;
 

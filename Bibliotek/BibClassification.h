@@ -14,7 +14,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(Classification)
-@interface BibClassification : NSObject <NSMutableCopying>
+@interface BibClassification : NSObject <NSCopying, NSMutableCopying, NSSecureCoding>
 
 /// The system of classification used to catolog this item.
 @property(nonatomic, readonly, strong) BibClassificationSystem system;

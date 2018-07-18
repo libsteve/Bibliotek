@@ -92,10 +92,10 @@ class BibliotekTests: XCTestCase {
                                                                 ["b" : rawSubtitle],
                                                                 ["c" : rawAuthor]]]])!
         XCTAssertEqual(field.debugDescription, "245 10 $aIn the land of invented languages :$bEsperanto rock stars, Klingon poets, Loglan lovers, and the mad dreamers who tried to build a perfect language /$cArika Okrent.")
-        let record = Record(fields: [field])
-        XCTAssertEqual(record.titleStatement.title, "In the land of invented languages")
-        XCTAssertEqual(record.titleStatement.subtitles, ["Esperanto rock stars, Klingon poets, Loglan lovers, and the mad dreamers who tried to build a perfect language"])
-        XCTAssertEqual(record.titleStatement.people, ["Arika Okrent"])
+        let record = MarcRecord(fields: [field])
+        XCTAssertEqual(record.title, "In the land of invented languages")
+        XCTAssertEqual(record.subtitles, ["Esperanto rock stars, Klingon poets, Loglan lovers, and the mad dreamers who tried to build a perfect language"])
+        XCTAssertEqual(record.contributors, ["Arika Okrent"])
     }
 
     func testTitleFetched() {
@@ -103,9 +103,9 @@ class BibliotekTests: XCTestCase {
             let c = try Connection(host: "z3950.loc.gov", port: 7090, database: "VOYAGER")
             let r = FetchRequest(keywords: ["9780385527880"], scope: .isbn)
             let record = (try c.fetchRecords(request: r)).first!
-            XCTAssertEqual(record.titleStatement.title, "In the land of invented languages")
-            XCTAssertEqual(record.titleStatement.subtitles, ["Esperanto rock stars, Klingon poets, Loglan lovers, and the mad dreamers who tried to build a perfect language"])
-            XCTAssertEqual(record.titleStatement.people, ["Arika Okrent"])
+            XCTAssertEqual(record.title, "In the land of invented languages")
+            XCTAssertEqual(record.subtitles, ["Esperanto rock stars, Klingon poets, Loglan lovers, and the mad dreamers who tried to build a perfect language"])
+            XCTAssertEqual(record.contributors, ["Arika Okrent"])
         } catch {
             XCTFail("Connection could not be made. \(error)")
         }
@@ -117,7 +117,7 @@ class BibliotekTests: XCTestCase {
                                                  "ind2" : " ",
                                                  "subfields" : ["a" : author]]])!
         XCTAssertEqual(field.debugDescription, "100 1  $a\(author)")
-        let record = Record(fields: [field])
+        let record = MarcRecord(fields: [field])
         XCTAssertEqual(record.authors, [author])
     }
 
@@ -127,7 +127,7 @@ class BibliotekTests: XCTestCase {
                                                  "ind2" : " ",
                                                  "subfields" : ["a" : edition]]])!
         XCTAssertEqual(field.debugDescription, "250    $a1st ed.")
-        let record = Record(fields: [field])
+        let record = MarcRecord(fields: [field])
         XCTAssertEqual(record.editions, [edition])
     }
 
@@ -146,7 +146,7 @@ class BibliotekTests: XCTestCase {
         zip(subjects, fields).forEach { subject, field in
             XCTAssertEqual(field.debugDescription, "650  0 $a\(subject)")
         }
-        let record = Record(fields: fields)
+        let record = MarcRecord(fields: fields)
         XCTAssertEqual(record.subjects, subjects)
     }
 
@@ -158,7 +158,7 @@ class BibliotekTests: XCTestCase {
                                                  "ind2" : " ",
                                                  "subfields" : ["a" : summary]]])!
         XCTAssertEqual(field.debugDescription, "520    $a\(summary)")
-        let record = Record(fields: [field])
+        let record = MarcRecord(fields: [field])
         XCTAssertEqual(record.summaries, [summary])
     }
 }

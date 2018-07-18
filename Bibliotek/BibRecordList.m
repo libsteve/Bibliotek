@@ -10,8 +10,8 @@
 #import "BibConnection.Private.h"
 #import "BibFetchRequest.h"
 #import "BibFetchRequest.Private.h"
-#import "BibRecord.h"
-#import "BibRecord.Private.h"
+#import "BibMarcRecord.h"
+#import "BibMarcRecord+Private.h"
 #import "BibRecordList.h"
 #import "BibRecordList.Private.h"
 #import <yaz/zoom.h>
@@ -53,29 +53,29 @@
     return [_request copy];
 }
 
-- (BibRecord *)firstRecord {
+- (id<BibRecord>)firstRecord {
     return (_count == 0) ? nil : [self recordAtIndex:0];
 }
 
-- (BibRecord *)lastRecord {
+- (id<BibRecord>)lastRecord {
     return (_count == 0) ? nil : [self recordAtIndex:_count - 1];
 }
 
-- (NSArray<BibRecord *> *)allRecords {
+- (NSArray<id<BibRecord>> *)allRecords {
     return [[self recordEnumerator] allObjects];
 }
 
-- (NSEnumerator<BibRecord *> *)recordEnumerator {
+- (NSEnumerator<id<BibRecord>> *)recordEnumerator {
     return [[BibRecordListEnumerator alloc] initWithRecordList:self];
 }
 
-- (BibRecord *)recordAtIndex:(NSUInteger)index {
+- (id<BibRecord>)recordAtIndex:(NSUInteger)index {
     BibAssert(index < _count, NSRangeException, @"-[%@ %s]: index %lu beyond bounds (0 ..< %lu)", [self className], sel_getName(_cmd), (unsigned long)index, (unsigned long)_count);
     ZOOM_record record = ZOOM_resultset_record(_resultset, (size_t)index);
-    return [[BibRecord alloc] initWithZoomRecord:record];
+    return [[BibMarcRecord alloc] initWithZoomRecord:record];
 }
 
-- (NSArray<BibRecord *> *)recordsAtIndexes:(NSIndexSet *)indexes {
+- (NSArray<id<BibRecord>> *)recordsAtIndexes:(NSIndexSet *)indexes {
     NSMutableArray *array = [NSMutableArray array];
     [indexes enumerateIndexesUsingBlock:^(NSUInteger index, BOOL *_Nonnull stop) {
         [array addObject:[self recordAtIndex:index]];
@@ -83,7 +83,7 @@
     return [array copy];
 }
 
-- (NSArray<BibRecord *> *)recordsInRange:(NSRange)range {
+- (NSArray<id<BibRecord>> *)recordsInRange:(NSRange)range {
     BibAssert(range.location + range.length <= _count, NSRangeException, @"-[%@ %s]: NSRange(location: %lu, length: %lu) beyond bounds (0 ..< %lu)", [self className], sel_getName(_cmd), (unsigned long)range.location, (unsigned long)range.length, (long)_count);
     NSMutableArray *array = [NSMutableArray array];
     ZOOM_record *buffer = calloc(sizeof(ZOOM_record), range.length);
@@ -91,13 +91,13 @@
     for (NSUInteger index = 0; index < range.location; index += 1) {
         ZOOM_record record = buffer[index];
         if (record == NULL) { break; }
-        [array addObject:[[BibRecord alloc] initWithZoomRecord:record]];
+        [array addObject:[[BibMarcRecord alloc] initWithZoomRecord:record]];
     }
     free(buffer);
     return [array copy];
 }
 
-- (BibRecord *)objectAtIndexedSubscript:(NSUInteger)index {
+- (id<BibRecord>)objectAtIndexedSubscript:(NSUInteger)index {
     return [self recordAtIndex:index];
 }
 
@@ -125,9 +125,9 @@
     return self;
 }
 
-- (BibRecord *)nextObject {
+- (id<BibRecord>)nextObject {
     if (_index >= _records.count) { return nil; }
-    BibRecord *record = [_records recordAtIndex:_index];
+    id<BibRecord> record = [_records recordAtIndex:_index];
     _index += 1;
     return record;
 }

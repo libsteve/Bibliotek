@@ -8,9 +8,15 @@
 
 #import "BibRecordField.h"
 
+@interface BibRecordField ()
+- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
+@end
+
 @implementation BibRecordField {
     NSDictionary<NSString *, NSString *> *_subfields;
 }
+
++ (BOOL)supportsSecureCoding { return YES; }
 
 - (instancetype)initWithFieldTag:(BibRecordFieldTag)fieldTag firstIndicator:(BibRecordFieldIndicator)firstIndicator secondIndicator:(BibRecordFieldIndicator)secondIndicator subfields:(NSDictionary<NSString *, NSString *> *)subfields {
     if (self = [super init]) {
@@ -41,6 +47,25 @@
         [dictionary addEntriesFromDictionary:subfields];
     }
     return [self initWithFieldTag:tag firstIndicator:[first characterAtIndex:0] secondIndicator:[second characterAtIndex:0] subfields:[dictionary copy]];
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    if (self = [super init]) {
+        _fieldTag = [aDecoder decodeObjectForKey:@"fieldTag"];
+        _firstIndicator = [[aDecoder decodeObjectForKey:@"firstIndicator"] characterAtIndex:0];
+        _secondIndicator = [[aDecoder decodeObjectForKey:@"secondIndicator"] characterAtIndex:0];
+        _subfields = [aDecoder decodeObjectForKey:@"subfields"];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    NSString *const first = [NSString stringWithFormat:@"%c", _firstIndicator];
+    NSString *const second = [NSString stringWithFormat:@"%c", _secondIndicator];
+    [aCoder encodeObject:_fieldTag forKey:@"fieldTag"];
+    [aCoder encodeObject:first forKey:@"firstIndicator"];
+    [aCoder encodeObject:second forKey:@"secondIndicator"];
+    [aCoder encodeObject:_subfields forKey:@"subfields"];
 }
 
 - (NSString *)objectAtIndexedSubscript:(BibRecordFieldCode)subfieldCode {

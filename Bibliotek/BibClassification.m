@@ -9,6 +9,10 @@
 #import "BibClassification.h"
 #import "BibRecordField.h"
 
+@interface BibClassification ()
+- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
+@end
+
 @implementation BibClassification {
 @protected
     BibClassificationSystem _system;
@@ -16,6 +20,8 @@
     NSString *_item;
     BOOL _official;
 }
+
++ (BOOL)supportsSecureCoding { return YES; }
 
 @synthesize system = _system;
 @synthesize classification = _classification;
@@ -50,6 +56,21 @@
         _official = (field.secondIndicator == '0');
     }
     return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    if (self = [super init]) {
+        _classification = [aDecoder decodeObjectForKey:@"classification"];
+        _item = [aDecoder decodeObjectForKey: @"item"];
+        _system = [aDecoder decodeObjectForKey:@"system"];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:_classification forKey:@"classification"];
+    [aCoder encodeObject:_item forKey:@"item"];
+    [aCoder encodeObject:_system forKey:@"system"];
 }
 
 + (instancetype)classificationWithField:(BibRecordField *)field {

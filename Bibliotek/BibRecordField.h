@@ -12,7 +12,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(Record.Field)
-@interface BibRecordField : NSObject
+@interface BibRecordField : NSObject <NSSecureCoding>
 
 @property (nonatomic, readonly, strong) BibRecordFieldTag fieldTag NS_SWIFT_NAME(tag);
 @property (nonatomic, readonly, assign) BibRecordFieldIndicator firstIndicator NS_REFINED_FOR_SWIFT;

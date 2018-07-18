@@ -10,6 +10,6 @@ import Foundation
 
 extension Record: CustomPlaygroundDisplayConvertible {
     public var playgroundDescription: Any {
-        return fields.map { $0.description }
+        return description.split(separator: "\n").map { $0.dropFirst().dropLast().description }
     }
 }

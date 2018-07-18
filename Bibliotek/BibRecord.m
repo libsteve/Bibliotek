@@ -8,246 +8,228 @@
 
 #import "BibClassification.h"
 #import "BibRecord.h"
-#import "BibRecord.Private.h"
 #import "BibClassification.h"
 #import "BibRecordField.h"
 #import "BibTitleStatement.h"
-#import <yaz/zoom.h>
 
 @implementation BibRecord {
-    ZOOM_record _record;
+@protected
+    NSString *_database;
+    NSString *_isbn10;
+    NSString *_isbn13;
+    NSArray<BibClassification *> *_classifications;
+    NSString *_title;
+    NSArray<NSString *> *_subtitles;
+    NSArray<NSString *> *_contributors;
+    NSArray<NSString *> *_authors;
+    NSArray<NSString *> *_editions;
+    NSArray<NSString *> *_subjects;
+    NSArray<NSString *> *_summaries;
 }
 
-@synthesize zoomRecord = _record;
++ (BOOL)supportsSecureCoding { return YES; }
+
+@synthesize database = _database;
+@synthesize isbn10 = _isbn10;
+@synthesize isbn13 = _isbn13;
+@synthesize classifications = _classifications;
+@synthesize title = _title;
+@synthesize subtitles = _subtitles;
+@synthesize contributors = _contributors;
+@synthesize authors = _authors;
+@synthesize editions = _editions;
+@synthesize subjects = _subjects;
+@synthesize summaries = _summaries;
 
 #pragma mark - Initialization
 
-- (instancetype)initWithZoomRecord:(ZOOM_record)zoomRecord {
+- (instancetype)init {
     if (self = [super init]) {
-        _record = ZOOM_record_clone(zoomRecord);
+        _database = [NSString new];
+        _isbn10 = nil;
+        _isbn13 = nil;
+        _classifications = [NSArray new];
+        _title = [NSString new];
+        _subtitles = [NSArray new];
+        _contributors = [NSArray new];
+        _authors = [NSArray new];
+        _editions = [NSArray new];
+        _subjects = [NSArray new];
+        _summaries = [NSArray new];
     }
     return self;
 }
 
-- (instancetype)initWithFields:(NSArray<BibRecordField *> *)fields {
-    if (self = [super init]) {
-        _syntax = @"Usmarc";
-        _schema = @"Usmarc";
-        _database = @"Default";
-        _fields = [fields copy];
+- (instancetype)initWithTitle:(NSString *)title {
+    if (self = [self init]) {
+        _title = title;
     }
     return self;
 }
 
-- (void)dealloc {
-    if (_record != nil) { ZOOM_record_destroy(_record); }
+- (instancetype)initWithTitle:(NSString *)title fromDatabase:(NSString *)database {
+    if (self = [self init]) {
+        _title = title;
+        _database = database;
+    }
+    return self;
+}
+
+- (instancetype)initWithRecordStore:(id<BibRecord>)recordStore {
+    if (self = [super init]) {
+        _database = [recordStore.database copy];
+        _isbn10 = [recordStore.isbn10 copy];
+        _isbn13 = [recordStore.isbn13 copy];
+        _classifications = [recordStore.classifications copy];
+        _title = [recordStore.title copy];
+        _subtitles = [recordStore.subtitles copy];
+        _contributors = [recordStore.contributors copy];
+        _authors = [recordStore.authors copy];
+        _editions = [recordStore.editions copy];
+        _subjects = [recordStore.subjects copy];
+        _summaries = [recordStore.summaries copy];
+    }
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    if (self = [super init]) {
+        _database = [aDecoder decodeObjectForKey:@"database"];
+        _isbn10 = [aDecoder decodeObjectForKey:@"isbn10"];
+        _isbn13 = [aDecoder decodeObjectForKey:@"isbn13"];
+        _classifications = [aDecoder decodeObjectForKey:@"classifications"];
+        _title = [aDecoder decodeObjectForKey:@"title"];
+        _subtitles = [aDecoder decodeObjectForKey:@"subtitles"];
+        _contributors = [aDecoder decodeObjectForKey:@"contributors"];
+        _authors = [aDecoder decodeObjectForKey:@"authors"];
+        _editions = [aDecoder decodeObjectForKey:@"editions"];
+        _subjects = [aDecoder decodeObjectForKey:@"subjects"];
+        _summaries = [aDecoder decodeObjectForKey:@"summaries"];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:_database forKey:@"database"];
+    [aCoder encodeObject:_isbn10 forKey:@"isbn10"];
+    [aCoder encodeObject:_isbn13 forKey:@"isbn13"];
+    [aCoder encodeObject:_classifications forKey:@"classifications"];
+    [aCoder encodeObject:_title forKey:@"title"];
+    [aCoder encodeObject:_subtitles forKey:@"subtitles"];
+    [aCoder encodeObject:_contributors forKey:@"contributors"];
+    [aCoder encodeObject:_authors forKey:@"authors"];
+    [aCoder encodeObject:_editions forKey:@"editions"];
+    [aCoder encodeObject:_subjects forKey:@"subjects"];
+    [aCoder encodeObject:_summaries forKey:@"summaries"];
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    return [[BibRecord allocWithZone:zone] initWithRecordStore:self];
+}
+
+- (id)mutableCopyWithZone:(NSZone *)zone {
+    return [[BibMutableRecord allocWithZone:zone] initWithRecordStore:self];
 }
 
 #pragma mark - Properties
 
-@synthesize syntax = _syntax;
-- (NSString *)syntax {
-    if (_syntax == nil) {
-        char const *const type = "syntax";
-        int length = 0;
-        char const *const value = ZOOM_record_get(_record, type, &length);
-        if (value == NULL) { return nil; }
-        _syntax = [NSString stringWithUTF8String:value];
-    }
-    return _syntax;
-}
-
-@synthesize schema = _schema;
-- (NSString *)schema {
-    if (_schema == nil) {
-        char const *const type = "schema";
-        int length = 0;
-        char const *const value = ZOOM_record_get(_record, type, &length);
-        if (value == NULL) { return nil; }
-        _schema = [NSString stringWithUTF8String:value];
-    }
-    return _schema;
-}
-
-@synthesize database = _database;
-- (NSString *)database {
-    if (_database == nil) {
-        char const *const type = "database";
-        int length = 0;
-        char const *const value = ZOOM_record_get(_record, type, &length);
-        if (value == NULL) { return nil; }
-        _database = [NSString stringWithUTF8String:value];
-    }
-    return _database;
-}
-
-@synthesize fields = _fields;
-- (NSArray<BibRecordField *> *)fields {
-    if (_fields == nil) {
-        int length = 0;
-        char const *const type = "json; charset=marc8";
-        char const *const bytes = ZOOM_record_get(_record, type, &length);
-        NSData *const data = [NSData dataWithBytes:bytes length:length];
-        NSDictionary *const json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        NSMutableArray *const fields = [NSMutableArray new];
-        for (NSDictionary *content in [json[@"fields"] objectEnumerator]) {
-            BibRecordField *const field = [[BibRecordField alloc] initWithJson:content];
-            if (field != nil) { [fields addObject:field]; }
-        }
-        [fields sortUsingComparator:^NSComparisonResult(BibRecordField *left, BibRecordField *right) {
-            return [[left description] compare:[right description]];
-        }];
-        _fields = [fields copy];
-    }
-    return _fields;
-}
-
-@synthesize isbn10 = _isbn10;
-- (NSString *)isbn10 {
-    if (_isbn10 == nil) {
-        for (BibRecordField *field in [self fields]) {
-            if ([field.fieldTag isEqualToString:BibRecordFieldTagIsbn]) {
-                NSString *const isbn = field['a'];
-                if ([isbn length] == 10) {
-                    return (_isbn10 = isbn);
-                }
-            }
-        }
-    }
-    return _isbn10;
-}
-
-@synthesize isbn13 = _isbn13;
-- (NSString *)isbn13 {
-    if (_isbn13 == nil) {
-        for (BibRecordField *field in [self fields]) {
-            if ([field.fieldTag isEqualToString:BibRecordFieldTagIsbn]) {
-                NSString *const isbn = field['a'];
-                if ([isbn length] == 13) {
-                    return (_isbn13 = isbn);
-                }
-            }
-        }
-    }
-    return _isbn13;
-}
-
-@synthesize classifications = _classifications;
-- (NSArray *)classifications {
-    if (_classifications == nil) {
-        NSMutableArray *const array = [NSMutableArray array];
-        for (BibRecordField *field in [self fields]) {
-            BibClassification *const classification = [BibClassification classificationWithField:field];
-            if (classification != nil) { [array addObject:classification]; }
-        }
-        _classifications = [array copy];
-    }
-    return _classifications;
-}
-
-@synthesize titleStatement = _titleStatement;
-- (BibTitleStatement *)titleStatement {
-    if (_titleStatement == nil) {
-        for (BibRecordField *field in [self fields]) {
-            BibTitleStatement *const statement = [BibTitleStatement statementWithField:field];
-            if (statement != nil) {
-                return (_titleStatement = statement);
-            }
-        }
-    }
-    return _titleStatement;
-}
-
-@synthesize authors = _authors;
-- (NSArray<NSString *> *)authors {
-    if (_authors == nil) {
-        NSMutableArray *const authors = [NSMutableArray new];
-        for (BibRecordField *field in [self fields]) {
-            if (![field.fieldTag isEqualToString:BibRecordFieldTagAuthor]) { continue; }
-            NSString *const name = field['a'];
-            NSString *const numerics = field['b'] ?: @"";
-            NSString *const title = field['c'] ?: @"";
-            NSMutableString *const author = [NSMutableString stringWithFormat:@"%@%@%@", name, numerics, title];
-            if ([author hasSuffix:@","]) {
-                [author replaceCharactersInRange:NSMakeRange(author.length - 1, 1) withString:@""];
-            }
-            [authors addObject:[author copy]];
-        }
-        _authors = [authors copy];
-    }
-    return _authors;
-}
-
-@synthesize editions = _editions;
-- (NSArray<NSString *> *)editions {
-    if (_editions == nil) {
-        NSMutableArray *const editions = [NSMutableArray new];
-        for (BibRecordField *field in [self fields]) {
-            if (![field.fieldTag isEqualToString:BibRecordFieldTagEdition]) { continue; }
-            NSString *edition = field['a'];
-            NSString *const remainder = field['b'] ?: @"";
-            if ([edition hasSuffix:@" /"] || [edition hasSuffix:@" ="]) {
-                edition = [edition stringByReplacingCharactersInRange:NSMakeRange(edition.length - 2, 2) withString:@""];
-            }
-            [editions addObject:[NSString stringWithFormat:@"%@%@", edition, remainder]];
-        }
-        _editions = [editions copy];
-    }
-    return _editions;
-}
-
-@synthesize subjects = _subjects;
-- (NSArray<NSString *> *)subjects {
-    if (_subjects == nil) {
-        NSMutableArray *const subjects = [NSMutableArray new];
-        for (BibRecordField *field in [self fields]) {
-            if (![field.fieldTag isEqualToString:BibRecordFieldTagSubject]) { continue; }
-            char const *const subfields = (char[]){'a', 'b', 'v', 'x', 'y', 'z'};
-            for (int index = 0; index < 6; index += 1) {
-                NSString *const entry = field[subfields[index]];
-                if (entry != nil) { [subjects addObject:entry]; }
-            }
-        }
-        _subjects = [subjects copy];
-    }
-    return _subjects;
-}
-
-@synthesize summaries = _summaries;
-- (NSArray<NSString *> *)summaries {
-    if (_summaries == nil) {
-        NSMutableArray *summaries = [NSMutableArray new];
-        for (BibRecordField *field in [self fields]) {
-            if (![field.fieldTag isEqualToString:BibRecordFieldTagSummary]) { continue; }
-            NSMutableString *const summary = [field['a'] mutableCopy];
-            NSString *const expansion = field['b'];
-            if (expansion != nil && ![expansion isEqualToString:@""]) {
-                [summary appendString:@" "];
-                [summary appendString:expansion];
-            }
-            [summaries addObject:[summary copy]];
-        }
-        _summaries = [summaries copy];
-    }
-    return _summaries;
-}
-
 - (NSString *)description {
     NSMutableString *const string = [NSMutableString new];
-    for (BibRecordField *field in [[self fields] objectEnumerator]) {
-        if (![string isEqualToString:@""]) { [string appendString:@"\n "]; }
-        [string appendString:[NSString stringWithFormat:@"(%@)", [field description]]];
+    [string appendString:[NSString stringWithFormat:@"(database: %@)", _database]];
+    if (_isbn10.length != 0) {
+        [string appendString:[NSString stringWithFormat:@"\n(isbn10: %@)", _isbn10]];
+    }
+    if (_isbn13.length != 0) {
+        [string appendString:[NSString stringWithFormat:@"\n(isbn13: %@)", _isbn13]];
+    }
+    for (BibClassification *classification in _classifications) {
+        [string appendString:[NSString stringWithFormat:@"\n(%@)", classification]];
+    }
+    [string appendString:[NSString stringWithFormat:@"\n(title: %@)", _title]];
+    for (NSString *subtitle in _subtitles) {
+        [string appendString:[NSString stringWithFormat:@"\n(subtitle: %@)", subtitle]];
+    }
+    for (NSString *author in _authors) {
+        [string appendString:[NSString stringWithFormat:@"\n(author: %@)", author]];
+    }
+    for (NSString *contributor in _contributors) {
+        [string appendString:[NSString stringWithFormat:@"\n(contributor: %@)", contributor]];
+    }
+    for (NSString *edition in _editions) {
+        [string appendString:[NSString stringWithFormat:@"\n(edition: %@)", edition]];
+    }
+    for (NSString *subject in _subjects) {
+        [string appendString:[NSString stringWithFormat:@"\n(subject: %@)", subject]];
+    }
+    for (NSString *summary in _summaries) {
+        [string appendString:[NSString stringWithFormat:@"\n(summary: %@)", summary]];
     }
     return [string copy];
 }
 
 - (NSString *)debugDescription {
-    NSMutableString *const string = [NSMutableString new];
-    for (BibRecordField *field in [[self fields] objectEnumerator]) {
-        if (![string isEqualToString:@""]) { [string appendString:@"\n"]; }
-        [string appendString:[field debugDescription]];
-    }
-    return string;
+    return [self description];
+}
+
+@end
+
+@implementation BibMutableRecord
+
++ (BOOL)supportsSecureCoding { return YES; }
+
+@dynamic database;
+- (void)setDatabase:(NSString *)database {
+    _database = [database copy];
+}
+
+@dynamic isbn10;
+- (void)setIsbn10:(NSString *)isbn10 {
+    _isbn10 = [isbn10 copy];
+}
+
+@dynamic isbn13;
+- (void)setIsbn13:(NSString *)isbn13 {
+    _isbn13 = [isbn13 copy];
+}
+
+@dynamic classifications;
+- (void)setClassifications:(NSArray<BibClassification *> *)classifications {
+    _classifications = [classifications copy];
+}
+
+@dynamic title;
+- (void)setTitle:(NSString *)title {
+    _title = [title copy];
+}
+
+@dynamic subtitles;
+- (void)setSubtitles:(NSArray<NSString *> *)subtitles {
+    _subtitles = [subtitles copy];
+}
+
+@dynamic contributors;
+- (void)setContributors:(NSArray<NSString *> *)contributors {
+    _contributors = [contributors copy];
+}
+
+@dynamic authors;
+- (void)setAuthors:(NSArray<NSString *> *)authors {
+    _authors = [authors copy];
+}
+
+@dynamic editions;
+- (void)setEditions:(NSArray<NSString *> *)editions {
+    _editions = [editions copy];
+}
+
+@dynamic subjects;
+- (void)setSubjects:(NSArray<NSString *> *)subjects {
+    _subjects = [subjects copy];
+}
+
+@dynamic summaries;
+- (void)setSummaries:(NSArray<NSString *> *)summaries {
+    _summaries = [summaries copy];
 }
 
 @end
