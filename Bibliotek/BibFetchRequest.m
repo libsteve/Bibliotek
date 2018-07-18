@@ -6,7 +6,7 @@
 //  Copyright © 2018 Steve Brunwasser. All rights reserved.
 //
 
-#import "BibFetchRequest.Private.h"
+#import "BibFetchRequest+Private.h"
 
 @implementation BibFetchRequest {
 @protected

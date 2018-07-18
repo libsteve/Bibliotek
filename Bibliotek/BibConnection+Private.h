@@ -1,5 +1,5 @@
 //
-//  BibConnection.Private.h
+//  BibConnection+Private.h
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 5/15/18.

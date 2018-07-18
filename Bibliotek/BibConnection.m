@@ -7,11 +7,11 @@
 //
 
 #import "BibConnection.h"
-#import "BibConnection.Private.h"
+#import "BibConnection+Private.h"
 #import "BibFetchRequest.h"
-#import "BibFetchRequest.Private.h"
+#import "BibFetchRequest+Private.h"
 #import "BibRecordList.h"
-#import "BibRecordList.Private.h"
+#import "BibRecordList+Private.h"
 #import <yaz/zoom.h>
 
 NSInteger const kDefaultPort = 210;

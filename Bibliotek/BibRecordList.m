@@ -7,13 +7,13 @@
 //
 
 #import "BibConnection.h"
-#import "BibConnection.Private.h"
+#import "BibConnection+Private.h"
 #import "BibFetchRequest.h"
-#import "BibFetchRequest.Private.h"
+#import "BibFetchRequest+Private.h"
 #import "BibMarcRecord.h"
 #import "BibMarcRecord+Private.h"
 #import "BibRecordList.h"
-#import "BibRecordList.Private.h"
+#import "BibRecordList+Private.h"
 #import <yaz/zoom.h>
 
 #define BibAssert(condition, exception, message, ...) ({ \
