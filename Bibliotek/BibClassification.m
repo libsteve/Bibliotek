@@ -7,7 +7,7 @@
 //
 
 #import "BibClassification.h"
-#import "BibRecordField.h"
+#import "BibMarcRecordField.h"
 
 @interface BibClassification ()
 - (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
@@ -37,7 +37,7 @@
     return self;
 }
 
-- (instancetype)initWithField:(BibRecordField *)field {
+- (instancetype)initWithField:(BibMarcRecordField *)field {
     BibClassificationSystem system = nil;
     NSString *classification = nil;
     NSString *item = nil;
@@ -73,7 +73,7 @@
     [aCoder encodeObject:_system forKey:@"system"];
 }
 
-+ (instancetype)classificationWithField:(BibRecordField *)field {
++ (instancetype)classificationWithField:(BibMarcRecordField *)field {
     return [[BibClassification alloc] initWithField:field];
 }
 

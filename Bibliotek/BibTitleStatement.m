@@ -7,14 +7,14 @@
 //
 
 #import "BibConstants.h"
-#import "BibRecordField.h"
+#import "BibMarcRecordField.h"
 #import "BibTitleStatement.h"
 
 @implementation BibTitleStatement {
-    BibRecordField *_field;
+    BibMarcRecordField *_field;
 }
 
-- (instancetype)initWithField:(BibRecordField *)field {
+- (instancetype)initWithField:(BibMarcRecordField *)field {
     if ([field.fieldTag isEqualToString:BibRecordFieldTagTitle] && (self = [super init])) {
         _field = field;
     } else {
@@ -23,7 +23,7 @@
     return self;
 }
 
-+ (instancetype)statementWithField:(BibRecordField *)field {
++ (instancetype)statementWithField:(BibMarcRecordField *)field {
     return [[self alloc] initWithField:field];
 }
 

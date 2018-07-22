@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class BibRecordField;
+@class BibMarcRecordField;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -27,11 +27,11 @@ NS_SWIFT_NAME(TitleStatement)
 
 /// Create a title statement from the given field representation.
 /// \param field A record field which may or may not contain title statement information.
-- (nullable instancetype)initWithField:(BibRecordField *)field;
+- (nullable instancetype)initWithField:(BibMarcRecordField *)field;
 
 /// Create a title statement from the given field representation.
 /// \param field A record field which may or may not contain title statement information.
-+ (nullable instancetype)statementWithField:(BibRecordField *)field NS_SWIFT_UNAVAILABLE("Use init(field:)");
++ (nullable instancetype)statementWithField:(BibMarcRecordField *)field NS_SWIFT_UNAVAILABLE("Use init(field:)");
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;

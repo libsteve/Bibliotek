@@ -9,12 +9,12 @@
 #import <Foundation/Foundation.h>
 
 @class BibClassification;
-@class BibRecordField;
+@class BibMarcRecordField;
 @class BibTitleStatement;
 
 NS_ASSUME_NONNULL_BEGIN
 
-NS_SWIFT_NAME(RecordStore)
+NS_SWIFT_NAME(AnyRecord)
 @protocol BibRecord <NSObject, NSCopying, NSMutableCopying, NSSecureCoding>
 
 /// The name of the database from which this record originates.
@@ -52,7 +52,7 @@ NS_SWIFT_NAME(RecordStore)
 
 @end
 
-NS_SWIFT_NAME(MutableRecordStore)
+NS_SWIFT_NAME(AnyMutableRecord)
 @protocol BibMutableRecord <BibRecord>
 
 /// The name of the database from which this record originates.

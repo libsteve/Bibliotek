@@ -21,5 +21,5 @@ FOUNDATION_EXPORT const unsigned char BibliotekVersionString[];
 #import "BibRecord.h"
 #import "BibRecord+Protocols.h"
 #import "BibClassification.h"
-#import "BibRecordField.h"
+#import "BibMarcRecordField.h"
 #import "BibRecordList.h"

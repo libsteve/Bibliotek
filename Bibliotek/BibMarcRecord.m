@@ -11,7 +11,7 @@
 #import "BibMarcRecord.h"
 #import "BibMarcRecord+Private.h"
 #import "BibClassification.h"
-#import "BibRecordField.h"
+#import "BibMarcRecordField.h"
 #import "BibTitleStatement.h"
 #import <yaz/zoom.h>
 
@@ -40,7 +40,7 @@
     return self;
 }
 
-- (instancetype)initWithFields:(NSArray<BibRecordField *> *)fields {
+- (instancetype)initWithFields:(NSArray<BibMarcRecordField *> *)fields {
     if (self = [super init]) {
         _syntax = @"Usmarc";
         _schema = @"Usmarc";
@@ -111,7 +111,7 @@
 }
 
 @synthesize fields = _fields;
-- (NSArray<BibRecordField *> *)fields {
+- (NSArray<BibMarcRecordField *> *)fields {
     if (_fields == nil) {
         int length = 0;
         char const *const type = "json; charset=marc8";
@@ -120,10 +120,10 @@
         NSDictionary *const json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
         NSMutableArray *const fields = [NSMutableArray new];
         for (NSDictionary *content in [json[@"fields"] objectEnumerator]) {
-            BibRecordField *const field = [[BibRecordField alloc] initWithJson:content];
+            BibMarcRecordField *const field = [[BibMarcRecordField alloc] initWithJson:content];
             if (field != nil) { [fields addObject:field]; }
         }
-        [fields sortUsingComparator:^NSComparisonResult(BibRecordField *left, BibRecordField *right) {
+        [fields sortUsingComparator:^NSComparisonResult(BibMarcRecordField *left, BibMarcRecordField *right) {
             return [[left description] compare:[right description]];
         }];
         _fields = [fields copy];
@@ -133,7 +133,7 @@
 
 - (NSString *)isbn10 {
     if (_isbn10 == nil) {
-        for (BibRecordField *field in [self fields]) {
+        for (BibMarcRecordField *field in [self fields]) {
             if ([field.fieldTag isEqualToString:BibRecordFieldTagIsbn]) {
                 NSString *const isbn = field['a'];
                 if ([isbn length] == 10) {
@@ -147,7 +147,7 @@
 
 - (NSString *)isbn13 {
     if (_isbn13 == nil) {
-        for (BibRecordField *field in [self fields]) {
+        for (BibMarcRecordField *field in [self fields]) {
             if ([field.fieldTag isEqualToString:BibRecordFieldTagIsbn]) {
                 NSString *const isbn = field['a'];
                 if ([isbn length] == 13) {
@@ -162,7 +162,7 @@
 - (NSArray *)classifications {
     if (_classifications == nil) {
         NSMutableArray *const array = [NSMutableArray array];
-        for (BibRecordField *field in [self fields]) {
+        for (BibMarcRecordField *field in [self fields]) {
             BibClassification *const classification = [BibClassification classificationWithField:field];
             if (classification != nil) { [array addObject:classification]; }
         }
@@ -173,7 +173,7 @@
 
 - (BibTitleStatement *)titleStatement {
     if (_titleStatement == nil) {
-        for (BibRecordField *field in [self fields]) {
+        for (BibMarcRecordField *field in [self fields]) {
             BibTitleStatement *const statement = [BibTitleStatement statementWithField:field];
             if (statement != nil) {
                 return (_titleStatement = statement);
@@ -198,7 +198,7 @@
 - (NSArray<NSString *> *)authors {
     if (_authors == nil) {
         NSMutableArray *const authors = [NSMutableArray new];
-        for (BibRecordField *field in [self fields]) {
+        for (BibMarcRecordField *field in [self fields]) {
             if (![field.fieldTag isEqualToString:BibRecordFieldTagAuthor]) { continue; }
             NSString *const name = field['a'];
             NSString *const numerics = field['b'] ?: @"";
@@ -217,7 +217,7 @@
 - (NSArray<NSString *> *)editions {
     if (_editions == nil) {
         NSMutableArray *const editions = [NSMutableArray new];
-        for (BibRecordField *field in [self fields]) {
+        for (BibMarcRecordField *field in [self fields]) {
             if (![field.fieldTag isEqualToString:BibRecordFieldTagEdition]) { continue; }
             NSString *edition = field['a'];
             NSString *const remainder = field['b'] ?: @"";
@@ -234,7 +234,7 @@
 - (NSArray<NSString *> *)subjects {
     if (_subjects == nil) {
         NSMutableArray *const subjects = [NSMutableArray new];
-        for (BibRecordField *field in [self fields]) {
+        for (BibMarcRecordField *field in [self fields]) {
             if (![field.fieldTag isEqualToString:BibRecordFieldTagSubject]) { continue; }
             char const *const subfields = (char[]){'a', 'b', 'v', 'x', 'y', 'z'};
             for (int index = 0; index < 6; index += 1) {
@@ -250,7 +250,7 @@
 - (NSArray<NSString *> *)summaries {
     if (_summaries == nil) {
         NSMutableArray *summaries = [NSMutableArray new];
-        for (BibRecordField *field in [self fields]) {
+        for (BibMarcRecordField *field in [self fields]) {
             if (![field.fieldTag isEqualToString:BibRecordFieldTagSummary]) { continue; }
             NSMutableString *const summary = [field['a'] mutableCopy];
             NSString *const expansion = field['b'];
@@ -267,7 +267,7 @@
 
 - (NSString *)description {
     NSMutableString *const string = [NSMutableString new];
-    for (BibRecordField *field in [[self fields] objectEnumerator]) {
+    for (BibMarcRecordField *field in [[self fields] objectEnumerator]) {
         if (![string isEqualToString:@""]) { [string appendString:@"\n "]; }
         [string appendString:[NSString stringWithFormat:@"(%@)", [field description]]];
     }
@@ -276,7 +276,7 @@
 
 - (NSString *)debugDescription {
     NSMutableString *const string = [NSMutableString new];
-    for (BibRecordField *field in [[self fields] objectEnumerator]) {
+    for (BibMarcRecordField *field in [[self fields] objectEnumerator]) {
         if (![string isEqualToString:@""]) { [string appendString:@"\n"]; }
         [string appendString:[field debugDescription]];
     }

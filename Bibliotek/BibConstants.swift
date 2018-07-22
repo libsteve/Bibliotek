@@ -26,9 +26,9 @@ extension FetchRequest.SearchStrategy: CustomStringConvertible, Equatable, Hasha
     }
 }
 
-extension Record.FieldTag: CustomStringConvertible, ExpressibleByStringLiteral, Equatable, Hashable {
+extension MarcRecord.FieldTag: CustomStringConvertible, ExpressibleByStringLiteral, Equatable, Hashable {
     public var description: String {
-        return __BibRecordFieldTagDescription(self)
+        return __BibMarcRecordFieldTagDescription(self)
     }
 
     public init(stringLiteral: String) {
@@ -36,9 +36,9 @@ extension Record.FieldTag: CustomStringConvertible, ExpressibleByStringLiteral, 
     }
 }
 
-extension Record.FieldIndicator: CustomStringConvertible, ExpressibleByStringLiteral, Equatable, Hashable {
+extension MarcRecord.FieldIndicator: CustomStringConvertible, ExpressibleByStringLiteral, Equatable, Hashable {
     public var description: String {
-        return __BibRecordFieldIndicatorDescription(self)
+        return __BibMarcRecordFieldIndicatorDescription(self)
     }
 
     public init(stringLiteral: String) {
@@ -46,9 +46,9 @@ extension Record.FieldIndicator: CustomStringConvertible, ExpressibleByStringLit
     }
 }
 
-extension Record.FieldCode: CustomStringConvertible, ExpressibleByStringLiteral, Equatable, Hashable {
+extension MarcRecord.FieldCode: CustomStringConvertible, ExpressibleByStringLiteral, Equatable, Hashable {
     public var description: String {
-        return __BibRecordFieldCodeDescription(self)
+        return __BibMarcRecordFieldCodeDescription(self)
     }
 
     public init(stringLiteral: String) {

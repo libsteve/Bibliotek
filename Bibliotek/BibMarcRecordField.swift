@@ -1,5 +1,5 @@
 //
-//  BibRecordField.swift
+//  BibMarcRecordField.swift
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 6/10/18.
@@ -8,13 +8,13 @@
 
 import Foundation
 
-extension Record.Field {
-    public var indicators: (first: Record.FieldIndicator, second: Record.FieldIndicator) {
+extension MarcRecord.Field {
+    public var indicators: (first: MarcRecord.FieldIndicator, second: MarcRecord.FieldIndicator) {
         return (__firstIndicator, __secondIndicator)
     }
 }
 
-extension Record.Field: CustomPlaygroundDisplayConvertible {
+extension MarcRecord.Field: CustomPlaygroundDisplayConvertible {
     public var playgroundDescription: Any {
         return description
     }

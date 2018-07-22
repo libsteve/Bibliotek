@@ -1,24 +1,24 @@
 //
-//  BibRecordField.m
+//  BibMarcRecordField.m
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 6/10/18.
 //  Copyright © 2018 Steve Brunwasser. All rights reserved.
 //
 
-#import "BibRecordField.h"
+#import "BibMarcRecordField.h"
 
-@interface BibRecordField ()
+@interface BibMarcRecordField ()
 - (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
 @end
 
-@implementation BibRecordField {
+@implementation BibMarcRecordField {
     NSDictionary<NSString *, NSString *> *_subfields;
 }
 
 + (BOOL)supportsSecureCoding { return YES; }
 
-- (instancetype)initWithFieldTag:(BibRecordFieldTag)fieldTag firstIndicator:(BibRecordFieldIndicator)firstIndicator secondIndicator:(BibRecordFieldIndicator)secondIndicator subfields:(NSDictionary<NSString *, NSString *> *)subfields {
+- (instancetype)initWithFieldTag:(BibMarcRecordFieldTag)fieldTag firstIndicator:(BibMarcRecordFieldIndicator)firstIndicator secondIndicator:(BibMarcRecordFieldIndicator)secondIndicator subfields:(NSDictionary<NSString *, NSString *> *)subfields {
     if (self = [super init]) {
         _fieldTag = fieldTag;
         _firstIndicator = firstIndicator;
@@ -29,7 +29,7 @@
 }
 
 - (instancetype)initWithJson:(NSDictionary<NSString *,id> *)json {
-    BibRecordFieldTag const tag = [[json allKeys] firstObject];
+    BibMarcRecordFieldTag const tag = [[json allKeys] firstObject];
     if (tag == nil) { return nil; }
     NSDictionary *const content = json[tag];
     if (content == nil || ![content isKindOfClass:[NSDictionary class]]) { return nil; }
@@ -68,7 +68,7 @@
     [aCoder encodeObject:_subfields forKey:@"subfields"];
 }
 
-- (NSString *)objectAtIndexedSubscript:(BibRecordFieldCode)subfieldCode {
+- (NSString *)objectAtIndexedSubscript:(BibMarcRecordFieldCode)subfieldCode {
     return _subfields[[NSString stringWithFormat:@"%c", subfieldCode]];
 }
 
@@ -82,7 +82,7 @@
     }
     char const first = (_firstIndicator == ' ') ? '#' : _firstIndicator;
     char const second = (_secondIndicator == ' ') ? '#' : _secondIndicator;
-    return [NSString stringWithFormat:@"%@: %c%c %@", BibRecordFieldTagDescription(_fieldTag), first, second, entry];
+    return [NSString stringWithFormat:@"%@: %c%c %@", BibMarcRecordFieldTagDescription(_fieldTag), first, second, entry];
 }
 
 - (NSString *)debugDescription {
@@ -90,7 +90,7 @@
     for (NSString *key in [[_subfields allKeys] sortedArrayUsingSelector:@selector(compare:)]) {
         NSString *const value = _subfields[key];
         char const code = [key characterAtIndex:0];
-        [entry appendFormat:@"%@%@", BibRecordFieldCodeDescription(code), value];
+        [entry appendFormat:@"%@%@", BibMarcRecordFieldCodeDescription(code), value];
     }
     return [NSString stringWithFormat:@"%@ %c%c %@", _fieldTag, _firstIndicator, _secondIndicator, entry];
 }

@@ -110,22 +110,22 @@ NSString *BibFetchRequestSearchStrategyDescription(BibFetchRequestSearchStrategy
 
 #pragma mark - Record Field Tags
 
-BibRecordFieldTag const BibRecordFieldTagIsbn = @"020";
-BibRecordFieldTag const BibRecordFieldTagLCC = @"050";
-BibRecordFieldTag const BibRecordFieldTagDDC = @"082";
-BibRecordFieldTag const BibRecordFieldTagAuthor = @"100";
-BibRecordFieldTag const BibRecordFieldTagTitle = @"245";
-BibRecordFieldTag const BibRecordFieldTagEdition = @"250";
-BibRecordFieldTag const BibRecordFieldTagPublication = @"264";
-BibRecordFieldTag const BibRecordFieldTagPhysicalDescription = @"300";
-BibRecordFieldTag const BibRecordFieldTagNote = @"500";
-BibRecordFieldTag const BibRecordFieldTagBibliography = @"504";
-BibRecordFieldTag const BibRecordFieldTagSummary = @"520";
-BibRecordFieldTag const BibRecordFieldTagSubject = @"650";
-BibRecordFieldTag const BibRecordFieldTagGenre = @"655";
-BibRecordFieldTag const BibRecordFieldTagSeries = @"940";
+BibMarcRecordFieldTag const BibRecordFieldTagIsbn = @"020";
+BibMarcRecordFieldTag const BibRecordFieldTagLCC = @"050";
+BibMarcRecordFieldTag const BibRecordFieldTagDDC = @"082";
+BibMarcRecordFieldTag const BibRecordFieldTagAuthor = @"100";
+BibMarcRecordFieldTag const BibRecordFieldTagTitle = @"245";
+BibMarcRecordFieldTag const BibRecordFieldTagEdition = @"250";
+BibMarcRecordFieldTag const BibRecordFieldTagPublication = @"264";
+BibMarcRecordFieldTag const BibRecordFieldTagPhysicalDescription = @"300";
+BibMarcRecordFieldTag const BibRecordFieldTagNote = @"500";
+BibMarcRecordFieldTag const BibRecordFieldTagBibliography = @"504";
+BibMarcRecordFieldTag const BibRecordFieldTagSummary = @"520";
+BibMarcRecordFieldTag const BibRecordFieldTagSubject = @"650";
+BibMarcRecordFieldTag const BibRecordFieldTagGenre = @"655";
+BibMarcRecordFieldTag const BibRecordFieldTagSeries = @"940";
 
-NSString *BibRecordFieldTagDescription(BibRecordFieldTag const tag) {
+NSString *BibMarcRecordFieldTagDescription(BibMarcRecordFieldTag const tag) {
     if ([tag isEqualToString: BibRecordFieldTagIsbn]) return @"ISBN";
     if ([tag isEqualToString: BibRecordFieldTagLCC]) return @"LCC";
     if ([tag isEqualToString: BibRecordFieldTagDDC]) return @"DDC";
@@ -145,13 +145,13 @@ NSString *BibRecordFieldTagDescription(BibRecordFieldTag const tag) {
 
 #pragma mark - Record Field Indicator
 
-NSString *BibRecordFieldIndicatorDescription(BibRecordFieldIndicator const indicator) {
+NSString *BibMarcRecordFieldIndicatorDescription(BibMarcRecordFieldIndicator const indicator) {
     return [NSString stringWithFormat:@"%c", indicator];
 }
 
 #pragma mark - Record Field Code
 
-NSString *BibRecordFieldCodeDescription(BibRecordFieldCode const code) {
+NSString *BibMarcRecordFieldCodeDescription(BibMarcRecordFieldCode const code) {
     return [NSString stringWithFormat:@"$%c", code];
 }
 

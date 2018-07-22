@@ -10,7 +10,7 @@
 #import <Foundation/Foundation.h>
 
 @class BibClassification;
-@class BibRecordField;
+@class BibMarcRecordField;
 @class BibTitleStatement;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -23,11 +23,11 @@ NS_SWIFT_NAME(MarcRecord)
 @property(nonatomic, readonly, copy) NSString *schema;
 
 /// A list of the raw data fields contained within this record.
-@property(nonatomic, readonly, copy) NSArray<BibRecordField *> *fields;
+@property(nonatomic, readonly, copy) NSArray<BibMarcRecordField *> *fields;
 
 /// Create a record containing information from the given fields.
 /// \param fields A list of raw data fields with which to populate the record.
-- (instancetype)initWithFields:(NSArray<BibRecordField *> *)fields NS_SWIFT_NAME(init(fields:));
+- (instancetype)initWithFields:(NSArray<BibMarcRecordField *> *)fields NS_SWIFT_NAME(init(fields:));
 
 @end
 

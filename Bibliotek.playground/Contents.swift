@@ -16,9 +16,8 @@ let records = try! connection.fetchRecords(request: request)
 //: With a record, you can access information about the title, author, subject, and more.
 
 let record = records.first!
-let statement = record.titleStatement
-statement.title
-statement.subtitles
+record.title
+record.subtitles
 record.subjects
 record.authors
 record.classifications

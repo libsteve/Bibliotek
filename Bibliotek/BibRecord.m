@@ -9,7 +9,7 @@
 #import "BibClassification.h"
 #import "BibRecord.h"
 #import "BibClassification.h"
-#import "BibRecordField.h"
+#import "BibMarcRecordField.h"
 #import "BibTitleStatement.h"
 
 @implementation BibRecord {

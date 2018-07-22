@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "BibConnection.h"
 
-@class BibRecordField;
+@class BibMarcRecordField;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -30,9 +30,9 @@ NS_SWIFT_NAME(Classification)
 
 - (instancetype)initWithClassification:(NSString *)classification item:(nullable NSString *)item system:(BibClassificationSystem)system NS_DESIGNATED_INITIALIZER NS_SWIFT_NAME(init(_:item:system:));
 
-- (nullable instancetype)initWithField:(BibRecordField *)field NS_SWIFT_NAME(init(field:));
+- (nullable instancetype)initWithField:(BibMarcRecordField *)field NS_SWIFT_NAME(init(field:));
 
-+ (nullable instancetype)classificationWithField:(BibRecordField *)field NS_SWIFT_UNAVAILABLE("Use init(field:)");
++ (nullable instancetype)classificationWithField:(BibMarcRecordField *)field NS_SWIFT_UNAVAILABLE("Use init(field:)");
 
 /// Determine whether or not the given classification is equivalent to this classification.
 /// \param classification The classification with which equality should be determined.

@@ -176,62 +176,62 @@ extern NSString *BibFetchRequestSearchStrategyDescription(BibFetchRequestSearchS
 #pragma mark - Record Field Tags
 
 /// An code identifying the semantic purpose of a record field.
-typedef NSString *BibRecordFieldTag NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(Record.FieldTag);
+typedef NSString *BibMarcRecordFieldTag NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(MarcRecord.FieldTag);
 
 /// The field contains an item's ISBN.
-extern BibRecordFieldTag const BibRecordFieldTagIsbn;
+extern BibMarcRecordFieldTag const BibRecordFieldTagIsbn;
 
 /// The field contains a Library of Congress classification number.
-extern BibRecordFieldTag const BibRecordFieldTagLCC NS_SWIFT_NAME(lcc);
+extern BibMarcRecordFieldTag const BibRecordFieldTagLCC NS_SWIFT_NAME(lcc);
 
 /// The field contains a Dewey Decimal classification number.
-extern BibRecordFieldTag const BibRecordFieldTagDDC NS_SWIFT_NAME(ddc);
+extern BibMarcRecordFieldTag const BibRecordFieldTagDDC NS_SWIFT_NAME(ddc);
 
 /// The field contains an author's name.
-extern BibRecordFieldTag const BibRecordFieldTagAuthor;
+extern BibMarcRecordFieldTag const BibRecordFieldTagAuthor;
 
 /// The field contains the title of the item.
-extern BibRecordFieldTag const BibRecordFieldTagTitle;
+extern BibMarcRecordFieldTag const BibRecordFieldTagTitle;
 
 /// The field contains edition information about the item.
-extern BibRecordFieldTag const BibRecordFieldTagEdition;
+extern BibMarcRecordFieldTag const BibRecordFieldTagEdition;
 
 /// The field contains information about the publisher.
-extern BibRecordFieldTag const BibRecordFieldTagPublication;
+extern BibMarcRecordFieldTag const BibRecordFieldTagPublication;
 
 /// The field contains a description of an item's physical condition.
-extern BibRecordFieldTag const BibRecordFieldTagPhysicalDescription;
+extern BibMarcRecordFieldTag const BibRecordFieldTagPhysicalDescription;
 
 /// The field contains a note within the record.
-extern BibRecordFieldTag const BibRecordFieldTagNote;
-extern BibRecordFieldTag const BibRecordFieldTagBibliography;
+extern BibMarcRecordFieldTag const BibRecordFieldTagNote;
+extern BibMarcRecordFieldTag const BibRecordFieldTagBibliography;
 
 /// The field contains a summary about the item.
-extern BibRecordFieldTag const BibRecordFieldTagSummary;
+extern BibMarcRecordFieldTag const BibRecordFieldTagSummary;
 
 /// The field contains a subject heading.
-extern BibRecordFieldTag const BibRecordFieldTagSubject;
+extern BibMarcRecordFieldTag const BibRecordFieldTagSubject;
 
 /// The field contains a genre to which an item belongs.
-extern BibRecordFieldTag const BibRecordFieldTagGenre;
+extern BibMarcRecordFieldTag const BibRecordFieldTagGenre;
 
 /// The field contains the name of the series to which an item belongs.
-extern BibRecordFieldTag const BibRecordFieldTagSeries;
+extern BibMarcRecordFieldTag const BibRecordFieldTagSeries;
 
 /// \returns A string description of the given feild tag.
-extern NSString *BibRecordFieldTagDescription(BibRecordFieldTag const tag) NS_REFINED_FOR_SWIFT;
+extern NSString *BibMarcRecordFieldTagDescription(BibMarcRecordFieldTag const tag) NS_REFINED_FOR_SWIFT;
 
 #pragma mark - Record Field Indicator
 
-typedef char BibRecordFieldIndicator NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(Record.FieldIndicator);
+typedef char BibMarcRecordFieldIndicator NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(MarcRecord.FieldIndicator);
 
-extern NSString *BibRecordFieldIndicatorDescription(BibRecordFieldIndicator const indicator) NS_REFINED_FOR_SWIFT;
+extern NSString *BibMarcRecordFieldIndicatorDescription(BibMarcRecordFieldIndicator const indicator) NS_REFINED_FOR_SWIFT;
 
 #pragma mark - Record Field Code
 
-typedef char BibRecordFieldCode NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(Record.FieldCode);
+typedef char BibMarcRecordFieldCode NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(MarcRecord.FieldCode);
 
-extern NSString *BibRecordFieldCodeDescription(BibRecordFieldCode const code) NS_REFINED_FOR_SWIFT;
+extern NSString *BibMarcRecordFieldCodeDescription(BibMarcRecordFieldCode const code) NS_REFINED_FOR_SWIFT;
 
 #pragma mark - Classification System
 
