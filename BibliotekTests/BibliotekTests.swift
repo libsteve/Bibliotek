@@ -66,6 +66,19 @@ class BibliotekTests: XCTestCase {
         XCTAssertEqual(callNumber!.description, "PM 8008 .O37 2009")
     }
 
+    func testLccClassificationAgain() {
+        let field = MarcRecord.Field(json: ["050" : ["ind1" : " ",
+                                                     "ind2" : "0",
+                                                     "subfields" : [["a" : "QA76.9.A43"],
+                                                                    ["b" : "E78 2017"]]]])!
+        XCTAssertEqual(field.debugDescription, "050  0 $aQA76.9.A43$bE78 2017")
+        let callNumber = CallNumber(field: field)
+        XCTAssertNotNil(callNumber)
+        XCTAssertEqual(callNumber!.system, .lcc)
+        XCTAssertEqual(callNumber!.description, "QA 76.9 .A43 E78 2017")
+
+    }
+
     func testDdcClassification() {
         let field = MarcRecord.Field(json: ["082" : ["ind1" : " ",
                                                      "ind2" : "0",

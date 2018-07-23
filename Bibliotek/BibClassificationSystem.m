@@ -20,10 +20,19 @@ static NSRegularExpression *lccRegex;
         /// source: https://gist.github.com/kurtraschke/560162
         /// source: https://www.wikidata.org/wiki/Property:P1149
         NSString *pattern = [@[ @"^",
-                                @"(?<Class>[A-Z]{1,3})",
-                                @"\\s?(?<Topic>\\d{1,4}(?:\\.\\d{1,3})?)?",
-                                @"\\s?(?<Cutter>\\.?[A-Z]+[0-9]*)*",
-                                @"\\s(?<Date>\\d{1,4}[a-z]?)?" ] componentsJoinedByString:@""];
+                                @"(?<Subject>[A-Z]+)",
+                                @"\\s*(?<Topic>\\d+(?:\\.\\d+)?)?",
+                                @"\\s*(?<Cutter0>\\.?[A-Z]+\\d*)?",
+                                @"\\s*(?<Cutter1>\\.?[A-Z]+\\d*)?",
+                                @"\\s*(?<Cutter2>\\.?[A-Z]+\\d*)?",
+                                @"\\s*(?<Cutter3>\\.?[A-Z]+\\d*)?",
+                                @"\\s*(?<Cutter4>\\.?[A-Z]+\\d*)?",
+                                @"\\s*(?<Cutter5>\\.?[A-Z]+\\d*)?",
+                                @"\\s*(?<Cutter6>\\.?[A-Z]+\\d*)?",
+                                @"\\s*(?<Cutter7>\\.?[A-Z]+\\d*)?",
+                                @"\\s*(?<Cutter8>\\.?[A-Z]+\\d*)?",
+                                @"\\s*(?<Cutter9>\\.?[A-Z]+\\d*)?",
+                                @"\\s+(?<Date>\\d{1,4}[a-z]?)?" ] componentsJoinedByString:@""];
         NSError *error = nil;
         lccRegex = [NSRegularExpression regularExpressionWithPattern:pattern  options:0 error:&error];
         NSAssert(error == nil, @"%@", error);
@@ -85,7 +94,7 @@ static NSRegularExpression *lccRegex;
         }
         return components;
     } else if ([_fieldTag isEqualToString:BibMarcRecordFieldTagDDC]) {
-        return [[string stringByReplacingOccurrencesOfString:@"/" withString:@""] componentsSeparatedByString:@" "];
+        return [string componentsSeparatedByString:@"/"];
     }
     return nil;
 }
