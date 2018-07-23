@@ -35,12 +35,11 @@ With a record, you can access information about the title, author, subject, and 
 
 ```swift
 let record = records.first!
-let statement = record.titleStatement
-statement.title
-statement.subtitles
+record.title
+record.subtitles
 record.subjects
 records.authors
-records.classifications
+records.callNumbers
 ```
 
 Instructions
@@ -118,5 +117,9 @@ References
 ### Other Sources
 
 - [Torroidal Code's isbn2.py][isbn2.py]
+- [kurtraschke's parsecallno.py][parsecallno.py]
+- [Wikidata page on Library of Congress Classification][wikidata]
 
 [isbn2.py]: https://gist.github.com/toroidal-code/6415977
+[parsecallno.py]: https://gist.github.com/kurtraschke/560162
+[wikidata]: https://www.wikidata.org/wiki/Property:P1149
