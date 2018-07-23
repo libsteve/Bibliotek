@@ -9,7 +9,7 @@
 #import "BibRecord+Protocols.h"
 #import <Foundation/Foundation.h>
 
-@class BibClassification;
+@class BibCallNumber;
 @class BibMarcRecordField;
 @class BibTitleStatement;
 

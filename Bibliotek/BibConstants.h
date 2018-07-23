@@ -233,18 +233,4 @@ typedef char BibMarcRecordFieldCode NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(MarcR
 
 extern NSString *BibMarcRecordFieldCodeDescription(BibMarcRecordFieldCode const code) NS_REFINED_FOR_SWIFT;
 
-#pragma mark - Classification System
-
-/// A classification system with which items can be cataloged and categorized.
-typedef NSString *BibClassificationSystem NS_STRING_ENUM NS_SWIFT_NAME(Classification.System);
-
-/// The Library of Congress Classification System.
-extern BibClassificationSystem const BibClassificationSystemLCC NS_SWIFT_NAME(lcc);
-
-/// The Dewey Decimal Classification System.
-extern BibClassificationSystem const BibClassificationSystemDDC NS_SWIFT_NAME(ddc);
-
-/// \returns A string description of the given classification system.
-extern NSString *BibClassificationSystemDescription(BibClassificationSystem const system) NS_REFINED_FOR_SWIFT;
-
 NS_ASSUME_NONNULL_END

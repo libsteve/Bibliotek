@@ -6,9 +6,9 @@
 //  Copyright © 2018 Steve Brunwasser. All rights reserved.
 //
 
-#import "BibClassification.h"
+#import "BibCallNumber.h"
 #import "BibRecord.h"
-#import "BibClassification.h"
+#import "BibCallNumber.h"
 #import "BibMarcRecordField.h"
 #import "BibTitleStatement.h"
 
@@ -17,7 +17,7 @@
     NSString *_database;
     NSString *_isbn10;
     NSString *_isbn13;
-    NSArray<BibClassification *> *_classifications;
+    NSArray<BibCallNumber *> *_callNumbers;
     NSString *_title;
     NSArray<NSString *> *_subtitles;
     NSArray<NSString *> *_contributors;
@@ -32,7 +32,7 @@
 @synthesize database = _database;
 @synthesize isbn10 = _isbn10;
 @synthesize isbn13 = _isbn13;
-@synthesize classifications = _classifications;
+@synthesize callNumbers = _callNumbers;
 @synthesize title = _title;
 @synthesize subtitles = _subtitles;
 @synthesize contributors = _contributors;
@@ -48,7 +48,7 @@
         _database = [NSString new];
         _isbn10 = nil;
         _isbn13 = nil;
-        _classifications = [NSArray new];
+        _callNumbers = [NSArray new];
         _title = [NSString new];
         _subtitles = [NSArray new];
         _contributors = [NSArray new];
@@ -80,7 +80,7 @@
         _database = [recordStore.database copy];
         _isbn10 = [recordStore.isbn10 copy];
         _isbn13 = [recordStore.isbn13 copy];
-        _classifications = [recordStore.classifications copy];
+        _callNumbers = [recordStore.callNumbers copy];
         _title = [recordStore.title copy];
         _subtitles = [recordStore.subtitles copy];
         _contributors = [recordStore.contributors copy];
@@ -97,7 +97,7 @@
         _database = [aDecoder decodeObjectForKey:@"database"];
         _isbn10 = [aDecoder decodeObjectForKey:@"isbn10"];
         _isbn13 = [aDecoder decodeObjectForKey:@"isbn13"];
-        _classifications = [aDecoder decodeObjectForKey:@"classifications"];
+        _callNumbers = [aDecoder decodeObjectForKey:@"classifications"];
         _title = [aDecoder decodeObjectForKey:@"title"];
         _subtitles = [aDecoder decodeObjectForKey:@"subtitles"];
         _contributors = [aDecoder decodeObjectForKey:@"contributors"];
@@ -113,7 +113,7 @@
     [aCoder encodeObject:_database forKey:@"database"];
     [aCoder encodeObject:_isbn10 forKey:@"isbn10"];
     [aCoder encodeObject:_isbn13 forKey:@"isbn13"];
-    [aCoder encodeObject:_classifications forKey:@"classifications"];
+    [aCoder encodeObject:_callNumbers forKey:@"classifications"];
     [aCoder encodeObject:_title forKey:@"title"];
     [aCoder encodeObject:_subtitles forKey:@"subtitles"];
     [aCoder encodeObject:_contributors forKey:@"contributors"];
@@ -142,7 +142,7 @@
     if (_isbn13.length != 0) {
         [string appendString:[NSString stringWithFormat:@"\n(isbn13: %@)", _isbn13]];
     }
-    for (BibClassification *classification in _classifications) {
+    for (BibCallNumber *classification in _callNumbers) {
         [string appendString:[NSString stringWithFormat:@"\n(%@)", classification]];
     }
     [string appendString:[NSString stringWithFormat:@"\n(title: %@)", _title]];
@@ -193,8 +193,8 @@
 }
 
 @dynamic classifications;
-- (void)setClassifications:(NSArray<BibClassification *> *)classifications {
-    _classifications = [classifications copy];
+- (void)setClassifications:(NSArray<BibCallNumber *> *)classifications {
+    _callNumbers = [classifications copy];
 }
 
 @dynamic title;

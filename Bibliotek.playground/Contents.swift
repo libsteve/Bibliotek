@@ -20,4 +20,4 @@ record.title
 record.subtitles
 record.subjects
 record.authors
-record.classifications
+record.callNumbers

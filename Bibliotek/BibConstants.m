@@ -154,12 +154,3 @@ NSString *BibMarcRecordFieldIndicatorDescription(BibMarcRecordFieldIndicator con
 NSString *BibMarcRecordFieldCodeDescription(BibMarcRecordFieldCode const code) {
     return [NSString stringWithFormat:@"$%c", code];
 }
-
-#pragma mark - Classification System
-
-BibClassificationSystem const BibClassificationSystemLCC = @"Library of Congress";
-BibClassificationSystem const BibClassificationSystemDDC = @"Dewey Decimal";
-
-NSString *BibClassificationSystemDescription(BibClassificationSystem const system) {
-    return [NSString stringWithFormat:@"%@ System", system];
-}

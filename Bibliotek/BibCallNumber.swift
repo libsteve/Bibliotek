@@ -1,5 +1,5 @@
 //
-//  BibClassification.swift
+//  BibCallNumber.swift
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 6/10/18.
@@ -8,13 +8,13 @@
 
 import Foundation
 
-extension Classification {
-    public static func ~= (lhs: Classification, rhs: Classification) -> Bool {
-        return lhs.isSimilar(to: rhs)
+extension CallNumber {
+    public static func == (lhs: CallNumber, rhs: CallNumber) -> Bool {
+        return lhs.isEqual(to: rhs)
     }
 }
 
-extension Classification: CustomPlaygroundDisplayConvertible {
+extension CallNumber: CustomPlaygroundDisplayConvertible {
     public var playgroundDescription: Any {
         return description
     }

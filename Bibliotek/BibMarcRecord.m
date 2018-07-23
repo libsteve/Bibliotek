@@ -6,11 +6,11 @@
 //  Copyright © 2018 Steve Brunwasser. All rights reserved.
 //
 
-#import "BibClassification.h"
+#import "BibCallNumber.h"
 #import "BibRecord.h"
 #import "BibMarcRecord.h"
 #import "BibMarcRecord+Private.h"
-#import "BibClassification.h"
+#import "BibCallNumber.h"
 #import "BibMarcRecordField.h"
 #import "BibTitleStatement.h"
 #import <yaz/zoom.h>
@@ -19,7 +19,7 @@
     NSString *_database;
     NSString *_isbn10;
     NSString *_isbn13;
-    NSArray<BibClassification *> *_classifications;
+    NSArray<BibCallNumber *> *_callNumbers;
     BibTitleStatement *_titleStatement;
     NSArray<NSString *> *_authors;
     NSArray<NSString *> *_editions;
@@ -159,16 +159,17 @@
     return _isbn13;
 }
 
-- (NSArray *)classifications {
-    if (_classifications == nil) {
+- (NSArray *)callNumbers {
+    if (_callNumbers == nil) {
         NSMutableArray *const array = [NSMutableArray array];
         for (BibMarcRecordField *field in [self fields]) {
-            BibClassification *const classification = [BibClassification classificationWithField:field];
-            if (classification != nil) { [array addObject:classification]; }
+            
+            BibCallNumber *const callNumber = [[BibCallNumber alloc] initWithField:field];
+            if (callNumber != nil) { [array addObject:callNumber]; }
         }
-        _classifications = [array copy];
+        _callNumbers = [array copy];
     }
-    return _classifications;
+    return _callNumbers;
 }
 
 - (BibTitleStatement *)titleStatement {

@@ -55,9 +55,3 @@ extension MarcRecord.FieldCode: CustomStringConvertible, ExpressibleByStringLite
         self.init(Int8(stringLiteral.utf8.first?.byteSwapped ?? 0))
     }
 }
-
-extension Classification.System: CustomStringConvertible, Equatable, Hashable {
-    public var description: String {
-        return __BibClassificationSystemDescription(self)
-    }
-}

@@ -60,12 +60,10 @@ class BibliotekTests: XCTestCase {
                                                      "subfields" : [["a" : "PM8008"],
                                                                     ["b" : ".O37 2009"]]]])!
         XCTAssertEqual(field.debugDescription, "050  0 $aPM8008$b.O37 2009")
-        let classification = Classification(field: field)
-        XCTAssertNotNil(classification)
-        XCTAssertEqual(classification!.system, .lcc)
-        XCTAssertEqual(classification!.classification, "PM8008")
-        XCTAssertEqual(classification!.item, ".O37 2009")
-        XCTAssertTrue(classification!.isOfficial)
+        let callNumber = CallNumber(field: field)
+        XCTAssertNotNil(callNumber)
+        XCTAssertEqual(callNumber!.system, .lcc)
+        XCTAssertEqual(callNumber!.description, "PM 8008 .O37 2009")
     }
 
     func testDdcClassification() {
@@ -74,12 +72,10 @@ class BibliotekTests: XCTestCase {
                                                      "subfields" : [["a" : "499/.99"],
                                                                     ["2" : "22"]]]])!
         XCTAssertEqual(field.debugDescription, "082  0 $222$a499/.99")
-        let classification = Classification(field: field)
-        XCTAssertNotNil(classification)
-        XCTAssertEqual(classification!.system, .ddc)
-        XCTAssertEqual(classification!.classification, "499/.99")
-        XCTAssertEqual(classification!.item, "22")
-        XCTAssertTrue(classification!.isOfficial)
+        let callNumber = CallNumber(field: field)
+        XCTAssertNotNil(callNumber)
+        XCTAssertEqual(callNumber!.system, .ddc)
+        XCTAssertEqual(callNumber!.description, "499.99")
     }
 
     func testTitle() {
