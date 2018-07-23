@@ -134,7 +134,7 @@
 - (NSString *)isbn10 {
     if (_isbn10 == nil) {
         for (BibMarcRecordField *field in [self fields]) {
-            if ([field.fieldTag isEqualToString:BibRecordFieldTagIsbn]) {
+            if ([field.fieldTag isEqualToString:BibMarcRecordFieldTagIsbn]) {
                 NSString *const isbn = field['a'];
                 if ([isbn length] == 10) {
                     return (_isbn10 = isbn);
@@ -148,7 +148,7 @@
 - (NSString *)isbn13 {
     if (_isbn13 == nil) {
         for (BibMarcRecordField *field in [self fields]) {
-            if ([field.fieldTag isEqualToString:BibRecordFieldTagIsbn]) {
+            if ([field.fieldTag isEqualToString:BibMarcRecordFieldTagIsbn]) {
                 NSString *const isbn = field['a'];
                 if ([isbn length] == 13) {
                     return (_isbn13 = isbn);
@@ -200,7 +200,7 @@
     if (_authors == nil) {
         NSMutableArray *const authors = [NSMutableArray new];
         for (BibMarcRecordField *field in [self fields]) {
-            if (![field.fieldTag isEqualToString:BibRecordFieldTagAuthor]) { continue; }
+            if (![field.fieldTag isEqualToString:BibMarcRecordFieldTagAuthor]) { continue; }
             NSString *const name = field['a'];
             NSString *const numerics = field['b'] ?: @"";
             NSString *const title = field['c'] ?: @"";
@@ -219,7 +219,7 @@
     if (_editions == nil) {
         NSMutableArray *const editions = [NSMutableArray new];
         for (BibMarcRecordField *field in [self fields]) {
-            if (![field.fieldTag isEqualToString:BibRecordFieldTagEdition]) { continue; }
+            if (![field.fieldTag isEqualToString:BibMarcRecordFieldTagEdition]) { continue; }
             NSString *edition = field['a'];
             NSString *const remainder = field['b'] ?: @"";
             if ([edition hasSuffix:@" /"] || [edition hasSuffix:@" ="]) {
@@ -236,7 +236,7 @@
     if (_subjects == nil) {
         NSMutableArray *const subjects = [NSMutableArray new];
         for (BibMarcRecordField *field in [self fields]) {
-            if (![field.fieldTag isEqualToString:BibRecordFieldTagSubject]) { continue; }
+            if (![field.fieldTag isEqualToString:BibMarcRecordFieldTagSubject]) { continue; }
             char const *const subfields = (char[]){'a', 'b', 'v', 'x', 'y', 'z'};
             for (int index = 0; index < 6; index += 1) {
                 NSString *const entry = field[subfields[index]];
@@ -252,7 +252,7 @@
     if (_summaries == nil) {
         NSMutableArray *summaries = [NSMutableArray new];
         for (BibMarcRecordField *field in [self fields]) {
-            if (![field.fieldTag isEqualToString:BibRecordFieldTagSummary]) { continue; }
+            if (![field.fieldTag isEqualToString:BibMarcRecordFieldTagSummary]) { continue; }
             NSMutableString *const summary = [field['a'] mutableCopy];
             NSString *const expansion = field['b'];
             if (expansion != nil && ![expansion isEqualToString:@""]) {

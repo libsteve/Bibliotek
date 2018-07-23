@@ -68,7 +68,7 @@ static NSRegularExpression *lccRegex;
 }
 
 - (NSArray<NSString *> *)componentsFromString:(NSString *)string {
-    if ([_fieldTag isEqualToString:BibRecordFieldTagLCC]) {
+    if ([_fieldTag isEqualToString:BibMarcRecordFieldTagLCC]) {
         NSRange const range = NSMakeRange(0, string.length);
         NSTextCheckingResult *const result = [lccRegex firstMatchInString:string options:0 range:range];
         if (result == nil) {
@@ -84,7 +84,7 @@ static NSRegularExpression *lccRegex;
             [components addObject:[string substringWithRange:range]];
         }
         return components;
-    } else if ([_fieldTag isEqualToString:BibRecordFieldTagDDC]) {
+    } else if ([_fieldTag isEqualToString:BibMarcRecordFieldTagDDC]) {
         return [[string stringByReplacingOccurrencesOfString:@"/" withString:@""] componentsSeparatedByString:@" "];
     }
     return nil;
@@ -100,7 +100,7 @@ static NSRegularExpression *lccRegex;
     static BibClassificationSystem *system;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        system = [[BibClassificationSystem alloc] initWithAcronym:@"DDC" description:@"Dewey Decimal Classification" fieldTag:BibRecordFieldTagDDC];
+        system = [[BibClassificationSystem alloc] initWithAcronym:@"DDC" description:@"Dewey Decimal Classification" fieldTag:BibMarcRecordFieldTagDDC];
     });
     return system;
 }
@@ -109,7 +109,7 @@ static NSRegularExpression *lccRegex;
     static BibClassificationSystem *system;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        system = [[BibClassificationSystem alloc] initWithAcronym:@"LCC" description:@"Library of Congress Classification" fieldTag:BibRecordFieldTagLCC];
+        system = [[BibClassificationSystem alloc] initWithAcronym:@"LCC" description:@"Library of Congress Classification" fieldTag:BibMarcRecordFieldTagLCC];
     });
     return system;
 }

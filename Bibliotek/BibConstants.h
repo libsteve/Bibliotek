@@ -179,44 +179,44 @@ extern NSString *BibFetchRequestSearchStrategyDescription(BibFetchRequestSearchS
 typedef NSString *BibMarcRecordFieldTag NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(MarcRecord.FieldTag);
 
 /// The field contains an item's ISBN.
-extern BibMarcRecordFieldTag const BibRecordFieldTagIsbn;
+extern BibMarcRecordFieldTag const BibMarcRecordFieldTagIsbn;
 
 /// The field contains a Library of Congress classification number.
-extern BibMarcRecordFieldTag const BibRecordFieldTagLCC NS_SWIFT_NAME(lcc);
+extern BibMarcRecordFieldTag const BibMarcRecordFieldTagLCC NS_SWIFT_NAME(lcc);
 
 /// The field contains a Dewey Decimal classification number.
-extern BibMarcRecordFieldTag const BibRecordFieldTagDDC NS_SWIFT_NAME(ddc);
+extern BibMarcRecordFieldTag const BibMarcRecordFieldTagDDC NS_SWIFT_NAME(ddc);
 
 /// The field contains an author's name.
-extern BibMarcRecordFieldTag const BibRecordFieldTagAuthor;
+extern BibMarcRecordFieldTag const BibMarcRecordFieldTagAuthor;
 
 /// The field contains the title of the item.
-extern BibMarcRecordFieldTag const BibRecordFieldTagTitle;
+extern BibMarcRecordFieldTag const BibMarcRecordFieldTagTitle;
 
 /// The field contains edition information about the item.
-extern BibMarcRecordFieldTag const BibRecordFieldTagEdition;
+extern BibMarcRecordFieldTag const BibMarcRecordFieldTagEdition;
 
 /// The field contains information about the publisher.
-extern BibMarcRecordFieldTag const BibRecordFieldTagPublication;
+extern BibMarcRecordFieldTag const BibMarcRecordFieldTagPublication;
 
 /// The field contains a description of an item's physical condition.
-extern BibMarcRecordFieldTag const BibRecordFieldTagPhysicalDescription;
+extern BibMarcRecordFieldTag const BibMarcRecordFieldTagPhysicalDescription;
 
 /// The field contains a note within the record.
-extern BibMarcRecordFieldTag const BibRecordFieldTagNote;
-extern BibMarcRecordFieldTag const BibRecordFieldTagBibliography;
+extern BibMarcRecordFieldTag const BibMarcRecordFieldTagNote;
+extern BibMarcRecordFieldTag const BibMarcRecordFieldTagBibliography;
 
 /// The field contains a summary about the item.
-extern BibMarcRecordFieldTag const BibRecordFieldTagSummary;
+extern BibMarcRecordFieldTag const BibMarcRecordFieldTagSummary;
 
 /// The field contains a subject heading.
-extern BibMarcRecordFieldTag const BibRecordFieldTagSubject;
+extern BibMarcRecordFieldTag const BibMarcRecordFieldTagSubject;
 
 /// The field contains a genre to which an item belongs.
-extern BibMarcRecordFieldTag const BibRecordFieldTagGenre;
+extern BibMarcRecordFieldTag const BibMarcRecordFieldTagGenre;
 
 /// The field contains the name of the series to which an item belongs.
-extern BibMarcRecordFieldTag const BibRecordFieldTagSeries;
+extern BibMarcRecordFieldTag const BibMarcRecordFieldTagSeries;
 
 /// \returns A string description of the given feild tag.
 extern NSString *BibMarcRecordFieldTagDescription(BibMarcRecordFieldTag const tag) NS_REFINED_FOR_SWIFT;

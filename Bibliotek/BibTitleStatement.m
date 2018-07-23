@@ -15,7 +15,7 @@
 }
 
 - (instancetype)initWithField:(BibMarcRecordField *)field {
-    if ([field.fieldTag isEqualToString:BibRecordFieldTagTitle] && (self = [super init])) {
+    if ([field.fieldTag isEqualToString:BibMarcRecordFieldTagTitle] && (self = [super init])) {
         _field = field;
     } else {
         return nil;
@@ -70,7 +70,7 @@
 }
 
 - (NSString *)debugDescription {
-    NSMutableString *const description = [NSMutableString stringWithFormat:@"%@    $a%@", BibRecordFieldTagTitle, [self title]];
+    NSMutableString *const description = [NSMutableString stringWithFormat:@"%@    $a%@", BibMarcRecordFieldTagTitle, [self title]];
     NSMutableString *const subtitles = [NSMutableString new];
     for (NSString *subtitle in [self subtitles]) {
         if (![subtitles isEqualToString:@""]) { [subtitles appendString:@" : "]; }
@@ -87,7 +87,7 @@
     if (![people isEqualToString:@""]) {
         [description appendString:[NSString stringWithFormat:@" /$c%@", people]];
     }
-    return [NSMutableString stringWithFormat:@"%@    $a%@%@%@.", BibRecordFieldTagTitle, [self title], subtitles, people];
+    return [NSMutableString stringWithFormat:@"%@    $a%@%@%@.", BibMarcRecordFieldTagTitle, [self title], subtitles, people];
 }
 
 @end
