@@ -33,20 +33,25 @@ static NSRegularExpression *regex;
 
 - (NSString *)classification {
     NSArray *components = @[ _subjectArea, _topic ];
-    if ([_cutters count] > 0) {
+    if ([_cutters count] > 1) {
         NSRange const range = NSMakeRange(0, [_cutters count] - 1);
-        NSArray *cutters = [_cutters subarrayWithRange:range];
-        components = [components arrayByAddingObjectsFromArray:cutters];
+        NSMutableArray *const cutters = [[_cutters subarrayWithRange:range] mutableCopy];
+        components = [components arrayByAddingObject:({
+            [NSString stringWithFormat:@".%@", [cutters componentsJoinedByString:@" "]];
+        })];
     }
     return [components componentsJoinedByString:@" "];
 }
 
 - (NSString *)item {
     NSMutableString *item = [NSMutableString new];
-    NSString *cutter = [_cutters lastObject];
-    if (cutter != nil) {
-        [item appendString:cutter];
-        [item appendString:@" "];
+    switch ([_cutters count]) {
+        case 0: break;
+        case 1:
+            [item appendString:@"."];
+        default:
+            [item appendString:[_cutters lastObject]];
+            [item appendString:@" "];
     }
     [item appendString:_date];
     if (_work != nil) {
@@ -199,7 +204,7 @@ static CodingKeys const CallNumberCutters = @"CallNumberCutters";
             [NSString stringWithFormat:@"(?:\\s*%@(?:%@)?)", topic, date];
         })];
         [components addObject:({
-            NSString *const cutter = @"(?<Cutter0>\\.[A-Z]+\\d*)";
+            NSString *const cutter = @"\\.(?<Cutter0>[A-Z]+\\d*)";
             NSString *const date = @"\\s+(?<CutterDate0>\\d{1,4})\\s+";
             [NSString stringWithFormat:@"(?:\\s*%@(?:%@)?)", cutter, date];
         })];
