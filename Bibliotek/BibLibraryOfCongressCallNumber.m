@@ -28,7 +28,7 @@ static NSRegularExpression *regex;
 #pragma mark - BibCallNumber
 
 - (BibClassificationSystem *)system {
-    return [BibClassificationSystem lcc];
+    return [BibClassificationSystem libraryOfCongress];
 }
 
 - (NSString *)classification {

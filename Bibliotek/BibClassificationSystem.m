@@ -67,7 +67,7 @@ static NSRegularExpression *lccRegex;
 + (BOOL)supportsSecureCoding { return YES; }
 
 + (instancetype)systemForFieldTag:(BibMarcRecordFieldTag)fieldTag {
-    NSArray *const systems = @[[self lcc], [self ddc]];
+    NSArray *const systems = @[[self libraryOfCongress], [self deweyDecimal]];
     for (BibClassificationSystem *system in systems) {
         if ([fieldTag isEqualToString:[system fieldTag]]) {
             return system;
@@ -82,7 +82,7 @@ static NSRegularExpression *lccRegex;
     return _description;
 }
 
-+ (BibClassificationSystem *)ddc {
++ (BibClassificationSystem *)deweyDecimal {
     static BibClassificationSystem *system;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -91,7 +91,7 @@ static NSRegularExpression *lccRegex;
     return system;
 }
 
-+ (BibClassificationSystem *)lcc {
++ (BibClassificationSystem *)libraryOfCongress {
     static BibClassificationSystem *system;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{

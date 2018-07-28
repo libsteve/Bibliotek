@@ -62,7 +62,7 @@ class BibliotekTests: XCTestCase {
         XCTAssertEqual(field.debugDescription, "050  0 $aPM8008$b.O37 2009")
         let callNumber = LibraryOfCongressCallNumber(field: field)
         XCTAssertNotNil(callNumber)
-        XCTAssertEqual(callNumber!.system, .lcc)
+        XCTAssertEqual(callNumber!.system, .libraryOfCongress)
         XCTAssertEqual(callNumber!.description, "PM 8008 .O37 2009")
     }
 
@@ -74,7 +74,7 @@ class BibliotekTests: XCTestCase {
         XCTAssertEqual(field.debugDescription, "050  0 $aQA76.9.A43$bE78 2017")
         let callNumber = LibraryOfCongressCallNumber(field: field)
         XCTAssertNotNil(callNumber)
-        XCTAssertEqual(callNumber!.system, .lcc)
+        XCTAssertEqual(callNumber!.system, .libraryOfCongress)
         XCTAssertEqual(callNumber!.description, "QA 76.9 .A43 E78 2017")
 
     }
@@ -87,7 +87,7 @@ class BibliotekTests: XCTestCase {
         XCTAssertEqual(field.debugDescription, "082  0 $222$a499/.99")
         let callNumber = DeweyDecimalCallNumber(field: field)
         XCTAssertNotNil(callNumber)
-        XCTAssertEqual(callNumber!.system, .ddc)
+        XCTAssertEqual(callNumber!.system, .deweyDecimal)
         XCTAssertEqual(callNumber!.description, "499.99")
     }
 

@@ -30,7 +30,7 @@ static NSRegularExpression *regex;
 #pragma mark - BibCallNumber
 
 - (BibClassificationSystem *)system {
-    return [BibClassificationSystem ddc];
+    return [BibClassificationSystem deweyDecimal];
 }
 
 - (NSString *)classification {

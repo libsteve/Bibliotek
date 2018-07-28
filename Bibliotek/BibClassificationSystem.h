@@ -26,10 +26,10 @@ NS_SWIFT_NAME(ClassificationSystem)
 @property(nonatomic, readonly, copy) BibMarcRecordFieldTag fieldTag;
 
 /// The Library of Congress Classification System.
-@property(nonatomic, readonly, class) BibClassificationSystem *lcc;
+@property(nonatomic, readonly, class) BibClassificationSystem *libraryOfCongress;
 
 /// The Dewey Decimal System.
-@property(nonatomic, readonly, class) BibClassificationSystem *ddc;
+@property(nonatomic, readonly, class) BibClassificationSystem *deweyDecimal;
 
 /// \param acronym The abbreviated representation of the system.
 /// \param description The name of the classification system.
