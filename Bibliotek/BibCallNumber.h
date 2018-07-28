@@ -13,6 +13,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// A call number is the identifier assigned to an item within a classification system.
+/// It is generally composed of two parts: the classification and item.
 NS_SWIFT_NAME(CallNumber)
 @protocol BibCallNumber <NSObject, NSCopying, NSSecureCoding>
 
@@ -33,8 +35,12 @@ NS_SWIFT_NAME(CallNumber)
 /// \param callNumber The call number with which similarity should be determined.
 - (BOOL)isSimilarToCallNumber:(id<BibCallNumber>)callNumber NS_SWIFT_NAME(isEqual(to:));
 
+/// Given a wellformed string representation, create a call number instance.
+/// \note Malformed representations for the classification system will not produce a call number.
 - (nullable instancetype)initWithString:(NSString *)string;
 
+/// Create a call number from the contents of a MARC field.
+/// \note Fields without relevant for the classification system will not produce a call number.
 - (nullable instancetype)initWithField:(BibMarcRecordField *)field;
 
 @end
