@@ -17,7 +17,7 @@
     NSString *_database;
     NSString *_isbn10;
     NSString *_isbn13;
-    NSArray<BibCallNumber *> *_callNumbers;
+    NSArray<id<BibCallNumber>> *_callNumbers;
     NSString *_title;
     NSArray<NSString *> *_subtitles;
     NSArray<NSString *> *_contributors;
@@ -142,7 +142,7 @@
     if (_isbn13.length != 0) {
         [string appendString:[NSString stringWithFormat:@"\n(isbn13: %@)", _isbn13]];
     }
-    for (BibCallNumber *classification in _callNumbers) {
+    for (id<BibCallNumber> classification in _callNumbers) {
         [string appendString:[NSString stringWithFormat:@"\n(%@)", classification]];
     }
     [string appendString:[NSString stringWithFormat:@"\n(title: %@)", _title]];
@@ -193,7 +193,7 @@
 }
 
 @dynamic classifications;
-- (void)setClassifications:(NSArray<BibCallNumber *> *)classifications {
+- (void)setClassifications:(NSArray<id<BibCallNumber>> *)classifications {
     _callNumbers = [classifications copy];
 }
 

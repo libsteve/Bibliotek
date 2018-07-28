@@ -76,29 +76,6 @@ static NSRegularExpression *lccRegex;
     return nil;
 }
 
-- (NSArray<NSString *> *)componentsFromString:(NSString *)string {
-    if ([_fieldTag isEqualToString:BibMarcRecordFieldTagLCC]) {
-        NSRange const range = NSMakeRange(0, string.length);
-        NSTextCheckingResult *const result = [lccRegex firstMatchInString:string options:0 range:range];
-        if (result == nil) {
-            return nil;
-        }
-        NSMutableArray *components = [NSMutableArray new];
-        NSUInteger const count = [result numberOfRanges];
-        for (NSUInteger index = 1; index < count; index += 1) {
-            NSRange const range = [result rangeAtIndex:index];
-            if (range.location == NSNotFound) {
-                continue;
-            }
-            [components addObject:[string substringWithRange:range]];
-        }
-        return components;
-    } else if ([_fieldTag isEqualToString:BibMarcRecordFieldTagDDC]) {
-        return [string componentsSeparatedByString:@"/"];
-    }
-    return nil;
-}
-
 #pragma mark - Properties
 
 - (NSString *)description {

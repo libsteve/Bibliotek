@@ -25,9 +25,9 @@ NS_SWIFT_NAME(ClassificationSystem)
 
 @property(nonatomic, readonly, class) BibClassificationSystem *ddc;
 
-- (instancetype)initWithAcronym:(NSString *)acronym description:(NSString *)description fieldTag:(BibMarcRecordFieldTag)fieldTag NS_DESIGNATED_INITIALIZER;
-
-- (NSArray<NSString *> *)componentsFromString:(NSString *)string;
+- (instancetype)initWithAcronym:(NSString *)acronym
+                    description:(NSString *)description
+                       fieldTag:(BibMarcRecordFieldTag)fieldTag NS_DESIGNATED_INITIALIZER;
 
 - (BOOL)isEqualToSystem:(BibClassificationSystem *)system;
 

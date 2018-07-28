@@ -10,12 +10,18 @@ import Foundation
 
 extension CallNumber {
     public static func == (lhs: CallNumber, rhs: CallNumber) -> Bool {
-        return lhs.isEqual(to: rhs)
+        return lhs.isEqual(rhs)
     }
 }
 
-extension CallNumber: CustomPlaygroundDisplayConvertible {
+extension LibraryOfCongressCallNumber: CustomPlaygroundDisplayConvertible {
     public var playgroundDescription: Any {
         return description
+    }
+}
+
+extension DeweyDecimalCallNumber: CustomPlaygroundDisplayConvertible {
+    public var playgroundDescription: Any {
+        return debugDescription
     }
 }

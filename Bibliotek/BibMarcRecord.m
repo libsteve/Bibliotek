@@ -7,11 +7,12 @@
 //
 
 #import "BibCallNumber.h"
-#import "BibRecord.h"
+#import "BibDeweyDecimalCallNumber.h"
+#import "BibLibraryOfCongressCallNumber.h"
 #import "BibMarcRecord.h"
 #import "BibMarcRecord+Private.h"
-#import "BibCallNumber.h"
 #import "BibMarcRecordField.h"
+#import "BibRecord.h"
 #import "BibTitleStatement.h"
 #import <yaz/zoom.h>
 
@@ -19,7 +20,7 @@
     NSString *_database;
     NSString *_isbn10;
     NSString *_isbn13;
-    NSArray<BibCallNumber *> *_callNumbers;
+    NSArray<id<BibCallNumber>> *_callNumbers;
     BibTitleStatement *_titleStatement;
     NSArray<NSString *> *_authors;
     NSArray<NSString *> *_editions;
@@ -163,9 +164,11 @@
     if (_callNumbers == nil) {
         NSMutableArray *const array = [NSMutableArray array];
         for (BibMarcRecordField *field in [self fields]) {
-            
-            BibCallNumber *const callNumber = [[BibCallNumber alloc] initWithField:field];
-            if (callNumber != nil) { [array addObject:callNumber]; }
+            id<BibCallNumber> callNumber = nil;
+            if ((callNumber = [[BibDeweyDecimalCallNumber alloc] initWithField:field])
+                || (callNumber = [[BibLibraryOfCongressCallNumber alloc] initWithField:field])) {
+                [array addObject:callNumber];
+            }
         }
         _callNumbers = [array copy];
     }

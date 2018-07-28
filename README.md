@@ -72,11 +72,11 @@ References
     - [082 Dewey Decimal Classification][marc-ddc]
     - [245 Title Statement][marc-title]
     - [520 Summary][marc-summary]
+    - [765 Synthesized Number Components][marc-number-components]
 - [MARCXML Schema][marcxml]
     - [Single Record Example][marcxml-example]
 - [Marc 21 Character Sets][marc-characterset]
 - [International Standard Bibliographic Description][isbd]
-
 
 [bib1]: http://www.loc.gov/z3950/agency/bib1.html
 [marc-21]: https://www.loc.gov/marc/bibliographic/
@@ -88,7 +88,16 @@ References
 [marcxml]: http://www.loc.gov/standards/marcxml/
 [marcxml-example]: http://www.loc.gov/standards/marcxml/Sandburg/sandburg.xml
 [marc-characterset]: https://www.loc.gov/marc/specifications/specchargeneral.html
+[marc-number-components]: http://www.loc.gov/marc/classification/cd765.html
 [isbd]: https://www.ifla.org/files/assets/cataloguing/isbd/isbd-cons_20110321.pdf
+
+### OCLC Documents
+
+- [Segmentation Marks in Dewey Numbers][dewey-segmentation]
+- [Bibliographic Formats and Standards][oclc-bib-std]
+
+[dewey-segmentation]: https://www.oclc.org/content/dam/oclc/dewey/discussion/papers/segmentation_marks.pdf
+[oclc-bib-std]: https://www.oclc.org/bibformats/en.html
 
 ### YAZ Documentation from IndexData
 
@@ -119,7 +128,9 @@ References
 - [Torroidal Code's isbn2.py][isbn2.py]
 - [kurtraschke's parsecallno.py][parsecallno.py]
 - [Wikidata page on Library of Congress Classification][wikidata]
+- [025.431: The Dewey Blog][dewey-blog]
 
 [isbn2.py]: https://gist.github.com/toroidal-code/6415977
 [parsecallno.py]: https://gist.github.com/kurtraschke/560162
 [wikidata]: https://www.wikidata.org/wiki/Property:P1149
+[dewey-blog]: http://ddc.typepad.com/025431/

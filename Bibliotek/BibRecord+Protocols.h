@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@class BibCallNumber;
 @class BibMarcRecordField;
 @class BibTitleStatement;
+@protocol BibCallNumber;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -27,7 +27,7 @@ NS_SWIFT_NAME(AnyRecord)
 @property(nonatomic, readonly, nullable, copy) NSString *isbn13;
 
 /// A list of classifications applicable to the item represented by this record.
-@property(nonatomic, readonly, copy) NSArray<BibCallNumber *> *callNumbers;
+@property(nonatomic, readonly, copy) NSArray<id<BibCallNumber>> *callNumbers;
 
 /// The title of the item represented by this record.
 @property(nonatomic, readonly, copy) NSString *title;
@@ -65,7 +65,7 @@ NS_SWIFT_NAME(AnyMutableRecord)
 @property(nonatomic, readwrite, nullable, copy) NSString *isbn13;
 
 /// A list of classifications applicable to the item represented by this record.
-@property(nonatomic, readwrite, copy) NSArray<BibCallNumber *> *classifications;
+@property(nonatomic, readwrite, copy) NSArray<id<BibCallNumber>> *classifications;
 
 /// The title of the item represented by this record.
 @property(nonatomic, readwrite, copy) NSString *title;
