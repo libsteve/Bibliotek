@@ -34,6 +34,14 @@ class BibliotekTests: XCTestCase {
         }
     }
 
+    func testCopyFetchRequest() {
+        let r = FetchRequest(keywords: ["9780393349726"], scope: .isbn)
+        XCTAssertEqual(r.keywords.count, 1)
+        let copy = r.copy() as! FetchRequest
+        XCTAssertEqual(copy.keywords.count, 1)
+        XCTAssertEqual(r.keywords, copy.keywords)
+    }
+
     // NOTE: The information for the following tests is real data pertaining to "In the Land of Invented Languages"—a great book—and is provided by the Library of Congress's VOYAGER database.
 
     func testFetchIsbn() {

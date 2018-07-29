@@ -42,7 +42,7 @@
 }
 
 - (instancetype)initWithRequest:(BibFetchRequest *)request {
-    return [self initWithKeywords:_keywords scope:_scope structure:_structure strategy:_strategy];
+    return [self initWithKeywords:[request keywords] scope:[request scope] structure:[request structure] strategy:[request strategy]];
 }
 
 - (void)dealloc {
