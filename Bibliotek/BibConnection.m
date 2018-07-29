@@ -63,7 +63,9 @@ NSString *const kDefaultDatabase = @"Default";
     }
     if (error != NULL) {
         NSDictionary *const userInfo = @{ BibConnectionErrorName : @(name),
-                                          BibConnectionErrorInfo : @(info) };
+                                          BibConnectionErrorInfo : @(info),
+                                          NSLocalizedDescriptionKey : @(name),
+                                          NSLocalizedFailureReasonErrorKey : @(info) };
         *error = [NSError errorWithDomain:BibConnectionErrorDomain code:code userInfo:userInfo];
     }
     return YES;
