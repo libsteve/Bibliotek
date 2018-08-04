@@ -12,9 +12,6 @@
 
 NSErrorDomain const BibConnectionErrorDomain = @"BibConnectionErrorDomain";
 
-NSErrorUserInfoKey const BibConnectionErrorName = @"BibConnectionErrorName";
-NSErrorUserInfoKey const BibConnectionErrorInfo = @"BibConnectionErrorInfo";
-
 #pragma mark - Authentication Mode
 
 BibAuthenticationMode const BibAuthenticationModeBasic = @"basic";

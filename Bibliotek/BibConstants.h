@@ -13,13 +13,22 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Error Domain
 
 /// An error pertaining to the connection with a z39.50 host.
-extern NSErrorDomain const BibConnectionErrorDomain;
+extern NSErrorDomain const BibConnectionErrorDomain NS_SWIFT_NAME(Connection.ErrorDomain);
 
-/// A short description of the error.
-extern NSErrorUserInfoKey const BibConnectionErrorName;
+/// An indicator for the cause of an error encountered while making a connection with a host.
+typedef NS_ENUM(NSInteger, BibConnectionErrorCode) {
+    /// A connection with the specified host, port, and database could not be made.
+    BibConnectionErrorCodeFailed = 10000,
 
-/// Some information related to the error.
-extern NSErrorUserInfoKey const BibConnectionErrorInfo;
+    /// The connection was abruptly closed.
+    BibConnectionErrorCodeLost = 10004,
+
+    /// The endpoint rejected the connection request, possibly due to incorrect credentials.
+    BibConnectionErrorCodeDenied = 10005,
+
+    /// The endpoint did not respond within the expected amount of time.
+    BibConnectionErrorCodeTimeout = 10007,
+} NS_SWIFT_NAME(Connection.ErrorCode);
 
 #pragma mark Query Notation
 

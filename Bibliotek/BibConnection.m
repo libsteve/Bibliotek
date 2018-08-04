@@ -44,6 +44,7 @@ NSString *const kDefaultDatabase = @"Default";
         _connection = ZOOM_connection_new([_host UTF8String], (int)_port);
         self.database = database;
         if ([self error:error]) {
+            ZOOM_connection_close(_connection);
             return nil;
         }
     }
@@ -55,19 +56,37 @@ NSString *const kDefaultDatabase = @"Default";
 }
 
 - (BOOL)error:(NSError *__autoreleasing *)error {
-    char const *name = "Unknown failure";
-    char const *info = "No known information";
+    char const *name = NULL;
+    char const *info = NULL;
     int const code = ZOOM_connection_error(_connection, &name, &info);
     if (code == 0) {
         return NO;
     }
-    if (error != NULL) {
-        NSDictionary *const userInfo = @{ BibConnectionErrorName : @(name),
-                                          BibConnectionErrorInfo : @(info),
-                                          NSLocalizedDescriptionKey : @(name),
-                                          NSLocalizedFailureReasonErrorKey : @(info) };
-        *error = [NSError errorWithDomain:BibConnectionErrorDomain code:code userInfo:userInfo];
+    if (error == NULL) {
+        return YES;
     }
+    NSString *const endpoint = [NSString stringWithFormat:@"%@:%u/%@", _host, (unsigned)_port, _database];
+    NSString *description = @(name ?: "There was an unknown failure.");
+    NSString *reason = @(info ?: "No information is available at this time.");
+    switch (code) {
+        case ZOOM_ERROR_CONNECT:
+            description = [NSString stringWithFormat:@"A connection could not be made with %@.", endpoint];
+            break;
+        case ZOOM_ERROR_CONNECTION_LOST:
+            description = [NSString stringWithFormat:@"The connection with %@ was lost.", endpoint];
+            break;
+        case ZOOM_ERROR_INIT:
+            description = [NSString stringWithFormat:@"The request to connect with %@ was deined.", endpoint];
+            break;
+        case ZOOM_ERROR_TIMEOUT:
+            description = [NSString stringWithFormat:@"The connection with %@ timed out.", endpoint];
+            break;
+        default:
+            break;
+    }
+    NSDictionary *const userInfo = @{ NSLocalizedDescriptionKey : description,
+                                      NSLocalizedFailureReasonErrorKey : reason };
+    *error = [NSError errorWithDomain:BibConnectionErrorDomain code:code userInfo:userInfo];
     return YES;
 }
 
