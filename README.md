@@ -129,8 +129,10 @@ References
 - [kurtraschke's parsecallno.py][parsecallno.py]
 - [Wikidata page on Library of Congress Classification][wikidata]
 - [025.431: The Dewey Blog][dewey-blog]
+- [Documentation for the ZOOM Pearl extension][zoom-pearl]
 
 [isbn2.py]: https://gist.github.com/toroidal-code/6415977
 [parsecallno.py]: https://gist.github.com/kurtraschke/560162
 [wikidata]: https://www.wikidata.org/wiki/Property:P1149
 [dewey-blog]: http://ddc.typepad.com/025431/
+[zoom-pearl]: https://metacpan.org/pod/release/MIRK/Net-Z3950-ZOOM-1.01/lib/ZOOM.pod
