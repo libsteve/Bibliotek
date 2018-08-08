@@ -151,3 +151,16 @@ NSString *BibMarcRecordFieldIndicatorDescription(BibMarcRecordFieldIndicator con
 NSString *BibMarcRecordFieldCodeDescription(BibMarcRecordFieldCode const code) {
     return [NSString stringWithFormat:@"$%c", code];
 }
+
+#pragma mark - Connection Events
+
+BibConnectionEvent const BibConnectionEventDidConnect = @"DidConnect";
+BibConnectionEvent const BibConnectionEventDidSendData = @"DidSendData";
+BibConnectionEvent const BibConnectionEventDidReceiveData = @"DidReceiveData";
+BibConnectionEvent const BibConnectionEventDidTimeout = @"DidTimeout";
+BibConnectionEvent const BibConnectionEventUnknown = @"Unknown";
+BibConnectionEvent const BibConnectionEventDidSendAPDU = @"DidSendAPDU";
+BibConnectionEvent const BibConnectionEventDidReceiveAPDU = @"DidReceiveAPDU";
+BibConnectionEvent const BibConnectionEventDidReceiveRecord = @"DidReceiveRecord";
+BibConnectionEvent const BibConnectionEventDidReceiveSearch = @"DidReceiveSearch";
+BibConnectionEvent const BibConnectionEventDidEndConnection = @"DidEndConnection";

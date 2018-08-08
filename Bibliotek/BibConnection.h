@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "BibConstants.h"
 
+@class BibConnectionEndpoint;
+@class BibConnectionOptions;
 @class BibFetchRequest;
 @class BibRecord;
 @class BibRecordList;
@@ -18,29 +20,9 @@ NS_ASSUME_NONNULL_BEGIN
 NS_SWIFT_NAME(Connection)
 @interface BibConnection : NSObject
 
-/// The URL to the z39.50 host server.
-@property(nonatomic, readonly, copy) NSString *host;
+@property(nonatomic, readonly, copy) BibConnectionEndpoint *endpoint;
 
-/// The port number used to connect to the server.
-@property(nonatomic, readonly, assign) NSInteger port;
-
-/// The name of the database with wich to make queries.
-@property(nonatomic, readwrite, copy) NSString *database;
-
-/// A username to gain access to the database.
-@property(nonatomic, readwrite, copy, nullable) NSString *user;
-
-/// The group name used to gain access to the database.
-@property(nonatomic, readwrite, copy, nullable) NSString *group;
-
-/// A password to gain entry to the database.
-@property(nonatomic, readwrite, copy, nullable) NSString *password;
-
-/// The authentication method used to sign into the database.
-@property(nonatomic, readwrite, copy) BibAuthenticationMode authentication;
-
-@property(nonatomic, readwrite, copy, nullable) NSString *lang;
-@property(nonatomic, readwrite, copy, nullable) NSString *charset;
+@property(nonatomic, readonly, copy) BibConnectionOptions *options;
 
 #pragma mark - Initialization
 
@@ -50,10 +32,11 @@ NS_SWIFT_NAME(Connection)
 
 - (nullable instancetype)initWithHost:(NSString *)host port:(NSInteger)port error:(NSError *__autoreleasing _Nullable *_Nullable)error;
 
-- (nullable instancetype)initWithHost:(NSString *)host port:(NSInteger)port database:(NSString *)database error:(NSError *__autoreleasing _Nullable *_Nullable)error NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithHost:(NSString *)host port:(NSInteger)port database:(NSString *)database error:(NSError *__autoreleasing _Nullable *_Nullable)error;
 
-- (instancetype)init NS_UNAVAILABLE;
-+ (instancetype)new NS_UNAVAILABLE;
+- (nullable instancetype)initWithEndpoint:(BibConnectionEndpoint *)endpoint error:(NSError *__autoreleasing _Nullable *_Nullable)error;
+
+- (nullable instancetype)initWithEndpoint:(BibConnectionEndpoint *)endpoint options:(BibConnectionOptions *)options error:(NSError *__autoreleasing _Nullable *_Nullable)error NS_DESIGNATED_INITIALIZER;
 
 #pragma mark - Search
 
@@ -61,6 +44,21 @@ NS_SWIFT_NAME(Connection)
 /// \param request A description of the properties matching requested records.
 /// \returns A collection of records whose properties match those described in the fetch request.
 - (nullable BibRecordList *)fetchRecordsWithRequest:(BibFetchRequest *)request error:(NSError *__autoreleasing _Nullable *_Nullable)error NS_SWIFT_NAME(fetchRecords(request:));
+
+#pragma mark - Event polling
+
+@property(nonatomic, readonly, assign) BOOL needsEventPolling;
+
+@property(nonatomic, readonly, nullable) BibConnectionEvent event;
+
+/// Manually poll the network to get the latest network result for this connection.
+- (nullable BibConnectionEvent)nextEvent:(NSError *__autoreleasing _Nullable *_Nullable)error NS_SWIFT_NAME(nextEvent());
+
+/// Manually poll the network for any new events that have occurred for the given connections.
+/// \param connections A list of connection objects that should be polled for any network events.
+/// \returns The latest connection for which an event occurred. If no events recently occurred, @c nil is returned.
+/// \post The returned connection's @c event property will be appropriately populated.
++ (nullable BibConnection *)processEventsForConnections:(NSArray<BibConnection *> *)connections error:(NSError *__autoreleasing _Nullable *_Nullable)error NS_SWIFT_NAME(processEvents(for:));
 
 @end
 

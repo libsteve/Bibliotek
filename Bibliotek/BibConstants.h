@@ -242,4 +242,19 @@ typedef char BibMarcRecordFieldCode NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(MarcR
 
 extern NSString *BibMarcRecordFieldCodeDescription(BibMarcRecordFieldCode const code) NS_REFINED_FOR_SWIFT;
 
+#pragma mark - Connetion Events
+
+typedef NSString *BibConnectionEvent NS_SWIFT_NAME(Connection.Event);
+
+extern BibConnectionEvent const BibConnectionEventDidConnect;
+extern BibConnectionEvent const BibConnectionEventDidSendData;
+extern BibConnectionEvent const BibConnectionEventDidReceiveData;
+extern BibConnectionEvent const BibConnectionEventDidTimeout;
+extern BibConnectionEvent const BibConnectionEventUnknown;
+extern BibConnectionEvent const BibConnectionEventDidSendAPDU;
+extern BibConnectionEvent const BibConnectionEventDidReceiveAPDU;
+extern BibConnectionEvent const BibConnectionEventDidReceiveRecord;
+extern BibConnectionEvent const BibConnectionEventDidReceiveSearch;
+extern BibConnectionEvent const BibConnectionEventDidEndConnection;
+
 NS_ASSUME_NONNULL_END

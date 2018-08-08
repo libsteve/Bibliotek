@@ -17,6 +17,8 @@ FOUNDATION_EXPORT const unsigned char BibliotekVersionString[];
 #import "BibCallNumber.h"
 #import "BibClassificationSystem.h"
 #import "BibConnection.h"
+#import "BibConnectionEndpoint.h"
+#import "BibConnectionOptions.h"
 #import "BibConstants.h"
 #import "BibDeweyDecimalCallNumber.h"
 #import "BibFetchRequest.h"
