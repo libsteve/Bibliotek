@@ -8,6 +8,16 @@
 
 import Foundation
 
+extension Connection.Error {
+    public var connection: Connection {
+        return errorUserInfo[BibConnectionErrorConnectionKey] as! Connection
+    }
+
+    public var event: Connection.Event? {
+        return errorUserInfo[BibConnectionErrorEventKey] as? Connection.Event
+    }
+}
+
 extension FetchRequest.Scope: CustomStringConvertible, Equatable, Hashable {
     public var description: String {
         return __BibFetchRequestScopeDescription(self)

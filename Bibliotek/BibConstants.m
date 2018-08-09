@@ -10,7 +10,10 @@
 
 #pragma mark Error Domain
 
-NSErrorDomain const BibConnectionErrorDomain = @"BibConnectionErrorDomain";
+NSErrorDomain const BibConnectionErrorDomain = @"brun.steve.bibliotek.connection.error";
+
+NSErrorUserInfoKey const BibConnectionErrorConnectionKey = @"brun.steve.bibliotek.connection.error.connection";
+NSErrorUserInfoKey const BibConnectionErrorEventKey = @"brun.steve.bibliotek.connection.error.event";
 
 #pragma mark - Authentication Mode
 
