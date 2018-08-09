@@ -26,12 +26,14 @@
     ZOOM_resultset _resultset;
     BibConnection *_connection;
     BibFetchRequest *_request;
-    NSUInteger _count;
 }
 
 @synthesize connection = _connection;
 @synthesize request = _request;
-@synthesize count = _count;
+
+- (NSUInteger)count {
+    return (NSUInteger)ZOOM_resultset_size(_resultset);
+}
 
 - (instancetype)initWithZoomResultSet:(ZOOM_resultset)resultset
                            connection:(BibConnection *)connection
@@ -40,7 +42,6 @@
         _connection = connection;
         _request = [request copy];
         _resultset = resultset;
-        _count = (NSInteger)ZOOM_resultset_size(_resultset);
     }
     return self;
 }
@@ -54,11 +55,12 @@
 }
 
 - (id<BibRecord>)firstRecord {
-    return (_count == 0) ? nil : [self recordAtIndex:0];
+    return ([self count] == 0) ? nil : [self recordAtIndex:0];
 }
 
 - (id<BibRecord>)lastRecord {
-    return (_count == 0) ? nil : [self recordAtIndex:_count - 1];
+    NSUInteger const count = [self count];
+    return (count == 0) ? nil : [self recordAtIndex:count - 1];
 }
 
 - (NSArray<id<BibRecord>> *)allRecords {
@@ -70,7 +72,7 @@
 }
 
 - (id<BibRecord>)recordAtIndex:(NSUInteger)index {
-    BibAssert(index < _count, NSRangeException, @"-[%@ %s]: index %lu beyond bounds (0 ..< %lu)", [self className], sel_getName(_cmd), (unsigned long)index, (unsigned long)_count);
+    BibAssert(index < [self count], NSRangeException, @"-[%@ %s]: index %lu beyond bounds (0 ..< %lu)", [self className], sel_getName(_cmd), (unsigned long)index, (unsigned long)[self count]);
     ZOOM_record record = ZOOM_resultset_record(_resultset, (size_t)index);
     return [[BibMarcRecord alloc] initWithZoomRecord:record];
 }
@@ -84,7 +86,7 @@
 }
 
 - (NSArray<id<BibRecord>> *)recordsInRange:(NSRange)range {
-    BibAssert(range.location + range.length <= _count, NSRangeException, @"-[%@ %s]: NSRange(location: %lu, length: %lu) beyond bounds (0 ..< %lu)", [self className], sel_getName(_cmd), (unsigned long)range.location, (unsigned long)range.length, (long)_count);
+    BibAssert(range.location + range.length <= [self count], NSRangeException, @"-[%@ %s]: NSRange(location: %lu, length: %lu) beyond bounds (0 ..< %lu)", [self className], sel_getName(_cmd), (unsigned long)range.location, (unsigned long)range.length, (long)[self count]);
     NSMutableArray *array = [NSMutableArray array];
     ZOOM_record *buffer = calloc(sizeof(ZOOM_record), range.length);
     ZOOM_resultset_records(_resultset, buffer, (size_t)range.location, (size_t)range.location);
