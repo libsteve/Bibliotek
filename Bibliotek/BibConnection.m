@@ -76,6 +76,32 @@
 
 #pragma mark - Error handling
 
+- (NSString *)descriptionForErrorCode:(int)code {
+    switch (code) {
+        case ZOOM_ERROR_CONNECT:
+            return [NSString stringWithFormat:@"A connection could not be made with %@.", _endpoint];
+        case ZOOM_ERROR_CONNECTION_LOST:
+            return [NSString stringWithFormat:@"The connection with %@ was lost.", _endpoint];
+        case ZOOM_ERROR_INIT:
+            return [NSString stringWithFormat:@"The request to connect with %@ was deined.", _endpoint];
+        case ZOOM_ERROR_TIMEOUT:
+            return [NSString stringWithFormat:@"The connection with %@ timed out.", _endpoint];
+        default:
+            return nil;
+    }
+}
+
+- (NSError *)errorWithErrorCode:(int)code description:(NSString *)description reason:(NSString *)reason {
+    NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : description,
+                                NSLocalizedFailureReasonErrorKey : reason,
+                                BibConnectionErrorConnectionKey : self };
+    if (_event) {
+        userInfo = [userInfo mutableCopy];
+        [(NSMutableDictionary *)userInfo setObject:_event forKey:BibConnectionErrorEventKey];
+    }
+    return [NSError errorWithDomain:BibConnectionErrorDomain code:code userInfo:userInfo];
+}
+
 - (BOOL)error:(NSError *__autoreleasing *)error {
     char const *name = NULL;
     char const *info = NULL;
@@ -86,27 +112,9 @@
     if (error == NULL) {
         return YES;
     }
-    NSString *description = @(name ?: "There was an unknown failure.");
+    NSString *description = [self descriptionForErrorCode:code] ?: @(name ?: "There was an unknown failure.");
     NSString *reason = @(info ?: "No information is available at this time.");
-    switch (code) {
-        case ZOOM_ERROR_CONNECT:
-            description = [NSString stringWithFormat:@"A connection could not be made with %@.", _endpoint];
-            break;
-        case ZOOM_ERROR_CONNECTION_LOST:
-            description = [NSString stringWithFormat:@"The connection with %@ was lost.", _endpoint];
-            break;
-        case ZOOM_ERROR_INIT:
-            description = [NSString stringWithFormat:@"The request to connect with %@ was deined.", _endpoint];
-            break;
-        case ZOOM_ERROR_TIMEOUT:
-            description = [NSString stringWithFormat:@"The connection with %@ timed out.", _endpoint];
-            break;
-        default:
-            break;
-    }
-    NSDictionary *const userInfo = @{ NSLocalizedDescriptionKey : description,
-                                      NSLocalizedFailureReasonErrorKey : reason };
-    *error = [NSError errorWithDomain:BibConnectionErrorDomain code:code userInfo:userInfo];
+    *error = [self errorWithErrorCode:code description:description reason:reason];
     return YES;
 }
 
@@ -132,52 +140,32 @@
     return [_options needsEventPolling];
 }
 
-- (void)updateEventWithZoomEvent:(int)zoomEvent {
+- (void)setEvent:(BibConnectionEvent)event {
     [self willChangeValueForKey:@"event"];
-    switch (zoomEvent) {
-        case ZOOM_EVENT_NONE:
-            _event = nil;
-            break;
-        case ZOOM_EVENT_CONNECT:
-            _event = BibConnectionEventDidConnect;
-            break;
-        case ZOOM_EVENT_SEND_DATA :
-            _event = BibConnectionEventDidSendData;
-            break;
-        case ZOOM_EVENT_RECV_DATA:
-            _event = BibConnectionEventDidReceiveData;
-            break;
-        case ZOOM_EVENT_TIMEOUT:
-            _event = BibConnectionEventDidTimeout;
-            break;
-        case ZOOM_EVENT_UNKNOWN:
-            _event = BibConnectionEventUnknown;
-            break;
-        case ZOOM_EVENT_SEND_APDU:
-            _event = BibConnectionEventDidSendAPDU;
-            break;
-        case ZOOM_EVENT_RECV_APDU:
-            _event = BibConnectionEventDidReceiveAPDU;
-            break;
-        case ZOOM_EVENT_RECV_RECORD:
-            _event = BibConnectionEventDidReceiveRecord;
-            break;
-        case ZOOM_EVENT_RECV_SEARCH:
-            _event = BibConnectionEventDidReceiveSearch;
-            break;
-        case ZOOM_EVENT_END:
-            _event = BibConnectionEventDidEndConnection;
-            break;
-        default:
-            _event = BibConnectionEventUnknown;
-            break;
-    }
+    _event = [event copy];
     [self didChangeValueForKey:@"event"];
+}
+
+- (BibConnectionEvent)eventForZoomEvent:(int)zoomEvent {
+    switch (zoomEvent) {
+        case ZOOM_EVENT_NONE: return nil;
+        case ZOOM_EVENT_CONNECT: return BibConnectionEventDidConnect;
+        case ZOOM_EVENT_SEND_DATA : return BibConnectionEventDidSendData;
+        case ZOOM_EVENT_RECV_DATA: return BibConnectionEventDidReceiveData;
+        case ZOOM_EVENT_TIMEOUT: return BibConnectionEventDidTimeout;
+        case ZOOM_EVENT_UNKNOWN: return BibConnectionEventUnknown;
+        case ZOOM_EVENT_SEND_APDU: return BibConnectionEventDidSendAPDU;
+        case ZOOM_EVENT_RECV_APDU: return BibConnectionEventDidReceiveAPDU;
+        case ZOOM_EVENT_RECV_RECORD: return BibConnectionEventDidReceiveRecord;
+        case ZOOM_EVENT_RECV_SEARCH: return BibConnectionEventDidReceiveSearch;
+        case ZOOM_EVENT_END: return BibConnectionEventDidEndConnection;
+        default: return BibConnectionEventUnknown;
+    }
 }
 
 - (BibConnectionEvent)nextEvent:(NSError *__autoreleasing *)error {
     if (ZOOM_event(1, &_connection) == ZOOM_EVENT_NONE) { return nil; }
-    [self updateEventWithZoomEvent:ZOOM_connection_last_event(_connection)];
+    [self setEvent:[self eventForZoomEvent:ZOOM_connection_last_event(_connection)]];
     [self error:error];
     return [self event];
 }
@@ -194,7 +182,7 @@
     if (result == ZOOM_EVENT_NONE) { return nil; }
     BibConnection *const connection = connections[result - 1];
     int const zoomEvent = ZOOM_connection_last_event([connection zoomConnection]);
-    [connection updateEventWithZoomEvent:zoomEvent];
+    [connection setEvent:[connection eventForZoomEvent:zoomEvent]];
     [connection error:error];
     return connection;
 }
