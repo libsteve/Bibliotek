@@ -34,6 +34,25 @@ class BibliotekTests: XCTestCase {
         }
     }
 
+    func testPollingFetchWord() {
+        do {
+            let endpoint = Connection.Endpoint(host: "z3950.loc.gov", port: 7090, database: "VOYAGER")
+            let options = Connection.MutableOptions()
+            options.needsEventPolling = true
+            let c = try Connection(endpoint: endpoint, options: options)
+            let r = MutableFetchRequest()
+            r.keywords = ["computer"]
+            r.structure = .word
+            r.scope = .subject
+            r.strategy = .strict
+            let rs = try c.fetchRecords(request: r)
+            while try c.processNextEvent() != .none {}
+            XCTAssert(rs.count > 0)
+        } catch {
+            XCTFail("Could not connect to the endpoint, or process events for the request. \(error)")
+        }
+    }
+
     func testCopyFetchRequest() {
         let r = FetchRequest(keywords: ["9780393349726"], scope: .isbn)
         XCTAssertEqual(r.keywords.count, 1)

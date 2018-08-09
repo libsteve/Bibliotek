@@ -17,6 +17,12 @@
 #import "BibRecordList+Private.h"
 #import <yaz/zoom.h>
 
+@interface BibConnectionProcessedEvent ()
+
+- (instancetype)initWithConnection:(BibConnection *)connection error:(NSError *)error;
+
+@end
+
 @implementation BibConnection {
     ZOOM_connection _connection;
 }
@@ -91,17 +97,6 @@
     }
 }
 
-- (NSError *)errorWithErrorCode:(int)code description:(NSString *)description reason:(NSString *)reason {
-    NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : description,
-                                NSLocalizedFailureReasonErrorKey : reason,
-                                BibConnectionErrorConnectionKey : self };
-    if (_event) {
-        userInfo = [userInfo mutableCopy];
-        [(NSMutableDictionary *)userInfo setObject:_event forKey:BibConnectionErrorEventKey];
-    }
-    return [NSError errorWithDomain:BibConnectionErrorDomain code:code userInfo:userInfo];
-}
-
 - (BOOL)error:(NSError *__autoreleasing *)error {
     char const *name = NULL;
     char const *info = NULL;
@@ -114,7 +109,11 @@
     }
     NSString *description = [self descriptionForErrorCode:code] ?: @(name ?: "There was an unknown failure.");
     NSString *reason = @(info ?: "No information is available at this time.");
-    *error = [self errorWithErrorCode:code description:description reason:reason];
+    NSDictionary *const userInfo = @{ NSLocalizedDescriptionKey : description,
+                                      NSLocalizedFailureReasonErrorKey : reason,
+                                      BibConnectionErrorConnectionKey : self,
+                                      BibConnectionErrorEventKey : @(_lastProcessedEvent) };
+    *error = [NSError errorWithDomain:BibConnectionErrorDomain code:code userInfo:userInfo];
     return YES;
 }
 
@@ -140,51 +139,47 @@
     return [_options needsEventPolling];
 }
 
-- (void)setEvent:(BibConnectionEvent)event {
-    [self willChangeValueForKey:@"event"];
-    _event = [event copy];
-    [self didChangeValueForKey:@"event"];
-}
-
-- (BibConnectionEvent)eventForZoomEvent:(int)zoomEvent {
-    switch (zoomEvent) {
-        case ZOOM_EVENT_NONE: return nil;
-        case ZOOM_EVENT_CONNECT: return BibConnectionEventDidConnect;
-        case ZOOM_EVENT_SEND_DATA : return BibConnectionEventDidSendData;
-        case ZOOM_EVENT_RECV_DATA: return BibConnectionEventDidReceiveData;
-        case ZOOM_EVENT_TIMEOUT: return BibConnectionEventDidTimeout;
-        case ZOOM_EVENT_UNKNOWN: return BibConnectionEventUnknown;
-        case ZOOM_EVENT_SEND_APDU: return BibConnectionEventDidSendAPDU;
-        case ZOOM_EVENT_RECV_APDU: return BibConnectionEventDidReceiveAPDU;
-        case ZOOM_EVENT_RECV_RECORD: return BibConnectionEventDidReceiveRecord;
-        case ZOOM_EVENT_RECV_SEARCH: return BibConnectionEventDidReceiveSearch;
-        case ZOOM_EVENT_END: return BibConnectionEventDidEndConnection;
-        default: return BibConnectionEventUnknown;
-    }
-}
-
-- (BibConnectionEvent)nextEvent:(NSError *__autoreleasing *)error {
-    if (ZOOM_event(1, &_connection) == ZOOM_EVENT_NONE) { return nil; }
-    [self setEvent:[self eventForZoomEvent:ZOOM_connection_last_event(_connection)]];
+- (BibConnectionEvent)processNextEvent:(NSError *__autoreleasing *)error {
+    BOOL const didPerformEvent = ZOOM_event(1, &_connection);
+    _lastProcessedEvent = (didPerformEvent) ? ZOOM_connection_last_event(_connection) : BibConnectionEventNone;
     [self error:error];
-    return [self event];
+    return _lastProcessedEvent;
 }
 
-+ (BibConnection *)processEventsForConnections:(NSArray<BibConnection *> *)connections error:(NSError * _Nullable __autoreleasing *)error {
++ (BibConnection *)processNextEventForConnections:(NSArray<BibConnection *> *)connections error:(NSError *__autoreleasing *)error {
     NSInteger const count = [connections count];
     NSAssert(count <= INT_MAX, @"Only %d connections can be processed at a time", INT_MAX);
     ZOOM_connection *const zoomConnections = calloc(sizeof(ZOOM_connection), (int)count);
     for (NSInteger index = 0; index < count; index += 1) {
         zoomConnections[index] = [connections[index] zoomConnection];
     }
-    NSInteger const result = ZOOM_event((int)count, zoomConnections);
+    NSInteger const index = ZOOM_event((int)count, zoomConnections) - 1;
     free(zoomConnections);
-    if (result == ZOOM_EVENT_NONE) { return nil; }
-    BibConnection *const connection = connections[result - 1];
-    int const zoomEvent = ZOOM_connection_last_event([connection zoomConnection]);
-    [connection setEvent:[connection eventForZoomEvent:zoomEvent]];
+    if (index == -1) { return nil; }
+    BibConnection *const connection = connections[index];
+    connection->_lastProcessedEvent = ZOOM_connection_last_event([connection zoomConnection]);
     [connection error:error];
     return connection;
+}
+
++ (nullable BibConnectionProcessedEvent *)processNextEventForConnections:(NSArray<BibConnection *> *)connections {
+    NSError *error = nil;
+    BibConnection *connection = [self processNextEventForConnections:connections error:&error];
+    if (connection == nil) { return nil; }
+    return [[BibConnectionProcessedEvent alloc] initWithConnection:connection error:error];
+}
+
+@end
+
+@implementation BibConnectionProcessedEvent
+
+- (instancetype)initWithConnection:(BibConnection *)connection error:(NSError *)error {
+    if (self = [super init]) {
+        _connection = connection;
+        _event = connection.lastProcessedEvent;
+        _error = error;
+    }
+    return self;
 }
 
 @end

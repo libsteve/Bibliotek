@@ -12,6 +12,7 @@
 @class BibConnectionEndpoint;
 @class BibConnectionOptions;
 @class BibFetchRequest;
+@class BibConnectionProcessedEvent;
 @class BibRecord;
 @class BibRecordList;
 
@@ -49,16 +50,27 @@ NS_SWIFT_NAME(Connection)
 
 @property(nonatomic, readonly, assign) BOOL needsEventPolling;
 
-@property(nonatomic, readonly, nullable) BibConnectionEvent event;
+@property(nonatomic, readonly, assign) BibConnectionEvent lastProcessedEvent NS_SWIFT_UNAVAILABLE("This isn't necessary in Swift since the relevant event is always returned by both processNextEvent() and processNextEvent(for:)");
 
 /// Manually poll the network to get the latest network result for this connection.
-- (nullable BibConnectionEvent)nextEvent:(NSError *__autoreleasing _Nullable *_Nullable)error NS_SWIFT_NAME(nextEvent());
+- (BibConnectionEvent)processNextEvent:(NSError *__autoreleasing _Nullable *_Nullable)error NS_REFINED_FOR_SWIFT;
 
 /// Manually poll the network for any new events that have occurred for the given connections.
 /// \param connections A list of connection objects that should be polled for any network events.
 /// \returns The latest connection for which an event occurred. If no events recently occurred, @c nil is returned.
 /// \post The returned connection's @c event property will be appropriately populated.
-+ (nullable BibConnection *)processEventsForConnections:(NSArray<BibConnection *> *)connections error:(NSError *__autoreleasing _Nullable *_Nullable)error NS_SWIFT_NAME(processEvents(for:));
++ (nullable BibConnection *)processNextEventForConnections:(NSArray<BibConnection *> *)connections error:(NSError *__autoreleasing _Nullable *_Nullable)error NS_SWIFT_NAME(processEvents(for:)) NS_SWIFT_UNAVAILABLE("Use processNextEvent(for:)");
+
++ (nullable BibConnectionProcessedEvent *)processNextEventForConnections:(NSArray<BibConnection *> *)connections NS_REFINED_FOR_SWIFT;
+
+@end
+
+NS_SWIFT_UNAVAILABLE("Use processNextEvent(for:)")
+@interface BibConnectionProcessedEvent : NSObject
+
+@property(nonatomic, readonly, copy) BibConnection *connection;
+@property(nonatomic, readonly, assign) BibConnectionEvent event;
+@property(nonatomic, readonly, copy, nullable) NSError *error;
 
 @end
 

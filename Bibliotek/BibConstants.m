@@ -7,6 +7,7 @@
 //
 
 #import "BibConstants.h"
+#import <yaz/zoom.h>
 
 #pragma mark Error Domain
 
@@ -157,13 +158,19 @@ NSString *BibMarcRecordFieldCodeDescription(BibMarcRecordFieldCode const code) {
 
 #pragma mark - Connection Events
 
-BibConnectionEvent const BibConnectionEventDidConnect = @"DidConnect";
-BibConnectionEvent const BibConnectionEventDidSendData = @"DidSendData";
-BibConnectionEvent const BibConnectionEventDidReceiveData = @"DidReceiveData";
-BibConnectionEvent const BibConnectionEventDidTimeout = @"DidTimeout";
-BibConnectionEvent const BibConnectionEventUnknown = @"Unknown";
-BibConnectionEvent const BibConnectionEventDidSendAPDU = @"DidSendAPDU";
-BibConnectionEvent const BibConnectionEventDidReceiveAPDU = @"DidReceiveAPDU";
-BibConnectionEvent const BibConnectionEventDidReceiveRecord = @"DidReceiveRecord";
-BibConnectionEvent const BibConnectionEventDidReceiveSearch = @"DidReceiveSearch";
-BibConnectionEvent const BibConnectionEventDidEndConnection = @"DidEndConnection";
+NSString *BibConnectionEventDescription(BibConnectionEvent const event) {
+    switch (event) {
+        case ZOOM_EVENT_NONE: return @"No event";
+        case ZOOM_EVENT_CONNECT: return @"Open connection event";
+        case ZOOM_EVENT_SEND_DATA : return @"Sent data";
+        case ZOOM_EVENT_RECV_DATA: return @"Received data";
+        case ZOOM_EVENT_TIMEOUT: return @"Timeout event";
+        case ZOOM_EVENT_UNKNOWN: return @"Unknown event";
+        case ZOOM_EVENT_SEND_APDU: return @"Sent APDU";
+        case ZOOM_EVENT_RECV_APDU: return @"Received APDU";
+        case ZOOM_EVENT_RECV_RECORD: return @"Received record";
+        case ZOOM_EVENT_RECV_SEARCH: return @"Received search";
+        case ZOOM_EVENT_END: return @"Close connection event";
+        default: return nil;
+    }
+}

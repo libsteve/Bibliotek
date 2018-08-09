@@ -247,17 +247,21 @@ extern NSString *BibMarcRecordFieldCodeDescription(BibMarcRecordFieldCode const 
 
 #pragma mark - Connetion Events
 
-typedef NSString *BibConnectionEvent NS_SWIFT_NAME(Connection.Event);
+typedef NS_ENUM(NSInteger, BibConnectionEvent) {
+    BibConnectionEventNone = 0,
+    BibConnectionEventDidConnect = 1,
+    BibConnectionEventDidSendData = 2,
+    BibConnectionEventDidReceiveData = 3,
+    BibConnectionEventDidTimeout = 4,
+    BibConnectionEventUnknown = 5,
+    BibConnectionEventDidSendAPDU = 6,
+    BibConnectionEventDidReceiveAPDU = 7,
+    BibConnectionEventDidReceiveRecord = 8,
+    BibConnectionEventDidReceiveSearch = 9,
+    BibConnectionEventDidEndConnection = 10
+} NS_SWIFT_NAME(Connection.Event);
 
-extern BibConnectionEvent const BibConnectionEventDidConnect;
-extern BibConnectionEvent const BibConnectionEventDidSendData;
-extern BibConnectionEvent const BibConnectionEventDidReceiveData;
-extern BibConnectionEvent const BibConnectionEventDidTimeout;
-extern BibConnectionEvent const BibConnectionEventUnknown;
-extern BibConnectionEvent const BibConnectionEventDidSendAPDU;
-extern BibConnectionEvent const BibConnectionEventDidReceiveAPDU;
-extern BibConnectionEvent const BibConnectionEventDidReceiveRecord;
-extern BibConnectionEvent const BibConnectionEventDidReceiveSearch;
-extern BibConnectionEvent const BibConnectionEventDidEndConnection;
+extern NSString *BibConnectionEventDescription(BibConnectionEvent const event) NS_REFINED_FOR_SWIFT;
+
 
 NS_ASSUME_NONNULL_END
