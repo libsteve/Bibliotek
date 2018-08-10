@@ -9,6 +9,8 @@
 import Foundation
 
 extension Connection {
+    public typealias Error = ConnectionError
+
     public func processNextEvent() throws -> Event {
         var error: NSError?
         let event = __processNextEvent(&error)

@@ -31,7 +31,7 @@ typedef NS_ERROR_ENUM(BibConnectionErrorDomain, BibConnectionError) {
 
     /// The endpoint did not respond within the expected amount of time.
     BibConnectionErrorTimeout = 10007,
-} NS_SWIFT_NAME(Connection.Error);
+} NS_SWIFT_NAME(ConnectionError);
 
 #pragma mark Query Notation
 

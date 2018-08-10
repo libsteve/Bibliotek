@@ -19,6 +19,16 @@ class BibliotekTests: XCTestCase {
         XCTAssertThrowsError(try Connection(host: "beep.blork.invalidtld"))
     }
 
+    func testPollingConnectionFails() {
+        let options = Connection.MutableOptions()
+        options.needsEventPolling = true
+        let endpoint = Connection.Endpoint(host: "beep.blork.invalidtld")
+        let connection = try! Connection(endpoint: endpoint, options: options)
+        XCTAssertThrowsError(try {
+            while try connection.processNextEvent() != .none {}
+        }())
+    }
+
     func testFetchWord() {
         do {
             let c = try Connection(host: "z3950.loc.gov", port: 7090, database: "VOYAGER")

@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Connection.Error {
+extension ConnectionError {
     public var connection: Connection {
         return errorUserInfo[BibConnectionErrorConnectionKey] as! Connection
     }
