@@ -17,12 +17,6 @@
 #import "BibRecordList+Private.h"
 #import <yaz/zoom.h>
 
-@interface BibConnectionProcessedEvent ()
-
-- (instancetype)initWithConnection:(BibConnection *)connection error:(NSError *)error;
-
-@end
-
 @implementation BibConnection {
     ZOOM_connection _connection;
 }
@@ -67,9 +61,7 @@
         _options = [options copy];
         ZOOM_options_set([_options zoomOptions], "databaseName", [[_endpoint database] UTF8String]);
         _connection = ZOOM_connection_create([_options zoomOptions]);
-        ZOOM_connection_connect(_connection, [[_endpoint host] UTF8String], (int)[_endpoint port]);
-        if (![_options needsEventPolling] && [self error:error]) {
-            [self close];
+        if (![self open:error]) {
             return nil;
         }
     }
@@ -119,8 +111,25 @@
 
 #pragma mark - Connection
 
+- (BOOL)open:(NSError *__autoreleasing  _Nullable *)error {
+    if (_ready) { return _ready; }
+    [self willChangeValueForKey:@"ready"];
+    ZOOM_connection_connect(_connection, [[_endpoint host] UTF8String], (int)[_endpoint port]);
+    if (![_options needsEventPolling] && [self error:error]) {
+        [self close];
+    } else {
+        _ready = YES;
+    }
+    [self didChangeValueForKey:@"ready"];
+    return _ready;
+}
+
 - (void)close {
+    if (!_ready) { return; }
+    [self willChangeValueForKey:@"ready"];
     ZOOM_connection_close(_connection);
+    _ready = NO;
+    [self didChangeValueForKey:@"ready"];
 }
 
 #pragma mark - Search
@@ -162,24 +171,10 @@
     return connection;
 }
 
-+ (nullable BibConnectionProcessedEvent *)processNextEventForConnections:(NSArray<BibConnection *> *)connections {
++ (id)processNextEventForConnections:(NSArray<BibConnection *> *)connections {
     NSError *error = nil;
     BibConnection *connection = [self processNextEventForConnections:connections error:&error];
-    if (connection == nil) { return nil; }
-    return [[BibConnectionProcessedEvent alloc] initWithConnection:connection error:error];
-}
-
-@end
-
-@implementation BibConnectionProcessedEvent
-
-- (instancetype)initWithConnection:(BibConnection *)connection error:(NSError *)error {
-    if (self = [super init]) {
-        _connection = connection;
-        _event = connection.lastProcessedEvent;
-        _error = error;
-    }
-    return self;
+    return (error == nil) ? connection : error;
 }
 
 @end

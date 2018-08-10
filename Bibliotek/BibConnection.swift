@@ -20,8 +20,8 @@ extension Connection {
 
     public static func processNextEvent<S>(for connections: S) throws -> (Connection, Event)?
         where S: Sequence, S.Element == Connection {
-            guard let event = __processNextEvent(for: Array(connections)) else { return nil; }
-            guard event.error == nil else { throw event.error! }
-            return (event.connection, event.event)
+            guard let result = __processNextEvent(for: Array(connections)) else { return nil; }
+            guard let connection = result as? Connection else { throw (result as! Error) }
+            return (connection, connection.__lastProcessedEvent)
     }
 }
