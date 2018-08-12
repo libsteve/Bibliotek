@@ -22,6 +22,10 @@ NS_SWIFT_NAME(Connection.Endpoint)
 /// The name of the database with wich to make queries.
 @property(nonatomic, readonly, copy) NSString *database;
 
+@property(nonatomic, readonly, copy, nullable) NSString *name;
+
+@property(nonatomic, readonly, copy, nullable) NSString *catalog;
+
 - (instancetype)initWithHost:(NSString *)host;
 
 - (instancetype)initWithHost:(NSString *)host port:(NSInteger)port;
@@ -45,6 +49,10 @@ NS_SWIFT_NAME(Connection.MutableEndpoint)
 
 /// The name of the database with wich to make queries.
 @property(nonatomic, readwrite, copy) NSString *database;
+
+@property(nonatomic, readwrite, copy, nullable) NSString *name;
+
+@property(nonatomic, readwrite, copy, nullable) NSString *catalog;
 
 @end
 

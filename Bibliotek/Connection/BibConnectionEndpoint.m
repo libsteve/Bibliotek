@@ -17,11 +17,15 @@ NSString *const kDefaultDatabase = @"Default";
     NSString *_host;
     NSInteger _port;
     NSString *_database;
+    NSString *_name;
+    NSString *_catalog;
 }
 
 @synthesize host = _host;
 @synthesize port = _port;
 @synthesize database = _database;
+@synthesize name = _name;
+@synthesize catalog = _catalog;
 
 - (instancetype)init {
     return [self initWithHost:kDefaultHost port:kDefaultPort database:kDefaultDatabase];
@@ -67,6 +71,8 @@ NSString *const kDefaultDatabase = @"Default";
         _host = [aDecoder decodeObjectForKey:@"host"];
         _port = [aDecoder decodeIntegerForKey:@"port"];
         _database = [aDecoder decodeObjectForKey:@"database"];
+        _name = [aDecoder decodeObjectForKey:@"name"];
+        _catalog = [aDecoder decodeObjectForKey:@"catalog"];
     }
     return self;
 }
@@ -75,9 +81,14 @@ NSString *const kDefaultDatabase = @"Default";
     [aCoder encodeObject:_host forKey:@"host"];
     [aCoder encodeInteger:_port forKey:@"port"];
     [aCoder encodeObject:_database forKey:@"database"];
+    [aCoder encodeObject:_name forKey:@"name"];
+    [aCoder encodeObject:_catalog forKey:@"catalog"];
 }
 
 - (NSString *)description {
+    if (_name) {
+        return [NSString stringWithFormat:@"%@ <%@:%ld/%@>", _name, _host, (long)_port, _database];
+    }
     return [NSString stringWithFormat:@"%@:%ld/%@", _host, (long)_port, _database];
 }
 
@@ -87,23 +98,42 @@ NSString *const kDefaultDatabase = @"Default";
 
 @dynamic host;
 - (void)setHost:(NSString *)host {
-    [self willChangeValueForKey:@"host"];
+    NSString *const key = NSStringFromSelector(@selector(host));
+    [self willChangeValueForKey:key];
     _host = [host copy];
-    [self didChangeValueForKey:@"host"];
+    [self didChangeValueForKey:key];
 }
 
 @dynamic port;
 - (void)setPort:(NSInteger)port {
-    [self willChangeValueForKey:@"port"];
+    NSString *const key = NSStringFromSelector(@selector(port));
+    [self willChangeValueForKey:key];
     _port = port;
-    [self didChangeValueForKey:@"port"];
+    [self didChangeValueForKey:key];
 }
 
 @dynamic database;
 - (void)setDatabase:(NSString *)database {
-    [self willChangeValueForKey:@"database"];
+    NSString *const key = NSStringFromSelector(@selector(database));
+    [self willChangeValueForKey:key];
     _database = [database copy];
-    [self didChangeValueForKey:@"database"];
+    [self didChangeValueForKey:key];
+}
+
+@dynamic name;
+- (void)setName:(NSString *)name {
+    NSString *const key = NSStringFromSelector(@selector(name));
+    [self willChangeValueForKey:key];
+    _name = [name copy];
+    [self didChangeValueForKey:key];
+}
+
+@dynamic catalog;
+- (void)setCatalog:(NSString *)catalog {
+    NSString *const key = NSStringFromSelector(@selector(catalog));
+    [self willChangeValueForKey:key];
+    _catalog = [catalog copy];
+    [self didChangeValueForKey:key];
 }
 
 @end
