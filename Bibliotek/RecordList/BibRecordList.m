@@ -74,7 +74,7 @@
 - (id<BibRecord>)recordAtIndex:(NSUInteger)index {
     BibAssert(index < [self count], NSRangeException, @"-[%@ %s]: index %lu beyond bounds (0 ..< %lu)", [self className], sel_getName(_cmd), (unsigned long)index, (unsigned long)[self count]);
     ZOOM_record record = ZOOM_resultset_record(_resultset, (size_t)index);
-    return [[BibMarcRecord alloc] initWithZoomRecord:record];
+    return [[BibMarcRecord alloc] initWithZoomRecord:record fromRecordList:self];
 }
 
 - (NSArray<id<BibRecord>> *)recordsAtIndexes:(NSIndexSet *)indexes {
@@ -93,7 +93,7 @@
     for (NSUInteger index = 0; index < range.location; index += 1) {
         ZOOM_record record = buffer[index];
         if (record == NULL) { break; }
-        [array addObject:[[BibMarcRecord alloc] initWithZoomRecord:record]];
+        [array addObject:[[BibMarcRecord alloc] initWithZoomRecord:record fromRecordList:self]];
     }
     free(buffer);
     return [array copy];

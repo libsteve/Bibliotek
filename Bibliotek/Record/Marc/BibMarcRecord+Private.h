@@ -9,6 +9,8 @@
 #import "BibMarcRecord.h"
 #import <yaz/zoom.h>
 
+@class BibRecordList;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BibMarcRecord ()
@@ -16,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, readonly, assign, nullable) ZOOM_record zoomRecord;
 
 - (instancetype)initWithZoomRecord:(ZOOM_record)zoomRecord;
+
+- (instancetype)initWithZoomRecord:(ZOOM_record)zoomRecord fromRecordList:(BibRecordList *)recordList;
 
 @end
 

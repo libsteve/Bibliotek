@@ -26,6 +26,7 @@
     NSArray<NSString *> *_editions;
     NSArray<NSString *> *_subjects;
     NSArray<NSString *> *_summaries;
+    BibRecordList *_recordList;
 }
 
 + (BOOL)supportsSecureCoding { return YES; }
@@ -41,6 +42,14 @@
     return self;
 }
 
+- (instancetype)initWithZoomRecord:(ZOOM_record)zoomRecord fromRecordList:(BibRecordList *)recordList {
+    if (self = [super init]) {
+        _record = zoomRecord;
+        _recordList = recordList;
+    }
+    return self;
+}
+
 - (instancetype)initWithFields:(NSArray<BibMarcRecordField *> *)fields {
     if (self = [super init]) {
         _syntax = @"Usmarc";
@@ -52,7 +61,7 @@
 }
 
 - (void)dealloc {
-    if (_record != nil) { ZOOM_record_destroy(_record); }
+    if (_recordList == nil && _record != nil) { ZOOM_record_destroy(_record); }
 }
 
 - (id)copyWithZone:(NSZone *)zone {
