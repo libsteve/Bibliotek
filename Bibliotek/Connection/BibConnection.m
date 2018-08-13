@@ -99,8 +99,8 @@
     if (error == NULL) {
         return YES;
     }
-    NSString *description = [self descriptionForErrorCode:code] ?: @(name ?: "There was an unknown failure.");
-    NSString *reason = @(info ?: "No information is available at this time.");
+    NSString *description = [self descriptionForErrorCode:code] ?: (@(name) ?: @"There was an unknown failure.");
+    NSString *reason = @(info) ?: @"No information is available at this time.";
     NSDictionary *const userInfo = @{ NSLocalizedDescriptionKey : description,
                                       NSLocalizedFailureReasonErrorKey : reason,
                                       BibConnectionErrorConnectionKey : self,

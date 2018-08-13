@@ -104,7 +104,13 @@ static NSRegularExpression *regex;
 
 - (nullable instancetype)initWithField:(BibMarcRecordField *)field {
     if ([[field fieldTag] isEqualToString:[[self system] fieldTag]]) {
-        return [self initWithString:[@[ field['a'], field['b'] ] componentsJoinedByString:@" "]];
+        NSString *const a = field['a'];
+        NSString *const b = field['b'];
+        if (a && b) {
+            return [self initWithString:[NSString stringWithFormat:@"%@ %@", a, b]];
+        } else if (a) {
+            return [self initWithString:a];
+        }
     }
     return nil;
 }
