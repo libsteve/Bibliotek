@@ -11,6 +11,7 @@
 		AA08F3F020CED0B4001BF39F /* BibTitleStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = AA08F3EE20CED0B4001BF39F /* BibTitleStatement.m */; };
 		AA14E83720D8D2AD00430A87 /* libyaz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA14E82A20D8C84B00430A87 /* libyaz.dylib */; };
 		AA2F88D1212091B70085A637 /* BibMarcRecord+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = AA2F88D0212091B60085A637 /* BibMarcRecord+Private.h */; };
+		AA2F88DC2121171A0085A637 /* libyaz.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA14E82A20D8C84B00430A87 /* libyaz.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		AA37677720CD7A7500CF101D /* BibMarcRecordField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA37677620CD7A7500CF101D /* BibMarcRecordField.swift */; };
 		AA37678620CD905900CF101D /* BibMarcRecordField.h in Headers */ = {isa = PBXBuildFile; fileRef = AA37678420CD905900CF101D /* BibMarcRecordField.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA37678720CD905900CF101D /* BibMarcRecordField.m in Sources */ = {isa = PBXBuildFile; fileRef = AA37678520CD905900CF101D /* BibMarcRecordField.m */; };
@@ -79,6 +80,19 @@
 			remoteInfo = Bibliotek;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		AA2F88DB212117170085A637 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				AA2F88DC2121171A0085A637 /* libyaz.dylib in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		AA08F3ED20CED0B4001BF39F /* BibTitleStatement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibTitleStatement.h; sourceTree = "<group>"; };
@@ -373,6 +387,7 @@
 				AA59F0CE20A9FACF00D41982 /* Frameworks */,
 				AA59F0CF20A9FACF00D41982 /* Headers */,
 				AA59F0D020A9FACF00D41982 /* Resources */,
+				AA2F88DB212117170085A637 /* CopyFiles */,
 			);
 			buildRules = (
 			);
