@@ -16,6 +16,7 @@ extension Connection.Options: CustomPlaygroundDisplayConvertible {
                 "authentication" : authentication ?? "",
                 "lang" : lang ?? "",
                 "charset" : charset ?? "",
+                "timeout" : timeout,
                 "needsEventPolling" : needsEventPolling]
     }
 }
