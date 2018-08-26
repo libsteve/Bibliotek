@@ -107,6 +107,9 @@ References
     - [PQF Query Examples][yaz-pqf-examples]
 - [ZOOM Records][yaz-zoom-records]
 
+- [YAZ ZOOM Timeout Option](http://lists.indexdata.dk/pipermail/yazlist/2002-November/000381.html)
+- [YAZ ZOOM Timeout Option Semantics](http://lists.indexdata.dk/pipermail/net-z3950/2009-March/000886.html)
+
 [yaz-zoom]: https://software.indexdata.com/yaz/doc/zoom.html#zoom-connection-z39.50
 [yaz-pqf-format]: https://software.indexdata.com/yaz/doc/tools.html#PQF
 [yaz-bib-1]: https://software.indexdata.com/zebra/doc/querymodel-rpn.html#querymodel-bib1

@@ -77,6 +77,12 @@
     return [NSString stringWithCString:value encoding:NSUTF8StringEncoding];
 }
 
+- (NSUInteger)timeout {
+    char const *const value = ZOOM_options_get(_options, "timeout");
+    if (value == nil) { return 15; }
+    return [[NSString stringWithCString:value encoding:NSUTF8StringEncoding] integerValue];
+}
+
 - (BOOL)needsEventPolling {
     return ZOOM_options_get_bool(_options, "async", NO);
 }
@@ -125,6 +131,13 @@
     [self willChangeValueForKey:@"charset"];
     ZOOM_options_set(_options, "charset", [charset UTF8String]);
     [self didChangeValueForKey:@"charset"];
+}
+
+@dynamic timeout;
+- (void)setTimeout:(NSUInteger)timeout {
+    [self willChangeValueForKey:@"timeout"];
+    ZOOM_options_set(_options, "timeout", [[@(timeout) stringValue] UTF8String])
+    [self didChangeValueForKey:@"timeout"];
 }
 
 @dynamic needsEventPolling;

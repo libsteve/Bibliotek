@@ -30,6 +30,8 @@ NS_SWIFT_NAME(Connection.Options)
 
 @property(nonatomic, readonly, copy, nullable) NSString *charset;
 
+@property(nonatomic, readonly, assign) NSUInteger timeout;
+
 @property(nonatomic, readonly, assign) BOOL needsEventPolling;
 
 - (instancetype)initWithOptions:(BibConnectionOptions *)options;
@@ -54,6 +56,8 @@ NS_SWIFT_NAME(Connection.MutableOptions)
 @property(nonatomic, readwrite, copy, nullable) NSString *lang;
 
 @property(nonatomic, readwrite, copy, nullable) NSString *charset;
+
+@property(nonatomic, readwrite, assign) NSUInteger timeout;
 
 @property(nonatomic, readwrite, assign) BOOL needsEventPolling;
 
