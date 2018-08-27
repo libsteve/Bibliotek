@@ -95,9 +95,11 @@ References
 
 - [Segmentation Marks in Dewey Numbers][dewey-segmentation]
 - [Bibliographic Formats and Standards][oclc-bib-std]
+- [Z39.50 Configuration Guide for OCLC Z39.50 Cataloging][oclc-config]
 
 [dewey-segmentation]: https://www.oclc.org/content/dam/oclc/dewey/discussion/papers/segmentation_marks.pdf
 [oclc-bib-std]: https://www.oclc.org/bibformats/en.html
+[oclc-config]: https://www.oclc.org/support/services/z3950/documentation/config_guide.en.html
 
 ### YAZ Documentation from IndexData
 
@@ -118,10 +120,12 @@ References
 
 ### Other Specifications
 
+- [Cutter Numbers][cutter-number]
 - [MARC in JSON Description][marc-json]
 - [JSON Schema for the MARC 21 Bibliographic Standard][marc-json-schema]
 - [A proposal to serialize MARC in JSON][marc-json-proposal]
 
+[cutter-number]: https://www.itsmarc.com/crs/mergedProjects/cutter/cutter/definition_cutter_number_cutter.htm
 [marc-json]: https://github.com/marc4j/marc4j/wiki/MARC-in-JSON-Description
 [marc-json-schema]: https://github.com/thisismattmiller/marc-json-schema
 [marc-json-proposal]: https://rossfsinger.com/blog/2010/09/a-proposal-to-serialize-marc-in-json/
