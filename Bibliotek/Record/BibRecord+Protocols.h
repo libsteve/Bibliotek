@@ -14,7 +14,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-NS_SWIFT_NAME(AnyRecord)
+NS_SWIFT_NAME(BibRecordProtocol)
 @protocol BibRecord <NSObject, NSCopying, NSMutableCopying, NSSecureCoding>
 
 /// The name of the database from which this record originates.
@@ -52,7 +52,7 @@ NS_SWIFT_NAME(AnyRecord)
 
 @end
 
-NS_SWIFT_NAME(AnyMutableRecord)
+NS_SWIFT_NAME(BibMutableRecordProtocol)
 @protocol BibMutableRecord <BibRecord>
 
 /// The name of the database from which this record originates.
@@ -65,7 +65,7 @@ NS_SWIFT_NAME(AnyMutableRecord)
 @property(nonatomic, readwrite, nullable, copy) NSString *isbn13;
 
 /// A list of classifications applicable to the item represented by this record.
-@property(nonatomic, readwrite, copy) NSArray<id<BibCallNumber>> *classifications;
+@property(nonatomic, readwrite, copy) NSArray<id<BibCallNumber>> *callNumbers;
 
 /// The title of the item represented by this record.
 @property(nonatomic, readwrite, copy) NSString *title;

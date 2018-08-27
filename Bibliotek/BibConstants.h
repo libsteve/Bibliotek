@@ -73,7 +73,7 @@ extern BibSortStrategy const BibSortStrategyEmbed;
 #pragma mark - Bibliographic Fields
 
 /// The semantic meaning for search terms used in a fetch request.
-typedef NSString *BibFetchRequestScope NS_TYPED_ENUM NS_SWIFT_NAME(FetchRequest.Scope);
+typedef NSString *BibFetchRequestScope NS_TYPED_ENUM NS_SWIFT_NAME(BibFetchRequest.Scope);
 
 extern BibFetchRequestScope const BibFetchRequestScopePersonalName;
 
@@ -124,7 +124,7 @@ extern NSString *BibFetchRequestScopeDescription(BibFetchRequestScope const scop
 #pragma mark - Query Structure
 
 /// The method with which a fetch request should treat keywords.
-typedef NSString *BibFetchRequestStructure NS_TYPED_ENUM NS_SWIFT_NAME(FetchRequest.Structure);
+typedef NSString *BibFetchRequestStructure NS_TYPED_ENUM NS_SWIFT_NAME(BibFetchRequest.Structure);
 
 /// Treat the keywords in a fetch request as a complete phrase.
 extern BibFetchRequestStructure const BibFetchRequestStructurePhrase;
@@ -150,7 +150,7 @@ extern NSString *BibFetchRequestStructureDescription(BibFetchRequestStructure co
 #pragma mark - Query Search Strategy
 
 /// The location within the search scope to match keywords within a fetch request.
-typedef NSString *BibFetchRequestSearchStrategy NS_TYPED_ENUM NS_SWIFT_NAME(FetchRequest.SearchStrategy);
+typedef NSString *BibFetchRequestSearchStrategy NS_TYPED_ENUM NS_SWIFT_NAME(BibFetchRequest.SearchStrategy);
 
 /// Match keywords to records only if the relevant scope ends with the keyword.
 ///

@@ -10,7 +10,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-NS_SWIFT_NAME(Connection.Endpoint)
 @interface BibConnectionEndpoint : NSObject <NSCopying, NSMutableCopying, NSSecureCoding>
 
 /// The URL to the z39.50 host server.
@@ -38,7 +37,6 @@ NS_SWIFT_NAME(Connection.Endpoint)
 
 @end
 
-NS_SWIFT_NAME(Connection.MutableEndpoint)
 @interface BibMutableConnectionEndpoint : BibConnectionEndpoint
 
 /// The URL to the z39.50 host server.

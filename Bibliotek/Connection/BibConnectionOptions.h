@@ -11,7 +11,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-NS_SWIFT_NAME(Connection.Options)
 @interface BibConnectionOptions : NSObject <NSCopying, NSMutableCopying>
 
 /// A username to gain access to the database.
@@ -38,7 +37,6 @@ NS_SWIFT_NAME(Connection.Options)
 
 @end
 
-NS_SWIFT_NAME(Connection.MutableOptions)
 @interface BibMutableConnectionOptions : BibConnectionOptions
 
 /// A username to gain access to the database.

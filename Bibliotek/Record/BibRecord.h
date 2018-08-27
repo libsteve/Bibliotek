@@ -12,7 +12,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /// A collection of information pertaining to some physical entity represented in the database.
-NS_SWIFT_NAME(Record)
 @interface BibRecord : NSObject <BibRecord>
 
 - (instancetype)initWithTitle:(NSString *)title;
@@ -24,7 +23,6 @@ NS_SWIFT_NAME(Record)
 @end
 
 /// A mutable collection of information pertaining to some physical entity represented in the database.
-NS_SWIFT_NAME(MutableRecord)
 @interface BibMutableRecord : BibRecord <BibMutableRecord>
 
 @end

@@ -14,7 +14,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /// A description of properties that can be used to find records from a database.
-NS_SWIFT_NAME(FetchRequest)
 @interface BibFetchRequest: NSObject <NSCopying, NSMutableCopying>
 
 /// The semantic meaning for any keywords used in this request.
@@ -39,7 +38,6 @@ NS_SWIFT_NAME(FetchRequest)
 
 @end
 
-NS_SWIFT_NAME(MutableFetchRequest)
 @interface BibMutableFetchRequest: BibFetchRequest
 
 @property(nonatomic, readwrite, strong) BibFetchRequestScope scope;
