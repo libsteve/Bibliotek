@@ -192,9 +192,9 @@
     _isbn13 = [isbn13 copy];
 }
 
-@dynamic classifications;
-- (void)setClassifications:(NSArray<id<BibCallNumber>> *)classifications {
-    _callNumbers = [classifications copy];
+@dynamic callNumbers;
+- (void)setCallNumbers:(NSArray<id<BibCallNumber>> *)callNumbers {
+    _callNumbers = [callNumbers copy];
 }
 
 @dynamic title;
