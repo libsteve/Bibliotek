@@ -33,7 +33,7 @@ NS_SWIFT_NAME(CallNumber)
 
 /// Determine whether or not the given call number has the same classification as this one.
 /// \param callNumber The call number with which similarity should be determined.
-- (BOOL)isSimilarToCallNumber:(id<BibCallNumber>)callNumber NS_SWIFT_NAME(isEqual(to:));
+- (BOOL)isSimilarToCallNumber:(id<BibCallNumber>)callNumber NS_SWIFT_NAME(isSimilar(to:));
 
 /// Given a wellformed string representation, create a call number instance.
 /// \note Malformed representations for the classification system will not produce a call number.
