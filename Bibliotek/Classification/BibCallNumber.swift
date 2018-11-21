@@ -12,6 +12,13 @@ extension CallNumber {
     public static func == (lhs: CallNumber, rhs: CallNumber) -> Bool {
         return lhs.isEqual(rhs)
     }
+
+    /// Determine whether or not the given call numbers have the same classification.
+    /// - parameter lhs: The call number with which similarity should be determined.
+    /// - parameter rhs: The call number with which similarity should be determined.
+    public static func ~= (lhs: CallNumber, rhs: CallNumber) -> Bool {
+        return lhs.isSimilar(to: rhs)
+    }
 }
 
 extension LibraryOfCongressCallNumber: CustomPlaygroundDisplayConvertible {
