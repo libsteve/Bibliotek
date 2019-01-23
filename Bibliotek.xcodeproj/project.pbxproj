@@ -10,6 +10,7 @@
 		AA08F3EF20CED0B4001BF39F /* BibTitleStatement.h in Headers */ = {isa = PBXBuildFile; fileRef = AA08F3ED20CED0B4001BF39F /* BibTitleStatement.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		AA08F3F020CED0B4001BF39F /* BibTitleStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = AA08F3EE20CED0B4001BF39F /* BibTitleStatement.m */; };
 		AA14E83720D8D2AD00430A87 /* libyaz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA14E82A20D8C84B00430A87 /* libyaz.dylib */; };
+		AA258AEC21F8E1BF00CDF88E /* BibCutterNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = AA5CF9B12135A77D0090E235 /* BibCutterNumber.h */; };
 		AA2F88D1212091B70085A637 /* BibMarcRecord+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = AA2F88D0212091B60085A637 /* BibMarcRecord+Private.h */; };
 		AA2F88DC2121171A0085A637 /* libyaz.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA14E82A20D8C84B00430A87 /* libyaz.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		AA37677720CD7A7500CF101D /* BibMarcRecordField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA37677620CD7A7500CF101D /* BibMarcRecordField.swift */; };
@@ -29,6 +30,7 @@
 		AA59056E20AB489200D41982 /* BibRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = AA59056C20AB489200D41982 /* BibRecord.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA59056F20AB489200D41982 /* BibRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AA59056D20AB489200D41982 /* BibRecord.m */; };
 		AA59F0D720A9FACF00D41982 /* Bibliotek.h in Headers */ = {isa = PBXBuildFile; fileRef = AA59F0D520A9FACF00D41982 /* Bibliotek.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA5CF9B42135A77D0090E235 /* BibCutterNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = AA5CF9B22135A77D0090E235 /* BibCutterNumber.m */; };
 		AA6D18D620B5B6CC00603E61 /* BibFetchRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = AA6D18D420B5B6CC00603E61 /* BibFetchRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA6D18D720B5B6CC00603E61 /* BibFetchRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6D18D520B5B6CC00603E61 /* BibFetchRequest.m */; };
 		AA6D18D920B5B9FC00603E61 /* BibFetchRequest+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = AA6D18D820B5B9FC00603E61 /* BibFetchRequest+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -120,6 +122,8 @@
 		AA59F0D220A9FACF00D41982 /* Bibliotek.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Bibliotek.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA59F0D520A9FACF00D41982 /* Bibliotek.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bibliotek.h; sourceTree = "<group>"; };
 		AA59F0D620A9FACF00D41982 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AA5CF9B12135A77D0090E235 /* BibCutterNumber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibCutterNumber.h; sourceTree = "<group>"; };
+		AA5CF9B22135A77D0090E235 /* BibCutterNumber.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibCutterNumber.m; sourceTree = "<group>"; };
 		AA6D18D420B5B6CC00603E61 /* BibFetchRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibFetchRequest.h; sourceTree = "<group>"; };
 		AA6D18D520B5B6CC00603E61 /* BibFetchRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibFetchRequest.m; sourceTree = "<group>"; };
 		AA6D18D820B5B9FC00603E61 /* BibFetchRequest+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BibFetchRequest+Private.h"; sourceTree = "<group>"; };
@@ -293,6 +297,8 @@
 				AAD18C7F21050C4000988B35 /* BibClassificationSystem.h */,
 				AAD18C8021050C4000988B35 /* BibClassificationSystem.m */,
 				AAD18C832105277600988B35 /* BibClassificationSystem.swift */,
+				AA5CF9B12135A77D0090E235 /* BibCutterNumber.h */,
+				AA5CF9B22135A77D0090E235 /* BibCutterNumber.m */,
 			);
 			path = Classification;
 			sourceTree = "<group>";
@@ -321,6 +327,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA2F88D1212091B70085A637 /* BibMarcRecord+Private.h in Headers */,
+				AA258AEC21F8E1BF00CDF88E /* BibCutterNumber.h in Headers */,
 				AA59055220AA43DD00D41982 /* BibConnection.h in Headers */,
 				AAD18C8121050C4000988B35 /* BibClassificationSystem.h in Headers */,
 				AAB0151A2106F14800B112E2 /* BibDeweyDecimalCallNumber.h in Headers */,

@@ -77,6 +77,8 @@ References
     - [Single Record Example][marcxml-example]
 - [Marc 21 Character Sets][marc-characterset]
 - [International Standard Bibliographic Description][isbd]
+- [Classification and Shelving Manual][lcc-class-manual]
+    - [Cutter Numbers][lcc-cutter-numbers]
 
 [bib1]: http://www.loc.gov/z3950/agency/bib1.html
 [marc-21]: https://www.loc.gov/marc/bibliographic/
@@ -90,6 +92,8 @@ References
 [marc-characterset]: https://www.loc.gov/marc/specifications/specchargeneral.html
 [marc-number-components]: http://www.loc.gov/marc/classification/cd765.html
 [isbd]: https://www.ifla.org/files/assets/cataloguing/isbd/isbd-cons_20110321.pdf
+[lcc-class-manual]: https://www.loc.gov/aba/publications/FreeCSM/freecsm.html
+[lcc-cutter-numbers]: https://www.loc.gov/aba/publications/FreeCSM/G063.pdf
 
 ### OCLC Documents
 
@@ -120,12 +124,12 @@ References
 
 ### Other Specifications
 
-- [Cutter Numbers][cutter-number]
+- [Cutter Numbers][itsmarc-cutter-number]
 - [MARC in JSON Description][marc-json]
 - [JSON Schema for the MARC 21 Bibliographic Standard][marc-json-schema]
 - [A proposal to serialize MARC in JSON][marc-json-proposal]
 
-[cutter-number]: https://www.itsmarc.com/crs/mergedProjects/cutter/cutter/definition_cutter_number_cutter.htm
+[itsmarc-cutter-number]: https://www.itsmarc.com/crs/mergedProjects/cutter/cutter/definition_cutter_number_cutter.htm
 [marc-json]: https://github.com/marc4j/marc4j/wiki/MARC-in-JSON-Description
 [marc-json-schema]: https://github.com/thisismattmiller/marc-json-schema
 [marc-json-proposal]: https://rossfsinger.com/blog/2010/09/a-proposal-to-serialize-marc-in-json/
