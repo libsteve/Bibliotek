@@ -10,21 +10,25 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+NS_SWIFT_NAME(MarcRecord.Subfield)
 @interface BibMarcRecordSubfield : NSObject <NSCopying, NSMutableCopying, NSSecureCoding>
 
-@property (nonatomic, readonly, copy) NSString *code;
-@property (nonatomic, readonly, copy) NSString *content;
+@property (nonatomic, copy, readonly) NSString *code;
+@property (nonatomic, copy, readonly) NSString *content;
 
 - (instancetype)initWithCode:(NSString *)code content:(NSString *)content NS_DESIGNATED_INITIALIZER;
+
++ (instancetype)subfieldWithCode:(NSString *)code content:(NSString *)content NS_SWIFT_UNAVAILABLE("Use init(code:content:)");
 
 - (BOOL)isEqualToSubfield:(BibMarcRecordSubfield *)other;
 
 @end
 
+NS_SWIFT_NAME(MarcRecord.MutableSubfield)
 @interface BibMarcRecordMutableSubfield : BibMarcRecordSubfield
 
-@property (nonatomic, readwrite, copy) NSString *code;
-@property (nonatomic, readwrite, copy) NSString *content;
+@property (nonatomic, copy, readwrite) NSString *code;
+@property (nonatomic, copy, readwrite) NSString *content;
 
 @end
 

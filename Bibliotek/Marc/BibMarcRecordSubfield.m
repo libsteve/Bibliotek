@@ -7,6 +7,9 @@
 //
 
 #import "BibMarcRecordSubfield.h"
+#import "NSCharacterSet+BibLowercaseASCIICharacterSet.h"
+
+static void sAssertValidSubfieldCode(id const self, SEL const _cmd, NSString *const code);
 
 @implementation BibMarcRecordSubfield {
 @protected
@@ -18,15 +21,20 @@
 @synthesize content = _content;
 
 - (instancetype)init {
-    return [self initWithCode:@"" content:@""];
+    return [self initWithCode:@"a" content:@""];
 }
 
 - (instancetype)initWithCode:(NSString *)code content:(NSString *)content {
     if (self = [super init]) {
+        sAssertValidSubfieldCode(self, _cmd, code);
         _code = [code copy];
-        _content = [content copy];
+        _content = [content copy] ?: @"";
     }
     return self;
+}
+
++ (instancetype)subfieldWithCode:(NSString *)code content:(NSString *)content {
+    return [[self alloc] initWithCode:code content:content];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
@@ -71,16 +79,19 @@
 @implementation BibMarcRecordMutableSubfield
 
 @dynamic code;
++ (BOOL)automaticallyNotifiesObserversOfCode { return NO; }
 - (void)setCode:(NSString *)code {
     if (_code == code) {
         return;
     }
+    sAssertValidSubfieldCode(self, _cmd, code);
     [self willChangeValueForKey:@"code"];
     _code = [code copy];
     [self didChangeValueForKey:@"code"];
 }
 
 @dynamic content;
++ (BOOL)automaticallyNotifiesObserversOfContent { return NO; }
 - (void)setContent:(NSString *)content {
     if (_content == content) {
         return;
@@ -91,3 +102,10 @@
 }
 
 @end
+
+static void sAssertValidSubfieldCode(id const self, SEL const _cmd, NSString *const code) {
+    NSAssert([code length] == 1, @"Invalid subfield code \"%@\": "
+             @"Subfield codes must be exactly one lowercase ASCII character", code);
+    NSAssert([[NSCharacterSet bib_lowercaseASCIICharacterSet] characterIsMember:[code characterAtIndex:0]],
+             @"Invalid subfield code \"%@\": Subfield codes must be a lowercase ASCII character", code);
+}

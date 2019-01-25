@@ -8,18 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
+@class BibMarcRecordFieldTag;
 @class BibMarcRecordSubfield;
 
 NS_ASSUME_NONNULL_BEGIN
 
+NS_SWIFT_NAME(MarcRecord.DataField)
 @interface BibMarcRecordDataField : NSObject <NSCopying, NSMutableCopying, NSSecureCoding>
 
-@property (nonatomic, readonly, copy) NSString *tag;
-@property (nonatomic, readonly, copy, nullable) NSString *firstIndicator;
-@property (nonatomic, readonly, copy, nullable) NSString *secondIndicator;
-@property (nonatomic, readonly, copy) NSArray<BibMarcRecordSubfield *> *subfields;
+@property (nonatomic, strong, readonly) BibMarcRecordFieldTag *tag;
+@property (nonatomic, copy, readonly, nullable) NSString *firstIndicator;
+@property (nonatomic, copy, readonly, nullable) NSString *secondIndicator;
+@property (nonatomic, copy, readonly) NSArray<BibMarcRecordSubfield *> *subfields;
 
-- (instancetype)initWithTag:(NSString *)tag
+- (instancetype)initWithTag:(BibMarcRecordFieldTag *)tag
              firstIndicator:(nullable NSString *)firstIndicator
             secondIndicator:(nullable NSString *)secondIndicator
                   subfields:(NSArray<BibMarcRecordSubfield *> *)subfields NS_DESIGNATED_INITIALIZER;
@@ -28,12 +30,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+NS_SWIFT_NAME(MarcRecord.MutableDataField)
 @interface BibMarcRecordMutableDataField : BibMarcRecordDataField
 
-@property (nonatomic, readwrite, copy) NSString *tag;
-@property (nonatomic, readwrite, copy, nullable) NSString *firstIndicator;
-@property (nonatomic, readwrite, copy, nullable) NSString *secondIndicator;
-@property (nonatomic, readwrite, copy) NSArray<BibMarcRecordSubfield *> *subfields;
+@property (nonatomic, strong, readwrite) BibMarcRecordFieldTag *tag;
+@property (nonatomic, copy, readwrite, nullable) NSString *firstIndicator;
+@property (nonatomic, copy, readwrite, nullable) NSString *secondIndicator;
+@property (nonatomic, copy, readwrite) NSArray<BibMarcRecordSubfield *> *subfields;
 
 @end
 

@@ -7,10 +7,11 @@
 //
 
 #import "BibMarcRecordControlField.h"
+#import "BibMarcRecordFieldTag.h"
 
 @implementation BibMarcRecordControlField {
 @protected
-    NSString *_tag;
+    BibMarcRecordFieldTag *_tag;
     NSString *_content;
 }
 
@@ -18,15 +19,19 @@
 @synthesize content = _content;
 
 - (instancetype)init {
-    return [self initWithTag:@"000" content:@""];
+    return [self initWithTag:[BibMarcRecordFieldTag new] content:@""];
 }
 
-- (instancetype)initWithTag:(NSString *)tag content:(NSString *)content {
+- (instancetype)initWithTag:(BibMarcRecordFieldTag *)tag content:(NSString *)content {
     if (self = [super init]) {
-        _tag = [_tag copy];
+        _tag = tag;
         _content = [_content copy];
     }
     return self;
+}
+
++ (instancetype)controlFieldWithTag:(BibMarcRecordFieldTag *)tag content:(NSString *)content {
+    return [[self alloc] initWithTag:tag content:content];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
@@ -49,7 +54,7 @@
 + (BOOL)supportsSecureCoding { return YES; }
 
 - (BOOL)isEqualToControlField:(BibMarcRecordControlField *)other {
-    return [_tag isEqualToString:[other tag]]
+    return [_tag isEqualToFieldTag:[other tag]]
         && [_content isEqualToString:[other content]];
 }
 
@@ -67,16 +72,18 @@
 @implementation BibMarcRecordMutableControlField
 
 @dynamic tag;
-- (void)setTag:(NSString *)tag {
++ (BOOL)automaticallyNotifiesObserversOfTag { return NO; }
+- (void)setTag:(BibMarcRecordFieldTag *)tag {
     if (_tag == tag) {
         return;
     }
     [self willChangeValueForKey:@"tag"];
-    _tag = [tag copy];
+    _tag = tag;
     [self didChangeValueForKey:@"tag"];
 }
 
 @dynamic content;
++ (BOOL)automaticallyNotifiesObserversOfContent { return NO; }
 - (void)setContent:(NSString *)content {
     if (_content == content) {
         return;

@@ -8,23 +8,29 @@
 
 #import <Foundation/Foundation.h>
 
+@class BibMarcRecordFieldTag;
+
 NS_ASSUME_NONNULL_BEGIN
 
+NS_SWIFT_NAME(MarcRecord.ControlField)
 @interface BibMarcRecordControlField : NSObject <NSCopying, NSMutableCopying, NSSecureCoding>
 
-@property (nonatomic, readonly, copy) NSString *tag;
-@property (nonatomic, readonly, copy) NSString *content;
+@property (nonatomic, strong, readonly) BibMarcRecordFieldTag *tag;
+@property (nonatomic, copy, readonly) NSString *content;
 
-- (instancetype)initWithTag:(NSString *)tag content:(NSString *)content NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithTag:(BibMarcRecordFieldTag *)tag content:(NSString *)content NS_DESIGNATED_INITIALIZER;
+
++ (instancetype)controlFieldWithTag:(BibMarcRecordFieldTag *)tag content:(NSString *)content NS_SWIFT_UNAVAILABLE("Use init(tag:content:)");
 
 - (BOOL)isEqualToControlField:(BibMarcRecordControlField *)other;
 
 @end
 
+NS_SWIFT_NAME(MarcRecord.MutableControlField)
 @interface BibMarcRecordMutableControlField : BibMarcRecordControlField
 
-@property (nonatomic, readwrite, copy) NSString *tag;
-@property (nonatomic, readwrite, copy) NSString *content;
+@property (nonatomic, strong, readwrite) BibMarcRecordFieldTag *tag;
+@property (nonatomic, copy, readwrite) NSString *content;
 
 @end
 
