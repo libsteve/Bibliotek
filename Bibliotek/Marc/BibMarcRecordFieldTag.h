@@ -21,6 +21,10 @@ NS_SWIFT_NAME(MarcRecord.FieldTag)
 
 - (BOOL)isEqualToFieldTag:(BibMarcRecordFieldTag *)fieldTag;
 
+@end
+
+@interface BibMarcRecordFieldTag (KnownValidFieldTags)
+
 @property (class, nonatomic, strong, readonly) BibMarcRecordFieldTag *isbnFieldTag NS_SWIFT_NAME(isbn);
 @property (class, nonatomic, strong, readonly) BibMarcRecordFieldTag *lccFieldTag NS_SWIFT_NAME(lcc);
 @property (class, nonatomic, strong, readonly) BibMarcRecordFieldTag *ddcFieldTag NS_SWIFT_NAME(ddc);

@@ -62,6 +62,10 @@
     return _stringValue;
 }
 
+@end
+
+@implementation BibMarcRecordFieldTag (KnownValidFieldTags)
+
 + (BibMarcRecordFieldTag *)isbnFieldTag {
     BibMarcRecordFieldTag *const fieldTag = [[BibMarcRecordFieldTag alloc] initWithString:@"020"];
     fieldTag->_descriptiveTitle = @"ISBN";
