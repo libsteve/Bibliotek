@@ -1,5 +1,5 @@
 //
-//  BibMarcRecord.h
+//  _BibMarcRecord.h
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 7/18/18.
@@ -16,8 +16,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /// A collection of information pertaining to some physical entity represented in a MARC database.
-NS_SWIFT_NAME(MarcRecord)
-@interface BibMarcRecord : NSObject <BibRecord>
+NS_SWIFT_NAME(_MarcRecord)
+@interface _BibMarcRecord : NSObject <BibRecord>
 
 @property(nonatomic, readonly, copy) NSString *syntax;
 @property(nonatomic, readonly, copy) NSString *schema;

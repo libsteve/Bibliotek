@@ -1,5 +1,5 @@
 //
-//  BibMarcRecord.swift
+//  _BibMarcRecord.swift
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 7/18/18.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension MarcRecord: CustomPlaygroundDisplayConvertible {
+extension _MarcRecord: CustomPlaygroundDisplayConvertible {
     public var playgroundDescription: Any {
         return fields.map { $0.description }
     }

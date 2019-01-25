@@ -1,19 +1,19 @@
 //
-//  BibMarcRecord+Private.h
+//  _BibMarcRecord+Private.h
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 7/18/18.
 //  Copyright © 2018 Steve Brunwasser. All rights reserved.
 //
 
-#import "BibMarcRecord.h"
+#import "_BibMarcRecord.h"
 #import <yaz/zoom.h>
 
 @class BibRecordList;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface BibMarcRecord ()
+@interface _BibMarcRecord ()
 
 @property(nonatomic, readonly, assign, nullable) ZOOM_record zoomRecord;
 

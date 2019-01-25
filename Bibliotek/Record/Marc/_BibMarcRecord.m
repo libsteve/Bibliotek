@@ -1,5 +1,5 @@
 //
-//  _BibMarcRecord.m
+//  BibMarcRecord.m
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 7/18/18.
@@ -9,14 +9,14 @@
 #import "BibCallNumber.h"
 #import "BibDeweyDecimalCallNumber.h"
 #import "BibLibraryOfCongressCallNumber.h"
-#import "_BibMarcRecord.h"
+#import "BibMarcRecord.h"
 #import "BibMarcRecord+Private.h"
 #import "BibMarcRecordField.h"
 #import "BibRecord.h"
 #import "BibTitleStatement.h"
 #import <yaz/zoom.h>
 
-@implementation _BibMarcRecord {
+@implementation BibMarcRecord {
     NSString *_database;
     NSString *_isbn10;
     NSString *_isbn13;

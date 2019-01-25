@@ -18,7 +18,7 @@
 
 + (BOOL)supportsSecureCoding { return YES; }
 
-- (instancetype)initWithFieldTag:(BibMarcRecordFieldTag)fieldTag firstIndicator:(BibMarcRecordFieldIndicator)firstIndicator secondIndicator:(BibMarcRecordFieldIndicator)secondIndicator subfields:(NSDictionary<NSString *, NSString *> *)subfields {
+- (instancetype)initWithFieldTag:(_BibMarcRecordFieldTag)fieldTag firstIndicator:(BibMarcRecordFieldIndicator)firstIndicator secondIndicator:(BibMarcRecordFieldIndicator)secondIndicator subfields:(NSDictionary<NSString *, NSString *> *)subfields {
     if (self = [super init]) {
         _fieldTag = fieldTag;
         _firstIndicator = firstIndicator;
@@ -29,7 +29,7 @@
 }
 
 - (instancetype)initWithJson:(NSDictionary<NSString *,id> *)json {
-    BibMarcRecordFieldTag const tag = [[json allKeys] firstObject];
+    _BibMarcRecordFieldTag const tag = [[json allKeys] firstObject];
     if (tag == nil) { return nil; }
     NSDictionary *const content = json[tag];
     if (content == nil || ![content isKindOfClass:[NSDictionary class]]) { return nil; }

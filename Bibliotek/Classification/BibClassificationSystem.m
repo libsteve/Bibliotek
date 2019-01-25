@@ -43,7 +43,7 @@ static NSRegularExpression *lccRegex;
     return [self initWithAcronym:@"" description:@"" fieldTag:@""];
 }
 
-- (instancetype)initWithAcronym:(NSString *)acronym description:(NSString *)description fieldTag:(BibMarcRecordFieldTag)fieldTag {
+- (instancetype)initWithAcronym:(NSString *)acronym description:(NSString *)description fieldTag:(_BibMarcRecordFieldTag)fieldTag {
     if (self = [super init]) {
         _acronym = [acronym copy];
         _description = [description copy];
@@ -66,7 +66,7 @@ static NSRegularExpression *lccRegex;
 
 + (BOOL)supportsSecureCoding { return YES; }
 
-+ (instancetype)systemForFieldTag:(BibMarcRecordFieldTag)fieldTag {
++ (instancetype)systemForFieldTag:(_BibMarcRecordFieldTag)fieldTag {
     NSArray *const systems = @[[self libraryOfCongress], [self deweyDecimal]];
     for (BibClassificationSystem *system in systems) {
         if ([fieldTag isEqualToString:[system fieldTag]]) {

@@ -23,7 +23,7 @@ NS_SWIFT_NAME(ClassificationSystem)
 @property(nonatomic, readonly, copy) NSString *acronym;
 
 /// The MARC record field tag commonly used to store call numbers within this system.
-@property(nonatomic, readonly, copy) BibMarcRecordFieldTag fieldTag;
+@property(nonatomic, readonly, copy) _BibMarcRecordFieldTag fieldTag;
 
 /// The Library of Congress Classification System.
 @property(nonatomic, readonly, class) BibClassificationSystem *libraryOfCongress;
@@ -36,7 +36,7 @@ NS_SWIFT_NAME(ClassificationSystem)
 /// \param fieldTag The MACR record field tag where call numbers in this system are commonly stored.
 - (instancetype)initWithAcronym:(NSString *)acronym
                     description:(NSString *)description
-                       fieldTag:(BibMarcRecordFieldTag)fieldTag NS_DESIGNATED_INITIALIZER;
+                       fieldTag:(_BibMarcRecordFieldTag)fieldTag NS_DESIGNATED_INITIALIZER;
 
 /// Determine if this classification system is equivalen to the one provided.
 - (BOOL)isEqualToSystem:(BibClassificationSystem *)system;
