@@ -7,6 +7,7 @@
 //
 
 #import "BibMarcRecordFieldTag.h"
+#import "NSCharacterSet+BibLowercaseAlphanumericCharacterSet.h"
 #import <os/log.h>
 
 #define GUARD(CONDITION) if(!(CONDITION))
@@ -32,11 +33,11 @@
             os_log_info(log, "Field tags are 3-digit codes");
             return nil;
         }
-        NSCharacterSet *const decimalDigitCharacterSet = [NSCharacterSet decimalDigitCharacterSet];
-        NSString *const trimmedString = [stringValue stringByTrimmingCharactersInSet:decimalDigitCharacterSet];
-        GUARD([trimmedString length] != 0) {
+        NSCharacterSet *const westernNumeralCharacterSet = [NSCharacterSet bib_westernNumeralCharacterSet];
+        NSString *const trimmedString = [stringValue stringByTrimmingCharactersInSet:westernNumeralCharacterSet];
+        GUARD([trimmedString length] == 0) {
             os_log_debug(log, "Invalid field tag \"%{public}@\"", stringValue);
-            os_log_info(log, "Field tags are 3-digit codes");
+            os_log_info(log, "Field tags are 3-digit western-numeral codes");
             return nil;
         }
         _stringValue = [stringValue copy];
