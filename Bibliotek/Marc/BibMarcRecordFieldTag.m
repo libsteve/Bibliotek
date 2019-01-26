@@ -28,7 +28,7 @@
     return self;
 }
 
-+ (nullable instancetype)fieldTagWithString:(NSString *)stringValue {
++ (instancetype)fieldTagWithString:(NSString *)stringValue {
     return [[self alloc] initWithString:stringValue];
 }
 

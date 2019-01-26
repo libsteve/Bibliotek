@@ -23,13 +23,13 @@ NS_SWIFT_NAME(MarcRecord.FieldTag)
 
 /// Create a record field tag from the given string value.
 /// \param stringValue A string containing the 3-digit code representation for a tag.
-/// \pre String codes must be exactly 3 ASCII digit characters. No tag will be created for any other values.
-- (nullable instancetype)initWithString:(NSString *)stringValue NS_DESIGNATED_INITIALIZER NS_SWIFT_NAME(init(rawValue:));
+/// \pre String codes must be exactly 3 ASCII digit characters.
+- (instancetype)initWithString:(NSString *)stringValue NS_DESIGNATED_INITIALIZER NS_SWIFT_NAME(init(rawValue:));
 
 /// Create a record field tag from the given string value.
 /// \param stringValue A string containing the 3-digit code representation for a tag.
-/// \pre String codes must be exactly 3 ASCII digit characters. No tag will be created for any other values.
-+ (nullable instancetype)fieldTagWithString:(NSString *)stringValue NS_SWIFT_UNAVAILABLE("Use init(rawValue:)");
+/// \pre String codes must be exactly 3 ASCII digit characters.
++ (instancetype)fieldTagWithString:(NSString *)stringValue NS_SWIFT_UNAVAILABLE("Use init(rawValue:)");
 
 /// Determine if this field tag is equivalent to the given tag.
 /// \param fieldTag The field tag that is being compaired with this instance for equality.
