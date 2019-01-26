@@ -11,7 +11,6 @@
 @implementation BibMarcRecordFieldTag {
 @protected
     NSString *_stringValue;
-    NSString *_descriptiveTitle;
 }
 
 - (instancetype)init {
@@ -71,143 +70,59 @@
 @implementation BibMarcRecordFieldTag (KnownValidFieldTags)
 
 + (BibMarcRecordFieldTag *)isbnFieldTag {
-    static BibMarcRecordFieldTag *fieldTag;
-    dispatch_once_t token;
-    dispatch_once(&token, ^{
-        fieldTag = [[BibMarcRecordFieldTag alloc] initWithString:@"020"];
-        fieldTag->_descriptiveTitle = @"ISBN";
-    });
-    return fieldTag;
+    return [[BibMarcRecordFieldTag alloc] initWithString:@"020"];
 }
 
 + (BibMarcRecordFieldTag *)lccFieldTag {
-    static BibMarcRecordFieldTag *fieldTag;
-    dispatch_once_t token;
-    dispatch_once(&token, ^{
-        fieldTag = [[BibMarcRecordFieldTag alloc] initWithString:@"050"];
-        fieldTag->_descriptiveTitle = @"LCC";
-    });
-    return fieldTag;
+    return [[BibMarcRecordFieldTag alloc] initWithString:@"050"];
 }
 
 + (BibMarcRecordFieldTag *)ddcFieldTag {
-    static BibMarcRecordFieldTag *fieldTag;
-    dispatch_once_t token;
-    dispatch_once(&token, ^{
-        fieldTag = [[BibMarcRecordFieldTag alloc] initWithString:@"082"];
-        fieldTag->_descriptiveTitle = @"DDC";
-    });
-    return fieldTag;
+    return [[BibMarcRecordFieldTag alloc] initWithString:@"082"];
 }
 
 + (BibMarcRecordFieldTag *)authorFieldTag {
-    static BibMarcRecordFieldTag *fieldTag;
-    dispatch_once_t token;
-    dispatch_once(&token, ^{
-        fieldTag = [[BibMarcRecordFieldTag alloc] initWithString:@"100"];
-        fieldTag->_descriptiveTitle = @"Author";
-    });
-    return fieldTag;
+    return [[BibMarcRecordFieldTag alloc] initWithString:@"100"];
 }
 
 + (BibMarcRecordFieldTag *)titleFieldTag {
-    static BibMarcRecordFieldTag *fieldTag;
-    dispatch_once_t token;
-    dispatch_once(&token, ^{
-        fieldTag = [[BibMarcRecordFieldTag alloc] initWithString:@"245"];
-        fieldTag->_descriptiveTitle = @"Title";
-    });
-    return fieldTag;
+    return [[BibMarcRecordFieldTag alloc] initWithString:@"245"];
 }
 
 + (BibMarcRecordFieldTag *)editionFieldTag {
-    static BibMarcRecordFieldTag *fieldTag;
-    dispatch_once_t token;
-    dispatch_once(&token, ^{
-        fieldTag = [[BibMarcRecordFieldTag alloc] initWithString:@"250"];
-        fieldTag->_descriptiveTitle = @"Edition";
-    });
-    return fieldTag;
+    return [[BibMarcRecordFieldTag alloc] initWithString:@"250"];
 }
 
 + (BibMarcRecordFieldTag *)publicationFieldTag {
-    static BibMarcRecordFieldTag *fieldTag;
-    dispatch_once_t token;
-    dispatch_once(&token, ^{
-        fieldTag = [[BibMarcRecordFieldTag alloc] initWithString:@"264"];
-        fieldTag->_descriptiveTitle = @"Publication";
-    });
-    return fieldTag;
+    return [[BibMarcRecordFieldTag alloc] initWithString:@"264"];
 }
 
 + (BibMarcRecordFieldTag *)physicalDescriptionFieldTag {
-    static BibMarcRecordFieldTag *fieldTag;
-    dispatch_once_t token;
-    dispatch_once(&token, ^{
-        fieldTag = [[BibMarcRecordFieldTag alloc] initWithString:@"300"];
-        fieldTag->_descriptiveTitle = @"Physical-Description";
-    });
-    return fieldTag;
+    return [[BibMarcRecordFieldTag alloc] initWithString:@"300"];
 }
 
 + (BibMarcRecordFieldTag *)noteFieldTag {
-    static BibMarcRecordFieldTag *fieldTag;
-    dispatch_once_t token;
-    dispatch_once(&token, ^{
-        fieldTag = [[BibMarcRecordFieldTag alloc] initWithString:@"500"];
-        fieldTag->_descriptiveTitle = @"Note";
-    });
-    return fieldTag;
+    return [[BibMarcRecordFieldTag alloc] initWithString:@"500"];
 }
 
 + (BibMarcRecordFieldTag *)bibliographyFieldTag {
-    static BibMarcRecordFieldTag *fieldTag;
-    dispatch_once_t token;
-    dispatch_once(&token, ^{
-        fieldTag = [[BibMarcRecordFieldTag alloc] initWithString:@"504"];
-        fieldTag->_descriptiveTitle = @"Bibliography";
-    });
-    return fieldTag;
+    return [[BibMarcRecordFieldTag alloc] initWithString:@"504"];
 }
 
 + (BibMarcRecordFieldTag *)summaryFieldTag {
-    static BibMarcRecordFieldTag *fieldTag;
-    dispatch_once_t token;
-    dispatch_once(&token, ^{
-        fieldTag = [[BibMarcRecordFieldTag alloc] initWithString:@"520"];
-        fieldTag->_descriptiveTitle = @"Summary";
-    });
-    return fieldTag;
+    return [[BibMarcRecordFieldTag alloc] initWithString:@"520"];
 }
 
 + (BibMarcRecordFieldTag *)subjectFieldTag {
-    static BibMarcRecordFieldTag *fieldTag;
-    dispatch_once_t token;
-    dispatch_once(&token, ^{
-        fieldTag = [[BibMarcRecordFieldTag alloc] initWithString:@"650"];
-        fieldTag->_descriptiveTitle = @"Subject";
-    });
-    return fieldTag;
+    return [[BibMarcRecordFieldTag alloc] initWithString:@"650"];
 }
 
 + (BibMarcRecordFieldTag *)genreFieldTag {
-    static BibMarcRecordFieldTag *fieldTag;
-    dispatch_once_t token;
-    dispatch_once(&token, ^{
-        fieldTag = [[BibMarcRecordFieldTag alloc] initWithString:@"655"];
-        fieldTag->_descriptiveTitle = @"Genre";
-    });
-    return fieldTag;
+    return [[BibMarcRecordFieldTag alloc] initWithString:@"655"];
 }
 
 + (BibMarcRecordFieldTag *)seriesFieldTag {
-    static BibMarcRecordFieldTag *fieldTag;
-    dispatch_once_t token;
-    dispatch_once(&token, ^{
-        fieldTag = [[BibMarcRecordFieldTag alloc] initWithString:@"830"];
-        fieldTag->_descriptiveTitle = @"Series";
-    });
-    return fieldTag;
+    return [[BibMarcRecordFieldTag alloc] initWithString:@"830"];
 }
 
 @end
