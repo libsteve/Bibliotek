@@ -33,6 +33,7 @@ NS_SWIFT_NAME(MarcRecord.FieldTag)
 
 /// Determine if this field tag is equivalent to the given tag.
 /// \param fieldTag The field tag that is being compaired with this instance for equality.
+/// \returns Returns \c YES when both tags have the same 3-digit code.
 - (BOOL)isEqualToFieldTag:(BibMarcRecordFieldTag *)fieldTag;
 
 /// Determine the ordered relationship between this and the given field tag.
