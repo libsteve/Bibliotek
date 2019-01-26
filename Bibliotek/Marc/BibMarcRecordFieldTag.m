@@ -50,11 +50,11 @@
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    return [self initWithString:[aDecoder decodeObjectForKey:@"stringValue"]];
+    return [self initWithString:[aDecoder decodeObject]];
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeObject:_stringValue forKey:@"stringValue"];
+    [aCoder encodeObject:_stringValue];
 }
 
 + (BOOL)supportsSecureCoding { return YES; }
