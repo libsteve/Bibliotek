@@ -53,6 +53,16 @@
     return [[self alloc] initWithString:stringValue];
 }
 
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    return [self initWithString:[aDecoder decodeObject]];
+}
+
++ (BOOL)supportsSecureCoding { return YES; }
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:_stringValue];
+}
+
 - (BOOL)isEqualToFieldIndicator:(BibMarcRecordFieldIndicator *)other {
     return [_stringValue isEqualToString:[other stringValue]];
 }

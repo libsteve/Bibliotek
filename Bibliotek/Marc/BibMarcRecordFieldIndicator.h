@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// \brief A single-character code used within MARC records to mark its semantic meaning.
 NS_SWIFT_NAME(MarcRecord.FieldIndicator)
-@interface BibMarcRecordFieldIndicator : NSObject
+@interface BibMarcRecordFieldIndicator : NSObject <NSSecureCoding>
 
 /// A string representation of the indicator's code.
 @property (nonatomic, strong, readonly) NSString *stringValue;
