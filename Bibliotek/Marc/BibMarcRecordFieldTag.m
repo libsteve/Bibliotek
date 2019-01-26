@@ -62,6 +62,10 @@
     return _stringValue;
 }
 
+- (NSComparisonResult)compare:(BibMarcRecordFieldTag *)fieldTag {
+    return [_stringValue compare:[fieldTag stringValue]];
+}
+
 @end
 
 @implementation BibMarcRecordFieldTag (KnownValidFieldTags)

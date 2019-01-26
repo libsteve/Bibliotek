@@ -35,6 +35,14 @@ NS_SWIFT_NAME(MarcRecord.FieldTag)
 /// \param fieldTag The field tag that is being compaired with this instance for equality.
 - (BOOL)isEqualToFieldTag:(BibMarcRecordFieldTag *)fieldTag;
 
+/// Determine the ordered relationship between this and the given field tag.
+/// \param fieldTag The field tag that this tag should be compared with.
+/// \returns An \c NSComparisonResult is returned that denotes how these two tags relate to each other.
+/// \c NSOrderedAscending indicates that \c fieldTag is lexically ordered after this tag,
+/// \c NSOrderedDescending indicates that \c fieldTag is lexically ordered before this tag,
+/// and \c NSOrderedSame indicates that both tags are equivalent.
+- (NSComparisonResult)compare:(BibMarcRecordFieldTag *)fieldTag;
+
 @end
 
 @interface BibMarcRecordFieldTag (KnownValidFieldTags)
