@@ -7,9 +7,14 @@
 //
 
 #import "BibMarcRecordSubfield.h"
-#import "NSCharacterSet+BibLowercaseASCIICharacterSet.h"
+#import "NSCharacterSet+BibLowercaseAlphanumericCharacterSet.h"
 
-static void sAssertValidSubfieldCode(id const self, SEL const _cmd, NSString *const code);
+#define BIB_ASSERT_VALID_SUBFILED_CODE(CODE) do {                                                                    \
+    NSAssert([(CODE) length] == 1, @"Invalid subfield code \"%@\": "                                                 \
+             @"Subfield codes must be exactly one lowercase ASCII character", (CODE));                               \
+    NSAssert([[NSCharacterSet bib_lowercaseAlphanumericCharacterSet] characterIsMember:[(CODE) characterAtIndex:0]], \
+             @"Invalid subfield code \"%@\": Subfield codes must be a lowercase ASCII character", (CODE));           \
+} while(0)
 
 @implementation BibMarcRecordSubfield {
 @protected
@@ -26,7 +31,7 @@ static void sAssertValidSubfieldCode(id const self, SEL const _cmd, NSString *co
 
 - (instancetype)initWithCode:(NSString *)code content:(NSString *)content {
     if (self = [super init]) {
-        sAssertValidSubfieldCode(self, _cmd, code);
+        BIB_ASSERT_VALID_SUBFILED_CODE(code);
         _code = [code copy];
         _content = [content copy] ?: @"";
     }
@@ -84,7 +89,7 @@ static void sAssertValidSubfieldCode(id const self, SEL const _cmd, NSString *co
     if (_code == code) {
         return;
     }
-    sAssertValidSubfieldCode(self, _cmd, code);
+    BIB_ASSERT_VALID_SUBFILED_CODE(code);
     [self willChangeValueForKey:@"code"];
     _code = [code copy];
     [self didChangeValueForKey:@"code"];
@@ -102,10 +107,3 @@ static void sAssertValidSubfieldCode(id const self, SEL const _cmd, NSString *co
 }
 
 @end
-
-static void sAssertValidSubfieldCode(id const self, SEL const _cmd, NSString *const code) {
-    NSAssert([code length] == 1, @"Invalid subfield code \"%@\": "
-             @"Subfield codes must be exactly one lowercase ASCII character", code);
-    NSAssert([[NSCharacterSet bib_lowercaseASCIICharacterSet] characterIsMember:[code characterAtIndex:0]],
-             @"Invalid subfield code \"%@\": Subfield codes must be a lowercase ASCII character", code);
-}
