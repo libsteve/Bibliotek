@@ -18,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (class, nonatomic, strong, readonly) NSCharacterSet *bib_lowercaseAlphanumericCharacterSet;
 
+@property (class, nonatomic, strong, readonly) NSCharacterSet *bib_blankIndicatorCharacterSet;
+
 @end
 
 NS_ASSUME_NONNULL_END

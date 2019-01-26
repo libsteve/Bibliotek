@@ -42,4 +42,13 @@
     return characterSet;
 }
 
++ (NSCharacterSet *)bib_blankIndicatorCharacterSet {
+    static NSCharacterSet *characterSet;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        characterSet = [NSCharacterSet characterSetWithCharactersInString:@" _#"];
+    });
+    return characterSet;
+}
+
 @end
