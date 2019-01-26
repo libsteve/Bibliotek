@@ -10,16 +10,36 @@
 
 @implementation NSCharacterSet (BibLowercaseAlphanumericCharacterSet)
 
-+ (NSCharacterSet *)bib_lowercaseAlphanumericCharacterSet {
-    static NSCharacterSet *lowercaseASCIICharacterSet;
++ (NSCharacterSet *)bib_westernNumeralCharacterSet {
+    static NSCharacterSet *characterSet;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSString *const numerals = @"0123456789";
+        characterSet = [NSCharacterSet characterSetWithCharactersInString:numerals];
+    });
+    return characterSet;
+}
+
++ (NSCharacterSet *)bib_lowercaseEnglishCharacterSet {
+    static NSCharacterSet *characterSet;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         NSString *const alphabet = @"abcdefghijklmnopqrstuvwxyz";
-        NSString *const numerals = @"0123456789";
-        NSString *const lowercaseAlphanumerals = [alphabet stringByAppendingString:numerals];
-        lowercaseASCIICharacterSet = [NSCharacterSet characterSetWithCharactersInString:lowercaseAlphanumerals];
+        characterSet = [NSCharacterSet characterSetWithCharactersInString:alphabet];
     });
-    return lowercaseASCIICharacterSet;
+    return characterSet;
+}
+
++ (NSCharacterSet *)bib_lowercaseAlphanumericCharacterSet {
+    static NSCharacterSet *characterSet;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSMutableCharacterSet *const mutableCharacterSet = [NSMutableCharacterSet new];
+        [mutableCharacterSet formUnionWithCharacterSet:[NSCharacterSet bib_westernNumeralCharacterSet]];
+        [mutableCharacterSet formUnionWithCharacterSet:[NSCharacterSet bib_lowercaseEnglishCharacterSet]];
+        characterSet = [mutableCharacterSet copy];
+    });
+    return characterSet;
 }
 
 @end

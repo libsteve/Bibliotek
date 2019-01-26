@@ -12,6 +12,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSCharacterSet (BibLowercaseAlphanumericCharacterSet)
 
+@property (class, nonatomic, strong, readonly) NSCharacterSet *bib_westernNumeralCharacterSet;
+
+@property (class, nonatomic, strong, readonly) NSCharacterSet *bib_lowercaseEnglishCharacterSet;
+
 @property (class, nonatomic, strong, readonly) NSCharacterSet *bib_lowercaseAlphanumericCharacterSet;
 
 @end
