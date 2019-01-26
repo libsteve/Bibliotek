@@ -7,6 +7,9 @@
 //
 
 #import "BibMarcRecordFieldTag.h"
+#import <os/log.h>
+
+#define GUARD(CONDITION) if(!(CONDITION))
 
 @implementation BibMarcRecordFieldTag {
 @protected
@@ -18,11 +21,24 @@
 }
 
 - (instancetype)initWithString:(NSString *)stringValue {
+    static os_log_t log;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        log = os_log_create("brun.steve.Bibliotek.BibMarcRecord", "FieldTag");
+    });
     if (self = [super init]) {
-        NSAssert([stringValue length] == 3, @"Invalid field tag \"%@\": Field tags are 3-digit codes", stringValue);
+        GUARD([stringValue length] == 3) {
+            os_log_debug(log, "Invalid field tag \"%{public}@\"", stringValue);
+            os_log_info(log, "Field tags are 3-digit codes");
+            return nil;
+        }
         NSCharacterSet *const decimalDigitCharacterSet = [NSCharacterSet decimalDigitCharacterSet];
         NSString *const trimmedString = [stringValue stringByTrimmingCharactersInSet:decimalDigitCharacterSet];
-        NSAssert([trimmedString length] != 0, @"Invalid field tag \"%@\": Field tags are 3-digit codes", stringValue);
+        GUARD([trimmedString length] != 0) {
+            os_log_debug(log, "Invalid field tag \"%{public}@\"", stringValue);
+            os_log_info(log, "Field tags are 3-digit codes");
+            return nil;
+        }
         _stringValue = [stringValue copy];
     }
     return self;

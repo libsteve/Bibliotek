@@ -10,7 +10,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-
 /// \brief A 3-digit code indicating the semantic purpose of a record field.
 /// \discussion The five MARC 21 formats for authority, bibliographic, classification, community, and holdings records
 /// each define their own semantic meanings for reserved tag values. Documentation on these formats is publically
@@ -19,17 +18,17 @@ NS_SWIFT_NAME(MarcRecord.FieldTag)
 @interface BibMarcRecordFieldTag : NSObject <NSSecureCoding>
 
 /// A string representation of the tag's 3-digit code.
-@property (nonatomic, strong, readonly) NSString *stringValue NS_SWIFT_NAME(rawValue);
+@property (nonatomic, strong, readonly) NSString *stringValue;
 
 /// Create a record field tag from the given string value.
 /// \param stringValue A string containing the 3-digit code representation for a tag.
-/// \pre String codes must be exactly 3 ASCII digit characters.
-- (instancetype)initWithString:(NSString *)stringValue NS_DESIGNATED_INITIALIZER NS_SWIFT_NAME(init(rawValue:));
+/// \pre String codes must be exactly 3 digits long.
+- (nullable instancetype)initWithString:(NSString *)stringValue NS_DESIGNATED_INITIALIZER NS_SWIFT_NAME(init(stringValue:));
 
 /// Create a record field tag from the given string value.
 /// \param stringValue A string containing the 3-digit code representation for a tag.
-/// \pre String codes must be exactly 3 ASCII digit characters.
-+ (instancetype)fieldTagWithString:(NSString *)stringValue NS_SWIFT_UNAVAILABLE("Use init(rawValue:)");
+/// \pre String codes must be exactly 3 digits long.
++ (nullable instancetype)fieldTagWithString:(NSString *)stringValue NS_SWIFT_UNAVAILABLE("Use init(stringValue:)");
 
 /// Determine if this field tag is equivalent to the given tag.
 /// \param fieldTag The field tag that is being compaired with this instance for equality.
