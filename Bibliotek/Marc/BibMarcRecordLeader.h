@@ -10,14 +10,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// \brief A required field positioned at the beginning of each record.
-/// \discussion The record leader provides information about the layout of data within each record.
+/// A required field positioned at the beginning of each record.
+/// \discussion The record leader provides information about the layout of data within a record.
 /// Such information includes the total size in memory of the record, the layout of fields' tags and indicators,
 /// and other miscellaneous metadata.
 ///
-/// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html
+/// More information about the structure of the leader can be found in the Library of Congress's documentation on the
+/// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html#leader.
+NS_SWIFT_NAME(MarcRecord.Leader)
 @interface BibMarcRecordLeader : NSObject <NSSecureCoding>
 
+/// The raw string representation of the leader data.
 @property (nonatomic, copy, readonly) NSString *stringValue NS_SWIFT_NAME(rawValue);
 
 @property (nonatomic, assign, readonly) NSInteger recordLength;
@@ -31,9 +34,26 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, readonly) NSString *threeCharacterField;
 @property (nonatomic, copy, readonly) NSString *entryMap;
 
+/// Create a valid leader for a MARC 21 record.
+/// \param stringValue The raw string representation of the leader data.
+/// \returns Returns a new record leader backed by the given string value.
+/// \pre The given string must contain well-formed leader data according to the official specifications.
+/// \discussion More information about the structure of the leader can be found in the Library of Congress's
+/// documentation on the MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html#leader.
 - (nullable instancetype)initWithString:(NSString *)stringValue NS_DESIGNATED_INITIALIZER NS_SWIFT_NAME(init(rawValue:));
 
+/// Create a valid leader for a MARC 21 record.
+/// \param stringValue The raw string representation of the leader data.
+/// \returns Returns a new record leader backed by the given string value.
+/// \pre The given string must contain well-formed leader data according to the official specifications.
+/// \discussion More information about the structure of the leader can be found in the Library of Congress's
+/// documentation on the MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html#leader.
 + (nullable instancetype)leaderWithString:(NSString *)stringValue NS_SWIFT_UNAVAILABLE("Use init(rawValue:)");
+
+/// Determine whether or not the given leader describes the same MARC 21 record as the receiver.
+/// \param leader The leader with which the receiver should be compared.
+/// \returns Returns \c YES if the given leader and the receiver describe the same MARC 21 record.
+- (BOOL)isEqualToLeader:(BibMarcRecordLeader *)leader;
 
 @end
 

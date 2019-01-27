@@ -53,15 +53,32 @@ static NSString *const kMarc21EntryMap = @"4500";
     return [[self alloc] initWithString:stringValue];
 }
 
+#pragma mark - Coding
+
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    return [self initWithString:[aDecoder decodeObject]];
+    return [self initWithString:[aDecoder decodeObjectForKey:@"stringValue"]];
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeObject:_stringValue];
+    [aCoder encodeObject:_stringValue forKey:@"stringValue"];
 }
 
 + (BOOL)supportsSecureCoding { return YES; }
+
+#pragma mark - Equality
+
+- (BOOL)isEqualToLeader:(BibMarcRecordLeader *)leader {
+    return [_stringValue isEqualToString:[leader stringValue]];
+}
+
+- (BOOL)isEqual:(id)object {
+    return [super isEqual:object]
+        || ([object isKindOfClass:[BibMarcRecordLeader class]] && [self isEqualToLeader:object]);
+}
+
+- (NSUInteger)hash {
+    return [_stringValue hash];
+}
 
 #pragma mark - Properties
 
