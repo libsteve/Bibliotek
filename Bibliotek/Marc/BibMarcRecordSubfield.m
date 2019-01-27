@@ -7,7 +7,7 @@
 //
 
 #import "BibMarcRecordSubfield.h"
-#import "NSCharacterSet+BibLowercaseAlphanumericCharacterSet.h"
+#import "NSCharacterSet+BibASCIICharacterSet.h"
 
 #define BIB_ASSERT_VALID_SUBFILED_CODE(CODE) do {                                                                    \
     NSAssert([(CODE) length] == 1, @"Invalid subfield code \"%@\": "                                                 \

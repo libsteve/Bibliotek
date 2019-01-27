@@ -1,5 +1,5 @@
 //
-//  NSCharacterSet+BibLowercaseAlphanumericCharacterSet.h
+//  NSCharacterSet+BibASCIICharacterSet.h
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 1/24/19.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NSCharacterSet (BibLowercaseAlphanumericCharacterSet)
+@interface NSCharacterSet (BibASCIICharacterSet)
 
 @property (class, nonatomic, strong, readonly) NSCharacterSet *bib_ASCIICharacterSet;
 @property (class, nonatomic, strong, readonly) NSCharacterSet *bib_ASCIIControlCharacterSet;

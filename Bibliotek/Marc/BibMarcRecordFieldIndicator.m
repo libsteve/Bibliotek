@@ -7,7 +7,7 @@
 //
 
 #import "BibMarcRecordFieldIndicator.h"
-#import "NSCharacterSet+BibLowercaseAlphanumericCharacterSet.h"
+#import "NSCharacterSet+BibASCIICharacterSet.h"
 #import <os/log.h>
 
 #define GUARD(CONDITION) if (!(CONDITION))

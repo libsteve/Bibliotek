@@ -1,14 +1,14 @@
 //
-//  NSCharacterSet+BibLowercaseAlphanumericCharacterSet.m
+//  NSCharacterSet+BibASCIICharacterSet.m
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 1/24/19.
 //  Copyright © 2019 Steve Brunwasser. All rights reserved.
 //
 
-#import "NSCharacterSet+BibLowercaseAlphanumericCharacterSet.h"
+#import "NSCharacterSet+BibASCIICharacterSet.h"
 
-@implementation NSCharacterSet (BibLowercaseAlphanumericCharacterSet)
+@implementation NSCharacterSet (BibASCIICharacterSet)
 
 + (NSCharacterSet *)bib_ASCIICharacterSet {
     static NSCharacterSet *characterSet;

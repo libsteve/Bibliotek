@@ -7,7 +7,7 @@
 //
 
 #import "BibMarcRecordLeader.h"
-#import "NSCharacterSet+BibLowercaseAlphanumericCharacterSet.h"
+#import "NSCharacterSet+BibASCIICharacterSet.h"
 #import "NSString+BibCharacterSetValidation.h"
 #import <os/log.h>
 
