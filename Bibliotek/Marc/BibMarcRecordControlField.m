@@ -7,11 +7,20 @@
 //
 
 #import "BibMarcRecordControlField.h"
-#import "BibMarcRecordFieldTag.h"
+#import "NSCharacterSet+BibASCIICharacterSet.h"
+#import "NSString+BibCharacterSetValidation.h"
+#import <os/log.h>
+
+#define guard(predicate) if(!((predicate)))
+
+static NSString *const kTagKey = @"tag";
+static NSString *const kContentKey = @"content";
+
+static BOOL sIsValidTag(NSString *tag);
 
 @implementation BibMarcRecordControlField {
 @protected
-    BibMarcRecordFieldTag *_tag;
+    NSString *_tag;
     NSString *_content;
 }
 
@@ -19,23 +28,22 @@
 @synthesize content = _content;
 
 - (instancetype)init {
-    return [self initWithTag:[BibMarcRecordFieldTag new] content:@""];
+    return [self initWithTag:@"000" content:@""];
 }
 
-- (instancetype)initWithTag:(BibMarcRecordFieldTag *)tag content:(NSString *)content {
+- (instancetype)initWithTag:(NSString *)tag content:(NSString *)content {
+    guard([BibMarcRecordControlField isValidControlFieldTag:tag]) {
+        return nil;
+    }
     if (self = [super init]) {
-        _tag = tag;
+        _tag = [tag copy];
         _content = [_content copy];
     }
     return self;
 }
 
-+ (instancetype)controlFieldWithTag:(BibMarcRecordFieldTag *)tag content:(NSString *)content {
++ (instancetype)controlFieldWithTag:(NSString *)tag content:(NSString *)content {
     return [[self alloc] initWithTag:tag content:content];
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    return [self initWithTag:[aDecoder decodeObjectForKey:@"tag"] content:[aDecoder decodeObjectForKey:@"content"]];
 }
 
 - (id)copyWithZone:(NSZone *)zone {
@@ -46,15 +54,23 @@
     return [[BibMarcRecordMutableControlField allocWithZone:zone] initWithTag:_tag content:_content];
 }
 
+#pragma mark - Coding
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    return [self initWithTag:[aDecoder decodeObjectForKey:kTagKey] content:[aDecoder decodeObjectForKey:kContentKey]];
+}
+
 - (void)encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeObject:_tag forKey:@"tag"];
-    [aCoder encodeObject:_content forKey:@"content"];
+    [aCoder encodeObject:_tag forKey:kTagKey];
+    [aCoder encodeObject:_content forKey:kContentKey];
 }
 
 + (BOOL)supportsSecureCoding { return YES; }
 
+#pragma mark - Equality
+
 - (BOOL)isEqualToControlField:(BibMarcRecordControlField *)other {
-    return [_tag isEqualToFieldTag:[other tag]]
+    return [_tag isEqualToString:[other tag]]
         && [_content isEqualToString:[other content]];
 }
 
@@ -67,19 +83,46 @@
     return [_tag hash] ^ [_content hash];
 }
 
+#pragma mark -
+
++ (BOOL)isValidControlFieldTag:(NSString *)tag {
+    static os_log_t log;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        log = os_log_create("brun.steve.Bibliotek.BibMarcRecord", "ControlField");
+    });
+    guard([tag bib_isRestrictedToCharacterSet:[NSCharacterSet bib_ASCIINumericCharacterSet]
+                                      inRange:NSRangeFromString(tag)]) {
+        os_log_debug(log, "Invalid control field tag \"%{public}@\"", tag);
+        os_log_info(log, "Field tags must be a sequence of ASCII numerals");
+        return NO;
+    }
+    guard([[tag substringWithRange:NSMakeRange(0, 2)] isEqualToString:@"00"]) {
+        os_log_debug(log, "Invalid control field tag \"%{public}@\"", tag);
+        os_log_info(log, "Control field tags must begin with 00");
+        return NO;
+    }
+    return YES;
+}
+
 @end
+
+#pragma mark -
 
 @implementation BibMarcRecordMutableControlField
 
 @dynamic tag;
 + (BOOL)automaticallyNotifiesObserversOfTag { return NO; }
-- (void)setTag:(BibMarcRecordFieldTag *)tag {
+- (void)setTag:(NSString *)tag {
     if (_tag == tag) {
         return;
     }
-    [self willChangeValueForKey:@"tag"];
-    _tag = tag;
-    [self didChangeValueForKey:@"tag"];
+    guard([BibMarcRecordControlField isValidControlFieldTag:tag]) {
+        return;
+    }
+    [self willChangeValueForKey:kTagKey];
+    _tag = [tag copy];
+    [self didChangeValueForKey:kTagKey];
 }
 
 @dynamic content;
@@ -88,9 +131,9 @@
     if (_content == content) {
         return;
     }
-    [self willChangeValueForKey:@"content"];
+    [self willChangeValueForKey:kContentKey];
     _content = [content copy];
-    [self didChangeValueForKey:@"content"];
+    [self didChangeValueForKey:kContentKey];
 }
 
 @end
