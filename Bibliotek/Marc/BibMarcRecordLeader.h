@@ -30,7 +30,7 @@ NS_SWIFT_NAME(MarcRecord.Leader)
 @property (nonatomic, copy, readonly) NSString *characterCodingScheme;
 @property (nonatomic, assign, readonly) NSInteger indicatorCount;
 @property (nonatomic, assign, readonly) NSInteger subfieldCodeLength;
-@property (nonatomic, assign, readonly) NSInteger dataBaseAddress;
+@property (nonatomic, assign, readonly) NSInteger baseAddressOfData;
 @property (nonatomic, copy, readonly) NSString *threeCharacterField;
 @property (nonatomic, copy, readonly) NSString *entryMap;
 

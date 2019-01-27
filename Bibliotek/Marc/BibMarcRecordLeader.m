@@ -20,7 +20,7 @@ static NSRange const kTwoCharacterField = { .location = 7, .length = 2 };
 static NSRange const kCharacterCodingSchemeRange = { .location = 9, .length = 1 };
 static NSRange const kIndicatorCountRange = { .location = 10, .length = 1 };
 static NSRange const kSubfieldCodeLengthRange = { .location = 11, .length = 1 };
-static NSRange const kDataBaseAddressRange = { .location = 12, .length = 5 };
+static NSRange const kBaseAddressOfData = { .location = 12, .length = 5 };
 static NSRange const kThreeCharacterField = { .location = 17, .length = 3 };
 static NSRange const kEntryMapRange = { .location = 20, .length = 4 };
 
@@ -119,9 +119,9 @@ static NSString *const kMarc21EntryMap = @"4500";
     return [[_stringValue substringWithRange:kSubfieldCodeLengthRange] integerValue];
 }
 
-@dynamic dataBaseAddress;
-- (NSInteger)dataBaseAddress {
-    return [[_stringValue substringWithRange:kDataBaseAddressRange] integerValue];
+@dynamic baseAddressOfData;
+- (NSInteger)baseAddressOfData {
+    return [[_stringValue substringWithRange:kBaseAddressOfData] integerValue];
 }
 
 @dynamic threeCharacterField;
@@ -157,7 +157,7 @@ static NSString *const kMarc21EntryMap = @"4500";
           && [stringValue bib_isRestrictedToCharacterSet:[NSCharacterSet bib_ASCIINumericCharacterSet]
                                                  inRange:kSubfieldCodeLengthRange]
           && [stringValue bib_isRestrictedToCharacterSet:[NSCharacterSet bib_ASCIINumericCharacterSet]
-                                                 inRange:kDataBaseAddressRange]
+                                                 inRange:kBaseAddressOfData]
           && [stringValue bib_isRestrictedToCharacterSet:[NSCharacterSet bib_ASCIIGraphicCharacterSet]
                                                  inRange:kThreeCharacterField]
           && [stringValue bib_isRestrictedToCharacterSet:[NSCharacterSet bib_ASCIINumericCharacterSet]
