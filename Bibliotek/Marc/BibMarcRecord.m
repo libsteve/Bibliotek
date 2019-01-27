@@ -9,10 +9,11 @@
 #import "BibMarcRecord.h"
 #import "BibMarcRecordControlField.h"
 #import "BibMarcRecordDataField.h"
+#import "BibMarcRecordLeader.h"
 
 @implementation BibMarcRecord {
 @protected
-    NSString *_leader;
+    BibMarcRecordLeader *_leader;
     NSArray<BibMarcRecordControlField *> *_controlFields;
     NSArray<BibMarcRecordDataField *> *_dataFields;
 }
@@ -22,10 +23,10 @@
 @synthesize dataFields = _dataFields;
 
 - (instancetype)init {
-    return [self initWithLeader:@"" controlFields:[NSArray array] dataFields:[NSArray array]];
+    return [self initWithLeader:[BibMarcRecordLeader new] controlFields:[NSArray array] dataFields:[NSArray array]];
 }
 
-- (instancetype)initWithLeader:(NSString *)leader
+- (instancetype)initWithLeader:(BibMarcRecordLeader *)leader
                  controlFields:(NSArray<BibMarcRecordControlField *> *)controlFields
                     dataFields:(NSArray<BibMarcRecordDataField *> *)dataFields {
     if (self = [super init]) {
@@ -38,8 +39,8 @@
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     return [self initWithLeader:[aDecoder decodeObjectForKey:@"leader"]
-                  controlFields:[aDecoder decodeObjectForKey:@"controlFields"]
-                     dataFields:[aDecoder decodeObjectForKey:@"dataFields"]];
+                  controlFields:[aDecoder decodeObjectForKey:@"controlfields"]
+                     dataFields:[aDecoder decodeObjectForKey:@"datafields"]];
 }
 
 - (id)copyWithZone:(NSZone *)zone {
@@ -56,14 +57,14 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:_leader forKey:@"leader"];
-    [aCoder encodeObject:_controlFields forKey:@"controlFields"];
-    [aCoder encodeObject:_dataFields forKey:@"dataFields"];
+    [aCoder encodeObject:_controlFields forKey:@"controlfields"];
+    [aCoder encodeObject:_dataFields forKey:@"datafields"];
 }
 
 + (BOOL)supportsSecureCoding { return YES; }
 
 - (BOOL)isEqualToRecord:(BibMarcRecord *)other {
-    return [_leader isEqualToString:[other leader]]
+    return [_leader isEqualToLeader:[other leader]]
         && [_controlFields isEqualToArray:[other controlFields]]
         && [_dataFields isEqualToArray:[other dataFields]];
 }
@@ -83,7 +84,7 @@
 
 @dynamic leader;
 + (BOOL)automaticallyNotifiesObserversOfLeader { return NO; }
-- (void)setLeader:(NSString *)leader {
+- (void)setLeader:(BibMarcRecordLeader *)leader {
     if (_leader == leader) {
         return;
     }
