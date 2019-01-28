@@ -13,6 +13,8 @@
 
 #define guard(predicate) if(!((predicate)))
 
+NSErrorDomain const BibMarcRecordLeaderErrorDomain = @"brun.steve.bibliotek.marc21.leader.error";
+
 static NSRange const kRecordLengthRange = { .location = 0, .length = 5 };
 static NSRange const kRecordStatusRange = { .location = 5, .length = 1 };
 static NSRange const kRecordTypeRange = { .location = 6, .length = 1 };
@@ -36,11 +38,11 @@ static NSString *const kMarc21EntryMap = @"4500";
 }
 
 - (instancetype)init {
-    return [self initWithString:@"00000cw  a2200000   4500"];
+    return [self initWithString:@"00000cw  a2200000   4500" error:NULL];
 }
 
-- (instancetype)initWithString:(NSString *)stringValue {
-    guard([[BibMarcRecordLeader class] isValidLeaderString:stringValue]) {
+- (instancetype)initWithString:(NSString *)stringValue error:(NSError **)error {
+    guard([[BibMarcRecordLeader class] isValidLeaderString:stringValue error:error]) {
         return nil;
     }
     if (self = [super init]) {
@@ -49,14 +51,14 @@ static NSString *const kMarc21EntryMap = @"4500";
     return self;
 }
 
-+ (instancetype)leaderWithString:(NSString *)stringValue {
-    return [[self alloc] initWithString:stringValue];
++ (instancetype)leaderWithString:(NSString *)stringValue error:(NSError **)error {
+    return [[self alloc] initWithString:stringValue error:error];
 }
 
 #pragma mark - Coding
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    return [self initWithString:[aDecoder decodeObjectForKey:@"stringValue"]];
+    return [self initWithString:[aDecoder decodeObjectForKey:@"stringValue"] error:NULL];
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
@@ -136,12 +138,18 @@ static NSString *const kMarc21EntryMap = @"4500";
 
 #pragma mark -
 
-+ (BOOL)isValidLeaderString:(NSString *)stringValue {
-    static os_log_t log;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        log = os_log_create("brun.steve.Bibliotek.BibMarcRecord", "Leader");
-    });
++ (void)throwError:(NSError *__autoreleasing *)error
+          withCode:(NSInteger)code
+           message:(NSString *)message
+            reason:(NSString *)reason {
+    guard(error) { return; }
+    NSMutableDictionary *userInfo = [NSMutableDictionary new];
+    [userInfo setObject:message forKeyedSubscript:NSLocalizedDescriptionKey];
+    [userInfo setObject:reason forKeyedSubscript:NSLocalizedFailureReasonErrorKey];
+    *error = [NSError errorWithDomain:BibMarcRecordLeaderErrorDomain code:code userInfo:[userInfo copy]];
+}
+
++ (BOOL)isValidLeaderString:(NSString *)stringValue error:(NSError *__autoreleasing *)error {
     guard([stringValue bib_isRestrictedToCharacterSet:[NSCharacterSet bib_ASCIINumericCharacterSet]
                                               inRange:kRecordLengthRange]
           && [stringValue bib_isRestrictedToCharacterSet:[NSCharacterSet bib_ASCIIGraphicCharacterSet]
@@ -162,22 +170,31 @@ static NSString *const kMarc21EntryMap = @"4500";
                                                  inRange:kThreeCharacterField]
           && [stringValue bib_isRestrictedToCharacterSet:[NSCharacterSet bib_ASCIINumericCharacterSet]
                                                  inRange:kEntryMapRange]) {
-              os_log_debug(log, "Invalid MARC 21 Leader \"%{public}@\"", stringValue);
+              [self throwError:error
+                      withCode:-1
+                       message:[NSString stringWithFormat:@"Invalid MARC 21 Leader: \"%@\"", stringValue]
+                        reason:nil];
               return NO;
           }
     guard([[stringValue substringWithRange:kIndicatorCountRange] isEqualToString:kMarc21IndicatorCount]) {
-        os_log_debug(log, "Invalid MARC 21 Leader: \"%{public}@\"", stringValue);
-        os_log_info(log, "Indicator Count must be %{public}@", kMarc21IndicatorCount);
+        [self throwError:error
+                withCode:1
+                 message:[NSString stringWithFormat:@"Invalid MARC 21 Leader: \"%@\"", stringValue]
+                  reason:[NSString stringWithFormat:@"MARC indicator count must be %@", kMarc21IndicatorCount]];
         return NO;
     }
     guard([[stringValue substringWithRange:kSubfieldCodeLengthRange] isEqualToString:kMarc21SubfieldCodeLength]) {
-        os_log_debug(log, "Invalid MARC 21 Leader: \"%{public}@\"", stringValue);
-        os_log_info(log, "Subfield Code Length must be %{public}@", kMarc21SubfieldCodeLength);
+        [self throwError:error
+                withCode:1
+                 message:[NSString stringWithFormat:@"Invalid MARC 21 Leader: \"%@\"", stringValue]
+                  reason:[NSString stringWithFormat:@"MARC subfield code length must be %@", kMarc21SubfieldCodeLength]];
         return NO;
     }
     guard([[stringValue substringWithRange:kEntryMapRange] isEqualToString:kMarc21EntryMap]) {
-        os_log_debug(log, "Invalid MARC 21 Leader: \"%{public}@\"", stringValue);
-        os_log_info(log, "Entry Map must be %{public}@", kMarc21EntryMap);
+        [self throwError:error
+                withCode:1
+                 message:[NSString stringWithFormat:@"Invalid MARC 21 Leader: \"%@\"", stringValue]
+                  reason:[NSString stringWithFormat:@"MARC entry map must be %@", kMarc21EntryMap]];
         return NO;
     }
     return YES;

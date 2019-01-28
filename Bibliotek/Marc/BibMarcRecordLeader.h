@@ -21,7 +21,7 @@ NS_SWIFT_NAME(MarcRecord.Leader)
 @interface BibMarcRecordLeader : NSObject <NSSecureCoding>
 
 /// The raw string representation of the leader data.
-@property (nonatomic, copy, readonly) NSString *stringValue NS_SWIFT_NAME(rawValue);
+@property (nonatomic, copy, readonly) NSString *stringValue;
 
 @property (nonatomic, assign, readonly) NSInteger recordLength;
 @property (nonatomic, copy, readonly) NSString *recordStatus;
@@ -40,7 +40,8 @@ NS_SWIFT_NAME(MarcRecord.Leader)
 /// \pre The given string must contain well-formed leader data according to the official specifications.
 /// \discussion More information about the MARC 21 leader can be found in the Library of Congress's
 /// documentation on MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html#leader.
-- (nullable instancetype)initWithString:(NSString *)stringValue NS_DESIGNATED_INITIALIZER NS_SWIFT_NAME(init(rawValue:));
+- (nullable instancetype)initWithString:(NSString *)stringValue
+                                  error:(NSError *_Nullable __autoreleasing *_Nullable)error NS_DESIGNATED_INITIALIZER;
 
 /// Create a valid leader for a MARC 21 record.
 /// \param stringValue The raw string representation of the leader data.
@@ -48,7 +49,8 @@ NS_SWIFT_NAME(MarcRecord.Leader)
 /// \pre The given string must contain well-formed leader data according to the official specifications.
 /// \discussion More information about the MARC 21 leader can be found in the Library of Congress's
 /// documentation on MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html#leader.
-+ (nullable instancetype)leaderWithString:(NSString *)stringValue NS_SWIFT_UNAVAILABLE("Use init(rawValue:)");
++ (nullable instancetype)leaderWithString:(NSString *)stringValue
+                                    error:(NSError *_Nullable __autoreleasing *_Nullable)error NS_SWIFT_UNAVAILABLE("Use init(stringValue:)");
 
 /// Determine whether or not the given leader describes the same MARC 21 record as the receiver.
 /// \param leader The leader with which the receiver should be compared.
