@@ -19,10 +19,12 @@ NS_SWIFT_NAME(MarcRecord.ControlField)
 @property (nonatomic, copy, readonly) NSString *content;
 
 - (nullable instancetype)initWithTag:(NSString *)tag
-                             content:(NSString *)content NS_DESIGNATED_INITIALIZER;
+                             content:(NSString *)content
+                               error:(NSError *__autoreleasing *)error NS_DESIGNATED_INITIALIZER;
 
 + (nullable instancetype)controlFieldWithTag:(NSString *)tag
-                                     content:(NSString *)content NS_SWIFT_UNAVAILABLE("Use init(tag:content:)");
+                                     content:(NSString *)content
+                                       error:(NSError *__autoreleasing *)error NS_SWIFT_UNAVAILABLE("Use init(tag:content:)");
 
 - (BOOL)isEqualToControlField:(BibMarcRecordControlField *)other;
 
