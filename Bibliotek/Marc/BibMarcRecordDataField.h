@@ -16,15 +16,16 @@ NS_ASSUME_NONNULL_BEGIN
 NS_SWIFT_NAME(MarcRecord.DataField)
 @interface BibMarcRecordDataField : NSObject <NSCopying, NSMutableCopying, NSSecureCoding>
 
-@property (nonatomic, strong, readonly) BibMarcRecordFieldTag *tag;
-@property (nonatomic, copy, readonly, nullable) NSString *firstIndicator;
-@property (nonatomic, copy, readonly, nullable) NSString *secondIndicator;
+@property (nonatomic, copy, readonly) NSString *tag;
+@property (nonatomic, copy, readonly) NSString *firstIndicator;
+@property (nonatomic, copy, readonly) NSString *secondIndicator;
 @property (nonatomic, copy, readonly) NSArray<BibMarcRecordSubfield *> *subfields;
 
-- (instancetype)initWithTag:(BibMarcRecordFieldTag *)tag
-             firstIndicator:(nullable NSString *)firstIndicator
-            secondIndicator:(nullable NSString *)secondIndicator
-                  subfields:(NSArray<BibMarcRecordSubfield *> *)subfields NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithTag:(NSString *)tag
+                      firstIndicator:(NSString *)firstIndicator
+                     secondIndicator:(NSString *)secondIndicator
+                           subfields:(NSArray<BibMarcRecordSubfield *> *)subfields
+                               error:(NSError *_Nullable __autoreleasing *_Nullable)error NS_DESIGNATED_INITIALIZER;
 
 - (BOOL)isEqualToDataField:(BibMarcRecordDataField *)other;
 
@@ -33,7 +34,7 @@ NS_SWIFT_NAME(MarcRecord.DataField)
 NS_SWIFT_NAME(MarcRecord.MutableDataField)
 @interface BibMarcRecordMutableDataField : BibMarcRecordDataField
 
-@property (nonatomic, strong, readwrite) BibMarcRecordFieldTag *tag;
+@property (nonatomic, copy, readwrite) NSString *tag;
 @property (nonatomic, copy, readwrite, nullable) NSString *firstIndicator;
 @property (nonatomic, copy, readwrite, nullable) NSString *secondIndicator;
 @property (nonatomic, copy, readwrite) NSArray<BibMarcRecordSubfield *> *subfields;

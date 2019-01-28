@@ -10,9 +10,11 @@
 #import "BibMarcRecordFieldTag.h"
 #import "BibMarcRecordSubfield.h"
 
+#define guard(predicate) if(!((predicate)))
+
 @implementation BibMarcRecordDataField {
 @protected
-    BibMarcRecordFieldTag *_tag;
+    NSString *_tag;
     NSString *_firstIndicator;
     NSString *_secondIndicator;
     NSArray<BibMarcRecordSubfield *> *_subfields;
@@ -24,24 +26,21 @@
 @synthesize subfields = _subfields;
 
 - (instancetype)init {
-    return [self initWithTag:[BibMarcRecordFieldTag new] firstIndicator:nil secondIndicator:nil subfields:[NSArray array]];
+    return [self initWithTag:@"100" firstIndicator:@" " secondIndicator:@" " subfields:[NSArray array] error:NULL];
 }
 
-- (instancetype)initWithTag:(BibMarcRecordFieldTag *)tag firstIndicator:(NSString *)firstIndicator secondIndicator:(NSString *)secondIndicator subfields:(NSArray<BibMarcRecordSubfield *> *)subfields {
+- (instancetype)initWithTag:(NSString *)tag
+             firstIndicator:(NSString *)firstIndicator
+            secondIndicator:(NSString *)secondIndicator
+                  subfields:(NSArray<BibMarcRecordSubfield *> *)subfields
+                      error:(NSError *__autoreleasing *)error {
     if (self = [super init]) {
-        _tag = tag;
-        _firstIndicator = [firstIndicator isEqualToString:@" "] ? nil : [firstIndicator copy];
-        _secondIndicator = [secondIndicator isEqualToString:@" "] ? nil : [secondIndicator copy];
+        _tag = [tag copy];
+        _firstIndicator = [firstIndicator copy];
+        _secondIndicator = [secondIndicator copy];
         _subfields = [[NSArray alloc] initWithArray:subfields copyItems:YES];
     }
     return self;
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    return [self initWithTag:[aDecoder decodeObjectForKey:@"tag"]
-              firstIndicator:[aDecoder decodeObjectForKey:@"ind1"]
-             secondIndicator:[aDecoder decodeObjectForKey:@"ind2"]
-                   subfields:[aDecoder decodeObjectForKey:@"subfields"]];
 }
 
 - (id)copyWithZone:(NSZone *)zone {
@@ -51,14 +50,33 @@
     return [[BibMarcRecordDataField allocWithZone:zone] initWithTag:_tag
                                                      firstIndicator:_firstIndicator
                                                     secondIndicator:_secondIndicator
-                                                          subfields:_subfields];
+                                                          subfields:_subfields
+                                                              error:NULL];
 }
 
 - (id)mutableCopyWithZone:(NSZone *)zone {
     return [[BibMarcRecordMutableDataField allocWithZone:zone] initWithTag:_tag
                                                             firstIndicator:_firstIndicator
                                                            secondIndicator:_secondIndicator
-                                                                 subfields:_subfields];
+                                                                 subfields:_subfields
+                                                                     error:NULL];
+}
+
+#pragma mark - Coding
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    NSError *error = nil;
+    self = [self initWithTag:[aDecoder decodeObjectForKey:@"tag"]
+              firstIndicator:[aDecoder decodeObjectForKey:@"ind1"]
+             secondIndicator:[aDecoder decodeObjectForKey:@"ind2"]
+                   subfields:[aDecoder decodeObjectForKey:@"subfields"]
+                       error:&error];
+    guard(error == nil) {
+        [[[NSException alloc] initWithName:error.domain
+                                    reason:error.localizedFailureReason ?: error.localizedDescription
+                                  userInfo:error.userInfo] raise];
+    }
+    return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
@@ -70,10 +88,12 @@
 
 + (BOOL)supportsSecureCoding { return YES; }
 
+#pragma mark - Equality
+
 - (BOOL)isEqualToDataField:(BibMarcRecordDataField *)other {
-    return [_tag isEqualToFieldTag:[other tag]]
-        && (_firstIndicator == [other firstIndicator] || [_firstIndicator isEqualToString:[other firstIndicator]])
-        && (_secondIndicator == [other secondIndicator] || [_secondIndicator isEqualToString:[other secondIndicator]])
+    return [_tag isEqualToString:[other tag]]
+        && [_firstIndicator isEqualToString:[other firstIndicator]]
+        && [_secondIndicator isEqualToString:[other secondIndicator]]
         && [_subfields isEqualToArray:[other subfields]];
 }
 
@@ -88,16 +108,18 @@
 
 @end
 
+#pragma mark -
+
 @implementation BibMarcRecordMutableDataField
 
 @dynamic tag;
 + (BOOL)automaticallyNotifiesObserversOfTag { return NO; }
-- (void)setTag:(BibMarcRecordFieldTag *)tag {
+- (void)setTag:(NSString *)tag {
     if (_tag == tag) {
         return;
     }
     [self willChangeValueForKey:@"tag"];
-    _tag = tag;
+    _tag = [tag copy];
     [self didChangeValueForKey:@"tag"];
 }
 
@@ -108,7 +130,7 @@
         return;
     }
     [self willChangeValueForKey:@"firstIndicator"];
-    _firstIndicator = [firstIndicator isEqualToString:@" "] ? nil : [firstIndicator copy];
+    _firstIndicator = [firstIndicator copy];
     [self didChangeValueForKey:@"firstIndicator"];
 }
 
@@ -119,7 +141,7 @@
         return;
     }
     [self willChangeValueForKey:@"secondIndicator"];
-    _secondIndicator = [secondIndicator isEqualToString:@" "] ? nil : [secondIndicator copy];
+    _secondIndicator = [secondIndicator copy];
     [self didChangeValueForKey:@"secondIndicator"];
 }
 
