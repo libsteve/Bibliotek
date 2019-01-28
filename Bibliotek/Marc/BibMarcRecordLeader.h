@@ -36,6 +36,7 @@ NS_SWIFT_NAME(MarcRecord.Leader)
 
 /// Create a valid leader for a MARC 21 record.
 /// \param stringValue The raw string representation of the leader data.
+/// \param error An error pointer used to provide context when the string value isn't a valid MARC 21 leader.
 /// \returns Returns a new record leader backed by the given string value.
 /// \pre The given string must contain well-formed leader data according to the official specifications.
 /// \discussion More information about the MARC 21 leader can be found in the Library of Congress's
@@ -45,6 +46,7 @@ NS_SWIFT_NAME(MarcRecord.Leader)
 
 /// Create a valid leader for a MARC 21 record.
 /// \param stringValue The raw string representation of the leader data.
+/// \param error An error pointer used to provide context when the string value isn't a valid MARC 21 leader.
 /// \returns Returns a new record leader backed by the given string value.
 /// \pre The given string must contain well-formed leader data according to the official specifications.
 /// \discussion More information about the MARC 21 leader can be found in the Library of Congress's

@@ -58,7 +58,14 @@ static NSString *const kMarc21EntryMap = @"4500";
 #pragma mark - Coding
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    return [self initWithString:[aDecoder decodeObjectForKey:@"stringValue"] error:NULL];
+    NSError *error = nil;
+    self = [self initWithString:[aDecoder decodeObjectForKey:@"stringValue"] error:&error];
+    guard(error == nil) {
+        [[[NSException alloc] initWithName:error.domain
+                                    reason:error.localizedFailureReason ?: error.localizedDescription
+                                  userInfo:error.userInfo] raise];
+    }
+    return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {

@@ -59,9 +59,16 @@ static BOOL sIsValidTag(NSString *tag);
 #pragma mark - Coding
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    return [self initWithTag:[aDecoder decodeObjectForKey:kTagKey]
+    NSError *error = nil;
+    self = [self initWithTag:[aDecoder decodeObjectForKey:kTagKey]
                      content:[aDecoder decodeObjectForKey:kContentKey]
-                       error:NULL];
+                       error:&error];
+    guard(error == nil) {
+        [[[NSException alloc] initWithName:error.domain
+                                    reason:error.localizedFailureReason ?: error.localizedDescription
+                                  userInfo:error.userInfo] raise];
+    }
+    return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
