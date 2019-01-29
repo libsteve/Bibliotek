@@ -26,6 +26,10 @@
     return [self initWithString:@" " error:NULL];
 }
 
+- (instancetype)initWithString:(NSString *)stringValue {
+    return [self initWithString:stringValue error:NULL];
+}
+
 - (instancetype)initWithString:(NSString *)stringValue error:(NSError *__autoreleasing *)error {
     static os_log_t log;
     static dispatch_once_t onceToken;
@@ -60,8 +64,12 @@
     return self;
 }
 
-+ (instancetype)fieldIndicatorWithString:(NSString *)stringValue error:(NSError *__autoreleasing *)error {
++ (instancetype)indicatorWithString:(NSString *)stringValue error:(NSError *__autoreleasing *)error {
     return [[self alloc] initWithString:stringValue error:error];
+}
+
++ (instancetype)indicatorWithString:(NSString *)stringValue {
+    return [self indicatorWithString:stringValue error:NULL];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {

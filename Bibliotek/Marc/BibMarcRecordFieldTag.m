@@ -27,6 +27,10 @@
     return [self initWithString:@"000" error:NULL];
 }
 
+- (instancetype)initWithString:(NSString *)stringValue {
+    return [self initWithString:stringValue error:NULL];
+}
+
 - (instancetype)initWithString:(NSString *)stringValue error:(NSError *__autoreleasing *)error {
     if (self = [super init]) {
         guard([stringValue length] == 3) {
@@ -56,8 +60,12 @@
     return self;
 }
 
-+ (instancetype)fieldTagWithString:(NSString *)stringValue error:(NSError *__autoreleasing *)error {
++ (instancetype)tagWithString:(NSString *)stringValue error:(NSError *__autoreleasing *)error {
     return [[self alloc] initWithString:stringValue error:error];
+}
+
++ (instancetype)tagWithString:(NSString *)stringValue {
+    return [self tagWithString:stringValue error:NULL];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {

@@ -25,6 +25,11 @@ NS_SWIFT_NAME(MarcRecord.FieldTag)
 
 /// Create a record field tag from the given string value.
 /// \param stringValue A string containing the 3-digit code representation for a tag.
+/// \pre String codes must be exactly 3 digits long.
+- (nullable instancetype)initWithString:(NSString *)stringValue NS_SWIFT_UNAVAILABLE("Use init(stringValue:)");
+
+/// Create a record field tag from the given string value.
+/// \param stringValue A string containing the 3-digit code representation for a tag.
 /// \param error An error pointer providing an explanation for why the creation of a tag failed.
 /// \pre String codes must be exactly 3 digits long.
 - (nullable instancetype)initWithString:(NSString *)stringValue
@@ -34,8 +39,13 @@ NS_SWIFT_NAME(MarcRecord.FieldTag)
 /// \param stringValue A string containing the 3-digit code representation for a tag.
 /// \param error An error pointer which can return a reason explaining why the creation of a tag failed.
 /// \pre String codes must be exactly 3 digits long.
-+ (nullable instancetype)fieldTagWithString:(NSString *)stringValue
-                                      error:(NSError *_Nullable __autoreleasing *_Nullable)error NS_SWIFT_UNAVAILABLE("Use init(stringValue:)");
++ (nullable instancetype)tagWithString:(NSString *)stringValue
+                                 error:(NSError *_Nullable __autoreleasing *_Nullable)error NS_SWIFT_UNAVAILABLE("Use init(stringValue:)");
+
+/// Create a record field tag from the given string value.
+/// \param stringValue A string containing the 3-digit code representation for a tag.
+/// \pre String codes must be exactly 3 digits long.
++ (nullable instancetype)tagWithString:(NSString *)stringValue NS_SWIFT_UNAVAILABLE("Use init(stringValue:)");
 
 /// Determine if this field tag is equivalent to the given tag.
 /// \param tag The field tag that is being compaired with this instance for equality.
