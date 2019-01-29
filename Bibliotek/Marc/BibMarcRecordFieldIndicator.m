@@ -82,26 +82,25 @@
     [aCoder encodeObject:_stringValue];
 }
 
-- (BOOL)isEqualToFieldIndicator:(BibMarcRecordFieldIndicator *)other {
+- (BOOL)isEqualToIndicator:(BibMarcRecordFieldIndicator *)other {
     return [_stringValue isEqualToString:[other stringValue]];
 }
 
 - (BOOL)isEqual:(id)other {
     return [super isEqual:other]
-        || ([other isKindOfClass:[BibMarcRecordFieldIndicator class]] && [self isEqualToFieldIndicator:other]);
+        || ([other isKindOfClass:[BibMarcRecordFieldIndicator class]] && [self isEqualToIndicator:other]);
 }
 
 - (NSUInteger)hash {
     return [_stringValue hash];
 }
 
-- (NSComparisonResult)compare:(BibMarcRecordFieldIndicator *)fieldIndicator {
-    if ([self isEqualToFieldIndicator:fieldIndicator]) {
+- (NSComparisonResult)compare:(BibMarcRecordFieldIndicator *)indicator {
+    if ([self isEqualToIndicator:indicator]) {
         return NSOrderedSame;
     }
-    NSString *const stringValue = _stringValue;
-    NSString *const otherStringValue = [fieldIndicator stringValue];
-    BOOL const valueIsBlank = [stringValue isEqualToString:@" "];
+    NSString *const otherStringValue = [indicator stringValue];
+    BOOL const valueIsBlank = [_stringValue isEqualToString:@" "];
     BOOL const otherValueIsBlank = [otherStringValue isEqualToString:@" "];
     if (valueIsBlank && otherValueIsBlank) {
         return NSOrderedSame;
@@ -111,11 +110,11 @@
         return NSOrderedDescending;
     }
     NSCharacterSet *const numericCharacterSet = [NSCharacterSet bib_ASCIIAlphanumericCharacterSet];
-    BOOL const valueIsDigit = [numericCharacterSet characterIsMember:[stringValue characterAtIndex:0]];
+    BOOL const valueIsDigit = [numericCharacterSet characterIsMember:[_stringValue characterAtIndex:0]];
     BOOL const otherValueIsDigit = [numericCharacterSet characterIsMember:[otherStringValue characterAtIndex:0]];
     if (valueIsDigit == otherValueIsDigit) {
         NSLocale *const posix = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
-        return [_stringValue compare:[fieldIndicator stringValue] options:0 range:NSMakeRange(0, 1) locale:posix];
+        return [_stringValue compare:otherStringValue options:0 range:NSMakeRange(0, 1) locale:posix];
     } else if (otherValueIsDigit) {
         return NSOrderedAscending;
     } else {

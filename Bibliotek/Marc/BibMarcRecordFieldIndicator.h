@@ -39,7 +39,7 @@ NS_SWIFT_NAME(MarcRecord.FieldIndicator)
 /// Determine if this field indicator is equivalent to the given indicator.
 /// \param fieldIndicator The field indicator that is being compaired with this instance for equality.
 /// \returns Returns \c YES when both indicator have the same character code.
-- (BOOL)isEqualToFieldIndicator:(BibMarcRecordFieldIndicator *)fieldIndicator;
+- (BOOL)isEqualToIndicator:(BibMarcRecordFieldIndicator *)indicator;
 
 /// Determine the ordered relationship between this and the given field indicator.
 /// \param fieldIndicator The field indicator that this should be compared with.
@@ -47,7 +47,7 @@ NS_SWIFT_NAME(MarcRecord.FieldIndicator)
 /// \c NSOrderedAscending indicates that \c fieldIndicator is ordered after this indicator,
 /// \c NSOrderedDescending indicates that \c fieldIndicator is ordered before this indicator,
 /// and \c NSOrderedSame indicates that both indicators are equivalent.
-- (NSComparisonResult)compare:(BibMarcRecordFieldIndicator *)fieldIndicator;
+- (NSComparisonResult)compare:(BibMarcRecordFieldIndicator *)indicator;
 
 @end
 
