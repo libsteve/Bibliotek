@@ -16,12 +16,11 @@ extern NSErrorDomain const BibMarcRecordErrorDomain NS_REFINED_FOR_SWIFT;
 /// An error type explaining why a \c BibMarcRecord or dependent type could not be created.
 typedef NS_ERROR_ENUM(BibMarcRecordErrorDomain, BibMarcRecordError) {
 
-    /// The length of the string used to create some property in a record or field is invalid.
+    /// The length of the string used to create some data element in a record or field is invalid.
     BibMarcRecordErrorInvalidCharacterCount = 1,
 
-    /// The string used to create some property in a record or field contains invalid characters.
+    /// The string used to create some data element in a record or field contains invalid characters.
     BibMarcRecordErrorInvalidCharacterSet = 2
-
 
 } NS_SWIFT_NAME(MarcRecord.FieldIndicatorError);
 
