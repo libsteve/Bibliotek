@@ -36,13 +36,13 @@ NS_SWIFT_NAME(MarcRecord.FieldIndicator)
 + (nullable instancetype)fieldIndicatorWithString:(NSString *)stringValue
                                             error:(NSError *_Nullable __autoreleasing *_Nullable)error NS_SWIFT_UNAVAILABLE("Use init(stringValue:)");
 
-/// Determine if this field indicator is equivalent to the given indicator.
-/// \param fieldIndicator The field indicator that is being compaired with this instance for equality.
+/// Determine if this field indicator is equivalent to the given indicator.t
+/// \param indicator The field indicator that is being compaired with this instance for equality.
 /// \returns Returns \c YES when both indicator have the same character code.
 - (BOOL)isEqualToIndicator:(BibMarcRecordFieldIndicator *)indicator;
 
 /// Determine the ordered relationship between this and the given field indicator.
-/// \param fieldIndicator The field indicator that this should be compared with.
+/// \param indicator The field indicator that this should be compared with.
 /// \returns An \c NSComparisonResult is returned that denotes how these two indicators relate to each other.
 /// \c NSOrderedAscending indicates that \c fieldIndicator is ordered after this indicator,
 /// \c NSOrderedDescending indicates that \c fieldIndicator is ordered before this indicator,

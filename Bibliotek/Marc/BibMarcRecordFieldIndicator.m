@@ -82,8 +82,8 @@
     [aCoder encodeObject:_stringValue];
 }
 
-- (BOOL)isEqualToIndicator:(BibMarcRecordFieldIndicator *)other {
-    return [_stringValue isEqualToString:[other stringValue]];
+- (BOOL)isEqualToIndicator:(BibMarcRecordFieldIndicator *)indicator {
+    return [_stringValue isEqualToString:[indicator stringValue]];
 }
 
 - (BOOL)isEqual:(id)other {
