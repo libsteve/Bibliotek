@@ -7,6 +7,7 @@
 //
 
 #import "BibMarcRecordDataField.h"
+#import "BibMarcRecordFieldIndicator.h"
 #import "BibMarcRecordFieldTag.h"
 #import "BibMarcRecordSubfield.h"
 
@@ -15,8 +16,8 @@
 @implementation BibMarcRecordDataField {
 @protected
     NSString *_tag;
-    NSString *_firstIndicator;
-    NSString *_secondIndicator;
+    BibMarcRecordFieldIndicator *_firstIndicator;
+    BibMarcRecordFieldIndicator *_secondIndicator;
     NSArray<BibMarcRecordSubfield *> *_subfields;
 }
 
@@ -26,18 +27,21 @@
 @synthesize subfields = _subfields;
 
 - (instancetype)init {
-    return [self initWithTag:@"100" firstIndicator:@" " secondIndicator:@" " subfields:[NSArray array] error:NULL];
+    return [self initWithTag:@"100"
+              firstIndicator:[BibMarcRecordFieldIndicator new]
+             secondIndicator:[BibMarcRecordFieldIndicator new]
+                   subfields:[NSArray array] error:NULL];
 }
 
 - (instancetype)initWithTag:(NSString *)tag
-             firstIndicator:(NSString *)firstIndicator
-            secondIndicator:(NSString *)secondIndicator
+             firstIndicator:(BibMarcRecordFieldIndicator *)firstIndicator
+            secondIndicator:(BibMarcRecordFieldIndicator *)secondIndicator
                   subfields:(NSArray<BibMarcRecordSubfield *> *)subfields
                       error:(NSError *__autoreleasing *)error {
     if (self = [super init]) {
         _tag = [tag copy];
-        _firstIndicator = [firstIndicator copy];
-        _secondIndicator = [secondIndicator copy];
+        _firstIndicator = firstIndicator;
+        _secondIndicator = secondIndicator;
         _subfields = [[NSArray alloc] initWithArray:subfields copyItems:YES];
     }
     return self;
@@ -81,8 +85,8 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:_tag forKey:@"tag"];
-    [aCoder encodeObject:(_firstIndicator ?: @" ") forKey:@"ind1"];
-    [aCoder encodeObject:(_secondIndicator ?: @" ") forKey:@"ind2"];
+    [aCoder encodeObject:_firstIndicator forKey:@"ind1"];
+    [aCoder encodeObject:_secondIndicator forKey:@"ind2"];
     [aCoder encodeObject:_subfields forKey:@"subfields"];
 }
 
@@ -92,8 +96,8 @@
 
 - (BOOL)isEqualToDataField:(BibMarcRecordDataField *)other {
     return [_tag isEqualToString:[other tag]]
-        && [_firstIndicator isEqualToString:[other firstIndicator]]
-        && [_secondIndicator isEqualToString:[other secondIndicator]]
+        && [_firstIndicator isEqualToIndicator:[other firstIndicator]]
+        && [_secondIndicator isEqualToIndicator:[other secondIndicator]]
         && [_subfields isEqualToArray:[other subfields]];
 }
 
@@ -125,23 +129,23 @@
 
 @dynamic firstIndicator;
 + (BOOL)automaticallyNotifiesObserversOfFirstIndicator { return NO; }
-- (void)setFirstIndicator:(NSString *)firstIndicator {
+- (void)setFirstIndicator:(BibMarcRecordFieldIndicator *)firstIndicator {
     if (_firstIndicator == firstIndicator) {
         return;
     }
     [self willChangeValueForKey:@"firstIndicator"];
-    _firstIndicator = [firstIndicator copy];
+    _firstIndicator = firstIndicator;
     [self didChangeValueForKey:@"firstIndicator"];
 }
 
 @dynamic secondIndicator;
 + (BOOL)automaticallyNotifiesObserversOfSecondIndicator { return NO; }
-- (void)setSecondIndicator:(NSString *)secondIndicator {
+- (void)setSecondIndicator:(BibMarcRecordFieldIndicator *)secondIndicator {
     if (_secondIndicator == secondIndicator) {
         return;
     }
     [self willChangeValueForKey:@"secondIndicator"];
-    _secondIndicator = [secondIndicator copy];
+    _secondIndicator = secondIndicator;
     [self didChangeValueForKey:@"secondIndicator"];
 }
 
