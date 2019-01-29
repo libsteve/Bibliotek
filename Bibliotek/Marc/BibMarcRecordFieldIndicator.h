@@ -24,13 +24,17 @@ NS_SWIFT_NAME(MarcRecord.FieldIndicator)
 
 /// Create a record field indicator from the given string value.
 /// \param stringValue A string containing a single-character code.
+/// \param error An error pointer which can return a reason explaining why the creation of an indicator failed.
 /// \pre String codes must be exactly one lowercase alphanumeric or space character.
-- (nullable instancetype)initWithString:(NSString *)stringValue NS_SWIFT_NAME(init(stringValue:));
+- (nullable instancetype)initWithString:(NSString *)stringValue
+                                  error:(NSError *_Nullable __autoreleasing *_Nullable)error NS_SWIFT_NAME(init(stringValue:));
 
 /// Create a record field indicator from the given string value.
 /// \param stringValue A string containing a single-character code.
+/// \param error An error pointer which can return a reason explaining why the creation of an indicator failed.
 /// \pre String codes must be exactly one lowercase alphanumeric or space character.
-+ (nullable instancetype)fieldIndicatorWithString:(NSString *)stringValue NS_SWIFT_UNAVAILABLE("Use init(stringValue:)");
++ (nullable instancetype)fieldIndicatorWithString:(NSString *)stringValue
+                                            error:(NSError *_Nullable __autoreleasing *_Nullable)error NS_SWIFT_UNAVAILABLE("Use init(stringValue:)");
 
 /// Determine if this field indicator is equivalent to the given indicator.
 /// \param fieldIndicator The field indicator that is being compaired with this instance for equality.

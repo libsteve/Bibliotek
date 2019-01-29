@@ -6,11 +6,12 @@
 //  Copyright © 2019 Steve Brunwasser. All rights reserved.
 //
 
+#import "BibMarcRecordError.h"
 #import "BibMarcRecordFieldIndicator.h"
 #import "NSCharacterSet+BibASCIICharacterSet.h"
 #import <os/log.h>
 
-#define GUARD(CONDITION) if (!(CONDITION))
+#define guard(predicate) if (!((predicate)))
 
 @implementation BibMarcRecordFieldIndicator {
 @protected
@@ -22,26 +23,36 @@
 }
 
 - (instancetype)init {
-    return [self initWithString:@" "];
+    return [self initWithString:@" " error:NULL];
 }
 
-- (instancetype)initWithString:(NSString *)stringValue {
+- (instancetype)initWithString:(NSString *)stringValue error:(NSError *__autoreleasing *)error {
     static os_log_t log;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         log = os_log_create("brun.steve.Bibliotek.BibMarcRecord", "FieldIndicator");
     });
     if (self = [super init]) {
-        GUARD([stringValue length] == 1) {
-            os_log_debug(log, "Invalid field indicator \"%{public}@\"", stringValue);
-            os_log_info(log, "Field indicator codes must be exactly one lowercase alphanumeric or space character");
+        guard([stringValue length] == 1) {
+            guard(error != NULL) { return nil; }
+            NSString *const description = [NSString stringWithFormat:@"Invalid field indicator \"%@\"", stringValue];
+            NSString *const reason = @"Field indicator codes are one-character values.";
+            *error = [NSError errorWithDomain:BibMarcRecordErrorDomain
+                                         code:BibMarcRecordErrorInvalidCharacterCount
+                                     userInfo:@{ NSLocalizedDescriptionKey : description,
+                                                 NSLocalizedFailureReasonErrorKey : reason }];
             return nil;
         }
         unichar const code = [stringValue characterAtIndex:0];
-        GUARD([[NSCharacterSet bib_blankIndicatorCharacterSet] characterIsMember:code]
+        guard([[NSCharacterSet bib_blankIndicatorCharacterSet] characterIsMember:code]
               || [[NSCharacterSet bib_lowercaseAlphanumericCharacterSet] characterIsMember:code]) {
-            os_log_debug(log, "Invalid field indicator \"%{public}@\"", stringValue);
-            os_log_info(log, "Field indicator codes must be exactly one lowercase alphanumeric or space character");
+            guard(error != NULL) { return nil; }
+            NSString *const description = [NSString stringWithFormat:@"Invalid field indicator \"%@\"", stringValue];
+            NSString *const reason = @"Field indicator codes are lowercase alphanumeric or space characters";
+            *error = [NSError errorWithDomain:BibMarcRecordErrorDomain
+                                         code:BibMarcRecordErrorInvalidCharacterSet
+                                     userInfo:@{ NSLocalizedDescriptionKey : description,
+                                                 NSLocalizedFailureReasonErrorKey : reason }];
             return nil;
         }
         _stringValue = [stringValue copy];
@@ -49,12 +60,20 @@
     return self;
 }
 
-+ (instancetype)fieldIndicatorWithString:(NSString *)stringValue {
-    return [[self alloc] initWithString:stringValue];
++ (instancetype)fieldIndicatorWithString:(NSString *)stringValue error:(NSError *__autoreleasing *)error {
+    return [[self alloc] initWithString:stringValue error:error];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    return [self initWithString:[aDecoder decodeObject]];
+    NSError *error = nil;
+    self = [self initWithString:[aDecoder decodeObject] error:&error];
+    guard(error == nil) {
+        NSString *const description = [error localizedDescription];
+        NSString *const reason = [error localizedFailureReason];
+        [NSException raise:@"BibMarcRecordInvalidFieldIndicatorException" format:@"%@: %@", description, reason];
+        return nil;
+    }
+    return self;
 }
 
 + (BOOL)supportsSecureCoding { return YES; }
@@ -82,9 +101,8 @@
     }
     NSString *const stringValue = _stringValue;
     NSString *const otherStringValue = [fieldIndicator stringValue];
-    NSCharacterSet *const blankCharacterSet = [NSCharacterSet bib_blankIndicatorCharacterSet];
-    BOOL const valueIsBlank = [blankCharacterSet characterIsMember:[stringValue characterAtIndex:0]];
-    BOOL const otherValueIsBlank = [blankCharacterSet characterIsMember:[otherStringValue characterAtIndex:0]];
+    BOOL const valueIsBlank = [stringValue isEqualToString:@" "];
+    BOOL const otherValueIsBlank = [otherStringValue isEqualToString:@" "];
     if (valueIsBlank && otherValueIsBlank) {
         return NSOrderedSame;
     } else if (valueIsBlank) {
@@ -92,7 +110,7 @@
     } else if (otherValueIsBlank) {
         return NSOrderedDescending;
     }
-    NSCharacterSet *const numericCharacterSet = [NSCharacterSet bib_westernNumeralCharacterSet];
+    NSCharacterSet *const numericCharacterSet = [NSCharacterSet bib_ASCIIAlphanumericCharacterSet];
     BOOL const valueIsDigit = [numericCharacterSet characterIsMember:[stringValue characterAtIndex:0]];
     BOOL const otherValueIsDigit = [numericCharacterSet characterIsMember:[otherStringValue characterAtIndex:0]];
     if (valueIsDigit == otherValueIsDigit) {
