@@ -36,7 +36,7 @@
         guard([stringValue length] == 3) {
             guard(error != nil) { return nil; }
             NSString *const description = [NSString stringWithFormat:@"Invalid record field tag \"%@\"", stringValue];
-            NSString *const reason = @"Record field tags are always 3-digit codes.";
+            NSString *const reason = @"Record field tags are always 3 ASCII alphanumeric characters.";
             *error = [NSError errorWithDomain:BibMarcRecordErrorDomain
                                          code:BibMarcRecordErrorInvalidCharacterCount
                                      userInfo:@{ NSLocalizedDescriptionKey : description,
