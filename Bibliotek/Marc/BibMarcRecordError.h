@@ -20,7 +20,15 @@ typedef NS_ERROR_ENUM(BibMarcRecordErrorDomain, BibMarcRecordError) {
     BibMarcRecordErrorInvalidCharacterCount = 1,
 
     /// The string used to create some data element in a record or field contains invalid characters.
-    BibMarcRecordErrorInvalidCharacterSet = 2
+    BibMarcRecordErrorInvalidCharacterSet = 2,
+
+    BibMarcRecordErrorInvalidFieldTag = 3,
+
+    BibMarcRecordErrorMissingControlField = 4,
+
+    BibMarcRecordErrorMissingDataField = 5,
+
+    BibMarcRecordErrorMissingSubfield = 6
 
 } NS_SWIFT_NAME(MarcRecord.FieldIndicatorError);
 

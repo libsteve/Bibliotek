@@ -110,7 +110,7 @@ static BOOL sIsValidTag(NSString *tag);
         NSString *const description = [NSString stringWithFormat:@"Invalid control field tag \"%@\"", tag];
         NSString *const reason = @"MARC 21 control field tags must begin with two zeros.";
         *error = [NSError errorWithDomain:BibMarcRecordErrorDomain
-                                     code:BibMarcRecordErrorInvalidCharacterSet
+                                     code:BibMarcRecordErrorInvalidFieldTag
                                  userInfo:@{ NSLocalizedDescriptionKey : description,
                                              NSLocalizedFailureReasonErrorKey : reason }];
         return NO;
