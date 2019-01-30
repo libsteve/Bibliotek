@@ -7,13 +7,15 @@
 //
 
 #import "BibMarcRecordControlField.h"
+#import "BibMarcRecordError.h"
+#import "BibMarcRecordFieldTag.h"
 #import "NSCharacterSet+BibASCIICharacterSet.h"
 #import "NSString+BibCharacterSetValidation.h"
 #import <os/log.h>
 
 #define guard(predicate) if(!((predicate)))
 
-NSErrorDomain const BibMarcRecordControlFieldErrorDomain = @"brun.steve.bibliotek.marc21.controlfield.error";
+NSErrorDomain const BibMarcRecordControlFieldInvalidTagException = @"BibMarcRecordControlFieldInvalidTagException";
 
 static NSString *const kTagKey = @"tag";
 static NSString *const kContentKey = @"content";
@@ -22,7 +24,7 @@ static BOOL sIsValidTag(NSString *tag);
 
 @implementation BibMarcRecordControlField {
 @protected
-    NSString *_tag;
+    BibMarcRecordFieldTag *_tag;
     NSString *_content;
 }
 
@@ -30,10 +32,12 @@ static BOOL sIsValidTag(NSString *tag);
 @synthesize content = _content;
 
 - (instancetype)init {
-    return [self initWithTag:@"000" content:@"" error:NULL];
+    return [self initWithTag:[BibMarcRecordFieldTag new] content:@"" error:NULL];
 }
 
-- (instancetype)initWithTag:(NSString *)tag content:(NSString *)content error:(NSError *__autoreleasing *)error {
+- (instancetype)initWithTag:(BibMarcRecordFieldTag *)tag
+                    content:(NSString *)content
+                      error:(NSError *__autoreleasing *)error {
     guard([BibMarcRecordControlField isValidControlFieldTag:tag error:error]) {
         return nil;
     }
@@ -44,7 +48,9 @@ static BOOL sIsValidTag(NSString *tag);
     return self;
 }
 
-+ (instancetype)controlFieldWithTag:(NSString *)tag content:(NSString *)content error:(NSError *__autoreleasing *)error {
++ (instancetype)controlFieldWithTag:(BibMarcRecordFieldTag *)tag
+                            content:(NSString *)content
+                              error:(NSError *__autoreleasing *)error {
     return [[self alloc] initWithTag:tag content:content error:error];
 }
 
@@ -64,9 +70,11 @@ static BOOL sIsValidTag(NSString *tag);
                      content:[aDecoder decodeObjectForKey:kContentKey]
                        error:&error];
     guard(error == nil) {
-        [[[NSException alloc] initWithName:error.domain
-                                    reason:error.localizedFailureReason ?: error.localizedDescription
-                                  userInfo:error.userInfo] raise];
+        NSString *const description = error.localizedDescription;
+        NSString *const reason = error.localizedFailureReason;
+        [[NSException exceptionWithName:BibMarcRecordControlFieldInvalidTagException
+                                 reason:[NSString stringWithFormat:@"%@: %@", description, reason]
+                               userInfo:error.userInfo] raise];
     }
     return self;
 }
@@ -81,7 +89,7 @@ static BOOL sIsValidTag(NSString *tag);
 #pragma mark - Equality
 
 - (BOOL)isEqualToControlField:(BibMarcRecordControlField *)other {
-    return [_tag isEqualToString:[other tag]]
+    return [_tag isEqualToTag:[other tag]]
         && [_content isEqualToString:[other content]];
 }
 
@@ -96,32 +104,15 @@ static BOOL sIsValidTag(NSString *tag);
 
 #pragma mark -
 
-+ (void)throwError:(NSError *__autoreleasing *)error
-          withCode:(NSInteger)code
-           message:(NSString *)message
-            reason:(NSString *)reason {
-    guard(error) { return; }
-    NSMutableDictionary *userInfo = [NSMutableDictionary new];
-    [userInfo setObject:message forKeyedSubscript:NSLocalizedDescriptionKey];
-    [userInfo setObject:reason forKeyedSubscript:NSLocalizedFailureReasonErrorKey];
-    *error = [NSError errorWithDomain:BibMarcRecordControlFieldErrorDomain code:code userInfo:[userInfo copy]];
-}
-
-+ (BOOL)isValidControlFieldTag:(NSString *)tag error:(NSError *__autoreleasing *)error {
-    guard([tag bib_isRestrictedToCharacterSet:[NSCharacterSet bib_ASCIINumericCharacterSet]
-                                      inRange:NSRangeFromString(tag)]
-          && [tag length] == 3) {
-        [self throwError:error
-                withCode:1
-                 message:[NSString stringWithFormat:@"Invalid control field tag \"%@\"", tag]
-                  reason:@"MARC 21 tags are always 3 ASCII numerals"];
-        return NO;
-    }
-    guard([[tag substringWithRange:NSMakeRange(0, 2)] isEqualToString:@"00"]) {
-        [self throwError:error
-                withCode:2
-                 message:[NSString stringWithFormat:@"Invalid control field tag \"%@\"", tag]
-                  reason:@"MARC 21 control field tags must begin with 00"];
++ (BOOL)isValidControlFieldTag:(BibMarcRecordFieldTag *)tag error:(NSError *__autoreleasing *)error {
+    guard([tag isControlFieldTag]) {
+        guard(error != NULL) { return NO; }
+        NSString *const description = [NSString stringWithFormat:@"Invalid control field tag \"%@\"", tag];
+        NSString *const reason = @"MARC 21 control field tags must begin with two zeros.";
+        *error = [NSError errorWithDomain:BibMarcRecordErrorDomain
+                                     code:BibMarcRecordErrorInvalidCharacterSet
+                                 userInfo:@{ NSLocalizedDescriptionKey : description,
+                                             NSLocalizedFailureReasonErrorKey : reason }];
         return NO;
     }
     return YES;
@@ -135,17 +126,21 @@ static BOOL sIsValidTag(NSString *tag);
 
 @dynamic tag;
 + (BOOL)automaticallyNotifiesObserversOfTag { return NO; }
-- (void)setTag:(NSString *)tag {
+- (void)setTag:(BibMarcRecordFieldTag *)tag {
     if (_tag == tag) {
         return;
     }
     NSError *error = nil;
     guard([BibMarcRecordControlField isValidControlFieldTag:tag error:&error]) {
-        NSLog(@"%@", error.localizedFailureReason ?: error.localizedDescription);
+        NSString *const description = error.localizedDescription;
+        NSString *const reason = error.localizedFailureReason;
+        [[NSException exceptionWithName:BibMarcRecordControlFieldInvalidTagException
+                                 reason:[NSString stringWithFormat:@"%@: %@", description, reason]
+                               userInfo:error.userInfo] raise];
         return;
     }
     [self willChangeValueForKey:kTagKey];
-    _tag = [tag copy];
+    _tag = tag;
     [self didChangeValueForKey:kTagKey];
 }
 

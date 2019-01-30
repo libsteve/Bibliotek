@@ -20,16 +20,16 @@ NS_SWIFT_NAME(MarcRecord.ControlField)
 @interface BibMarcRecordControlField : NSObject <NSCopying, NSMutableCopying, NSSecureCoding>
 
 /// A three-digit code used to identify this control field's semantic purpose.
-@property (nonatomic, copy, readonly) NSString *tag;
+@property (nonatomic, strong, readonly) BibMarcRecordFieldTag *tag;
 
 /// The stored data within this control field.
 @property (nonatomic, copy, readonly) NSString *content;
 
-- (nullable instancetype)initWithTag:(NSString *)tag
+- (nullable instancetype)initWithTag:(BibMarcRecordFieldTag *)tag
                              content:(NSString *)content
                                error:(NSError *__autoreleasing *)error NS_DESIGNATED_INITIALIZER;
 
-+ (nullable instancetype)controlFieldWithTag:(NSString *)tag
++ (nullable instancetype)controlFieldWithTag:(BibMarcRecordFieldTag *)tag
                                      content:(NSString *)content
                                        error:(NSError *__autoreleasing *)error NS_SWIFT_UNAVAILABLE("Use init(tag:content:)");
 
@@ -44,7 +44,7 @@ NS_SWIFT_NAME(MarcRecord.MutableControlField)
 @interface BibMarcRecordMutableControlField : BibMarcRecordControlField
 
 /// A three-digit code used to identify this control field's semantic purpose.
-@property (nonatomic, copy, readwrite) NSString *tag;
+@property (nonatomic, strong, readwrite) BibMarcRecordFieldTag *tag;
 
 /// The stored data within this control field.
 @property (nonatomic, copy, readwrite) NSString *content;
