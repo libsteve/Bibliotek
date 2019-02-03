@@ -1,12 +1,12 @@
 //
-//  BibMarcRecordDataField.m
+//  BibMarcDataField.m
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 1/22/19.
 //  Copyright © 2019 Steve Brunwasser. All rights reserved.
 //
 
-#import "BibMarcRecordDataField.h"
+#import "BibMarcDataField.h"
 #import "BibMarcRecordError.h"
 #import "BibMarcRecordFieldIndicator.h"
 #import "BibMarcRecordFieldTag.h"
@@ -31,32 +31,17 @@
     return [self initWithTag:[BibMarcRecordFieldTag tagWithString:@"100"]
               firstIndicator:[BibMarcRecordFieldIndicator new]
              secondIndicator:[BibMarcRecordFieldIndicator new]
-                   subfields:[NSArray array] error:NULL];
+                   subfields:[NSArray array];
 }
 
 - (instancetype)initWithTag:(BibMarcRecordFieldTag *)tag
              firstIndicator:(BibMarcRecordFieldIndicator *)firstIndicator
             secondIndicator:(BibMarcRecordFieldIndicator *)secondIndicator
-                  subfields:(NSArray<BibMarcRecordSubfield *> *)subfields
-                      error:(NSError *__autoreleasing *)error {
+                  subfields:(NSArray<BibMarcRecordSubfield *> *)subfields {
     guard([subfields count] >= 1) {
-        guard (error != NULL) { return nil; }
-        NSString *const description = @"Invalid data field";
-        NSString *const reason = @"Data fields must contain at least one subfield.";
-        *error = [NSError errorWithDomain:BibMarcRecordErrorDomain
-                                     code:BibMarcRecordErrorMissingSubfield
-                                 userInfo:@{ NSLocalizedDescriptionKey : description,
-                                             NSLocalizedFailureReasonErrorKey : reason }];
         return nil;
     }
     if ([tag isControlFieldTag]) {
-        guard (error != NULL) { return nil; }
-        NSString *const description = [NSString stringWithFormat:@"Invalid data field with tag %@", tag];
-        NSString *const reason = @"Data fields cannot have control field tags.";
-        *error = [NSError errorWithDomain:BibMarcRecordErrorDomain
-                                     code:BibMarcRecordErrorInvalidFieldTag
-                                 userInfo:@{ NSLocalizedDescriptionKey : description,
-                                             NSLocalizedFailureReasonErrorKey : reason }];
         return nil;
     }
     if (self = [super init]) {

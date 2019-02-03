@@ -1,5 +1,5 @@
 //
-//  BibMarcRecordDataField.h
+//  BibMarcDataField.h
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 1/22/19.
@@ -8,34 +8,37 @@
 
 #import <Foundation/Foundation.h>
 
-@class BibMarcRecordFieldTag;
+@class BibMarcTag;
 @class BibMarcRecordFieldIndicator;
 @class BibMarcRecordSubfield;
 
 NS_ASSUME_NONNULL_BEGIN
 
-NS_SWIFT_NAME(MarcRecord.DataField)
-@interface BibMarcRecordDataField : NSObject <NSCopying, NSMutableCopying, NSSecureCoding>
+/// \brief A data field contains information and metadata contained within the record.
+///
+/// More information about MARC 21 records can be found in the Library of Congress's documentation on
+/// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html.
+NS_SWIFT_NAME(MarcDataField)
+@interface BibMarcDataField : NSObject <NSCopying, NSMutableCopying, NSSecureCoding>
 
-@property (nonatomic, strong, readonly) BibMarcRecordFieldTag *tag;
+@property (nonatomic, strong, readonly) BibMarcTag *tag;
 @property (nonatomic, strong, readonly) BibMarcRecordFieldIndicator *firstIndicator;
 @property (nonatomic, strong, readonly) BibMarcRecordFieldIndicator *secondIndicator;
 @property (nonatomic, copy, readonly) NSArray<BibMarcRecordSubfield *> *subfields;
 
-- (nullable instancetype)initWithTag:(BibMarcRecordFieldTag *)tag
+- (nullable instancetype)initWithTag:(BibMarcTag *)tag
                       firstIndicator:(BibMarcRecordFieldIndicator *)firstIndicator
                      secondIndicator:(BibMarcRecordFieldIndicator *)secondIndicator
-                           subfields:(NSArray<BibMarcRecordSubfield *> *)subfields
-                               error:(NSError *_Nullable __autoreleasing *_Nullable)error NS_DESIGNATED_INITIALIZER;
+                           subfields:(NSArray<BibMarcRecordSubfield *> *)subfields NS_DESIGNATED_INITIALIZER;
 
-- (BOOL)isEqualToDataField:(BibMarcRecordDataField *)other;
+- (BOOL)isEqualToDataField:(BibMarcDataField *)other;
 
 @end
 
-NS_SWIFT_NAME(MarcRecord.MutableDataField)
-@interface BibMarcRecordMutableDataField : BibMarcRecordDataField
+NS_SWIFT_NAME(MarcMutableDataField)
+@interface BibMarcMutableDataField : BibMarcDataField
 
-@property (nonatomic, strong, readwrite) BibMarcRecordFieldTag *tag;
+@property (nonatomic, strong, readwrite) BibMarcTag *tag;
 @property (nonatomic, strong, readwrite) BibMarcRecordFieldIndicator *firstIndicator;
 @property (nonatomic, strong, readwrite) BibMarcRecordFieldIndicator *secondIndicator;
 @property (nonatomic, copy, readwrite) NSArray<BibMarcRecordSubfield *> *subfields;
