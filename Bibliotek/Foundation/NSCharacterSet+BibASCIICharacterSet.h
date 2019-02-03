@@ -29,10 +29,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark -
 
-@property (class, nonatomic, strong, readonly) NSCharacterSet *bib_westernNumeralCharacterSet;
-
-@property (class, nonatomic, strong, readonly) NSCharacterSet *bib_lowercaseEnglishCharacterSet;
-
 @property (class, nonatomic, strong, readonly) NSCharacterSet *bib_lowercaseAlphanumericCharacterSet;
 
 @property (class, nonatomic, strong, readonly) NSCharacterSet *bib_blankIndicatorCharacterSet;

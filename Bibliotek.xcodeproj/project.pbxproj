@@ -238,12 +238,19 @@
 				AA258AE921F8DDA900CDF88E /* BibMarcRecordFieldTag.m */,
 				AA258AF221FCEF7800CDF88E /* BibMarcRecordFieldIndicator.h */,
 				AA258AF321FCEF7800CDF88E /* BibMarcRecordFieldIndicator.m */,
+			);
+			path = Marc;
+			sourceTree = "<group>";
+		};
+		AA258B0722079B4200CDF88E /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
 				AA258AED21FA2E1D00CDF88E /* NSCharacterSet+BibASCIICharacterSet.h */,
 				AA258AEE21FA2E1D00CDF88E /* NSCharacterSet+BibASCIICharacterSet.m */,
 				AA258AFA21FE3C2A00CDF88E /* NSString+BibCharacterSetValidation.h */,
 				AA258AFB21FE3C2A00CDF88E /* NSString+BibCharacterSetValidation.m */,
 			);
-			path = Marc;
+			path = Foundation;
 			sourceTree = "<group>";
 		};
 		AA2F88D2212091E60085A637 /* Record */ = {
@@ -314,6 +321,7 @@
 				AAAE231D2120911A00BB7E66 /* Classification */,
 				AAAE231C212090FC00BB7E66 /* Connection */,
 				AA2F88D3212092000085A637 /* FetchRequest */,
+				AA258B0722079B4200CDF88E /* Foundation */,
 				AA258AD721F78AF600CDF88E /* Marc */,
 				AA2F88D2212091E60085A637 /* Record */,
 				AA2F88D42120920C0085A637 /* RecordList */,

@@ -143,27 +143,13 @@
 
 #pragma mark -
 
-+ (NSCharacterSet *)bib_westernNumeralCharacterSet {
-    return [self bib_ASCIINumericCharacterSet];
-}
-
-+ (NSCharacterSet *)bib_lowercaseEnglishCharacterSet {
-    static NSCharacterSet *characterSet;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        NSString *const alphabet = @"abcdefghijklmnopqrstuvwxyz";
-        characterSet = [NSCharacterSet characterSetWithCharactersInString:alphabet];
-    });
-    return characterSet;
-}
-
 + (NSCharacterSet *)bib_lowercaseAlphanumericCharacterSet {
     static NSCharacterSet *characterSet;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         NSMutableCharacterSet *const mutableCharacterSet = [NSMutableCharacterSet new];
-        [mutableCharacterSet formUnionWithCharacterSet:[NSCharacterSet bib_westernNumeralCharacterSet]];
-        [mutableCharacterSet formUnionWithCharacterSet:[NSCharacterSet bib_lowercaseEnglishCharacterSet]];
+        [mutableCharacterSet formUnionWithCharacterSet:[NSCharacterSet bib_ASCIINumericCharacterSet]];
+        [mutableCharacterSet formUnionWithCharacterSet:[NSCharacterSet bib_ASCIILowercaseCharacterSet]];
         characterSet = [mutableCharacterSet copy];
     });
     return characterSet;
