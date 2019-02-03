@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Each subfield's code marks the semantic meaning of its content, which is determined by the record field's tag
 /// as defined in the appropriate MARC 21 format specification.
 NS_SWIFT_NAME(MarcRecord.Subfield)
-@interface BibMarcRecordSubfield : NSObject <NSCopying, NSMutableCopying, NSSecureCoding>
+@interface BibMarcSubfield : NSObject <NSCopying, NSMutableCopying, NSSecureCoding>
 
 /// A record subfield's code identifies the semantic purpose of the content within a subfield.
 ///
@@ -62,12 +62,12 @@ NS_SWIFT_NAME(MarcRecord.Subfield)
 /// Determine if this subfield and its data is equivalent to that of the given subfield.
 /// \param subfield The subfield that is being compaired with this instance for equality.
 /// \returns Returns \c YES when both fields have the same code and content.
-- (BOOL)isEqualToSubfield:(BibMarcRecordSubfield *)subfield;
+- (BOOL)isEqualToSubfield:(BibMarcSubfield *)subfield;
 
 @end
 
 NS_SWIFT_NAME(MarcRecord.MutableSubfield)
-@interface BibMarcRecordMutableSubfield : BibMarcRecordSubfield
+@interface BibMarcRecordMutableSubfield : BibMarcSubfield
 
 /// A record subfield's code identifies the semantic purpose of the content within a subfield.
 ///

@@ -23,40 +23,21 @@
 }
 
 - (instancetype)init {
-    return [self initWithString:@" " error:NULL];
+    return [self initWithString:@" "];
 }
 
 - (instancetype)initWithString:(NSString *)stringValue {
     return [self initWithString:stringValue error:NULL];
 }
 
-- (instancetype)initWithString:(NSString *)stringValue error:(NSError *__autoreleasing *)error {
-    static os_log_t log;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        log = os_log_create("brun.steve.Bibliotek.BibMarcRecord", "FieldIndicator");
-    });
+- (instancetype)initWithString:(NSString *)stringValue {
     if (self = [super init]) {
         guard([stringValue length] == 1) {
-            guard(error != NULL) { return nil; }
-            NSString *const description = [NSString stringWithFormat:@"Invalid field indicator \"%@\"", stringValue];
-            NSString *const reason = @"Field indicator codes are one-character values.";
-            *error = [NSError errorWithDomain:BibMarcRecordErrorDomain
-                                         code:BibMarcRecordErrorInvalidCharacterCount
-                                     userInfo:@{ NSLocalizedDescriptionKey : description,
-                                                 NSLocalizedFailureReasonErrorKey : reason }];
             return nil;
         }
         unichar const code = [stringValue characterAtIndex:0];
         guard([[NSCharacterSet bib_blankIndicatorCharacterSet] characterIsMember:code]
               || [[NSCharacterSet bib_lowercaseAlphanumericCharacterSet] characterIsMember:code]) {
-            guard(error != NULL) { return nil; }
-            NSString *const description = [NSString stringWithFormat:@"Invalid field indicator \"%@\"", stringValue];
-            NSString *const reason = @"Field indicator codes are lowercase alphanumeric or space characters";
-            *error = [NSError errorWithDomain:BibMarcRecordErrorDomain
-                                         code:BibMarcRecordErrorInvalidCharacterSet
-                                     userInfo:@{ NSLocalizedDescriptionKey : description,
-                                                 NSLocalizedFailureReasonErrorKey : reason }];
             return nil;
         }
         _stringValue = [stringValue copy];
@@ -64,24 +45,12 @@
     return self;
 }
 
-+ (instancetype)indicatorWithString:(NSString *)stringValue error:(NSError *__autoreleasing *)error {
-    return [[self alloc] initWithString:stringValue error:error];
-}
-
 + (instancetype)indicatorWithString:(NSString *)stringValue {
-    return [self indicatorWithString:stringValue error:NULL];
+    return [self indicatorWithString:stringValue];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    NSError *error = nil;
-    self = [self initWithString:[aDecoder decodeObject] error:&error];
-    guard(error == nil) {
-        NSString *const description = [error localizedDescription];
-        NSString *const reason = [error localizedFailureReason];
-        [NSException raise:@"BibMarcRecordInvalidFieldIndicatorException" format:@"%@: %@", description, reason];
-        return nil;
-    }
-    return self;
+    return [self initWithString:[aDecoder decodeObject]];
 }
 
 + (BOOL)supportsSecureCoding { return YES; }

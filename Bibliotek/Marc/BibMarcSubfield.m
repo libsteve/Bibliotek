@@ -1,5 +1,5 @@
 //
-//  BibMarcRecordSubfield.m
+//  BibMarcSubfield.m
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 1/22/19.

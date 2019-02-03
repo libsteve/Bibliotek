@@ -1,5 +1,5 @@
 //
-//  BibMarcRecordFieldIndicator.h
+//  BibMarcIndicator.h
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 1/26/19.
@@ -10,12 +10,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// \brief A single-character code used within MARC records to mark its semantic meaning.
-NS_SWIFT_NAME(MarcRecord.FieldIndicator)
-@interface BibMarcRecordFieldIndicator : NSObject <NSSecureCoding>
+/// \brief A single-character code used within data fields to mark its semantic meaning.
+///
+/// Indicators are always a signle ASCII alphanumeric character.
+NS_SWIFT_NAME(MarcIndicator)
+@interface BibMarcIndicator : NSObject <NSSecureCoding>
 
 /// A string representation of the indicator's code.
-@property (nonatomic, strong, readonly) NSString *stringValue;
+@property (nonatomic, strong, readonly) NSString *stringValue NS_SWIFT_NAME(rawValue);
 
 /// \brief An indicator is considered blank when it has no set value.
 /// \discussion Some MARC 21 formats define record fields that don't use one or both of the indicator fields.
@@ -25,21 +27,7 @@ NS_SWIFT_NAME(MarcRecord.FieldIndicator)
 /// Create a record field indicator from the given string value.
 /// \param stringValue A string containing a single-character code.
 /// \pre String codes must be exactly one lowercase alphanumeric or space character.
-- (nullable instancetype)initWithString:(NSString *)stringValue NS_SWIFT_UNAVAILABLE("Use init(stringValue:)");
-
-/// Create a record field indicator from the given string value.
-/// \param stringValue A string containing a single-character code.
-/// \param error An error pointer which can return a reason explaining why the creation of an indicator failed.
-/// \pre String codes must be exactly one lowercase alphanumeric or space character.
-- (nullable instancetype)initWithString:(NSString *)stringValue
-                                  error:(NSError *_Nullable __autoreleasing *_Nullable)error NS_SWIFT_NAME(init(stringValue:));
-
-/// Create a record field indicator from the given string value.
-/// \param stringValue A string containing a single-character code.
-/// \param error An error pointer which can return a reason explaining why the creation of an indicator failed.
-/// \pre String codes must be exactly one lowercase alphanumeric or space character.
-+ (nullable instancetype)indicatorWithString:(NSString *)stringValue
-                                       error:(NSError *_Nullable __autoreleasing *_Nullable)error NS_SWIFT_UNAVAILABLE("Use init(stringValue:)");
+- (nullable instancetype)initWithString:(NSString *)stringValue NS_SWIFT_NAME(init(rawValue:));
 
 /// Create a record field indicator from the given string value.
 /// \param stringValue A string containing a single-character code.
@@ -49,7 +37,7 @@ NS_SWIFT_NAME(MarcRecord.FieldIndicator)
 /// Determine if this field indicator is equivalent to the given indicator.t
 /// \param indicator The field indicator that is being compaired with this instance for equality.
 /// \returns Returns \c YES when both indicator have the same character code.
-- (BOOL)isEqualToIndicator:(BibMarcRecordFieldIndicator *)indicator;
+- (BOOL)isEqualToIndicator:(BibMarcIndicator *)indicator;
 
 /// Determine the ordered relationship between this and the given field indicator.
 /// \param indicator The field indicator that this should be compared with.
@@ -57,7 +45,7 @@ NS_SWIFT_NAME(MarcRecord.FieldIndicator)
 /// \c NSOrderedAscending indicates that \c fieldIndicator is ordered after this indicator,
 /// \c NSOrderedDescending indicates that \c fieldIndicator is ordered before this indicator,
 /// and \c NSOrderedSame indicates that both indicators are equivalent.
-- (NSComparisonResult)compare:(BibMarcRecordFieldIndicator *)indicator;
+- (NSComparisonResult)compare:(BibMarcIndicator *)indicator;
 
 @end
 
