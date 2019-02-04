@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class BibMarcSubfieldCode;
+
 NS_ASSUME_NONNULL_BEGIN
 
 /// \brief A portion of data within a record data field.
@@ -20,7 +22,7 @@ NS_SWIFT_NAME(MarcSubfield)
 /// A record subfield's code identifies the semantic purpose of the content within a subfield.
 ///
 /// The semantics of each code is determined by the record field's tag as defined in the relevant MARC 21 format.
-@property (nonatomic, copy, readonly) NSString *code;
+@property (nonatomic, strong, readonly) BibMarcSubfieldCode *code;
 
 /// A string representation of the information stored in the subfield.
 @property (nonatomic, copy, readonly) NSString *content;
@@ -30,14 +32,14 @@ NS_SWIFT_NAME(MarcSubfield)
 /// \param content A string representation of the data stored within the subfield.
 /// \returns Returns a subfield value when the given subfield code is well-formatted.
 /// \pre The subfield code must contain exactly one ASCII lowercase or numeric character.
-- (instancetype)initWithCode:(NSString *)code content:(NSString *)content NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCode:(BibMarcSubfieldCode *)code content:(NSString *)content NS_DESIGNATED_INITIALIZER;
 
 /// Create a subfield of data for use within a record's data field.
 /// \param code The subfield code identifying the semantic purpose of the data.
 /// \param content A string representation of the data stored within the subfield.
 /// \returns Returns a subfield value when the given subfield code is well-formatted.
 /// \pre The subfield code must contain exactly one ASCII lowercase or numeric character.
-+ (instancetype)subfieldWithCode:(NSString *)code content:(NSString *)content NS_SWIFT_UNAVAILABLE("Use init(code:content:)");
++ (instancetype)subfieldWithCode:(BibMarcSubfieldCode *)code content:(NSString *)content NS_SWIFT_UNAVAILABLE("Use init(code:content:)");
 
 /// Determine if this subfield and its data is equivalent to that of the given subfield.
 /// \param subfield The subfield that is being compaired with this instance for equality.
@@ -52,9 +54,7 @@ NS_SWIFT_NAME(MarcMutableSubfield)
 /// A record subfield's code identifies the semantic purpose of the content within a subfield.
 ///
 /// The semantics of each code is determined by the record field's tag as defined in the appropriate MARC 21 format.
-///
-/// \note An exception is thrown if the code does not contain exactly one ASCII lowercase or numeric character.
-@property (nonatomic, copy, readwrite) NSString *code;
+@property (nonatomic, strong, readwrite) BibMarcSubfieldCode *code;
 
 /// A string representation of the information stored in the subfield.
 @property (nonatomic, copy, readwrite) NSString *content;
