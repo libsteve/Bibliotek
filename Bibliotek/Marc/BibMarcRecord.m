@@ -9,11 +9,11 @@
 #import "BibMarcRecord.h"
 #import "BibMarcControlField.h"
 #import "BibMarcDataField.h"
-#import "BibMarcRecordLeader.h"
+#import "BibMarcLeader.h"
 
 @implementation BibMarcRecord {
 @protected
-    BibMarcRecordLeader *_leader;
+    BibMarcLeader *_leader;
     NSArray<BibMarcControlField *> *_controlFields;
     NSArray<BibMarcDataField *> *_dataFields;
 }
@@ -23,10 +23,10 @@
 @synthesize dataFields = _dataFields;
 
 - (instancetype)init {
-    return [self initWithLeader:[BibMarcRecordLeader new] controlFields:[NSArray array] dataFields:[NSArray array]];
+    return [self initWithLeader:[BibMarcLeader new] controlFields:[NSArray array] dataFields:[NSArray array]];
 }
 
-- (instancetype)initWithLeader:(BibMarcRecordLeader *)leader
+- (instancetype)initWithLeader:(BibMarcLeader *)leader
                  controlFields:(NSArray<BibMarcControlField *> *)controlFields
                     dataFields:(NSArray<BibMarcDataField *> *)dataFields {
     if (self = [super init]) {
@@ -84,7 +84,7 @@
 
 @dynamic leader;
 + (BOOL)automaticallyNotifiesObserversOfLeader { return NO; }
-- (void)setLeader:(BibMarcRecordLeader *)leader {
+- (void)setLeader:(BibMarcLeader *)leader {
     if (_leader == leader) {
         return;
     }

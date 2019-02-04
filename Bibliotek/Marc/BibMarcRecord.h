@@ -10,7 +10,7 @@
 
 @class BibMarcControlField;
 @class BibMarcDataField;
-@class BibMarcRecordLeader;
+@class BibMarcLeader;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -25,7 +25,7 @@ NS_SWIFT_NAME(MarcRecord)
 @interface BibMarcRecord : NSObject <NSCopying, NSMutableCopying, NSSecureCoding>
 
 /// A set of metadata positioned at the beginning of each record that describe its encoded format and status.
-@property (nonatomic, copy, readonly) BibMarcRecordLeader *leader;
+@property (nonatomic, copy, readonly) BibMarcLeader *leader;
 
 /// A list of variable fields containing metadata relevant for processing the record.
 @property (nonatomic, copy, readonly) NSArray<BibMarcControlField *> *controlFields;
@@ -40,7 +40,7 @@ NS_SWIFT_NAME(MarcRecord)
 /// \returns Returns a valid MARC 21 record for some item or entity described by the given fields.
 /// \discussion More information about MARC 21 records can be found in the Library of Congress's documentation on
 /// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html.
-- (instancetype)initWithLeader:(BibMarcRecordLeader *)leader
+- (instancetype)initWithLeader:(BibMarcLeader *)leader
                  controlFields:(NSArray<BibMarcControlField *> *)controlFields
                     dataFields:(NSArray<BibMarcDataField *> *)dataFields NS_DESIGNATED_INITIALIZER;
 
@@ -55,7 +55,7 @@ NS_SWIFT_NAME(MutableMarcRecord)
 @interface BibMutableMarcRecord : BibMarcRecord
 
 /// A set of metadata positioned at the beginning of each record that describe its encoded format and status.
-@property (nonatomic, copy, readwrite) BibMarcRecordLeader *leader;
+@property (nonatomic, copy, readwrite) BibMarcLeader *leader;
 
 /// The list of fields containing metadata relevant for processing data in the record.
 @property (nonatomic, copy, readwrite) NSArray<BibMarcControlField *> *controlFields;

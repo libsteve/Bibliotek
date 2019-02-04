@@ -1,12 +1,12 @@
 //
-//  BibMarcRecordLeader.m
+//  BibMarcLeader.m
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 1/26/19.
 //  Copyright © 2019 Steve Brunwasser. All rights reserved.
 //
 
-#import "BibMarcRecordLeader.h"
+#import "BibMarcLeader.h"
 #import "NSCharacterSet+BibASCIICharacterSet.h"
 #import "NSString+BibCharacterSetValidation.h"
 #import <os/log.h>
@@ -32,7 +32,7 @@ static NSString *const kMarc21EntryMap = @"4500";
 
 #pragma mark -
 
-@implementation BibMarcRecordLeader {
+@implementation BibMarcLeader {
 @protected
     NSString *_stringValue;
 }
@@ -42,7 +42,7 @@ static NSString *const kMarc21EntryMap = @"4500";
 }
 
 - (instancetype)initWithString:(NSString *)stringValue error:(NSError **)error {
-    guard([[BibMarcRecordLeader class] isValidLeaderString:stringValue error:error]) {
+    guard([[BibMarcLeader class] isValidLeaderString:stringValue error:error]) {
         return nil;
     }
     if (self = [super init]) {
@@ -76,13 +76,13 @@ static NSString *const kMarc21EntryMap = @"4500";
 
 #pragma mark - Equality
 
-- (BOOL)isEqualToLeader:(BibMarcRecordLeader *)leader {
+- (BOOL)isEqualToLeader:(BibMarcLeader *)leader {
     return [_stringValue isEqualToString:[leader stringValue]];
 }
 
 - (BOOL)isEqual:(id)object {
     return [super isEqual:object]
-        || ([object isKindOfClass:[BibMarcRecordLeader class]] && [self isEqualToLeader:object]);
+        || ([object isKindOfClass:[BibMarcLeader class]] && [self isEqualToLeader:object]);
 }
 
 - (NSUInteger)hash {

@@ -1,5 +1,5 @@
 //
-//  BibMarcRecordLeader.h
+//  BibMarcLeader.h
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 1/26/19.
@@ -17,8 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// More information about the MARC 21 leader can be found in the Library of Congress's documentation on
 /// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html#leader.
-NS_SWIFT_NAME(MarcRecord.Leader)
-@interface BibMarcRecordLeader : NSObject <NSSecureCoding>
+NS_SWIFT_NAME(MarcLeader)
+@interface BibMarcLeader : NSObject <NSSecureCoding>
 
 /// The raw string representation of the leader data.
 @property (nonatomic, copy, readonly) NSString *stringValue;
@@ -57,7 +57,7 @@ NS_SWIFT_NAME(MarcRecord.Leader)
 /// Determine whether or not the given leader describes the same MARC 21 record as the receiver.
 /// \param leader The leader with which the receiver should be compared.
 /// \returns Returns \c YES if the given leader and the receiver describe the same MARC 21 record.
-- (BOOL)isEqualToLeader:(BibMarcRecordLeader *)leader;
+- (BOOL)isEqualToLeader:(BibMarcLeader *)leader;
 
 @end
 
