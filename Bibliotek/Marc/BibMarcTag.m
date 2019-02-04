@@ -6,11 +6,9 @@
 //  Copyright © 2019 Steve Brunwasser. All rights reserved.
 //
 
-#import "BibMarcRecordError.h"
 #import "BibMarcTag.h"
 #import "NSCharacterSet+BibASCIICharacterSet.h"
 #import "NSString+BibCharacterSetValidation.h"
-#import <os/log.h>
 
 #define guard(predicate) if(!((predicate)))
 
@@ -46,6 +44,8 @@
     return [self tagWithString:stringValue];
 }
 
+#pragma mark - Coding
+
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     return [self initWithString:[aDecoder decodeObject]];
 }
@@ -55,6 +55,8 @@
 }
 
 + (BOOL)supportsSecureCoding { return YES; }
+
+#pragma mark - Equality
 
 - (BOOL)isEqualToTag:(BibMarcTag *)tag {
     return [_stringValue isEqualToString:[tag stringValue]];
@@ -79,66 +81,68 @@
 
 @end
 
+#pragma mark -
+
 @implementation BibMarcTag (KnownValidFieldTags)
 
 + (BibMarcTag *)controlNumberTag {
-    return [[BibMarcTag alloc] initWithString:@"001" error:NULL];
+    return [[BibMarcTag alloc] initWithString:@"001"];
 }
 
 + (BibMarcTag *)isbnTag {
-    return [[BibMarcTag alloc] initWithString:@"020" error:NULL];
+    return [[BibMarcTag alloc] initWithString:@"020"];
 }
 
 + (BibMarcTag *)lccTag {
-    return [[BibMarcTag alloc] initWithString:@"050" error:NULL];
+    return [[BibMarcTag alloc] initWithString:@"050"];
 }
 
 + (BibMarcTag *)ddcTag {
-    return [[BibMarcTag alloc] initWithString:@"082" error:NULL];
+    return [[BibMarcTag alloc] initWithString:@"082"];
 }
 
 + (BibMarcTag *)authorTag {
-    return [[BibMarcTag alloc] initWithString:@"100" error:NULL];
+    return [[BibMarcTag alloc] initWithString:@"100"];
 }
 
 + (BibMarcTag *)titleTag {
-    return [[BibMarcTag alloc] initWithString:@"245" error:NULL];
+    return [[BibMarcTag alloc] initWithString:@"245"];
 }
 
 + (BibMarcTag *)editionTag {
-    return [[BibMarcTag alloc] initWithString:@"250" error:NULL];
+    return [[BibMarcTag alloc] initWithString:@"250"];
 }
 
 + (BibMarcTag *)publicationTag {
-    return [[BibMarcTag alloc] initWithString:@"264" error:NULL];
+    return [[BibMarcTag alloc] initWithString:@"264"];
 }
 
 + (BibMarcTag *)physicalDescriptionTag {
-    return [[BibMarcTag alloc] initWithString:@"300" error:NULL];
+    return [[BibMarcTag alloc] initWithString:@"300"];
 }
 
 + (BibMarcTag *)noteTag {
-    return [[BibMarcTag alloc] initWithString:@"500" error:NULL];
+    return [[BibMarcTag alloc] initWithString:@"500"];
 }
 
 + (BibMarcTag *)bibliographyTag {
-    return [[BibMarcTag alloc] initWithString:@"504" error:NULL];
+    return [[BibMarcTag alloc] initWithString:@"504"];
 }
 
 + (BibMarcTag *)summaryTag {
-    return [[BibMarcTag alloc] initWithString:@"520" error:NULL];
+    return [[BibMarcTag alloc] initWithString:@"520"];
 }
 
 + (BibMarcTag *)subjectTag {
-    return [[BibMarcTag alloc] initWithString:@"650" error:NULL];
+    return [[BibMarcTag alloc] initWithString:@"650"];
 }
 
 + (BibMarcTag *)genreTag {
-    return [[BibMarcTag alloc] initWithString:@"655" error:NULL];
+    return [[BibMarcTag alloc] initWithString:@"655"];
 }
 
 + (BibMarcTag *)seriesTag {
-    return [[BibMarcTag alloc] initWithString:@"830" error:NULL];
+    return [[BibMarcTag alloc] initWithString:@"830"];
 }
 
 @end

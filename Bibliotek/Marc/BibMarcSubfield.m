@@ -37,11 +37,6 @@ static NSString *const kContentKey = @"content";
     return [[self alloc] initWithCode:code content:content];
 }
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    return [self initWithCode:[aDecoder decodeObjectForKey:kCodeKey]
-                      content:[aDecoder decodeObjectForKey:kContentKey]];
-}
-
 - (id)copyWithZone:(NSZone *)zone {
     if (zone == nil && [[self class] isEqualTo:[BibMarcSubfield class]]) {
         return self;
@@ -53,12 +48,21 @@ static NSString *const kContentKey = @"content";
     return [[BibMarcMutableSubfield allocWithZone:zone] initWithCode:_code content:_content];
 }
 
+#pragma mark - Coding
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    return [self initWithCode:[aDecoder decodeObjectForKey:kCodeKey]
+                      content:[aDecoder decodeObjectForKey:kContentKey]];
+}
+
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:_code forKey:kCodeKey];
     [aCoder encodeObject:_content forKey:kContentKey];
 }
 
 + (BOOL)supportsSecureCoding { return YES; }
+
+#pragma mark - Equality
 
 - (BOOL)isEqualToSubfield:(BibMarcSubfield *)other {
     return (_code == [other code] || [_code isEqualToSubfieldCode:[other code]])
@@ -75,6 +79,8 @@ static NSString *const kContentKey = @"content";
 }
 
 @end
+
+#pragma mark -
 
 @implementation BibMarcMutableSubfield
 

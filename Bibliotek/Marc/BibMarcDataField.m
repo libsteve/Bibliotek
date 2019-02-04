@@ -7,18 +7,24 @@
 //
 
 #import "BibMarcDataField.h"
-#import "BibMarcRecordError.h"
-#import "BibMarcRecordFieldIndicator.h"
-#import "BibMarcRecordFieldTag.h"
+#import "BibMarcIndicator.h"
 #import "BibMarcSubfield.h"
+#import "BibMarcTag.h"
 
 #define guard(predicate) if(!((predicate)))
 
-@implementation BibMarcRecordDataField {
+static NSString *const kTagKey = @"tag";
+static NSString *const kInd1Key = @"ind1";
+static NSString *const kInd2Key = @"ind2";
+static NSString *const kFirstIndicatorKey = @"firstIndicator";
+static NSString *const kSecondIndicatorKey = @"secondIndicator";
+static NSString *const kSubfieldsKey = @"subfields";
+
+@implementation BibMarcDataField {
 @protected
-    BibMarcRecordFieldTag *_tag;
-    BibMarcRecordFieldIndicator *_firstIndicator;
-    BibMarcRecordFieldIndicator *_secondIndicator;
+    BibMarcTag *_tag;
+    BibMarcIndicator *_firstIndicator;
+    BibMarcIndicator *_secondIndicator;
     NSArray<BibMarcSubfield *> *_subfields;
 }
 
@@ -28,15 +34,15 @@
 @synthesize subfields = _subfields;
 
 - (instancetype)init {
-    return [self initWithTag:[BibMarcRecordFieldTag tagWithString:@"100"]
-              firstIndicator:[BibMarcRecordFieldIndicator new]
-             secondIndicator:[BibMarcRecordFieldIndicator new]
-                   subfields:[NSArray array];
+    return [self initWithTag:[BibMarcTag tagWithString:@"100"]
+              firstIndicator:[BibMarcIndicator new]
+             secondIndicator:[BibMarcIndicator new]
+                   subfields:[NSArray array]];
 }
 
-- (instancetype)initWithTag:(BibMarcRecordFieldTag *)tag
-             firstIndicator:(BibMarcRecordFieldIndicator *)firstIndicator
-            secondIndicator:(BibMarcRecordFieldIndicator *)secondIndicator
+- (instancetype)initWithTag:(BibMarcTag *)tag
+             firstIndicator:(BibMarcIndicator *)firstIndicator
+            secondIndicator:(BibMarcIndicator *)secondIndicator
                   subfields:(NSArray<BibMarcSubfield *> *)subfields {
     guard([subfields count] >= 1) {
         return nil;
@@ -54,55 +60,43 @@
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-    if (zone == nil && [[self class] isEqualTo:[BibMarcRecordSubfield class]]) {
+    if (zone == nil && [[self class] isEqualTo:[BibMarcSubfield class]]) {
         return self;
     }
-    return [[BibMarcRecordDataField allocWithZone:zone] initWithTag:_tag
-                                                     firstIndicator:_firstIndicator
-                                                    secondIndicator:_secondIndicator
-                                                          subfields:_subfields
-                                                              error:NULL];
+    return [[BibMarcDataField allocWithZone:zone] initWithTag:_tag
+                                               firstIndicator:_firstIndicator
+                                              secondIndicator:_secondIndicator
+                                                    subfields:_subfields];
 }
 
 - (id)mutableCopyWithZone:(NSZone *)zone {
-    return [[BibMarcRecordMutableDataField allocWithZone:zone] initWithTag:_tag
-                                                            firstIndicator:_firstIndicator
-                                                           secondIndicator:_secondIndicator
-                                                                 subfields:_subfields
-                                                                     error:NULL];
+    return [[BibMarcMutableDataField allocWithZone:zone] initWithTag:_tag
+                                                      firstIndicator:_firstIndicator
+                                                     secondIndicator:_secondIndicator
+                                                           subfields:_subfields];
 }
 
 #pragma mark - Coding
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    NSError *error = nil;
-    self = [self initWithTag:[aDecoder decodeObjectForKey:@"tag"]
-              firstIndicator:[aDecoder decodeObjectForKey:@"ind1"]
-             secondIndicator:[aDecoder decodeObjectForKey:@"ind2"]
-                   subfields:[aDecoder decodeObjectForKey:@"subfields"]
-                       error:&error];
-    guard(error == nil) {
-        NSString *const description = error.localizedDescription;
-        NSString *const reason = error.localizedFailureReason;
-        [[[NSException alloc] initWithName:error.domain
-                                    reason:[NSString stringWithFormat:@"%@: %@", description, reason]
-                                  userInfo:error.userInfo] raise];
-    }
-    return self;
+    return [self initWithTag:[aDecoder decodeObjectForKey:kTagKey]
+              firstIndicator:[aDecoder decodeObjectForKey:kInd1Key]
+             secondIndicator:[aDecoder decodeObjectForKey:kInd2Key]
+                   subfields:[aDecoder decodeObjectForKey:kSubfieldsKey]];
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeObject:_tag forKey:@"tag"];
-    [aCoder encodeObject:_firstIndicator forKey:@"ind1"];
-    [aCoder encodeObject:_secondIndicator forKey:@"ind2"];
-    [aCoder encodeObject:_subfields forKey:@"subfields"];
+    [aCoder encodeObject:_tag forKey:kTagKey];
+    [aCoder encodeObject:_firstIndicator forKey:kInd1Key];
+    [aCoder encodeObject:_secondIndicator forKey:kInd2Key];
+    [aCoder encodeObject:_subfields forKey:kSubfieldsKey];
 }
 
 + (BOOL)supportsSecureCoding { return YES; }
 
 #pragma mark - Equality
 
-- (BOOL)isEqualToDataField:(BibMarcRecordDataField *)other {
+- (BOOL)isEqualToDataField:(BibMarcDataField *)other {
     return [_tag isEqualToTag:[other tag]]
         && [_firstIndicator isEqualToIndicator:[other firstIndicator]]
         && [_secondIndicator isEqualToIndicator:[other secondIndicator]]
@@ -111,7 +105,7 @@
 
 - (BOOL)isEqual:(id)other {
     return [super isEqual:other]
-        || ([other isKindOfClass:[BibMarcRecordDataField class]] && [self isEqualToDataField:other]);
+        || ([other isKindOfClass:[BibMarcDataField class]] && [self isEqualToDataField:other]);
 }
 
 - (NSUInteger)hash {
@@ -122,39 +116,39 @@
 
 #pragma mark -
 
-@implementation BibMarcRecordMutableDataField
+@implementation BibMarcMutableDataField
 
 @dynamic tag;
 + (BOOL)automaticallyNotifiesObserversOfTag { return NO; }
-- (void)setTag:(BibMarcRecordFieldTag *)tag {
+- (void)setTag:(BibMarcTag *)tag {
     if (_tag == tag) {
         return;
     }
-    [self willChangeValueForKey:@"tag"];
+    [self willChangeValueForKey:kTagKey];
     _tag = tag;
-    [self didChangeValueForKey:@"tag"];
+    [self didChangeValueForKey:kTagKey];
 }
 
 @dynamic firstIndicator;
 + (BOOL)automaticallyNotifiesObserversOfFirstIndicator { return NO; }
-- (void)setFirstIndicator:(BibMarcRecordFieldIndicator *)firstIndicator {
+- (void)setFirstIndicator:(BibMarcIndicator *)firstIndicator {
     if (_firstIndicator == firstIndicator) {
         return;
     }
-    [self willChangeValueForKey:@"firstIndicator"];
+    [self willChangeValueForKey:kFirstIndicatorKey];
     _firstIndicator = firstIndicator;
-    [self didChangeValueForKey:@"firstIndicator"];
+    [self didChangeValueForKey:kFirstIndicatorKey];
 }
 
 @dynamic secondIndicator;
 + (BOOL)automaticallyNotifiesObserversOfSecondIndicator { return NO; }
-- (void)setSecondIndicator:(BibMarcRecordFieldIndicator *)secondIndicator {
+- (void)setSecondIndicator:(BibMarcIndicator *)secondIndicator {
     if (_secondIndicator == secondIndicator) {
         return;
     }
-    [self willChangeValueForKey:@"secondIndicator"];
+    [self willChangeValueForKey:kSecondIndicatorKey];
     _secondIndicator = secondIndicator;
-    [self didChangeValueForKey:@"secondIndicator"];
+    [self didChangeValueForKey:kSecondIndicatorKey];
 }
 
 @dynamic subfields;
@@ -163,9 +157,9 @@
     if (_subfields == subfields) {
         return;
     }
-    [self willChangeValueForKey:@"subfields"];
+    [self willChangeValueForKey:kSubfieldsKey];
     _subfields = [[NSArray alloc] initWithArray:subfields copyItems:YES];
-    [self didChangeValueForKey:@"subfields"];
+    [self didChangeValueForKey:kSubfieldsKey];
 }
 
 @end

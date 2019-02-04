@@ -9,7 +9,6 @@
 #import "BibMarcLeader.h"
 #import "NSCharacterSet+BibASCIICharacterSet.h"
 #import "NSString+BibCharacterSetValidation.h"
-#import <os/log.h>
 
 #define guard(predicate) if(!((predicate)))
 

@@ -24,11 +24,11 @@
 }
 
 - (instancetype)initWithString:(NSString *)stringValue {
-    guard([code length] == 1) {
+    guard([stringValue length] == 1) {
         return nil;
     }
-    guard([code bib_isRestrictedToCharacterSet:[NSCharacterSet bib_ASCIILowercaseAlphanumericCharacterSet]
-                                       inRange:NSRangeFromString(code)]) {
+    guard([stringValue bib_isRestrictedToCharacterSet:[NSCharacterSet bib_ASCIILowercaseAlphanumericCharacterSet]
+                                              inRange:NSRangeFromString(stringValue)]) {
         return nil;
     }
     if (self = [super init]) {
@@ -37,9 +37,11 @@
     return self;
 }
 
-+ (instancetype)tagWithString:(NSString *)stringValue {
-    return [self tagWithString:stringValue];
++ (instancetype)subfieldCodeWithString:(NSString *)stringValue {
+    return [[BibMarcSubfieldCode alloc] initWithString:stringValue];
 }
+
+#pragma mark - Coding
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     return [self initWithString:[aDecoder decodeObject]];
@@ -50,6 +52,8 @@
 }
 
 + (BOOL)supportsSecureCoding { return YES; }
+
+#pragma mark - Equality
 
 - (BOOL)isEqualToSubfieldCode:(BibMarcSubfieldCode *)subfieldCode {
     return [_stringValue isEqualToString:[subfieldCode stringValue]];

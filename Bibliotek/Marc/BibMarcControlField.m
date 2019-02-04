@@ -7,7 +7,6 @@
 //
 
 #import "BibMarcControlField.h"
-#import "BibMarcRecordError.h"
 #import "BibMarcTag.h"
 #import "NSCharacterSet+BibASCIICharacterSet.h"
 #import "NSString+BibCharacterSetValidation.h"

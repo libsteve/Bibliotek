@@ -6,10 +6,8 @@
 //  Copyright © 2019 Steve Brunwasser. All rights reserved.
 //
 
-#import "BibMarcRecordError.h"
 #import "BibMarcIndicator.h"
 #import "NSCharacterSet+BibASCIICharacterSet.h"
-#import <os/log.h>
 
 #define guard(predicate) if (!((predicate)))
 
@@ -24,10 +22,6 @@
 
 - (instancetype)init {
     return [self initWithString:@" "];
-}
-
-- (instancetype)initWithString:(NSString *)stringValue {
-    return [self initWithString:stringValue error:NULL];
 }
 
 - (instancetype)initWithString:(NSString *)stringValue {
@@ -49,6 +43,8 @@
     return [self indicatorWithString:stringValue];
 }
 
+#pragma mark - Coding
+
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     return [self initWithString:[aDecoder decodeObject]];
 }
@@ -58,6 +54,8 @@
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:_stringValue];
 }
+
+#pragma mark - Equality
 
 - (BOOL)isEqualToIndicator:(BibMarcIndicator *)indicator {
     return [_stringValue isEqualToString:[indicator stringValue]];

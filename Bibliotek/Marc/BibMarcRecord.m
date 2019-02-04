@@ -6,10 +6,10 @@
 //  Copyright © 2019 Steve Brunwasser. All rights reserved.
 //
 
-#import "BibMarcRecord.h"
 #import "BibMarcControlField.h"
 #import "BibMarcDataField.h"
 #import "BibMarcLeader.h"
+#import "BibMarcRecord.h"
 
 @implementation BibMarcRecord {
 @protected
@@ -37,12 +37,6 @@
     return self;
 }
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    return [self initWithLeader:[aDecoder decodeObjectForKey:@"leader"]
-                  controlFields:[aDecoder decodeObjectForKey:@"controlfields"]
-                     dataFields:[aDecoder decodeObjectForKey:@"datafields"]];
-}
-
 - (id)copyWithZone:(NSZone *)zone {
     return [[BibMarcRecord allocWithZone:zone] initWithLeader:_leader
                                                  controlFields:_controlFields
@@ -55,6 +49,14 @@
                                                            dataFields:_dataFields];
 }
 
+#pragma mark - Coding
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    return [self initWithLeader:[aDecoder decodeObjectForKey:@"leader"]
+                  controlFields:[aDecoder decodeObjectForKey:@"controlfields"]
+                     dataFields:[aDecoder decodeObjectForKey:@"datafields"]];
+}
+
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:_leader forKey:@"leader"];
     [aCoder encodeObject:_controlFields forKey:@"controlfields"];
@@ -62,6 +64,8 @@
 }
 
 + (BOOL)supportsSecureCoding { return YES; }
+
+#pragma mark - Equality
 
 - (BOOL)isEqualToRecord:(BibMarcRecord *)other {
     return [_leader isEqualToLeader:[other leader]]
@@ -79,6 +83,8 @@
 }
 
 @end
+
+#pragma mark -
 
 @implementation BibMutableMarcRecord
 

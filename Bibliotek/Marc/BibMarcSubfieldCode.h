@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(MarcSubfield.Code)
-@interface BibMarcSubfieldCode : NSObject
+@interface BibMarcSubfieldCode : NSObject <NSSecureCoding>
 
 /// A string representation of the subfield code.
 @property (nonatomic, strong, readonly) NSString *stringValue NS_SWIFT_NAME(rawValue);
