@@ -1,5 +1,5 @@
 //
-//  BibMarcRecordSubfield.h
+//  BibMarcSubfield.h
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 1/22/19.
@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// \discussion Data fields hold data within labeled subfields.
 /// Each subfield's code marks the semantic meaning of its content, which is determined by the record field's tag
 /// as defined in the appropriate MARC 21 format specification.
-NS_SWIFT_NAME(MarcRecord.Subfield)
+NS_SWIFT_NAME(MarcSubfield)
 @interface BibMarcSubfield : NSObject <NSCopying, NSMutableCopying, NSSecureCoding>
 
 /// A record subfield's code identifies the semantic purpose of the content within a subfield.
@@ -30,27 +30,7 @@ NS_SWIFT_NAME(MarcRecord.Subfield)
 /// \param content A string representation of the data stored within the subfield.
 /// \returns Returns a subfield value when the given subfield code is well-formatted.
 /// \pre The subfield code must contain exactly one ASCII lowercase or numeric character.
-- (instancetype)initWithCode:(NSString *)code content:(NSString *)content NS_SWIFT_UNAVAILABLE("Use init(code:content:)");
-
-/// Create a subfield of data for use within a record's data field.
-/// \param code The subfield code identifying the semantic purpose of the data.
-/// \param content A string representation of the data stored within the subfield.
-/// \param error An error pointer which can return a reason explaining why the creation of a subfield failed.
-/// \returns Returns a subfield value when the given subfield code is well-formatted.
-/// \pre The subfield code must contain exactly one ASCII lowercase or numeric character.
-- (instancetype)initWithCode:(NSString *)code
-                     content:(NSString *)content
-                       error:(NSError *_Nullable __autoreleasing *_Nullable)error NS_DESIGNATED_INITIALIZER;
-
-/// Create a subfield of data for use within a record's data field.
-/// \param code The subfield code identifying the semantic purpose of the data.
-/// \param content A string representation of the data stored within the subfield.
-/// \param error An error pointer which can return a reason explaining why the creation of a subfield failed.
-/// \returns Returns a subfield value when the given subfield code is well-formatted.
-/// \pre The subfield code must contain exactly one ASCII lowercase or numeric character.
-+ (instancetype)subfieldWithCode:(NSString *)code
-                         content:(NSString *)content
-                           error:(NSError *_Nullable __autoreleasing *_Nullable)error NS_SWIFT_UNAVAILABLE("Use init(code:content:)");
+- (instancetype)initWithCode:(NSString *)code content:(NSString *)content NS_DESIGNATED_INITIALIZER;
 
 /// Create a subfield of data for use within a record's data field.
 /// \param code The subfield code identifying the semantic purpose of the data.
@@ -66,8 +46,8 @@ NS_SWIFT_NAME(MarcRecord.Subfield)
 
 @end
 
-NS_SWIFT_NAME(MarcRecord.MutableSubfield)
-@interface BibMarcRecordMutableSubfield : BibMarcSubfield
+NS_SWIFT_NAME(MarcMutableSubfield)
+@interface BibMarcMutableSubfield : BibMarcSubfield
 
 /// A record subfield's code identifies the semantic purpose of the content within a subfield.
 ///

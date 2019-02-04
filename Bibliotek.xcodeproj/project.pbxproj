@@ -16,8 +16,8 @@
 		AA258ADF21F78B6900CDF88E /* BibMarcControlField.m in Sources */ = {isa = PBXBuildFile; fileRef = AA258ADD21F78B6900CDF88E /* BibMarcControlField.m */; };
 		AA258AE221F78B7F00CDF88E /* BibMarcDataField.h in Headers */ = {isa = PBXBuildFile; fileRef = AA258AE021F78B7F00CDF88E /* BibMarcDataField.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA258AE321F78B7F00CDF88E /* BibMarcDataField.m in Sources */ = {isa = PBXBuildFile; fileRef = AA258AE121F78B7F00CDF88E /* BibMarcDataField.m */; };
-		AA258AE621F78BB700CDF88E /* BibMarcRecordSubfield.h in Headers */ = {isa = PBXBuildFile; fileRef = AA258AE421F78BB700CDF88E /* BibMarcRecordSubfield.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA258AE721F78BB700CDF88E /* BibMarcRecordSubfield.m in Sources */ = {isa = PBXBuildFile; fileRef = AA258AE521F78BB700CDF88E /* BibMarcRecordSubfield.m */; };
+		AA258AE621F78BB700CDF88E /* BibMarcSubfield.h in Headers */ = {isa = PBXBuildFile; fileRef = AA258AE421F78BB700CDF88E /* BibMarcSubfield.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA258AE721F78BB700CDF88E /* BibMarcSubfield.m in Sources */ = {isa = PBXBuildFile; fileRef = AA258AE521F78BB700CDF88E /* BibMarcSubfield.m */; };
 		AA258AEA21F8DDA900CDF88E /* BibMarcTag.h in Headers */ = {isa = PBXBuildFile; fileRef = AA258AE821F8DDA900CDF88E /* BibMarcTag.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA258AEB21F8DDA900CDF88E /* BibMarcTag.m in Sources */ = {isa = PBXBuildFile; fileRef = AA258AE921F8DDA900CDF88E /* BibMarcTag.m */; };
 		AA258AF021FA2E1D00CDF88E /* NSCharacterSet+BibASCIICharacterSet.m in Sources */ = {isa = PBXBuildFile; fileRef = AA258AEE21FA2E1D00CDF88E /* NSCharacterSet+BibASCIICharacterSet.m */; };
@@ -125,8 +125,8 @@
 		AA258ADD21F78B6900CDF88E /* BibMarcControlField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibMarcControlField.m; sourceTree = "<group>"; };
 		AA258AE021F78B7F00CDF88E /* BibMarcDataField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibMarcDataField.h; sourceTree = "<group>"; };
 		AA258AE121F78B7F00CDF88E /* BibMarcDataField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibMarcDataField.m; sourceTree = "<group>"; };
-		AA258AE421F78BB700CDF88E /* BibMarcRecordSubfield.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibMarcRecordSubfield.h; sourceTree = "<group>"; };
-		AA258AE521F78BB700CDF88E /* BibMarcRecordSubfield.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibMarcRecordSubfield.m; sourceTree = "<group>"; };
+		AA258AE421F78BB700CDF88E /* BibMarcSubfield.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibMarcSubfield.h; sourceTree = "<group>"; };
+		AA258AE521F78BB700CDF88E /* BibMarcSubfield.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibMarcSubfield.m; sourceTree = "<group>"; };
 		AA258AE821F8DDA900CDF88E /* BibMarcTag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibMarcTag.h; sourceTree = "<group>"; };
 		AA258AE921F8DDA900CDF88E /* BibMarcTag.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibMarcTag.m; sourceTree = "<group>"; };
 		AA258AED21FA2E1D00CDF88E /* NSCharacterSet+BibASCIICharacterSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSCharacterSet+BibASCIICharacterSet.h"; sourceTree = "<group>"; };
@@ -232,8 +232,8 @@
 				AA258ADD21F78B6900CDF88E /* BibMarcControlField.m */,
 				AA258AE021F78B7F00CDF88E /* BibMarcDataField.h */,
 				AA258AE121F78B7F00CDF88E /* BibMarcDataField.m */,
-				AA258AE421F78BB700CDF88E /* BibMarcRecordSubfield.h */,
-				AA258AE521F78BB700CDF88E /* BibMarcRecordSubfield.m */,
+				AA258AE421F78BB700CDF88E /* BibMarcSubfield.h */,
+				AA258AE521F78BB700CDF88E /* BibMarcSubfield.m */,
 				AA258AE821F8DDA900CDF88E /* BibMarcTag.h */,
 				AA258AE921F8DDA900CDF88E /* BibMarcTag.m */,
 				AA258AF221FCEF7800CDF88E /* BibMarcIndicator.h */,
@@ -406,7 +406,7 @@
 				AA59F0D720A9FACF00D41982 /* Bibliotek.h in Headers */,
 				AA51EA8E211AAAEB00BF28BE /* BibConnectionOptions+Private.h in Headers */,
 				AA9406F620FF90C60006FEB4 /* _BibMarcRecord.h in Headers */,
-				AA258AE621F78BB700CDF88E /* BibMarcRecordSubfield.h in Headers */,
+				AA258AE621F78BB700CDF88E /* BibMarcSubfield.h in Headers */,
 				AAAA429E20BB0E3600BDB52B /* BibConstants.h in Headers */,
 				AA59056E20AB489200D41982 /* BibRecord.h in Headers */,
 				AA51EA91211AB79A00BF28BE /* BibConnectionEndpoint.h in Headers */,
@@ -577,7 +577,7 @@
 				AA258AF021FA2E1D00CDF88E /* NSCharacterSet+BibASCIICharacterSet.m in Sources */,
 				AA258B052200C6E500CDF88E /* BibMarcRecordError.m in Sources */,
 				AA258ADB21F78B3C00CDF88E /* BibMarcRecord.m in Sources */,
-				AA258AE721F78BB700CDF88E /* BibMarcRecordSubfield.m in Sources */,
+				AA258AE721F78BB700CDF88E /* BibMarcSubfield.m in Sources */,
 				AA51EA92211AB79A00BF28BE /* BibConnectionEndpoint.m in Sources */,
 				AA59056F20AB489200D41982 /* BibRecord.m in Sources */,
 				AAAA429F20BB0E3600BDB52B /* BibConstants.m in Sources */,

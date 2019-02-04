@@ -7,7 +7,7 @@
 //
 
 #import "BibMarcRecordError.h"
-#import "BibMarcRecordSubfield.h"
+#import "BibMarcSubfield.h"
 #import "NSCharacterSet+BibASCIICharacterSet.h"
 #import "NSString+BibCharacterSetValidation.h"
 
@@ -22,7 +22,7 @@
 
 static NSString *const BibMarcRecordSubfieldInvalidCodeException = @"BibMarcRecordSubfieldInvalidCodeException";
 
-@implementation BibMarcRecordSubfield {
+@implementation BibMarcSubfield {
 @protected
     NSString *_code;
     NSString *_content;
@@ -36,11 +36,11 @@ static NSString *const BibMarcRecordSubfieldInvalidCodeException = @"BibMarcReco
 }
 
 - (instancetype)initWithCode:(NSString *)code content:(NSString *)content {
-    return [self initWithCode:code content:content error:NULL];
-}
-
-- (instancetype)initWithCode:(NSString *)code content:(NSString *)content error:(NSError *__autoreleasing *)error {
-    guard([BibMarcRecordSubfield validateSubfieldCode:code error:error]) {
+    guard([code length] == 1) {
+        return nil;
+    }
+    guard([code bib_isRestrictedToCharacterSet:[NSCharacterSet bib_ASCIILowercaseAlphanumericCharacterSet]
+                                       inRange:NSRangeFromString(code)]) {
         return nil;
     }
     if (self = [super init]) {
@@ -50,37 +50,24 @@ static NSString *const BibMarcRecordSubfieldInvalidCodeException = @"BibMarcReco
     return self;
 }
 
-+ (instancetype)subfieldWithCode:(NSString *)code content:(NSString *)content error:(NSError *__autoreleasing *)error {
-    return [[self alloc] initWithCode:code content:content error:error];
-}
-
 + (instancetype)subfieldWithCode:(NSString *)code content:(NSString *)content {
-    return [self subfieldWithCode:code content:content error:NULL];
+    return [[self alloc] initWithCode:code content:content];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    NSError *error = nil;
-    self = [self initWithCode:[aDecoder decodeObjectForKey:@"code"]
-                      content:[aDecoder decodeObjectForKey:@"content"]
-                        error:&error];
-    guard(error == nil) {
-        NSString *const description = [error localizedDescription];
-        NSString *const reason = [error localizedFailureReason];
-        [NSException raise:BibMarcRecordSubfieldInvalidCodeException format:@"%@: %@", description, reason];
-        return nil;
-    }
-    return self;
+    return [self initWithCode:[aDecoder decodeObjectForKey:@"code"]
+                      content:[aDecoder decodeObjectForKey:@"content"]];
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-    if (zone == nil && [[self class] isEqualTo:[BibMarcRecordSubfield class]]) {
+    if (zone == nil && [[self class] isEqualTo:[BibMarcSubfield class]]) {
         return self;
     }
-    return [[BibMarcRecordSubfield allocWithZone:zone] initWithCode:_code content:_content];
+    return [[BibMarcSubfield allocWithZone:zone] initWithCode:_code content:_content];
 }
 
 - (id)mutableCopyWithZone:(NSZone *)zone {
-    return [[BibMarcRecordMutableSubfield allocWithZone:zone] initWithCode:_code content:_content];
+    return [[BibMarcMutableSubfield allocWithZone:zone] initWithCode:_code content:_content];
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
@@ -90,14 +77,14 @@ static NSString *const BibMarcRecordSubfieldInvalidCodeException = @"BibMarcReco
 
 + (BOOL)supportsSecureCoding { return YES; }
 
-- (BOOL)isEqualToSubfield:(BibMarcRecordSubfield *)other {
+- (BOOL)isEqualToSubfield:(BibMarcSubfield *)other {
     return (_code == [other code] || [_code isEqualToString:[other code]])
         && (_content == [other content] || [_content isEqualToString:[other content]]);
 }
 
 - (BOOL)isEqual:(id)other {
     return [super isEqual:other]
-        || ([other isKindOfClass:[BibMarcRecordSubfield class]] && [self isEqualToSubfield:other]);
+        || ([other isKindOfClass:[BibMarcSubfield class]] && [self isEqualToSubfield:other]);
 }
 
 - (NSUInteger)hash {
@@ -131,7 +118,7 @@ static NSString *const BibMarcRecordSubfieldInvalidCodeException = @"BibMarcReco
 
 @end
 
-@implementation BibMarcRecordMutableSubfield
+@implementation BibMarcMutableSubfield
 
 @dynamic code;
 + (BOOL)automaticallyNotifiesObserversOfCode { return NO; }
@@ -140,7 +127,7 @@ static NSString *const BibMarcRecordSubfieldInvalidCodeException = @"BibMarcReco
         return;
     }
     NSError *error = nil;
-    guard([BibMarcRecordSubfield validateSubfieldCode:code error:&error]) {
+    guard([BibMarcSubfield validateSubfieldCode:code error:&error]) {
         NSString *const description = [error localizedDescription];
         NSString *const reason = [error localizedFailureReason];
         [NSException raise:BibMarcRecordSubfieldInvalidCodeException format:@"%@: %@", description, reason];

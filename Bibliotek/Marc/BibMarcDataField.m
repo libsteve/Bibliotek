@@ -10,7 +10,7 @@
 #import "BibMarcRecordError.h"
 #import "BibMarcRecordFieldIndicator.h"
 #import "BibMarcRecordFieldTag.h"
-#import "BibMarcRecordSubfield.h"
+#import "BibMarcSubfield.h"
 
 #define guard(predicate) if(!((predicate)))
 
@@ -19,7 +19,7 @@
     BibMarcRecordFieldTag *_tag;
     BibMarcRecordFieldIndicator *_firstIndicator;
     BibMarcRecordFieldIndicator *_secondIndicator;
-    NSArray<BibMarcRecordSubfield *> *_subfields;
+    NSArray<BibMarcSubfield *> *_subfields;
 }
 
 @synthesize tag = _tag;
@@ -37,7 +37,7 @@
 - (instancetype)initWithTag:(BibMarcRecordFieldTag *)tag
              firstIndicator:(BibMarcRecordFieldIndicator *)firstIndicator
             secondIndicator:(BibMarcRecordFieldIndicator *)secondIndicator
-                  subfields:(NSArray<BibMarcRecordSubfield *> *)subfields {
+                  subfields:(NSArray<BibMarcSubfield *> *)subfields {
     guard([subfields count] >= 1) {
         return nil;
     }
@@ -159,7 +159,7 @@
 
 @dynamic subfields;
 + (BOOL)automaticallyNotifiesObserversOfSubfields { return NO; }
-- (void)setSubfields:(NSArray<BibMarcRecordSubfield *> *)subfields {
+- (void)setSubfields:(NSArray<BibMarcSubfield *> *)subfields {
     if (_subfields == subfields) {
         return;
     }
