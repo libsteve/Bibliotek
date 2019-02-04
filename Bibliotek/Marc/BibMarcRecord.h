@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-@class BibMarcRecordControlField;
-@class BibMarcRecordDataField;
+@class BibMarcControlField;
+@class BibMarcDataField;
 @class BibMarcRecordLeader;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -28,10 +28,10 @@ NS_SWIFT_NAME(MarcRecord)
 @property (nonatomic, copy, readonly) BibMarcRecordLeader *leader;
 
 /// A list of variable fields containing metadata relevant for processing the record.
-@property (nonatomic, copy, readonly) NSArray<BibMarcRecordControlField *> *controlFields;
+@property (nonatomic, copy, readonly) NSArray<BibMarcControlField *> *controlFields;
 
 /// A list of variable field containing bibliographic and other data about the item or entity represented by the record.
-@property (nonatomic, copy, readonly) NSArray<BibMarcRecordDataField *> *dataFields;
+@property (nonatomic, copy, readonly) NSArray<BibMarcDataField *> *dataFields;
 
 /// Create a valid MARC 21 record containing data from the given leader, control fields, and data fields.
 /// \param leader The leader metadata describing the record's encoded format and status.
@@ -41,8 +41,8 @@ NS_SWIFT_NAME(MarcRecord)
 /// \discussion More information about MARC 21 records can be found in the Library of Congress's documentation on
 /// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html.
 - (instancetype)initWithLeader:(BibMarcRecordLeader *)leader
-                 controlFields:(NSArray<BibMarcRecordControlField *> *)controlFields
-                    dataFields:(NSArray<BibMarcRecordDataField *> *)dataFields NS_DESIGNATED_INITIALIZER;
+                 controlFields:(NSArray<BibMarcControlField *> *)controlFields
+                    dataFields:(NSArray<BibMarcDataField *> *)dataFields NS_DESIGNATED_INITIALIZER;
 
 /// Determine whether or not the given MARC 21 record contains the same data as the receiver.
 /// \param record The record with which the receiver should be compared.
@@ -58,10 +58,10 @@ NS_SWIFT_NAME(MutableMarcRecord)
 @property (nonatomic, copy, readwrite) BibMarcRecordLeader *leader;
 
 /// The list of fields containing metadata relevant for processing data in the record.
-@property (nonatomic, copy, readwrite) NSArray<BibMarcRecordControlField *> *controlFields;
+@property (nonatomic, copy, readwrite) NSArray<BibMarcControlField *> *controlFields;
 
 /// The list of fields containing bibliographic and other data about the item or entity represented by the record.
-@property (nonatomic, copy, readwrite) NSArray<BibMarcRecordDataField *> *dataFields;
+@property (nonatomic, copy, readwrite) NSArray<BibMarcDataField *> *dataFields;
 
 @end
 

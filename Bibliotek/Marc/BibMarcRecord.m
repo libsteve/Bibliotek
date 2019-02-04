@@ -7,15 +7,15 @@
 //
 
 #import "BibMarcRecord.h"
-#import "BibMarcRecordControlField.h"
-#import "BibMarcRecordDataField.h"
+#import "BibMarcControlField.h"
+#import "BibMarcDataField.h"
 #import "BibMarcRecordLeader.h"
 
 @implementation BibMarcRecord {
 @protected
     BibMarcRecordLeader *_leader;
-    NSArray<BibMarcRecordControlField *> *_controlFields;
-    NSArray<BibMarcRecordDataField *> *_dataFields;
+    NSArray<BibMarcControlField *> *_controlFields;
+    NSArray<BibMarcDataField *> *_dataFields;
 }
 
 @synthesize leader = _leader;
@@ -27,8 +27,8 @@
 }
 
 - (instancetype)initWithLeader:(BibMarcRecordLeader *)leader
-                 controlFields:(NSArray<BibMarcRecordControlField *> *)controlFields
-                    dataFields:(NSArray<BibMarcRecordDataField *> *)dataFields {
+                 controlFields:(NSArray<BibMarcControlField *> *)controlFields
+                    dataFields:(NSArray<BibMarcDataField *> *)dataFields {
     if (self = [super init]) {
         _leader = [leader copy];
         _controlFields = [controlFields copy];
@@ -95,7 +95,7 @@
 
 @dynamic controlFields;
 + (BOOL)automaticallyNotifiesObserversOfControlFields { return NO; }
-- (void)setControlFields:(NSArray<BibMarcRecordControlField *> *)controlFields {
+- (void)setControlFields:(NSArray<BibMarcControlField *> *)controlFields {
     if (_controlFields == controlFields) {
         return;
     }
@@ -106,7 +106,7 @@
 
 @dynamic dataFields;
 + (BOOL)automaticallyNotifiesObserversOfDataFields { return NO; }
-- (void)setDataFields:(NSArray<BibMarcRecordDataField *> *)dataFields {
+- (void)setDataFields:(NSArray<BibMarcDataField *> *)dataFields {
     if (_dataFields == dataFields) {
         return;
     }
