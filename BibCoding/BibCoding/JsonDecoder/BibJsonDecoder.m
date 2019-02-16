@@ -1,5 +1,5 @@
 //
-//  BibJSONDecoder.m
+//  BibJsonDecoder.m
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 2/13/19.
@@ -8,16 +8,16 @@
 
 #import "BibDecodable.h"
 #import "BibDecoderError.h"
-#import "BibJSONDecoder.h"
-#import "BibJSONKeyedValueDecodingContainer.h"
-#import "BibJSONUnkeyedValueDecodingContainer.h"
-#import "BibJSONSingleValueDecodingContainer.h"
+#import "BibJsonDecoder.h"
+#import "BibJsonKeyedValueDecodingContainer.h"
+#import "BibJsonUnkeyedValueDecodingContainer.h"
+#import "BibJsonSingleValueDecodingContainer.h"
 
 #define guard(predicate) if (!((predicate)))
 
 #pragma mark -
 
-@implementation BibJSONDecoder {
+@implementation BibJsonDecoder {
     NSString *_keyPath;
 }
 
@@ -62,7 +62,7 @@
                                              BibDecoderErrorKeyPathKey: _keyPath }];
         return nil;
     }
-    return [[BibJSONKeyedValueDecodingContainer alloc] initWithKeyPath:[self keyPath] jsonRepresentation:_jsonRepresentation];
+    return [[BibJsonKeyedValueDecodingContainer alloc] initWithKeyPath:[self keyPath] jsonRepresentation:_jsonRepresentation];
 }
 
 - (BibUnkeyedValueDecodingContainer *)unkeyedValueContainer:(NSError *__autoreleasing *)error {
@@ -75,11 +75,11 @@
                                              BibDecoderErrorKeyPathKey: _keyPath }];
         return nil;
     }
-    return [[BibJSONUnkeyedValueDecodingContainer alloc] initWithKeyPath:[self keyPath] jsonRepresentation:_jsonRepresentation];
+    return [[BibJsonUnkeyedValueDecodingContainer alloc] initWithKeyPath:[self keyPath] jsonRepresentation:_jsonRepresentation];
 }
 
 - (BibSingleValueDecodingContainer *)singleValueContainer:(NSError *__autoreleasing *)error {
-    return [[BibJSONSingleValueDecodingContainer alloc] initWithKeyPath:[self keyPath] jsonRepresentation:_jsonRepresentation];
+    return [[BibJsonSingleValueDecodingContainer alloc] initWithKeyPath:[self keyPath] jsonRepresentation:_jsonRepresentation];
 }
 
 @end

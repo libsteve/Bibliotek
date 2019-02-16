@@ -113,7 +113,7 @@ static NSString *const kSubfieldsKey = @"subfields";
                                              BibDecoderErrorExpectedClassKey : [self class] }];
         return nil;
     }
-    BibDecoder *const tagDecoder = [[BibJSONDecoder alloc] initWithKeyPath:[decoder keyPath]
+    BibDecoder *const tagDecoder = [[BibJsonDecoder alloc] initWithKeyPath:[decoder keyPath]
                                                            jsonRepresentation:[keys firstObject]];
     BibMarcTag *const tag = [[BibMarcTag alloc] initWithDecoder:tagDecoder error:error];
     guard (tag) { return nil; }

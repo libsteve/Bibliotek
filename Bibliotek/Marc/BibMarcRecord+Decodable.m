@@ -19,7 +19,7 @@ static NSString *const kFieldsKey = @"fields";
 
 @implementation BibMarcRecord (Decodable)
 
-static NSArray *decodeObjectsOfClassFromDecoder(Class objectClass, BibJSONDecoder *decoder) {
+static NSArray *decodeObjectsOfClassFromDecoder(Class objectClass, BibJsonDecoder *decoder) {
     NSMutableArray *const array = [NSMutableArray array];
     for (NSUInteger index = 0; index < [decoder count], index += 1) {
         id const object = [decoder decodeObjectOfClass:objectClass atIndex:index error:NULL];

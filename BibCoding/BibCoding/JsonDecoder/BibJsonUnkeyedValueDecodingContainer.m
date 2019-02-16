@@ -1,5 +1,5 @@
 //
-//  BibJSONUnkeyedValueDecodingContainer.m
+//  BibJsonUnkeyedValueDecodingContainer.m
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 2/14/19.
@@ -9,12 +9,12 @@
 #import "BibDecodable.h"
 #import "BibDecoder.h"
 #import "BibDecoderError.h"
-#import "BibJSONDecoder.h"
-#import "BibJSONUnkeyedValueDecodingContainer.h"
+#import "BibJsonDecoder.h"
+#import "BibJsonUnkeyedValueDecodingContainer.h"
 
 #define guard(predicate) if (!((predicate)))
 
-@implementation BibJSONUnkeyedValueDecodingContainer {
+@implementation BibJsonUnkeyedValueDecodingContainer {
     NSArray *_jsonArray;
     NSUInteger _nextIndex;
     NSString *_keyPath;
@@ -124,7 +124,7 @@
 - (BibDecoder *)containerDecoder:(NSError *__autoreleasing *)error {
     id const object = [self jsonObject:error];
     guard (object) { return nil; }
-    return [[BibJSONDecoder alloc] initWithKeyPath:[self keyPathByAppendingIndex:_nextIndex] jsonRepresentation:object];
+    return [[BibJsonDecoder alloc] initWithKeyPath:[self keyPathByAppendingIndex:_nextIndex] jsonRepresentation:object];
 }
 
 #pragma mark -

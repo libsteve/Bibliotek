@@ -1,5 +1,5 @@
 //
-//  BibJSONUnkeyedValueDecodingContainer.h
+//  BibJsonUnkeyedValueDecodingContainer.h
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 2/14/19.
@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface BibJSONUnkeyedValueDecodingContainer : BibUnkeyedValueDecodingContainer
+@interface BibJsonUnkeyedValueDecodingContainer : BibUnkeyedValueDecodingContainer
 
 @property (nonatomic, assign, readonly) NSUInteger count;
 

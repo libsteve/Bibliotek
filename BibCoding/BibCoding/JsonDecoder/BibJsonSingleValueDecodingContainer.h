@@ -1,5 +1,5 @@
 //
-//  BibJSONSingleValueDecodingContainer.h
+//  BibJsonSingleValueDecodingContainer.h
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 2/14/19.
@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface BibJSONSingleValueDecodingContainer : BibSingleValueDecodingContainer
+@interface BibJsonSingleValueDecodingContainer : BibSingleValueDecodingContainer
 
 - (instancetype)initWithKeyPath:(NSString *)keyPath jsonRepresentation:(id)jsonRepresentation;
 
