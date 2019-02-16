@@ -18,4 +18,3 @@ FOUNDATION_EXPORT const unsigned char BibCodingVersionString[];
 #import <BibCoding/BibDecoder.h>
 #import <BibCoding/BibDecoderError.h>
 #import <BibCoding/BibJSONDecoder.h>
-//#import <BibCoding/BibJSONDecoderError.h>

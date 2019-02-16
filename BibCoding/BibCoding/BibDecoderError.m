@@ -11,6 +11,6 @@
 NSErrorDomain const BibDecoderErrorDomain = @"brun.steve.bibliotek.coding.decoder.error";
 
 NSErrorUserInfoKey const BibDecoderErrorKeyPathKey = @"brun.steve.bibliotek.coding.decoder.error-key.key-path";
-NSErrorUserInfoKey const BibDecoderErrorUnexpectedDataKey = @"brun.steve.bibliotek.coding.decoder.error-key.invalid-data";
+NSErrorUserInfoKey const BibDecoderErrorInvalidDataKey = @"brun.steve.bibliotek.coding.decoder.error-key.invalid-data";
 NSErrorUserInfoKey const BibDecoderErrorInvalidClassKey = @"brun.steve.bibliotek.coding.decoder.error-key.invalid-class";
 NSErrorUserInfoKey const BibDecoderErrorExpectedClassKey = @"brun.steve.bibliotek.coding.decoer.error-key.expected-class";

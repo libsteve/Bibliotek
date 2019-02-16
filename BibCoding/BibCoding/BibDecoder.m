@@ -16,12 +16,6 @@
 
 #define guard(predicate) if (!((predicate)))
 
-static NSString *keyPathByAppendingKey(NSString *keyPath, NSString *key) {
-    guard (keyPath) { return key; }
-    return [keyPath hasPrefix:@"["] ? [NSString stringWithFormat:@"%@%@", key, keyPath]
-    : [NSString stringWithFormat:@"%@.%@", key, keyPath];
-}
-
 #pragma mark -
 
 @implementation BibDecoder

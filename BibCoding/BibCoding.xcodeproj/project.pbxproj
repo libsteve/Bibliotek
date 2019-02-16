@@ -13,14 +13,16 @@
 		AA4282E32218843600FC829F /* BibDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = AA4282E2221883EC00FC829F /* BibDecoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA4282E42218843600FC829F /* BibDecodable.h in Headers */ = {isa = PBXBuildFile; fileRef = AA4282E1221883EC00FC829F /* BibDecodable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA4282E52218843600FC829F /* BibJSONDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = AA4282D6221883EC00FC829F /* BibJSONDecoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA4282E62218843600FC829F /* BibJSONDecoderError.h in Headers */ = {isa = PBXBuildFile; fileRef = AA4282D8221883EC00FC829F /* BibJSONDecoderError.h */; };
-		AA4282E72218843600FC829F /* BibJSONKeyedValueDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = AA4282DA221883EC00FC829F /* BibJSONKeyedValueDecoder.h */; };
-		AA4282E82218843600FC829F /* BibJSONUnkeyedValueDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = AA4282DC221883EC00FC829F /* BibJSONUnkeyedValueDecoder.h */; };
-		AA4282E92218843600FC829F /* BibJSONSingleValueDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = AA4282DE221883EC00FC829F /* BibJSONSingleValueDecoder.h */; };
+		AA4282E72218843600FC829F /* BibJSONKeyedValueDecodingContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = AA4282DA221883EC00FC829F /* BibJSONKeyedValueDecodingContainer.h */; };
+		AA4282E82218843600FC829F /* BibJSONUnkeyedValueDecodingContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = AA4282DC221883EC00FC829F /* BibJSONUnkeyedValueDecodingContainer.h */; };
+		AA4282E92218843600FC829F /* BibJSONSingleValueDecodingContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = AA4282DE221883EC00FC829F /* BibJSONSingleValueDecodingContainer.h */; };
 		AA4282EC22188C9200FC829F /* BibDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4282EA2218867B00FC829F /* BibDecoder.m */; };
-		AA4282ED22188D3500FC829F /* BibJSONDecoderError.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4282D9221883EC00FC829F /* BibJSONDecoderError.m */; };
 		AA4282F022188D5A00FC829F /* BibDecoderError.h in Headers */ = {isa = PBXBuildFile; fileRef = AA4282EE22188D5A00FC829F /* BibDecoderError.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA4282F122188D5A00FC829F /* BibDecoderError.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4282EF22188D5A00FC829F /* BibDecoderError.m */; };
+		AA4282F52218BC5B00FC829F /* BibJSONDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4282D7221883EC00FC829F /* BibJSONDecoder.m */; };
+		AA4282F62218BC5B00FC829F /* BibJSONKeyedValueDecodingContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4282DB221883EC00FC829F /* BibJSONKeyedValueDecodingContainer.m */; };
+		AA4282F72218BC5B00FC829F /* BibJSONUnkeyedValueDecodingContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4282DD221883EC00FC829F /* BibJSONUnkeyedValueDecodingContainer.m */; };
+		AA4282F82218BC5B00FC829F /* BibJSONSingleValueDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4282DF221883EC00FC829F /* BibJSONSingleValueDecoder.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,13 +44,11 @@
 		AA4282C3221883D400FC829F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA4282D6221883EC00FC829F /* BibJSONDecoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibJSONDecoder.h; sourceTree = "<group>"; };
 		AA4282D7221883EC00FC829F /* BibJSONDecoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibJSONDecoder.m; sourceTree = "<group>"; };
-		AA4282D8221883EC00FC829F /* BibJSONDecoderError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibJSONDecoderError.h; sourceTree = "<group>"; };
-		AA4282D9221883EC00FC829F /* BibJSONDecoderError.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibJSONDecoderError.m; sourceTree = "<group>"; };
-		AA4282DA221883EC00FC829F /* BibJSONKeyedValueDecoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibJSONKeyedValueDecoder.h; sourceTree = "<group>"; };
-		AA4282DB221883EC00FC829F /* BibJSONKeyedValueDecoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibJSONKeyedValueDecoder.m; sourceTree = "<group>"; };
-		AA4282DC221883EC00FC829F /* BibJSONUnkeyedValueDecoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibJSONUnkeyedValueDecoder.h; sourceTree = "<group>"; };
-		AA4282DD221883EC00FC829F /* BibJSONUnkeyedValueDecoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibJSONUnkeyedValueDecoder.m; sourceTree = "<group>"; };
-		AA4282DE221883EC00FC829F /* BibJSONSingleValueDecoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibJSONSingleValueDecoder.h; sourceTree = "<group>"; };
+		AA4282DA221883EC00FC829F /* BibJSONKeyedValueDecodingContainer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibJSONKeyedValueDecodingContainer.h; sourceTree = "<group>"; };
+		AA4282DB221883EC00FC829F /* BibJSONKeyedValueDecodingContainer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibJSONKeyedValueDecodingContainer.m; sourceTree = "<group>"; };
+		AA4282DC221883EC00FC829F /* BibJSONUnkeyedValueDecodingContainer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibJSONUnkeyedValueDecodingContainer.h; sourceTree = "<group>"; };
+		AA4282DD221883EC00FC829F /* BibJSONUnkeyedValueDecodingContainer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibJSONUnkeyedValueDecodingContainer.m; sourceTree = "<group>"; };
+		AA4282DE221883EC00FC829F /* BibJSONSingleValueDecodingContainer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibJSONSingleValueDecodingContainer.h; sourceTree = "<group>"; };
 		AA4282DF221883EC00FC829F /* BibJSONSingleValueDecoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibJSONSingleValueDecoder.m; sourceTree = "<group>"; };
 		AA4282E1221883EC00FC829F /* BibDecodable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibDecodable.h; sourceTree = "<group>"; };
 		AA4282E2221883EC00FC829F /* BibDecoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibDecoder.h; sourceTree = "<group>"; };
@@ -123,13 +123,11 @@
 			children = (
 				AA4282D6221883EC00FC829F /* BibJSONDecoder.h */,
 				AA4282D7221883EC00FC829F /* BibJSONDecoder.m */,
-				AA4282D8221883EC00FC829F /* BibJSONDecoderError.h */,
-				AA4282D9221883EC00FC829F /* BibJSONDecoderError.m */,
-				AA4282DA221883EC00FC829F /* BibJSONKeyedValueDecoder.h */,
-				AA4282DB221883EC00FC829F /* BibJSONKeyedValueDecoder.m */,
-				AA4282DC221883EC00FC829F /* BibJSONUnkeyedValueDecoder.h */,
-				AA4282DD221883EC00FC829F /* BibJSONUnkeyedValueDecoder.m */,
-				AA4282DE221883EC00FC829F /* BibJSONSingleValueDecoder.h */,
+				AA4282DA221883EC00FC829F /* BibJSONKeyedValueDecodingContainer.h */,
+				AA4282DB221883EC00FC829F /* BibJSONKeyedValueDecodingContainer.m */,
+				AA4282DC221883EC00FC829F /* BibJSONUnkeyedValueDecodingContainer.h */,
+				AA4282DD221883EC00FC829F /* BibJSONUnkeyedValueDecodingContainer.m */,
+				AA4282DE221883EC00FC829F /* BibJSONSingleValueDecodingContainer.h */,
 				AA4282DF221883EC00FC829F /* BibJSONSingleValueDecoder.m */,
 			);
 			path = JSONDecoder;
@@ -142,14 +140,13 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA4282E82218843600FC829F /* BibJSONUnkeyedValueDecoder.h in Headers */,
+				AA4282E82218843600FC829F /* BibJSONUnkeyedValueDecodingContainer.h in Headers */,
 				AA4282C4221883D400FC829F /* BibCoding.h in Headers */,
 				AA4282E42218843600FC829F /* BibDecodable.h in Headers */,
-				AA4282E62218843600FC829F /* BibJSONDecoderError.h in Headers */,
 				AA4282F022188D5A00FC829F /* BibDecoderError.h in Headers */,
 				AA4282E32218843600FC829F /* BibDecoder.h in Headers */,
-				AA4282E92218843600FC829F /* BibJSONSingleValueDecoder.h in Headers */,
-				AA4282E72218843600FC829F /* BibJSONKeyedValueDecoder.h in Headers */,
+				AA4282E92218843600FC829F /* BibJSONSingleValueDecodingContainer.h in Headers */,
+				AA4282E72218843600FC829F /* BibJSONKeyedValueDecodingContainer.h in Headers */,
 				AA4282E52218843600FC829F /* BibJSONDecoder.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -250,9 +247,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA4282F72218BC5B00FC829F /* BibJSONUnkeyedValueDecodingContainer.m in Sources */,
+				AA4282F52218BC5B00FC829F /* BibJSONDecoder.m in Sources */,
+				AA4282F82218BC5B00FC829F /* BibJSONSingleValueDecoder.m in Sources */,
+				AA4282F62218BC5B00FC829F /* BibJSONKeyedValueDecodingContainer.m in Sources */,
 				AA4282EC22188C9200FC829F /* BibDecoder.m in Sources */,
 				AA4282F122188D5A00FC829F /* BibDecoderError.m in Sources */,
-				AA4282ED22188D3500FC829F /* BibJSONDecoderError.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
