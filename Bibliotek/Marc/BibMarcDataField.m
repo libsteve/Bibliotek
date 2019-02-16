@@ -6,6 +6,7 @@
 //  Copyright © 2019 Steve Brunwasser. All rights reserved.
 //
 
+#import <BibCoding/BibCoding.h>
 #import "BibMarcDataField.h"
 #import "BibMarcIndicator.h"
 #import "BibMarcSubfield.h"
@@ -93,6 +94,42 @@ static NSString *const kSubfieldsKey = @"subfields";
 }
 
 + (BOOL)supportsSecureCoding { return YES; }
+
+- (instancetype)initWithDecoder:(BibDecoder *)decoder error:(NSError *__autoreleasing *)error {
+    guard ([[decoder mimeType] containsString:@"application/json"]) {
+        guard (error) { return nil; }
+        *error = [NSError errorWithDomain:@"brun.steve.bibliotek.marc-record.decoder" code:1 userInfo:nil];
+        return nil;
+    }
+    NSDictionary *const dictionary = [[decoder singleValueContainer:error] decodeDictionary:error];
+    guard (dictionary) { return nil; }
+    NSArray *const keys = [dictionary allKeys];
+    guard ([keys count] == 1) {
+        guard (error) { return nil; }
+        *error = [NSError errorWithDomain:BibDecoderErrorDomain
+                                     code:BibDecoderErrorInvalidData
+                                 userInfo:@{ BibDecoderErrorKeyPathKey : [decoder keyPath],
+                                             BibDecoderErrorInvalidDataKey : dictionary,
+                                             BibDecoderErrorExpectedClassKey : [self class] }];
+        return nil;
+    }
+    BibDecoder *const tagDecoder = [[BibJSONDecoder alloc] initWithKeyPath:[decoder keyPath]
+                                                           jsonRepresentation:[keys firstObject]];
+    BibMarcTag *const tag = [[BibMarcTag alloc] initWithDecoder:tagDecoder error:error];
+    guard (tag) { return nil; }
+    BibDecoder *const bodyDecoder = [[decoder keyedValueContainer:error] nestedDecoderForKey:[keys firstObject]
+                                                                                          error:error];
+    BibKeyedValueDecodingContainer *const container = [bodyDecoder keyedValueContainer:error];
+    NSArray *const subfields = [container decodeArrayWithObjectsOfClass:[BibMarcSubfield class]
+                                                                 forKey:kSubfieldsKey
+                                                                  error:error];
+    guard (subfields) { return nil; }
+    BibMarcIndicator *ind1 = [container decodeObjectOfClass:[BibMarcIndicator class] forKey:kInd1Key error:error];
+    guard (ind1) { return nil; }
+    BibMarcIndicator *ind2 = [container decodeObjectOfClass:[BibMarcIndicator class] forKey:kInd2Key error:error];
+    guard (ind2) { return nil; }
+    return [self initWithTag:tag firstIndicator:ind1 secondIndicator:ind2 subfields:subfields];
+}
 
 #pragma mark - Equality
 

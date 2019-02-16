@@ -73,6 +73,12 @@ static NSString *const kMarc21EntryMap = @"4500";
 
 + (BOOL)supportsSecureCoding { return YES; }
 
+- (instancetype)initWithDecoder:(BibDecoder *)deocder error:(NSError *__autoreleasing *)error {
+    NSString *const string = [[decoder singleValueContainer:error] decodeString:error];
+    guard (string) { return nil; }
+    return [self initWithString:string error:error];
+}
+
 #pragma mark - Equality
 
 - (BOOL)isEqualToLeader:(BibMarcLeader *)leader {

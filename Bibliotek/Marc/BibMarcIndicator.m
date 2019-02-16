@@ -55,6 +55,22 @@
     [aCoder encodeObject:_stringValue];
 }
 
+- (instancetype)initWithDecoder:(BibDecoder *)decoder error:(NSError *__autoreleasing *)error {
+    NSString *const string = [[decoder singleValueContainer:error] decodeString:error];
+    guard (string) { return nil; }
+    BibMarcIndicator *const indicator = [self initWithString:string];
+    guard (indicator) {
+        guard (error) { return nil; }
+        *error = [NSError errorWithDomain:BibDecoderErrorDomain
+                                     code:BibDecoderErrorInvalidData
+                                 userInfo:@{ BibDecoderErrorKeyPathKey : [decoder keyPath],
+                                             BibDecoderErrorInvalidDataKey : string,
+                                             BibDecoderErrorExpectedClassKey : [self class] }];
+        return nil;
+    }
+    return indicator;
+}
+
 #pragma mark - Equality
 
 - (BOOL)isEqualToIndicator:(BibMarcIndicator *)indicator {

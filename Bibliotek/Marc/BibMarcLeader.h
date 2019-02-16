@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <BibCoding/BibCoding.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// More information about the MARC 21 leader can be found in the Library of Congress's documentation on
 /// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html#leader.
 NS_SWIFT_NAME(MarcLeader)
-@interface BibMarcLeader : NSObject <NSSecureCoding>
+@interface BibMarcLeader : NSObject <NSSecureCoding, BibDecodable>
 
 /// The raw string representation of the leader data.
 @property (nonatomic, copy, readonly) NSString *stringValue;

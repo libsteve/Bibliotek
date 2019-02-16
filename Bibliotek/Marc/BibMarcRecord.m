@@ -6,10 +6,18 @@
 //  Copyright © 2019 Steve Brunwasser. All rights reserved.
 //
 
+#import "BibConstants.h"
 #import "BibMarcControlField.h"
 #import "BibMarcDataField.h"
 #import "BibMarcLeader.h"
 #import "BibMarcRecord.h"
+
+#define guard(predicate) if (!((predicate)))
+
+static NSString *const kLeaderKey = @"leader";
+static NSString *const kControlFieldsKey = @"controlfields";
+static NSString *const kDataFieldsKey = @"datafields";
+static NSString *const kFieldsKey = @"fields";
 
 @implementation BibMarcRecord {
 @protected
@@ -52,15 +60,15 @@
 #pragma mark - Coding
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    return [self initWithLeader:[aDecoder decodeObjectForKey:@"leader"]
-                  controlFields:[aDecoder decodeObjectForKey:@"controlfields"]
-                     dataFields:[aDecoder decodeObjectForKey:@"datafields"]];
+    return [self initWithLeader:[aDecoder decodeObjectForKey:kLeaderKey]
+                  controlFields:[aDecoder decodeObjectForKey:kControlFieldsKey]
+                     dataFields:[aDecoder decodeObjectForKey:kDataFieldsKey]];
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeObject:_leader forKey:@"leader"];
-    [aCoder encodeObject:_controlFields forKey:@"controlfields"];
-    [aCoder encodeObject:_dataFields forKey:@"datafields"];
+    [aCoder encodeObject:_leader forKey:kLeaderKey];
+    [aCoder encodeObject:_controlFields forKey:kControlFieldsKey];
+    [aCoder encodeObject:_dataFields forKey:kDataFieldsKey];
 }
 
 + (BOOL)supportsSecureCoding { return YES; }

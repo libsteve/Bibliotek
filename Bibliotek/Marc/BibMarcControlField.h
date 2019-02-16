@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <BibCoding/BibCoding.h>
 
 @class BibMarcTag;
 
@@ -17,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// More information about MARC 21 records can be found in the Library of Congress's documentation on
 /// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html.
 NS_SWIFT_NAME(MarcControlField)
-@interface BibMarcControlField : NSObject <NSCopying, NSMutableCopying, NSSecureCoding>
+@interface BibMarcControlField : NSObject <NSCopying, NSMutableCopying, NSSecureCoding, BibDecodable>
 
 /// A three-digit code used to identify this control field's semantic purpose.
 @property (nonatomic, strong, readonly) BibMarcTag *tag;
@@ -29,6 +30,9 @@ NS_SWIFT_NAME(MarcControlField)
 
 + (nullable instancetype)controlFieldWithTag:(BibMarcTag *)tag
                                      content:(NSString *)content NS_SWIFT_UNAVAILABLE("Use init(tag:content:)");
+
+- (nullable instancetype)initWithJsonRepresentation:(NSDictionary *)jsonRepresentation
+                                              error:(NSError *_Nullable __autoreleasing *_Nullable)error;
 
 /// Determine whether or not the given control field represents the same data as the receiver.
 /// \param controlField The control field with which the receiver should be compared.

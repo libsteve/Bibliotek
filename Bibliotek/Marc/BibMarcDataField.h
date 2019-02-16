@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <BibCoding/BibCoding.h>
 
 @class BibMarcIndicator;
 @class BibMarcSubfield;
@@ -19,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// More information about MARC 21 records can be found in the Library of Congress's documentation on
 /// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html.
 NS_SWIFT_NAME(MarcDataField)
-@interface BibMarcDataField : NSObject <NSCopying, NSMutableCopying, NSSecureCoding>
+@interface BibMarcDataField : NSObject <NSCopying, NSMutableCopying, NSSecureCoding, BibDecodable>
 
 @property (nonatomic, strong, readonly) BibMarcTag *tag;
 @property (nonatomic, strong, readonly) BibMarcIndicator *firstIndicator;

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <BibCoding/BibCoding.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Indicators are always a signle ASCII alphanumeric character.
 NS_SWIFT_NAME(MarcIndicator)
-@interface BibMarcIndicator : NSObject <NSSecureCoding>
+@interface BibMarcIndicator : NSObject <NSSecureCoding, BibDecodable>
 
 /// A string representation of the indicator's code.
 @property (nonatomic, strong, readonly) NSString *stringValue NS_SWIFT_NAME(rawValue);

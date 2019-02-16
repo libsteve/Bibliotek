@@ -56,6 +56,18 @@
 
 + (BOOL)supportsSecureCoding { return YES; }
 
+- (instancetype)initWithDecoder:(id<BibDecoder>)decoder error:(NSError *__autoreleasing  _Nullable *)error {
+    NSString *const string = [[decoder singleValueDecoder:error] decodeString:error];
+    guard (string) { return nil; }
+    BibMarcTag *const tag = [self initWithString:string];
+    guard (tag) {
+        guard (error) { return nil; }
+        // TODO: create error
+        return nil;
+    }
+    return tag;
+}
+
 #pragma mark - Equality
 
 - (BOOL)isEqualToTag:(BibMarcTag *)tag {

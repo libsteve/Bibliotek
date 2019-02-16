@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <BibCoding/BibCoding.h>
 
 @class BibMarcSubfieldCode;
 
@@ -17,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Each subfield's code marks the semantic meaning of its content, which is determined by the record field's tag
 /// as defined in the appropriate MARC 21 format specification.
 NS_SWIFT_NAME(MarcSubfield)
-@interface BibMarcSubfield : NSObject <NSCopying, NSMutableCopying, NSSecureCoding>
+@interface BibMarcSubfield : NSObject <NSCopying, NSMutableCopying, NSSecureCoding, BibDecodable>
 
 /// A record subfield's code identifies the semantic purpose of the content within a subfield.
 ///

@@ -35,6 +35,9 @@
 		AA37677720CD7A7500CF101D /* BibMarcRecordField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA37677620CD7A7500CF101D /* BibMarcRecordField.swift */; };
 		AA37678620CD905900CF101D /* BibMarcRecordField.h in Headers */ = {isa = PBXBuildFile; fileRef = AA37678420CD905900CF101D /* BibMarcRecordField.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA37678720CD905900CF101D /* BibMarcRecordField.m in Sources */ = {isa = PBXBuildFile; fileRef = AA37678520CD905900CF101D /* BibMarcRecordField.m */; };
+		AA42828722147D6000FC829F /* BibMarcRecord+Decodable.h in Headers */ = {isa = PBXBuildFile; fileRef = AA42828522147D6000FC829F /* BibMarcRecord+Decodable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA42828822147D6000FC829F /* BibMarcRecord+Decodable.m in Sources */ = {isa = PBXBuildFile; fileRef = AA42828622147D6000FC829F /* BibMarcRecord+Decodable.m */; };
+		AA4282FB2218C24700FC829F /* BibCoding.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA4282D3221883D700FC829F /* BibCoding.framework */; };
 		AA51EA8B211AA98B00BF28BE /* BibConnectionOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = AA51EA89211AA98B00BF28BE /* BibConnectionOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA51EA8C211AA98B00BF28BE /* BibConnectionOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA51EA8A211AA98B00BF28BE /* BibConnectionOptions.m */; };
 		AA51EA8E211AAAEB00BF28BE /* BibConnectionOptions+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = AA51EA8D211AAAEA00BF28BE /* BibConnectionOptions+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -92,6 +95,27 @@
 			remoteGlobalIDString = AA5900E620AA274F00D41982;
 			remoteInfo = libyaz;
 		};
+		AA4282D2221883D700FC829F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA4282CD221883D400FC829F /* BibCoding.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AA4282B3221883D400FC829F;
+			remoteInfo = BibCoding;
+		};
+		AA4282D4221883D700FC829F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA4282CD221883D400FC829F /* BibCoding.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AA4282BC221883D400FC829F;
+			remoteInfo = BibCodingTests;
+		};
+		AA4282FC2218C25300FC829F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA4282CD221883D400FC829F /* BibCoding.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AA4282B2221883D400FC829F;
+			remoteInfo = BibCoding;
+		};
 		AAAA428A20B9F32A00BDB52B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AA59F0C920A9FACF00D41982 /* Project object */;
@@ -144,6 +168,9 @@
 		AA37678420CD905900CF101D /* BibMarcRecordField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibMarcRecordField.h; sourceTree = "<group>"; };
 		AA37678520CD905900CF101D /* BibMarcRecordField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibMarcRecordField.m; sourceTree = "<group>"; };
 		AA37678820CDB34000CF101D /* Brewfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Brewfile; sourceTree = "<group>"; };
+		AA42828522147D6000FC829F /* BibMarcRecord+Decodable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BibMarcRecord+Decodable.h"; sourceTree = "<group>"; };
+		AA42828622147D6000FC829F /* BibMarcRecord+Decodable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "BibMarcRecord+Decodable.m"; sourceTree = "<group>"; };
+		AA4282CD221883D400FC829F /* BibCoding.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BibCoding.xcodeproj; path = BibCoding/BibCoding.xcodeproj; sourceTree = "<group>"; };
 		AA51EA89211AA98B00BF28BE /* BibConnectionOptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibConnectionOptions.h; sourceTree = "<group>"; };
 		AA51EA8A211AA98B00BF28BE /* BibConnectionOptions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibConnectionOptions.m; sourceTree = "<group>"; };
 		AA51EA8D211AAAEA00BF28BE /* BibConnectionOptions+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BibConnectionOptions+Private.h"; sourceTree = "<group>"; };
@@ -197,6 +224,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA4282FB2218C24700FC829F /* BibCoding.framework in Frameworks */,
 				AA14E83720D8D2AD00430A87 /* libyaz.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -232,6 +260,8 @@
 				AA258AF721FD63EE00CDF88E /* BibMarcLeader.m */,
 				AA258AD821F78B3C00CDF88E /* BibMarcRecord.h */,
 				AA258AD921F78B3C00CDF88E /* BibMarcRecord.m */,
+				AA42828522147D6000FC829F /* BibMarcRecord+Decodable.h */,
+				AA42828622147D6000FC829F /* BibMarcRecord+Decodable.m */,
 				AA258AE421F78BB700CDF88E /* BibMarcSubfield.h */,
 				AA258AE521F78BB700CDF88E /* BibMarcSubfield.m */,
 				AA258B082207BBEF00CDF88E /* BibMarcSubfieldCode.h */,
@@ -286,9 +316,19 @@
 			path = RecordList;
 			sourceTree = "<group>";
 		};
+		AA4282CE221883D400FC829F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AA4282D3221883D700FC829F /* BibCoding.framework */,
+				AA4282D5221883D700FC829F /* BibCodingTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		AA59F0C820A9FACF00D41982 = {
 			isa = PBXGroup;
 			children = (
+				AA4282CD221883D400FC829F /* BibCoding.xcodeproj */,
 				AA59F0D420A9FACF00D41982 /* Bibliotek */,
 				AAAA428520B9F32A00BDB52B /* BibliotekTests */,
 				AA9F66D120D0C0F000CE4DA7 /* Bibliotek.playground */,
@@ -411,6 +451,7 @@
 				AA59056E20AB489200D41982 /* BibRecord.h in Headers */,
 				AA51EA91211AB79A00BF28BE /* BibConnectionEndpoint.h in Headers */,
 				AA258AE221F78B7F00CDF88E /* BibMarcDataField.h in Headers */,
+				AA42828722147D6000FC829F /* BibMarcRecord+Decodable.h in Headers */,
 				AA258AF821FD63EE00CDF88E /* BibMarcLeader.h in Headers */,
 				AA59056820AB419C00D41982 /* BibConnection+Private.h in Headers */,
 				AA258AF421FCEF7800CDF88E /* BibMarcIndicator.h in Headers */,
@@ -478,6 +519,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				AA4282FD2218C25300FC829F /* PBXTargetDependency */,
 				AA14E83920D8D34000430A87 /* PBXTargetDependency */,
 			);
 			name = Bibliotek;
@@ -535,6 +577,12 @@
 			mainGroup = AA59F0C820A9FACF00D41982;
 			productRefGroup = AA59F0D320A9FACF00D41982 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = AA4282CE221883D400FC829F /* Products */;
+					ProjectRef = AA4282CD221883D400FC829F /* BibCoding.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				AA59F0D120A9FACF00D41982 /* Bibliotek */,
@@ -544,6 +592,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		AA4282D3221883D700FC829F /* BibCoding.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = BibCoding.framework;
+			remoteRef = AA4282D2221883D700FC829F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AA4282D5221883D700FC829F /* BibCodingTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = BibCodingTests.xctest;
+			remoteRef = AA4282D4221883D700FC829F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		AA59F0D020A9FACF00D41982 /* Resources */ = {
@@ -597,6 +662,7 @@
 				AAB0151B2106F14800B112E2 /* BibDeweyDecimalCallNumber.m in Sources */,
 				AAD18C842105277600988B35 /* BibClassificationSystem.swift in Sources */,
 				AA9406F720FF90C60006FEB4 /* _BibMarcRecord.m in Sources */,
+				AA42828822147D6000FC829F /* BibMarcRecord+Decodable.m in Sources */,
 				AADE536620CE2E8F0043CE5B /* BibRecordList.swift in Sources */,
 				AAB015172106D9D900B112E2 /* BibLibraryOfCongressCallNumber.m in Sources */,
 				AA9406FD20FFA45E0006FEB4 /* _BibMarcRecord.swift in Sources */,
@@ -623,6 +689,11 @@
 			isa = PBXTargetDependency;
 			target = AA5900E620AA274F00D41982 /* libyaz */;
 			targetProxy = AA14E83820D8D34000430A87 /* PBXContainerItemProxy */;
+		};
+		AA4282FD2218C25300FC829F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = BibCoding;
+			targetProxy = AA4282FC2218C25300FC829F /* PBXContainerItemProxy */;
 		};
 		AAAA428B20B9F32A00BDB52B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

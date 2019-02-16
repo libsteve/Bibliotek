@@ -7,11 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <BibCoding/BibCoding.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(MarcSubfield.Code)
-@interface BibMarcSubfieldCode : NSObject <NSSecureCoding>
+@interface BibMarcSubfieldCode : NSObject <NSSecureCoding, BibDecodable>
 
 /// A string representation of the subfield code.
 @property (nonatomic, strong, readonly) NSString *stringValue NS_SWIFT_NAME(rawValue);

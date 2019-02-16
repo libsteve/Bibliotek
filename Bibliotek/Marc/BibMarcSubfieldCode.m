@@ -53,6 +53,23 @@
 
 + (BOOL)supportsSecureCoding { return YES; }
 
+- (instancetype)initWithDecoder:(BibDecoder *)decoder error:(NSError *__autoreleasing *)error {
+    BibSingleValueDecodingContainer *const container = [decoder singleValueContainer:error];
+    NSString *const string = [container decodeString:error];
+    guard (string) { return nil; }
+    BibMarcSubfieldCode *const code = [self initWithString:string];
+    guard (code) {
+        guard (error) { return nil; }
+        *error = [NSError errorWithDomain:BibDecoderErrorDomain
+                                     code:BibDecoderErrorInvalidData
+                                 userInfo:@{ BibDecoderErrorKeyPathKey : [decoder keyPath],
+                                             BibDecoderErrorInvalidDataKey : string,
+                                             BibDecoderErrorExpectedClassKey : [self class] }];
+        return nil;
+    }
+    return code;
+}
+
 #pragma mark - Equality
 
 - (BOOL)isEqualToSubfieldCode:(BibMarcSubfieldCode *)subfieldCode {

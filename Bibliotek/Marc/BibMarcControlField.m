@@ -10,7 +10,6 @@
 #import "BibMarcTag.h"
 #import "NSCharacterSet+BibASCIICharacterSet.h"
 #import "NSString+BibCharacterSetValidation.h"
-#import <os/log.h>
 
 #define guard(predicate) if(!((predicate)))
 
@@ -68,6 +67,33 @@ static BOOL sIsValidTag(NSString *tag);
 }
 
 + (BOOL)supportsSecureCoding { return YES; }
+
+- (instancetype)initWithDecoder:(BibDecoder *)decoder error:(NSError *__autoreleasing *)error {
+    guard ([[decoder mimeType] containsString:@"application/json"]) {
+        guard (error) { return nil; }
+        *error = [NSError errorWithDomain:@"brun.steve.bibliotek.marc-record.decoder" code:1 userInfo:nil];
+        return nil;
+    }
+    NSDictionary *const dictionary = [[decoder singleValueContainer:error] decodeDictionary:error];
+    guard (dictionary) { return nil; }
+    NSArray *const keys = [dictionary allKeys];
+    guard ([keys count] == 1) {
+        guard (error) { return nil; }
+        *error = [NSError errorWithDomain:BibDecoderErrorDomain
+                                     code:BibDecoderErrorInvalidData
+                                 userInfo:@{ BibDecoderErrorKeyPathKey : [decoder keyPath],
+                                             BibDecoderErrorInvalidDataKey : dictionary,
+                                             BibDecoderErrorExpectedClassKey : [self class] }];
+        return nil;
+    }
+    BibDecoder *const tagDecoder = [[BibJSONDecoder alloc] initWithKeyPath:[decoder keyPath]
+                                                        jsonRepresentation:[keys firstObject]];
+    BibMarcTag *const tag = [[BibMarcTag alloc] initWithDecoder:tagDecoder error:error];
+    guard (tag) { return nil; }
+    NSString *const content = [[decoder keyedValueContainer:error] decodeStringForKey:[keys firstObject] error:error];
+    guard (content) { return nil; }
+    return [self initWithTag:tag content:content];
+}
 
 #pragma mark - Equality
 

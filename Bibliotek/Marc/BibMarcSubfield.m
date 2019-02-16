@@ -12,6 +12,8 @@
 static NSString *const kCodeKey = @"code";
 static NSString *const kContentKey = @"content";
 
+#define guard(predicate) if(!((predicate)))
+
 @implementation BibMarcSubfield {
 @protected
     BibMarcSubfieldCode *_code;
@@ -61,6 +63,33 @@ static NSString *const kContentKey = @"content";
 }
 
 + (BOOL)supportsSecureCoding { return YES; }
+
+- (instancetype)initWithDecoder:(BibDecoder *)decoder error:(NSError *__autoreleasing *)error {
+    guard ([[decoder mimeType] containsString:@"application/json"]) {
+        guard (error) { return nil; }
+        *error = [NSError errorWithDomain:@"brun.steve.bibliotek.marc-record.decoder" code:1 userInfo:nil];
+        return nil;
+    }
+    NSDictionary *const dictionary = [[decoder singleValueContainer:error] decodeDictionary:error];
+    guard (dictionary) { return nil; }
+    NSArray *const keys = [dictionary allKeys];
+    guard ([keys count] == 1) {
+        guard (error) { return nil; }
+        *error = [NSError errorWithDomain:BibDecoderErrorDomain
+                                     code:BibDecoderErrorInvalidData
+                                 userInfo:@{ BibDecoderErrorKeyPathKey : [decoder keyPath],
+                                             BibDecoderErrorInvalidDataKey : dictionary,
+                                             BibDecoderErrorExpectedClassKey : [self class] }];
+        return nil;
+    }
+    BibDecoder *const codeDecoder = [[BibJSONDecoder alloc] initWithKeyPath:[decoder keyPath]
+                                                        jsonRepresentation:[keys firstObject]];
+    BibMarcSubfieldCode *const code = [[BibMarcSubfieldCode alloc] initWithDecoder:codeDecoder error:error];
+    guard (code) { return nil; }
+    NSString *const content = [[decoder keyedValueContainer:error] decodeStringForKey:[keys firstObject] error:error];
+    guard (content) { return nil; }
+    return [self initWithCode:code content:content];
+}
 
 #pragma mark - Equality
 

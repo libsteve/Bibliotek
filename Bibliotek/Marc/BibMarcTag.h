@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <BibCoding/BibCoding.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// each define their own semantic meanings for reserved tag values. Documentation on these formats is publically
 /// available at https://www.loc.gov/marc/.
 NS_SWIFT_NAME(MarcTag)
-@interface BibMarcTag : NSObject <NSSecureCoding>
+@interface BibMarcTag : NSObject <NSSecureCoding, BibDecodable>
 
 /// A string representation of the tag's 3-digit code.
 @property (nonatomic, strong, readonly) NSString *stringValue NS_SWIFT_NAME(rawValue);
