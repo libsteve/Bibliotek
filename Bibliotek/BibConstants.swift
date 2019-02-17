@@ -36,36 +36,6 @@ extension FetchRequest.SearchStrategy: CustomStringConvertible, Equatable, Hasha
     }
 }
 
-extension MarcRecord.FieldTag: CustomStringConvertible, ExpressibleByStringLiteral, Equatable, Hashable {
-    public var description: String {
-        return __BibMarcRecordFieldTagDescription(self)
-    }
-
-    public init(stringLiteral: String) {
-        self.init(stringLiteral)
-    }
-}
-
-extension MarcRecord.FieldIndicator: CustomStringConvertible, ExpressibleByStringLiteral, Equatable, Hashable {
-    public var description: String {
-        return __BibMarcRecordFieldIndicatorDescription(self)
-    }
-
-    public init(stringLiteral: String) {
-        self.init(Int8(stringLiteral.utf8.first?.byteSwapped ?? 0))
-    }
-}
-
-extension MarcRecord.FieldCode: CustomStringConvertible, ExpressibleByStringLiteral, Equatable, Hashable {
-    public var description: String {
-        return __BibMarcRecordFieldCodeDescription(self)
-    }
-
-    public init(stringLiteral: String) {
-        self.init(Int8(stringLiteral.utf8.first?.byteSwapped ?? 0))
-    }
-}
-
 extension Connection.Event: CustomStringConvertible, Equatable, Hashable {
     public var description: String {
         return __BibConnectionEventDescription(self)

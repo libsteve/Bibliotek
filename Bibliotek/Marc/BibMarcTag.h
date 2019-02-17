@@ -31,7 +31,7 @@ NS_SWIFT_NAME(MarcTag)
 /// Create a record field tag from the given string value.
 /// \param stringValue A string containing the 3-digit code representation for a tag.
 /// \pre String codes must be exactly 3 alphanumeric characters.
-- (nullable instancetype)initWithString:(NSString *)stringValue NS_SWIFT_Name(init(rawValue:)) NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithString:(NSString *)stringValue NS_SWIFT_NAME(init(rawValue:)) NS_DESIGNATED_INITIALIZER;
 
 /// Create a record field tag from the given string value.
 /// \param stringValue A string containing the 3-digit code representation for a tag.

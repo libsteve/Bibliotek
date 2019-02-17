@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <BibCoding/BibCoding.h>
 
 //! Project version number for Bibliotek.
 FOUNDATION_EXPORT double BibliotekVersionNumber;
@@ -14,17 +15,18 @@ FOUNDATION_EXPORT double BibliotekVersionNumber;
 //! Project version string for Bibliotek.
 FOUNDATION_EXPORT const unsigned char BibliotekVersionString[];
 
-#import "BibCallNumber.h"
-#import "BibClassificationSystem.h"
 #import "BibConnection.h"
 #import "BibConnectionEndpoint.h"
 #import "BibConnectionOptions.h"
 #import "BibConstants.h"
-#import "BibDeweyDecimalCallNumber.h"
 #import "BibFetchRequest.h"
-#import "BibLibraryOfCongressCallNumber.h"
 #import "BibMarcRecord.h"
-#import "BibMarcRecordField.h"
-#import "BibRecord.h"
-#import "BibRecord+Protocols.h"
+#import "BibMarcControlField.h"
+#import "BibMarcDataField.h"
+#import "BibMarcIndicator.h"
+#import "BibMarcLeader.h"
+#import "BibMarcRecord+Decodable.h"
+#import "BibMarcSubfield.h"
+#import "BibMarcSubfieldCode.h"
+#import "BibMarcTag.h"
 #import "BibRecordList.h"

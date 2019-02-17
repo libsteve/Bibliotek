@@ -31,9 +31,6 @@ NS_SWIFT_NAME(MarcControlField)
 + (nullable instancetype)controlFieldWithTag:(BibMarcTag *)tag
                                      content:(NSString *)content NS_SWIFT_UNAVAILABLE("Use init(tag:content:)");
 
-- (nullable instancetype)initWithJsonRepresentation:(NSDictionary *)jsonRepresentation
-                                              error:(NSError *_Nullable __autoreleasing *_Nullable)error;
-
 /// Determine whether or not the given control field represents the same data as the receiver.
 /// \param controlField The control field with which the receiver should be compared.
 /// \returns Returns \c YES if the given control field and the receiver have the same tag and content data.

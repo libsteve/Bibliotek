@@ -6,12 +6,14 @@
 //  Copyright © 2018 Steve Brunwasser. All rights reserved.
 //
 
+#import <BibCoding/BibCoding.h>
+
 #import "BibConnection.h"
 #import "BibConnection+Private.h"
 #import "BibFetchRequest.h"
 #import "BibFetchRequest+Private.h"
-#import "_BibMarcRecord.h"
-#import "BibMarcRecord+Private.h"
+#import "BibMarcRecord.h"
+#import "BibMarcRecord+Decodable.h"
 #import "BibRecordList.h"
 #import "BibRecordList+Private.h"
 #import <yaz/zoom.h>
@@ -54,30 +56,43 @@
     return [_request copy];
 }
 
-- (id<BibRecord>)firstRecord {
+- (BibMarcRecord *)firstRecord {
     return ([self count] == 0) ? nil : [self recordAtIndex:0];
 }
 
-- (id<BibRecord>)lastRecord {
+- (BibMarcRecord *)lastRecord {
     NSUInteger const count = [self count];
     return (count == 0) ? nil : [self recordAtIndex:count - 1];
 }
 
-- (NSArray<id<BibRecord>> *)allRecords {
+- (NSArray<BibMarcRecord *> *)allRecords {
     return [[self recordEnumerator] allObjects];
 }
 
-- (NSEnumerator<id<BibRecord>> *)recordEnumerator {
+- (NSEnumerator<BibMarcRecord *> *)recordEnumerator {
     return [[BibRecordListEnumerator alloc] initWithRecordList:self];
 }
 
-- (id<BibRecord>)recordAtIndex:(NSUInteger)index {
-    BibAssert(index < [self count], NSRangeException, @"-[%@ %s]: index %lu beyond bounds (0 ..< %lu)", [self className], sel_getName(_cmd), (unsigned long)index, (unsigned long)[self count]);
-    ZOOM_record record = ZOOM_resultset_record(_resultset, (size_t)index);
-    return [[_BibMarcRecord alloc] initWithZoomRecord:record fromRecordList:self];
+- (BibMarcRecord *)marcRecordFromZoomRecord:(ZOOM_record)zoomRecord error:(NSError *__autoreleasing *)error {
+    int length = 0;
+    char const *const type = "json; charset=marc8";
+    char const *const bytes = ZOOM_record_get(zoomRecord, type, &length);
+    NSData *const data = [NSData dataWithBytes:bytes length:length];
+    BibDecoder *decoder = [[BibJsonDecoder alloc] initWithData:data error:error];
+    if (decoder == nil) { return nil; }
+    return [[BibMarcRecord alloc] initWithDecoder:decoder error:error];
 }
 
-- (NSArray<id<BibRecord>> *)recordsAtIndexes:(NSIndexSet *)indexes {
+- (BibMarcRecord *)recordAtIndex:(NSUInteger)index {
+    BibAssert(index < [self count], NSRangeException, @"-[%@ %s]: index %lu beyond bounds (0 ..< %lu)", [self className], sel_getName(_cmd), (unsigned long)index, (unsigned long)[self count]);
+    ZOOM_record zoomRecord = ZOOM_resultset_record(_resultset, (size_t)index);
+    NSError *error = nil;
+    BibMarcRecord *record = [self marcRecordFromZoomRecord:zoomRecord error:&error];
+    BibAssert(error == nil, @"BibInvalidRecordRepresentation", @"Cannot read MARC record");
+    return record;
+}
+
+- (NSArray<BibMarcRecord *> *)recordsAtIndexes:(NSIndexSet *)indexes {
     NSMutableArray *array = [NSMutableArray array];
     [indexes enumerateIndexesUsingBlock:^(NSUInteger index, BOOL *_Nonnull stop) {
         [array addObject:[self recordAtIndex:index]];
@@ -85,21 +100,24 @@
     return [array copy];
 }
 
-- (NSArray<id<BibRecord>> *)recordsInRange:(NSRange)range {
+- (NSArray<BibMarcRecord *> *)recordsInRange:(NSRange)range {
     BibAssert(range.location + range.length <= [self count], NSRangeException, @"-[%@ %s]: NSRange(location: %lu, length: %lu) beyond bounds (0 ..< %lu)", [self className], sel_getName(_cmd), (unsigned long)range.location, (unsigned long)range.length, (long)[self count]);
     NSMutableArray *array = [NSMutableArray array];
     ZOOM_record *buffer = calloc(sizeof(ZOOM_record), range.length);
     ZOOM_resultset_records(_resultset, buffer, (size_t)range.location, (size_t)range.location);
     for (NSUInteger index = 0; index < range.location; index += 1) {
-        ZOOM_record record = buffer[index];
-        if (record == NULL) { break; }
-        [array addObject:[[_BibMarcRecord alloc] initWithZoomRecord:record fromRecordList:self]];
+        ZOOM_record zoomRecord = buffer[index];
+        if (zoomRecord == NULL) { break; }
+        NSError *error = nil;
+        BibMarcRecord *record = [self marcRecordFromZoomRecord:zoomRecord error:&error];
+        BibAssert(error == nil, @"BibInvalidRecordRepresentation", @"Cannot read MARC record");
+        [array addObject:record];
     }
     free(buffer);
     return [array copy];
 }
 
-- (id<BibRecord>)objectAtIndexedSubscript:(NSUInteger)index {
+- (BibMarcRecord *)objectAtIndexedSubscript:(NSUInteger)index {
     return [self recordAtIndex:index];
 }
 
@@ -127,9 +145,9 @@
     return self;
 }
 
-- (id<BibRecord>)nextObject {
+- (BibMarcRecord *)nextObject {
     if (_index >= _records.count) { return nil; }
-    id<BibRecord> record = [_records recordAtIndex:_index];
+    BibMarcRecord * record = [_records recordAtIndex:_index];
     _index += 1;
     return record;
 }

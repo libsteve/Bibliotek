@@ -30,7 +30,7 @@ public class RecordListIterator: IteratorProtocol {
         self.enumerator = enumerator
     }
 
-    public func next() -> AnyRecord? {
-        return enumerator.nextObject() as? Record
+    public func next() -> MarcRecord? {
+        return enumerator.nextObject() as? MarcRecord
     }
 }

@@ -8,6 +8,8 @@
 
 #import "NSString+BibCharacterSetValidation.h"
 
+#define guard(predicate) if (!((predicate)))
+
 @implementation NSString (BibCharacterSetValidation)
 
 - (BOOL)bib_isRestrictedToCharacterSet:(NSCharacterSet *)characterSet inRange:(NSRange)range {

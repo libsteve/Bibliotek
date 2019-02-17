@@ -56,8 +56,8 @@
 
 + (BOOL)supportsSecureCoding { return YES; }
 
-- (instancetype)initWithDecoder:(id<BibDecoder>)decoder error:(NSError *__autoreleasing  _Nullable *)error {
-    NSString *const string = [[decoder singleValueDecoder:error] decodeString:error];
+- (instancetype)initWithDecoder:(BibDecoder *)decoder error:(NSError *__autoreleasing  _Nullable *)error {
+    NSString *const string = [[decoder singleValueContainer:error] decodeString:error];
     guard (string) { return nil; }
     BibMarcTag *const tag = [self initWithString:string];
     guard (tag) {

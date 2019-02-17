@@ -16,8 +16,6 @@
 static NSString *const kTagKey = @"tag";
 static NSString *const kContentKey = @"content";
 
-static BOOL sIsValidTag(NSString *tag);
-
 @implementation BibMarcControlField {
 @protected
     BibMarcTag *_tag;
