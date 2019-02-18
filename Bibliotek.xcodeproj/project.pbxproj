@@ -206,24 +206,7 @@
 		AA258AD721F78AF600CDF88E /* Marc */ = {
 			isa = PBXGroup;
 			children = (
-				AA258ADC21F78B6900CDF88E /* BibMarcControlField.h */,
-				AA258ADD21F78B6900CDF88E /* BibMarcControlField.m */,
-				AA258AE021F78B7F00CDF88E /* BibMarcDataField.h */,
-				AA258AE121F78B7F00CDF88E /* BibMarcDataField.m */,
-				AA258AF221FCEF7800CDF88E /* BibMarcIndicator.h */,
-				AA258AF321FCEF7800CDF88E /* BibMarcIndicator.m */,
-				AA258AF621FD63EE00CDF88E /* BibMarcLeader.h */,
-				AA258AF721FD63EE00CDF88E /* BibMarcLeader.m */,
-				AA258AD821F78B3C00CDF88E /* BibMarcRecord.h */,
-				AA258AD921F78B3C00CDF88E /* BibMarcRecord.m */,
-				AA42828522147D6000FC829F /* BibMarcRecord+Decodable.h */,
-				AA42828622147D6000FC829F /* BibMarcRecord+Decodable.m */,
-				AA258AE421F78BB700CDF88E /* BibMarcSubfield.h */,
-				AA258AE521F78BB700CDF88E /* BibMarcSubfield.m */,
-				AA258B082207BBEF00CDF88E /* BibMarcSubfieldCode.h */,
-				AA258B092207BBEF00CDF88E /* BibMarcSubfieldCode.m */,
-				AA258AE821F8DDA900CDF88E /* BibMarcTag.h */,
-				AA258AE921F8DDA900CDF88E /* BibMarcTag.m */,
+				AA428315221B573E00FC829F /* Record */,
 			);
 			path = Marc;
 			sourceTree = "<group>";
@@ -267,6 +250,31 @@
 				AA4282D5221883D700FC829F /* BibCodingTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		AA428315221B573E00FC829F /* Record */ = {
+			isa = PBXGroup;
+			children = (
+				AA258ADC21F78B6900CDF88E /* BibMarcControlField.h */,
+				AA258ADD21F78B6900CDF88E /* BibMarcControlField.m */,
+				AA258AE021F78B7F00CDF88E /* BibMarcDataField.h */,
+				AA258AE121F78B7F00CDF88E /* BibMarcDataField.m */,
+				AA258AF221FCEF7800CDF88E /* BibMarcIndicator.h */,
+				AA258AF321FCEF7800CDF88E /* BibMarcIndicator.m */,
+				AA258AF621FD63EE00CDF88E /* BibMarcLeader.h */,
+				AA258AF721FD63EE00CDF88E /* BibMarcLeader.m */,
+				AA258AD821F78B3C00CDF88E /* BibMarcRecord.h */,
+				AA258AD921F78B3C00CDF88E /* BibMarcRecord.m */,
+				AA42828522147D6000FC829F /* BibMarcRecord+Decodable.h */,
+				AA42828622147D6000FC829F /* BibMarcRecord+Decodable.m */,
+				AA258AE421F78BB700CDF88E /* BibMarcSubfield.h */,
+				AA258AE521F78BB700CDF88E /* BibMarcSubfield.m */,
+				AA258B082207BBEF00CDF88E /* BibMarcSubfieldCode.h */,
+				AA258B092207BBEF00CDF88E /* BibMarcSubfieldCode.m */,
+				AA258AE821F8DDA900CDF88E /* BibMarcTag.h */,
+				AA258AE921F8DDA900CDF88E /* BibMarcTag.m */,
+			);
+			path = Record;
 			sourceTree = "<group>";
 		};
 		AA59F0C820A9FACF00D41982 = {
