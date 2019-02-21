@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// \discussion Data fields hold data within labeled subfields.
 /// Each subfield's identifier marks the semantic meaning of its content, which is determined by the record field's tag
 /// as defined in the appropriate MARC 21 format specification.
+NS_SWIFT_NAME(Record.Subfield)
 @interface BibRecordSubfield : NSObject
 
 /// A record subfield's identifier identifies the semantic purpose of the content within a subfield.

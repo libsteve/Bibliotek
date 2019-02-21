@@ -37,7 +37,7 @@ static NSRange const kIdentifierRange = {1, 1};
 #pragma mark - Equality
 
 - (BOOL)isEqualToSubfield:(BibRecordSubfield *)subfield {
-    return [_identifier isEqualToString:[subfield code]] && [_content isEqualToString:[subfield content]];
+    return [_identifier isEqualToString:[subfield identifier]] && [_content isEqualToString:[subfield content]];
 }
 
 - (BOOL)isEqual:(id)other {

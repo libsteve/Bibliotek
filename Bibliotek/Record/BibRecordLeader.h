@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// More information about the MARC 21 leader can be found in the Library of Congress's documentation on
 /// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html#leader.
+NS_SWIFT_NAME(Record.Leader)
 @interface BibRecordLeader : NSObject
 
 /// The raw string representation of the leader data.

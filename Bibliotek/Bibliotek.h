@@ -23,8 +23,8 @@ FOUNDATION_EXPORT const unsigned char BibliotekVersionString[];
 #import "BibRecordList.h"
 
 #import "BibRecord.h"
-#import "BibLeader.h"
-#import "BibDirectoryEntry.h"
-#import "BibControlField.h"
-#import "BibDataField.h"
-#import "BibSubfield.h"
+#import "BibRecordLeader.h"
+#import "BibRecordDirectoryEntry.h"
+#import "BibRecordControlField.h"
+#import "BibRecordDataField.h"
+#import "BibRecordSubfield.h"

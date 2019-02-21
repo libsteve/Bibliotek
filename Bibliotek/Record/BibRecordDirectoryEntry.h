@@ -10,6 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+NS_SWIFT_NAME(Record.DirectoryEntry)
 @interface BibRecordDirectoryEntry : NSObject
 
 @property (nonatomic, copy, readonly) NSString *fieldTag;
