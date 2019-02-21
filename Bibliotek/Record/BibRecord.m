@@ -26,15 +26,19 @@ static NSUInteger const kDirectoryEntryLength = 12;
     BibRecordLeader *const leader = [[BibRecordLeader alloc] initWithData:[data subdataWithRange:kLeaderRange]];
     NSUInteger const recordBodyLocation = [leader recordBodyLocation];
     NSMutableArray *const directory = [NSMutableArray array];
-    for (NSUInteger index = NSMaxRange(kLeaderRange); index < recordBodyLocation; index += kDirectoryEntryLength) {
-        NSData *const entryData = [data subdataWithRange:NSMakeRange(index, kDirectoryEntryLength)];
+    NSUInteger const directoryBodyLength = recordBodyLocation - NSMaxRange(kLeaderRange) - 1;
+    NSUInteger const directoryEntryCount = directoryBodyLength / kDirectoryEntryLength;
+    for (NSUInteger index = 0; index < directoryEntryCount; index += 1) {
+        NSUInteger const location = index * kDirectoryEntryLength + NSMaxRange(kLeaderRange);
+        NSData *const entryData = [data subdataWithRange:NSMakeRange(location, kDirectoryEntryLength)];
         [directory addObject:[[BibRecordDirectoryEntry alloc] initWithData:entryData]];
     }
     NSMutableArray *const controlFields = [NSMutableArray array];
     NSMutableArray *const dataFields = [NSMutableArray array];
     for (BibRecordDirectoryEntry *entry in directory) {
         NSString *const fieldTag = [entry fieldTag];
-        NSRange const fieldRange = NSMakeRange(recordBodyLocation + [entry fieldLocation], [entry fieldLength]);
+        NSRange fieldRange = [entry fieldRange];
+        fieldRange.location += recordBodyLocation;
         NSData *const fieldData = [data subdataWithRange:fieldRange];
         if ([fieldTag hasPrefix:@"00"]) {
             [controlFields addObject:[[BibRecordControlField alloc] initWithTag:fieldTag data:fieldData]];
@@ -56,6 +60,12 @@ static NSUInteger const kDirectoryEntryLength = 12;
         _dataFields = [dataFields copy];
     }
     return self;
+}
+
+- (NSString *)description {
+    return [@[ _leader,
+               [_controlFields componentsJoinedByString:@"\n"],
+               [_dataFields componentsJoinedByString:@"\n"] ] componentsJoinedByString:@"\n"];
 }
 
 #pragma mark - Equality

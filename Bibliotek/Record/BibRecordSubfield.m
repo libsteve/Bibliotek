@@ -13,7 +13,7 @@ static NSRange const kIdentifierRange = {1, 1};
 @implementation BibRecordSubfield
 
 - (instancetype)init {
-    return [self initWithIdentifier:@"$a" content:@""];
+    return [self initWithIdentifier:@"a" content:@""];
 }
 
 - (instancetype)initWithData:(NSData *)data {
@@ -32,6 +32,10 @@ static NSRange const kIdentifierRange = {1, 1};
         _content = [content copy];
     }
     return self;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"$%@%@", _identifier, _content];
 }
 
 #pragma mark - Equality

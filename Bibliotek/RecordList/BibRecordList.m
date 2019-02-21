@@ -72,7 +72,7 @@
 
 - (BibRecord *)marcRecordFromZoomRecord:(ZOOM_record)zoomRecord {
     int length = 0;
-    char const *const type = "raw; charset=marc8";
+    char const *const type = "raw; charset=utf8";
     char const *const bytes = ZOOM_record_get(zoomRecord, type, &length);
     NSData *const data = [NSData dataWithBytes:bytes length:length];
     BibRecord *const record = [[BibRecord alloc] initWithData:data];

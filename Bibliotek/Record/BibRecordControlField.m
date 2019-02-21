@@ -29,6 +29,10 @@
     return self;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"%@ %@", _tag, _content];
+}
+
 #pragma mark - Equality
 
 - (BOOL)isEqualToControlField:(BibRecordControlField *)controlField {

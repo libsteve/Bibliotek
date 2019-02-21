@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <BibCoding/BibCoding.h>
 
 //! Project version number for Bibliotek.
 FOUNDATION_EXPORT double BibliotekVersionNumber;

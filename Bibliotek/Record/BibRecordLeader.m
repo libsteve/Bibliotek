@@ -20,6 +20,7 @@ static NSRange const kRecordBodyLocationRange = {12, 5};
 
 + (void)initialize {
     sNumberFormatter = [NSNumberFormatter new];
+    [sNumberFormatter setNumberStyle:NSNumberFormatterNoStyle];
 }
 
 - (NSString *)recordStatus { return [_stringValue substringWithRange:kRecordStatusRange]; }
@@ -45,6 +46,10 @@ static NSRange const kRecordBodyLocationRange = {12, 5};
         _recordBodyLocation = [[sNumberFormatter numberFromString:recordBodyLocationString] unsignedIntegerValue];
     }
     return self;
+}
+
+- (NSString *)description {
+    return _stringValue;
 }
 
 #pragma mark - Equality

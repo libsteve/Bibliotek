@@ -18,10 +18,11 @@ static NSRange const kFieldLocationRange = {7, 5};
 
 + (void)initialize {
     sNumberFormatter = [NSNumberFormatter new];
+    [sNumberFormatter setNumberStyle:NSNumberFormatterNoStyle];
 }
 
 - (instancetype)init {
-    return [self initWithFieldTag:@"000" length:0 location:0];
+    return [self initWithFieldTag:@"000" range:NSMakeRange(0, 0)];
 }
 
 - (instancetype)initWithData:(NSData *)data {
@@ -31,26 +32,31 @@ static NSRange const kFieldLocationRange = {7, 5};
                                                               encoding:NSASCIIStringEncoding];
     NSString *const fieldLocationString = [[NSString alloc] initWithData:[data subdataWithRange:kFieldLocationRange]
                                                                 encoding:NSASCIIStringEncoding];
-    return [self initWithFieldTag:fieldTag
-                           length:[[sNumberFormatter numberFromString:fieldLengthString] unsignedIntegerValue]
-                         location:[[sNumberFormatter numberFromString:fieldLocationString] unsignedIntegerValue]];
+    NSUInteger const fieldLength = [[sNumberFormatter numberFromString:fieldLengthString] unsignedIntegerValue];
+    NSUInteger const fieldLocation = [[sNumberFormatter numberFromString:fieldLocationString] unsignedIntegerValue];
+    NSRange const fieldRange = NSMakeRange(fieldLocation, fieldLength);
+    return [self initWithFieldTag:fieldTag range:fieldRange];
 }
 
-- (instancetype)initWithFieldTag:(NSString *)fieldTag length:(NSUInteger)fieldLength location:(NSUInteger)fieldLocation {
+- (instancetype)initWithFieldTag:(NSString *)fieldTag range:(NSRange)fieldRange {
     if (self = [super init]) {
         _fieldTag = [fieldTag copy];
-        _fieldLength = fieldLength;
-        _fieldLocation = fieldLocation;
+        _fieldRange = fieldRange;
     }
     return self;
+}
+
+- (NSString *)description {
+    unsigned long location = _fieldRange.location;
+    unsigned long length = _fieldRange.length;
+    return [NSString stringWithFormat:@"[tag: %@, location: %lu, length: %lu]", _fieldTag, location, length];
 }
 
 #pragma mark - Equality
 
 - (BOOL)isEqualToEntry:(BibRecordDirectoryEntry *)entry {
     return [_fieldTag isEqualToString:[entry fieldTag]]
-        && _fieldLength == [entry fieldLength]
-        && _fieldLocation == [entry fieldLocation];
+        && NSEqualRanges(_fieldRange, [entry fieldRange]);
 }
 
 - (BOOL)isEqual:(id)other {
@@ -59,7 +65,7 @@ static NSRange const kFieldLocationRange = {7, 5};
 }
 
 - (NSUInteger)hash {
-    return [_fieldTag hash] ^ _fieldLength ^ _fieldLocation;
+    return [_fieldTag hash] ^ _fieldRange.location ^ _fieldRange.length;
 }
 
 @end

@@ -15,15 +15,11 @@ NS_SWIFT_NAME(Record.DirectoryEntry)
 
 @property (nonatomic, copy, readonly) NSString *fieldTag;
 
-@property (nonatomic, assign, readonly) NSUInteger fieldLength;
-
-@property (nonatomic, assign, readonly) NSUInteger fieldLocation;
+@property (nonatomic, assign, readonly) NSRange fieldRange;
 
 - (instancetype)initWithData:(NSData *)data;
 
-- (instancetype)initWithFieldTag:(NSString *)fieldTag
-                          length:(NSUInteger)fieldLength
-                        location:(NSUInteger)fieldLocation NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithFieldTag:(NSString *)fieldTag range:(NSRange)fieldRange NS_DESIGNATED_INITIALIZER;
 
 - (BOOL)isEqualToEntry:(BibRecordDirectoryEntry *)entry;
 
