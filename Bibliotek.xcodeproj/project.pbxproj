@@ -8,30 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		AA14E83720D8D2AD00430A87 /* libyaz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA14E82A20D8C84B00430A87 /* libyaz.dylib */; };
-		AA258ADA21F78B3C00CDF88E /* BibMarcRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = AA258AD821F78B3C00CDF88E /* BibMarcRecord.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA258ADB21F78B3C00CDF88E /* BibMarcRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AA258AD921F78B3C00CDF88E /* BibMarcRecord.m */; };
-		AA258ADE21F78B6900CDF88E /* BibMarcControlField.h in Headers */ = {isa = PBXBuildFile; fileRef = AA258ADC21F78B6900CDF88E /* BibMarcControlField.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA258ADF21F78B6900CDF88E /* BibMarcControlField.m in Sources */ = {isa = PBXBuildFile; fileRef = AA258ADD21F78B6900CDF88E /* BibMarcControlField.m */; };
-		AA258AE221F78B7F00CDF88E /* BibMarcDataField.h in Headers */ = {isa = PBXBuildFile; fileRef = AA258AE021F78B7F00CDF88E /* BibMarcDataField.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA258AE321F78B7F00CDF88E /* BibMarcDataField.m in Sources */ = {isa = PBXBuildFile; fileRef = AA258AE121F78B7F00CDF88E /* BibMarcDataField.m */; };
-		AA258AE621F78BB700CDF88E /* BibMarcSubfield.h in Headers */ = {isa = PBXBuildFile; fileRef = AA258AE421F78BB700CDF88E /* BibMarcSubfield.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA258AE721F78BB700CDF88E /* BibMarcSubfield.m in Sources */ = {isa = PBXBuildFile; fileRef = AA258AE521F78BB700CDF88E /* BibMarcSubfield.m */; };
-		AA258AEA21F8DDA900CDF88E /* BibMarcTag.h in Headers */ = {isa = PBXBuildFile; fileRef = AA258AE821F8DDA900CDF88E /* BibMarcTag.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA258AEB21F8DDA900CDF88E /* BibMarcTag.m in Sources */ = {isa = PBXBuildFile; fileRef = AA258AE921F8DDA900CDF88E /* BibMarcTag.m */; };
 		AA258AF021FA2E1D00CDF88E /* NSCharacterSet+BibASCIICharacterSet.m in Sources */ = {isa = PBXBuildFile; fileRef = AA258AEE21FA2E1D00CDF88E /* NSCharacterSet+BibASCIICharacterSet.m */; };
 		AA258AF121FB8EF200CDF88E /* NSCharacterSet+BibASCIICharacterSet.h in Headers */ = {isa = PBXBuildFile; fileRef = AA258AED21FA2E1D00CDF88E /* NSCharacterSet+BibASCIICharacterSet.h */; };
-		AA258AF421FCEF7800CDF88E /* BibMarcIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = AA258AF221FCEF7800CDF88E /* BibMarcIndicator.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA258AF521FCEF7800CDF88E /* BibMarcIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = AA258AF321FCEF7800CDF88E /* BibMarcIndicator.m */; };
-		AA258AF821FD63EE00CDF88E /* BibMarcLeader.h in Headers */ = {isa = PBXBuildFile; fileRef = AA258AF621FD63EE00CDF88E /* BibMarcLeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA258AF921FD63EE00CDF88E /* BibMarcLeader.m in Sources */ = {isa = PBXBuildFile; fileRef = AA258AF721FD63EE00CDF88E /* BibMarcLeader.m */; };
 		AA258AFC21FE3C2A00CDF88E /* NSString+BibCharacterSetValidation.h in Headers */ = {isa = PBXBuildFile; fileRef = AA258AFA21FE3C2A00CDF88E /* NSString+BibCharacterSetValidation.h */; };
 		AA258AFD21FE3C2A00CDF88E /* NSString+BibCharacterSetValidation.m in Sources */ = {isa = PBXBuildFile; fileRef = AA258AFB21FE3C2A00CDF88E /* NSString+BibCharacterSetValidation.m */; };
-		AA258B0A2207BBEF00CDF88E /* BibMarcSubfieldCode.h in Headers */ = {isa = PBXBuildFile; fileRef = AA258B082207BBEF00CDF88E /* BibMarcSubfieldCode.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA258B0B2207BBEF00CDF88E /* BibMarcSubfieldCode.m in Sources */ = {isa = PBXBuildFile; fileRef = AA258B092207BBEF00CDF88E /* BibMarcSubfieldCode.m */; };
 		AA2F88DC2121171A0085A637 /* libyaz.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA14E82A20D8C84B00430A87 /* libyaz.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		AA42828722147D6000FC829F /* BibMarcRecord+Decodable.h in Headers */ = {isa = PBXBuildFile; fileRef = AA42828522147D6000FC829F /* BibMarcRecord+Decodable.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA42828822147D6000FC829F /* BibMarcRecord+Decodable.m in Sources */ = {isa = PBXBuildFile; fileRef = AA42828622147D6000FC829F /* BibMarcRecord+Decodable.m */; };
-		AA4282FB2218C24700FC829F /* BibCoding.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA4282D3221883D700FC829F /* BibCoding.framework */; };
 		AA51EA8B211AA98B00BF28BE /* BibConnectionOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = AA51EA89211AA98B00BF28BE /* BibConnectionOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA51EA8C211AA98B00BF28BE /* BibConnectionOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA51EA8A211AA98B00BF28BE /* BibConnectionOptions.m */; };
 		AA51EA8E211AAAEB00BF28BE /* BibConnectionOptions+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = AA51EA8D211AAAEA00BF28BE /* BibConnectionOptions+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -48,17 +29,17 @@
 		AA6D18D720B5B6CC00603E61 /* BibFetchRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6D18D520B5B6CC00603E61 /* BibFetchRequest.m */; };
 		AA6D18D920B5B9FC00603E61 /* BibFetchRequest+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = AA6D18D820B5B9FC00603E61 /* BibFetchRequest+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		AAA39781221C650800E8C45D /* BibRecordControlField.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA3977F221C650800E8C45D /* BibRecordControlField.m */; };
-		AAA39786221C652400E8C45D /* BibRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA39784221C652400E8C45D /* BibRecord.h */; };
+		AAA39786221C652400E8C45D /* BibRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA39784221C652400E8C45D /* BibRecord.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAA39787221C652400E8C45D /* BibRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA39785221C652400E8C45D /* BibRecord.m */; };
-		AAA3978A221C653700E8C45D /* BibRecordDataField.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA39788221C653700E8C45D /* BibRecordDataField.h */; };
+		AAA3978A221C653700E8C45D /* BibRecordDataField.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA39788221C653700E8C45D /* BibRecordDataField.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAA3978B221C653700E8C45D /* BibRecordDataField.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA39789221C653700E8C45D /* BibRecordDataField.m */; };
-		AAA3978E221C654900E8C45D /* BibRecordLeader.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA3978C221C654900E8C45D /* BibRecordLeader.h */; };
+		AAA3978E221C654900E8C45D /* BibRecordLeader.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA3978C221C654900E8C45D /* BibRecordLeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAA3978F221C654900E8C45D /* BibRecordLeader.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA3978D221C654900E8C45D /* BibRecordLeader.m */; };
-		AAA39792221C655E00E8C45D /* BibRecordSubfield.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA39790221C655E00E8C45D /* BibRecordSubfield.h */; };
+		AAA39792221C655E00E8C45D /* BibRecordSubfield.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA39790221C655E00E8C45D /* BibRecordSubfield.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAA39793221C655E00E8C45D /* BibRecordSubfield.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA39791221C655E00E8C45D /* BibRecordSubfield.m */; };
-		AAA39796221C657300E8C45D /* BibRecordDirectoryEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA39794221C657300E8C45D /* BibRecordDirectoryEntry.h */; };
+		AAA39796221C657300E8C45D /* BibRecordDirectoryEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA39794221C657300E8C45D /* BibRecordDirectoryEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAA39797221C657300E8C45D /* BibRecordDirectoryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA39795221C657300E8C45D /* BibRecordDirectoryEntry.m */; };
-		AAA39799221E7D5300E8C45D /* BibRecordControlField.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA39798221E7D5300E8C45D /* BibRecordControlField.h */; };
+		AAA39799221E7D5300E8C45D /* BibRecordControlField.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA39798221E7D5300E8C45D /* BibRecordControlField.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAAA428920B9F32A00BDB52B /* Bibliotek.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA59F0D220A9FACF00D41982 /* Bibliotek.framework */; };
 		AAAA429120B9F35600BDB52B /* BibliotekTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA429020B9F35600BDB52B /* BibliotekTests.swift */; };
 		AAAA429E20BB0E3600BDB52B /* BibConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = AAAA429C20BB0E3600BDB52B /* BibConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -85,27 +66,6 @@
 			remoteGlobalIDString = AA5900E620AA274F00D41982;
 			remoteInfo = libyaz;
 		};
-		AA4282D2221883D700FC829F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AA4282CD221883D400FC829F /* BibCoding.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = AA4282B3221883D400FC829F;
-			remoteInfo = BibCoding;
-		};
-		AA4282D4221883D700FC829F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AA4282CD221883D400FC829F /* BibCoding.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = AA4282BC221883D400FC829F;
-			remoteInfo = BibCodingTests;
-		};
-		AA4282FC2218C25300FC829F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AA4282CD221883D400FC829F /* BibCoding.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = AA4282B2221883D400FC829F;
-			remoteInfo = BibCoding;
-		};
 		AAAA428A20B9F32A00BDB52B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AA59F0C920A9FACF00D41982 /* Project object */;
@@ -131,30 +91,11 @@
 /* Begin PBXFileReference section */
 		AA14E82720D8C2FD00430A87 /* configure */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = configure; sourceTree = "<group>"; };
 		AA14E82A20D8C84B00430A87 /* libyaz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libyaz.dylib; path = lib/libyaz.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
-		AA258AD821F78B3C00CDF88E /* BibMarcRecord.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibMarcRecord.h; sourceTree = "<group>"; };
-		AA258AD921F78B3C00CDF88E /* BibMarcRecord.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibMarcRecord.m; sourceTree = "<group>"; };
-		AA258ADC21F78B6900CDF88E /* BibMarcControlField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibMarcControlField.h; sourceTree = "<group>"; };
-		AA258ADD21F78B6900CDF88E /* BibMarcControlField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibMarcControlField.m; sourceTree = "<group>"; };
-		AA258AE021F78B7F00CDF88E /* BibMarcDataField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibMarcDataField.h; sourceTree = "<group>"; };
-		AA258AE121F78B7F00CDF88E /* BibMarcDataField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibMarcDataField.m; sourceTree = "<group>"; };
-		AA258AE421F78BB700CDF88E /* BibMarcSubfield.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibMarcSubfield.h; sourceTree = "<group>"; };
-		AA258AE521F78BB700CDF88E /* BibMarcSubfield.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibMarcSubfield.m; sourceTree = "<group>"; };
-		AA258AE821F8DDA900CDF88E /* BibMarcTag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibMarcTag.h; sourceTree = "<group>"; };
-		AA258AE921F8DDA900CDF88E /* BibMarcTag.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibMarcTag.m; sourceTree = "<group>"; };
 		AA258AED21FA2E1D00CDF88E /* NSCharacterSet+BibASCIICharacterSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSCharacterSet+BibASCIICharacterSet.h"; sourceTree = "<group>"; };
 		AA258AEE21FA2E1D00CDF88E /* NSCharacterSet+BibASCIICharacterSet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSCharacterSet+BibASCIICharacterSet.m"; sourceTree = "<group>"; };
-		AA258AF221FCEF7800CDF88E /* BibMarcIndicator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibMarcIndicator.h; sourceTree = "<group>"; };
-		AA258AF321FCEF7800CDF88E /* BibMarcIndicator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibMarcIndicator.m; sourceTree = "<group>"; };
-		AA258AF621FD63EE00CDF88E /* BibMarcLeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibMarcLeader.h; sourceTree = "<group>"; };
-		AA258AF721FD63EE00CDF88E /* BibMarcLeader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibMarcLeader.m; sourceTree = "<group>"; };
 		AA258AFA21FE3C2A00CDF88E /* NSString+BibCharacterSetValidation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+BibCharacterSetValidation.h"; sourceTree = "<group>"; };
 		AA258AFB21FE3C2A00CDF88E /* NSString+BibCharacterSetValidation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+BibCharacterSetValidation.m"; sourceTree = "<group>"; };
-		AA258B082207BBEF00CDF88E /* BibMarcSubfieldCode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibMarcSubfieldCode.h; sourceTree = "<group>"; };
-		AA258B092207BBEF00CDF88E /* BibMarcSubfieldCode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibMarcSubfieldCode.m; sourceTree = "<group>"; };
 		AA37678820CDB34000CF101D /* Brewfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Brewfile; sourceTree = "<group>"; };
-		AA42828522147D6000FC829F /* BibMarcRecord+Decodable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BibMarcRecord+Decodable.h"; sourceTree = "<group>"; };
-		AA42828622147D6000FC829F /* BibMarcRecord+Decodable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "BibMarcRecord+Decodable.m"; sourceTree = "<group>"; };
-		AA4282CD221883D400FC829F /* BibCoding.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BibCoding.xcodeproj; path = BibCoding/BibCoding.xcodeproj; sourceTree = "<group>"; };
 		AA51EA89211AA98B00BF28BE /* BibConnectionOptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibConnectionOptions.h; sourceTree = "<group>"; };
 		AA51EA8A211AA98B00BF28BE /* BibConnectionOptions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibConnectionOptions.m; sourceTree = "<group>"; };
 		AA51EA8D211AAAEA00BF28BE /* BibConnectionOptions+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BibConnectionOptions+Private.h"; sourceTree = "<group>"; };
@@ -204,7 +145,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA4282FB2218C24700FC829F /* BibCoding.framework in Frameworks */,
 				AA14E83720D8D2AD00430A87 /* libyaz.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -225,14 +165,6 @@
 			children = (
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		AA258AD721F78AF600CDF88E /* Marc */ = {
-			isa = PBXGroup;
-			children = (
-				AA428315221B573E00FC829F /* Record */,
-			);
-			path = Marc;
 			sourceTree = "<group>";
 		};
 		AA258B0722079B4200CDF88E /* Foundation */ = {
@@ -267,44 +199,9 @@
 			path = RecordList;
 			sourceTree = "<group>";
 		};
-		AA4282CE221883D400FC829F /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				AA4282D3221883D700FC829F /* BibCoding.framework */,
-				AA4282D5221883D700FC829F /* BibCodingTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		AA428315221B573E00FC829F /* Record */ = {
-			isa = PBXGroup;
-			children = (
-				AA258ADC21F78B6900CDF88E /* BibMarcControlField.h */,
-				AA258ADD21F78B6900CDF88E /* BibMarcControlField.m */,
-				AA258AE021F78B7F00CDF88E /* BibMarcDataField.h */,
-				AA258AE121F78B7F00CDF88E /* BibMarcDataField.m */,
-				AA258AF221FCEF7800CDF88E /* BibMarcIndicator.h */,
-				AA258AF321FCEF7800CDF88E /* BibMarcIndicator.m */,
-				AA258AF621FD63EE00CDF88E /* BibMarcLeader.h */,
-				AA258AF721FD63EE00CDF88E /* BibMarcLeader.m */,
-				AA258AD821F78B3C00CDF88E /* BibMarcRecord.h */,
-				AA258AD921F78B3C00CDF88E /* BibMarcRecord.m */,
-				AA42828522147D6000FC829F /* BibMarcRecord+Decodable.h */,
-				AA42828622147D6000FC829F /* BibMarcRecord+Decodable.m */,
-				AA258AE421F78BB700CDF88E /* BibMarcSubfield.h */,
-				AA258AE521F78BB700CDF88E /* BibMarcSubfield.m */,
-				AA258B082207BBEF00CDF88E /* BibMarcSubfieldCode.h */,
-				AA258B092207BBEF00CDF88E /* BibMarcSubfieldCode.m */,
-				AA258AE821F8DDA900CDF88E /* BibMarcTag.h */,
-				AA258AE921F8DDA900CDF88E /* BibMarcTag.m */,
-			);
-			path = Record;
-			sourceTree = "<group>";
-		};
 		AA59F0C820A9FACF00D41982 = {
 			isa = PBXGroup;
 			children = (
-				AA4282CD221883D400FC829F /* BibCoding.xcodeproj */,
 				AA59F0D420A9FACF00D41982 /* Bibliotek */,
 				AAAA428520B9F32A00BDB52B /* BibliotekTests */,
 				AA9F66D120D0C0F000CE4DA7 /* Bibliotek.playground */,
@@ -338,7 +235,6 @@
 				AA2F88D3212092000085A637 /* FetchRequest */,
 				AA258B0722079B4200CDF88E /* Foundation */,
 				AAA3977E221C650800E8C45D /* Record */,
-				AA258AD721F78AF600CDF88E /* Marc */,
 				AA2F88D42120920C0085A637 /* RecordList */,
 				AA59F0D620A9FACF00D41982 /* Info.plist */,
 			);
@@ -398,31 +294,22 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA258ADA21F78B3C00CDF88E /* BibMarcRecord.h in Headers */,
 				AA258AF121FB8EF200CDF88E /* NSCharacterSet+BibASCIICharacterSet.h in Headers */,
-				AA258B0A2207BBEF00CDF88E /* BibMarcSubfieldCode.h in Headers */,
 				AA59055220AA43DD00D41982 /* BibConnection.h in Headers */,
 				AA59F0D720A9FACF00D41982 /* Bibliotek.h in Headers */,
 				AA51EA8E211AAAEB00BF28BE /* BibConnectionOptions+Private.h in Headers */,
-				AA258AE621F78BB700CDF88E /* BibMarcSubfield.h in Headers */,
 				AAAA429E20BB0E3600BDB52B /* BibConstants.h in Headers */,
 				AA51EA91211AB79A00BF28BE /* BibConnectionEndpoint.h in Headers */,
-				AA258AE221F78B7F00CDF88E /* BibMarcDataField.h in Headers */,
 				AAA39799221E7D5300E8C45D /* BibRecordControlField.h in Headers */,
 				AAA39796221C657300E8C45D /* BibRecordDirectoryEntry.h in Headers */,
-				AA42828722147D6000FC829F /* BibMarcRecord+Decodable.h in Headers */,
-				AA258AF821FD63EE00CDF88E /* BibMarcLeader.h in Headers */,
 				AA59056820AB419C00D41982 /* BibConnection+Private.h in Headers */,
-				AA258AF421FCEF7800CDF88E /* BibMarcIndicator.h in Headers */,
 				AAA3978E221C654900E8C45D /* BibRecordLeader.h in Headers */,
 				AA6D18D620B5B6CC00603E61 /* BibFetchRequest.h in Headers */,
 				AAAA42A220BB156100BDB52B /* BibRecordList.h in Headers */,
-				AA258AEA21F8DDA900CDF88E /* BibMarcTag.h in Headers */,
 				AA6D18D920B5B9FC00603E61 /* BibFetchRequest+Private.h in Headers */,
 				AAA3978A221C653700E8C45D /* BibRecordDataField.h in Headers */,
 				AAA39792221C655E00E8C45D /* BibRecordSubfield.h in Headers */,
 				AA51EA8B211AA98B00BF28BE /* BibConnectionOptions.h in Headers */,
-				AA258ADE21F78B6900CDF88E /* BibMarcControlField.h in Headers */,
 				AAA39786221C652400E8C45D /* BibRecord.h in Headers */,
 				AA258AFC21FE3C2A00CDF88E /* NSString+BibCharacterSetValidation.h in Headers */,
 				AAAA42A520BB187000BDB52B /* BibRecordList+Private.h in Headers */,
@@ -477,7 +364,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				AA4282FD2218C25300FC829F /* PBXTargetDependency */,
 				AA14E83920D8D34000430A87 /* PBXTargetDependency */,
 			);
 			name = Bibliotek;
@@ -535,12 +421,6 @@
 			mainGroup = AA59F0C820A9FACF00D41982;
 			productRefGroup = AA59F0D320A9FACF00D41982 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = AA4282CE221883D400FC829F /* Products */;
-					ProjectRef = AA4282CD221883D400FC829F /* BibCoding.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				AA59F0D120A9FACF00D41982 /* Bibliotek */,
@@ -550,23 +430,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		AA4282D3221883D700FC829F /* BibCoding.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = BibCoding.framework;
-			remoteRef = AA4282D2221883D700FC829F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		AA4282D5221883D700FC829F /* BibCodingTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = BibCodingTests.xctest;
-			remoteRef = AA4282D4221883D700FC829F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		AA59F0D020A9FACF00D41982 /* Resources */ = {
@@ -591,14 +454,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA6D18D720B5B6CC00603E61 /* BibFetchRequest.m in Sources */,
-				AA258ADF21F78B6900CDF88E /* BibMarcControlField.m in Sources */,
 				AA258AFD21FE3C2A00CDF88E /* NSString+BibCharacterSetValidation.m in Sources */,
 				AA51EA8C211AA98B00BF28BE /* BibConnectionOptions.m in Sources */,
 				AAA3978B221C653700E8C45D /* BibRecordDataField.m in Sources */,
 				AA51EA9A211C181900BF28BE /* BibConnection.swift in Sources */,
 				AA258AF021FA2E1D00CDF88E /* NSCharacterSet+BibASCIICharacterSet.m in Sources */,
-				AA258ADB21F78B3C00CDF88E /* BibMarcRecord.m in Sources */,
-				AA258AE721F78BB700CDF88E /* BibMarcSubfield.m in Sources */,
 				AAA39793221C655E00E8C45D /* BibRecordSubfield.m in Sources */,
 				AAA39781221C650800E8C45D /* BibRecordControlField.m in Sources */,
 				AAA39797221C657300E8C45D /* BibRecordDirectoryEntry.m in Sources */,
@@ -606,17 +466,11 @@
 				AAAA429F20BB0E3600BDB52B /* BibConstants.m in Sources */,
 				AA51EA98211AC9DF00BF28BE /* BibConnectionOptions.swift in Sources */,
 				AA51EA96211AC93C00BF28BE /* BibConnectionEndpoint.swift in Sources */,
-				AA258AE321F78B7F00CDF88E /* BibMarcDataField.m in Sources */,
-				AA258B0B2207BBEF00CDF88E /* BibMarcSubfieldCode.m in Sources */,
 				AAAA42A320BB156100BDB52B /* BibRecordList.m in Sources */,
-				AA258AF921FD63EE00CDF88E /* BibMarcLeader.m in Sources */,
-				AA258AEB21F8DDA900CDF88E /* BibMarcTag.m in Sources */,
 				AAA39787221C652400E8C45D /* BibRecord.m in Sources */,
-				AA258AF521FCEF7800CDF88E /* BibMarcIndicator.m in Sources */,
 				AA59055320AA43DD00D41982 /* BibConnection.m in Sources */,
 				AACEDD6420C1A946004ACA07 /* BibConstants.swift in Sources */,
 				AAA3978F221C654900E8C45D /* BibRecordLeader.m in Sources */,
-				AA42828822147D6000FC829F /* BibMarcRecord+Decodable.m in Sources */,
 				AADE536620CE2E8F0043CE5B /* BibRecordList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -641,11 +495,6 @@
 			isa = PBXTargetDependency;
 			target = AA5900E620AA274F00D41982 /* libyaz */;
 			targetProxy = AA14E83820D8D34000430A87 /* PBXContainerItemProxy */;
-		};
-		AA4282FD2218C25300FC829F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = BibCoding;
-			targetProxy = AA4282FC2218C25300FC829F /* PBXContainerItemProxy */;
 		};
 		AAAA428B20B9F32A00BDB52B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
