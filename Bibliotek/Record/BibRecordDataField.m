@@ -35,7 +35,7 @@ static uint8_t const kFieldTerminator = 0x1E;
             NSData *const subfieldData = [data subdataWithRange:subfieldRange];
             BibRecordSubfield *const subfield = [[BibRecordSubfield alloc] initWithData:subfieldData];
             [subfields addObject:subfield];
-            currentRange.location = NSMaxRange(subfieldRange) - 1;
+            currentRange.location = NSMaxRange(subfieldRange);
             currentRange.length = 1;
         }
     }

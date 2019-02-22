@@ -85,12 +85,20 @@ class BibliotekTests: XCTestCase {
             XCTAssertEqual(rs.count, 1)
             let record = rs.first
             XCTAssertNotNil(record)
-            XCTAssertEqual(record!.isbn13!, r.keywords.first!)
+            let isbn13Field = record?.dataFields.first(where: { $0.tag == "020" })
+            XCTAssertNotNil(isbn13Field)
+            guard let subfields = isbn13Field?.subfields else { return }
+            XCTAssertEqual(subfields.count, 1)
+            let isbn13Subfield = subfields.first(where: { $0.identifier == "a" })
+            XCTAssertNotNil(isbn13Subfield)
+            guard let isbn13 = isbn13Subfield?.content else { return }
+            XCTAssertEqual(isbn13, r.keywords.first!)
         } catch {
             XCTFail("Connection could not be made. \(error)")
         }
     }
 
+    /*
     func testLccClassification() {
         let field = MarcRecord.Field(json: ["050" : ["ind1" : " ",
                                                      "ind2" : "0",
@@ -143,30 +151,32 @@ class BibliotekTests: XCTestCase {
         XCTAssertEqual(record.subtitles, ["Esperanto rock stars, Klingon poets, Loglan lovers, and the mad dreamers who tried to build a perfect language"])
         XCTAssertEqual(record.contributors, ["Arika Okrent"])
     }
+    */
 
-    func testTitleFetched() {
+    func testTitleStatementFetched() {
         do {
             let c = try Connection(host: "z3950.loc.gov", port: 7090, database: "VOYAGER")
             let r = FetchRequest(keywords: ["9780385527880"], scope: .isbn)
-            let record = (try c.fetchRecords(request: r)).first!
-            XCTAssertEqual(record.title, "In the land of invented languages")
-            XCTAssertEqual(record.subtitles, ["Esperanto rock stars, Klingon poets, Loglan lovers, and the mad dreamers who tried to build a perfect language"])
-            XCTAssertEqual(record.contributors, ["Arika Okrent"])
+            let record = (try c.fetchRecords(request: r)).first
+            let titleStatementField = record?.dataFields.first(where: { $0.tag == "245" })
+            XCTAssertNotNil(titleStatementField)
+            XCTAssertEqual(titleStatementField?.indicators, ["1", "0"])
+            guard let subfields = titleStatementField?.subfields else { return }
+            let titleSubfield = subfields.first(where: { $0.identifier == "a" })
+            let subtitleSubfield = subfields.first(where: { $0.identifier == "b" })
+            let authorSubfield = subfields.first(where: { $0.identifier == "c" })
+            XCTAssertNotNil(titleSubfield)
+            XCTAssertEqual(titleSubfield?.content, "In the land of invented languages :")
+            XCTAssertNotNil(subtitleSubfield)
+            XCTAssertEqual(subtitleSubfield?.content, "Esperanto rock stars, Klingon poets, Loglan lovers, and the mad dreamers who tried to build a perfect language /")
+            XCTAssertNotNil(authorSubfield)
+            XCTAssertEqual(authorSubfield?.content, "Arika Okrent.")
         } catch {
             XCTFail("Connection could not be made. \(error)")
         }
     }
 
-    func testAuthors() {
-        let author = "Okrent, Arika."
-        let field = MarcRecord.Field(json: ["100" : ["ind1" : "1",
-                                                     "ind2" : " ",
-                                                     "subfields" : ["a" : author]]])!
-        XCTAssertEqual(field.debugDescription, "100 1  $a\(author)")
-        let record = MarcRecord(fields: [field])
-        XCTAssertEqual(record.authors, [author])
-    }
-
+    /*
     func testEdition() {
         let edition = "1st ed."
         let field = MarcRecord.Field(json: ["250" : ["ind1" : " ",
@@ -207,4 +217,5 @@ class BibliotekTests: XCTestCase {
         let record = MarcRecord(fields: [field])
         XCTAssertEqual(record.summaries, [summary])
     }
+    */
 }
