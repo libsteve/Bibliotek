@@ -40,6 +40,11 @@
 		AAA39796221C657300E8C45D /* BibRecordDirectoryEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA39794221C657300E8C45D /* BibRecordDirectoryEntry.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAA39797221C657300E8C45D /* BibRecordDirectoryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA39795221C657300E8C45D /* BibRecordDirectoryEntry.m */; };
 		AAA39799221E7D5300E8C45D /* BibRecordControlField.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA39798221E7D5300E8C45D /* BibRecordControlField.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAA397B3222067AC00E8C45D /* BibRecordSubfield.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA397B2222067AC00E8C45D /* BibRecordSubfield.swift */; };
+		AAA397B52220680D00E8C45D /* BibRecordDataField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA397B42220680D00E8C45D /* BibRecordDataField.swift */; };
+		AAA397B7222068AA00E8C45D /* BibRecordControlField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA397B6222068AA00E8C45D /* BibRecordControlField.swift */; };
+		AAA397B9222068D700E8C45D /* BibRecordLeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA397B8222068D700E8C45D /* BibRecordLeader.swift */; };
+		AAA397BB2220696500E8C45D /* BibRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA397BA2220696500E8C45D /* BibRecord.swift */; };
 		AAAA428920B9F32A00BDB52B /* Bibliotek.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA59F0D220A9FACF00D41982 /* Bibliotek.framework */; };
 		AAAA429120B9F35600BDB52B /* BibliotekTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA429020B9F35600BDB52B /* BibliotekTests.swift */; };
 		AAAA429E20BB0E3600BDB52B /* BibConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = AAAA429C20BB0E3600BDB52B /* BibConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -126,6 +131,11 @@
 		AAA39794221C657300E8C45D /* BibRecordDirectoryEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibRecordDirectoryEntry.h; sourceTree = "<group>"; };
 		AAA39795221C657300E8C45D /* BibRecordDirectoryEntry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibRecordDirectoryEntry.m; sourceTree = "<group>"; };
 		AAA39798221E7D5300E8C45D /* BibRecordControlField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibRecordControlField.h; sourceTree = "<group>"; };
+		AAA397B2222067AC00E8C45D /* BibRecordSubfield.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibRecordSubfield.swift; sourceTree = "<group>"; };
+		AAA397B42220680D00E8C45D /* BibRecordDataField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibRecordDataField.swift; sourceTree = "<group>"; };
+		AAA397B6222068AA00E8C45D /* BibRecordControlField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibRecordControlField.swift; sourceTree = "<group>"; };
+		AAA397B8222068D700E8C45D /* BibRecordLeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibRecordLeader.swift; sourceTree = "<group>"; };
+		AAA397BA2220696500E8C45D /* BibRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibRecord.swift; sourceTree = "<group>"; };
 		AAAA428420B9F32900BDB52B /* BibliotekTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BibliotekTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAAA428820B9F32A00BDB52B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AAAA429020B9F35600BDB52B /* BibliotekTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibliotekTests.swift; sourceTree = "<group>"; };
@@ -246,16 +256,21 @@
 			children = (
 				AAA39784221C652400E8C45D /* BibRecord.h */,
 				AAA39785221C652400E8C45D /* BibRecord.m */,
+				AAA397BA2220696500E8C45D /* BibRecord.swift */,
 				AAA3978C221C654900E8C45D /* BibRecordLeader.h */,
 				AAA3978D221C654900E8C45D /* BibRecordLeader.m */,
+				AAA397B8222068D700E8C45D /* BibRecordLeader.swift */,
 				AAA39794221C657300E8C45D /* BibRecordDirectoryEntry.h */,
 				AAA39795221C657300E8C45D /* BibRecordDirectoryEntry.m */,
 				AAA39798221E7D5300E8C45D /* BibRecordControlField.h */,
 				AAA3977F221C650800E8C45D /* BibRecordControlField.m */,
+				AAA397B6222068AA00E8C45D /* BibRecordControlField.swift */,
 				AAA39788221C653700E8C45D /* BibRecordDataField.h */,
 				AAA39789221C653700E8C45D /* BibRecordDataField.m */,
+				AAA397B42220680D00E8C45D /* BibRecordDataField.swift */,
 				AAA39790221C655E00E8C45D /* BibRecordSubfield.h */,
 				AAA39791221C655E00E8C45D /* BibRecordSubfield.m */,
+				AAA397B2222067AC00E8C45D /* BibRecordSubfield.swift */,
 			);
 			path = Record;
 			sourceTree = "<group>";
@@ -456,8 +471,11 @@
 			files = (
 				AA6D18D720B5B6CC00603E61 /* BibFetchRequest.m in Sources */,
 				AA258AFD21FE3C2A00CDF88E /* NSString+BibCharacterSetValidation.m in Sources */,
+				AAA397B52220680D00E8C45D /* BibRecordDataField.swift in Sources */,
+				AAA397B9222068D700E8C45D /* BibRecordLeader.swift in Sources */,
 				AA51EA8C211AA98B00BF28BE /* BibConnectionOptions.m in Sources */,
 				AAA3978B221C653700E8C45D /* BibRecordDataField.m in Sources */,
+				AAA397B3222067AC00E8C45D /* BibRecordSubfield.swift in Sources */,
 				AA51EA9A211C181900BF28BE /* BibConnection.swift in Sources */,
 				AA258AF021FA2E1D00CDF88E /* NSCharacterSet+BibASCIICharacterSet.m in Sources */,
 				AAA39793221C655E00E8C45D /* BibRecordSubfield.m in Sources */,
@@ -473,6 +491,8 @@
 				AACEDD6420C1A946004ACA07 /* BibConstants.swift in Sources */,
 				AAA3978F221C654900E8C45D /* BibRecordLeader.m in Sources */,
 				AADE536620CE2E8F0043CE5B /* BibRecordList.swift in Sources */,
+				AAA397BB2220696500E8C45D /* BibRecord.swift in Sources */,
+				AAA397B7222068AA00E8C45D /* BibRecordControlField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
