@@ -10,8 +10,8 @@ import Foundation
 
 extension Record.DataField: CustomReflectable {
     public var customMirror: Mirror {
-        let children: [Mirror.Child] = [(label: "tag", value: tag),
-                                        (label: "indicators", value: indicators.joined()),
+        let children: [Mirror.Child] = [(label: "tag", value: tag.rawValue),
+                                        (label: "indicators", value: indicators.map { $0.rawValue }.joined()),
                                         (label: "subfields", value: subfields)]
         return Mirror(self, children: children, displayStyle: .dictionary, ancestorRepresentation: .suppressed)
     }

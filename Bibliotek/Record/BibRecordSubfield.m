@@ -8,40 +8,40 @@
 
 #import "BibRecordSubfield.h"
 
-static NSRange const kIdentifierRange = {1, 1};
+static NSRange const kCodeRange = {1, 1};
 
 @implementation BibRecordSubfield
 
 - (instancetype)init {
-    return [self initWithIdentifier:@"a" content:@""];
+    return [self initWithCode:@"a" content:@""];
 }
 
 - (instancetype)initWithData:(NSData *)data {
-    NSString *const identifier = [[NSString alloc] initWithData:[data subdataWithRange:kIdentifierRange]
-                                                       encoding:NSASCIIStringEncoding];
-    NSUInteger const contentLocation = NSMaxRange(kIdentifierRange);
+    NSString *const code = [[NSString alloc] initWithData:[data subdataWithRange:kCodeRange]
+                                                 encoding:NSASCIIStringEncoding];
+    NSUInteger const contentLocation = NSMaxRange(kCodeRange);
     NSRange const contentRange = NSMakeRange(contentLocation, [data length] - contentLocation);
     NSString *const content = [[NSString alloc] initWithData:[data subdataWithRange:contentRange]
                                                     encoding:NSUTF8StringEncoding];
-    return [self initWithIdentifier:identifier content:content];
+    return [self initWithCode:code content:content];
 }
 
-- (instancetype)initWithIdentifier:(NSString *)identifier content:(NSString *)content {
+- (instancetype)initWithCode:(BibRecordSubfieldCode)code content:(NSString *)content {
     if (self = [super init]) {
-        _identifier = [identifier copy];
+        _code = [code copy];
         _content = [content copy];
     }
     return self;
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"$%@%@", _identifier, _content];
+    return [NSString stringWithFormat:@"$%@%@", _code, _content];
 }
 
 #pragma mark - Equality
 
 - (BOOL)isEqualToSubfield:(BibRecordSubfield *)subfield {
-    return [_identifier isEqualToString:[subfield identifier]] && [_content isEqualToString:[subfield content]];
+    return [_code isEqualToString:[subfield code]] && [_content isEqualToString:[subfield content]];
 }
 
 - (BOOL)isEqual:(id)other {
@@ -50,7 +50,7 @@ static NSRange const kIdentifierRange = {1, 1};
 }
 
 - (NSUInteger)hash {
-    return [_identifier hash] ^ [_content hash];
+    return [_code hash] ^ [_content hash];
 }
 
 @end

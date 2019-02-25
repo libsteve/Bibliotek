@@ -185,65 +185,41 @@ extern BibFetchRequestSearchStrategy const BibFetchRequestSearchStrategyRegex;
 /// \returns A string description of the given strategy.
 extern NSString *BibFetchRequestSearchStrategyDescription(BibFetchRequestSearchStrategy const strategy) NS_REFINED_FOR_SWIFT;
 
+#pragma mark -
+
+/// http://www.loc.gov/standards/sourcelist/classification.html
+typedef NSString *BibClassificationScheme NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(ClassificationScheme);
+
+/// http://www.loc.gov/marc/languages/langhome.html
+typedef NSString *BibMarcLanguageCode NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(MarcLanguageCode);
+
+/// http://www.loc.gov/marc/organizations/orgshome.html
+typedef NSString *BibMarcOrganization NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(MarcOrganization);
+
+typedef NSString *BibRecordKind NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(Reord.Kind);
+
+extern BibRecordKind const BibRecordKindClassification;
+extern BibRecordKind const BibRecordKindBibliographic;
+
+typedef NSString *BibRecordCharacterCodingScheme NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(Record.CharacterCodingScheme);
+
+extern BibRecordCharacterCodingScheme const BibRecordCharacterCodingSchemeMarc8;
+extern BibRecordCharacterCodingScheme const BibRecordCharacterCodingSchemeUnicode;
+
 #pragma mark - Record Field Tags
 
 /// An code identifying the semantic purpose of a record field.
 typedef NSString *BibRecordFieldTag NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(Record.FieldTag);
 
-/// The field contains an item's ISBN.
-extern BibRecordFieldTag const BibRecordFieldTagIsbn;
-
-/// The field contains a Library of Congress classification number.
-extern BibRecordFieldTag const BibRecordFieldTagLCC NS_SWIFT_NAME(lcc);
-
-/// The field contains a Dewey Decimal classification number.
-extern BibRecordFieldTag const BibMarcRecordFieldTagDDC NS_SWIFT_NAME(ddc);
-
-/// The field contains an author's name.
-extern BibRecordFieldTag const BibRecordFieldTagAuthor;
-
-/// The field contains the title of the item.
-extern BibRecordFieldTag const BibRecordFieldTagTitle;
-
-/// The field contains edition information about the item.
-extern BibRecordFieldTag const BibRecordFieldTagEdition;
-
-/// The field contains information about the publisher.
-extern BibRecordFieldTag const BibRecordFieldTagPublication;
-
-/// The field contains a description of an item's physical condition.
-extern BibRecordFieldTag const BibRecordFieldTagPhysicalDescription;
-
-/// The field contains a note within the record.
-extern BibRecordFieldTag const BibRecordFieldTagNote;
-extern BibRecordFieldTag const BibRecordFieldTagBibliography;
-
-/// The field contains a summary about the item.
-extern BibRecordFieldTag const BibRecordFieldTagSummary;
-
-/// The field contains a subject heading.
-extern BibRecordFieldTag const BibRecordFieldTagSubject;
-
-/// The field contains a genre to which an item belongs.
-extern BibRecordFieldTag const BibRecordFieldTagGenre;
-
-/// The field contains the name of the series to which an item belongs.
-extern BibRecordFieldTag const BibRecordFieldTagSeries;
-
-/// \returns A string description of the given feild tag.
-extern NSString *BibRecordFieldTagDescription(BibRecordFieldTag const tag) NS_REFINED_FOR_SWIFT;
-
 #pragma mark - Record Field Indicator
 
-typedef char BibRecordFieldIndicator NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(Record.FieldIndicator);
+typedef NSString *BibRecordFieldIndicator NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(Record.FieldIndicator);
 
-extern NSString *BibRecordFieldIndicatorDescription(BibRecordFieldIndicator const indicator) NS_REFINED_FOR_SWIFT;
+extern BibRecordFieldIndicator const BibRecordFieldIndicatorBlank;
 
 #pragma mark - Record Field Code
 
-typedef char BibRecordFieldCode NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(Record.FieldCode);
-
-extern NSString *BibRecordFieldCodeDescription(BibRecordFieldCode const code) NS_REFINED_FOR_SWIFT;
+typedef NSString *BibRecordSubfieldCode NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(Record.SubfieldCode);
 
 #pragma mark - Connetion Events
 

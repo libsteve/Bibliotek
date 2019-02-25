@@ -14,14 +14,14 @@
     return [self initWithTag:@"000" content:@""];
 }
 
-- (instancetype)initWithTag:(NSString *)tag data:(NSData *)data {
+- (instancetype)initWithTag:(BibRecordFieldTag)tag data:(NSData *)data {
     NSRange const contentRange = NSMakeRange(0, [data length] - 1);
     NSString *const content = [[NSString alloc] initWithData:[data subdataWithRange:contentRange]
                                                    encoding:NSASCIIStringEncoding];
     return [self initWithTag:tag content:content];
 }
 
-- (instancetype)initWithTag:(NSString *)tag content:(NSString *)content {
+- (instancetype)initWithTag:(BibRecordFieldTag)tag content:(NSString *)content {
     if (self = [super init]) {
         _tag = [tag copy];
         _content = [content copy];

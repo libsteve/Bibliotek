@@ -6,6 +6,7 @@
 //  Copyright © 2019 Steve Brunwasser. All rights reserved.
 //
 
+#import "BibConstants.h"
 #import "BibRecord.h"
 #import "BibRecordLeader.h"
 #import "BibRecordDirectoryEntry.h"
@@ -36,7 +37,7 @@ static NSUInteger const kDirectoryEntryLength = 12;
     NSMutableArray *const controlFields = [NSMutableArray array];
     NSMutableArray *const dataFields = [NSMutableArray array];
     for (BibRecordDirectoryEntry *entry in directory) {
-        NSString *const fieldTag = [entry fieldTag];
+        BibRecordFieldTag const fieldTag = [entry fieldTag];
         NSRange fieldRange = [entry fieldRange];
         fieldRange.location += recordBodyLocation;
         NSData *const fieldData = [data subdataWithRange:fieldRange];

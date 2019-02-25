@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BibConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -27,9 +28,9 @@ NS_SWIFT_NAME(Record.Leader)
 
 @property (nonatomic, readonly) NSString *recordStatus;
 
-@property (nonatomic, readonly) NSString *recordType;
+@property (nonatomic, readonly) BibRecordKind recordType;
 
-@property (nonatomic, readonly) NSString *characterCodingScheme;
+@property (nonatomic, readonly) BibRecordCharacterCodingScheme characterCodingScheme;
 
 @property (nonatomic, assign, readonly) NSUInteger recordBodyLocation;
 

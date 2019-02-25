@@ -146,15 +146,7 @@ NSString *BibMarcRecordFieldTagDescription(BibRecordFieldTag const tag) {
 
 #pragma mark - Record Field Indicator
 
-NSString *BibRecordFieldIndicatorDescription(BibRecordFieldIndicator const indicator) {
-    return [NSString stringWithFormat:@"%c", indicator];
-}
-
-#pragma mark - Record Field Code
-
-NSString *BibRecordFieldCodeDescription(BibRecordFieldCode const code) {
-    return [NSString stringWithFormat:@"$%c", code];
-}
+BibRecordFieldIndicator const BibRecordFieldIndicatorBlank = @" ";
 
 #pragma mark - Connection Events
 

@@ -18,7 +18,7 @@ static uint8_t const kFieldTerminator = 0x1E;
     return [self initWithTag:@"000" indicators:@[] subfields:@[]];
 }
 
-- (instancetype)initWithTag:(NSString *)tag data:(NSData *)data {
+- (instancetype)initWithTag:(BibRecordFieldTag)tag data:(NSData *)data {
     NSMutableArray *const indicators = [NSMutableArray array];
     for (NSUInteger index = 0; index < 2; index += 1) {
         NSString *const indicator =  [[NSString alloc] initWithData:[data subdataWithRange:NSMakeRange(index, 1)]
@@ -42,7 +42,7 @@ static uint8_t const kFieldTerminator = 0x1E;
     return [self initWithTag:tag indicators:indicators subfields:subfields];
 }
 
-- (instancetype)initWithTag:(NSString *)tag
+- (instancetype)initWithTag:(BibRecordFieldTag)tag
                  indicators:(NSArray<NSString *> *)indicators
                   subfields:(NSArray<BibRecordSubfield *> *)subfields {
     if (self = [super init]) {

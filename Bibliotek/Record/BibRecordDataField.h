@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BibConstants.h"
 
 @class BibRecordSubfield;
 
@@ -19,16 +20,16 @@ NS_ASSUME_NONNULL_BEGIN
 NS_SWIFT_NAME(Record.DataField)
 @interface BibRecordDataField : NSObject
 
-@property (nonatomic, copy, readonly) NSString *tag;
+@property (nonatomic, copy, readonly) BibRecordFieldTag tag;
 
-@property (nonatomic, copy, readonly) NSArray<NSString *> *indicators;
+@property (nonatomic, copy, readonly) NSArray<BibRecordFieldIndicator> *indicators;
 
 @property (nonatomic, copy, readonly) NSArray<BibRecordSubfield *> *subfields;
 
-- (instancetype)initWithTag:(NSString *)tag data:(NSData *)data;
+- (instancetype)initWithTag:(BibRecordFieldTag)tag data:(NSData *)data;
 
-- (instancetype)initWithTag:(NSString *)tag
-                 indicators:(NSArray<NSString *> *)indicators
+- (instancetype)initWithTag:(BibRecordFieldTag)tag
+                 indicators:(NSArray<BibRecordFieldIndicator> *)indicators
                   subfields:(NSArray<BibRecordSubfield *> *)subfields NS_DESIGNATED_INITIALIZER;
 
 - (BOOL)isEqualToDataField:(BibRecordDataField *)dataField;

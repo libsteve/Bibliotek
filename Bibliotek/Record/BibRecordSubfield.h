@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BibConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,7 +21,7 @@ NS_SWIFT_NAME(Record.Subfield)
 /// A record subfield's identifier identifies the semantic purpose of the content within a subfield.
 ///
 /// The semantics of each identifier is determined by the record field's tag as defined in the relevant MARC 21 format.
-@property (nonatomic, copy, readonly) NSString *identifier;
+@property (nonatomic, copy, readonly) BibRecordSubfieldCode code;
 
 /// A string representation of the information stored in the subfield.
 @property (nonatomic, copy, readonly) NSString *content;
@@ -28,10 +29,10 @@ NS_SWIFT_NAME(Record.Subfield)
 - (instancetype)initWithData:(NSData *)data;
 
 /// Create a subfield of data for use within a record's data field.
-/// \param identifier An alphanumeric code identifying the semantic purpose of the subfield's content.
+/// \param code An alphanumeric identifier for semantic purpose of the subfield's content.
 /// \param content A string representation of the data stored within the subfield.
 /// \returns Returns a subfield value when the given subfield identifier is well-formatted.
-- (instancetype)initWithIdentifier:(NSString *)identifier content:(NSString *)content NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCode:(BibRecordSubfieldCode)code content:(NSString *)content NS_DESIGNATED_INITIALIZER;
 
 /// Determine if this subfield and its data is equivalent to that of the given subfield.
 /// \param subfield The subfield that is being compaired with this instance for equality.

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BibConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,14 +19,14 @@ NS_SWIFT_NAME(Record.ControlField)
 @interface BibRecordControlField : NSObject
 
 /// A three-digit code used to identify this control field's semantic purpose.
-@property (nonatomic, copy, readonly) NSString *tag;
+@property (nonatomic, copy, readonly) BibRecordFieldTag tag;
 
 /// The stored data within this control field.
 @property (nonatomic, copy, readonly) NSString *content;
 
-- (instancetype)initWithTag:(NSString *)tag data:(NSData *)data;
+- (instancetype)initWithTag:(BibRecordFieldTag)tag data:(NSData *)data;
 
-- (instancetype)initWithTag:(NSString *)tag content:(NSString *)content NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithTag:(BibRecordFieldTag)tag content:(NSString *)content NS_DESIGNATED_INITIALIZER;
 
 /// Determine whether or not the given control field represents the same data as the receiver.
 /// \param controlField The control field with which the receiver should be compared.
