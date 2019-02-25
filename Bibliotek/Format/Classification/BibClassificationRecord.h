@@ -8,9 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "BibConstants.h"
-
-@class BibRecordControlField;
-@class BibRecordDataField;
+#import "BibRecord.h"
 
 @class BibClassificationRecordMetadata;
 @class BibClassificationRecordClassificationNumber;
@@ -19,16 +17,13 @@
 NS_ASSUME_NONNULL_BEGIN
 
 NS_SWIFT_NAME(ClassificationRecord)
-@interface BibClassificationRecord : NSObject
+@interface BibClassificationRecord : BibRecord
 
 @property (nonatomic, strong, readonly) BibClassificationRecordMetadata *metadata;
 
 @property (nonatomic, strong, readonly) BibClassificationRecordClassificationNumber *classificationNumber;
 
 @property (nonatomic, strong, readonly) BibClassificationRecordClassificationScheme *classificationScheme;
-
-- (instancetype)initWithControlFields:(NSArray<BibRecordControlField *> *)controlFields
-                           dataFields:(NSArray<BibRecordDataField *> *)dataFields;
 
 @end
 

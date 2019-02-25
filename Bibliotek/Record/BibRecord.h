@@ -41,6 +41,7 @@ NS_SWIFT_NAME(Record)
 
 /// Create a MARC 21 record containing data from the given leader, control fields, and data fields.
 /// \param leader The leader metadata describing the record's encoded format and status.
+/// \param directory A collection of metadata describing the location and semantic purpose of record and data fields.
 /// \param controlFields A list of fields containing data pertaining to the processing of record data.
 /// \param dataFields A list of fields containing bibliographic or other data describing an item or entity.
 /// \returns Returns a valid MARC 21 record for some item or entity described by the given fields.
@@ -49,7 +50,17 @@ NS_SWIFT_NAME(Record)
 - (instancetype)initWithLeader:(BibRecordLeader *)leader
                      directory:(NSArray<BibRecordDirectoryEntry *> *)directory
                  controlFields:(NSArray<BibRecordControlField *> *)controlFields
-                    dataFields:(NSArray<BibRecordDataField *> *)dataFields;
+                    dataFields:(NSArray<BibRecordDataField *> *)dataFields NS_DESIGNATED_INITIALIZER;
+
+/// Create a MARC 21 record containing data from the given leader, control fields, and data fields.
+/// \param leader The leader metadata describing the record's encoded format and status.
+/// \param directory A collection of metadata describing the location and semantic purpose of record and data fields.
+/// \returns Returns a valid MARC 21 record for some item or entity described by the given fields.
+/// \discussion More information about MARC 21 records can be found in the Library of Congress's documentation on
+/// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html.
+- (instancetype)initWithLeader:(BibRecordLeader *)leader
+                     directory:(NSArray<BibRecordDirectoryEntry *> *)directory
+                          data:(NSData *)data;
 
 /// Determine whether or not the given MARC 21 record contains the same data as the receiver.
 /// \param record The record with which the receiver should be compared.

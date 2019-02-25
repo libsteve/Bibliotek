@@ -14,6 +14,8 @@
 #import "BibRecordDataField.h"
 #import "BibRecordSubfield.h"
 
+#import "BibClassificationRecord.h"
+
 static NSRange const kLeaderRange = {0, 24};
 static NSUInteger const kDirectoryEntryLength = 12;
 
@@ -34,6 +36,37 @@ static NSUInteger const kDirectoryEntryLength = 12;
         NSData *const entryData = [data subdataWithRange:NSMakeRange(location, kDirectoryEntryLength)];
         [directory addObject:[[BibRecordDirectoryEntry alloc] initWithData:entryData]];
     }
+    return [self initWithLeader:leader directory:directory data:data];
+}
+
+- (instancetype)initWithLeader:(BibRecordLeader *)leader
+                     directory:(NSArray<BibRecordDirectoryEntry *> *)directory
+                 controlFields:(NSArray<BibRecordControlField *> *)controlFields
+                    dataFields:(NSArray<BibRecordDataField *> *)dataFields {
+    if (![[self class] isEqual:[BibRecord class]]) {
+        BibRecordKind const recordKind = [leader recordType];
+        if ([recordKind isEqualToString:BibRecordKindClassification]) {
+            return [[BibClassificationRecord alloc] initWithLeader:leader
+                                                         directory:directory
+                                                     controlFields:controlFields
+                                                        dataFields:dataFields];
+        } else if ([recordKind isEqualToString:BibRecordKindBibliographic]) {
+
+        }
+    }
+    if (self = [super init]) {
+        _leader = leader;
+        _directory = [directory copy];
+        _controlFields = [controlFields copy];
+        _dataFields = [dataFields copy];
+    }
+    return self;
+}
+
+- (instancetype)initWithLeader:(BibRecordLeader *)leader
+                     directory:(NSArray<BibRecordDirectoryEntry *> *)directory
+                          data:(NSData *)data {
+    NSUInteger const recordBodyLocation = [leader recordBodyLocation];
     NSMutableArray *const controlFields = [NSMutableArray array];
     NSMutableArray *const dataFields = [NSMutableArray array];
     for (BibRecordDirectoryEntry *entry in directory) {
@@ -48,19 +81,6 @@ static NSUInteger const kDirectoryEntryLength = 12;
         }
     }
     return [self initWithLeader:leader directory:directory controlFields:controlFields dataFields:dataFields];
-}
-
-- (instancetype)initWithLeader:(BibRecordLeader *)leader
-                     directory:(NSArray<BibRecordDirectoryEntry *> *)directory
-                 controlFields:(NSArray<BibRecordControlField *> *)controlFields
-                    dataFields:(NSArray<BibRecordDataField *> *)dataFields {
-    if (self = [super init]) {
-        _leader = leader;
-        _directory = [directory copy];
-        _controlFields = [controlFields copy];
-        _dataFields = [dataFields copy];
-    }
-    return self;
 }
 
 - (NSString *)description {
