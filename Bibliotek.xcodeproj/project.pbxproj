@@ -45,6 +45,16 @@
 		AAA397B7222068AA00E8C45D /* BibRecordControlField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA397B6222068AA00E8C45D /* BibRecordControlField.swift */; };
 		AAA397B9222068D700E8C45D /* BibRecordLeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA397B8222068D700E8C45D /* BibRecordLeader.swift */; };
 		AAA397BB2220696500E8C45D /* BibRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA397BA2220696500E8C45D /* BibRecord.swift */; };
+		AAA397C52222152C00E8C45D /* BibClassificationRecordClassificationNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA397C32222152C00E8C45D /* BibClassificationRecordClassificationNumber.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAA397C62222152C00E8C45D /* BibClassificationRecordClassificationNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA397C42222152C00E8C45D /* BibClassificationRecordClassificationNumber.m */; };
+		AAA397C9222219CB00E8C45D /* BibClassificationRecordClassificationScheme.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA397C7222219CB00E8C45D /* BibClassificationRecordClassificationScheme.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAA397CA222219CB00E8C45D /* BibClassificationRecordClassificationScheme.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA397C8222219CB00E8C45D /* BibClassificationRecordClassificationScheme.m */; };
+		AAA397D12223285600E8C45D /* BibClassificationRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA397CF2223285600E8C45D /* BibClassificationRecord.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAA397D22223285600E8C45D /* BibClassificationRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA397D02223285600E8C45D /* BibClassificationRecord.m */; };
+		AAA397D522232F5900E8C45D /* BibClassificationRecordMetadata.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA397D322232F5900E8C45D /* BibClassificationRecordMetadata.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAA397D622232F5900E8C45D /* BibClassificationRecordMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA397D422232F5900E8C45D /* BibClassificationRecordMetadata.m */; };
+		AAA397D922233CA800E8C45D /* BibClassificationRecordConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA397D722233CA800E8C45D /* BibClassificationRecordConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAA397DA22233CA800E8C45D /* BibClassificationRecordConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA397D822233CA800E8C45D /* BibClassificationRecordConstants.m */; };
 		AAAA428920B9F32A00BDB52B /* Bibliotek.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA59F0D220A9FACF00D41982 /* Bibliotek.framework */; };
 		AAAA429120B9F35600BDB52B /* BibliotekTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA429020B9F35600BDB52B /* BibliotekTests.swift */; };
 		AAAA429E20BB0E3600BDB52B /* BibConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = AAAA429C20BB0E3600BDB52B /* BibConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -136,6 +146,16 @@
 		AAA397B6222068AA00E8C45D /* BibRecordControlField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibRecordControlField.swift; sourceTree = "<group>"; };
 		AAA397B8222068D700E8C45D /* BibRecordLeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibRecordLeader.swift; sourceTree = "<group>"; };
 		AAA397BA2220696500E8C45D /* BibRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibRecord.swift; sourceTree = "<group>"; };
+		AAA397C32222152C00E8C45D /* BibClassificationRecordClassificationNumber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibClassificationRecordClassificationNumber.h; sourceTree = "<group>"; };
+		AAA397C42222152C00E8C45D /* BibClassificationRecordClassificationNumber.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibClassificationRecordClassificationNumber.m; sourceTree = "<group>"; };
+		AAA397C7222219CB00E8C45D /* BibClassificationRecordClassificationScheme.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibClassificationRecordClassificationScheme.h; sourceTree = "<group>"; };
+		AAA397C8222219CB00E8C45D /* BibClassificationRecordClassificationScheme.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibClassificationRecordClassificationScheme.m; sourceTree = "<group>"; };
+		AAA397CF2223285600E8C45D /* BibClassificationRecord.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibClassificationRecord.h; sourceTree = "<group>"; };
+		AAA397D02223285600E8C45D /* BibClassificationRecord.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibClassificationRecord.m; sourceTree = "<group>"; };
+		AAA397D322232F5900E8C45D /* BibClassificationRecordMetadata.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibClassificationRecordMetadata.h; sourceTree = "<group>"; };
+		AAA397D422232F5900E8C45D /* BibClassificationRecordMetadata.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibClassificationRecordMetadata.m; sourceTree = "<group>"; };
+		AAA397D722233CA800E8C45D /* BibClassificationRecordConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibClassificationRecordConstants.h; sourceTree = "<group>"; };
+		AAA397D822233CA800E8C45D /* BibClassificationRecordConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibClassificationRecordConstants.m; sourceTree = "<group>"; };
 		AAAA428420B9F32900BDB52B /* BibliotekTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BibliotekTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAAA428820B9F32A00BDB52B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AAAA429020B9F35600BDB52B /* BibliotekTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibliotekTests.swift; sourceTree = "<group>"; };
@@ -243,6 +263,7 @@
 				AACEDD6320C1A946004ACA07 /* BibConstants.swift */,
 				AAAE231C212090FC00BB7E66 /* Connection */,
 				AA2F88D3212092000085A637 /* FetchRequest */,
+				AAA397BC22220FD900E8C45D /* Format */,
 				AA258B0722079B4200CDF88E /* Foundation */,
 				AAA3977E221C650800E8C45D /* Record */,
 				AA2F88D42120920C0085A637 /* RecordList */,
@@ -273,6 +294,39 @@
 				AAA397B2222067AC00E8C45D /* BibRecordSubfield.swift */,
 			);
 			path = Record;
+			sourceTree = "<group>";
+		};
+		AAA397BC22220FD900E8C45D /* Format */ = {
+			isa = PBXGroup;
+			children = (
+				AAA397C22222150C00E8C45D /* Classification */,
+				AAA397BD22220FE700E8C45D /* Bibliographic */,
+			);
+			path = Format;
+			sourceTree = "<group>";
+		};
+		AAA397BD22220FE700E8C45D /* Bibliographic */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Bibliographic;
+			sourceTree = "<group>";
+		};
+		AAA397C22222150C00E8C45D /* Classification */ = {
+			isa = PBXGroup;
+			children = (
+				AAA397CF2223285600E8C45D /* BibClassificationRecord.h */,
+				AAA397D02223285600E8C45D /* BibClassificationRecord.m */,
+				AAA397D722233CA800E8C45D /* BibClassificationRecordConstants.h */,
+				AAA397D822233CA800E8C45D /* BibClassificationRecordConstants.m */,
+				AAA397D322232F5900E8C45D /* BibClassificationRecordMetadata.h */,
+				AAA397D422232F5900E8C45D /* BibClassificationRecordMetadata.m */,
+				AAA397C32222152C00E8C45D /* BibClassificationRecordClassificationNumber.h */,
+				AAA397C42222152C00E8C45D /* BibClassificationRecordClassificationNumber.m */,
+				AAA397C7222219CB00E8C45D /* BibClassificationRecordClassificationScheme.h */,
+				AAA397C8222219CB00E8C45D /* BibClassificationRecordClassificationScheme.m */,
+			);
+			path = Classification;
 			sourceTree = "<group>";
 		};
 		AAAA428520B9F32A00BDB52B /* BibliotekTests */ = {
@@ -309,9 +363,12 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAA397D522232F5900E8C45D /* BibClassificationRecordMetadata.h in Headers */,
 				AA258AF121FB8EF200CDF88E /* NSCharacterSet+BibASCIICharacterSet.h in Headers */,
 				AA59055220AA43DD00D41982 /* BibConnection.h in Headers */,
+				AAA397D12223285600E8C45D /* BibClassificationRecord.h in Headers */,
 				AA59F0D720A9FACF00D41982 /* Bibliotek.h in Headers */,
+				AAA397D922233CA800E8C45D /* BibClassificationRecordConstants.h in Headers */,
 				AA51EA8E211AAAEB00BF28BE /* BibConnectionOptions+Private.h in Headers */,
 				AAAA429E20BB0E3600BDB52B /* BibConstants.h in Headers */,
 				AA51EA91211AB79A00BF28BE /* BibConnectionEndpoint.h in Headers */,
@@ -321,10 +378,12 @@
 				AAA3978E221C654900E8C45D /* BibRecordLeader.h in Headers */,
 				AA6D18D620B5B6CC00603E61 /* BibFetchRequest.h in Headers */,
 				AAAA42A220BB156100BDB52B /* BibRecordList.h in Headers */,
+				AAA397C52222152C00E8C45D /* BibClassificationRecordClassificationNumber.h in Headers */,
 				AA6D18D920B5B9FC00603E61 /* BibFetchRequest+Private.h in Headers */,
 				AAA3978A221C653700E8C45D /* BibRecordDataField.h in Headers */,
 				AAA39792221C655E00E8C45D /* BibRecordSubfield.h in Headers */,
 				AA51EA8B211AA98B00BF28BE /* BibConnectionOptions.h in Headers */,
+				AAA397C9222219CB00E8C45D /* BibClassificationRecordClassificationScheme.h in Headers */,
 				AAA39786221C652400E8C45D /* BibRecord.h in Headers */,
 				AA258AFC21FE3C2A00CDF88E /* NSString+BibCharacterSetValidation.h in Headers */,
 				AAAA42A520BB187000BDB52B /* BibRecordList+Private.h in Headers */,
@@ -470,6 +529,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA6D18D720B5B6CC00603E61 /* BibFetchRequest.m in Sources */,
+				AAA397D622232F5900E8C45D /* BibClassificationRecordMetadata.m in Sources */,
 				AA258AFD21FE3C2A00CDF88E /* NSString+BibCharacterSetValidation.m in Sources */,
 				AAA397B52220680D00E8C45D /* BibRecordDataField.swift in Sources */,
 				AAA397B9222068D700E8C45D /* BibRecordLeader.swift in Sources */,
@@ -477,6 +537,7 @@
 				AAA3978B221C653700E8C45D /* BibRecordDataField.m in Sources */,
 				AAA397B3222067AC00E8C45D /* BibRecordSubfield.swift in Sources */,
 				AA51EA9A211C181900BF28BE /* BibConnection.swift in Sources */,
+				AAA397DA22233CA800E8C45D /* BibClassificationRecordConstants.m in Sources */,
 				AA258AF021FA2E1D00CDF88E /* NSCharacterSet+BibASCIICharacterSet.m in Sources */,
 				AAA39793221C655E00E8C45D /* BibRecordSubfield.m in Sources */,
 				AAA39781221C650800E8C45D /* BibRecordControlField.m in Sources */,
@@ -487,8 +548,11 @@
 				AA51EA96211AC93C00BF28BE /* BibConnectionEndpoint.swift in Sources */,
 				AAAA42A320BB156100BDB52B /* BibRecordList.m in Sources */,
 				AAA39787221C652400E8C45D /* BibRecord.m in Sources */,
+				AAA397C62222152C00E8C45D /* BibClassificationRecordClassificationNumber.m in Sources */,
+				AAA397D22223285600E8C45D /* BibClassificationRecord.m in Sources */,
 				AA59055320AA43DD00D41982 /* BibConnection.m in Sources */,
 				AACEDD6420C1A946004ACA07 /* BibConstants.swift in Sources */,
+				AAA397CA222219CB00E8C45D /* BibClassificationRecordClassificationScheme.m in Sources */,
 				AAA3978F221C654900E8C45D /* BibRecordLeader.m in Sources */,
 				AADE536620CE2E8F0043CE5B /* BibRecordList.swift in Sources */,
 				AAA397BB2220696500E8C45D /* BibRecord.swift in Sources */,
