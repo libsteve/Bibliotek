@@ -50,3 +50,7 @@ static NSPredicate *sSchemePredicate;
 }
 
 @end
+
+BibRecordFieldTag const BibRecordFieldTagClassificationRecordMetadata = @"008";
+BibRecordFieldTag const BibRecordFieldTagClassificationRecordClassificationScheme = @"084";
+BibRecordFieldTag const BibRecordFieldTagClassificationRecordClassificationNumber = @"153";

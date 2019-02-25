@@ -6,8 +6,8 @@
 //  Copyright © 2019 Steve Brunwasser. All rights reserved.
 //
 
+#import "BibClassificationRecord.h"
 #import "BibClassificationRecordClassificationScheme.h"
-#import "BibClassificationRecordConstants.h"
 #import "BibRecordSubfield.h"
 
 static BibRecordFieldIndicator sFullEdition;

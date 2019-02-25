@@ -6,8 +6,8 @@
 //  Copyright © 2019 Steve Brunwasser. All rights reserved.
 //
 
+#import "BibClassificationRecord.h"
 #import "BibClassificationRecordMetadata.h"
-#import "BibClassificationRecordConstants.h"
 
 static NSUInteger const kContentLength        =  14;
 static NSRange    const kCreationDateRange    = { 0, 6};
