@@ -275,6 +275,7 @@
 		AAA3977E221C650800E8C45D /* Record */ = {
 			isa = PBXGroup;
 			children = (
+				AAA397C22222150C00E8C45D /* Classification */,
 				AAA39784221C652400E8C45D /* BibRecord.h */,
 				AAA39785221C652400E8C45D /* BibRecord.m */,
 				AAA397BA2220696500E8C45D /* BibRecord.swift */,
@@ -299,7 +300,6 @@
 		AAA397BC22220FD900E8C45D /* Format */ = {
 			isa = PBXGroup;
 			children = (
-				AAA397C22222150C00E8C45D /* Classification */,
 				AAA397BD22220FE700E8C45D /* Bibliographic */,
 			);
 			path = Format;
