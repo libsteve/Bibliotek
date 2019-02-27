@@ -26,9 +26,9 @@ static NSPredicate *sAssigningAgencyPredicate;
 + (void)initialize {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sFullEdition = [NSString stringWithFormat:@"%c", (char)BibClassificationRecordSchemeEditionTypeFull];
-        sAbridgedEdition = [NSString stringWithFormat:@"%c", (char)BibClassificationRecordSchemeEditionTypeAbridged];
-        sOtherEdition = [NSString stringWithFormat:@"%c", (char)BibClassificationRecordSchemeEditionTypeOther];
+        sFullEdition = [NSString stringWithFormat:@"%c", (char)BibEditionKindFull];
+        sAbridgedEdition = [NSString stringWithFormat:@"%c", (char)BibEditionKindAbridged];
+        sOtherEdition = [NSString stringWithFormat:@"%c", (char)BibEditionKindOther];
 
         sSchemePredicate = [NSPredicate predicateWithFormat:@"code == 'a'"];
         sEditionTitlePredicate = [NSPredicate predicateWithFormat:@"code == 'b'"];
@@ -51,10 +51,10 @@ static NSPredicate *sAssigningAgencyPredicate;
 - (instancetype)initWithIndicators:(NSArray<BibRecordFieldIndicator> *)indicators
                          subfields:(NSArray<BibRecordSubfield *> *)subfields {
     if (self = [super init]) {
-        _editionType = [[indicators firstObject] characterAtIndex:0];
+        _editionKind = [[indicators firstObject] characterAtIndex:0];
         _classificationScheme = [[[subfields filteredArrayUsingPredicate:sSchemePredicate] firstObject] content];
         _editionTitle = [[[subfields filteredArrayUsingPredicate:sEditionTitlePredicate] firstObject] content];
-        _editionTitle = [[[subfields filteredArrayUsingPredicate:sEditionIdentifierPredicate] firstObject] content];
+        _editionIdentifier = [[[subfields filteredArrayUsingPredicate:sEditionIdentifierPredicate] firstObject] content];
         _language = [[[subfields filteredArrayUsingPredicate:sLanguagePredicate] firstObject] content];
         _authorization = [[[subfields filteredArrayUsingPredicate:sAuthorizationPredicate] firstObject] content];
         _assigningAgency = [[[subfields filteredArrayUsingPredicate:sAssigningAgencyPredicate] firstObject] content];

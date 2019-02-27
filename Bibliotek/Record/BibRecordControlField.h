@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BibConstants.h"
+#import "BibRecordConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

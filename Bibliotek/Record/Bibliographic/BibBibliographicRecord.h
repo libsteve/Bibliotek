@@ -8,9 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "BibRecord.h"
+#import "BibRecordConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// http://www.loc.gov/marc/bibliographic/
+NS_SWIFT_NAME(BibliographicRecord)
 @interface BibBibliographicRecord : BibRecord
 
 @end

@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BibConstants.h"
 #import "BibRecord.h"
+#import "BibRecordConstants.h"
 
 @class BibClassificationRecordMetadata;
 @class BibClassificationRecordClassificationNumber;
@@ -16,6 +16,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// http://www.loc.gov/marc/classification/
 NS_SWIFT_NAME(ClassificationRecord)
 @interface BibClassificationRecord : BibRecord
 
