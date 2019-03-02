@@ -28,6 +28,7 @@
 		AA6D18D620B5B6CC00603E61 /* BibFetchRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = AA6D18D420B5B6CC00603E61 /* BibFetchRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA6D18D720B5B6CC00603E61 /* BibFetchRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6D18D520B5B6CC00603E61 /* BibFetchRequest.m */; };
 		AA6D18D920B5B9FC00603E61 /* BibFetchRequest+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = AA6D18D820B5B9FC00603E61 /* BibFetchRequest+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		AA6D70E82229AE88004FD0F0 /* BibRecordConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA397ED2224689000E8C45D /* BibRecordConstants.m */; };
 		AAA39781221C650800E8C45D /* BibRecordControlField.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA3977F221C650800E8C45D /* BibRecordControlField.m */; };
 		AAA39786221C652400E8C45D /* BibRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA39784221C652400E8C45D /* BibRecord.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAA39787221C652400E8C45D /* BibRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA39785221C652400E8C45D /* BibRecord.m */; };
@@ -55,13 +56,12 @@
 		AAA397D622232F5900E8C45D /* BibClassificationRecordMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA397D422232F5900E8C45D /* BibClassificationRecordMetadata.m */; };
 		AAA397DD22245D7600E8C45D /* BibBibliographicRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA397DB22245D7600E8C45D /* BibBibliographicRecord.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAA397DE22245D7600E8C45D /* BibBibliographicRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA397DC22245D7600E8C45D /* BibBibliographicRecord.m */; };
-		AAA397E122245F3A00E8C45D /* BibLibraryOfCongressClassificationNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA397DF22245F3A00E8C45D /* BibLibraryOfCongressClassificationNumber.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAA397E222245F3A00E8C45D /* BibLibraryOfCongressClassificationNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA397E022245F3A00E8C45D /* BibLibraryOfCongressClassificationNumber.m */; };
-		AAA397E52224661F00E8C45D /* BibClassificationNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA397E32224661F00E8C45D /* BibClassificationNumber.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAA397E9222466A100E8C45D /* BibDeweyDecimalClassificationNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA397E7222466A100E8C45D /* BibDeweyDecimalClassificationNumber.h */; };
-		AAA397EA222466A100E8C45D /* BibDeweyDecimalClassificationNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA397E8222466A100E8C45D /* BibDeweyDecimalClassificationNumber.m */; };
-		AAA397EE2224689000E8C45D /* BibRecordConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA397EC2224689000E8C45D /* BibRecordConstants.h */; };
-		AAA397EF2224689000E8C45D /* BibRecordConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA397ED2224689000E8C45D /* BibRecordConstants.m */; };
+		AAA397E122245F3A00E8C45D /* BibLCClassificationCallNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA397DF22245F3A00E8C45D /* BibLCClassificationCallNumber.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAA397E222245F3A00E8C45D /* BibLCClassificationCallNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA397E022245F3A00E8C45D /* BibLCClassificationCallNumber.m */; };
+		AAA397E52224661F00E8C45D /* BibClassificationCallNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA397E32224661F00E8C45D /* BibClassificationCallNumber.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAA397E9222466A100E8C45D /* BibDDClassificationCallNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA397E7222466A100E8C45D /* BibDDClassificationCallNumber.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAA397EA222466A100E8C45D /* BibDDClassificationCallNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA397E8222466A100E8C45D /* BibDDClassificationCallNumber.m */; };
+		AAA397EE2224689000E8C45D /* BibRecordConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA397EC2224689000E8C45D /* BibRecordConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAAA428920B9F32A00BDB52B /* Bibliotek.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA59F0D220A9FACF00D41982 /* Bibliotek.framework */; };
 		AAAA429120B9F35600BDB52B /* BibliotekTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA429020B9F35600BDB52B /* BibliotekTests.swift */; };
 		AAAA429E20BB0E3600BDB52B /* BibConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = AAAA429C20BB0E3600BDB52B /* BibConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -163,11 +163,11 @@
 		AAA397D422232F5900E8C45D /* BibClassificationRecordMetadata.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibClassificationRecordMetadata.m; sourceTree = "<group>"; };
 		AAA397DB22245D7600E8C45D /* BibBibliographicRecord.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibBibliographicRecord.h; sourceTree = "<group>"; };
 		AAA397DC22245D7600E8C45D /* BibBibliographicRecord.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibBibliographicRecord.m; sourceTree = "<group>"; };
-		AAA397DF22245F3A00E8C45D /* BibLibraryOfCongressClassificationNumber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibLibraryOfCongressClassificationNumber.h; sourceTree = "<group>"; };
-		AAA397E022245F3A00E8C45D /* BibLibraryOfCongressClassificationNumber.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibLibraryOfCongressClassificationNumber.m; sourceTree = "<group>"; };
-		AAA397E32224661F00E8C45D /* BibClassificationNumber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibClassificationNumber.h; sourceTree = "<group>"; };
-		AAA397E7222466A100E8C45D /* BibDeweyDecimalClassificationNumber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibDeweyDecimalClassificationNumber.h; sourceTree = "<group>"; };
-		AAA397E8222466A100E8C45D /* BibDeweyDecimalClassificationNumber.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibDeweyDecimalClassificationNumber.m; sourceTree = "<group>"; };
+		AAA397DF22245F3A00E8C45D /* BibLCClassificationCallNumber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibLCClassificationCallNumber.h; sourceTree = "<group>"; };
+		AAA397E022245F3A00E8C45D /* BibLCClassificationCallNumber.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibLCClassificationCallNumber.m; sourceTree = "<group>"; };
+		AAA397E32224661F00E8C45D /* BibClassificationCallNumber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibClassificationCallNumber.h; sourceTree = "<group>"; };
+		AAA397E7222466A100E8C45D /* BibDDClassificationCallNumber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibDDClassificationCallNumber.h; sourceTree = "<group>"; };
+		AAA397E8222466A100E8C45D /* BibDDClassificationCallNumber.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibDDClassificationCallNumber.m; sourceTree = "<group>"; };
 		AAA397EC2224689000E8C45D /* BibRecordConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibRecordConstants.h; sourceTree = "<group>"; };
 		AAA397ED2224689000E8C45D /* BibRecordConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibRecordConstants.m; sourceTree = "<group>"; };
 		AAAA428420B9F32900BDB52B /* BibliotekTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BibliotekTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -341,11 +341,11 @@
 		AAA397EB222466CC00E8C45D /* ClassificationNumber */ = {
 			isa = PBXGroup;
 			children = (
-				AAA397E32224661F00E8C45D /* BibClassificationNumber.h */,
-				AAA397DF22245F3A00E8C45D /* BibLibraryOfCongressClassificationNumber.h */,
-				AAA397E022245F3A00E8C45D /* BibLibraryOfCongressClassificationNumber.m */,
-				AAA397E7222466A100E8C45D /* BibDeweyDecimalClassificationNumber.h */,
-				AAA397E8222466A100E8C45D /* BibDeweyDecimalClassificationNumber.m */,
+				AAA397E32224661F00E8C45D /* BibClassificationCallNumber.h */,
+				AAA397DF22245F3A00E8C45D /* BibLCClassificationCallNumber.h */,
+				AAA397E022245F3A00E8C45D /* BibLCClassificationCallNumber.m */,
+				AAA397E7222466A100E8C45D /* BibDDClassificationCallNumber.h */,
+				AAA397E8222466A100E8C45D /* BibDDClassificationCallNumber.m */,
 			);
 			path = ClassificationNumber;
 			sourceTree = "<group>";
@@ -402,16 +402,16 @@
 				AAAA42A220BB156100BDB52B /* BibRecordList.h in Headers */,
 				AAA397C52222152C00E8C45D /* BibClassificationRecordClassificationNumber.h in Headers */,
 				AA6D18D920B5B9FC00603E61 /* BibFetchRequest+Private.h in Headers */,
-				AAA397E122245F3A00E8C45D /* BibLibraryOfCongressClassificationNumber.h in Headers */,
+				AAA397E122245F3A00E8C45D /* BibLCClassificationCallNumber.h in Headers */,
 				AAA3978A221C653700E8C45D /* BibRecordDataField.h in Headers */,
 				AAA39792221C655E00E8C45D /* BibRecordSubfield.h in Headers */,
 				AA51EA8B211AA98B00BF28BE /* BibConnectionOptions.h in Headers */,
 				AAA397C9222219CB00E8C45D /* BibClassificationRecordClassificationScheme.h in Headers */,
 				AAA39786221C652400E8C45D /* BibRecord.h in Headers */,
 				AA258AFC21FE3C2A00CDF88E /* NSString+BibCharacterSetValidation.h in Headers */,
-				AAA397E9222466A100E8C45D /* BibDeweyDecimalClassificationNumber.h in Headers */,
+				AAA397E9222466A100E8C45D /* BibDDClassificationCallNumber.h in Headers */,
 				AAAA42A520BB187000BDB52B /* BibRecordList+Private.h in Headers */,
-				AAA397E52224661F00E8C45D /* BibClassificationNumber.h in Headers */,
+				AAA397E52224661F00E8C45D /* BibClassificationCallNumber.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -568,7 +568,7 @@
 				AAA39781221C650800E8C45D /* BibRecordControlField.m in Sources */,
 				AAA39797221C657300E8C45D /* BibRecordDirectoryEntry.m in Sources */,
 				AA51EA92211AB79A00BF28BE /* BibConnectionEndpoint.m in Sources */,
-				AAA397EA222466A100E8C45D /* BibDeweyDecimalClassificationNumber.m in Sources */,
+				AAA397EA222466A100E8C45D /* BibDDClassificationCallNumber.m in Sources */,
 				AAAA429F20BB0E3600BDB52B /* BibConstants.m in Sources */,
 				AA51EA98211AC9DF00BF28BE /* BibConnectionOptions.swift in Sources */,
 				AA51EA96211AC93C00BF28BE /* BibConnectionEndpoint.swift in Sources */,
@@ -576,8 +576,8 @@
 				AAA39787221C652400E8C45D /* BibRecord.m in Sources */,
 				AAA397C62222152C00E8C45D /* BibClassificationRecordClassificationNumber.m in Sources */,
 				AAA397D22223285600E8C45D /* BibClassificationRecord.m in Sources */,
-				AAA397E222245F3A00E8C45D /* BibLibraryOfCongressClassificationNumber.m in Sources */,
-				AAA397EF2224689000E8C45D /* BibRecordConstants.m in Sources */,
+				AAA397E222245F3A00E8C45D /* BibLCClassificationCallNumber.m in Sources */,
+				AA6D70E82229AE88004FD0F0 /* BibRecordConstants.m in Sources */,
 				AA59055320AA43DD00D41982 /* BibConnection.m in Sources */,
 				AACEDD6420C1A946004ACA07 /* BibConstants.swift in Sources */,
 				AAA397CA222219CB00E8C45D /* BibClassificationRecordClassificationScheme.m in Sources */,

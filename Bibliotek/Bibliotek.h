@@ -30,12 +30,11 @@ FOUNDATION_EXPORT const unsigned char BibliotekVersionString[];
 #import "BibRecordSubfield.h"
 
 #import "BibClassificationRecord.h"
-#import "BibClassificationRecordConstants.h"
 #import "BibClassificationRecordMetadata.h"
 #import "BibClassificationRecordClassificationNumber.h"
 #import "BibClassificationRecordClassificationScheme.h"
 
 #import "BibBibliographicRecord.h"
-#import "BibClassificationNumber.h"
-#import "BibLibraryOfCongressClassificationNumber.h"
-#imoprt "BibDeweyDecimalClassificationNumber.h"
+#import "BibClassificationCallNumber.h"
+#import "BibLCClassificationCallNumber.h"
+#import "BibDDClassificationCallNumber.h"

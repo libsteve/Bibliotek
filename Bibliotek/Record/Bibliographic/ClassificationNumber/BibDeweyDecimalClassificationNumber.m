@@ -6,7 +6,7 @@
 //  Copyright © 2019 Steve Brunwasser. All rights reserved.
 //
 
-#import "BibDeweyDecimalClassificationNumber.h"
+#import "BibDDClassificationNumber.h"
 #import "BibRecordSubfield.h"
 
 static NSPredicate *sClassificationNumberPredicate;
@@ -14,7 +14,7 @@ static NSPredicate *sItemNumberPredicate;
 static NSPredicate *sScheduleEditionPredicate;
 static NSPredicate *sAssigningAgencyPredicate;
 
-@implementation BibDeweyDecimalClassificationNumber
+@implementation BibDDClassificationNumber
 
 @synthesize classificationNumber = _classificationNumber;
 @synthesize itemNumber = _itemNumber;

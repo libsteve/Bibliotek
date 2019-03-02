@@ -43,7 +43,7 @@ static NSPredicate *sSchemePredicate;
         _classificationNumber = [[BibClassificationRecordClassificationNumber alloc] initWithIndicators:[numberField indicators]
                                                                                               subfields:[numberField subfields]];
         BibRecordDataField *const schemeField = [[dataFields filteredArrayUsingPredicate:sSchemePredicate] firstObject];
-        _classificationScheme = [[BibClassificationRecordClassificationNumber alloc] initWithIndicators:[schemeField indicators]
+        _classificationScheme = [[BibClassificationRecordClassificationScheme alloc] initWithIndicators:[schemeField indicators]
                                                                                               subfields:[schemeField subfields]];
     }
     return self;

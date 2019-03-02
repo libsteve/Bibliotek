@@ -10,11 +10,20 @@
 #import "BibRecord.h"
 #import "BibRecordConstants.h"
 
+@class BibDDClassificationCallNumber;
+@class BibLCClassificationCallNumber;
+
+@protocol BibClassificationCallNumber;
+
 NS_ASSUME_NONNULL_BEGIN
 
 /// http://www.loc.gov/marc/bibliographic/
 NS_SWIFT_NAME(BibliographicRecord)
 @interface BibBibliographicRecord : BibRecord
+
+@property (nonatomic, copy, readonly) NSArray<BibDDClassificationCallNumber *> *ddcCallNumbers;
+
+@property (nonatomic, copy, readonly) NSArray<BibLCClassificationCallNumber *> *lccCallNumbers;
 
 @end
 

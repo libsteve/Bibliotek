@@ -21,7 +21,7 @@ typedef NSString *BibMarcLanguageCode NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(Mar
 /// http://www.loc.gov/marc/organizations/orgshome.html
 typedef NSString *BibMarcOrganization NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(MarcOrganization);
 
-typedef NSString *BibRecordKind NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(Reord.Kind);
+typedef NSString *BibRecordKind NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(Record.Kind);
 
 extern BibRecordKind const BibRecordKindClassification;
 extern BibRecordKind const BibRecordKindBibliographic;

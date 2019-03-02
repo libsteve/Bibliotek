@@ -1,5 +1,5 @@
 //
-//  BibDeweyDecimalClassificationNumber.h
+//  BibDDClassificationCallNumber.h
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 2/25/19.
@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BibClassificationNumber.h"
+#import "BibClassificationCallNumber.h"
 #import "BibRecordConstants.h"
 
 @class BibRecordSubfield;
@@ -15,8 +15,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /// http://www.loc.gov/marc/bibliographic/bd082.html
-NS_SWIFT_NAME(DeweyDecimalClassificationNumber)
-@interface BibDeweyDecimalClassificationNumber : NSObject <BibClassificationNumber>
+NS_SWIFT_NAME(DDClassificationCallNumber)
+@interface BibDDClassificationCallNumber : NSObject <BibClassificationCallNumber>
 
 @property (nonatomic, assign, readonly) BibEditionKind editionKind;
 

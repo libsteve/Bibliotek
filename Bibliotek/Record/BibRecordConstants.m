@@ -8,6 +8,9 @@
 
 #import "BibRecordConstants.h"
 
+BibRecordKind const BibRecordKindClassification = @"";
+BibRecordKind const BibRecordKindBibliographic = @"";
+
 #pragma mark - Record Field Tags
 
 BibRecordFieldTag const BibRecordFieldTagIsbn = @"020";

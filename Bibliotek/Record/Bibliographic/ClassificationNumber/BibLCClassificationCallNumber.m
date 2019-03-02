@@ -1,18 +1,18 @@
 //
-//  BibLCClassificationNumber.m
+//  BibLCClassificationCallNumber.m
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 2/25/19.
 //  Copyright © 2019 Steve Brunwasser. All rights reserved.
 //
 
-#import "BibLCClassificationNumber.h"
+#import "BibLCClassificationCallNumber.h"
 #import "BibRecordSubfield.h"
 
 static NSPredicate *sClassificationNumberPredicate;
 static NSPredicate *sItemNumberPredicate;
 
-@implementation BibLCClassificationNumber
+@implementation BibLCClassificationCallNumber
 
 @synthesize classificationNumber = _classificationNumber;
 @synthesize itemNumber = _itemNumber;
@@ -38,13 +38,13 @@ static NSPredicate *sItemNumberPredicate;
                                    itemNumber:@"B3693 2011"
                            alternativeNumbers:[NSArray array]
                    libraryOfCongressOwnership:BibLibraryOfCongressOwnershipUnknown
-                                       source:BibLibraryOfCongressClassificationNumberSourceUnknown];
+                                       source:BibLCClassificationCallNumberSourceUnknown];
 }
 
 - (instancetype)initWithIndicators:(NSArray<BibRecordFieldIndicator> *)indicators
                          subfields:(NSArray<BibRecordSubfield *> *)subfields {
     BibLibraryOfCongressOwnership const libraryOfCongressOwnership = [[indicators firstObject] characterAtIndex:0];
-    BibLibraryOfCongressClassificationNumberSource const source = [[indicators lastObject] characterAtIndex:0];
+    BibLCClassificationCallNumberSource const source = [[indicators lastObject] characterAtIndex:0];
     NSArray *const classificationNumbers = [subfields filteredArrayUsingPredicate:sClassificationNumberPredicate];
     NSString *const classificationNumber = [[classificationNumbers firstObject] content];
     NSString *const itemNumber = [[[subfields filteredArrayUsingPredicate:sItemNumberPredicate] firstObject] content];
@@ -64,7 +64,7 @@ static NSPredicate *sItemNumberPredicate;
                                   itemNumber:(NSString *)itemNumber
                           alternativeNumbers:(NSArray<NSString *> *)alternativeNumbers
                   libraryOfCongressOwnership:(BibLibraryOfCongressOwnership)libraryOfCongressOwnership
-                                      source:(BibLibraryOfCongressClassificationNumberSource)source {
+                                      source:(BibLCClassificationCallNumberSource)source {
     if (self = [super init]) {
         _classificationNumber = [classificationNumber copy];
         _itemNumber = [itemNumber copy];

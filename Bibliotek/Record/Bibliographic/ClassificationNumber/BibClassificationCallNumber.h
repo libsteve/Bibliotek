@@ -1,5 +1,5 @@
 //
-//  BibClassificationNumber.h
+//  BibClassificationCallNumber.h
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 2/25/19.
@@ -17,8 +17,8 @@ typedef NS_ENUM(NSUInteger, BibLibraryOfCongressOwnership) {
     BibLibraryOfCongressOwnershipUnowned = '1'
 } NS_SWIFT_NAME(LibraryOfCongressOwnership);
 
-NS_SWIFT_NAME(ClassificationNumber)
-@protocol BibClassificationNumber <NSObject>
+NS_SWIFT_NAME(ClassificationCallNumber)
+@protocol BibClassificationCallNumber <NSObject>
 
 @property (nonatomic, copy, readonly) NSString *classificationNumber;
 
