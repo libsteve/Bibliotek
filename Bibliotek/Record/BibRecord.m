@@ -85,8 +85,8 @@ static NSUInteger const kDirectoryEntryLength = 12;
             [fields addObject:[[fieldClass alloc] initWithData:fieldData]];
         } else {
             id<BibRecordField> const field = ([entry fieldKind] == BibRecordFieldKindControlField)
-                                           ? [[BibGenericRecordControlField alloc] initWithTag:fieldTag data:data]
-                                           : [[BibGenericRecordDataField alloc] initWithTag:fieldTag data:data];
+                                           ? [[BibGenericRecordControlField alloc] initWithTag:fieldTag data:fieldData]
+                                           : [[BibGenericRecordDataField alloc] initWithTag:fieldTag data:fieldData];
             [fields addObject:field];
         }
     }

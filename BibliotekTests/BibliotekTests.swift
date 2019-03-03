@@ -85,11 +85,11 @@ class BibliotekTests: XCTestCase {
             XCTAssertEqual(rs.count, 1)
             let record = rs.first
             XCTAssertNotNil(record)
-            let isbn13Field = record?.dataFields.first(where: { $0.tag == "020" })
+            let isbn13Field = record?.fields.first(where: { $0.tag.rawValue == "020" }) as? Record.DataField
             XCTAssertNotNil(isbn13Field)
             guard let subfields = isbn13Field?.subfields else { return }
             XCTAssertEqual(subfields.count, 1)
-            let isbn13Subfield = subfields.first(where: { $0.identifier == "a" })
+            let isbn13Subfield = subfields.first(where: { $0.code.rawValue == "a" })
             XCTAssertNotNil(isbn13Subfield)
             guard let isbn13 = isbn13Subfield?.content else { return }
             XCTAssertEqual(isbn13, r.keywords.first!)
@@ -158,13 +158,13 @@ class BibliotekTests: XCTestCase {
             let c = try Connection(host: "z3950.loc.gov", port: 7090, database: "VOYAGER")
             let r = FetchRequest(keywords: ["9780385527880"], scope: .isbn)
             let record = (try c.fetchRecords(request: r)).first
-            let titleStatementField = record?.dataFields.first(where: { $0.tag == "245" })
+            let titleStatementField = record?.fields.first(where: { $0.tag.rawValue == "245" }) as? Record.DataField
             XCTAssertNotNil(titleStatementField)
-            XCTAssertEqual(titleStatementField?.indicators, ["1", "0"])
+            XCTAssertEqual(titleStatementField?.indicators, [Record.FieldIndicator("1"), .init(rawValue: "0")])
             guard let subfields = titleStatementField?.subfields else { return }
-            let titleSubfield = subfields.first(where: { $0.identifier == "a" })
-            let subtitleSubfield = subfields.first(where: { $0.identifier == "b" })
-            let authorSubfield = subfields.first(where: { $0.identifier == "c" })
+            let titleSubfield = subfields.first(where: { $0.code.rawValue == "a" })
+            let subtitleSubfield = subfields.first(where: { $0.code.rawValue == "b" })
+            let authorSubfield = subfields.first(where: { $0.code.rawValue == "c" })
             XCTAssertNotNil(titleSubfield)
             XCTAssertEqual(titleSubfield?.content, "In the land of invented languages :")
             XCTAssertNotNil(subtitleSubfield)

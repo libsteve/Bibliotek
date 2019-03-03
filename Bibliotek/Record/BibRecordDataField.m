@@ -51,11 +51,6 @@ static uint8_t const kFieldTerminator = 0x1E;
 
 - (instancetype)initWithIndicators:(NSArray<BibRecordFieldIndicator> *)indicators
                          subfields:(NSArray<BibRecordSubfield *> *)subfields {
-    if ([[self class] isEqual:[BibRecordDataField class]]) {
-        [NSException raise:NSInternalInconsistencyException
-                    format:@"A subclass must override the abstract method %@", NSStringFromSelector(_cmd)];
-        return nil;
-    }
     if (self = [super init]) {
         _indicators = [indicators copy];
         _subfields = [subfields copy];

@@ -13,6 +13,8 @@
     BibRecordFieldTag _tag;
 }
 
+- (BibRecordFieldTag)tag { return _tag; }
+
 - (instancetype)initWithData:(NSData *)data {
     [self doesNotRecognizeSelector:_cmd];
     return nil;
