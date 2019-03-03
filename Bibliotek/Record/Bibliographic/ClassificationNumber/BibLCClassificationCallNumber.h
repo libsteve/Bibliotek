@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "BibClassificationCallNumber.h"
-#import "BibRecordField.h"
+#import "BibRecordDataField.h"
 
 @class BibRecordSubfield;
 

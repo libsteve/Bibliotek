@@ -1,13 +1,12 @@
 //
-//  BibRecordField.m
+//  BibRecordControlField.m
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 3/3/19.
 //  Copyright © 2019 Steve Brunwasser. All rights reserved.
 //
 
-#import "BibRecordField.h"
-#import "BibRecordSubfield.h"
+#import "BibRecordControlField.h"
 
 @implementation BibRecordControlField
 

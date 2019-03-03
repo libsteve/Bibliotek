@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BibRecordField.h"
+#import "BibRecordDataField.h"
 
 @class BibRecordSubfield;
 

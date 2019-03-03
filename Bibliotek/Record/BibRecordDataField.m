@@ -1,12 +1,12 @@
 //
-//  BibRecordField.m
+//  BibRecordDataField.m
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 3/3/19.
 //  Copyright © 2019 Steve Brunwasser. All rights reserved.
 //
 
-#import "BibRecordField.h"
+#import "BibRecordDataField.h"
 #import "BibRecordSubfield.h"
 
 static uint8_t const kSubfieldDelimiter = 0x1F;
