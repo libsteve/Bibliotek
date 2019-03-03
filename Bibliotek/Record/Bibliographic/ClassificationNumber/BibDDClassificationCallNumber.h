@@ -24,16 +24,6 @@ NS_SWIFT_NAME(DDClassificationCallNumber)
 
 @property (nonatomic, copy, readonly, nullable) BibMarcOrganization assigningAgency;
 
-- (instancetype)init NS_UNAVAILABLE;
-
-- (instancetype)initWithClassificationNumber:(NSString *)classificationNumber
-                                  itemNumber:(nullable NSString *)itemNumber
-                          alternativeNumbers:(nullable NSArray<NSString *> *)alternativeNumbers
-                             scheduleEdition:(NSString *)scheduleEdition
-                                 editionKind:(BibEditionKind)editionKind
-                             assigningAgency:(nullable BibMarcOrganization)assigningAgency
-                  libraryOfCongressOwnership:(BibLibraryOfCongressOwnership)libraryOfCongressOwnership NS_DESIGNATED_INITIALIZER;
-
 @end
 
 NS_ASSUME_NONNULL_END

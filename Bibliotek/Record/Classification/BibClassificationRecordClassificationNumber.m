@@ -41,16 +41,4 @@ static BibRecordFieldTag const kRecordFieldTag = @"153";
     return self;
 }
 
-- (BOOL)isEqualToDataField:(BibRecordDataField *)dataField {
-    BibClassificationRecordClassificationNumber *other = (id)dataField;
-    return [dataField isKindOfClass:[BibClassificationRecordClassificationNumber class]]
-        && (_tableIdentifier == [other tableIdentifier] || [_tableIdentifier isEqualToString:[other tableIdentifier]])
-        && [_classificationNumbers isEqualToArray:[other classificationNumbers]]
-        && [_captions isEqualToArray:[other captions]];
-}
-
-- (NSUInteger)hash {
-    return [_tableIdentifier hash] ^ [_classificationNumbers hash] ^ [_captions hash];
-}
-
 @end

@@ -12,11 +12,6 @@
     BibRecordFieldTag _tag;
 }
 
-- (instancetype)init {
-    [self doesNotRecognizeSelector:_cmd];
-    return nil;
-}
-
 - (BibRecordFieldTag)tag { return _tag; }
 
 - (instancetype)initWithData:(NSData *)data {
@@ -40,24 +35,8 @@
 - (instancetype)initWithTag:(BibRecordFieldTag)tag content:(NSString *)content {
     if (self = [super initWithContent:content]) {
         _tag = [tag copy];
-        _content = [content copy];
     }
     return self;
-}
-
-- (NSString *)description {
-    return [NSString stringWithFormat:@"%@ %@", _tag, _content];
-}
-
-#pragma mark - Equality
-
-- (BOOL)isEqualToControlField:(BibRecordControlField *)controlField {
-    return [controlField isKindOfClass:[BibGenericRecordControlField class]]
-        && [_tag isEqualToString:[controlField tag]] && [_content isEqualToString:[(id)controlField content]];
-}
-
-- (NSUInteger)hash {
-    return [_tag hash] ^ [_content hash];
 }
 
 @end

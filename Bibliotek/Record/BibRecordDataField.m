@@ -12,7 +12,7 @@
 static uint8_t const kSubfieldDelimiter = 0x1F;
 static uint8_t const kFieldTerminator = 0x1E;
 
-@implementation BibRecordControlField
+@implementation BibRecordDataField
 
 - (BibRecordFieldTag)tag {
     [NSException raise:NSInternalInconsistencyException
@@ -20,38 +20,8 @@ static uint8_t const kFieldTerminator = 0x1E;
     return nil;
 }
 
-- (instancetype)initWithData:(NSData *)data {
-    NSRange const contentRange = NSMakeRange(0, [data length] - 1);
-    NSString *const content = [[NSString alloc] initWithData:[data subdataWithRange:contentRange]
-                                                    encoding:NSASCIIStringEncoding];
-    return [self initWithContent:content];
-}
-
-- (instancetype)initWithContent:(NSString *)content {
-    if ([[self class] isEqual:[BibRecordControlField class]]) {
-        [NSException raise:NSInternalInconsistencyException
-                    format:@"A subclass must override the abstract method %@", NSStringFromSelector(_cmd)];
-        return nil;
-    }
-    return [super init];
-}
-
-- (BOOL)isEqualToControlField:(BibRecordControlField *)controlField {
-    return [super isEqual:controlField];
-}
-
-- (BOOL)isEqual:(id)object {
-    return (self == object)
-        || ([object isKindOfClass:[BibRecordControlField class]] && [self isEqualToControlField:object]);
-}
-
-@end
-
-@implementation BibRecordDataField
-
-- (BibRecordFieldTag)tag {
-    [NSException raise:NSInternalInconsistencyException
-                format:@"A subclass must override the abstract method %@", NSStringFromSelector(_cmd)];
+- (instancetype)init {
+    [self doesNotRecognizeSelector:_cmd];
     return nil;
 }
 
@@ -86,16 +56,32 @@ static uint8_t const kFieldTerminator = 0x1E;
                     format:@"A subclass must override the abstract method %@", NSStringFromSelector(_cmd)];
         return nil;
     }
-    return [super init];
+    if (self = [super init]) {
+        _indicators = [indicators copy];
+        _subfields = [subfields copy];
+    }
+    return self;
 }
+
+- (NSString *)description {
+    NSMutableArray *indicators = [NSMutableArray arrayWithCapacity:[_indicators count]];
+    for (NSString *indicator in _indicators) {
+        [indicators addObject:([indicator isEqualToString:@" "] ? @"#" : indicator)];
+    }
+    NSString *const subfields = [_subfields componentsJoinedByString:@""];
+    return [NSString stringWithFormat:@"%@ %@ %@", [self tag], [indicators componentsJoinedByString:@""], subfields];
+}
+
+#pragma mark - Equality
 
 - (BOOL)isEqualToDataField:(BibRecordDataField *)dataField {
-    return [super isEqual:dataField];
+    return [[self tag] isEqualToString:[dataField tag]]
+        && [_indicators isEqualToArray:[dataField indicators]]
+        && [_subfields isEqualToArray:[dataField subfields]];
 }
 
-- (BOOL)isEqual:(id)object {
-    return (self == object)
-        || ([object isKindOfClass:[BibRecordDataField class]] && [self isEqualToDataField:object]);
+- (NSUInteger)hash {
+    return [[self tag] hash] ^ [_indicators hash] ^ [_subfields hash];
 }
 
 @end

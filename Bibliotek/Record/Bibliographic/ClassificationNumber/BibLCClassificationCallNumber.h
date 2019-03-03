@@ -26,17 +26,6 @@ NS_SWIFT_NAME(LCClassificationCallNumber)
 
 @property (nonatomic, assign, readonly) BibLCClassificationCallNumberSource source;
 
-- (instancetype)init NS_UNAVAILABLE;
-
-- (instancetype)initWithIndicators:(NSArray<BibRecordFieldIndicator> *)indicators
-                         subfields:(NSArray<BibRecordSubfield *> *)subfields;
-
-- (instancetype)initWithClassificationNumber:(NSString *)classificationNumber
-                                  itemNumber:(nullable NSString *)itemNumber
-                          alternativeNumbers:(nullable NSArray<NSString *> *)alternativeNumbers
-                  libraryOfCongressOwnership:(BibLibraryOfCongressOwnership)libraryOfCongressOwnership
-                                      source:(BibLCClassificationCallNumberSource)source NS_DESIGNATED_INITIALIZER;
-
 @end
 
 NS_ASSUME_NONNULL_END

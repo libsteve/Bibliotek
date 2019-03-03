@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Record.GenericControlField: CustomReflectable {
+extension Record.ControlField: CustomReflectable {
     public var customMirror: Mirror {
         return Mirror(self, children: [(label: "tag", value: content)],
                       displayStyle: .dictionary, ancestorRepresentation: .suppressed)

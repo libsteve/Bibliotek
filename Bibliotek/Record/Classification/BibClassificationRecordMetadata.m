@@ -58,17 +58,4 @@ static BibRecordFieldTag const kRecordFieldTag = @"008";
     return self;
 }
 
-- (BOOL)isEqualToControlField:(BibRecordControlField *)controlField {
-    BibClassificationRecordMetadata *other = (id)controlField;
-    return [other isKindOfClass:[BibClassificationRecordMetadata class]]
-        && [_creationDate isEqualToDate:[other creationDate]]
-        && _recordKind == [other recordKind]
-        && _recordValidity == [other recordValidity]
-        && _standardization == [other standardization];
-}
-
-- (NSUInteger)hash {
-    return [_creationDate hash] ^ _recordKind ^ _recordValidity ^ _standardization;
-}
-
 @end

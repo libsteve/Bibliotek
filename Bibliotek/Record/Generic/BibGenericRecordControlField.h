@@ -18,11 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 NS_SWIFT_NAME(Record.GenericControlField)
 @interface BibGenericRecordControlField : BibRecordControlField
 
-/// The stored data within this control field.
-@property (nonatomic, copy, readonly) NSString *content;
-
-- (instancetype)init NS_UNAVAILABLE;
-
 - (instancetype)initWithData:(NSData *)data NS_UNAVAILABLE;
 
 - (instancetype)initWithContent:(NSString *)content NS_UNAVAILABLE;
@@ -30,11 +25,6 @@ NS_SWIFT_NAME(Record.GenericControlField)
 - (instancetype)initWithTag:(BibRecordFieldTag)tag data:(NSData *)data NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithTag:(BibRecordFieldTag)tag content:(NSString *)content NS_DESIGNATED_INITIALIZER;
-
-/// Determine whether or not the given control field represents the same data as the receiver.
-/// \param controlField The control field with which the receiver should be compared.
-/// \returns Returns \c YES if the given control field and the receiver have the same tag and content data.
-- (BOOL)isEqualToControlField:(BibGenericRecordControlField *)controlField;
 
 @end
 

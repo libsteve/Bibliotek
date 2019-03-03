@@ -30,6 +30,10 @@ NS_SWIFT_NAME(RecordField)
 NS_SWIFT_NAME(Record.ControlField)
 @interface BibRecordControlField : NSObject <BibRecordField>
 
+@property (nonatomic, copy, readonly) NSString *content;
+
+- (instancetype)init NS_UNAVAILABLE;
+
 - (instancetype)initWithContent:(NSString *)content;
 
 /// Determine whether or not the given control field represents the same data as the receiver.
@@ -45,6 +49,12 @@ NS_SWIFT_NAME(Record.ControlField)
 /// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html.
 NS_SWIFT_NAME(Record.DataField)
 @interface BibRecordDataField : NSObject <BibRecordField>
+
+@property (nonatomic, copy, readonly) NSArray<BibRecordFieldIndicator> *indicators;
+
+@property (nonatomic, copy, readonly) NSArray<BibRecordSubfield *> *subfields;
+
+- (instancetype)init NS_UNAVAILABLE;
 
 - (instancetype)initWithIndicators:(NSArray<BibRecordFieldIndicator> *)indicators
                          subfields:(NSArray<BibRecordSubfield *> *)subfields;

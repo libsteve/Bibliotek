@@ -55,23 +55,7 @@ static BibRecordFieldTag const kRecordFieldTag = @"082";
                                       : [NSArray array];
     NSString *const scheduleEdition = [[[subfields filteredArrayUsingPredicate:sScheduleEditionPredicate] firstObject] content];
     NSString *const assigningAgency = [[[subfields filteredArrayUsingPredicate:sAssigningAgencyPredicate] firstObject] content];
-    return [self initWithClassificationNumber:classificationNumber
-                                   itemNumber:itemNumber
-                           alternativeNumbers:alternativeNumbers
-                              scheduleEdition:scheduleEdition
-                                  editionKind:editionKind
-                              assigningAgency:assigningAgency
-                   libraryOfCongressOwnership:libraryOfCongressOwnership];
-}
-
-- (instancetype)initWithClassificationNumber:(NSString *)classificationNumber
-                                  itemNumber:(NSString *)itemNumber
-                          alternativeNumbers:(NSArray<NSString *> *)alternativeNumbers
-                             scheduleEdition:(NSString *)scheduleEdition
-                                 editionKind:(BibEditionKind)editionKind
-                             assigningAgency:(BibMarcOrganization)assigningAgency
-                libraryOfCongressOwnership:(BibLibraryOfCongressOwnership)libraryOfCongressOwnership {
-    if (self = [super initWithIndicators:@[] subfields:@[]]) {
+    if (self = [super initWithIndicators:indicators subfields:subfields]) {
         _classificationNumber = [classificationNumber copy];
         _itemNumber = [itemNumber copy];
         _alternativeNumbers = [alternativeNumbers copy] ?: [NSArray array];
@@ -81,42 +65,6 @@ static BibRecordFieldTag const kRecordFieldTag = @"082";
         _libraryOfCongressOwnership = libraryOfCongressOwnership;
     }
     return self;
-}
-
-- (BOOL)isEqualToDataField:(BibRecordDataField *)dataField {
-    BibDDClassificationCallNumber *other = (id)dataField;
-    return [dataField isKindOfClass:[BibDDClassificationCallNumber class]]
-        && [_classificationNumber isEqualToString:[other classificationNumber]]
-        && (_itemNumber == [other itemNumber] || [_itemNumber isEqualToString:[other itemNumber]])
-        && [_alternativeNumbers isEqualToArray:[other alternativeNumbers]]
-        && (_scheduleEdition == [other scheduleEdition] || [_scheduleEdition isEqualToString:[other scheduleEdition]])
-        && (_editionKind == [other editionKind])
-        && (_assigningAgency == [other assigningAgency] || [_assigningAgency isEqualToString:[other assigningAgency]])
-        && (_libraryOfCongressOwnership == [other libraryOfCongressOwnership]);
-}
-
-- (NSUInteger)hash {
-    return [_classificationNumber hash] ^ [_itemNumber hash] ^ [_alternativeNumbers hash]
-         ^ [_scheduleEdition hash] ^ _editionKind ^ [_assigningAgency hash]
-         ^ _libraryOfCongressOwnership;
-}
-
-- (NSString *)description {
-    NSMutableArray *components = [@[ [NSString stringWithFormat:@"$2%@", _scheduleEdition],
-                                     [NSString stringWithFormat:@"$a%@", _classificationNumber] ] mutableCopy];
-    if (_itemNumber) {
-        [components addObject:[NSString stringWithFormat:@"$b%@", _itemNumber]];
-    }
-    for (NSString *alternate in _alternativeNumbers) {
-        [components addObject:[NSString stringWithFormat:@"$a%@", alternate]];
-    }
-    if (_assigningAgency) {
-        [components addObject:[NSString stringWithFormat:@"$q%@", _assigningAgency]];
-    }
-    char const ownership =
-        (_libraryOfCongressOwnership == BibLibraryOfCongressOwnershipUnknown) ? '#' : _libraryOfCongressOwnership;
-    return [NSString stringWithFormat:@"%@ %c%c %@", [self tag], (char)_editionKind, ownership,
-                                                     [components componentsJoinedByString:@""]];
 }
 
 @end

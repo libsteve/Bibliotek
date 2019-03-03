@@ -13,11 +13,6 @@
     BibRecordFieldTag _tag;
 }
 
-- (instancetype)init {
-    [self doesNotRecognizeSelector:_cmd];
-    return nil;
-}
-
 - (instancetype)initWithData:(NSData *)data {
     [self doesNotRecognizeSelector:_cmd];
     return nil;
@@ -40,35 +35,10 @@
 - (instancetype)initWithTag:(BibRecordFieldTag)tag
                  indicators:(NSArray<NSString *> *)indicators
                   subfields:(NSArray<BibRecordSubfield *> *)subfields {
-    if (self = [super init]) {
+    if (self = [super initWithIndicators:indicators subfields:subfields]) {
         _tag = [tag copy];
-        _indicators = [indicators copy];
-        _subfields = [subfields copy];
     }
     return self;
-}
-
-- (NSString *)description {
-    NSMutableArray *indicators = [NSMutableArray arrayWithCapacity:[_indicators count]];
-    for (NSString *indicator in _indicators) {
-        [indicators addObject:([indicator isEqualToString:@" "] ? @"#" : indicator)];
-    }
-    NSString *const subfields = [_subfields componentsJoinedByString:@""];
-    return [NSString stringWithFormat:@"%@ %@ %@", _tag, [indicators componentsJoinedByString:@""], subfields];
-}
-
-#pragma mark - Equality
-
-- (BOOL)isEqualToDataField:(BibRecordDataField *)dataField {
-    BibGenericRecordDataField *other = (id)dataField;
-    return [other isKindOfClass:[BibGenericRecordDataField class]]
-        && [_tag isEqualToString:[other tag]]
-        && [_indicators isEqualToArray:[other indicators]]
-        && [_subfields isEqualToArray:[other subfields]];
-}
-
-- (NSUInteger)hash {
-    return [_tag hash] ^ [_indicators hash] ^ [_subfields hash];
 }
 
 @end

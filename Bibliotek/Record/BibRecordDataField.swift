@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Record.GenericDataField: CustomReflectable {
+extension Record.DataField: CustomReflectable {
     public var customMirror: Mirror {
         let children: [Mirror.Child] = [(label: "tag", value: tag.rawValue),
                                         (label: "indicators", value: indicators.map { $0.rawValue }.joined()),

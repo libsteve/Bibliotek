@@ -20,12 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 NS_SWIFT_NAME(Record.GenericDataField)
 @interface BibGenericRecordDataField : BibRecordDataField
 
-@property (nonatomic, copy, readonly) NSArray<BibRecordFieldIndicator> *indicators;
-
-@property (nonatomic, copy, readonly) NSArray<BibRecordSubfield *> *subfields;
-
-- (instancetype)init NS_UNAVAILABLE;
-
 - (instancetype)initWithData:(NSData *)data NS_UNAVAILABLE;
 
 - (instancetype)initWithIndicators:(NSArray<BibRecordFieldIndicator> *)indicators
@@ -36,8 +30,6 @@ NS_SWIFT_NAME(Record.GenericDataField)
 - (instancetype)initWithTag:(BibRecordFieldTag)tag
                  indicators:(NSArray<BibRecordFieldIndicator> *)indicators
                   subfields:(NSArray<BibRecordSubfield *> *)subfields NS_DESIGNATED_INITIALIZER;
-
-- (BOOL)isEqualToDataField:(BibGenericRecordDataField *)dataField;
 
 @end
 
