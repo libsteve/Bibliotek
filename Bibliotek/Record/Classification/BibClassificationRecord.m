@@ -17,37 +17,43 @@
 static NSPredicate *sMetadataPredicate;
 static NSPredicate *sNumberPredicate;
 static NSPredicate *sSchemePredicate;
+static NSDictionary *sRecordFieldTypes;
 
 @implementation BibClassificationRecord
 
 + (void)initialize {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sMetadataPredicate = [NSPredicate predicateWithFormat:@"tag == '%@'", [BibClassificationRecordMetadata recordFieldTag]];
-        sNumberPredicate = [NSPredicate predicateWithFormat:@"tag == '%@'", [BibClassificationRecordClassificationNumber recordFieldTag]];
-        sSchemePredicate = [NSPredicate predicateWithFormat:@"tag == '%@'", [BibClassificationRecordClassificationScheme recordFieldTag]];
+        Class const metadataClass = [BibClassificationRecordMetadata class];
+        sMetadataPredicate = [NSPredicate predicateWithBlock:^(id object, id bindings){
+            return [object isKindOfClass:metadataClass];
+        }];
+        Class const numberClass = [BibClassificationRecordClassificationNumber class];
+        sNumberPredicate = [NSPredicate predicateWithBlock:^(id object, id bindings){
+            return [object isKindOfClass:numberClass];
+        }];
+        Class const schemeClass = [BibClassificationRecordClassificationScheme class];
+        sSchemePredicate = [NSPredicate predicateWithBlock:^(id object, id bindings){
+            return [object isKindOfClass:schemeClass];
+        }];
+        sRecordFieldTypes = @{ [metadataClass recordFieldTag] : [metadataClass class],
+                               [numberClass recordFieldTag] : [numberClass class],
+                               [schemeClass recordFieldTag] : [schemeClass class] };
     });
 }
+
++ (NSDictionary<BibRecordFieldTag,Class> *)recordFieldTypes { return sRecordFieldTypes; }
 
 - (instancetype)initWithLeader:(BibRecordLeader *)leader
                      directory:(NSArray<BibRecordDirectoryEntry *> *)directory
                  controlFields:(NSArray<BibRecordControlField *> *)controlFields
                     dataFields:(NSArray<BibRecordDataField *> *)dataFields {
     if (self = [super initWithLeader:leader directory:directory controlFields:controlFields dataFields:dataFields]) {
-        BibRecordControlField *const metadataField = [[controlFields filteredArrayUsingPredicate:sMetadataPredicate] firstObject];
-        _metadata = [[BibClassificationRecordMetadata alloc] initWithContent:[metadataField content]];
-        BibRecordDataField *const numberField = [[dataFields filteredArrayUsingPredicate:sNumberPredicate] firstObject];
-        _classificationNumber = [[BibClassificationRecordClassificationNumber alloc] initWithIndicators:[numberField indicators]
-                                                                                              subfields:[numberField subfields]];
-        BibRecordDataField *const schemeField = [[dataFields filteredArrayUsingPredicate:sSchemePredicate] firstObject];
-        _classificationScheme = [[BibClassificationRecordClassificationScheme alloc] initWithIndicators:[schemeField indicators]
-                                                                                              subfields:[schemeField subfields]];
+        _metadata = [[controlFields filteredArrayUsingPredicate:sMetadataPredicate] firstObject];
+        _classificationNumber = [[dataFields filteredArrayUsingPredicate:sNumberPredicate] firstObject];
+        _classificationScheme = [[dataFields filteredArrayUsingPredicate:sSchemePredicate] firstObject];
     }
     return self;
 }
 
 @end
-
-BibRecordFieldTag const BibRecordFieldTagClassificationRecordMetadata = @"008";
-BibRecordFieldTag const BibRecordFieldTagClassificationRecordClassificationScheme = @"084";
-BibRecordFieldTag const BibRecordFieldTagClassificationRecordClassificationNumber = @"153";

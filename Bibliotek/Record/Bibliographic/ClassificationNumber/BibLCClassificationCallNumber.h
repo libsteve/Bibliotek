@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "BibClassificationCallNumber.h"
+#import "BibRecordDataField.h"
 
 @class BibRecordSubfield;
 
@@ -21,14 +22,14 @@ typedef NS_ENUM(NSUInteger, BibLCClassificationCallNumberSource) {
 
 /// http://www.loc.gov/marc/bibliographic/bd050.html
 NS_SWIFT_NAME(LCClassificationCallNumber)
-@interface BibLCClassificationCallNumber : NSObject <BibClassificationCallNumber>
+@interface BibLCClassificationCallNumber : BibRecordDataField <BibClassificationCallNumber>
 
 @property (nonatomic, assign, readonly) BibLCClassificationCallNumberSource source;
 
 - (instancetype)init NS_UNAVAILABLE;
 
 - (instancetype)initWithIndicators:(NSArray<BibRecordFieldIndicator> *)indicators
-                         subfields:(NSArray<BibRecordSubfield *> *)subfields;
+                         subfields:(NSArray<BibRecordSubfield *> *)subfields NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithClassificationNumber:(NSString *)classificationNumber
                                   itemNumber:(nullable NSString *)itemNumber

@@ -11,13 +11,14 @@
 @implementation BibRecordControlField
 
 - (instancetype)init {
-    return [self initWithTag:@"000" content:@""];
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
 }
 
 - (instancetype)initWithTag:(BibRecordFieldTag)tag data:(NSData *)data {
     NSRange const contentRange = NSMakeRange(0, [data length] - 1);
     NSString *const content = [[NSString alloc] initWithData:[data subdataWithRange:contentRange]
-                                                   encoding:NSASCIIStringEncoding];
+                                                    encoding:NSASCIIStringEncoding];
     return [self initWithTag:tag content:content];
 }
 

@@ -24,6 +24,8 @@ NS_SWIFT_NAME(Record.ControlField)
 /// The stored data within this control field.
 @property (nonatomic, copy, readonly) NSString *content;
 
+- (instancetype)init NS_UNAVAILABLE;
+
 - (instancetype)initWithTag:(BibRecordFieldTag)tag data:(NSData *)data;
 
 - (instancetype)initWithTag:(BibRecordFieldTag)tag content:(NSString *)content NS_DESIGNATED_INITIALIZER;

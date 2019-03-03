@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BibRecordConstants.h"
 
 @class BibRecordLeader;
 @class BibRecordDirectoryEntry;
@@ -36,6 +37,8 @@ NS_SWIFT_NAME(Record)
 
 /// A list of variable field containing bibliographic and other data about the item or entity represented by the record.
 @property (nonatomic, copy, readonly) NSArray<BibRecordDataField *> *dataFields;
+
+@property (class, nonatomic, copy, readonly) NSDictionary<BibRecordFieldTag, Class> *recordFieldTypes;
 
 - (instancetype)initWithData:(NSData *)data;
 

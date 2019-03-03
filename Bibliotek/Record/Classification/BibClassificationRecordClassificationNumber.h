@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "BibRecordConstants.h"
+#import "BibRecordDataField.h"
 
 @class BibRecordSubfield;
 
@@ -15,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// http://www.loc.gov/marc/classification/cdx53.html
 NS_SWIFT_NAME(ClassificationRecord.ClassificationNumber)
-@interface BibClassificationRecordClassificationNumber : NSObject
+@interface BibClassificationRecordClassificationNumber : BibRecordDataField
 
 @property (nonatomic, copy, readonly, nullable) NSString *tableIdentifier;
 

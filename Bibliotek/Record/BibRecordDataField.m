@@ -15,7 +15,8 @@ static uint8_t const kFieldTerminator = 0x1E;
 @implementation BibRecordDataField
 
 - (instancetype)init {
-    return [self initWithTag:@"000" indicators:@[] subfields:@[]];
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
 }
 
 - (instancetype)initWithTag:(BibRecordFieldTag)tag data:(NSData *)data {

@@ -22,6 +22,10 @@ static NSUInteger const kDirectoryEntryLength = 12;
 
 @implementation BibRecord
 
++ (NSDictionary<BibRecordFieldTag,Class> *)recordFieldTypes {
+    return @{};
+}
+
 - (instancetype)init {
     return [self initWithLeader:[BibRecordLeader new] directory:@[] controlFields:@[] dataFields:@[]];
 }
@@ -79,10 +83,13 @@ static NSUInteger const kDirectoryEntryLength = 12;
         NSRange fieldRange = [entry fieldRange];
         fieldRange.location += recordBodyLocation;
         NSData *const fieldData = [data subdataWithRange:fieldRange];
+        Class const suggestedFieldClass = [[[self class] recordFieldTypes] objectForKey:fieldTag];
         if ([fieldTag hasPrefix:@"00"]) {
-            [controlFields addObject:[[BibRecordControlField alloc] initWithTag:fieldTag data:fieldData]];
+            Class const finalFieldClass = suggestedFieldClass ?: [BibRecordControlField class];
+            [controlFields addObject:[[finalFieldClass alloc] initWithTag:fieldTag data:fieldData]];
         } else {
-            [dataFields addObject:[[BibRecordDataField alloc] initWithTag:fieldTag data:fieldData]];
+            Class const finalFieldClass = suggestedFieldClass ?: [BibRecordDataField class];
+            [dataFields addObject:[[finalFieldClass alloc] initWithTag:fieldTag data:fieldData]];
         }
     }
     return [self initWithLeader:leader directory:directory controlFields:controlFields dataFields:dataFields];

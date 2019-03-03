@@ -12,6 +12,8 @@
 static NSPredicate *sClassificationNumberPredicate;
 static NSPredicate *sItemNumberPredicate;
 
+static BibRecordFieldTag const sRecordFieldTag = @"050";
+
 @implementation BibLCClassificationCallNumber
 
 @synthesize classificationNumber = _classificationNumber;
@@ -29,16 +31,17 @@ static NSPredicate *sItemNumberPredicate;
 }
 
 + (BibRecordFieldTag)recordFieldTag {
-    return @"050";
+    return sRecordFieldTag;
 }
 
-- (instancetype)init {
-    [self doesNotRecognizeSelector:_cmd];
-    return [self initWithClassificationNumber:@"QA76.76.C672"
-                                   itemNumber:@"B3693 2011"
-                           alternativeNumbers:[NSArray array]
-                   libraryOfCongressOwnership:BibLibraryOfCongressOwnershipUnknown
-                                       source:BibLCClassificationCallNumberSourceUnknown];
+- (instancetype)initWithTag:(BibRecordFieldTag)tag
+                 indicators:(NSArray<BibRecordFieldIndicator> *)indicators
+                  subfields:(NSArray<BibRecordSubfield *> *)subfields {
+    if (![tag isEqualToString:sRecordFieldTag]) {
+        [NSException raise:NSInvalidArgumentException
+                    format:@"%@ must have tag %@", NSStringFromClass([self class]), sRecordFieldTag];
+    }
+    return [self initIndicators:indicators subfields:subfields];
 }
 
 - (instancetype)initWithIndicators:(NSArray<BibRecordFieldIndicator> *)indicators
@@ -53,11 +56,14 @@ static NSPredicate *sItemNumberPredicate;
     NSArray *const alternativeNumbers = (classificationNumbersCount)
                                       ? [classificationNumbers subarrayWithRange:alternativeNumbersRange]
                                       : [NSArray array];
-    return [self initWithClassificationNumber:classificationNumber
-                                   itemNumber:itemNumber
-                           alternativeNumbers:alternativeNumbers
-                    libraryOfCongressOwnership:libraryOfCongressOwnership
-                                       source:source];
+    if (self = [super initWithTag:sRecordFieldTag indicators:indicators subfields:subfields]) {
+        _classificationNumber = [classificationNumber copy];
+        _itemNumber = [itemNumber copy];
+        _alternativeNumbers = [alternativeNumbers copy] ?: [NSArray array];
+        _libraryOfCongressOwnership = libraryOfCongressOwnership;
+        _source = source;
+    }
+    return self;
 }
 
 - (instancetype)initWithClassificationNumber:(NSString *)classificationNumber
@@ -65,7 +71,17 @@ static NSPredicate *sItemNumberPredicate;
                           alternativeNumbers:(NSArray<NSString *> *)alternativeNumbers
                   libraryOfCongressOwnership:(BibLibraryOfCongressOwnership)libraryOfCongressOwnership
                                       source:(BibLCClassificationCallNumberSource)source {
-    if (self = [super init]) {
+    NSArray *const indicators = @[[NSString stringWithFormat:@"%c", libraryOfCongressOwnership],
+                                  [NSString stringWithFormat:@"%c", source]];
+    NSMutableArray *const subfields = [NSMutableArray array];
+    [subfields addObject:[[BibRecordSubfield alloc] initWithCode:@"a" content:classificationNumber]];
+    if (itemNumber) {
+        [subfields addObject:[[BibRecordSubfield alloc] initWithCode:@"b" content:itemNumber]];
+    }
+    for (NSString *alternateNumber in alternativeNumbers) {
+        [subfields addObject:[[BibRecordSubfield alloc] initWithCode:@"a" content:alternativeNumbers]];
+    }
+    if (self = [super initWithTag:sRecordFieldTag indicators:indicators subfields:subfields]) {
         _classificationNumber = [classificationNumber copy];
         _itemNumber = [itemNumber copy];
         _alternativeNumbers = [alternativeNumbers copy] ?: [NSArray array];

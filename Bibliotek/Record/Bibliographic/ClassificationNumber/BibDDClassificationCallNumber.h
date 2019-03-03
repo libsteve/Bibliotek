@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "BibClassificationCallNumber.h"
 #import "BibRecordConstants.h"
+#import "BibRecordDataField.h"
 
 @class BibRecordSubfield;
 
@@ -16,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// http://www.loc.gov/marc/bibliographic/bd082.html
 NS_SWIFT_NAME(DDClassificationCallNumber)
-@interface BibDDClassificationCallNumber : NSObject <BibClassificationCallNumber>
+@interface BibDDClassificationCallNumber : BibRecordDataField <BibClassificationCallNumber>
 
 @property (nonatomic, assign, readonly) BibEditionKind editionKind;
 
@@ -27,7 +28,7 @@ NS_SWIFT_NAME(DDClassificationCallNumber)
 - (instancetype)init NS_UNAVAILABLE;
 
 - (instancetype)initWithIndicators:(NSArray<BibRecordFieldIndicator> *)indicators
-                         subfields:(NSArray<BibRecordSubfield *> *)subfields;
+                         subfields:(NSArray<BibRecordSubfield *> *)subfields NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithClassificationNumber:(NSString *)classificationNumber
                                   itemNumber:(nullable NSString *)itemNumber

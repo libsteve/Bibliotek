@@ -21,6 +21,8 @@ static NSPredicate *sLanguagePredicate;
 static NSPredicate *sAuthorizationPredicate;
 static NSPredicate *sAssigningAgencyPredicate;
 
+static BibRecordFieldTag const sRecordFieldTag = @"084";
+
 @implementation BibClassificationRecordClassificationScheme
 
 + (void)initialize {
@@ -40,17 +42,22 @@ static NSPredicate *sAssigningAgencyPredicate;
 }
 
 + (BibRecordFieldTag)recordFieldTag {
-    return BibRecordFieldTagClassificationRecordClassificationScheme;
+    return sRecordFieldTag;
 }
 
-- (instancetype)init {
-    return [self initWithIndicators:@[sOtherEdition, BibRecordFieldIndicatorBlank]
-                          subfields:@[[[BibRecordSubfield alloc] initWithCode:@"a" content:@"lcc"]]];
+- (instancetype)initWithTag:(BibRecordFieldTag)tag
+                 indicators:(NSArray<BibRecordFieldIndicator> *)indicators
+                  subfields:(NSArray<BibRecordSubfield *> *)subfields {
+    if (![tag isEqualToString:sRecordFieldTag]) {
+        [NSException raise:NSInvalidArgumentException
+                    format:@"%@ must have tag %@", NSStringFromClass([self class]), sRecordFieldTag];
+    }
+    return [self initIndicators:indicators subfields:subfields];
 }
 
 - (instancetype)initWithIndicators:(NSArray<BibRecordFieldIndicator> *)indicators
                          subfields:(NSArray<BibRecordSubfield *> *)subfields {
-    if (self = [super init]) {
+    if (self = [super initWithTag:sRecordFieldTag indicators:indicators subfields:subfields]) {
         _editionKind = [[indicators firstObject] characterAtIndex:0];
         _classificationScheme = [[[subfields filteredArrayUsingPredicate:sSchemePredicate] firstObject] content];
         _editionTitle = [[[subfields filteredArrayUsingPredicate:sEditionTitlePredicate] firstObject] content];

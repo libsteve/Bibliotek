@@ -34,8 +34,12 @@ static NSDateFormatter *sDateFormatter = nil;
     return BibRecordFieldTagClassificationRecordMetadata;
 }
 
-- (instancetype)init {
-    return [self initWithContent:@"700101aad||c||"];
+- (instancetype)initWithTag:(BibRecordFieldTag)tag content:(NSString *)content {
+    if (![tag isEqualToString:[[self class] recordFieldTag]]) {
+        [NSException raise:NSInvalidArgumentException
+                    format:@"%@ must have tag %@", NSStringFromClass([self class]), [[self class] recordFieldTag]];
+    }
+    return [self initWithContent:content];
 }
 
 - (instancetype)initWithContent:(NSString *)content {
@@ -45,7 +49,7 @@ static NSDateFormatter *sDateFormatter = nil;
                     format:@"Classification record's metadata must be exactly %lu characters long", length];
         return nil;
     }
-    if (self = [super init]) {
+    if (self = [super initWithTag:[[self class] recordFieldTag] content:content]) {
         _creationDate = [sDateFormatter dateFromString:[content substringWithRange:kCreationDateRange]];
         if (_creationDate == nil) {
             [NSException raise:NSInternalInconsistencyException

@@ -14,6 +14,8 @@ static NSPredicate *sNumbersPredicate;
 static NSPredicate *sCaptionsPredicate;
 static NSPredicate *sTableIdentifierPredicate;
 
+static BibRecordFieldTag const sRecordFieldTag = @"153";
+
 @implementation BibClassificationRecordClassificationNumber
 
 + (void)initialize {
@@ -29,15 +31,19 @@ static NSPredicate *sTableIdentifierPredicate;
     return BibRecordFieldTagClassificationRecordClassificationNumber;
 }
 
-- (instancetype)init {
-    return [self initWithIndicators:@[BibRecordFieldIndicatorBlank, BibRecordFieldIndicatorBlank]
-                          subfields:@[[[BibRecordSubfield alloc] initWithCode:@"a" content:@"F61"],
-                                      [[BibRecordSubfield alloc] initWithCode:@"h"
-                                                                      content:@"United States local history"]]];
+- (instancetype)initWithTag:(BibRecordFieldTag)tag
+                 indicators:(NSArray<BibRecordFieldIndicator> *)indicators
+                  subfields:(NSArray<BibRecordSubfield *> *)subfields {
+    if (![tag isEqualToString:sRecordFieldTag]) {
+        [NSException raise:NSInvalidArgumentException
+                    format:@"%@ must have tag %@", NSStringFromClass([self class]), sRecordFieldTag];
+    }
+    return [self initIndicators:indicators subfields:subfields];
 }
 
-- (instancetype)initWithIndicators:(NSArray<BibRecordFieldIndicator> *)indicators subfields:(NSArray<BibRecordSubfield *> *)subfields {
-    if (self = [super init]) {
+- (instancetype)initIndicators:(NSArray<BibRecordFieldIndicator> *)indicators
+                     subfields:(NSArray<BibRecordSubfield *> *)subfields {
+    if (self = [super initWithTag:sRecordFieldTag indicators:indicators subfields:subfields]) {
         _tableIdentifier = [[[subfields filteredArrayUsingPredicate:sTableIdentifierPredicate] firstObject] content];
         _classificationNumbers = [[subfields filteredArrayUsingPredicate:sNumbersPredicate] valueForKey:@"content"];
         _captions = [[subfields filteredArrayUsingPredicate:sCaptionsPredicate] valueForKey:@"content"];

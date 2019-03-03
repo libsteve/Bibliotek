@@ -11,21 +11,33 @@
 #import "BibLCClassificationCallNumber.h"
 #import "BibDDClassificationCallNumber.h"
 
-static NSPredicate *lccNumberPredicate;
-static NSPredicate *ddcNumberPredicate;
-
-static NSArray *objectsOfClassFromDataFieldsMatchingPredicate(Class class,
-                                                              NSArray<BibRecordDataField *> *dataFields,
-                                                              NSPredicate *predicate);
+static NSPredicate *sLCCCallNumberPredicate;
+static NSPredicate *sDDCCallNumberPredicate;
 
 @implementation BibBibliographicRecord
 
 + (void)initialize {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        lccNumberPredicate = [NSPredicate predicateWithFormat:@"tag == '%@'", [BibLCClassificationCallNumber recordFieldTag]];
-        ddcNumberPredicate = [NSPredicate predicateWithFormat:@"tag == '%@'", [BibDDClassificationCallNumber recordFieldTag]];
+        Class const lccCallNumberClass = [BibLCClassificationCallNumber class];
+        sLCCCallNumberPredicate = [NSPredicate predicateWithBlock:^(id object, id bindings) {
+            return [object isKindOfClass:lccCallNumberClass];
+        }];
+        Class const ddcCallNumberClass = [BibDDClassificationCallNumber class];
+        sDDCCallNumberPredicate = [NSPredicate predicateWithBlock:^(id object, id bindings) {
+            return [object isKindOfClass:ddcCallNumberClass];
+        }];
     });
+}
+
++ (NSDictionary<BibRecordFieldTag,Class> *)recordFieldTypes {
+    static NSDictionary *dictionary = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        dictionary = @{ [BibLCClassificationCallNumber recordFieldTag] : [BibLCClassificationCallNumber class],
+                        [BibDDClassificationCallNumber recordFieldTag] : [BibDDClassificationCallNumber class] };
+    });
+    return dictionary;
 }
 
 - (instancetype)initWithLeader:(BibRecordLeader *)leader
@@ -33,25 +45,10 @@ static NSArray *objectsOfClassFromDataFieldsMatchingPredicate(Class class,
                  controlFields:(NSArray<BibRecordControlField *> *)controlFields
                     dataFields:(NSArray<BibRecordDataField *> *)dataFields {
     if (self = [super initWithLeader:leader directory:directory controlFields:controlFields dataFields:dataFields]) {
-        _lccCallNumbers = objectsOfClassFromDataFieldsMatchingPredicate([BibLCClassificationCallNumber class],
-                                                                        dataFields,
-                                                                        lccNumberPredicate);
-        _ddcCallNumbers = objectsOfClassFromDataFieldsMatchingPredicate([BibLCClassificationCallNumber class],
-                                                                        dataFields,
-                                                                        ddcNumberPredicate);
+        _lccCallNumbers = [dataFields filteredArrayUsingPredicate:sLCCCallNumberPredicate];
+        _ddcCallNumbers = [dataFields filteredArrayUsingPredicate:sDDCCallNumberPredicate];
     }
     return self;
 }
 
 @end
-
-static NSArray *objectsOfClassFromDataFieldsMatchingPredicate(Class class,
-                                                              NSArray<BibRecordDataField *> *dataFields,
-                                                              NSPredicate *predicate) {
-    NSMutableArray *const objects = [NSMutableArray array];
-    for (BibRecordDataField *dataField in [dataFields filteredArrayUsingPredicate:predicate]) {
-        [objects addObject:[[BibLCClassificationCallNumber alloc] initWithIndicators:[dataField indicators]
-                                                                           subfields:[dataField subfields]]];
-    }
-    return [objects copy];
-}

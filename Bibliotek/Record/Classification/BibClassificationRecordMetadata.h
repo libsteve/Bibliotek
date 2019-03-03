@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "BibRecordConstants.h"
+#import "BibRecordControlField.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -40,7 +41,7 @@ typedef NS_ENUM(NSUInteger, BibClassificationRecordStandardization) {
 
 /// http://www.loc.gov/marc/classification/cd008.html
 NS_SWIFT_NAME(ClassificationRecord.Metadata)
-@interface BibClassificationRecordMetadata : NSObject
+@interface BibClassificationRecordMetadata : BibRecordControlField
 
 @property (nonatomic, strong, readonly) NSDate *creationDate;
 

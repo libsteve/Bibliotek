@@ -26,6 +26,8 @@ NS_SWIFT_NAME(Record.DataField)
 
 @property (nonatomic, copy, readonly) NSArray<BibRecordSubfield *> *subfields;
 
+- (instancetype)init NS_UNAVAILABLE;
+
 - (instancetype)initWithTag:(BibRecordFieldTag)tag data:(NSData *)data;
 
 - (instancetype)initWithTag:(BibRecordFieldTag)tag

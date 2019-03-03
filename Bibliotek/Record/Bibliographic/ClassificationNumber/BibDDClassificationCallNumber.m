@@ -14,6 +14,8 @@ static NSPredicate *sItemNumberPredicate;
 static NSPredicate *sScheduleEditionPredicate;
 static NSPredicate *sAssigningAgencyPredicate;
 
+static BibRecordFieldTag const sRecordFieldTag = @"082";
+
 @implementation BibDDClassificationCallNumber
 
 @synthesize classificationNumber = _classificationNumber;
@@ -36,18 +38,17 @@ static NSPredicate *sAssigningAgencyPredicate;
 }
 
 + (BibRecordFieldTag)recordFieldTag {
-    return @"082";
+    return sRecordFieldTag;
 }
 
-- (instancetype)init {
-    [self doesNotRecognizeSelector:_cmd];
-    return [self initWithClassificationNumber:@""
-                                   itemNumber:nil
-                           alternativeNumbers:nil
-                              scheduleEdition:@"22"
-                                  editionKind:BibEditionKindOther
-                              assigningAgency:nil
-                   libraryOfCongressOwnership:BibLibraryOfCongressOwnershipUnknown];
+- (instancetype)initWithTag:(BibRecordFieldTag)tag
+                 indicators:(NSArray<BibRecordFieldIndicator> *)indicators
+                  subfields:(NSArray<BibRecordSubfield *> *)subfields {
+    if (![tag isEqualToString:sRecordFieldTag]) {
+        [NSException raise:NSInvalidArgumentException
+                    format:@"%@ must have tag %@", NSStringFromClass([self class]), sRecordFieldTag];
+    }
+    return [self initIndicators:indicators subfields:subfields];
 }
 
 - (instancetype)initWithIndicators:(NSArray<BibRecordFieldIndicator> *)indicators
@@ -64,13 +65,16 @@ static NSPredicate *sAssigningAgencyPredicate;
                                       : [NSArray array];
     NSString *const scheduleEdition = [[[subfields filteredArrayUsingPredicate:sScheduleEditionPredicate] firstObject] content];
     NSString *const assigningAgency = [[[subfields filteredArrayUsingPredicate:sAssigningAgencyPredicate] firstObject] content];
-    return [self initWithClassificationNumber:classificationNumber
-                                   itemNumber:itemNumber
-                           alternativeNumbers:alternativeNumbers
-                              scheduleEdition:scheduleEdition
-                                  editionKind:editionKind
-                              assigningAgency:assigningAgency
-                   libraryOfCongressOwnership:libraryOfCongressOwnership];
+    if (self = [super initWithTag:sRecordFieldTag indicators:indicators subfields:subfields]) {
+        _classificationNumber = [classificationNumber copy];
+        _itemNumber = [itemNumber copy];
+        _alternativeNumbers = [alternativeNumbers copy] ?: [NSArray array];
+        _scheduleEdition = [scheduleEdition copy];
+        _editionKind = editionKind;
+        _assigningAgency = [assigningAgency copy];
+        _libraryOfCongressOwnership = libraryOfCongressOwnership;
+    }
+    return self;
 }
 
 - (instancetype)initWithClassificationNumber:(NSString *)classificationNumber
@@ -80,7 +84,21 @@ static NSPredicate *sAssigningAgencyPredicate;
                                  editionKind:(BibEditionKind)editionKind
                              assigningAgency:(BibMarcOrganization)assigningAgency
                 libraryOfCongressOwnership:(BibLibraryOfCongressOwnership)libraryOfCongressOwnership {
-    if (self = [super init]) {
+    NSArray *const indicators = @[[NSString stringWithFormat:@"%c", editionKind],
+                                  [NSString stringWithFormat:@"%c", libraryOfCongressOwnership]];
+    NSMutableArray *const subfields = [NSMutableArray array];
+    [subfields addObject:[[BibRecordSubfield alloc] initWithCode:@"a" content:classificationNumber]];
+    if (itemNumber) {
+        [subfields addObject:[[BibRecordSubfield alloc] initWithCode:@"b" content:itemNumber]];
+    }
+    for (NSString *alternateNumber in alternativeNumbers) {
+        [subfields addObject:[[BibRecordSubfield alloc] initWithCode:@"a" content:alternativeNumbers]];
+    }
+    [subfields addObject:[[BibRecordSubfield alloc] initWithCode:@"2" content:scheduleEdition]];
+    if (assigningAgency) {
+        [subfields addObject:[[BibRecordSubfield alloc] initWithCode:@"q" content:assigningAgency]];
+    }
+    if (self = [super initWithTag:sRecordFieldTag indicators:indicators subfields:subfields]) {
         _classificationNumber = [classificationNumber copy];
         _itemNumber = [itemNumber copy];
         _alternativeNumbers = [alternativeNumbers copy] ?: [NSArray array];

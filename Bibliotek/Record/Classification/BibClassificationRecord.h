@@ -28,8 +28,4 @@ NS_SWIFT_NAME(ClassificationRecord)
 
 @end
 
-extern BibRecordFieldTag const BibRecordFieldTagClassificationRecordMetadata;
-extern BibRecordFieldTag const BibRecordFieldTagClassificationRecordClassificationScheme;
-extern BibRecordFieldTag const BibRecordFieldTagClassificationRecordClassificationNumber;
-
 NS_ASSUME_NONNULL_END
