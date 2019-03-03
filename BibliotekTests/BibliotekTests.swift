@@ -85,6 +85,7 @@ class BibliotekTests: XCTestCase {
             XCTAssertEqual(rs.count, 1)
             let record = rs.first
             XCTAssertNotNil(record)
+            XCTAssertTrue(record is BibliographicRecord)
             let field = record?.fields.first(where: { $0.tag == "020" })
             XCTAssertNotNil(field)
             let isbn13Field = field as? Record.DataField
@@ -160,6 +161,7 @@ class BibliotekTests: XCTestCase {
             let c = try Connection(host: "z3950.loc.gov", port: 7090, database: "VOYAGER")
             let r = FetchRequest(keywords: ["9780385527880"], scope: .isbn)
             let record = (try c.fetchRecords(request: r)).first
+            XCTAssertTrue(record is BibliographicRecord)
             let field = record?.fields.first(where: { $0.tag == "245" })
             XCTAssertNotNil(field)
             let titleStatementField = field as? Record.DataField

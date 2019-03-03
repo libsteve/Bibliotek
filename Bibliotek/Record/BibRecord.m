@@ -48,7 +48,7 @@ static NSUInteger const kDirectoryEntryLength = 12;
 - (instancetype)initWithLeader:(BibRecordLeader *)leader
                      directory:(NSArray<BibRecordDirectoryEntry *> *)directory
                         fields:(NSArray<id<BibRecordField>> *)fields {
-    if (![[self class] isEqual:[BibRecord class]]) {
+    if ([[self class] isEqual:[BibRecord class]]) {
         BibRecordKind const recordKind = [leader recordType];
         if (BibRecordKindIsClassification(recordKind)) {
             return [[BibClassificationRecord alloc] initWithLeader:leader

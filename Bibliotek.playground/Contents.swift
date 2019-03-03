@@ -28,4 +28,3 @@ print(record)
 //record.subjects
 //record.authors
 //record.callNumbers
-print(record.fields)
