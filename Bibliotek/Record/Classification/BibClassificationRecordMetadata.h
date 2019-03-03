@@ -7,8 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BibRecordConstants.h"
-#import "BibRecordControlField.h"
+#import "BibRecordField.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -54,8 +53,6 @@ NS_SWIFT_NAME(ClassificationRecord.Metadata)
 @property (nonatomic, assign, readonly) BibClassificationRecordStandardization standardization;
 
 @property (class, nonatomic, strong, readonly) BibRecordFieldTag recordFieldTag;
-
-- (instancetype)initWithContent:(NSString *)content NS_DESIGNATED_INITIALIZER;
 
 @end
 

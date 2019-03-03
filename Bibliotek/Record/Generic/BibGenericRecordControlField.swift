@@ -1,5 +1,5 @@
 //
-//  BibRecordControlField.swift
+//  BibGenericRecordControlField.swift
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 2/22/19.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Record.ControlField: CustomReflectable {
+extension Record.GenericControlField: CustomReflectable {
     public var customMirror: Mirror {
         return Mirror(self, children: [(label: "tag", value: content)],
                       displayStyle: .dictionary, ancestorRepresentation: .suppressed)

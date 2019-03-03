@@ -6,9 +6,6 @@
 //  Copyright © 2019 Steve Brunwasser. All rights reserved.
 //
 
-#import "BibRecordControlField.h"
-#import "BibRecordDataField.h"
-
 #import "BibClassificationRecord.h"
 #import "BibClassificationRecordMetadata.h"
 #import "BibClassificationRecordClassificationNumber.h"
@@ -42,16 +39,15 @@ static NSDictionary *sRecordFieldTypes;
     });
 }
 
-+ (NSDictionary<BibRecordFieldTag,Class> *)recordFieldTypes { return sRecordFieldTypes; }
++ (NSDictionary<BibRecordFieldTag,Class> *)recordSchema { return sRecordFieldTypes; }
 
 - (instancetype)initWithLeader:(BibRecordLeader *)leader
                      directory:(NSArray<BibRecordDirectoryEntry *> *)directory
-                 controlFields:(NSArray<BibRecordControlField *> *)controlFields
-                    dataFields:(NSArray<BibRecordDataField *> *)dataFields {
-    if (self = [super initWithLeader:leader directory:directory controlFields:controlFields dataFields:dataFields]) {
-        _metadata = [[controlFields filteredArrayUsingPredicate:sMetadataPredicate] firstObject];
-        _classificationNumber = [[dataFields filteredArrayUsingPredicate:sNumberPredicate] firstObject];
-        _classificationScheme = [[dataFields filteredArrayUsingPredicate:sSchemePredicate] firstObject];
+                        fields:(NSArray<id<BibRecordField>> *)fields {
+    if (self = [super initWithLeader:leader directory:directory fields:fields]) {
+        _metadata = [[fields filteredArrayUsingPredicate:sMetadataPredicate] firstObject];
+        _classificationNumber = [[fields filteredArrayUsingPredicate:sNumberPredicate] firstObject];
+        _classificationScheme = [[fields filteredArrayUsingPredicate:sSchemePredicate] firstObject];
     }
     return self;
 }

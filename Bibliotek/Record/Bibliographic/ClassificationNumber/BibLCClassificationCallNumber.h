@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "BibClassificationCallNumber.h"
-#import "BibRecordDataField.h"
+#import "BibRecordField.h"
 
 @class BibRecordSubfield;
 
@@ -29,7 +29,7 @@ NS_SWIFT_NAME(LCClassificationCallNumber)
 - (instancetype)init NS_UNAVAILABLE;
 
 - (instancetype)initWithIndicators:(NSArray<BibRecordFieldIndicator> *)indicators
-                         subfields:(NSArray<BibRecordSubfield *> *)subfields NS_DESIGNATED_INITIALIZER;
+                         subfields:(NSArray<BibRecordSubfield *> *)subfields;
 
 - (instancetype)initWithClassificationNumber:(NSString *)classificationNumber
                                   itemNumber:(nullable NSString *)itemNumber

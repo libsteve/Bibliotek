@@ -10,8 +10,9 @@
 #import "BibRecord.h"
 #import "BibRecordLeader.h"
 #import "BibRecordDirectoryEntry.h"
-#import "BibRecordControlField.h"
-#import "BibRecordDataField.h"
+#import "BibRecordField.h"
+#import "BibGenericRecordControlField.h"
+#import "BibGenericRecordDataField.h"
 #import "BibRecordSubfield.h"
 
 #import "BibClassificationRecord.h"
@@ -22,12 +23,12 @@ static NSUInteger const kDirectoryEntryLength = 12;
 
 @implementation BibRecord
 
-+ (NSDictionary<BibRecordFieldTag,Class> *)recordFieldTypes {
++ (NSDictionary<BibRecordFieldTag,Class> *)recordSchema {
     return @{};
 }
 
 - (instancetype)init {
-    return [self initWithLeader:[BibRecordLeader new] directory:@[] controlFields:@[] dataFields:@[]];
+    return [self initWithLeader:[BibRecordLeader new] directory:@[] fields:@[]];
 }
 
 - (instancetype)initWithData:(NSData *)data {
@@ -46,28 +47,24 @@ static NSUInteger const kDirectoryEntryLength = 12;
 
 - (instancetype)initWithLeader:(BibRecordLeader *)leader
                      directory:(NSArray<BibRecordDirectoryEntry *> *)directory
-                 controlFields:(NSArray<BibRecordControlField *> *)controlFields
-                    dataFields:(NSArray<BibRecordDataField *> *)dataFields {
+                        fields:(NSArray<id<BibRecordField>> *)fields {
     if (![[self class] isEqual:[BibRecord class]]) {
         BibRecordKind const recordKind = [leader recordType];
         if (BibRecordKindIsClassification(recordKind)) {
             return [[BibClassificationRecord alloc] initWithLeader:leader
                                                          directory:directory
-                                                     controlFields:controlFields
-                                                        dataFields:dataFields];
+                                                            fields:fields];
         }
         if (BibRecordKindIsBibliographic(recordKind)) {
             return [[BibBibliographicRecord alloc] initWithLeader:leader
                                                         directory:directory
-                                                    controlFields:controlFields
-                                                       dataFields:dataFields];
+                                                           fields:fields];
         }
     }
     if (self = [super init]) {
         _leader = leader;
         _directory = [directory copy];
-        _controlFields = [controlFields copy];
-        _dataFields = [dataFields copy];
+        _fields = [fields copy];
     }
     return self;
 }
@@ -75,30 +72,29 @@ static NSUInteger const kDirectoryEntryLength = 12;
 - (instancetype)initWithLeader:(BibRecordLeader *)leader
                      directory:(NSArray<BibRecordDirectoryEntry *> *)directory
                           data:(NSData *)data {
+    NSDictionary *const recordSchema = [[self class] recordSchema];
     NSUInteger const recordBodyLocation = [leader recordBodyLocation];
-    NSMutableArray *const controlFields = [NSMutableArray array];
-    NSMutableArray *const dataFields = [NSMutableArray array];
+    NSMutableArray *const fields = [NSMutableArray array];
     for (BibRecordDirectoryEntry *entry in directory) {
         BibRecordFieldTag const fieldTag = [entry fieldTag];
         NSRange fieldRange = [entry fieldRange];
         fieldRange.location += recordBodyLocation;
         NSData *const fieldData = [data subdataWithRange:fieldRange];
-        Class const suggestedFieldClass = [[[self class] recordFieldTypes] objectForKey:fieldTag];
-        if ([fieldTag hasPrefix:@"00"]) {
-            Class const finalFieldClass = suggestedFieldClass ?: [BibRecordControlField class];
-            [controlFields addObject:[[finalFieldClass alloc] initWithTag:fieldTag data:fieldData]];
+        Class const fieldClass = [recordSchema objectForKey:fieldTag];
+        if (fieldClass) {
+            [fields addObject:[[fieldClass alloc] initWithData:fieldData]];
         } else {
-            Class const finalFieldClass = suggestedFieldClass ?: [BibRecordDataField class];
-            [dataFields addObject:[[finalFieldClass alloc] initWithTag:fieldTag data:fieldData]];
+            id<BibRecordField> const field = ([entry fieldKind] == BibRecordFieldKindControlField)
+                                           ? [[BibGenericRecordControlField alloc] initWithTag:fieldTag data:data]
+                                           : [[BibGenericRecordDataField alloc] initWithTag:fieldTag data:data];
+            [fields addObject:field];
         }
     }
-    return [self initWithLeader:leader directory:directory controlFields:controlFields dataFields:dataFields];
+    return [self initWithLeader:leader directory:directory fields:fields];
 }
 
 - (NSString *)description {
-    return [@[ _leader,
-               [_controlFields componentsJoinedByString:@"\n"],
-               [_dataFields componentsJoinedByString:@"\n"] ] componentsJoinedByString:@"\n"];
+    return [@[ _leader, [_fields componentsJoinedByString:@"\n"] ] componentsJoinedByString:@"\n"];
 }
 
 #pragma mark - Equality
@@ -106,8 +102,7 @@ static NSUInteger const kDirectoryEntryLength = 12;
 - (BOOL)isEqualToRecord:(BibRecord *)record {
     return [_leader isEqualToLeader:[record leader]]
         && [_directory isEqualToArray:[record directory]]
-        && [_controlFields isEqualToArray:[record controlFields]]
-        && [_dataFields isEqualToArray:[record dataFields]];
+        && [_fields isEqualToArray:[record fields]];
 }
 
 - (BOOL)isEqual:(id)other {
@@ -116,7 +111,7 @@ static NSUInteger const kDirectoryEntryLength = 12;
 }
 
 - (NSUInteger)hash {
-    return [_leader hash] ^ [_directory hash] ^ [_controlFields hash] ^ [_dataFields hash];
+    return [_leader hash] ^ [_directory hash] ^ [_fields hash];
 }
 
 @end

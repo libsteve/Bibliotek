@@ -1,5 +1,5 @@
 //
-//  BibRecordDataField.swift
+//  BibGenericRecordDataField.swift
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 2/22/19.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Record.DataField: CustomReflectable {
+extension Record.GenericDataField: CustomReflectable {
     public var customMirror: Mirror {
         let children: [Mirror.Child] = [(label: "tag", value: tag.rawValue),
                                         (label: "indicators", value: indicators.map { $0.rawValue }.joined()),

@@ -30,7 +30,7 @@ static NSPredicate *sDDCCallNumberPredicate;
     });
 }
 
-+ (NSDictionary<BibRecordFieldTag,Class> *)recordFieldTypes {
++ (NSDictionary<BibRecordFieldTag,Class> *)recordSchema {
     static NSDictionary *dictionary = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -42,11 +42,10 @@ static NSPredicate *sDDCCallNumberPredicate;
 
 - (instancetype)initWithLeader:(BibRecordLeader *)leader
                      directory:(NSArray<BibRecordDirectoryEntry *> *)directory
-                 controlFields:(NSArray<BibRecordControlField *> *)controlFields
-                    dataFields:(NSArray<BibRecordDataField *> *)dataFields {
-    if (self = [super initWithLeader:leader directory:directory controlFields:controlFields dataFields:dataFields]) {
-        _lccCallNumbers = [dataFields filteredArrayUsingPredicate:sLCCCallNumberPredicate];
-        _ddcCallNumbers = [dataFields filteredArrayUsingPredicate:sDDCCallNumberPredicate];
+                        fields:(NSArray<id<BibRecordField>> *)fields {
+    if (self = [super initWithLeader:leader directory:directory fields:fields]) {
+        _lccCallNumbers = (id)[fields filteredArrayUsingPredicate:sLCCCallNumberPredicate];
+        _ddcCallNumbers = (id)[fields filteredArrayUsingPredicate:sDDCCallNumberPredicate];
     }
     return self;
 }

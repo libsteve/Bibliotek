@@ -22,7 +22,8 @@ static NSRange const kFieldLocationRange = {7, 5};
 }
 
 - (instancetype)init {
-    return [self initWithFieldTag:@"000" range:NSMakeRange(0, 0)];
+    [self doesNotRecognizeSelector:_cmd];
+    return nil;
 }
 
 - (instancetype)initWithData:(NSData *)data {
@@ -42,6 +43,7 @@ static NSRange const kFieldLocationRange = {7, 5};
     if (self = [super init]) {
         _fieldTag = [fieldTag copy];
         _fieldRange = fieldRange;
+        _fieldKind = [_fieldTag hasPrefix:@"00"] ? BibRecordFieldKindControlField : BibRecordFieldKindDatField;
     }
     return self;
 }

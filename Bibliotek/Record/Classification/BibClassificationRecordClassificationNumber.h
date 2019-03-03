@@ -7,8 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BibRecordConstants.h"
-#import "BibRecordDataField.h"
+#import "BibRecordField.h"
 
 @class BibRecordSubfield;
 
@@ -25,9 +24,6 @@ NS_SWIFT_NAME(ClassificationRecord.ClassificationNumber)
 @property (nonatomic, copy, readonly) NSArray<NSString *> *captions;
 
 @property (class, nonatomic, strong, readonly) BibRecordFieldTag recordFieldTag;
-
-- (instancetype)initWithIndicators:(NSArray<BibRecordFieldIndicator> *)indicators
-                         subfields:(NSArray<BibRecordSubfield *> *)subfields NS_DESIGNATED_INITIALIZER;
 
 @end
 

@@ -39,6 +39,13 @@ extern BOOL BibRecordKindIsClassification(BibRecordKind recordKind) NS_REFINED_F
 extern BOOL BibRecordKindIsBibliographic(BibRecordKind recordKind) NS_REFINED_FOR_SWIFT;
 extern NSString *BibRecordKindDescription(BibRecordKind recordKind) NS_REFINED_FOR_SWIFT;
 
+#pragma mark - Record Field Kind
+
+typedef NS_ENUM(NSUInteger, BibRecordFieldKind) {
+    BibRecordFieldKindControlField,
+    BibRecordFieldKindDatField
+} NS_SWIFT_NAME(Record.FieldKind);
+
 #pragma mark Classification
 
 extern BibRecordKind const BibRecordKindClassification;

@@ -11,9 +11,7 @@
 
 @class BibRecordLeader;
 @class BibRecordDirectoryEntry;
-@class BibRecordControlField;
-@class BibRecordDataField;
-@class BibRecordSubfield;
+@protocol BibRecordField;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -32,28 +30,23 @@ NS_SWIFT_NAME(Record)
 
 @property (nonatomic, copy, readonly) NSArray<BibRecordDirectoryEntry *> *directory;
 
-/// A list of variable fields containing metadata relevant for processing the record.
-@property (nonatomic, copy, readonly) NSArray<BibRecordControlField *> *controlFields;
+/// A list of objects describing details about the record or the entity it represents.
+@property (nonatomic, copy, readonly) NSArray<id<BibRecordField>> *fields;
 
-/// A list of variable field containing bibliographic and other data about the item or entity represented by the record.
-@property (nonatomic, copy, readonly) NSArray<BibRecordDataField *> *dataFields;
-
-@property (class, nonatomic, copy, readonly) NSDictionary<BibRecordFieldTag, Class> *recordFieldTypes;
+@property (class, nonatomic, readonly) NSDictionary<BibRecordFieldTag, Class> *recordSchema;
 
 - (instancetype)initWithData:(NSData *)data;
 
 /// Create a MARC 21 record containing data from the given leader, control fields, and data fields.
 /// \param leader The leader metadata describing the record's encoded format and status.
-/// \param directory A collection of metadata describing the location and semantic purpose of record and data fields.
-/// \param controlFields A list of fields containing data pertaining to the processing of record data.
-/// \param dataFields A list of fields containing bibliographic or other data describing an item or entity.
+/// \param directory A collection of metadata describing the location and semantic purpose of the record's fields.
+/// \param fields A list of objects describing details about the record or the entity it represents.
 /// \returns Returns a valid MARC 21 record for some item or entity described by the given fields.
 /// \discussion More information about MARC 21 records can be found in the Library of Congress's documentation on
 /// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html.
 - (instancetype)initWithLeader:(BibRecordLeader *)leader
                      directory:(NSArray<BibRecordDirectoryEntry *> *)directory
-                 controlFields:(NSArray<BibRecordControlField *> *)controlFields
-                    dataFields:(NSArray<BibRecordDataField *> *)dataFields NS_DESIGNATED_INITIALIZER;
+                        fields:(NSArray<id<BibRecordField>> *)fields NS_DESIGNATED_INITIALIZER;
 
 /// Create a MARC 21 record containing data from the given leader, control fields, and data fields.
 /// \param leader The leader metadata describing the record's encoded format and status.

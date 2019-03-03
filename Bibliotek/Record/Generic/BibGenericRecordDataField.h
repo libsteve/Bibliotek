@@ -1,5 +1,5 @@
 //
-//  BibRecordDataField.h
+//  BibGenericRecordDataField.h
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 2/19/19.
@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BibRecordConstants.h"
+#import "BibRecordField.h"
 
 @class BibRecordSubfield;
 
@@ -17,10 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// More information about MARC 21 records can be found in the Library of Congress's documentation on
 /// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html.
-NS_SWIFT_NAME(Record.DataField)
-@interface BibRecordDataField : NSObject
-
-@property (nonatomic, copy, readonly) BibRecordFieldTag tag;
+NS_SWIFT_NAME(Record.GenericDataField)
+@interface BibGenericRecordDataField : BibRecordDataField
 
 @property (nonatomic, copy, readonly) NSArray<BibRecordFieldIndicator> *indicators;
 
@@ -28,13 +26,18 @@ NS_SWIFT_NAME(Record.DataField)
 
 - (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithTag:(BibRecordFieldTag)tag data:(NSData *)data;
+- (instancetype)initWithData:(NSData *)data NS_UNAVAILABLE;
+
+- (instancetype)initWithIndicators:(NSArray<BibRecordFieldIndicator> *)indicators
+                         subfields:(NSArray *)subfields NS_UNAVAILABLE;
+
+- (instancetype)initWithTag:(BibRecordFieldTag)tag data:(NSData *)data NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithTag:(BibRecordFieldTag)tag
                  indicators:(NSArray<BibRecordFieldIndicator> *)indicators
                   subfields:(NSArray<BibRecordSubfield *> *)subfields NS_DESIGNATED_INITIALIZER;
 
-- (BOOL)isEqualToDataField:(BibRecordDataField *)dataField;
+- (BOOL)isEqualToDataField:(BibGenericRecordDataField *)dataField;
 
 @end
 

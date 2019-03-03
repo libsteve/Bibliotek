@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BibRecordConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,6 +17,10 @@ NS_SWIFT_NAME(Record.DirectoryEntry)
 @property (nonatomic, copy, readonly) NSString *fieldTag;
 
 @property (nonatomic, assign, readonly) NSRange fieldRange;
+
+@property (nonatomic, assign, readonly) BibRecordFieldKind fieldKind;
+
+- (instancetype)init NS_UNAVAILABLE;
 
 - (instancetype)initWithData:(NSData *)data;
 

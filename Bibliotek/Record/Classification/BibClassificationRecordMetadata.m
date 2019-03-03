@@ -18,6 +18,8 @@ static NSUInteger const kStandardizationIndex =  11;
 
 static NSDateFormatter *sDateFormatter = nil;
 
+static BibRecordFieldTag const kRecordFieldTag = @"008";
+
 @implementation BibClassificationRecordMetadata
 
 + (void)initialize {
@@ -30,17 +32,9 @@ static NSDateFormatter *sDateFormatter = nil;
     });
 }
 
-+ (BibRecordFieldTag)recordFieldTag {
-    return BibRecordFieldTagClassificationRecordMetadata;
-}
+- (BibRecordFieldTag)tag { return kRecordFieldTag; }
 
-- (instancetype)initWithTag:(BibRecordFieldTag)tag content:(NSString *)content {
-    if (![tag isEqualToString:[[self class] recordFieldTag]]) {
-        [NSException raise:NSInvalidArgumentException
-                    format:@"%@ must have tag %@", NSStringFromClass([self class]), [[self class] recordFieldTag]];
-    }
-    return [self initWithContent:content];
-}
++ (BibRecordFieldTag)recordFieldTag { return kRecordFieldTag; }
 
 - (instancetype)initWithContent:(NSString *)content {
     if ([content length] != kContentLength) {
@@ -49,7 +43,7 @@ static NSDateFormatter *sDateFormatter = nil;
                     format:@"Classification record's metadata must be exactly %lu characters long", length];
         return nil;
     }
-    if (self = [super initWithTag:[[self class] recordFieldTag] content:content]) {
+    if (self = [super initWithContent:content]) {
         _creationDate = [sDateFormatter dateFromString:[content substringWithRange:kCreationDateRange]];
         if (_creationDate == nil) {
             [NSException raise:NSInternalInconsistencyException
@@ -62,6 +56,19 @@ static NSDateFormatter *sDateFormatter = nil;
         _standardization = [content characterAtIndex:kStandardizationIndex];
     }
     return self;
+}
+
+- (BOOL)isEqualToControlField:(BibRecordControlField *)controlField {
+    BibClassificationRecordMetadata *other = (id)controlField;
+    return [other isKindOfClass:[BibClassificationRecordMetadata class]]
+        && [_creationDate isEqualToDate:[other creationDate]]
+        && _recordKind == [other recordKind]
+        && _recordValidity == [other recordValidity]
+        && _standardization == [other standardization];
+}
+
+- (NSUInteger)hash {
+    return [_creationDate hash] ^ _recordKind ^ _recordValidity ^ _standardization;
 }
 
 @end

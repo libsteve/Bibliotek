@@ -11,8 +11,7 @@ import Foundation
 extension Record: CustomReflectable {
     public var customMirror: Mirror {
         let children: [Mirror.Child] = [(label: "leader", value: leader),
-                                        (label: "controlFields", value: controlFields),
-                                        (label: "dataFields", value: dataFields)]
+                                        (label: "fields", value: fields)]
         return Mirror(self, children: children, displayStyle: .dictionary, ancestorRepresentation: .suppressed)
     }
 }

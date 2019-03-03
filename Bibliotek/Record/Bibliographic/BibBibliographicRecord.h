@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "BibRecord.h"
-#import "BibRecordConstants.h"
 
 @class BibDDClassificationCallNumber;
 @class BibLCClassificationCallNumber;

@@ -14,7 +14,7 @@ static NSPredicate *sNumbersPredicate;
 static NSPredicate *sCaptionsPredicate;
 static NSPredicate *sTableIdentifierPredicate;
 
-static BibRecordFieldTag const sRecordFieldTag = @"153";
+static BibRecordFieldTag const kRecordFieldTag = @"153";
 
 @implementation BibClassificationRecordClassificationNumber
 
@@ -27,28 +27,30 @@ static BibRecordFieldTag const sRecordFieldTag = @"153";
     });
 }
 
-+ (BibRecordFieldTag)recordFieldTag {
-    return BibRecordFieldTagClassificationRecordClassificationNumber;
-}
+- (BibRecordFieldTag)tag { return kRecordFieldTag; }
 
-- (instancetype)initWithTag:(BibRecordFieldTag)tag
-                 indicators:(NSArray<BibRecordFieldIndicator> *)indicators
-                  subfields:(NSArray<BibRecordSubfield *> *)subfields {
-    if (![tag isEqualToString:sRecordFieldTag]) {
-        [NSException raise:NSInvalidArgumentException
-                    format:@"%@ must have tag %@", NSStringFromClass([self class]), sRecordFieldTag];
-    }
-    return [self initIndicators:indicators subfields:subfields];
-}
++ (BibRecordFieldTag)recordFieldTag { return kRecordFieldTag; }
 
 - (instancetype)initIndicators:(NSArray<BibRecordFieldIndicator> *)indicators
                      subfields:(NSArray<BibRecordSubfield *> *)subfields {
-    if (self = [super initWithTag:sRecordFieldTag indicators:indicators subfields:subfields]) {
+    if (self = [super initWithIndicators:indicators subfields:subfields]) {
         _tableIdentifier = [[[subfields filteredArrayUsingPredicate:sTableIdentifierPredicate] firstObject] content];
         _classificationNumbers = [[subfields filteredArrayUsingPredicate:sNumbersPredicate] valueForKey:@"content"];
         _captions = [[subfields filteredArrayUsingPredicate:sCaptionsPredicate] valueForKey:@"content"];
     }
     return self;
+}
+
+- (BOOL)isEqualToDataField:(BibRecordDataField *)dataField {
+    BibClassificationRecordClassificationNumber *other = (id)dataField;
+    return [dataField isKindOfClass:[BibClassificationRecordClassificationNumber class]]
+        && (_tableIdentifier == [other tableIdentifier] || [_tableIdentifier isEqualToString:[other tableIdentifier]])
+        && [_classificationNumbers isEqualToArray:[other classificationNumbers]]
+        && [_captions isEqualToArray:[other captions]];
+}
+
+- (NSUInteger)hash {
+    return [_tableIdentifier hash] ^ [_classificationNumbers hash] ^ [_captions hash];
 }
 
 @end

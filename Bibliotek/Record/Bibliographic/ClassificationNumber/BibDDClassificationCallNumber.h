@@ -8,8 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "BibClassificationCallNumber.h"
-#import "BibRecordConstants.h"
-#import "BibRecordDataField.h"
+#import "BibRecordField.h"
 
 @class BibRecordSubfield;
 
@@ -26,9 +25,6 @@ NS_SWIFT_NAME(DDClassificationCallNumber)
 @property (nonatomic, copy, readonly, nullable) BibMarcOrganization assigningAgency;
 
 - (instancetype)init NS_UNAVAILABLE;
-
-- (instancetype)initWithIndicators:(NSArray<BibRecordFieldIndicator> *)indicators
-                         subfields:(NSArray<BibRecordSubfield *> *)subfields NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)initWithClassificationNumber:(NSString *)classificationNumber
                                   itemNumber:(nullable NSString *)itemNumber
