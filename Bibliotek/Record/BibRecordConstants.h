@@ -31,6 +31,13 @@ extern BibRecordStatus const BibRecordStatusDeleted;
 extern BibRecordStatus const BibRecordStatusNew;
 extern BibRecordStatus const BibRecordStatusIncreaseInEncodingLevelFromPrePublication;
 
+#pragma mark - Record Field Kind
+
+typedef NS_ENUM(NSUInteger, BibRecordFieldKind) {
+    BibRecordFieldKindControlField,
+    BibRecordFieldKindDatField
+} NS_SWIFT_NAME(Record.FieldKind);
+
 #pragma mark - Record Kind
 
 typedef NSString *BibRecordKind NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(Record.Kind);
@@ -38,13 +45,6 @@ typedef NSString *BibRecordKind NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(Record.Ki
 extern BOOL BibRecordKindIsClassification(BibRecordKind recordKind) NS_REFINED_FOR_SWIFT;
 extern BOOL BibRecordKindIsBibliographic(BibRecordKind recordKind) NS_REFINED_FOR_SWIFT;
 extern NSString *BibRecordKindDescription(BibRecordKind recordKind) NS_REFINED_FOR_SWIFT;
-
-#pragma mark - Record Field Kind
-
-typedef NS_ENUM(NSUInteger, BibRecordFieldKind) {
-    BibRecordFieldKindControlField,
-    BibRecordFieldKindDatField
-} NS_SWIFT_NAME(Record.FieldKind);
 
 #pragma mark Classification
 
