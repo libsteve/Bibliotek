@@ -26,7 +26,7 @@ NS_SWIFT_NAME(Record.Leader)
 
 @property (nonatomic, assign, readonly) NSUInteger recordLength;
 
-@property (nonatomic, readonly) NSString *recordStatus;
+@property (nonatomic, readonly) BibRecordStatus recordStatus;
 
 @property (nonatomic, readonly) BibRecordKind recordType;
 

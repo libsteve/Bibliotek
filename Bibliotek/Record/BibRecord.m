@@ -15,6 +15,7 @@
 #import "BibRecordSubfield.h"
 
 #import "BibClassificationRecord.h"
+#import "BibBibliographicRecord.h"
 
 static NSRange const kLeaderRange = {0, 24};
 static NSUInteger const kDirectoryEntryLength = 12;
@@ -45,13 +46,17 @@ static NSUInteger const kDirectoryEntryLength = 12;
                     dataFields:(NSArray<BibRecordDataField *> *)dataFields {
     if (![[self class] isEqual:[BibRecord class]]) {
         BibRecordKind const recordKind = [leader recordType];
-        if ([recordKind isEqualToString:BibRecordKindClassification]) {
+        if (BibRecordKindIsClassification(recordKind)) {
             return [[BibClassificationRecord alloc] initWithLeader:leader
                                                          directory:directory
                                                      controlFields:controlFields
                                                         dataFields:dataFields];
-        } else if ([recordKind isEqualToString:BibRecordKindBibliographic]) {
-
+        }
+        if (BibRecordKindIsBibliographic(recordKind)) {
+            return [[BibBibliographicRecord alloc] initWithLeader:leader
+                                                        directory:directory
+                                                    controlFields:controlFields
+                                                       dataFields:dataFields];
         }
     }
     if (self = [super init]) {

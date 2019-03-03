@@ -23,12 +23,9 @@ static NSPredicate *sSchemePredicate;
 + (void)initialize {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        BibRecordFieldTag const metadataTag = [BibClassificationRecordMetadata recordFieldTag];
-        BibRecordFieldTag const numberTag = [BibClassificationRecordClassificationNumber recordFieldTag];
-        BibRecordFieldTag const schemeTag = [BibClassificationRecordClassificationScheme recordFieldTag];
-        sMetadataPredicate = [NSPredicate predicateWithFormat:@"tag == '%@'", metadataTag];
-        sNumberPredicate = [NSPredicate predicateWithFormat:@"tag == '%@'", numberTag];
-        sSchemePredicate = [NSPredicate predicateWithFormat:@"tag == '%@'", schemeTag];
+        sMetadataPredicate = [NSPredicate predicateWithFormat:@"tag == '%@'", [BibClassificationRecordMetadata recordFieldTag]];
+        sNumberPredicate = [NSPredicate predicateWithFormat:@"tag == '%@'", [BibClassificationRecordClassificationNumber recordFieldTag]];
+        sSchemePredicate = [NSPredicate predicateWithFormat:@"tag == '%@'", [BibClassificationRecordClassificationScheme recordFieldTag]];
     });
 }
 

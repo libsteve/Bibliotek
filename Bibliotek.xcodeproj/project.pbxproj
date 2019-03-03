@@ -29,6 +29,7 @@
 		AA6D18D720B5B6CC00603E61 /* BibFetchRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6D18D520B5B6CC00603E61 /* BibFetchRequest.m */; };
 		AA6D18D920B5B9FC00603E61 /* BibFetchRequest+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = AA6D18D820B5B9FC00603E61 /* BibFetchRequest+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		AA6D70E82229AE88004FD0F0 /* BibRecordConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA397ED2224689000E8C45D /* BibRecordConstants.m */; };
+		AA6D70EA222B56B3004FD0F0 /* BibRecordConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6D70E9222B56B3004FD0F0 /* BibRecordConstants.swift */; };
 		AAA39781221C650800E8C45D /* BibRecordControlField.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA3977F221C650800E8C45D /* BibRecordControlField.m */; };
 		AAA39786221C652400E8C45D /* BibRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA39784221C652400E8C45D /* BibRecord.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAA39787221C652400E8C45D /* BibRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA39785221C652400E8C45D /* BibRecord.m */; };
@@ -135,6 +136,7 @@
 		AA6D18D420B5B6CC00603E61 /* BibFetchRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibFetchRequest.h; sourceTree = "<group>"; };
 		AA6D18D520B5B6CC00603E61 /* BibFetchRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibFetchRequest.m; sourceTree = "<group>"; };
 		AA6D18D820B5B9FC00603E61 /* BibFetchRequest+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BibFetchRequest+Private.h"; sourceTree = "<group>"; };
+		AA6D70E9222B56B3004FD0F0 /* BibRecordConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibRecordConstants.swift; sourceTree = "<group>"; };
 		AA9F66D120D0C0F000CE4DA7 /* Bibliotek.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Bibliotek.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		AAA3977F221C650800E8C45D /* BibRecordControlField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibRecordControlField.m; sourceTree = "<group>"; };
 		AAA39784221C652400E8C45D /* BibRecord.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibRecord.h; sourceTree = "<group>"; };
@@ -295,6 +297,7 @@
 				AAA397BA2220696500E8C45D /* BibRecord.swift */,
 				AAA397EC2224689000E8C45D /* BibRecordConstants.h */,
 				AAA397ED2224689000E8C45D /* BibRecordConstants.m */,
+				AA6D70E9222B56B3004FD0F0 /* BibRecordConstants.swift */,
 				AAA3978C221C654900E8C45D /* BibRecordLeader.h */,
 				AAA3978D221C654900E8C45D /* BibRecordLeader.m */,
 				AAA397B8222068D700E8C45D /* BibRecordLeader.swift */,
@@ -584,6 +587,7 @@
 				AAA3978F221C654900E8C45D /* BibRecordLeader.m in Sources */,
 				AADE536620CE2E8F0043CE5B /* BibRecordList.swift in Sources */,
 				AAA397BB2220696500E8C45D /* BibRecord.swift in Sources */,
+				AA6D70EA222B56B3004FD0F0 /* BibRecordConstants.swift in Sources */,
 				AAA397B7222068AA00E8C45D /* BibRecordControlField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

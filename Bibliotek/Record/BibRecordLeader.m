@@ -23,11 +23,13 @@ static NSRange const kRecordBodyLocationRange = {12, 5};
     [sNumberFormatter setNumberStyle:NSNumberFormatterNoStyle];
 }
 
-- (NSString *)recordStatus { return [_stringValue substringWithRange:kRecordStatusRange]; }
+- (BibRecordStatus)recordStatus { return [_stringValue substringWithRange:kRecordStatusRange]; }
 
-- (NSString *)recordType { return [_stringValue substringWithRange:kRecordTypeRange]; }
+- (BibRecordKind)recordType { return [_stringValue substringWithRange:kRecordTypeRange]; }
 
-- (NSString *)characterCodingScheme { return [_stringValue substringWithRange:kCharacterCodingRange]; }
+- (BibRecordCharacterCodingScheme)characterCodingScheme {
+    return [_stringValue substringWithRange:kCharacterCodingRange];
+}
 
 - (instancetype)init {
     return [self initWithString:@"00024aa  a0000024   4500"];
