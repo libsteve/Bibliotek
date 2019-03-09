@@ -11,6 +11,7 @@
 
 @class BibDDClassificationCallNumber;
 @class BibLCClassificationCallNumber;
+@class BibBibliographicTitleStatement;
 
 @protocol BibClassificationCallNumber;
 
@@ -23,6 +24,8 @@ NS_SWIFT_NAME(BibliographicRecord)
 @property (nonatomic, copy, readonly) NSArray<BibDDClassificationCallNumber *> *ddcCallNumbers;
 
 @property (nonatomic, copy, readonly) NSArray<BibLCClassificationCallNumber *> *lccCallNumbers;
+
+@property (nonatomic, copy, readonly) BibBibliographicTitleStatement *titleStatement;
 
 @end
 

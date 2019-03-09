@@ -101,6 +101,14 @@ References
 [oclc-bib-std]: https://www.oclc.org/bibformats/en.html
 [oclc-config]: https://www.oclc.org/support/services/z3950/documentation/config_guide.en.html
 
+### Cataloger's Reference Shelf
+
+- [Cutter Numbers][cutter-number]
+- [MARC Format Documentation and Code Lists][marc-format-code-lists]
+
+[cutter-number]: https://www.itsmarc.com/crs/mergedProjects/cutter/cutter/definition_cutter_number_cutter.htm
+[marc-format-code-lists]: https://www.itsmarc.com/crs/mergedProjects/geninfo/geninfo/marc_documentation.htm
+
 ### YAZ Documentation from IndexData
 
 - [Z39.50 Object-Orientation Model (ZOOM)][yaz-zoom]
@@ -120,12 +128,10 @@ References
 
 ### Other Specifications
 
-- [Cutter Numbers][cutter-number]
 - [MARC in JSON Description][marc-json]
 - [JSON Schema for the MARC 21 Bibliographic Standard][marc-json-schema]
 - [A proposal to serialize MARC in JSON][marc-json-proposal]
 
-[cutter-number]: https://www.itsmarc.com/crs/mergedProjects/cutter/cutter/definition_cutter_number_cutter.htm
 [marc-json]: https://github.com/marc4j/marc4j/wiki/MARC-in-JSON-Description
 [marc-json-schema]: https://github.com/thisismattmiller/marc-json-schema
 [marc-json-proposal]: https://rossfsinger.com/blog/2010/09/a-proposal-to-serialize-marc-in-json/

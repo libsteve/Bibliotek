@@ -14,19 +14,27 @@ NS_ASSUME_NONNULL_BEGIN
 /// http://www.loc.gov/marc/bibliographic/bd245.html
 @interface BibBibliographicTitleStatement : BibRecordDataField
 
+/// The proper title of the represented work.
 @property (nonatomic, copy, readonly) NSString *title;
 
+/// The amount of initial characters in the @c title that should be ingored for sorting purposes.
 @property (nonatomic, assign, readonly) NSUInteger nonfillingCharacterCount;
 
+/// The subtitles, alternate titles, and other title-like information of the represented work,
 @property (nonatomic, copy, readonly, nullable) NSString *subtitle;
 
+/// A statement listing the people or entities involved in the creation of the represented work.
 @property (nonatomic, copy, readonly, nullable) NSString *author;
 
-@property (nonatomic, copy, readonly, nullable) NSString *sectionNumber;
+/// A value indicating the represented work's location within a sequential collection of other works.
+///
+/// For example: "Part 1", "Section A", "Book 1", etc.
+@property (nonatomic, copy, readonly, nullable) NSString *sectionIndex;
 
+/// A value indentifying the represented work within a non-sequential collection of other works.
+///
+/// For example: "Teacher's Edition", "Remastered Edition", "Workbook", etc.
 @property (nonatomic, copy, readonly, nullable) NSString *sectionName;
-
-@property (nonatomic, copy, readonly, nullable) NSString *version;
 
 @property (class, nonatomic, readonly) BibRecordFieldTag recordFieldTag;
 
