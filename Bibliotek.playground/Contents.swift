@@ -21,10 +21,9 @@ let records: RecordList = {
 
 //: With a record, you can access information about the title, author, subject, and more.
 
-let record = records.first!
-print(record)
-//record.title
-//record.subtitles
-//record.subjects
-//record.authors
-//record.callNumbers
+let record = records.first as! BibliographicRecord
+record.lccCallNumbers
+record.ddcCallNumbers
+record.titleStatement
+record.titleStatement.title
+record.titleStatement.authorStatement

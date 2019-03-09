@@ -12,6 +12,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /// http://www.loc.gov/marc/bibliographic/bd245.html
+NS_SWIFT_NAME(BibliographicTitleStatement)
 @interface BibBibliographicTitleStatement : BibRecordDataField
 
 /// The proper title of the represented work.
@@ -23,8 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// The subtitles, alternate titles, and other title-like information of the represented work,
 @property (nonatomic, copy, readonly, nullable) NSString *subtitle;
 
-/// A statement listing the people or entities involved in the creation of the represented work.
-@property (nonatomic, copy, readonly, nullable) NSString *author;
+/// A description of the people or entities involved in the creation of the represented work.
+@property (nonatomic, copy, readonly, nullable) NSString *authorStatement;
 
 /// A value indicating the represented work's location within a sequential collection of other works.
 ///

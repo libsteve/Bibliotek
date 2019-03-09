@@ -51,14 +51,10 @@ static NSUInteger const kDirectoryEntryLength = 12;
     if ([[self class] isEqual:[BibRecord class]]) {
         BibRecordKind const recordKind = [leader recordType];
         if (BibRecordKindIsClassification(recordKind)) {
-            return [[BibClassificationRecord alloc] initWithLeader:leader
-                                                         directory:directory
-                                                            fields:fields];
+            return [[BibClassificationRecord alloc] initWithLeader:leader directory:directory fields:fields];
         }
         if (BibRecordKindIsBibliographic(recordKind)) {
-            return [[BibBibliographicRecord alloc] initWithLeader:leader
-                                                        directory:directory
-                                                           fields:fields];
+            return [[BibBibliographicRecord alloc] initWithLeader:leader directory:directory fields:fields];
         }
     }
     if (self = [super init]) {
@@ -72,6 +68,15 @@ static NSUInteger const kDirectoryEntryLength = 12;
 - (instancetype)initWithLeader:(BibRecordLeader *)leader
                      directory:(NSArray<BibRecordDirectoryEntry *> *)directory
                           data:(NSData *)data {
+    if ([[self class] isEqual:[BibRecord class]]) {
+        BibRecordKind const recordKind = [leader recordType];
+        if (BibRecordKindIsClassification(recordKind)) {
+            return [[BibClassificationRecord alloc] initWithLeader:leader directory:directory data:data];
+        }
+        if (BibRecordKindIsBibliographic(recordKind)) {
+            return [[BibBibliographicRecord alloc] initWithLeader:leader directory:directory data:data];
+        }
+    }
     NSDictionary *const recordSchema = [[self class] recordSchema];
     NSUInteger const recordBodyLocation = [leader recordBodyLocation];
     NSMutableArray *const fields = [NSMutableArray array];

@@ -23,11 +23,11 @@ static NSPredicate *sTitleStatementPredicate;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         BibRecordFieldTag const lccCallNumberTag = [BibLCClassificationCallNumber recordFieldTag];
-        sLCCCallNumberPredicate = [NSPredicate predicateWithFormat:@"tag = '%@'", lccCallNumberTag];
+        sLCCCallNumberPredicate = [NSPredicate predicateWithFormat:@"tag = %@", lccCallNumberTag];
         BibRecordFieldTag const ddcCallNumberTag = [BibDDClassificationCallNumber recordFieldTag];
-        sDDCCallNumberPredicate = [NSPredicate predicateWithFormat:@"tag = '%@'", ddcCallNumberTag];
+        sDDCCallNumberPredicate = [NSPredicate predicateWithFormat:@"tag = %@", ddcCallNumberTag];
         BibRecordFieldTag const titleStatementTag = [BibBibliographicTitleStatement recordFieldTag];
-        sTitleStatementPredicate = [NSPredicate predicateWithFormat:@"tag = '%@'", titleStatementTag];
+        sTitleStatementPredicate = [NSPredicate predicateWithFormat:@"tag = %@", titleStatementTag];
     });
 }
 

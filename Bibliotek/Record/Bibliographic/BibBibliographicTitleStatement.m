@@ -37,10 +37,10 @@ static NSPredicate *sSectionNamePredicate;
 - (instancetype)initWithIndicators:(NSArray<BibRecordFieldIndicator> *)indicators
                          subfields:(NSArray<BibRecordSubfield *> *)subfields {
     if (self = [super initWithIndicators:indicators subfields:subfields]) {
-        _nonfillingCharacterCount = [[indicators firstObject] integerValue];
+        _nonfillingCharacterCount = [[indicators lastObject] integerValue];
         _title = [[[[subfields filteredArrayUsingPredicate:sTitlePredicate] firstObject] content] copy];
         _subtitle = [[[[subfields filteredArrayUsingPredicate:sSubtitlePredicate] firstObject] content] copy];
-        _author = [[[[subfields filteredArrayUsingPredicate:sAuthorPredicate] firstObject] content] copy];
+        _authorStatement = [[[[subfields filteredArrayUsingPredicate:sAuthorPredicate] firstObject] content] copy];
         _sectionIndex = [[[[subfields filteredArrayUsingPredicate:sSectionIndexPredicate] firstObject] content] copy];
         _sectionName = [[[[subfields filteredArrayUsingPredicate:sSectionNamePredicate] firstObject] content] copy];
     }

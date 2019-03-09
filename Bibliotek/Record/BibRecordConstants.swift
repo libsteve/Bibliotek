@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Record.Kind: CustomStringConvertible, ExpressibleByStringLiteral {
+extension Record.Kind: CustomStringConvertible, ExpressibleByStringLiteral, Equatable {
     public var isClassification: Bool { return __BibRecordKindIsClassification(self) }
     public var isBibliographic: Bool { return __BibRecordKindIsBibliographic(self) }
 
@@ -17,15 +17,21 @@ extension Record.Kind: CustomStringConvertible, ExpressibleByStringLiteral {
     public init(stringLiteral value: String) { self.init(value) }
 }
 
-extension Record.FieldTag: ExpressibleByStringLiteral {
+extension Record.FieldTag: CustomStringConvertible, ExpressibleByStringLiteral {
+    public var description: String { return rawValue }
+
     public init(stringLiteral value: String) { self.init(value) }
 }
 
-extension Record.FieldIndicator: ExpressibleByStringLiteral {
+extension Record.FieldIndicator: CustomStringConvertible, ExpressibleByStringLiteral {
+    public var description: String { return rawValue }
+
     public init(stringLiteral value: String) { self.init(value) }
 }
 
-extension Record.SubfieldCode: ExpressibleByStringLiteral {
+extension Record.SubfieldCode: CustomStringConvertible, ExpressibleByStringLiteral {
+    public var description: String { return rawValue }
+
     public init(stringLiteral value: String) { self.init(value) }
 }
 

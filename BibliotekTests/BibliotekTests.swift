@@ -164,19 +164,29 @@ class BibliotekTests: XCTestCase {
             XCTAssertTrue(record is BibliographicRecord)
             let field = record?.fields.first(where: { $0.tag == "245" })
             XCTAssertNotNil(field)
-            let titleStatementField = field as? Record.DataField
-            XCTAssertNotNil(titleStatementField)
-            XCTAssertEqual(titleStatementField?.indicators, ["1", "0"])
-            guard let subfields = titleStatementField?.subfields else { return }
-            let titleSubfield = subfields.first(where: { $0.code == "a" })
-            let subtitleSubfield = subfields.first(where: { $0.code == "b" })
-            let authorSubfield = subfields.first(where: { $0.code == "c" })
-            XCTAssertNotNil(titleSubfield)
-            XCTAssertEqual(titleSubfield?.content, "In the land of invented languages :")
-            XCTAssertNotNil(subtitleSubfield)
-            XCTAssertEqual(subtitleSubfield?.content, "Esperanto rock stars, Klingon poets, Loglan lovers, and the mad dreamers who tried to build a perfect language /")
-            XCTAssertNotNil(authorSubfield)
-            XCTAssertEqual(authorSubfield?.content, "Arika Okrent.")
+            let titleStatement = field as? BibliographicTitleStatement
+            XCTAssertNotNil(titleStatement)
+            XCTAssertEqual(titleStatement?.indicators, ["1", "0"])
+            XCTAssertEqual(titleStatement?.nonfillingCharacterCount, 0)
+            XCTAssertEqual(titleStatement?.title, "In the land of invented languages :")
+            XCTAssertEqual(titleStatement?.subtitle, "Esperanto rock stars, Klingon poets, Loglan lovers, and the mad dreamers who tried to build a perfect language /")
+            XCTAssertEqual(titleStatement?.authorStatement, "Arika Okrent.")
+        } catch {
+            XCTFail("Connection could not be made. \(error)")
+        }
+    }
+
+    func testBibliographicRecordFieldsFound() {
+        do {
+            let c = try Connection(host: "z3950.loc.gov", port: 7090, database: "VOYAGER")
+            let r = FetchRequest(keywords: ["9780385527880"], scope: .isbn)
+            let record = (try c.fetchRecords(request: r)).first
+            XCTAssertNotNil(record)
+            XCTAssertTrue(record is BibliographicRecord)
+            let bibliographic = record as? BibliographicRecord
+            XCTAssertEqual(bibliographic?.ddcCallNumbers.count, 1)
+            XCTAssertEqual(bibliographic?.lccCallNumbers.count, 1)
+            XCTAssertEqual(bibliographic?.titleStatement.title, "In the land of invented languages :")
         } catch {
             XCTFail("Connection could not be made. \(error)")
         }
