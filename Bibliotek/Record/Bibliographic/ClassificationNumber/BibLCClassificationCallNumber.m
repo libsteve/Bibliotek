@@ -46,6 +46,9 @@ static BibRecordFieldTag const kRecordFieldTag = @"050";
     NSArray *const alternativeNumbers = (classificationNumbersCount)
                                       ? [classificationNumbers subarrayWithRange:alternativeNumbersRange]
                                       : [NSArray array];
+    if (classificationNumber == nil) {
+        [NSException raise:NSInternalInconsistencyException format:@"Required subfield $a not found"];
+    }
     if (self = [super initWithIndicators:indicators subfields:subfields]) {
         _classificationNumber = [classificationNumber copy];
         _itemNumber = [itemNumber copy];

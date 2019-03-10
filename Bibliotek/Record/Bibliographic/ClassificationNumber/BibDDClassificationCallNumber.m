@@ -63,6 +63,9 @@ static BibRecordFieldTag const kRecordFieldTag = @"082";
         _editionKind = editionKind;
         _assigningAgency = [assigningAgency copy];
         _libraryOfCongressOwnership = libraryOfCongressOwnership;
+        if (_classificationNumber == nil) {
+            [NSException raise:NSInternalInconsistencyException format:@"Required subfield $a not found"];
+        }
     }
     return self;
 }

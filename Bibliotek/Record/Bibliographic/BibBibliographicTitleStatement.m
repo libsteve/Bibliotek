@@ -43,6 +43,9 @@ static NSPredicate *sSectionNamePredicate;
         _authorStatement = [[[[subfields filteredArrayUsingPredicate:sAuthorPredicate] firstObject] content] copy];
         _sectionIndex = [[[[subfields filteredArrayUsingPredicate:sSectionIndexPredicate] firstObject] content] copy];
         _sectionName = [[[[subfields filteredArrayUsingPredicate:sSectionNamePredicate] firstObject] content] copy];
+        if (_title == nil) {
+            [NSException raise:NSInternalInconsistencyException format:@"Required subfield $a not found"];
+        }
     }
     return self;
 }
