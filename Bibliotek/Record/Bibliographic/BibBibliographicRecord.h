@@ -9,12 +9,15 @@
 #import <Foundation/Foundation.h>
 #import "BibRecord.h"
 
+@class BibRecordDataField;
+
 @class BibDDClassificationCallNumber;
 @class BibLCClassificationCallNumber;
 @class BibBibliographicTitleStatement;
 @class BibBibliographicPersonalName;
 
 @protocol BibClassificationCallNumber;
+@protocol BibBibliographicSubjectHeading;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -26,9 +29,13 @@ NS_SWIFT_NAME(BibliographicRecord)
 
 @property (nonatomic, copy, readonly) NSArray<BibLCClassificationCallNumber *> *lccCallNumbers;
 
+@property (nonatomic, copy, readonly) NSArray<BibRecordDataField<BibClassificationCallNumber> *> *callNumbers;
+
 @property (nonatomic, strong, readonly) BibBibliographicTitleStatement *titleStatement;
 
 @property (nonatomic, strong, readonly) BibBibliographicPersonalName *author;
+
+@property (nonatomic, copy, readonly) NSArray<BibRecordDataField<BibBibliographicSubjectHeading> *> *subjectHeadings;
 
 @end
 

@@ -24,6 +24,7 @@ let records: RecordList = {
 let record = records.first as! BibliographicRecord
 record.lccCallNumbers
 record.ddcCallNumbers
-record.titleStatement
 record.titleStatement.title
+record.titleStatement.subtitle
 record.titleStatement.authorStatement
+record.subjectHeadings.first?.term

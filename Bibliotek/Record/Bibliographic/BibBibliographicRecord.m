@@ -12,12 +12,16 @@
 #import "BibDDClassificationCallNumber.h"
 #import "BibBibliographicTitleStatement.h"
 #import "BibBibliographicPersonalName.h"
+#import "BibBibliographicSubjectHeading.h"
+#import "BibBibliographicTopicalSubjectHeading.h"
 #import "BibRecordDirectoryEntry.h"
 
 static NSPredicate *sLCCCallNumberPredicate;
 static NSPredicate *sDDCCallNumberPredicate;
+static NSPredicate *sCallNumberPredicate;
 static NSPredicate *sTitleStatementPredicate;
 static NSPredicate *sAuthorPredicate;
+static NSPredicate *sSubjectHeadingPredicate;
 
 @implementation BibBibliographicRecord
 
@@ -28,10 +32,14 @@ static NSPredicate *sAuthorPredicate;
         sLCCCallNumberPredicate = [NSPredicate predicateWithFormat:@"tag = %@", lccCallNumberTag];
         BibRecordFieldTag const ddcCallNumberTag = [BibDDClassificationCallNumber recordFieldTag];
         sDDCCallNumberPredicate = [NSPredicate predicateWithFormat:@"tag = %@", ddcCallNumberTag];
+        sCallNumberPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:@[ sLCCCallNumberPredicate,
+                                                                                    sDDCCallNumberPredicate ]];
         BibRecordFieldTag const titleStatementTag = [BibBibliographicTitleStatement recordFieldTag];
         sTitleStatementPredicate = [NSPredicate predicateWithFormat:@"tag = %@", titleStatementTag];
         BibRecordFieldTag const authorTag = [BibBibliographicPersonalName recordFieldTag];
         sAuthorPredicate = [NSPredicate predicateWithFormat:@"tag = %@", authorTag];
+        BibRecordFieldTag const topicalSubjectTag = [BibBibliographicTopicalSubjectHeading recordFieldTag];
+        sSubjectHeadingPredicate = [NSPredicate predicateWithFormat:@"tag = %@", topicalSubjectTag];
     });
 }
 
@@ -42,7 +50,8 @@ static NSPredicate *sAuthorPredicate;
         dictionary = @{ [BibLCClassificationCallNumber recordFieldTag] : [BibLCClassificationCallNumber class],
                         [BibDDClassificationCallNumber recordFieldTag] : [BibDDClassificationCallNumber class],
                         [BibBibliographicTitleStatement recordFieldTag] : [BibBibliographicTitleStatement class],
-                        [BibBibliographicPersonalName recordFieldTag] : [BibBibliographicPersonalName class] };
+                        [BibBibliographicPersonalName recordFieldTag] : [BibBibliographicPersonalName class],
+                        [BibBibliographicTopicalSubjectHeading recordFieldTag] : [BibBibliographicTopicalSubjectHeading class] };
     });
     return dictionary;
 }
@@ -53,8 +62,10 @@ static NSPredicate *sAuthorPredicate;
     if (self = [super initWithLeader:leader directory:directory fields:fields]) {
         _lccCallNumbers = (id)[fields filteredArrayUsingPredicate:sLCCCallNumberPredicate];
         _ddcCallNumbers = (id)[fields filteredArrayUsingPredicate:sDDCCallNumberPredicate];
+        _callNumbers = (id)[fields filteredArrayUsingPredicate:sCallNumberPredicate];
         _titleStatement = (id)[[fields filteredArrayUsingPredicate:sTitleStatementPredicate] firstObject];
         _author = (id)[[fields filteredArrayUsingPredicate:sAuthorPredicate] firstObject];
+        _subjectHeadings = (id)[fields filteredArrayUsingPredicate:sSubjectHeadingPredicate];
     }
     return self;
 }
