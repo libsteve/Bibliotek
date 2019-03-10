@@ -11,11 +11,13 @@
 #import "BibLCClassificationCallNumber.h"
 #import "BibDDClassificationCallNumber.h"
 #import "BibBibliographicTitleStatement.h"
+#import "BibBibliographicPersonalName.h"
 #import "BibRecordDirectoryEntry.h"
 
 static NSPredicate *sLCCCallNumberPredicate;
 static NSPredicate *sDDCCallNumberPredicate;
 static NSPredicate *sTitleStatementPredicate;
+static NSPredicate *sAuthorPredicate;
 
 @implementation BibBibliographicRecord
 
@@ -28,6 +30,8 @@ static NSPredicate *sTitleStatementPredicate;
         sDDCCallNumberPredicate = [NSPredicate predicateWithFormat:@"tag = %@", ddcCallNumberTag];
         BibRecordFieldTag const titleStatementTag = [BibBibliographicTitleStatement recordFieldTag];
         sTitleStatementPredicate = [NSPredicate predicateWithFormat:@"tag = %@", titleStatementTag];
+        BibRecordFieldTag const authorTag = [BibBibliographicPersonalName recordFieldTag];
+        sAuthorPredicate = [NSPredicate predicateWithFormat:@"tag = %@", authorTag];
     });
 }
 
@@ -37,7 +41,8 @@ static NSPredicate *sTitleStatementPredicate;
     dispatch_once(&onceToken, ^{
         dictionary = @{ [BibLCClassificationCallNumber recordFieldTag] : [BibLCClassificationCallNumber class],
                         [BibDDClassificationCallNumber recordFieldTag] : [BibDDClassificationCallNumber class],
-                        [BibBibliographicTitleStatement recordFieldTag] : [BibBibliographicTitleStatement class] };
+                        [BibBibliographicTitleStatement recordFieldTag] : [BibBibliographicTitleStatement class],
+                        [BibBibliographicPersonalName recordFieldTag] : [BibBibliographicPersonalName class] };
     });
     return dictionary;
 }
@@ -49,6 +54,7 @@ static NSPredicate *sTitleStatementPredicate;
         _lccCallNumbers = (id)[fields filteredArrayUsingPredicate:sLCCCallNumberPredicate];
         _ddcCallNumbers = (id)[fields filteredArrayUsingPredicate:sDDCCallNumberPredicate];
         _titleStatement = (id)[[fields filteredArrayUsingPredicate:sTitleStatementPredicate] firstObject];
+        _author = (id)[[fields filteredArrayUsingPredicate:sAuthorPredicate] firstObject];
     }
     return self;
 }
