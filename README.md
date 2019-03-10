@@ -34,12 +34,13 @@ let records = try! connection.fetchRecords(request: request)
 With a record, you can access information about the title, author, subject, and more.
 
 ```swift
-let record = records.first!
-record.title
-record.subtitles
-record.subjects
-records.authors
-records.callNumbers
+let record = records.first as! BibliographicRecord
+record.titleStatement.title
+record.titleStatement.subtitle
+record.titleStatement.authorStatement
+record.subjectHeadings.first!.term
+record.lccCallNumbers
+record.ddcCallNumbers
 ```
 
 Instructions
