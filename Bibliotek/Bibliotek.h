@@ -41,5 +41,5 @@ FOUNDATION_EXPORT const unsigned char BibliotekVersionString[];
 #import "BibDDClassificationCallNumber.h"
 #import "BibBibliographicTitleStatement.h"
 #import "BibBibliographicPersonalName.h"
-#import "BibBibliographicSubjectHeading.h"
-#import "BibBibliographicTopicalSubjectHeading.h"
+#import "BibSubjectHeading.h"
+#import "BibTopicalSubjectHeading.h"

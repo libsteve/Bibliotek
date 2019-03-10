@@ -1,5 +1,5 @@
 //
-//  BibBibliographicSubjectHeading.h
+//  BibSubjectHeading.h
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 3/10/19.
@@ -11,22 +11,22 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, BibBibliographicSubjectHeadingThesaurus) {
-    BibBibliographicSubjectHeadingThesaurusLibraryOfCongress = '0',
-    BibBibliographicSubjectHeadingThesaurusLibraryOfCongressChildrensLiterature = '1',
-    BibBibliographicSubjectHeadingThesaurusMedical = '2',
-    BibBibliographicSubjectHeadingThesaurusNationalAgriculturalLibrary = '3',
-    BibBibliographicSubjectHeadingThesaurusUnspecified = '4',
-    BibBibliographicSubjectHeadingThesaurusCanadian = '5',
-    BibBibliographicSubjectHeadingThesaurusFrench = '6',
-    BibBibliographicSubjectHeadingThesaurusOther = '7'
-} NS_SWIFT_NAME(BibliographicSubjectHeading.Thesaurus);
+typedef NS_ENUM(NSUInteger, BibSubjectHeadingThesaurus) {
+    BibSubjectHeadingThesaurusLibraryOfCongress = '0',
+    BibSubjectHeadingThesaurusLibraryOfCongressChildrensLiterature = '1',
+    BibSubjectHeadingThesaurusMedical = '2',
+    BibSubjectHeadingThesaurusNationalAgriculturalLibrary = '3',
+    BibSubjectHeadingThesaurusUnspecified = '4',
+    BibSubjectHeadingThesaurusCanadian = '5',
+    BibSubjectHeadingThesaurusFrench = '6',
+    BibSubjectHeadingThesaurusOther = '7'
+} NS_SWIFT_NAME(SubjectHeadingThesaurus);
 
 /// http://www.loc.gov/marc/bibliographic/bd6xx.html
-NS_SWIFT_NAME(BibliographicSubjectHeading)
-@protocol BibBibliographicSubjectHeading <NSObject>
+NS_SWIFT_NAME(SubjectHeading)
+@protocol BibSubjectHeading <NSObject>
 
-@property (nonatomic, assign, readonly) BibBibliographicSubjectHeadingThesaurus thesaurus;
+@property (nonatomic, assign, readonly) BibSubjectHeadingThesaurus thesaurus;
 
 @property (nonatomic, copy, readonly) NSString *term;
 

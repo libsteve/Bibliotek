@@ -12,8 +12,8 @@
 #import "BibDDClassificationCallNumber.h"
 #import "BibBibliographicTitleStatement.h"
 #import "BibBibliographicPersonalName.h"
-#import "BibBibliographicSubjectHeading.h"
-#import "BibBibliographicTopicalSubjectHeading.h"
+#import "BibSubjectHeading.h"
+#import "BibTopicalSubjectHeading.h"
 #import "BibRecordDirectoryEntry.h"
 
 static NSPredicate *sLCCCallNumberPredicate;
@@ -38,7 +38,7 @@ static NSPredicate *sSubjectHeadingPredicate;
         sTitleStatementPredicate = [NSPredicate predicateWithFormat:@"tag = %@", titleStatementTag];
         BibRecordFieldTag const authorTag = [BibBibliographicPersonalName recordFieldTag];
         sAuthorPredicate = [NSPredicate predicateWithFormat:@"tag = %@", authorTag];
-        BibRecordFieldTag const topicalSubjectTag = [BibBibliographicTopicalSubjectHeading recordFieldTag];
+        BibRecordFieldTag const topicalSubjectTag = [BibTopicalSubjectHeading recordFieldTag];
         sSubjectHeadingPredicate = [NSPredicate predicateWithFormat:@"tag = %@", topicalSubjectTag];
     });
 }
@@ -51,7 +51,7 @@ static NSPredicate *sSubjectHeadingPredicate;
                         [BibDDClassificationCallNumber recordFieldTag] : [BibDDClassificationCallNumber class],
                         [BibBibliographicTitleStatement recordFieldTag] : [BibBibliographicTitleStatement class],
                         [BibBibliographicPersonalName recordFieldTag] : [BibBibliographicPersonalName class],
-                        [BibBibliographicTopicalSubjectHeading recordFieldTag] : [BibBibliographicTopicalSubjectHeading class] };
+                        [BibTopicalSubjectHeading recordFieldTag] : [BibTopicalSubjectHeading class] };
     });
     return dictionary;
 }

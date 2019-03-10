@@ -17,7 +17,7 @@
 @class BibBibliographicPersonalName;
 
 @protocol BibClassificationCallNumber;
-@protocol BibBibliographicSubjectHeading;
+@protocol BibSubjectHeading;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -35,7 +35,7 @@ NS_SWIFT_NAME(BibliographicRecord)
 
 @property (nonatomic, strong, readonly) BibBibliographicPersonalName *author;
 
-@property (nonatomic, copy, readonly) NSArray<BibRecordDataField<BibBibliographicSubjectHeading> *> *subjectHeadings;
+@property (nonatomic, copy, readonly) NSArray<BibRecordDataField<BibSubjectHeading> *> *subjectHeadings;
 
 @end
 

@@ -6,7 +6,7 @@
 //  Copyright © 2019 Steve Brunwasser. All rights reserved.
 //
 
-#import "BibBibliographicTopicalSubjectHeading.h"
+#import "BibTopicalSubjectHeading.h"
 #import "BibRecordSubfield.h"
 
 static BibRecordFieldTag const kRecordFieldTag = @"650";
@@ -19,7 +19,7 @@ static NSPredicate *sGeographicSubdivisionPredicate;
 static NSPredicate *sRWOIdentifiersPredicate;
 static NSPredicate *sSourcePredicate;
 
-@implementation BibBibliographicTopicalSubjectHeading
+@implementation BibTopicalSubjectHeading
 
 @synthesize thesaurus = _thesaurus;
 @synthesize term = _term;
