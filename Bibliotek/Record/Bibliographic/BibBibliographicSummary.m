@@ -59,4 +59,11 @@ static NSPredicate *sAdviceSourcePredicate;
     return self;
 }
 
+- (NSString *)description {
+    if (_detail) {
+        return [@[_content, _detail] componentsJoinedByString:@" "];
+    }
+    return _content;
+}
+
 @end

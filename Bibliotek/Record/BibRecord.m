@@ -102,6 +102,10 @@ static NSUInteger const kDirectoryEntryLength = 12;
     return [@[ _leader, [_fields componentsJoinedByString:@"\n"] ] componentsJoinedByString:@"\n"];
 }
 
+- (NSString *)debugDescription {
+    return [@[ _leader, [_fields componentsJoinedByString:@"\n"] ] componentsJoinedByString:@"\n"];
+}
+
 #pragma mark - Equality
 
 - (BOOL)isEqualToRecord:(BibRecord *)record {

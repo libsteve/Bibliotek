@@ -40,8 +40,8 @@ record.titleStatement.subtitle
 record.titleStatement.authorStatement
 record.summaries.first!.content
 record.subjectHeadings.first!.term
-record.lccCallNumbers
-record.ddcCallNumbers
+record.lccCallNumbers.first!.description
+record.ddcCallNumbers.first!.description
 ```
 
 Instructions

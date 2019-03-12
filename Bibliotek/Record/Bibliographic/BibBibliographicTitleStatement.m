@@ -50,4 +50,16 @@ static NSPredicate *sSectionNamePredicate;
     return self;
 }
 
+- (NSString *)description {
+    NSString *content[5] = {_title, _subtitle, _authorStatement, _sectionIndex, _sectionName};
+    NSMutableArray *strings = [NSMutableArray arrayWithCapacity:5];
+    for (int index = 0; index < 5; index += 1) {
+        NSString *string = content[index];
+        if (string) {
+            [strings addObject:string];
+        }
+    }
+    return [strings componentsJoinedByString:@" "];
+}
+
 @end

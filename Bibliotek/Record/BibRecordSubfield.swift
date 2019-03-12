@@ -10,7 +10,7 @@ import Foundation
 
 extension Record.Subfield: CustomReflectable {
     public var customMirror: Mirror {
-        return Mirror(self, children: [(label: code.rawValue, value: content)],
+        return Mirror(self, children: [(label: "code", value: code.rawValue), (label: "content", value: content)],
                       displayStyle: .dictionary, ancestorRepresentation: .suppressed)
     }
 }

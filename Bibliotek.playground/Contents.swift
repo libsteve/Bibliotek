@@ -25,7 +25,7 @@ let record = records.first as! BibliographicRecord
 record.titleStatement.title
 record.titleStatement.subtitle
 record.titleStatement.authorStatement
-record.summaries.first?.content
-record.subjectHeadings.first?.term
-record.lccCallNumbers
-record.ddcCallNumbers
+record.summaries.first!.content
+record.subjectHeadings.first!.term
+record.lccCallNumbers.first!.description
+record.ddcCallNumbers.first!.description

@@ -10,7 +10,7 @@ import Foundation
 
 extension Record.ControlField: CustomReflectable {
     public var customMirror: Mirror {
-        return Mirror(self, children: [(label: "tag", value: content)],
+        return Mirror(self, children: [(label: "tag", value: tag.rawValue), (label: "content", value: content)],
                       displayStyle: .dictionary, ancestorRepresentation: .suppressed)
     }
 }

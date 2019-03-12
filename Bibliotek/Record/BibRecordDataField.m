@@ -58,13 +58,21 @@ static uint8_t const kFieldTerminator = 0x1E;
     return self;
 }
 
-- (NSString *)description {
+static NSString *sDebugDescription(NSArray *_indicators, NSArray *_subfields, NSString *tag) {
     NSMutableArray *indicators = [NSMutableArray arrayWithCapacity:[_indicators count]];
     for (NSString *indicator in _indicators) {
         [indicators addObject:([indicator isEqualToString:@" "] ? @"#" : indicator)];
     }
     NSString *const subfields = [_subfields componentsJoinedByString:@""];
-    return [NSString stringWithFormat:@"%@ %@ %@", [self tag], [indicators componentsJoinedByString:@""], subfields];
+    return [NSString stringWithFormat:@"%@ %@ %@", tag, [indicators componentsJoinedByString:@""], subfields];
+}
+
+- (NSString *)description {
+    return sDebugDescription(_indicators, _subfields, [self tag]);
+}
+
+- (NSString *)debugDescription {
+    return sDebugDescription(_indicators, _subfields, [self tag]);
 }
 
 #pragma mark - Equality

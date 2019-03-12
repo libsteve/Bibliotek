@@ -62,4 +62,8 @@ static NSPredicate *sRelationCodesPredicate;
     return self;
 }
 
+- (NSString *)description {
+    return _name;
+}
+
 @end

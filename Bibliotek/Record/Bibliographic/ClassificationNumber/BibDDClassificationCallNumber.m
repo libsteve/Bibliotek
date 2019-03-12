@@ -70,4 +70,11 @@ static BibRecordFieldTag const kRecordFieldTag = @"082";
     return self;
 }
 
+- (NSString *)description {
+    if (_itemNumber) {
+        return [@[_classificationNumber, _itemNumber] componentsJoinedByString:@" "];
+    }
+    return _classificationNumber;
+}
+
 @end

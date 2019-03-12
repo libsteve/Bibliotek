@@ -52,18 +52,22 @@ static NSPredicate *sSourcePredicate;
     if (self = [super initWithIndicators:indicators subfields:subfields]) {
         _level = [[indicators firstObject] characterAtIndex:0];
         _thesaurus = [[indicators lastObject] characterAtIndex:0];
-        _term = [[[subfields filteredArrayUsingPredicate:sTermPredicate] firstObject] content];
+        _term = [[[[subfields filteredArrayUsingPredicate:sTermPredicate] firstObject] content] copy];
         _formSubdivision = [[subfields filteredArrayUsingPredicate:sFormSubdivisionPredicate] valueForKey:@"content"];
         _generalSubdivision = [[subfields filteredArrayUsingPredicate:sGeographicSubdivisionPredicate] valueForKey:@"content"];
         _chronologicalSubdivision = [[subfields filteredArrayUsingPredicate:sChronologicalSubdivisionPredicate] valueForKey:@"content"];
         _geographicSubdivision = [[subfields filteredArrayUsingPredicate:sGeographicSubdivisionPredicate] valueForKey:@"content"];
         _realWorldObjectIdentifiers = [[subfields filteredArrayUsingPredicate:sRWOIdentifiersPredicate] valueForKey:@"content"];
-        _source = [[[subfields filteredArrayUsingPredicate:sSourcePredicate] firstObject] content];
+        _source = [[[[subfields filteredArrayUsingPredicate:sSourcePredicate] firstObject] content] copy];
         if (_term == nil) {
             [NSException raise:NSInternalInconsistencyException format:@"Required subfield $a not found"];
         }
     }
     return self;
+}
+
+- (NSString *)description {
+    return _term;
 }
 
 @end

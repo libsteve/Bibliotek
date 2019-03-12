@@ -75,4 +75,13 @@ static NSPredicate *sSummaryPredicate;
     return self;
 }
 
+- (NSString *)description {
+    NSMutableArray *content = [NSMutableArray array];
+    [content addObjectsFromArray:_callNumbers];
+    [content addObjectsFromArray:@[_titleStatement, _author]];
+    [content addObjectsFromArray:_summaries];
+    [content addObjectsFromArray:_subjectHeadings];
+    return [content componentsJoinedByString:@"\n"];
+}
+
 @end
