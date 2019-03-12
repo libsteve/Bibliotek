@@ -75,7 +75,7 @@
 		AAA96D332235B89000AD2753 /* BibTopicalSubjectHeading.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA96D312235B89000AD2753 /* BibTopicalSubjectHeading.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAA96D342235B89000AD2753 /* BibTopicalSubjectHeading.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA96D322235B89000AD2753 /* BibTopicalSubjectHeading.m */; };
 		AAA96D372235B91E00AD2753 /* BibSubjectHeading.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA96D362235B91E00AD2753 /* BibSubjectHeading.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAA96D3A2237FEE400AD2753 /* BibBibliographicSummary.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA96D382237FEE400AD2753 /* BibBibliographicSummary.h */; };
+		AAA96D3A2237FEE400AD2753 /* BibBibliographicSummary.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA96D382237FEE400AD2753 /* BibBibliographicSummary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAA96D3B2237FEE400AD2753 /* BibBibliographicSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA96D392237FEE400AD2753 /* BibBibliographicSummary.m */; };
 		AAAA428920B9F32A00BDB52B /* Bibliotek.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA59F0D220A9FACF00D41982 /* Bibliotek.framework */; };
 		AAAA429120B9F35600BDB52B /* BibliotekTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA429020B9F35600BDB52B /* BibliotekTests.swift */; };
