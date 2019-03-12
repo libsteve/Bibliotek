@@ -15,6 +15,7 @@
 @class BibLCClassificationCallNumber;
 @class BibBibliographicTitleStatement;
 @class BibBibliographicPersonalName;
+@class BibBibliographicSummary;
 
 @protocol BibClassificationCallNumber;
 @protocol BibSubjectHeading;
@@ -36,6 +37,8 @@ NS_SWIFT_NAME(BibliographicRecord)
 @property (nonatomic, strong, readonly) BibBibliographicPersonalName *author;
 
 @property (nonatomic, copy, readonly) NSArray<BibRecordDataField<BibSubjectHeading> *> *subjectHeadings;
+
+@property (nonatomic, copy, readonly) NSArray<BibBibliographicSummary *> *summaries;
 
 @end
 

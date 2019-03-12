@@ -12,6 +12,7 @@
 #import "BibDDClassificationCallNumber.h"
 #import "BibBibliographicTitleStatement.h"
 #import "BibBibliographicPersonalName.h"
+#import "BibBibliographicSummary.h"
 #import "BibSubjectHeading.h"
 #import "BibTopicalSubjectHeading.h"
 #import "BibRecordDirectoryEntry.h"
@@ -22,6 +23,7 @@ static NSPredicate *sCallNumberPredicate;
 static NSPredicate *sTitleStatementPredicate;
 static NSPredicate *sAuthorPredicate;
 static NSPredicate *sSubjectHeadingPredicate;
+static NSPredicate *sSummaryPredicate;
 
 @implementation BibBibliographicRecord
 
@@ -40,6 +42,7 @@ static NSPredicate *sSubjectHeadingPredicate;
         sAuthorPredicate = [NSPredicate predicateWithFormat:@"tag = %@", authorTag];
         BibRecordFieldTag const topicalSubjectTag = [BibTopicalSubjectHeading recordFieldTag];
         sSubjectHeadingPredicate = [NSPredicate predicateWithFormat:@"tag = %@", topicalSubjectTag];
+        sSummaryPredicate = [NSPredicate predicateWithFormat:@"tag = %@", [BibBibliographicSummary recordFieldTag]];
     });
 }
 
@@ -51,7 +54,8 @@ static NSPredicate *sSubjectHeadingPredicate;
                         [BibDDClassificationCallNumber recordFieldTag] : [BibDDClassificationCallNumber class],
                         [BibBibliographicTitleStatement recordFieldTag] : [BibBibliographicTitleStatement class],
                         [BibBibliographicPersonalName recordFieldTag] : [BibBibliographicPersonalName class],
-                        [BibTopicalSubjectHeading recordFieldTag] : [BibTopicalSubjectHeading class] };
+                        [BibTopicalSubjectHeading recordFieldTag] : [BibTopicalSubjectHeading class],
+                        [BibBibliographicSummary recordFieldTag] : [BibBibliographicSummary class] };
     });
     return dictionary;
 }
@@ -66,6 +70,7 @@ static NSPredicate *sSubjectHeadingPredicate;
         _titleStatement = (id)[[fields filteredArrayUsingPredicate:sTitleStatementPredicate] firstObject];
         _author = (id)[[fields filteredArrayUsingPredicate:sAuthorPredicate] firstObject];
         _subjectHeadings = (id)[fields filteredArrayUsingPredicate:sSubjectHeadingPredicate];
+        _summaries = (id)[fields filteredArrayUsingPredicate:sSummaryPredicate];
     }
     return self;
 }
