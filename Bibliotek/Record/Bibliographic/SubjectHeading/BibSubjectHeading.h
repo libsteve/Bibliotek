@@ -42,8 +42,6 @@ NS_SWIFT_NAME(SubjectHeading)
 
 @property (nonatomic, copy, readonly, nullable) NSString *source;
 
-@property (class, nonatomic, strong, readonly) BibRecordFieldTag recordFieldTag;
-
 @end
 
 NS_ASSUME_NONNULL_END

@@ -26,6 +26,8 @@ NS_SWIFT_NAME(LCClassificationCallNumber)
 
 @property (nonatomic, assign, readonly) BibLCClassificationCallNumberSource source;
 
+@property (class, nonatomic, strong, readonly) BibRecordFieldTag recordFieldTag;
+
 @end
 
 NS_ASSUME_NONNULL_END

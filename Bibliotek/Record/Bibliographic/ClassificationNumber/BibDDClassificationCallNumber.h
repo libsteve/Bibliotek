@@ -24,6 +24,8 @@ NS_SWIFT_NAME(DDClassificationCallNumber)
 
 @property (nonatomic, copy, readonly, nullable) BibMarcOrganization assigningAgency;
 
+@property (class, nonatomic, strong, readonly) BibRecordFieldTag recordFieldTag;
+
 @end
 
 NS_ASSUME_NONNULL_END

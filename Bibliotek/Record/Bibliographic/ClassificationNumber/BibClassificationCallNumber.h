@@ -28,8 +28,6 @@ NS_SWIFT_NAME(ClassificationCallNumber)
 
 @property (nonatomic, assign, readonly) BibLibraryOfCongressOwnership libraryOfCongressOwnership;
 
-@property (class, nonatomic, strong, readonly) BibRecordFieldTag recordFieldTag;
-
 @end
 
 NS_ASSUME_NONNULL_END
