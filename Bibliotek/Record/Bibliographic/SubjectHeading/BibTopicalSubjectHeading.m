@@ -50,6 +50,7 @@ static NSPredicate *sSourcePredicate;
 - (instancetype)initWithIndicators:(NSArray<BibRecordFieldIndicator> *)indicators
                          subfields:(NSArray<BibRecordSubfield *> *)subfields {
     if (self = [super initWithIndicators:indicators subfields:subfields]) {
+        _level = [[indicators firstObject] characterAtIndex:0];
         _thesaurus = [[indicators lastObject] characterAtIndex:0];
         _term = [[[subfields filteredArrayUsingPredicate:sTermPredicate] firstObject] content];
         _formSubdivision = [[subfields filteredArrayUsingPredicate:sFormSubdivisionPredicate] valueForKey:@"content"];

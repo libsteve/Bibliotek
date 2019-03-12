@@ -23,6 +23,8 @@ typedef NS_ENUM(NSUInteger, BibTopicalSubjectHeadingLevel) {
 NS_SWIFT_NAME(TopicalSubjectHeading)
 @interface BibTopicalSubjectHeading : BibRecordDataField <BibSubjectHeading>
 
+@property (nonatomic, assign, readonly) BibTopicalSubjectHeadingLevel level;
+
 @property (class, nonatomic, strong, readonly) BibRecordFieldTag recordFieldTag;
 
 @end
