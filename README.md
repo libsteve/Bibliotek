@@ -78,6 +78,7 @@ References
     - [Single Record Example][marcxml-example]
 - [Marc 21 Character Sets][marc-characterset]
 - [International Standard Bibliographic Description][isbd]
+- [Z39.50 Protocol Specification][z3950-specification]
 
 [bib1]: http://www.loc.gov/z3950/agency/bib1.html
 [marc-21]: https://www.loc.gov/marc/bibliographic/
@@ -91,6 +92,7 @@ References
 [marc-characterset]: https://www.loc.gov/marc/specifications/specchargeneral.html
 [marc-number-components]: http://www.loc.gov/marc/classification/cd765.html
 [isbd]: https://www.ifla.org/files/assets/cataloguing/isbd/isbd-cons_20110321.pdf
+[z3950-specification]: https://www.loc.gov/z3950/agency/Z39-50-2003.pdf
 
 ### OCLC Documents
 
