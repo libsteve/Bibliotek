@@ -77,6 +77,8 @@
 		AAA96D372235B91E00AD2753 /* BibSubjectHeading.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA96D362235B91E00AD2753 /* BibSubjectHeading.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAA96D3A2237FEE400AD2753 /* BibBibliographicSummary.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA96D382237FEE400AD2753 /* BibBibliographicSummary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAA96D3B2237FEE400AD2753 /* BibBibliographicSummary.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA96D392237FEE400AD2753 /* BibBibliographicSummary.m */; };
+		AAA96D44223D5B0B00AD2753 /* BibBibliographicContents.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA96D42223D5B0B00AD2753 /* BibBibliographicContents.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAA96D45223D5B0B00AD2753 /* BibBibliographicContents.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA96D43223D5B0B00AD2753 /* BibBibliographicContents.m */; };
 		AAAA428920B9F32A00BDB52B /* Bibliotek.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA59F0D220A9FACF00D41982 /* Bibliotek.framework */; };
 		AAAA429120B9F35600BDB52B /* BibliotekTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA429020B9F35600BDB52B /* BibliotekTests.swift */; };
 		AAAA429E20BB0E3600BDB52B /* BibConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = AAAA429C20BB0E3600BDB52B /* BibConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -200,6 +202,8 @@
 		AAA96D362235B91E00AD2753 /* BibSubjectHeading.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibSubjectHeading.h; sourceTree = "<group>"; };
 		AAA96D382237FEE400AD2753 /* BibBibliographicSummary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibBibliographicSummary.h; sourceTree = "<group>"; };
 		AAA96D392237FEE400AD2753 /* BibBibliographicSummary.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibBibliographicSummary.m; sourceTree = "<group>"; };
+		AAA96D42223D5B0B00AD2753 /* BibBibliographicContents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibBibliographicContents.h; sourceTree = "<group>"; };
+		AAA96D43223D5B0B00AD2753 /* BibBibliographicContents.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibBibliographicContents.m; sourceTree = "<group>"; };
 		AAAA428420B9F32900BDB52B /* BibliotekTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BibliotekTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAAA428820B9F32A00BDB52B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AAAA429020B9F35600BDB52B /* BibliotekTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibliotekTests.swift; sourceTree = "<group>"; };
@@ -370,6 +374,8 @@
 				AAA96D382237FEE400AD2753 /* BibBibliographicSummary.h */,
 				AAA96D392237FEE400AD2753 /* BibBibliographicSummary.m */,
 				AAA96D352235B8F900AD2753 /* SubjectHeading */,
+				AAA96D42223D5B0B00AD2753 /* BibBibliographicContents.h */,
+				AAA96D43223D5B0B00AD2753 /* BibBibliographicContents.m */,
 			);
 			path = Bibliographic;
 			sourceTree = "<group>";
@@ -459,6 +465,7 @@
 				AA51EA91211AB79A00BF28BE /* BibConnectionEndpoint.h in Headers */,
 				AAA96D372235B91E00AD2753 /* BibSubjectHeading.h in Headers */,
 				AAA39799221E7D5300E8C45D /* BibGenericRecordControlField.h in Headers */,
+				AAA96D44223D5B0B00AD2753 /* BibBibliographicContents.h in Headers */,
 				AAA39796221C657300E8C45D /* BibRecordDirectoryEntry.h in Headers */,
 				AA59056820AB419C00D41982 /* BibConnection+Private.h in Headers */,
 				AAA3978E221C654900E8C45D /* BibRecordLeader.h in Headers */,
@@ -652,6 +659,7 @@
 				AAA397C62222152C00E8C45D /* BibClassificationRecordClassificationNumber.m in Sources */,
 				AAA397D22223285600E8C45D /* BibClassificationRecord.m in Sources */,
 				AAA397E222245F3A00E8C45D /* BibLCClassificationCallNumber.m in Sources */,
+				AAA96D45223D5B0B00AD2753 /* BibBibliographicContents.m in Sources */,
 				AA6D70E82229AE88004FD0F0 /* BibRecordConstants.m in Sources */,
 				AA59055320AA43DD00D41982 /* BibConnection.m in Sources */,
 				AACEDD6420C1A946004ACA07 /* BibConstants.swift in Sources */,

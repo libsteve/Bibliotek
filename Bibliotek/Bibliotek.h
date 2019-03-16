@@ -44,3 +44,4 @@ FOUNDATION_EXPORT const unsigned char BibliotekVersionString[];
 #import "BibBibliographicSummary.h"
 #import "BibSubjectHeading.h"
 #import "BibTopicalSubjectHeading.h"
+#import "BibBibliographicContents.h"

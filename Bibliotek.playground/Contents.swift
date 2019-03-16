@@ -29,3 +29,4 @@ record.summaries.first!.content
 record.subjectHeadings.first!.term
 record.lccCallNumbers.first!.description
 record.ddcCallNumbers.first!.description
+record.contents.first!.contents

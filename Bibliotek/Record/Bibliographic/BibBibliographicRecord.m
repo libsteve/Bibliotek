@@ -15,6 +15,7 @@
 #import "BibBibliographicSummary.h"
 #import "BibSubjectHeading.h"
 #import "BibTopicalSubjectHeading.h"
+#import "BibBibliographicContents.h"
 #import "BibRecordDirectoryEntry.h"
 
 static NSPredicate *sLCCCallNumberPredicate;
@@ -24,6 +25,7 @@ static NSPredicate *sTitleStatementPredicate;
 static NSPredicate *sAuthorPredicate;
 static NSPredicate *sSubjectHeadingPredicate;
 static NSPredicate *sSummaryPredicate;
+static NSPredicate *sContentsPredicate;
 
 @implementation BibBibliographicRecord
 
@@ -43,6 +45,8 @@ static NSPredicate *sSummaryPredicate;
         BibRecordFieldTag const topicalSubjectTag = [BibTopicalSubjectHeading recordFieldTag];
         sSubjectHeadingPredicate = [NSPredicate predicateWithFormat:@"tag = %@", topicalSubjectTag];
         sSummaryPredicate = [NSPredicate predicateWithFormat:@"tag = %@", [BibBibliographicSummary recordFieldTag]];
+        BibRecordFieldTag const formattedContentsTag = [BibBibliographicContents recordFieldTag];
+        sContentsPredicate = [NSPredicate predicateWithFormat:@"tag = %@", formattedContentsTag];
     });
 }
 
@@ -55,7 +59,8 @@ static NSPredicate *sSummaryPredicate;
                         [BibBibliographicTitleStatement recordFieldTag] : [BibBibliographicTitleStatement class],
                         [BibBibliographicPersonalName recordFieldTag] : [BibBibliographicPersonalName class],
                         [BibTopicalSubjectHeading recordFieldTag] : [BibTopicalSubjectHeading class],
-                        [BibBibliographicSummary recordFieldTag] : [BibBibliographicSummary class] };
+                        [BibBibliographicSummary recordFieldTag] : [BibBibliographicSummary class],
+                        [BibBibliographicContents recordFieldTag] : [BibBibliographicContents class] };
     });
     return dictionary;
 }
@@ -71,6 +76,7 @@ static NSPredicate *sSummaryPredicate;
         _author = (id)[[fields filteredArrayUsingPredicate:sAuthorPredicate] firstObject];
         _subjectHeadings = (id)[fields filteredArrayUsingPredicate:sSubjectHeadingPredicate];
         _summaries = (id)[fields filteredArrayUsingPredicate:sSummaryPredicate];
+        _contents = (id)[fields filteredArrayUsingPredicate:sContentsPredicate];
     }
     return self;
 }
@@ -81,6 +87,7 @@ static NSPredicate *sSummaryPredicate;
     [content addObjectsFromArray:@[_titleStatement, _author]];
     [content addObjectsFromArray:_summaries];
     [content addObjectsFromArray:_subjectHeadings];
+    [content addObjectsFromArray:_contents];
     return [content componentsJoinedByString:@"\n"];
 }
 
