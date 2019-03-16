@@ -63,7 +63,14 @@ static NSPredicate *sRelationCodesPredicate;
 }
 
 - (NSString *)description {
-    return _name;
+    NSMutableArray *const contents = [NSMutableArray array];
+    [contents addObject:_name];
+    if (_numeration) { [contents addObject:_numeration]; }
+    if (_title) { [contents addObject:_title]; }
+    [contents addObjectsFromArray:_relationTerms];
+    [contents addObjectsFromArray:_attributionQualifiers];
+    if (_affiliation) { [contents addObject: _affiliation]; }
+    return [contents componentsJoinedByString:@" "];
 }
 
 @end
