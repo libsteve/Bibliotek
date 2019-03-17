@@ -1,5 +1,5 @@
 //
-//  BibLCClassificationCallNumber.swift
+//  BibSubjectHeading.swift
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 3/16/19.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension LCClassificationCallNumber: CustomPlaygroundDisplayConvertible {
+extension TopicalSubjectHeading: CustomPlaygroundDisplayConvertible {
     public var playgroundDescription: Any {
         return description
     }
