@@ -62,8 +62,12 @@ References
 ### Z39.50 Endpoints
 
 - [zbrary Directory of Z39.50 and SRU Targets][zbrary]
+- [Gateway to Library Catalogs][loc-gateways]
+- [Library of Congress Z39.50 Server Configuration Guidelines][loc-z3950-server]
 
 [zbrary]: http://www.z-brary.com
+[loc-gateways]: https://www.loc.gov/z3950/
+[loc-z3950-server]: https://www.loc.gov/z3950/lcserver.html#init
 
 ### Official Specifications from the Library of Congress
 
@@ -148,6 +152,7 @@ References
 - [025.431: The Dewey Blog][dewey-blog]
 - [Documentation for the ZOOM Pearl extension][zoom-pearl]
 - [Dewey Segmentation (the '/' in the dewey number)][dewey-segmentation]
+- [The ``Hello World'' Zoo][hello-world-zoo]
 
 [isbn2.py]: https://gist.github.com/toroidal-code/6415977
 [parsecallno.py]: https://gist.github.com/kurtraschke/560162
@@ -155,3 +160,4 @@ References
 [dewey-blog]: http://ddc.typepad.com/025431/
 [zoom-pearl]: https://metacpan.org/pod/release/MIRK/Net-Z3950-ZOOM-1.01/lib/ZOOM.pod
 [dewey-segmentation]: https://ddc.typepad.com/025431/2005/06/one_segmentatio.html
+[hello-world-zoo]: http://zoom.z3950.org/misc/zoo.html#11
