@@ -10,14 +10,7 @@ let connection = try! Connection(host: "z3950.loc.gov", port: 7090, database: "V
 let request = FetchRequest(keywords: ["9780385527880"], scope: .isbn)
 
 //: Submit the request to a connection to receive results.
-let records: RecordList = {
-    do {
-        return try connection.fetchRecords(request: request)
-    } catch {
-        error
-        return RecordList()
-    }
-}()
+let records: RecordList = try! connection.fetchRecords(request: request)
 
 //: With a record, you can access information about the title, author, subject, and more.
 
