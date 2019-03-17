@@ -18,6 +18,8 @@
 @class BibBibliographicSummary;
 @class BibBibliographicContents;
 @class BibBibliographicEditionStatement;
+@class BibBibliographicPublication;
+@class BibBibliographicISBN;
 
 @protocol BibClassificationCallNumber;
 @protocol BibSubjectHeading;
@@ -27,6 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// http://www.loc.gov/marc/bibliographic/
 NS_SWIFT_NAME(BibliographicRecord)
 @interface BibBibliographicRecord : BibRecord
+
+@property (nonatomic, copy, readonly) NSArray<BibBibliographicISBN *> *isbns;
 
 @property (nonatomic, copy, readonly) NSArray<BibDDClassificationCallNumber *> *ddcCallNumbers;
 
@@ -45,6 +49,8 @@ NS_SWIFT_NAME(BibliographicRecord)
 @property (nonatomic, copy, readonly) NSArray<BibBibliographicContents *> *contents;
 
 @property (nonatomic, copy, readonly) NSArray<BibBibliographicEditionStatement *> *editions;
+
+@property (nonatomic, copy, readonly) NSArray<BibBibliographicPublication *> *publications;
 
 @end
 

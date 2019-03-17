@@ -40,3 +40,15 @@ extension BibliographicEditionStatement: CustomPlaygroundDisplayConvertible {
         return description
     }
 }
+
+extension BibliographicPublication: CustomPlaygroundDisplayConvertible {
+    public var playgroundDescription: Any {
+        return description
+    }
+}
+
+extension BibliographicISBN: CustomPlaygroundDisplayConvertible {
+    public var playgroundDescription: Any {
+        return description
+    }
+}

@@ -35,10 +35,12 @@ With a record, you can access information about the title, author, subject, and 
 
 ```swift
 let record = records.first as! BibliographicRecord
+record.isbns
 record.callNumbers
 record.titleStatement
 record.author
 record.editions
+record.publications
 record.contents
 record.summaries
 record.subjectHeadings

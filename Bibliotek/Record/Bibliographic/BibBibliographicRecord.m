@@ -17,6 +17,8 @@
 #import "BibTopicalSubjectHeading.h"
 #import "BibBibliographicContents.h"
 #import "BibBibliographicEditionStatement.h"
+#import "BibBibliographicPublication.h"
+#import "BibBibliographicISBN.h"
 #import "BibRecordDirectoryEntry.h"
 
 static NSPredicate *sLCCCallNumberPredicate;
@@ -28,6 +30,8 @@ static NSPredicate *sSubjectHeadingPredicate;
 static NSPredicate *sSummaryPredicate;
 static NSPredicate *sContentsPredicate;
 static NSPredicate *sEditionPredicate;
+static NSPredicate *sPublicationPredicate;
+static NSPredicate *sISBNPredicate;
 
 @implementation BibBibliographicRecord
 
@@ -51,6 +55,10 @@ static NSPredicate *sEditionPredicate;
         sContentsPredicate = [NSPredicate predicateWithFormat:@"tag = %@", formattedContentsTag];
         BibRecordFieldTag const editionTag = [BibBibliographicEditionStatement recordFieldTag];
         sEditionPredicate = [NSPredicate predicateWithFormat:@"tag = %@", editionTag];
+        BibRecordFieldTag const publicationTag = [BibBibliographicPublication recordFieldTag];
+        sPublicationPredicate = [NSPredicate predicateWithFormat:@"tag = %@", publicationTag];
+        BibRecordFieldTag const isbnTag = [BibBibliographicISBN recordFieldTag];
+        sISBNPredicate = [NSPredicate predicateWithFormat:@"tag = %@", isbnTag];
     });
 }
 
@@ -65,7 +73,9 @@ static NSPredicate *sEditionPredicate;
                         [BibTopicalSubjectHeading recordFieldTag] : [BibTopicalSubjectHeading class],
                         [BibBibliographicSummary recordFieldTag] : [BibBibliographicSummary class],
                         [BibBibliographicContents recordFieldTag] : [BibBibliographicContents class],
-                        [BibBibliographicEditionStatement recordFieldTag] : [BibBibliographicEditionStatement class] };
+                        [BibBibliographicEditionStatement recordFieldTag] : [BibBibliographicEditionStatement class],
+                        [BibBibliographicPublication recordFieldTag] : [BibBibliographicPublication class],
+                        [BibBibliographicISBN recordFieldTag] : [BibBibliographicISBN class] };
     });
     return dictionary;
 }
@@ -74,6 +84,7 @@ static NSPredicate *sEditionPredicate;
                      directory:(NSArray<BibRecordDirectoryEntry *> *)directory
                         fields:(NSArray<id<BibRecordField>> *)fields {
     if (self = [super initWithLeader:leader directory:directory fields:fields]) {
+        _isbns = (id)[fields filteredArrayUsingPredicate:sISBNPredicate];
         _lccCallNumbers = (id)[fields filteredArrayUsingPredicate:sLCCCallNumberPredicate];
         _ddcCallNumbers = (id)[fields filteredArrayUsingPredicate:sDDCCallNumberPredicate];
         _callNumbers = (id)[fields filteredArrayUsingPredicate:sCallNumberPredicate];
@@ -83,18 +94,21 @@ static NSPredicate *sEditionPredicate;
         _summaries = (id)[fields filteredArrayUsingPredicate:sSummaryPredicate];
         _contents = (id)[fields filteredArrayUsingPredicate:sContentsPredicate];
         _editions = (id)[fields filteredArrayUsingPredicate:sEditionPredicate];
+        _publications = (id)[fields filteredArrayUsingPredicate:sPublicationPredicate];
     }
     return self;
 }
 
 - (NSString *)description {
     NSMutableArray *content = [NSMutableArray array];
+    [content addObjectsFromArray:_isbns];
     [content addObjectsFromArray:_callNumbers];
     [content addObjectsFromArray:@[_titleStatement, _author]];
     [content addObjectsFromArray:_summaries];
     [content addObjectsFromArray:_subjectHeadings];
     [content addObjectsFromArray:_contents];
     [content addObjectsFromArray:_editions];
+    [content addObjectsFromArray:_publications];
     return [content componentsJoinedByString:@"\n"];
 }
 

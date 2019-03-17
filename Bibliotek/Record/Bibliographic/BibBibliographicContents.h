@@ -16,12 +16,12 @@ typedef NS_ENUM(NSUInteger, BibBibliographicContentsKind) {
     BibBibliographicContentsKindIncomplete = '1',
     BibBibliographicContentsKindPartial = '2',
     BibBibliographicContentsKindOther = '8'
-} NS_SWIFT_NAME(FormattedContents.Display);
+} NS_SWIFT_NAME(BibliographicContents.Kind);
 
 typedef NS_ENUM(NSUInteger, BibBibliographicContentsLevel) {
     BibBibliographicContentsLevelBasic = ' ',
     BibBibliographicContentsLevelEnhanced = '0'
-} NS_SWIFT_NAME(FormattedContents.Level);
+} NS_SWIFT_NAME(BibliographicContents.Level);
 
 /// http://www.loc.gov/marc/bibliographic/bd505.html
 NS_SWIFT_NAME(BibliographicContents)
