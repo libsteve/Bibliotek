@@ -16,6 +16,7 @@
 #import "BibSubjectHeading.h"
 #import "BibTopicalSubjectHeading.h"
 #import "BibBibliographicContents.h"
+#import "BibBibliographicEditionStatement.h"
 #import "BibRecordDirectoryEntry.h"
 
 static NSPredicate *sLCCCallNumberPredicate;
@@ -26,6 +27,7 @@ static NSPredicate *sAuthorPredicate;
 static NSPredicate *sSubjectHeadingPredicate;
 static NSPredicate *sSummaryPredicate;
 static NSPredicate *sContentsPredicate;
+static NSPredicate *sEditionPredicate;
 
 @implementation BibBibliographicRecord
 
@@ -47,6 +49,8 @@ static NSPredicate *sContentsPredicate;
         sSummaryPredicate = [NSPredicate predicateWithFormat:@"tag = %@", [BibBibliographicSummary recordFieldTag]];
         BibRecordFieldTag const formattedContentsTag = [BibBibliographicContents recordFieldTag];
         sContentsPredicate = [NSPredicate predicateWithFormat:@"tag = %@", formattedContentsTag];
+        BibRecordFieldTag const editionTag = [BibBibliographicEditionStatement recordFieldTag];
+        sEditionPredicate = [NSPredicate predicateWithFormat:@"tag = %@", editionTag];
     });
 }
 
@@ -60,7 +64,8 @@ static NSPredicate *sContentsPredicate;
                         [BibBibliographicPersonalName recordFieldTag] : [BibBibliographicPersonalName class],
                         [BibTopicalSubjectHeading recordFieldTag] : [BibTopicalSubjectHeading class],
                         [BibBibliographicSummary recordFieldTag] : [BibBibliographicSummary class],
-                        [BibBibliographicContents recordFieldTag] : [BibBibliographicContents class] };
+                        [BibBibliographicContents recordFieldTag] : [BibBibliographicContents class],
+                        [BibBibliographicEditionStatement recordFieldTag] : [BibBibliographicEditionStatement class] };
     });
     return dictionary;
 }
@@ -77,6 +82,7 @@ static NSPredicate *sContentsPredicate;
         _subjectHeadings = (id)[fields filteredArrayUsingPredicate:sSubjectHeadingPredicate];
         _summaries = (id)[fields filteredArrayUsingPredicate:sSummaryPredicate];
         _contents = (id)[fields filteredArrayUsingPredicate:sContentsPredicate];
+        _editions = (id)[fields filteredArrayUsingPredicate:sEditionPredicate];
     }
     return self;
 }
@@ -88,6 +94,7 @@ static NSPredicate *sContentsPredicate;
     [content addObjectsFromArray:_summaries];
     [content addObjectsFromArray:_subjectHeadings];
     [content addObjectsFromArray:_contents];
+    [content addObjectsFromArray:_editions];
     return [content componentsJoinedByString:@"\n"];
 }
 

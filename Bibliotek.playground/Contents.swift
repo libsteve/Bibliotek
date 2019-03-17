@@ -25,6 +25,7 @@ let record = records.first as! BibliographicRecord
 record.callNumbers
 record.titleStatement
 record.author
+record.editions
 record.contents
 record.summaries
 record.subjectHeadings

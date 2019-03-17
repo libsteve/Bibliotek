@@ -17,6 +17,7 @@
 @class BibBibliographicPersonalName;
 @class BibBibliographicSummary;
 @class BibBibliographicContents;
+@class BibBibliographicEditionStatement;
 
 @protocol BibClassificationCallNumber;
 @protocol BibSubjectHeading;
@@ -42,6 +43,8 @@ NS_SWIFT_NAME(BibliographicRecord)
 @property (nonatomic, copy, readonly) NSArray<BibBibliographicSummary *> *summaries;
 
 @property (nonatomic, copy, readonly) NSArray<BibBibliographicContents *> *contents;
+
+@property (nonatomic, copy, readonly) NSArray<BibBibliographicEditionStatement *> *editions;
 
 @end
 
