@@ -3,7 +3,10 @@ import Bibliotek
 
 //: Connect to the Library of Congress's VOYAGER database.
 
-let connection = try! Connection(host: "z3950.loc.gov", port: 7090, database: "VOYAGER")
+let lc = Connection.Endpoint(host: "z3950.loc.gov", port: 7090, database: "VOYAGER")
+let sfpl = Connection.Endpoint(host: "sflib1.sfpl.org", port: 210, database: "INNOPAC")
+
+let connection = try! Connection(endpoint: lc)
 
 //: Create a request to find books with some ISBN number.
 
