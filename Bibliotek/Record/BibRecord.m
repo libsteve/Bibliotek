@@ -32,17 +32,29 @@ static NSUInteger const kDirectoryEntryLength = 12;
 }
 
 - (instancetype)initWithData:(NSData *)data {
-    BibRecordLeader *const leader = [[BibRecordLeader alloc] initWithData:[data subdataWithRange:kLeaderRange]];
+    return [self initWithData:data range:NULL];
+}
+
+- (instancetype)initWithData:(NSData *)data range:(NSRange *)range {
+    NSRange const dataRange = range ? *range : NSMakeRange(0, [data length]);
+    NSData *const recordData = (range) ? data : [data subdataWithRange:dataRange];
+    BibRecordLeader *const leader = [[BibRecordLeader alloc] initWithData:[recordData subdataWithRange:kLeaderRange]];
+    NSUInteger const recordLength = [leader recordLength];
     NSUInteger const recordBodyLocation = [leader recordBodyLocation];
     NSMutableArray *const directory = [NSMutableArray array];
     NSUInteger const directoryBodyLength = recordBodyLocation - NSMaxRange(kLeaderRange) - 1;
     NSUInteger const directoryEntryCount = directoryBodyLength / kDirectoryEntryLength;
     for (NSUInteger index = 0; index < directoryEntryCount; index += 1) {
         NSUInteger const location = index * kDirectoryEntryLength + NSMaxRange(kLeaderRange);
-        NSData *const entryData = [data subdataWithRange:NSMakeRange(location, kDirectoryEntryLength)];
+        NSData *const entryData = [recordData subdataWithRange:NSMakeRange(location, kDirectoryEntryLength)];
         [directory addObject:[[BibRecordDirectoryEntry alloc] initWithData:entryData]];
     }
-    return [self initWithLeader:leader directory:directory data:data];
+    self = [self initWithLeader:leader directory:directory data:recordData];
+    if (self && range) {
+        (*range).location += recordLength;
+        (*range).length -= recordLength;
+    }
+    return self;
 }
 
 - (instancetype)initWithLeader:(BibRecordLeader *)leader
@@ -121,6 +133,27 @@ static NSUInteger const kDirectoryEntryLength = 12;
 
 - (NSUInteger)hash {
     return [_leader hash] ^ [_directory hash] ^ [_fields hash];
+}
+
+#pragma mark -
+
++ (NSArray<BibRecord *> *)recordsWithData:(NSData *)data {
+    NSRange range = NSMakeRange(0, [data length]);
+    NSMutableArray *records = [NSMutableArray array];
+    while (range.location < NSMaxRange(range)) {
+        BibRecord *record = [[BibRecord alloc] initWithData:data range:&range];
+        if (record == nil) { break; }
+        [records addObject:record];
+    }
+    return [records copy];
+}
+
++ (NSArray<BibRecord *> *)recordsWithContentsOfFile:(NSString *)filePath {
+    return [self recordsWithData:[NSData dataWithContentsOfFile:filePath]];
+}
+
++ (NSArray<BibRecord *> *)recordsWithContentsOfURL:(NSURL *)url {
+    return [self recordsWithData:[NSData dataWithContentsOfURL:url]];
 }
 
 @end

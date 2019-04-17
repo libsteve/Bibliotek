@@ -9,6 +9,8 @@
 #import "BibConnection.h"
 #import <yaz/zoom.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 extern NSInteger const kDefaultPort;
 extern NSString *const kDefaultDatabase;
 
@@ -16,6 +18,8 @@ extern NSString *const kDefaultDatabase;
 
 @property(nonatomic, readonly, assign, nonnull) ZOOM_connection zoomConnection;
 
-- (BOOL)error:(NSError **)error;
+- (BOOL)error:(NSError *_Nullable __autoreleasing *_Nullable)error;
 
 @end
+
+NS_ASSUME_NONNULL_END

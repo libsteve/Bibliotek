@@ -63,6 +63,12 @@ NS_SWIFT_NAME(Record)
 /// \returns Returns \c YES if the given record and the receiver contain the same data.
 - (BOOL)isEqualToRecord:(BibRecord *)record;
 
++ (NSArray<BibRecord *> *)recordsWithData:(NSData *)data;
+
++ (NSArray<BibRecord *> *)recordsWithContentsOfFile:(NSString *)filePath;
+
++ (NSArray<BibRecord *> *)recordsWithContentsOfURL:(NSURL *)url;
+
 @end
 
 NS_ASSUME_NONNULL_END
