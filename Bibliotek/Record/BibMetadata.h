@@ -111,3 +111,51 @@ typedef NS_ENUM(char, BibRecordStatus) {
 
     BibRecordStatusIncreaseInEncodingLevelFromPrePublication = 'p'
 } NS_SWIFT_NAME(RecordStatus);
+
+#pragma mark - Implementation Defined Values
+
+/// An index type used to reference implementation-specific data from a record's leader.
+typedef NS_CLOSED_ENUM(NSUInteger, BibImplementationDefinedValueIndex) {
+    BibImplementationDefinedValueIndex07 NS_SWIFT_NAME(at07) =  7,
+    BibImplementationDefinedValueIndex08 NS_SWIFT_NAME(at08) =  8,
+    BibImplementationDefinedValueIndex17 NS_SWIFT_NAME(at17) = 17,
+    BibImplementationDefinedValueIndex18 NS_SWIFT_NAME(at18) = 18,
+    BibImplementationDefinedValueIndex19 NS_SWIFT_NAME(at19) = 19
+} NS_SWIFT_NAME(LeaderImplementationDefinedValueIndex);
+
+#pragma mark - Metadata
+
+@interface BibMetadata : NSObject
+
+@property (nonatomic, assign, readonly) BibRecordKind kind;
+
+@property (nonatomic, assign, readonly) BibRecordStatus status;
+
+- (instancetype)initWithKind:(BibRecordKind)kind status:(BibRecordStatus)status NS_DESIGNATED_INITIALIZER;
+
++ (instancetype)metadataWithKind:(BibRecordKind)kind status:(BibRecordStatus)status NS_SWIFT_UNAVAILABLE("Use init(kind:status:)");
+
+- (char)implementationDefinedValueAtIndex:(BibImplementationDefinedValueIndex)index;
+
+@end
+
+@interface BibMetadata (Copying) <NSCopying, NSMutableCopying>
+@end
+
+@interface BibMetadata (Equality)
+
+- (BOOL)isEqualToMetadata:(BibMetadata *)metadata;
+
+@end
+
+#pragma mark -
+
+@interface BibMutableMetadata : BibMetadata
+
+@property (nonatomic, assign, readwrite) BibRecordKind kind;
+
+@property (nonatomic, assign, readwrite) BibRecordStatus status;
+
+- (void)setImplementationDefinedValue:(char)value atIndex:(BibImplementationDefinedValueIndex)index;
+
+@end
