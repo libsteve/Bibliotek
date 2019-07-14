@@ -46,7 +46,7 @@ NS_SWIFT_NAME(Subfield)
 
 /// Determine if this subfield and its data is equivalent to that of the given subfield.
 /// \param subfield The subfield that is being compaired with this instance for equality.
-/// \returns Returns \c YES when both fields have the same identifier and content.
+/// \returns Returns \c YES when both fields have the same code and content.
 - (BOOL)isEqualToSubfield:(BibSubfield *)subfield;
 
 @end

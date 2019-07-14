@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 NS_SWIFT_NAME(ContentField)
 @interface BibContentField : NSObject
 
+/// A value indicating the semantic purpose of the control field.
 @property (nonatomic, strong, readonly) BibFieldTag *tag;
 
 @property (nonatomic, copy, readonly) BibContentIndicators *indicators;
@@ -42,15 +43,24 @@ NS_SWIFT_NAME(ContentField)
 
 @interface BibContentField (Equality)
 
+/// Determine whether or not the given content field represents the same data as the receiver.
+///
+/// \param contentField The content field with which the receiver should be compared.
+/// \returns Returns \c YES if the given content field and the receiver have the same tag and subfields.
 - (BOOL)isEqualToContentField:(BibContentField *)contentField;
 
 @end
 
 #pragma mark - Mutable
 
+/// \brief A content field contains information and metadata contained within the record.
+///
+/// More information about MARC 21 records can be found in the Library of Congress's documentation on
+/// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html
 NS_SWIFT_NAME(MutableContentField)
 @interface BibMutableContentField : BibContentField
 
+/// A value indicating the semantic purpose of the control field.
 @property (nonatomic, strong, readwrite) BibFieldTag *tag;
 
 @property (nonatomic, copy, readwrite) BibContentIndicators *indicators;
