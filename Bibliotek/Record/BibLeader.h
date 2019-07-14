@@ -20,7 +20,7 @@ extern NSUInteger const BibLeaderRawDataLength NS_SWIFT_NAME(Leader.rawValueLeng
 /// and other miscellaneous metadata.
 ///
 /// More information about the MARC 21 leader can be found in the Library of Congress's documentation on
-/// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html#leader.
+/// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html#leader
 NS_SWIFT_NAME(Leader)
 @interface BibLeader : NSObject
 
@@ -33,7 +33,7 @@ NS_SWIFT_NAME(Leader)
 /// \returns A new record leader backed by the given data representation.
 /// 
 /// \discussion More information about the MARC 21 leader can be found in the Library of Congress's
-/// documentation on MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html#leader.
+/// documentation on MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html#leader
 - (instancetype)initWithData:(NSData *)data NS_DESIGNATED_INITIALIZER;
 
 /// Create the leader for a MARC 21 record.
@@ -70,7 +70,7 @@ NS_SWIFT_NAME(Leader)
 /// and other miscellaneous metadata.
 ///
 /// More information about the MARC 21 leader can be found in the Library of Congress's documentation on
-/// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html#leader.
+/// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html#leader
 NS_SWIFT_NAME(MutableLeader)
 @interface BibMutableLeader : BibLeader
 
