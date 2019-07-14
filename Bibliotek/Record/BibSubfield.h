@@ -35,12 +35,12 @@ NS_SWIFT_NAME(Subfield)
 
 @end
 
-#pragma mark -
+#pragma mark - Copying
 
 @interface BibSubfield (Copying) <NSCopying>
 @end
 
-#pragma mark -
+#pragma mark - Equality
 
 @interface BibSubfield (Equality)
 
@@ -51,7 +51,7 @@ NS_SWIFT_NAME(Subfield)
 
 @end
 
-#pragma mark -
+#pragma mark - Mutable
 
 /// \brief A portion of data within a record data field.
 /// \discussion Data fields hold data within labeled subfields.

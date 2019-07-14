@@ -32,6 +32,8 @@
 
 @end
 
+#pragma mark - Equality
+
 @implementation BibFieldEntry (Equality)
 
 - (BOOL)isEqualToEntry:(BibDirectoryEntry *)entry {

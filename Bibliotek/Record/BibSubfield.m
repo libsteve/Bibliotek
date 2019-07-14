@@ -35,7 +35,7 @@
 
 @end
 
-#pragma mark -
+#pragma mark - Copying
 
 @implementation BibSubfield (Copying)
 
@@ -49,7 +49,7 @@
 
 @end
 
-#pragma mark -
+#pragma mark - Equality
 
 @implementation BibSubfield (Equality)
 
@@ -68,7 +68,7 @@
 
 @end
 
-#pragma mark -
+#pragma mark - Mutable
 
 @implementation BibMutableSubfield
 

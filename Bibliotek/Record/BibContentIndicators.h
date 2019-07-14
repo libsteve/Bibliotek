@@ -24,12 +24,12 @@ NS_SWIFT_NAME(ContentIndicators)
 
 @end
 
-#pragma mark -
+#pragma mark - Copying
 
 @interface BibContentIndicators (Copying) <NSCopying, NSMutableCopying>
 @end
 
-#pragma mark -
+#pragma mark - Equality
 
 @interface BibContentIndicators (Equality)
 
@@ -37,7 +37,7 @@ NS_SWIFT_NAME(ContentIndicators)
 
 @end
 
-#pragma mark -
+#pragma mark - MARC 21
 
 @interface BibContentIndicators (MARC21)
 
@@ -50,7 +50,7 @@ NS_SWIFT_NAME(ContentIndicators)
 
 @end
 
-#pragma mark -
+#pragma mark - Mutable
 
 @interface BibMutableContentIndicators : BibContentIndicators
 
@@ -58,7 +58,7 @@ NS_SWIFT_NAME(ContentIndicators)
 
 @end
 
-#pragma mark -
+#pragma mark - Mutable MARC 21
 
 @interface BibMutableContentIndicators (MARC21)
 

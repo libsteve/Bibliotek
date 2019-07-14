@@ -41,14 +41,14 @@ NS_SWIFT_NAME(ControlField)
 
 @end
 
-#pragma mark -
+#pragma mark - Copying
 
 @interface BibControlField (Copying) <NSCopying, NSMutableCopying>
 @end
 
-#pragma mark -
+#pragma mark - Equality
 
-@interface BibControlField (Equatable)
+@interface BibControlField (Equality)
 
 /// Determine whether or not the given control field represents the same data as the receiver.
 ///
@@ -58,7 +58,7 @@ NS_SWIFT_NAME(ControlField)
 
 @end
 
-#pragma mark -
+#pragma mark - Mutable
 
 NS_SWIFT_NAME(MutableControlField)
 @interface BibMutableControlField : BibControlField

@@ -50,7 +50,7 @@
 
 @end
 
-#pragma mark -
+#pragma mark - Copying
 
 @implementation BibContentIndicators (Copying)
 
@@ -64,7 +64,7 @@
 
 @end
 
-#pragma mark -
+#pragma mark - Equality
 
 @implementation BibContentIndicators (Equality)
 
@@ -84,7 +84,7 @@
 
 @end
 
-#pragma mark -
+#pragma mark - MARC 21
 
 @implementation BibContentIndicators (MARC21)
 
@@ -104,7 +104,7 @@
 
 @end
 
-#pragma mark -
+#pragma mark - Mutable
 
 @implementation BibMutableContentIndicators
 
@@ -118,7 +118,7 @@
 
 @end
 
-#pragma mark -
+#pragma mark - Mutable MARC 21
 
 @implementation BibMutableContentIndicators (MARC21)
 

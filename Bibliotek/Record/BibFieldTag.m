@@ -41,6 +41,8 @@
 
 @end
 
+#pragma mark - Equality
+
 @implementation BibFieldTag (Equality)
 
 - (BOOL)isEqualToTag:(BibFieldTag *)fieldTag {

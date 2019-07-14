@@ -44,6 +44,8 @@ NS_SWIFT_NAME(DirectoryEntry)
 
 @end
 
+#pragma mark - Equality
+
 @interface BibDirectoryEntry (Equality)
 
 /// Determine whether or not the given directory entry references the same record field as the receiver.

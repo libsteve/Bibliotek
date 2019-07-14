@@ -40,7 +40,7 @@
 
 @end
 
-#pragma mark -
+#pragma mark - Copying
 
 @implementation BibControlField (Copying)
 
@@ -54,7 +54,7 @@
 
 @end
 
-#pragma mark -
+#pragma mark - Equality
 
 @implementation BibControlField (Equality)
 
@@ -74,7 +74,7 @@
 
 @end
 
-#pragma mark -
+#pragma mark - Mutable
 
 @implementation BibMutableControlField
 

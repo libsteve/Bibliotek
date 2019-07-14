@@ -33,6 +33,8 @@ NS_SWIFT_NAME(FieldTag)
 
 @end
 
+#pragma mark - Equality
+
 @interface BibFieldTag (Equality)
 
 /// Determine whether or not the given tag describes the same MARC 21 field as the receiver.

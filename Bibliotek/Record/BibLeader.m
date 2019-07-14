@@ -69,7 +69,21 @@ static void sWriteRepeatValueToBuffer(uint8_t *const buffer, NSRange const range
 
 @end
 
-#pragma mark -
+#pragma mark - Copying
+
+@implementation BibLeader (Copying)
+
+- (id)copyWithZone:(NSZone *)zone {
+    return self;
+}
+
+- (id)mutableCopyWithZone:(NSZone *)zone {
+    return [[BibMutableLeader allocWithZone:zone] initWithData:[self rawData]];
+}
+
+@end
+
+#pragma mark - Equality
 
 @implementation BibLeader (Equality)
 
@@ -88,19 +102,7 @@ static void sWriteRepeatValueToBuffer(uint8_t *const buffer, NSRange const range
 
 @end
 
-#pragma mark -
-
-@implementation BibLeader (Copying)
-
-- (id)copyWithZone:(NSZone *)zone {
-    return self;
-}
-
-- (id)mutableCopyWithZone:(NSZone *)zone {
-    return [[BibMutableLeader allocWithZone:zone] initWithData:[self rawData]];
-}
-
-@end
+#pragma mark - Mutable
 
 @implementation BibMutableLeader
 
@@ -117,7 +119,7 @@ static void sWriteRepeatValueToBuffer(uint8_t *const buffer, NSRange const range
 
 @end
 
-#pragma mark -
+#pragma mark - Metadata
 
 @implementation BibLeader (Metadata)
 
@@ -182,7 +184,7 @@ static NSUInteger sReadUnsignedInteger(NSData *const data, NSRange const range) 
 
 @end
 
-#pragma mark -
+#pragma mark - Mutable Metadata
 
 @implementation BibMutableLeader (Metadata)
 

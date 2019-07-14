@@ -44,7 +44,12 @@ NS_SWIFT_NAME(Leader)
 
 @end
 
-#pragma mark -
+#pragma mark - Copying
+
+@interface BibLeader (Copying) <NSCopying, NSMutableCopying>
+@end
+
+#pragma mark - Equality
 
 @interface BibLeader (Equality)
 
@@ -58,10 +63,7 @@ NS_SWIFT_NAME(Leader)
 
 @end
 
-#pragma mark -
-
-@interface BibLeader (Copying) <NSCopying, NSMutableCopying>
-@end
+#pragma mark - Mutable
 
 /// A mutable collection of metadata preceeding a the encoded data for a record.
 ///
@@ -79,7 +81,7 @@ NS_SWIFT_NAME(MutableLeader)
 
 @end
 
-#pragma mark -
+#pragma mark - Metadata
 
 @interface BibLeader (Metadata)
 
@@ -111,7 +113,7 @@ NS_SWIFT_NAME(MutableLeader)
 
 @end
 
-#pragma mark -
+#pragma mark - Mutable Metadata
 
 @interface BibMutableLeader (Metadata)
 
