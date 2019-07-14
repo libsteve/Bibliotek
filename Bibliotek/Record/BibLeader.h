@@ -85,7 +85,7 @@ NS_SWIFT_NAME(MutableLeader)
 
 @interface BibLeader (Metadata)
 
-/// The range of bytes that contain the record's fields..
+/// The range of bytes that contain the record's fields.
 @property (nonatomic, readonly) NSRange recordRange;
 
 /// The record's current status in the database it was fetched from.
@@ -117,7 +117,7 @@ NS_SWIFT_NAME(MutableLeader)
 
 @interface BibMutableLeader (Metadata)
 
-/// The range of bytes that contain the record's fields..
+/// The range of bytes that contain the record's fields.
 @property (nonatomic, readwrite) NSRange recordRange;
 
 /// The record's current status in the database it was fetched from.

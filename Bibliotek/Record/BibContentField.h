@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// \brief A content field contains information and metadata contained within the record.
 ///
 /// More information about MARC 21 records can be found in the Library of Congress's documentation on
-/// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html.
+/// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html
 NS_SWIFT_NAME(ContentField)
 @interface BibContentField : NSObject
 
