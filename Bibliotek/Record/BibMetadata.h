@@ -125,12 +125,18 @@ typedef NS_CLOSED_ENUM(NSUInteger, BibImplementationDefinedValueIndex) {
 
 #pragma mark - Metadata
 
+/// A collection of information describing the type and state of a record.
 @interface BibMetadata : NSObject
 
+/// The type of information represented by the record.
 @property (nonatomic, assign, readonly) BibRecordKind kind;
 
+/// The type of change last applied to the record in its originating database.
 @property (nonatomic, assign, readonly) BibRecordStatus status;
 
+/// Create a set of metadata for some record.
+///
+/// \param kind The type of information represented by some record.
 - (instancetype)initWithKind:(BibRecordKind)kind status:(BibRecordStatus)status NS_DESIGNATED_INITIALIZER;
 
 + (instancetype)metadataWithKind:(BibRecordKind)kind status:(BibRecordStatus)status NS_SWIFT_UNAVAILABLE("Use init(kind:status:)");
@@ -144,6 +150,10 @@ typedef NS_CLOSED_ENUM(NSUInteger, BibImplementationDefinedValueIndex) {
 
 @interface BibMetadata (Equality)
 
+/// Determine whether or not the given metadata describes the same type of record as the receiver.
+///
+/// \param metadata The set of metadata with which the receiver should be compared.
+/// \returns Returns \c YES if the given metadata and the receiver describe the same type of record.
 - (BOOL)isEqualToMetadata:(BibMetadata *)metadata;
 
 @end
@@ -152,8 +162,10 @@ typedef NS_CLOSED_ENUM(NSUInteger, BibImplementationDefinedValueIndex) {
 
 @interface BibMutableMetadata : BibMetadata
 
+/// The type of information represented by the record.
 @property (nonatomic, assign, readwrite) BibRecordKind kind;
 
+/// The type of change last applied to the record in its originating database.
 @property (nonatomic, assign, readwrite) BibRecordStatus status;
 
 - (void)setImplementationDefinedValue:(char)value atIndex:(BibImplementationDefinedValueIndex)index;
