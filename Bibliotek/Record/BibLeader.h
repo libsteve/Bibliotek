@@ -113,6 +113,14 @@ NS_SWIFT_NAME(MutableLeader)
 
 @end
 
+@interface BibLeader (ContentField)
+
+@property (nonatomic, readonly) NSUInteger numberOfIndicators;
+
+@property (nonatomic, readonly) NSUInteger lengthOfSubfieldCode;
+
+@end
+
 #pragma mark - Mutable Metadata
 
 @interface BibMutableLeader (Metadata)

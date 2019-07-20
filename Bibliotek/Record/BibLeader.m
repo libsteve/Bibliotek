@@ -16,6 +16,9 @@ static NSRange const kRecordKindRange     = { 6, 1};
 static NSRange const kRecordEncodingRange = { 9, 1};
 static NSRange const kRecordLocationRange = {12, 5};
 
+static NSRange const kNumberOfIndicatorsRange    = {10, 1};
+static NSRange const kLengthOfSubfieldCodeRange  = {11, 1};
+
 static NSRange const kLengthOfLengthOfFieldRange = {20, 1};
 static NSRange const kLengthOfFieldLocationRange = {21, 1};
 
@@ -57,9 +60,9 @@ static void sWriteRepeatValueToBuffer(uint8_t *const buffer, NSRange const range
     sWriteRepeatValueToBuffer(buffer, NSMakeRange(0, BibLeaderRawDataLength), ' ');
     sWriteRepeatValueToBuffer(buffer, kRecordLengthRange, '0');
     sWriteRepeatValueToBuffer(buffer, kRecordLocationRange, '0');
-    buffer[10] = '2'; // number of indicators
-    buffer[11] = '1'; // length of subfield code
-    memcpy(buffer + 20 * sizeof(uint8_t), "4500", 4); // entry map
+    buffer[kNumberOfIndicatorsRange.location]   = '2';
+    buffer[kLengthOfSubfieldCodeRange.location] = '1';
+    memcpy(buffer + kLengthOfLengthOfFieldRange.location * sizeof(uint8_t), "4500", 4); // entry map
     return [self initWithData:[NSData dataWithBytesNoCopy:buffer length:BibLeaderRawDataLength]];
 }
 
@@ -180,6 +183,18 @@ static NSUInteger sReadUnsignedInteger(NSData *const data, NSRange const range) 
 
 - (NSUInteger)lengthOfFieldLocation {
     return sReadUnsignedInteger([self rawData], kLengthOfFieldLocationRange);
+}
+
+@end
+
+@implementation BibLeader (ContentField)
+
+- (NSUInteger)numberOfIndicators {
+    return sReadUnsignedInteger([self rawData], kNumberOfIndicatorsRange);
+}
+
+- (NSUInteger)lengthOfSubfieldCode {
+    return sReadUnsignedInteger([self rawData], kLengthOfSubfieldCodeRange);
 }
 
 @end
