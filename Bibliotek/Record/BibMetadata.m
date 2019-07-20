@@ -6,6 +6,8 @@
 //  Copyright © 2019 Steve Brunwasser. All rights reserved.
 //
 
+#import <yaz/yaz-iconv.h>
+
 #import "BibMetadata.h"
 #import "BibMetadata+Internal.h"
 #import "BibLeader.h"
@@ -19,6 +21,59 @@ NSString *BibEncodingDescription(BibEncoding const encoding) {
         default: return [NSString stringWithFormat:@"%c", encoding];
     }
 }
+
+@implementation NSString (BibEncoding)
+
+NSData *BibUTF8EncodedDataFromMARC8EncodedData(NSData *const data) {
+    yaz_iconv_t __block marc8_to_utf8;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        marc8_to_utf8 = yaz_iconv_open("utf8", "marc8");
+    });
+    NSUInteger byteCount = [data length];
+    NSUInteger bufferLen = byteCount * 3 / 2;
+    char *const bytes = calloc(byteCount, 1);
+    char *const buffer = calloc(bufferLen, 1);
+    [data getBytes:bytes length:byteCount];
+    char *inBuff = bytes, *outBuff = buffer;
+    size_t const length = yaz_iconv(marc8_to_utf8, &inBuff, &byteCount, &outBuff, &bufferLen);
+    NSData *const result = (length != -1) ? [NSData dataWithBytes:buffer length:length] : nil;
+    free(bytes);
+    free(buffer);
+    return result;
+}
+
++ (NSString *)bib_stringWithData:(NSData *)data
+                        encoding:(BibEncoding)encoding
+                           error:(out NSError *__autoreleasing *)error {
+    NSString *result = nil;
+    switch (encoding) {
+        case BibMARC8Encoding: {
+            NSData *const stringData = BibUTF8EncodedDataFromMARC8EncodedData(data);
+            result = (stringData) ? [[self alloc] initWithData:stringData encoding:NSUTF8StringEncoding] : nil;
+        } break;
+        case BibUTF8Encoding:
+            result = [[self alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            break;
+        default:
+            if (error) {
+                NSString *const scheme = BibEncodingDescription(encoding);
+                NSString *const message = [NSString stringWithFormat:@"Unknown string encoding '%@'", scheme];
+                *error = [NSError errorWithDomain:BibEncodingErrorDomain code:BibEncodingUnknownEncodingError
+                                         userInfo:@{ NSDebugDescriptionErrorKey : message }];
+            }
+            return nil;
+    }
+    if (!result && error) {
+        NSString *const scheme = BibEncodingDescription(encoding);
+        NSString *const message = [NSString stringWithFormat:@"Cannot read malformed %@ string", scheme];
+        *error = [NSError errorWithDomain:BibEncodingErrorDomain code:BibEncodingMalformedDataError
+                                 userInfo:@{ NSDebugDescriptionErrorKey : message }];
+    }
+    return result;
+}
+
+@end
 
 #pragma mark - Record Kind
 

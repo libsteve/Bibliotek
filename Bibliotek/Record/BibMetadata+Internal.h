@@ -21,4 +21,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@interface NSString (BibEncoding)
+
+extern NSData *BibUTF8EncodedDataFromMARC8EncodedData(NSData *const data);
+
++ (nullable NSString *)bib_stringWithData:(NSData *)data
+                                 encoding:(BibEncoding)encoding
+                                    error:(out NSError *_Nullable __autoreleasing *_Nullable)error;
+
+@end
+
+extern NSErrorDomain const BibEncodingErrorDomain;
+
+typedef NS_ERROR_ENUM(BibEncodingErrorDomain, BibEncodingErrorCode) {
+    BibEncodingUnknownEncodingError NS_SWIFT_NAME(unknownEncoding),
+    BibEncodingMalformedDataError NS_SWIFT_NAME(malformedData)
+} NS_SWIFT_NAME(Encoding.Error);
+
 NS_ASSUME_NONNULL_END
