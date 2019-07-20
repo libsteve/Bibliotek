@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark Encoding
 
 /// The character encoding used to represent textual data.
@@ -171,3 +173,5 @@ typedef NS_CLOSED_ENUM(NSUInteger, BibImplementationDefinedValueIndex) {
 - (void)setImplementationDefinedValue:(char)value atIndex:(BibImplementationDefinedValueIndex)index;
 
 @end
+
+NS_ASSUME_NONNULL_END

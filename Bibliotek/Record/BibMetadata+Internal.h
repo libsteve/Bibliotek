@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "BibMetadata.h"
 
+@class BibLeader;
 @class BibMutableLeader;
 
 NS_ASSUME_NONNULL_BEGIN
