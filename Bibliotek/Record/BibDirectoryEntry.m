@@ -34,7 +34,7 @@
 
 #pragma mark - Equality
 
-@implementation BibFieldEntry (Equality)
+@implementation BibDirectoryEntry (Equality)
 
 - (BOOL)isEqualToEntry:(BibDirectoryEntry *)entry {
     return [[self tag] isEqualToTag:[entry tag]] && NSEqualRanges([self range], [entry range]);
