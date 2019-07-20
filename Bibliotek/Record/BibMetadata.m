@@ -22,6 +22,8 @@ NSString *BibEncodingDescription(BibEncoding const encoding) {
     }
 }
 
+NSErrorDomain const BibEncodingErrorDomain = @"BibEncodingErrorDomain";
+
 @implementation NSString (BibEncoding)
 
 NSData *BibUTF8EncodedDataFromMARC8EncodedData(NSData *const data) {

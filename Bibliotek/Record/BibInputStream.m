@@ -8,6 +8,8 @@
 
 #import "BibInputStream.h"
 
+NSErrorDomain const BibInputStreamErrorDomain = @"BibInputStreamErrorDomain";
+
 @implementation BibInputStream
 
 @synthesize inputStream = _inputStream;
