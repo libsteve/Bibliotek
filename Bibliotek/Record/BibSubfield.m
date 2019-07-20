@@ -19,18 +19,18 @@
 
 - (instancetype)initWithCode:(BibSubfieldCode)code content:(NSString *)content {
     if (self = [super init]) {
-        _code = code;
+        _code = [code copy];
         _content = [content copy];
     }
     return self;
 }
 
 - (instancetype)init {
-    return [self initWithCode:'a' content:@""];
+    return [self initWithCode:@"a" content:@""];
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"$%c%@", [self code], [self content]];
+    return [NSString stringWithFormat:@"$%@%@", [self code], [self content]];
 }
 
 @end
@@ -63,7 +63,7 @@
 }
 
 - (NSUInteger)hash {
-    return [[self content] hash] ^ [self code];
+    return [[self code] hash] ^ [[self content] hash];
 }
 
 @end
@@ -80,7 +80,7 @@
 - (void)setCode:(BibSubfieldCode)code {
     if (_code != code) {
         [self willChangeValueForKey:NSStringFromSelector(@selector(code))];
-        _code = code;
+        _code = [code copy];
         [self didChangeValueForKey:NSStringFromSelector(@selector(code))];
     }
 }

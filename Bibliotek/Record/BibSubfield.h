@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef char BibSubfieldCode NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(Subfield.Code);
+typedef NSString *BibSubfieldCode NS_EXTENSIBLE_STRING_ENUM NS_SWIFT_NAME(Subfield.Code);
 
 /// \brief A portion of data within a record data field.
 /// \discussion Data fields hold data within labeled subfields.
@@ -22,7 +22,7 @@ NS_SWIFT_NAME(Subfield)
 /// A record subfield's identifier identifies the semantic purpose of the content within a subfield.
 ///
 /// The semantics of each identifier is determined by the record field's tag as defined in the relevant MARC 21 format.
-@property (nonatomic, assign, readonly) BibSubfieldCode code;
+@property (nonatomic, copy, readonly) BibSubfieldCode code;
 
 /// A string representation of the information stored in the subfield.
 @property (nonatomic, copy, readonly) NSString *content;
@@ -63,7 +63,7 @@ NS_SWIFT_NAME(MutableSubfield)
 /// A record subfield's identifier identifies the semantic purpose of the content within a subfield.
 ///
 /// The semantics of each identifier is determined by the record field's tag as defined in the relevant MARC 21 format.
-@property (nonatomic, assign, readwrite) BibSubfieldCode code;
+@property (nonatomic, copy, readwrite) BibSubfieldCode code;
 
 /// A string representation of the information stored in the subfield.
 @property (nonatomic, copy, readwrite) NSString *content;
