@@ -73,6 +73,7 @@ class BibliotekTests: XCTestCase {
 
     // NOTE: The information for the following tests is real data pertaining to "In the Land of Invented Languages"—a great book—and is provided by the Library of Congress's VOYAGER database.
 
+    /*
     func testFetchIsbn() {
         do {
             let c = try Connection(host: "z3950.loc.gov", port: 7090, database: "VOYAGER")
@@ -100,6 +101,7 @@ class BibliotekTests: XCTestCase {
             XCTFail("Connection could not be made. \(error)")
         }
     }
+    */
 
     /*
     func testLccClassification() {
@@ -156,6 +158,7 @@ class BibliotekTests: XCTestCase {
     }
     */
 
+    /*
     func testTitleStatementFetched() {
         do {
             let c = try Connection(host: "z3950.loc.gov", port: 7090, database: "VOYAGER")
@@ -191,6 +194,7 @@ class BibliotekTests: XCTestCase {
             XCTFail("Connection could not be made. \(error)")
         }
     }
+    */
 
     /*
     func testEdition() {
