@@ -11,6 +11,8 @@
 		AA19395B22DF9E6200429C54 /* BibMARC21Reader+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = AA19395A22DF9E6200429C54 /* BibMARC21Reader+Internal.h */; };
 		AA19395E22DFC55400429C54 /* BibInputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = AA19395C22DFC55400429C54 /* BibInputStream.h */; };
 		AA19395F22DFC55400429C54 /* BibInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = AA19395D22DFC55400429C54 /* BibInputStream.m */; };
+		AA19396922E2C36900429C54 /* BibMARC21ReaderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA19396822E2C36900429C54 /* BibMARC21ReaderTests.m */; };
+		AA19396D22E2C58000429C54 /* record01.marc8 in Resources */ = {isa = PBXBuildFile; fileRef = AA19396C22E2C58000429C54 /* record01.marc8 */; };
 		AA258AF021FA2E1D00CDF88E /* NSCharacterSet+BibASCIICharacterSet.m in Sources */ = {isa = PBXBuildFile; fileRef = AA258AEE21FA2E1D00CDF88E /* NSCharacterSet+BibASCIICharacterSet.m */; };
 		AA258AF121FB8EF200CDF88E /* NSCharacterSet+BibASCIICharacterSet.h in Headers */ = {isa = PBXBuildFile; fileRef = AA258AED21FA2E1D00CDF88E /* NSCharacterSet+BibASCIICharacterSet.h */; };
 		AA258AFC21FE3C2A00CDF88E /* NSString+BibCharacterSetValidation.h in Headers */ = {isa = PBXBuildFile; fileRef = AA258AFA21FE3C2A00CDF88E /* NSString+BibCharacterSetValidation.h */; };
@@ -106,6 +108,8 @@
 		AA19395A22DF9E6200429C54 /* BibMARC21Reader+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BibMARC21Reader+Internal.h"; sourceTree = "<group>"; };
 		AA19395C22DFC55400429C54 /* BibInputStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibInputStream.h; sourceTree = "<group>"; };
 		AA19395D22DFC55400429C54 /* BibInputStream.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibInputStream.m; sourceTree = "<group>"; };
+		AA19396822E2C36900429C54 /* BibMARC21ReaderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibMARC21ReaderTests.m; sourceTree = "<group>"; };
+		AA19396C22E2C58000429C54 /* record01.marc8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = record01.marc8; sourceTree = "<group>"; };
 		AA258AED21FA2E1D00CDF88E /* NSCharacterSet+BibASCIICharacterSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSCharacterSet+BibASCIICharacterSet.h"; sourceTree = "<group>"; };
 		AA258AEE21FA2E1D00CDF88E /* NSCharacterSet+BibASCIICharacterSet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSCharacterSet+BibASCIICharacterSet.m"; sourceTree = "<group>"; };
 		AA258AFA21FE3C2A00CDF88E /* NSString+BibCharacterSetValidation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+BibCharacterSetValidation.h"; sourceTree = "<group>"; };
@@ -269,6 +273,8 @@
 			isa = PBXGroup;
 			children = (
 				AAAA429020B9F35600BDB52B /* BibliotekTests.swift */,
+				AA19396822E2C36900429C54 /* BibMARC21ReaderTests.m */,
+				AA19396C22E2C58000429C54 /* record01.marc8 */,
 				AAAA428820B9F32A00BDB52B /* Info.plist */,
 			);
 			path = BibliotekTests;
@@ -451,7 +457,7 @@
 					};
 					AAAA428320B9F32900BDB52B = {
 						CreatedOnToolsVersion = 9.3.1;
-						LastSwiftMigration = 0930;
+						LastSwiftMigration = 1100;
 					};
 				};
 			};
@@ -487,6 +493,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA19396D22E2C58000429C54 /* record01.marc8 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -528,6 +535,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA19396922E2C36900429C54 /* BibMARC21ReaderTests.m in Sources */,
 				AAAA429120B9F35600BDB52B /* BibliotekTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
