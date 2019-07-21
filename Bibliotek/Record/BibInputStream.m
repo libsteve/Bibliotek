@@ -19,6 +19,7 @@ NSErrorDomain const BibInputStreamErrorDomain = @"BibInputStreamErrorDomain";
     if (self = [super init]) {
         _inputStream = inputStream;
         _numberOfBytesRead = 0;
+        [_inputStream open];
     }
     return self;
 }
@@ -29,6 +30,10 @@ NSErrorDomain const BibInputStreamErrorDomain = @"BibInputStreamErrorDomain";
 
 - (instancetype)init {
     return [self initWithInputStream:[NSInputStream inputStreamWithData:[NSData data]]];
+}
+
+- (void)dealloc {
+    [_inputStream close];
 }
 
 - (NSInteger)readBytes:(uint8_t *)bytes length:(NSUInteger)length error:(out NSError *__autoreleasing *)error {
