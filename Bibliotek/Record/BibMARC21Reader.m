@@ -71,7 +71,7 @@ NSErrorDomain const BibMARC21ReaderErrorDomain = @"BibMARC21ReaderErrorDomain";
     return [[self alloc] initWithInputStream:inputStream];
 }
 
-- (BibRecord *)readRecord:(out NSError * _Nullable __autoreleasing *)error {
+- (BibRecord *)readRecord:(out NSError *__autoreleasing *)error {
     NSUInteger numberOfBytesRead = 0;
     BibLeader *const leader = [self readLeader:error];
     if (leader == nil) {
@@ -231,7 +231,7 @@ static NSUInteger sReadUnsignedInteger(NSData *const data, NSRange const range, 
                              leader:(BibLeader *)leader
                               entry:(BibDirectoryEntry *)entry
                               error:(out NSError * _Nullable __autoreleasing *)error {
-    BibInputStream *const stream = [_inputStream inputStreamForDirectoryEntry:entry error:error];
+    BibInputStream *const stream = [inputStream inputStreamForDirectoryEntry:entry error:error];
     if (stream == nil) {
         return nil;
     }
