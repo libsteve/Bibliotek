@@ -159,7 +159,7 @@ static NSUInteger sReadUnsignedInteger(NSData *const data, NSRange const range, 
                                      @"Cannot read \"%@\" as an unsigned integer", rawString);
             return NSNotFound;
         }
-        value += (NSUInteger)digit + (NSUInteger)pow(10, (double)power);
+        value += (NSUInteger)digit * (NSUInteger)pow(10, (double)power);
     }
     return value;
 }
