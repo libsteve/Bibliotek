@@ -27,11 +27,7 @@ NSErrorDomain const BibEncodingErrorDomain = @"BibEncodingErrorDomain";
 @implementation NSString (BibEncoding)
 
 NSData *BibUTF8EncodedDataFromMARC8EncodedData(NSData *const data) {
-    yaz_iconv_t __block marc8_to_utf8;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        marc8_to_utf8 = yaz_iconv_open("utf8", "marc8");
-    });
+    yaz_iconv_t const marc8_to_utf8 = yaz_iconv_open("utf8", "marc8");
     NSUInteger byteCount = [data length];
     NSUInteger bufferLen = byteCount * 3 / 2;
     char *const bytes = calloc(byteCount, 1);
@@ -40,6 +36,7 @@ NSData *BibUTF8EncodedDataFromMARC8EncodedData(NSData *const data) {
     char *inBuff = bytes, *outBuff = buffer;
     size_t const length = yaz_iconv(marc8_to_utf8, &inBuff, &byteCount, &outBuff, &bufferLen);
     NSData *const result = (length != -1) ? [NSData dataWithBytes:buffer length:length] : nil;
+    yaz_iconv_close(marc8_to_utf8);
     free(bytes);
     free(buffer);
     return result;
