@@ -12,7 +12,6 @@ typedef char BibContentIndicator NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(ContentI
 
 NS_ASSUME_NONNULL_BEGIN
 
-NS_SWIFT_NAME(ContentIndicators)
 @interface BibContentIndicators : NSObject
 
 @property (nonatomic, assign, readonly) NSUInteger count;

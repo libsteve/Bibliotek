@@ -25,26 +25,26 @@ NS_SWIFT_NAME(RecordList)
 @property(nonatomic, readonly, copy) BibFetchRequest *request;
 
 /// The amount of records contained within this collection.
-@property(nonatomic, readonly, assign) NSUInteger count;
+@property(nonatomic, readonly, assign) NSUInteger count NS_REFINED_FOR_SWIFT;
 
 /// A list of all records in this collection.
-@property(nonatomic, readonly, strong) NSArray<BibRecord *> *allRecords;
+@property(nonatomic, readonly, strong) NSArray<BibRecord *> *allRecords NS_REFINED_FOR_SWIFT;
 
 /// The first record in the collection.
-@property(nonatomic, readonly, strong, nullable) BibRecord *firstRecord NS_SWIFT_NAME(first);
+@property(nonatomic, readonly, strong, nullable) BibRecord *firstRecord NS_REFINED_FOR_SWIFT;
 
 /// The last record in the collection.
-@property(nonatomic, readonly, strong, nullable) BibRecord *lastRecord NS_SWIFT_NAME(last);
+@property(nonatomic, readonly, strong, nullable) BibRecord *lastRecord NS_REFINED_FOR_SWIFT;
 
 /// Access the record located at a given index.
 /// \param index The 0-indexed location within the collection from which to access the record.
 /// \returns The record at that location in the collection.
-- (BibRecord *)recordAtIndex:(NSUInteger)index NS_SWIFT_NAME(record(at:));
+- (BibRecord *)recordAtIndex:(NSUInteger)index NS_REFINED_FOR_SWIFT;
 
 /// Access a subset of records located within the given range.
 /// \param range A range of indices within the collection.
 /// \returns A list of records which are a subset of the collection at the given indices.
-- (NSArray<BibRecord *> *)recordsInRange:(NSRange)range NS_SWIFT_NAME(records(in:));
+- (NSArray<BibRecord *> *)recordsInRange:(NSRange)range NS_REFINED_FOR_SWIFT;
 
 /// Generate an object to iterate over the records in the collection.
 - (NSEnumerator<BibRecord *> *)recordEnumerator NS_REFINED_FOR_SWIFT;
@@ -52,7 +52,7 @@ NS_SWIFT_NAME(RecordList)
 /// Access the record located at a given index.
 /// \param index The 0-indexed location within the collection from which to access the record.
 /// \returns The record at that location in the collection.
-- (BibRecord *)objectAtIndexedSubscript:(NSUInteger)index;
+- (BibRecord *)objectAtIndexedSubscript:(NSUInteger)index NS_REFINED_FOR_SWIFT;
 
 @end
 

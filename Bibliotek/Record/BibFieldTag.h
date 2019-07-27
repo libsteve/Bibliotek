@@ -10,14 +10,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// A value identifying the semantic purpose of a record field.
+/// A 3-character value identifying the semantic purpose of a record field.
 ///
 /// \note MARC 21 tags are always 3 digit codes.
-NS_SWIFT_NAME(FieldTag)
 @interface BibFieldTag : NSObject
 
 /// A string contianing the 3-character value of the tag.
-@property (nonatomic, copy, readonly) NSString *stringValue NS_SWIFT_NAME(rawValue);
+@property (nonatomic, copy, readonly) NSString *stringValue;
 
 /// Does the tag identify a control field?
 ///
@@ -29,7 +28,7 @@ NS_SWIFT_NAME(FieldTag)
 ///
 /// \param stringValue A string containing the 3-character tag value.
 /// \returns Returns a valid field tag only if the given string is exactly 3 characters long.
-- (nullable instancetype)initWithString:(NSString *)stringValue NS_DESIGNATED_INITIALIZER NS_SWIFT_NAME(init(rawValue:));
+- (nullable instancetype)initWithString:(NSString *)stringValue NS_DESIGNATED_INITIALIZER;
 
 @end
 

@@ -145,4 +145,14 @@
     return record;
 }
 
+- (id)copyWithZone:(NSZone *)zone {
+    BibRecordListEnumerator *const enumerator = [[BibRecordListEnumerator alloc] initWithRecordList:_records];
+    enumerator->_index = _index;
+    return enumerator;
+}
+
+- (id)mutableCopyWithZone:(NSZone *)zone {
+    return [self copyWithZone:zone];
+}
+
 @end

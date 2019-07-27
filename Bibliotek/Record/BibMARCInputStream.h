@@ -12,6 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+NS_SWIFT_NAME(MARCInputStream)
 @interface BibMARCInputStream : NSObject
 
 @property (nonatomic, copy, readonly, nullable) NSError *streamError;

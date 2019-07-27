@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "BibMetadata.h"
 
-@class BibLeader;
 @class BibControlField;
 @class BibContentField;
 
@@ -22,7 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// More information about MARC 21 records can be found in the Library of Congress's documentation on
 /// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html
-NS_SWIFT_NAME(Record)
 @interface BibRecord : NSObject
 
 /// The type of data represented by the record.
@@ -79,7 +77,6 @@ NS_SWIFT_NAME(Record)
 
 #pragma mark - Mutable
 
-NS_SWIFT_NAME(MutableRecord)
 @interface BibMutableRecord : BibRecord
 
 /// The type of data represented by the record.

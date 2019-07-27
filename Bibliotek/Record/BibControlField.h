@@ -16,7 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// More information about MARC 21 records can be found in the Library of Congress's documentation on
 /// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html
-NS_SWIFT_NAME(ControlField)
 @interface BibControlField : NSObject
 
 /// A value indicating the semantic purpose of the control field.
@@ -60,7 +59,6 @@ NS_SWIFT_NAME(ControlField)
 
 #pragma mark - Mutable
 
-NS_SWIFT_NAME(MutableControlField)
 @interface BibMutableControlField : BibControlField
 
 /// A value indicating the semantic purpose of the control field.

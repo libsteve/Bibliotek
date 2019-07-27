@@ -36,7 +36,7 @@
 
 - (BibContentIndicator)indicatorAtIndex:(NSUInteger)index {
     if (index >= _count) {
-        [NSException raise:NSInternalInconsistencyException format:@"Index out of bounds."];
+        [NSException raise:NSRangeException format:@"Index out of bounds."];
         return -1;
     }
     return _indicators[index];

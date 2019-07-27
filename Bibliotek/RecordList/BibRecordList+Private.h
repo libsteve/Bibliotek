@@ -18,7 +18,7 @@
 
 @end
 
-@interface BibRecordListEnumerator: NSEnumerator<BibRecord *>
+@interface BibRecordListEnumerator: NSEnumerator<BibRecord *> <NSCopying, NSMutableCopying>
 
 - (instancetype)initWithRecordList:(BibRecordList *)recordList;
 
