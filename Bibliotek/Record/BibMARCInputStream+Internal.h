@@ -13,7 +13,7 @@
 @class BibFieldTag;
 @class BibDirectoryEntry;
 @class BibControlField;
-@class BibContentIndicators;
+@class BibContentIndicatorList;
 @class BibContentField;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -31,8 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
                                           directoryEntry:(BibDirectoryEntry *)directoryEntry
                                                    error:(out NSError *_Nullable __autoreleasing *_Nullable)error;
 
-- (nullable BibContentIndicators *)readContentIndicatorsWithLeader:(BibLeader *)leader
-                                                             error:(out NSError *_Nullable __autoreleasing *_Nullable)error;
+- (nullable BibContentIndicatorList *)readContentIndicatorsWithLeader:(BibLeader *)leader
+                                                                error:(out NSError *_Nullable __autoreleasing *_Nullable)error;
 
 - (nullable BibSubfieldCode)readSubfieldCodeWithLeader:(BibLeader *)leader
                                                  error:(out NSError *_Nullable __autoreleasing *_Nullable)error;

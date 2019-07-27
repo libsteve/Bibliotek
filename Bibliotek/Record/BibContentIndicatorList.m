@@ -1,14 +1,14 @@
 //
-//  BibContentIndicators.m
+//  BibContentIndicatorList.m
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 6/27/19.
 //  Copyright © 2019 Steve Brunwasser. All rights reserved.
 //
 
-#import "BibContentIndicators.h"
+#import "BibContentIndicatorList.h"
 
-@implementation BibContentIndicators {
+@implementation BibContentIndicatorList {
 @protected
     BibContentIndicator *_indicators;
     NSUInteger _count;
@@ -52,30 +52,30 @@
 
 #pragma mark - Copying
 
-@implementation BibContentIndicators (Copying)
+@implementation BibContentIndicatorList (Copying)
 
 - (id)copyWithZone:(NSZone *)zone {
     return self;
 }
 
 - (id)mutableCopyWithZone:(NSZone *)zone {
-    return [[BibMutableContentIndicators allocWithZone:zone] initWithIndicators:_indicators count:_count];
+    return [[BibMutableContentIndicatorList allocWithZone:zone] initWithIndicators:_indicators count:_count];
 }
 
 @end
 
 #pragma mark - Equality
 
-@implementation BibContentIndicators (Equality)
+@implementation BibContentIndicatorList (Equality)
 
-- (BOOL)isEqualToIndicators:(BibContentIndicators *)indicators {
+- (BOOL)isEqualToIndicators:(BibContentIndicatorList *)indicators {
     return _count == indicators->_count
         && 0 == memcmp(_indicators, indicators->_indicators, _count);
 }
 
 - (BOOL)isEqual:(id)object {
     return self == object
-        || ([object isKindOfClass:[BibContentIndicators class]] && [self isEqualToIndicators:object]);
+        || ([object isKindOfClass:[BibContentIndicatorList class]] && [self isEqualToIndicators:object]);
 }
 
 - (NSUInteger)hash {
@@ -86,7 +86,7 @@
 
 #pragma mark - MARC 21
 
-@implementation BibContentIndicators (MARC21)
+@implementation BibContentIndicatorList (MARC21)
 
 - (BibContentIndicator)firstIndicator {
     return _indicators[0];
@@ -106,10 +106,10 @@
 
 #pragma mark - Mutable
 
-@implementation BibMutableContentIndicators
+@implementation BibMutableContentIndicatorList
 
 - (id)copyWithZone:(NSZone *)zone {
-    return [[BibContentIndicators allocWithZone:zone] initWithIndicators:_indicators count:_count];
+    return [[BibContentIndicatorList allocWithZone:zone] initWithIndicators:_indicators count:_count];
 }
 
 - (void)setIndicator:(BibContentIndicator)indicator atIndex:(NSUInteger)index {
@@ -120,7 +120,7 @@
 
 #pragma mark - Mutable MARC 21
 
-@implementation BibMutableContentIndicators (MARC21)
+@implementation BibMutableContentIndicatorList (MARC21)
 
 @dynamic firstIndicator;
 - (void)setFirstIndicator:(BibContentIndicator)firstIndicator {

@@ -1,5 +1,5 @@
 //
-//  ContentIndicator.swift
+//  ContentIndicatorList.swift
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 7/26/19.
@@ -8,10 +8,10 @@
 
 import Foundation
 
-public struct ContentIndicators {
-    private var _storage: BibContentIndicators!
-    private var _mutableStorage: BibMutableContentIndicators!
-    private var storage: BibContentIndicators! { return self._storage ?? self._mutableStorage }
+public struct ContentIndicatorList {
+    private var _storage: BibContentIndicatorList!
+    private var _mutableStorage: BibMutableContentIndicatorList!
+    private var storage: BibContentIndicatorList! { return self._storage ?? self._mutableStorage }
 
     public var count: Int { return Int(self.storage.count) }
 
@@ -20,30 +20,30 @@ public struct ContentIndicators {
         set {
             if self._mutableStorage == nil {
                 precondition(self._storage != nil)
-                self._mutableStorage = self._storage.mutableCopy() as? BibMutableContentIndicators
+                self._mutableStorage = self._storage.mutableCopy() as? BibMutableContentIndicatorList
                 self._storage = nil
             } else if !isKnownUniquelyReferenced(&self._mutableStorage) {
-                self._mutableStorage = self._mutableStorage.mutableCopy() as? BibMutableContentIndicators
+                self._mutableStorage = self._mutableStorage.mutableCopy() as? BibMutableContentIndicatorList
             }
             self._mutableStorage.setIndicator(newValue, at: UInt(index))
         }
     }
 
-    private init(storage: BibContentIndicators) {
-        self._storage = storage.copy() as? BibContentIndicators
+    private init(storage: BibContentIndicatorList) {
+        self._storage = storage.copy() as? BibContentIndicatorList
     }
 
     public init<S>(indicators: S) where S: Sequence, S.Element == ContentIndicator {
         self._storage = Array(indicators).withUnsafeBufferPointer { buffer in
-            guard let pointer = buffer.baseAddress else { return BibMutableContentIndicators() }
-            return BibContentIndicators(indicators: pointer, count: UInt(buffer.count))
+            guard let pointer = buffer.baseAddress else { return BibMutableContentIndicatorList() }
+            return BibContentIndicatorList(indicators: pointer, count: UInt(buffer.count))
         }
     }
 }
 
 // MARK: - MARC 21 Content Indicators
 
-extension ContentIndicators {
+extension ContentIndicatorList {
     public var first: ContentIndicator {
         get { return self[0] }
         set { self[0] = newValue }
@@ -61,7 +61,7 @@ extension ContentIndicators {
 
 // MARK: -
 
-extension ContentIndicators: ExpressibleByArrayLiteral, ExpressibleByStringLiteral {
+extension ContentIndicatorList: ExpressibleByArrayLiteral, ExpressibleByStringLiteral {
     public init(arrayLiteral elements: ContentIndicator...) {
         self.init(indicators: elements)
     }
@@ -79,14 +79,14 @@ extension ContentIndicator: ExpressibleByStringLiteral {
     }
 }
 
-extension ContentIndicators: Sequence, Collection, BidirectionalCollection, RandomAccessCollection {
+extension ContentIndicatorList: Sequence, Collection, BidirectionalCollection, RandomAccessCollection {
     public struct Iterator: IteratorProtocol {
         public typealias Element = ContentIndicator
 
         private var index: Int = 0
-        private var indicators: ContentIndicators
+        private var indicators: ContentIndicatorList
 
-        internal init(indicators: ContentIndicators) {
+        internal init(indicators: ContentIndicatorList) {
             self.indicators = indicators
         }
 
@@ -97,7 +97,7 @@ extension ContentIndicators: Sequence, Collection, BidirectionalCollection, Rand
         }
     }
 
-    public func makeIterator() -> ContentIndicators.Iterator {
+    public func makeIterator() -> ContentIndicatorList.Iterator {
         return Iterator(indicators: self)
     }
 
@@ -110,17 +110,17 @@ extension ContentIndicators: Sequence, Collection, BidirectionalCollection, Rand
     }
 }
 
-extension ContentIndicators: Hashable, Equatable {
+extension ContentIndicatorList: Hashable, Equatable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.storage)
     }
 
-    public static func == (lhs: ContentIndicators, rhs: ContentIndicators) -> Bool {
+    public static func == (lhs: ContentIndicatorList, rhs: ContentIndicatorList) -> Bool {
         return lhs.storage.isEqual(to: rhs.storage)
     }
 }
 
-extension ContentIndicators: CustomStringConvertible, CustomPlaygroundDisplayConvertible {
+extension ContentIndicatorList: CustomStringConvertible, CustomPlaygroundDisplayConvertible {
     public var description: String { return self.storage.description }
 
     public var playgroundDescription: Any { return self.storage.description }
@@ -128,27 +128,27 @@ extension ContentIndicators: CustomStringConvertible, CustomPlaygroundDisplayCon
 
 // MARK: - Bridging
 
-extension ContentIndicators: _ObjectiveCBridgeable {
-    public typealias _ObjectiveCType = BibContentIndicators
+extension ContentIndicatorList: _ObjectiveCBridgeable {
+    public typealias _ObjectiveCType = BibContentIndicatorList
 
-    public func _bridgeToObjectiveC() -> BibContentIndicators {
-        return self.storage.copy() as! BibContentIndicators
+    public func _bridgeToObjectiveC() -> BibContentIndicatorList {
+        return self.storage.copy() as! BibContentIndicatorList
     }
 
-    public static func _forceBridgeFromObjectiveC(_ source: BibContentIndicators, result: inout ContentIndicators?) {
-        result = ContentIndicators(storage: source)
+    public static func _forceBridgeFromObjectiveC(_ source: BibContentIndicatorList, result: inout ContentIndicatorList?) {
+        result = ContentIndicatorList(storage: source)
     }
 
-    public static func _conditionallyBridgeFromObjectiveC(_ source: BibContentIndicators, result: inout ContentIndicators?) -> Bool {
-        result = ContentIndicators(storage: source)
+    public static func _conditionallyBridgeFromObjectiveC(_ source: BibContentIndicatorList, result: inout ContentIndicatorList?) -> Bool {
+        result = ContentIndicatorList(storage: source)
         return true
     }
 
-    public static func _unconditionallyBridgeFromObjectiveC(_ source: BibContentIndicators?) -> ContentIndicators {
-        return ContentIndicators(storage: source!)
+    public static func _unconditionallyBridgeFromObjectiveC(_ source: BibContentIndicatorList?) -> ContentIndicatorList {
+        return ContentIndicatorList(storage: source!)
     }
 }
 
-extension BibContentIndicators: CustomPlaygroundDisplayConvertible {
-    public var playgroundDescription: Any { return (self as ContentIndicators).playgroundDescription }
+extension BibContentIndicatorList: CustomPlaygroundDisplayConvertible {
+    public var playgroundDescription: Any { return (self as ContentIndicatorList).playgroundDescription }
 }

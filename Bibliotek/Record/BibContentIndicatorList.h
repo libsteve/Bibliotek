@@ -1,5 +1,5 @@
 //
-//  BibContentIndicators.h
+//  BibContentIndicatorList.h
 //  Bibliotek
 //
 //  Created by Steve Brunwasser on 6/27/19.
@@ -12,7 +12,7 @@ typedef char BibContentIndicator NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(ContentI
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface BibContentIndicators : NSObject
+@interface BibContentIndicatorList : NSObject
 
 @property (nonatomic, assign, readonly) NSUInteger count;
 
@@ -25,20 +25,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Copying
 
-@interface BibContentIndicators (Copying) <NSCopying, NSMutableCopying>
+@interface BibContentIndicatorList (Copying) <NSCopying, NSMutableCopying>
 @end
 
 #pragma mark - Equality
 
-@interface BibContentIndicators (Equality)
+@interface BibContentIndicatorList (Equality)
 
-- (BOOL)isEqualToIndicators:(BibContentIndicators *)indicators;
+- (BOOL)isEqualToIndicators:(BibContentIndicatorList *)indicators;
 
 @end
 
 #pragma mark - MARC 21
 
-@interface BibContentIndicators (MARC21)
+@interface BibContentIndicatorList (MARC21)
 
 @property (nonatomic, assign, readonly) BibContentIndicator firstIndicator NS_SWIFT_NAME(first);
 
@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Mutable
 
-@interface BibMutableContentIndicators : BibContentIndicators
+@interface BibMutableContentIndicatorList : BibContentIndicatorList
 
 - (void)setIndicator:(BibContentIndicator)indicator atIndex:(NSUInteger)index;
 
@@ -59,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Mutable MARC 21
 
-@interface BibMutableContentIndicators (MARC21)
+@interface BibMutableContentIndicatorList (MARC21)
 
 @property (nonatomic, assign, readwrite) BibContentIndicator firstIndicator NS_SWIFT_NAME(first);
 

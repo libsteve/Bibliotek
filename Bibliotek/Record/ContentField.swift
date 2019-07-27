@@ -23,9 +23,9 @@ public struct ContentField {
         set { self.mutate(keyPath: \.tag, with: newValue as BibFieldTag) }
     }
 
-    public var indicators: ContentIndicators {
-        get { return self.storage.indicators as ContentIndicators }
-        set { self.mutate(keyPath: \.indicators, with: newValue as BibContentIndicators) }
+    public var indicators: ContentIndicatorList {
+        get { return self.storage.indicators as ContentIndicatorList }
+        set { self.mutate(keyPath: \.indicators, with: newValue as BibContentIndicatorList) }
     }
 
     public var subfields: [Subfield] {
@@ -37,9 +37,9 @@ public struct ContentField {
         self._storage = storage.copy() as? BibContentField
     }
 
-    public init(tag: FieldTag, indicators: ContentIndicators, subfields: [Subfield]) {
+    public init(tag: FieldTag, indicators: ContentIndicatorList, subfields: [Subfield]) {
         self._storage = BibContentField(tag: tag as BibFieldTag,
-                                        indicators: indicators as BibContentIndicators,
+                                        indicators: indicators as BibContentIndicatorList,
                                         subfields: subfields as [BibSubfield])
     }
 

@@ -18,7 +18,7 @@
 #import "BibDirectoryEntry.h"
 #import "BibControlField.h"
 #import "BibContentField.h"
-#import "BibContentIndicators.h"
+#import "BibContentIndicatorList.h"
 #import "BibSubfield.h"
 
 static uint8_t const kRecordTerminator  = 0x1D;
@@ -288,8 +288,8 @@ static NSError *sControlFieldMissingTerminatorError() {
     return [BibControlField controlFieldWithTag:[directoryEntry tag] value:value];
 }
 
-- (BibContentIndicators *)readContentIndicatorsWithLeader:(BibLeader *)leader
-                                                    error:(out NSError *__autoreleasing *)error {
+- (BibContentIndicatorList *)readContentIndicatorsWithLeader:(BibLeader *)leader
+                                                       error:(out NSError *__autoreleasing *)error {
     if ([self streamStatus] == NSStreamStatusError) {
         if (error) { *error = [self streamError]; }
         return nil;
@@ -301,7 +301,7 @@ static NSError *sControlFieldMissingTerminatorError() {
         return nil;
     }
     BibContentIndicator *const rawIndicators = (BibContentIndicator *)buffer;
-    return [[BibContentIndicators alloc] initWithIndicators:rawIndicators count:numberOfIndicators];
+    return [[BibContentIndicatorList alloc] initWithIndicators:rawIndicators count:numberOfIndicators];
 }
 
 static NSError *sSubfieldCodeMissingDelimiterError() {
@@ -385,7 +385,7 @@ static NSError *sSubfieldContentContainsRecordTerminatorError() {
                                  directoryEntry:(BibDirectoryEntry *)directoryEntry
                                           error:(out NSError *__autoreleasing *)error {
     NSUInteger const initialNumberOfBytesRead = [_inputStream numberOfBytesRead];
-    BibContentIndicators *const indicators = [self readContentIndicatorsWithLeader:leader error:error];
+    BibContentIndicatorList *const indicators = [self readContentIndicatorsWithLeader:leader error:error];
     if (indicators == nil) { return nil; }
     NSMutableArray *const subfields = [NSMutableArray array];
     uint8_t byte;

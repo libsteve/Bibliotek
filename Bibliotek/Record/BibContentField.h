@@ -10,7 +10,7 @@
 
 @class BibSubfield;
 @class BibFieldTag;
-@class BibContentIndicators;
+@class BibContentIndicatorList;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -23,12 +23,12 @@ NS_ASSUME_NONNULL_BEGIN
 /// A value indicating the semantic purpose of the control field.
 @property (nonatomic, strong, readonly) BibFieldTag *tag;
 
-@property (nonatomic, copy, readonly) BibContentIndicators *indicators;
+@property (nonatomic, copy, readonly) BibContentIndicatorList *indicators;
 
 @property (nonatomic, copy, readonly) NSArray<BibSubfield *> *subfields;
 
 - (instancetype)initWithTag:(BibFieldTag *)tag
-                 indicators:(BibContentIndicators *)indicators
+                 indicators:(BibContentIndicatorList *)indicators
                   subfields:(NSArray<BibSubfield *> *)subfields NS_DESIGNATED_INITIALIZER;
 
 @end
@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// A value indicating the semantic purpose of the control field.
 @property (nonatomic, strong, readwrite) BibFieldTag *tag;
 
-@property (nonatomic, copy, readwrite) BibContentIndicators *indicators;
+@property (nonatomic, copy, readwrite) BibContentIndicatorList *indicators;
 
 @property (nonatomic, copy, readwrite) NSArray<BibSubfield *> *subfields;
 

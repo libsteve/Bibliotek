@@ -8,13 +8,13 @@
 
 #import "BibContentField.h"
 #import "BibSubfield.h"
-#import "BibContentIndicators.h"
+#import "BibContentIndicatorList.h"
 #import "BibFieldTag.h"
 
 @implementation BibContentField {
 @protected
     BibFieldTag *_tag;
-    BibContentIndicators *_indicators;
+    BibContentIndicatorList *_indicators;
     NSArray<BibSubfield *> *_subfields;
 }
 
@@ -33,7 +33,7 @@
 
 - (instancetype)init {
     return [self initWithTag:[[BibFieldTag alloc] initWithString:@"100"]
-                  indicators:[BibContentIndicators new]
+                  indicators:[BibContentIndicatorList new]
                    subfields:[NSArray array]];
 }
 
@@ -99,7 +99,7 @@
 }
 
 @synthesize indicators;
-- (void)setIndicators:(BibContentIndicators *)indicators {
+- (void)setIndicators:(BibContentIndicatorList *)indicators {
     if (_indicators != indicators) {
         [self willChangeValueForKey:NSStringFromSelector(@selector(indicators))];
         _indicators = [indicators copy];
