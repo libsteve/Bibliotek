@@ -52,7 +52,7 @@
 }
 
 - (NSString *)description {
-    NSArray *fields = [[self contentFields] arrayByAddingObjectsFromArray:[self contentFields]];
+    NSArray *const fields = [[self controlFields] arrayByAddingObjectsFromArray:(id)[self contentFields]];
     return [fields componentsJoinedByString:@"\n"];
 }
 
