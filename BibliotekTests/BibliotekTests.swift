@@ -71,6 +71,18 @@ class BibliotekTests: XCTestCase {
         XCTAssertEqual(r.keywords, copy.keywords)
     }
 
+    func testGetRecordFromRecordList() {
+        var rs: RecordList!
+        XCTAssertNoThrow(try {
+            let c = try Connection(host: "z3950.loc.gov", port: 7090, database: "VOYAGER")
+            let r = FetchRequest(keywords: ["9780385527880"], scope: .isbn)
+            rs = try c.fetchRecords(request: r)
+            }())
+        XCTAssertNotEqual(rs.count, 0)
+        let record = rs.first
+        XCTAssertNotNil(record)
+    }
+
     // NOTE: The information for the following tests is real data pertaining to "In the Land of Invented Languages"—a great book—and is provided by the Library of Congress's VOYAGER database.
 
     /*
