@@ -38,7 +38,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@ %@", [self indicators], [[self subfields] componentsJoinedByString:@""]];
+    return [NSString stringWithFormat:@"%@ %@ %@", [self tag], [self indicators], [[self subfields] componentsJoinedByString:@""]];
 }
 
 @end
