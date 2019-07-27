@@ -61,7 +61,7 @@ static void sWriteRepeatValueToBuffer(uint8_t *const buffer, NSRange const range
     sWriteRepeatValueToBuffer(buffer, kRecordLengthRange, '0');
     sWriteRepeatValueToBuffer(buffer, kRecordLocationRange, '0');
     buffer[kNumberOfIndicatorsRange.location]   = '2';
-    buffer[kLengthOfSubfieldCodeRange.location] = '1';
+    buffer[kLengthOfSubfieldCodeRange.location] = '2';
     memcpy(buffer + kLengthOfLengthOfFieldRange.location * sizeof(uint8_t), "4500", 4); // entry map
     return [self initWithData:[NSData dataWithBytesNoCopy:buffer length:BibLeaderRawDataLength]];
 }
@@ -146,7 +146,7 @@ static NSUInteger sReadUnsignedInteger(NSData *const data, NSRange const range) 
     NSData *const data = [self rawData];
     NSUInteger const loc = sReadUnsignedInteger(data, kRecordLocationRange);
     NSUInteger const len = sReadUnsignedInteger(data, kRecordLengthRange);
-    return NSMakeRange(loc, len - loc - 1);
+    return NSMakeRange(loc, len - loc);
 }
 
 - (BibRecordStatus)recordStatus {
