@@ -29,4 +29,5 @@ FOUNDATION_EXPORT const unsigned char BibliotekVersionString[];
 #import "BibFieldTag.h"
 #import "BibMetadata.h"
 
-#import "BibMARC21Reader.h"
+#import "BibInputStream.h"
+#import "BibMARCInputStream.h"
