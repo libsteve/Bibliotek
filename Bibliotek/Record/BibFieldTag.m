@@ -12,16 +12,27 @@
 
 @synthesize stringValue = _stringValue;
 
+static NSCache *sFlyweightCache;
+
++ (void)initialize {
+    sFlyweightCache = [[NSCache alloc] init];
+    [sFlyweightCache setName:@"BibFieldTagCache"];
+}
+
 - (instancetype)initWithString:(NSString *)stringValue {
     if ([stringValue length] != 3) {
         return nil;
     }
+    BibFieldTag *const tag = [sFlyweightCache objectForKey:stringValue];
+    if (tag) {
+        return tag;
+    }
     if (self = [super init]) {
         _stringValue = [stringValue copy];
+        [sFlyweightCache setObject:self forKey:stringValue];
     }
     return self;
 }
-
 
 - (instancetype)initWithData:(NSData *)data {
     return [self initWithString:[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding]];
