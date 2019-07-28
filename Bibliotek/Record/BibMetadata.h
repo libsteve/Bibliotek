@@ -24,7 +24,7 @@ typedef NS_CLOSED_ENUM(NSUInteger, BibReservedPosition) {
 /// A collection of information describing the type and state of a record.
 @interface BibMetadata : NSObject
 
-- (char)valueForReservedPosition:(BibReservedPosition)position;
+- (int8_t)valueForReservedPosition:(BibReservedPosition)position NS_SWIFT_NAME(value(forReservedPosition:));
 
 @end
 
@@ -45,7 +45,8 @@ typedef NS_CLOSED_ENUM(NSUInteger, BibReservedPosition) {
 
 @interface BibMutableMetadata : BibMetadata
 
-- (void)setValue:(char)value forReservedPosition:(BibReservedPosition)index;
+- (void)setValue:(int8_t)value forReservedPosition:(BibReservedPosition)index
+    NS_SWIFT_NAME(setValue(_:forReservedPosition:));
 
 @end
 
@@ -65,7 +66,7 @@ typedef NS_ENUM(char, BibEncoding) {
 } NS_SWIFT_NAME(Encoding);
 
 /// A human-readable description of the encoding.
-NSString *BibEncodingDescription(BibEncoding const encoding);
+NSString *BibEncodingDescription(BibEncoding const encoding) NS_REFINED_FOR_SWIFT;
 
 #pragma mark - Record Kind
 
@@ -126,14 +127,14 @@ typedef NS_ENUM(char, BibRecordKind) {
 /// Does a record with the given type represent classification information?
 /// \param recordKind The type of data represented by a record.
 /// \returns @c YES if a record with this type contains classification information.
-extern BOOL BibRecordKindIsClassification(BibRecordKind const recordKind) NS_SWIFT_NAME(RecordKind.isClassification(_:));
+extern BOOL BibRecordKindIsClassification(BibRecordKind const recordKind) NS_REFINED_FOR_SWIFT;
 
 /// Does a record with the given type represent bibliographic information?
 /// \param recordKind The type of data represented by a record.
 /// \returns @c YES if a record with this type contains bibliographic information.
-extern BOOL BibRecordKindIsBibliographic(BibRecordKind const recordKind) NS_SWIFT_NAME(RecordKind.isBibliographic(_:));
+extern BOOL BibRecordKindIsBibliographic(BibRecordKind const recordKind) NS_REFINED_FOR_SWIFT;
 
-extern NSString *BibRecordKindDescription(BibRecordKind const recordKind);
+extern NSString *BibRecordKindDescription(BibRecordKind const recordKind) NS_REFINED_FOR_SWIFT;
 
 #pragma mark - Record Status
 

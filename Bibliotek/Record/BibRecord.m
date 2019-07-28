@@ -15,22 +15,26 @@
 @protected
     BibRecordKind _kind;
     BibRecordStatus _status;
+    BibMetadata *_metadata;
     NSArray<BibControlField *> *_controlFields;
     NSArray<BibContentField *> *_contentFields;
 }
 
 @synthesize kind = _kind;
 @synthesize status = _status;
+@synthesize metadata = _metadata;
 @synthesize controlFields = _controlFields;
 @synthesize contentFields = _contentFields;
 
 - (instancetype)initWithKind:(BibRecordKind)kind
                       status:(BibRecordStatus)status
+                    metadata:(BibMetadata *)metadata
                controlFields:(NSArray<BibControlField *> *)controlFields
                contentFields:(NSArray<BibContentField *> *)contentFields {
     if (self = [super init]) {
         _kind = kind;
         _status = status;
+        _metadata = [metadata copy];
         _controlFields = [controlFields copy];
         _contentFields = [contentFields copy];
     }
@@ -40,15 +44,21 @@
 - (instancetype)init {
     return [self initWithKind:BibRecordKindUndefined
                        status:BibRecordStatusNew
+                     metadata:[BibMetadata new]
                 controlFields:[NSArray array]
                 contentFields:[NSArray array]];
 }
 
 + (instancetype)recordWithKind:(BibRecordKind)kind
                         status:(BibRecordStatus)status
+                      metadata:(BibMetadata *)metadata
                  controlFields:(NSArray<BibControlField *> *)controlFields
                  contentFields:(NSArray<BibContentField *> *)contentFields {
-    return [[self alloc] initWithKind:kind status:status controlFields:controlFields contentFields:contentFields];
+    return [[self alloc] initWithKind:kind
+                               status:status
+                             metadata:metadata
+                        controlFields:controlFields
+                        contentFields:contentFields];
 }
 
 - (NSString *)description {
@@ -69,6 +79,7 @@
 - (id)mutableCopyWithZone:(NSZone *)zone {
     return [[BibMutableRecord allocWithZone:zone] initWithKind:[self kind]
                                                         status:[self status]
+                                                      metadata:[self metadata]
                                                  controlFields:[self controlFields]
                                                  contentFields:[self contentFields]];
 }
@@ -82,6 +93,7 @@
 - (BOOL)isEqualToRecord:(BibRecord *)record {
     return [self kind] == [record kind]
         && [self status] == [record status]
+        && [[self metadata] isEqualToMetadata:[record metadata]]
         && [[self controlFields] isEqualToArray:[record controlFields]]
         && [[self contentFields] isEqualToArray:[record contentFields]];
 }
@@ -92,7 +104,11 @@
 }
 
 - (NSUInteger)hash {
-    return [self kind] ^ ([self status] << 16) ^ [[self controlFields] hash] ^ [[self contentFields] hash];
+    return [self kind]
+         ^ ([self status] << 16)
+         ^ [[self metadata] hash]
+         ^ [[self controlFields] hash]
+         ^ [[self contentFields] hash];
 }
 
 @end
@@ -104,6 +120,7 @@
 - (id)copyWithZone:(NSZone *)zone {
     return [[BibMutableRecord allocWithZone:zone] initWithKind:[self kind]
                                                         status:[self status]
+                                                      metadata:[self metadata]
                                                  controlFields:[self controlFields]
                                                  contentFields:[self contentFields]];
 }
@@ -123,6 +140,15 @@
         [self willChangeValueForKey:NSStringFromSelector(@selector(status))];
         _status = status;
         [self didChangeValueForKey:NSStringFromSelector(@selector(status))];
+    }
+}
+
+@dynamic metadata;
+- (void)setMetadata:(BibMetadata *)metadata {
+    if (_metadata != metadata) {
+        [self willChangeValueForKey:NSStringFromSelector(@selector(metadata))];
+        _metadata = [metadata copy];
+        [self didChangeValueForKey:NSStringFromSelector(@selector(metadata))];
     }
 }
 

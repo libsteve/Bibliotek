@@ -36,6 +36,11 @@ public struct Record {
         set { self.mutate(keyPath: \.status, with: newValue) }
     }
 
+    public var metadata: Metadata {
+        get { return self.storage.metadata as Metadata }
+        set { self.mutate(keyPath: \.metadata, with: newValue as BibMetadata) }
+    }
+
     public var controlFields: [ControlField] {
         get { return self.storage.controlFields as [ControlField] }
         set { self.mutate(keyPath: \.controlFields, with: newValue as [BibControlField]) }
@@ -77,8 +82,9 @@ extension Record: Hashable, Equatable {
 extension Record: CustomStringConvertible, CustomPlaygroundDisplayConvertible {
     public var description: String { return self.storage.description }
 
-    public var playgroundDescription: Any { return ["kind": String.init(format: "%c", self.kind.rawValue),
+    public var playgroundDescription: Any { return ["kind": self.kind.description,
                                                     "status": String(format: "%c", self.status.rawValue),
+                                                    "meatdata": self.metadata,
                                                     "controlFields": self.contentFields,
                                                     "contentFields": self.contentFields] }
 }

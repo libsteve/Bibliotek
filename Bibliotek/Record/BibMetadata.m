@@ -10,6 +10,14 @@
 #import "BibMetadata+Internal.h"
 #import "BibLeader.h"
 
+static BibReservedPosition const kAllReservedPositions[] = {
+    BibReservedPosition07,
+    BibReservedPosition08,
+    BibReservedPosition17,
+    BibReservedPosition18,
+    BibReservedPosition19
+};
+
 #pragma mark - Metadata
 
 @implementation BibMetadata {
@@ -23,8 +31,19 @@
     return self;
 }
 
-- (char)valueForReservedPosition:(BibReservedPosition)index {
+- (int8_t)valueForReservedPosition:(BibReservedPosition)index {
     return [[self leader] valueForReservedPosition:index];
+}
+
+- (NSString *)description {
+    NSMutableArray *const components = [NSMutableArray new];
+    NSUInteger const count = sizeof(kAllReservedPositions) / sizeof(BibReservedPosition);
+    for (NSUInteger index = 0; index < count; index += 1) {
+        BibReservedPosition const position = kAllReservedPositions[index];
+        uint8_t const value =  [self valueForReservedPosition:position];
+        [components addObject:[NSString stringWithFormat:@"\"%c\"", value]];
+    }
+    return [NSString stringWithFormat:@"[%@]", [components componentsJoinedByString:@", "]];
 }
 
 @end
@@ -59,14 +78,6 @@
 @end
 
 @implementation BibMetadata (Equality)
-
-static BibReservedPosition const kAllReservedPositions[] = {
-    BibReservedPosition07,
-    BibReservedPosition08,
-    BibReservedPosition17,
-    BibReservedPosition18,
-    BibReservedPosition19
-};
 
 - (BOOL)isEqualToMetadata:(BibMetadata *)metadata {
     int const indexCount = sizeof(kAllReservedPositions) / sizeof(BibReservedPosition);
@@ -106,7 +117,7 @@ static BibReservedPosition const kAllReservedPositions[] = {
     return [[BibMetadata allocWithZone:zone] initWithLeader:[self leader]];
 }
 
-- (void)setValue:(char)value forReservedPosition:(BibReservedPosition)index {
+- (void)setValue:(int8_t)value forReservedPosition:(BibReservedPosition)index {
     [[self leader] setValue:value forReservedPosition:index];
 }
 

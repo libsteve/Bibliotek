@@ -32,6 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// The record's current status in the database it was fetched from.
 @property (nonatomic, assign, readonly) BibRecordStatus status;
 
+@property (nonatomic, copy, readonly) BibMetadata *metadata;
+
 @property (nonatomic, copy, readonly) NSArray<BibControlField *> *controlFields;
 
 @property (nonatomic, copy, readonly) NSArray<BibContentField *> *contentFields;
@@ -43,6 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html
 - (instancetype)initWithKind:(BibRecordKind)kind
                       status:(BibRecordStatus)status
+                    metadata:(BibMetadata *)metadata
                controlFields:(NSArray<BibControlField *> *)controlFields
                contentFields:(NSArray<BibContentField *> *)contentFields NS_DESIGNATED_INITIALIZER;
 
@@ -53,6 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html
 + (instancetype)recordWithKind:(BibRecordKind)kind
                         status:(BibRecordStatus)status
+                      metadata:(BibMetadata *)metadata
                  controlFields:(NSArray<BibControlField *> *)controlFields
                  contentFields:(NSArray<BibContentField *> *)contentFields
     NS_SWIFT_UNAVAILABLE("Use init(kind:status:controlFields:contentFields:");
@@ -87,6 +91,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// The record's current status in the database it was fetched from.
 @property (nonatomic, assign, readwrite) BibRecordStatus status;
+
+@property (nonatomic, copy, readwrite) BibMetadata *metadata;
 
 @property (nonatomic, copy, readwrite) NSArray<BibControlField *> *controlFields;
 

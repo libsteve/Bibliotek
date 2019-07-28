@@ -45,6 +45,7 @@
 		AAA4E00922EC0C730003AF7B /* ContentField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA4E00822EC0C730003AF7B /* ContentField.swift */; };
 		AAA4E00B22EC119A0003AF7B /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA4E00A22EC119A0003AF7B /* Record.swift */; };
 		AAA4E01722ED66A70003AF7B /* BibMetadata+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA4E01622ED66A70003AF7B /* BibMetadata+Internal.h */; };
+		AAA4E01922ED719F0003AF7B /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA4E01822ED719F0003AF7B /* Metadata.swift */; };
 		AAAA428920B9F32A00BDB52B /* Bibliotek.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA59F0D220A9FACF00D41982 /* Bibliotek.framework */; };
 		AAAA429120B9F35600BDB52B /* BibliotekTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA429020B9F35600BDB52B /* BibliotekTests.swift */; };
 		AAAA429E20BB0E3600BDB52B /* BibConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = AAAA429C20BB0E3600BDB52B /* BibConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -154,6 +155,7 @@
 		AAA4E00822EC0C730003AF7B /* ContentField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentField.swift; sourceTree = "<group>"; };
 		AAA4E00A22EC119A0003AF7B /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
 		AAA4E01622ED66A70003AF7B /* BibMetadata+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BibMetadata+Internal.h"; sourceTree = "<group>"; };
+		AAA4E01822ED719F0003AF7B /* Metadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metadata.swift; sourceTree = "<group>"; };
 		AAAA428420B9F32900BDB52B /* BibliotekTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BibliotekTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAAA428820B9F32A00BDB52B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AAAA429020B9F35600BDB52B /* BibliotekTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibliotekTests.swift; sourceTree = "<group>"; };
@@ -325,6 +327,7 @@
 				AABDC1FA22DAAA0E00345A58 /* BibMetadata.h */,
 				AAA4E01622ED66A70003AF7B /* BibMetadata+Internal.h */,
 				AABDC1F922DAAA0E00345A58 /* BibMetadata.m */,
+				AAA4E01822ED719F0003AF7B /* Metadata.swift */,
 				AABDC1FE22DAB2FD00345A58 /* BibLeader.h */,
 				AABDC1FD22DAB2FD00345A58 /* BibLeader.m */,
 				AABDC20522DAC10500345A58 /* BibDirectoryEntry.h */,
@@ -549,6 +552,7 @@
 				AA51EA98211AC9DF00BF28BE /* BibConnectionOptions.swift in Sources */,
 				AAA4E00522EBFF670003AF7B /* Subfield.swift in Sources */,
 				AABDC21222DACDBC00345A58 /* BibContentIndicatorList.m in Sources */,
+				AAA4E01922ED719F0003AF7B /* Metadata.swift in Sources */,
 				AABDC20322DABA5300345A58 /* BibMetadata.m in Sources */,
 				AA19395F22DFC55400429C54 /* BibInputStream.m in Sources */,
 				AA51EA96211AC93C00BF28BE /* BibConnectionEndpoint.swift in Sources */,

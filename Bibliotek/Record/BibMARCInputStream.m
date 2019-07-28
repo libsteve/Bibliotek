@@ -187,8 +187,11 @@ NSErrorDomain const BibMARCInputStreamErrorDomain = @"BibMARCInputStreamErrorDom
         if (error) { *error = _streamError; }
         return nil;
     }
-    return [[BibRecord alloc] initWithKind:[leader recordKind] status:[leader recordStatus]
-                             controlFields:controlFields contentFields:contentFields];
+    return [[BibRecord alloc] initWithKind:[leader recordKind]
+                                    status:[leader recordStatus]
+                                  metadata:[[BibMetadata alloc] initWithLeader:leader]
+                             controlFields:controlFields
+                             contentFields:contentFields];
 }
 
 @end
