@@ -296,6 +296,51 @@
 			path = Bibliotek;
 			sourceTree = "<group>";
 		};
+		AAA4E02022EE32CF0003AF7B /* ContentField */ = {
+			isa = PBXGroup;
+			children = (
+				AABDC21122DACDBC00345A58 /* BibContentIndicatorList.h */,
+				AABDC21022DACDBC00345A58 /* BibContentIndicatorList.m */,
+				AAA4E00622EC03170003AF7B /* ContentIndicatorList.swift */,
+				AABDC21822DAE05200345A58 /* BibSubfield.h */,
+				AABDC21922DAE05200345A58 /* BibSubfield.m */,
+				AAA4E00422EBFF670003AF7B /* Subfield.swift */,
+				AABDC21C22DAE32C00345A58 /* BibContentField.h */,
+				AABDC21D22DAE32C00345A58 /* BibContentField.m */,
+				AAA4E00822EC0C730003AF7B /* ContentField.swift */,
+			);
+			path = ContentField;
+			sourceTree = "<group>";
+		};
+		AAA4E02122EE33070003AF7B /* InputStream */ = {
+			isa = PBXGroup;
+			children = (
+				AA19395C22DFC55400429C54 /* BibInputStream.h */,
+				AA19395D22DFC55400429C54 /* BibInputStream.m */,
+				AA19397622E8DF2D00429C54 /* BibMARCInputStream.h */,
+				AA19397A22E8E0F700429C54 /* BibMARCInputStream+Internal.h */,
+				AA19397722E8DF2D00429C54 /* BibMARCInputStream.m */,
+			);
+			path = InputStream;
+			sourceTree = "<group>";
+		};
+		AAA4E02322EE334C0003AF7B /* Primitives */ = {
+			isa = PBXGroup;
+			children = (
+				AABDC1FA22DAAA0E00345A58 /* BibMetadata.h */,
+				AAA4E01622ED66A70003AF7B /* BibMetadata+Internal.h */,
+				AABDC1F922DAAA0E00345A58 /* BibMetadata.m */,
+				AAA4E01822ED719F0003AF7B /* Metadata.swift */,
+				AAA4E01A22EE0D5A0003AF7B /* BibRecordKind.h */,
+				AAA4E01B22EE0D5A0003AF7B /* BibRecordKind.m */,
+				AAA4E01E22EE270E0003AF7B /* RecordKind.swift */,
+				AABDC20922DAC17A00345A58 /* BibFieldTag.h */,
+				AABDC20822DAC17A00345A58 /* BibFieldTag.m */,
+				AAA4E00022EBF5D20003AF7B /* FieldTag.swift */,
+			);
+			path = Primitives;
+			sourceTree = "<group>";
+		};
 		AAAA428520B9F32A00BDB52B /* BibliotekTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -330,40 +375,19 @@
 		AABDC1F822DAA96C00345A58 /* Record */ = {
 			isa = PBXGroup;
 			children = (
-				AABDC1FA22DAAA0E00345A58 /* BibMetadata.h */,
-				AAA4E01622ED66A70003AF7B /* BibMetadata+Internal.h */,
-				AABDC1F922DAAA0E00345A58 /* BibMetadata.m */,
-				AAA4E01822ED719F0003AF7B /* Metadata.swift */,
-				AAA4E01A22EE0D5A0003AF7B /* BibRecordKind.h */,
-				AAA4E01B22EE0D5A0003AF7B /* BibRecordKind.m */,
-				AAA4E01E22EE270E0003AF7B /* RecordKind.swift */,
+				AABDC22022DAE7CD00345A58 /* BibRecord.h */,
+				AABDC22122DAE7CD00345A58 /* BibRecord.m */,
+				AAA4E00A22EC119A0003AF7B /* Record.swift */,
+				AAA4E02122EE33070003AF7B /* InputStream */,
 				AABDC1FE22DAB2FD00345A58 /* BibLeader.h */,
 				AABDC1FD22DAB2FD00345A58 /* BibLeader.m */,
 				AABDC20522DAC10500345A58 /* BibDirectoryEntry.h */,
 				AABDC20422DAC10500345A58 /* BibDirectoryEntry.m */,
-				AABDC20922DAC17A00345A58 /* BibFieldTag.h */,
-				AABDC20822DAC17A00345A58 /* BibFieldTag.m */,
-				AAA4E00022EBF5D20003AF7B /* FieldTag.swift */,
+				AAA4E02322EE334C0003AF7B /* Primitives */,
 				AABDC20C22DAC99F00345A58 /* BibControlField.h */,
 				AABDC20D22DAC99F00345A58 /* BibControlField.m */,
 				AAA4E00222EBFBA40003AF7B /* ControlField.swift */,
-				AABDC21122DACDBC00345A58 /* BibContentIndicatorList.h */,
-				AABDC21022DACDBC00345A58 /* BibContentIndicatorList.m */,
-				AAA4E00622EC03170003AF7B /* ContentIndicatorList.swift */,
-				AABDC21822DAE05200345A58 /* BibSubfield.h */,
-				AABDC21922DAE05200345A58 /* BibSubfield.m */,
-				AAA4E00422EBFF670003AF7B /* Subfield.swift */,
-				AABDC21C22DAE32C00345A58 /* BibContentField.h */,
-				AABDC21D22DAE32C00345A58 /* BibContentField.m */,
-				AAA4E00822EC0C730003AF7B /* ContentField.swift */,
-				AABDC22022DAE7CD00345A58 /* BibRecord.h */,
-				AABDC22122DAE7CD00345A58 /* BibRecord.m */,
-				AAA4E00A22EC119A0003AF7B /* Record.swift */,
-				AA19395C22DFC55400429C54 /* BibInputStream.h */,
-				AA19395D22DFC55400429C54 /* BibInputStream.m */,
-				AA19397622E8DF2D00429C54 /* BibMARCInputStream.h */,
-				AA19397A22E8E0F700429C54 /* BibMARCInputStream+Internal.h */,
-				AA19397722E8DF2D00429C54 /* BibMARCInputStream.m */,
+				AAA4E02022EE32CF0003AF7B /* ContentField */,
 			);
 			path = Record;
 			sourceTree = "<group>";
