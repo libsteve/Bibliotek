@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "BibMetadata.h"
 
+@class BibRecordKind;
+
 NS_ASSUME_NONNULL_BEGIN
 
 extern NSUInteger const BibLeaderRawDataLength NS_SWIFT_NAME(Leader.rawValueLength);
@@ -95,7 +97,7 @@ NS_SWIFT_NAME(MutableLeader)
 ///
 /// MARC 21 records can represent multiple kinds of information—bibliographic, classification, etc.—which each use
 /// different schemas to present their information.
-@property (nonatomic, readonly) BibRecordKind recordKind;
+@property (nonatomic, readonly, nullable) BibRecordKind *recordKind;
 
 /// The character encoding used to represent textual information within the record.
 @property (nonatomic, readonly) BibEncoding recordEncoding;
@@ -135,7 +137,7 @@ NS_SWIFT_NAME(MutableLeader)
 ///
 /// MARC 21 records can represent multiple kinds of information—bibliographic, classification, etc.—which each use
 /// different schemas to present their information.
-@property (nonatomic, readwrite) BibRecordKind recordKind;
+@property (nonatomic, readwrite, nullable) BibRecordKind *recordKind;
 
 /// The character encoding used to represent textual information within the record.
 @property (nonatomic, readwrite) BibEncoding recordEncoding;

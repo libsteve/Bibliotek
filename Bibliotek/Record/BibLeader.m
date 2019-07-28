@@ -7,6 +7,7 @@
 //
 
 #import "BibLeader.h"
+#import "BibRecordKind.h"
 
 NSUInteger const BibLeaderRawDataLength = 24;
 
@@ -155,10 +156,10 @@ static NSUInteger sReadUnsignedInteger(NSData *const data, NSRange const range) 
     return buffer[0];
 }
 
-- (BibRecordKind)recordKind {
-    BibRecordKind buffer[kRecordKindRange.length];
+- (BibRecordKind *)recordKind {
+    uint8_t buffer[kRecordKindRange.length];
     [[self rawData] getBytes:buffer range:kRecordKindRange];
-    return buffer[0];
+    return [BibRecordKind recordKindWithRawValue:buffer[0]];
 }
 
 - (BibEncoding)recordEncoding {
@@ -233,11 +234,12 @@ static void sWriteUnsignedInteger(NSMutableData *const data, NSRange const range
     [self didChangeValueForKey:key];
 }
 
-- (void)setRecordKind:(BibRecordKind)recordKind {
+- (void)setRecordKind:(BibRecordKind *)recordKind {
     NSString *const key = NSStringFromSelector(@selector(recordKind));
     [self willChangeValueForKey:key];
     NSMutableData *const data = [[self rawData] mutableCopy];
-    [data replaceBytesInRange:kRecordKindRange withBytes:&recordKind];
+    uint8_t const recordKindRawValue = [recordKind rawValue];
+    [data replaceBytesInRange:kRecordKindRange withBytes:&recordKindRawValue];
     [self setRawData:data];
     [self didChangeValueForKey:key];
 }

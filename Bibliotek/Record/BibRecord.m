@@ -7,13 +7,13 @@
 //
 
 #import "BibRecord.h"
-#import "BibLeader.h"
+#import "BibRecordKind.h"
 #import "BibControlField.h"
 #import "BibContentField.h"
 
 @implementation BibRecord {
 @protected
-    BibRecordKind _kind;
+    BibRecordKind *_kind;
     BibRecordStatus _status;
     BibMetadata *_metadata;
     NSArray<BibControlField *> *_controlFields;
@@ -26,7 +26,7 @@
 @synthesize controlFields = _controlFields;
 @synthesize contentFields = _contentFields;
 
-- (instancetype)initWithKind:(BibRecordKind)kind
+- (instancetype)initWithKind:(BibRecordKind *)kind
                       status:(BibRecordStatus)status
                     metadata:(BibMetadata *)metadata
                controlFields:(NSArray<BibControlField *> *)controlFields
@@ -42,14 +42,14 @@
 }
 
 - (instancetype)init {
-    return [self initWithKind:BibRecordKindUndefined
+    return [self initWithKind:nil
                        status:BibRecordStatusNew
                      metadata:[BibMetadata new]
                 controlFields:[NSArray array]
                 contentFields:[NSArray array]];
 }
 
-+ (instancetype)recordWithKind:(BibRecordKind)kind
++ (instancetype)recordWithKind:(BibRecordKind *)kind
                         status:(BibRecordStatus)status
                       metadata:(BibMetadata *)metadata
                  controlFields:(NSArray<BibControlField *> *)controlFields
@@ -91,7 +91,7 @@
 @implementation BibRecord (Equality)
 
 - (BOOL)isEqualToRecord:(BibRecord *)record {
-    return [self kind] == [record kind]
+    return [[self kind] isEqualToRecordKind:[record kind]]
         && [self status] == [record status]
         && [[self metadata] isEqualToMetadata:[record metadata]]
         && [[self controlFields] isEqualToArray:[record controlFields]]
@@ -104,7 +104,7 @@
 }
 
 - (NSUInteger)hash {
-    return [self kind]
+    return [[self kind] hash]
          ^ ([self status] << 16)
          ^ [[self metadata] hash]
          ^ [[self controlFields] hash]
@@ -126,7 +126,7 @@
 }
 
 @dynamic kind;
-- (void)setKind:(BibRecordKind)kind {
+- (void)setKind:(BibRecordKind *)kind {
     if (_kind != kind) {
         [self willChangeValueForKey:NSStringFromSelector(@selector(kind))];
         _kind = kind;

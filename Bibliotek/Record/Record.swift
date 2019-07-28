@@ -25,9 +25,9 @@ public struct Record {
     ///
     /// MARC 21 records can represent multiple kinds of information—bibliographic, classification, etc.—which each use
     /// different schemas to present their information.
-    public var kind: RecordKind {
-        get { return self.storage.kind }
-        set { self.mutate(keyPath: \.kind, with: newValue) }
+    public var kind: RecordKind? {
+        get { return self.storage.kind as RecordKind? }
+        set { self.mutate(keyPath: \.kind, with: newValue as BibRecordKind?) }
     }
 
     /// The record's current status in the database it was fetched from.
@@ -82,7 +82,7 @@ extension Record: Hashable, Equatable {
 extension Record: CustomStringConvertible, CustomPlaygroundDisplayConvertible {
     public var description: String { return self.storage.description }
 
-    public var playgroundDescription: Any { return ["kind": self.kind.description,
+    public var playgroundDescription: Any { return ["kind": self.kind?.description ?? "unset",
                                                     "status": String(format: "%c", self.status.rawValue),
                                                     "meatdata": self.metadata,
                                                     "controlFields": self.contentFields,

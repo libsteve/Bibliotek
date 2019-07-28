@@ -11,6 +11,7 @@
 
 @class BibControlField;
 @class BibContentField;
+@class BibRecordKind;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -27,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// MARC 21 records can represent multiple kinds of information—bibliographic, classification, etc.—which each use
 /// different schemas to present their information.
-@property (nonatomic, assign, readonly) BibRecordKind kind;
+@property (nonatomic, strong, readonly, nullable) BibRecordKind *kind;
 
 /// The record's current status in the database it was fetched from.
 @property (nonatomic, assign, readonly) BibRecordStatus status;
@@ -43,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// \returns Returns a valid MARC 21 record for some item or entity described by the given fields.
 /// \discussion More information about MARC 21 records can be found in the Library of Congress's documentation on
 /// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html
-- (instancetype)initWithKind:(BibRecordKind)kind
+- (instancetype)initWithKind:(nullable BibRecordKind *)kind
                       status:(BibRecordStatus)status
                     metadata:(BibMetadata *)metadata
                controlFields:(NSArray<BibControlField *> *)controlFields
@@ -54,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// \returns Returns a valid MARC 21 record for some item or entity described by the given fields.
 /// \discussion More information about MARC 21 records can be found in the Library of Congress's documentation on
 /// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html
-+ (instancetype)recordWithKind:(BibRecordKind)kind
++ (instancetype)recordWithKind:(nullable BibRecordKind *)kind
                         status:(BibRecordStatus)status
                       metadata:(BibMetadata *)metadata
                  controlFields:(NSArray<BibControlField *> *)controlFields
@@ -87,7 +88,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// MARC 21 records can represent multiple kinds of information—bibliographic, classification, etc.—which each use
 /// different schemas to present their information.
-@property (nonatomic, assign, readwrite) BibRecordKind kind;
+@property (nonatomic, readwrite, nullable) BibRecordKind *kind;
 
 /// The record's current status in the database it was fetched from.
 @property (nonatomic, assign, readwrite) BibRecordStatus status;

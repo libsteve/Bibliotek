@@ -103,15 +103,3 @@ extension Encoding: CustomStringConvertible, CustomPlaygroundDisplayConvertible 
 
     public var playgroundDescription: Any { return self.description }
 }
-
-extension RecordKind: CustomStringConvertible, CustomPlaygroundDisplayConvertible {
-    /// Does a record with this kind represent classification information?
-    public var isClassification: Bool { return __BibRecordKindIsClassification(self) }
-
-    /// Does a record with this kind represent bibliographic information?
-    public var isBibliographic: Bool { return __BibRecordKindIsBibliographic(self) }
-
-    public var description: String { return __BibRecordKindDescription(self) }
-
-    public var playgroundDescription: Any { return self.description }
-}
