@@ -2,7 +2,7 @@
 //  BibMetadata+Internal.h
 //  Bibliotek
 //
-//  Created by Steve Brunwasser on 7/13/19.
+//  Created by Steve Brunwasser on 7/27/19.
 //  Copyright © 2019 Steve Brunwasser. All rights reserved.
 //
 
@@ -14,29 +14,18 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface BibMetadata ()
+@interface BibMetadata (Internal)
 
-@property (nonatomic, copy, readonly) BibMutableLeader *leader;
+@property (nonatomic, strong, readonly) BibLeader *leader;
 
-- (instancetype)initWithLeader:(BibLeader *)leader NS_DESIGNATED_INITIALIZER;
-
-@end
-
-@interface NSString (BibEncoding)
-
-extern NSData *BibUTF8EncodedDataFromMARC8EncodedData(NSData *const data);
-
-+ (nullable NSString *)bib_stringWithData:(NSData *)data
-                                 encoding:(BibEncoding)encoding
-                                    error:(out NSError *_Nullable __autoreleasing *_Nullable)error;
+- (instancetype)initWithLeader:(BibLeader *)leader;
 
 @end
 
-extern NSErrorDomain const BibEncodingErrorDomain;
+@interface BibMutableMetadata (Internal)
 
-typedef NS_ERROR_ENUM(BibEncodingErrorDomain, BibEncodingErrorCode) {
-    BibEncodingUnknownEncodingError NS_SWIFT_NAME(unknownEncoding),
-    BibEncodingMalformedDataError NS_SWIFT_NAME(malformedData)
-} NS_SWIFT_NAME(Encoding.Error);
+@property (nonatomic, strong, readonly) BibMutableLeader *leader;
+
+@end
 
 NS_ASSUME_NONNULL_END

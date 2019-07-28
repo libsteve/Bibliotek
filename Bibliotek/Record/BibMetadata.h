@@ -10,7 +10,46 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#pragma mark Encoding
+/// An index type used to reference implementation-specific data from a record's leader.
+typedef NS_CLOSED_ENUM(NSUInteger, BibReservedPosition) {
+    BibReservedPosition07 NS_SWIFT_NAME(at07) =  7,
+    BibReservedPosition08 NS_SWIFT_NAME(at08) =  8,
+    BibReservedPosition17 NS_SWIFT_NAME(at17) = 17,
+    BibReservedPosition18 NS_SWIFT_NAME(at18) = 18,
+    BibReservedPosition19 NS_SWIFT_NAME(at19) = 19
+} NS_SWIFT_NAME(ReservedPosition);
+
+#pragma mark - Metadata
+
+/// A collection of information describing the type and state of a record.
+@interface BibMetadata : NSObject
+
+- (char)valueForReservedPosition:(BibReservedPosition)position;
+
+@end
+
+@interface BibMetadata (Copying) <NSCopying, NSMutableCopying>
+@end
+
+@interface BibMetadata (Equality)
+
+/// Determine whether or not the given metadata describes the same type of record as the receiver.
+///
+/// \param metadata The set of metadata with which the receiver should be compared.
+/// \returns Returns \c YES if the given metadata and the receiver describe the same type of record.
+- (BOOL)isEqualToMetadata:(BibMetadata *)metadata;
+
+@end
+
+#pragma mark - Mutable Metadata
+
+@interface BibMutableMetadata : BibMetadata
+
+- (void)setValue:(char)value forReservedPosition:(BibReservedPosition)index;
+
+@end
+
+#pragma mark - Encoding
 
 /// The character encoding used to represent textual data.
 typedef NS_ENUM(char, BibEncoding) {
@@ -113,65 +152,5 @@ typedef NS_ENUM(char, BibRecordStatus) {
 
     BibRecordStatusIncreaseInEncodingLevelFromPrePublication = 'p'
 } NS_SWIFT_NAME(RecordStatus);
-
-#pragma mark - Implementation Defined Values
-
-/// An index type used to reference implementation-specific data from a record's leader.
-typedef NS_CLOSED_ENUM(NSUInteger, BibImplementationDefinedValueIndex) {
-    BibImplementationDefinedValueIndex07 NS_SWIFT_NAME(at07) =  7,
-    BibImplementationDefinedValueIndex08 NS_SWIFT_NAME(at08) =  8,
-    BibImplementationDefinedValueIndex17 NS_SWIFT_NAME(at17) = 17,
-    BibImplementationDefinedValueIndex18 NS_SWIFT_NAME(at18) = 18,
-    BibImplementationDefinedValueIndex19 NS_SWIFT_NAME(at19) = 19
-} NS_SWIFT_NAME(LeaderImplementationDefinedValueIndex);
-
-#pragma mark - Metadata
-
-/// A collection of information describing the type and state of a record.
-@interface BibMetadata : NSObject
-
-/// The type of information represented by the record.
-@property (nonatomic, assign, readonly) BibRecordKind kind;
-
-/// The type of change last applied to the record in its originating database.
-@property (nonatomic, assign, readonly) BibRecordStatus status;
-
-/// Create a set of metadata for some record.
-///
-/// \param kind The type of information represented by some record.
-- (instancetype)initWithKind:(BibRecordKind)kind status:(BibRecordStatus)status NS_DESIGNATED_INITIALIZER;
-
-+ (instancetype)metadataWithKind:(BibRecordKind)kind status:(BibRecordStatus)status NS_SWIFT_UNAVAILABLE("Use init(kind:status:)");
-
-- (char)implementationDefinedValueAtIndex:(BibImplementationDefinedValueIndex)index;
-
-@end
-
-@interface BibMetadata (Copying) <NSCopying, NSMutableCopying>
-@end
-
-@interface BibMetadata (Equality)
-
-/// Determine whether or not the given metadata describes the same type of record as the receiver.
-///
-/// \param metadata The set of metadata with which the receiver should be compared.
-/// \returns Returns \c YES if the given metadata and the receiver describe the same type of record.
-- (BOOL)isEqualToMetadata:(BibMetadata *)metadata;
-
-@end
-
-#pragma mark -
-
-@interface BibMutableMetadata : BibMetadata
-
-/// The type of information represented by the record.
-@property (nonatomic, assign, readwrite) BibRecordKind kind;
-
-/// The type of change last applied to the record in its originating database.
-@property (nonatomic, assign, readwrite) BibRecordStatus status;
-
-- (void)setImplementationDefinedValue:(char)value atIndex:(BibImplementationDefinedValueIndex)index;
-
-@end
 
 NS_ASSUME_NONNULL_END

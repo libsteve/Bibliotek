@@ -167,7 +167,7 @@ static NSUInteger sReadUnsignedInteger(NSData *const data, NSRange const range) 
     return buffer[0];
 }
 
-- (char)implementationDefinedValueAtIndex:(BibImplementationDefinedValueIndex)index {
+- (char)valueForReservedPosition:(BibReservedPosition)index {
     uint8_t byte;
     [[self rawData] getBytes:&byte range:NSMakeRange(index, 1)];
     return byte;
@@ -251,7 +251,7 @@ static void sWriteUnsignedInteger(NSMutableData *const data, NSRange const range
     [self didChangeValueForKey:key];
 }
 
-- (void)setImplementationDefinedValue:(char)value atIndex:(BibImplementationDefinedValueIndex)index {
+- (void)setValue:(char)value forReservedPosition:(BibReservedPosition)index {
     NSString *const key = NSStringFromSelector(@selector(recordEncoding));
     [self willChangeValueForKey:key];
     NSMutableData *const data = [[self rawData] mutableCopy];

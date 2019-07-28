@@ -101,7 +101,7 @@ NS_SWIFT_NAME(MutableLeader)
 @property (nonatomic, readonly) BibEncoding recordEncoding;
 
 /// Implementation defined bytes
-- (char)implementationDefinedValueAtIndex:(BibImplementationDefinedValueIndex)index;
+- (char)valueForReservedPosition:(BibReservedPosition)position;
 
 @end
 
@@ -140,7 +140,7 @@ NS_SWIFT_NAME(MutableLeader)
 /// The character encoding used to represent textual information within the record.
 @property (nonatomic, readwrite) BibEncoding recordEncoding;
 
-- (void)setImplementationDefinedValue:(char)value atIndex:(BibImplementationDefinedValueIndex)index;
+- (void)setValue:(char)value forReservedPosition:(BibReservedPosition)index;
 
 @end
 

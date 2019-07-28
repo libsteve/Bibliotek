@@ -264,24 +264,20 @@ static NSError *sControlFieldMissingTerminatorError() {
         if (error) { *error = [self streamError]; }
         return nil;
     }
-    NSUInteger const length = [directoryEntry range].length;
-    uint8_t *const bytes = alloca(length);
-    if (![_inputStream readBytes:bytes length:length error:error]) {
-        _streamStatus = NSStreamStatusError;
-        return nil;
-    }
-    if (length == 0 || bytes[length - 1] != kFieldTerminator) {
-        _streamStatus = NSStreamStatusError;
-        _streamError = sControlFieldMissingTerminatorError();
-        if (error) { *error = [self streamError]; }
-        return nil;
-    }
-    NSError *stringError = nil;
-    NSData *const data = [NSData dataWithBytes:bytes length:(length - 1)];
-    NSString *value = [NSString bib_stringWithData:data encoding:[leader recordEncoding] error:&stringError];
+    NSUInteger const length = [directoryEntry range].length - 1;
+    NSString *const value = [_inputStream readStringWithLength:length bibEncoding:[leader recordEncoding] error:error];
     if (value == nil) {
         _streamStatus = NSStreamStatusError;
-        _streamError = stringError;
+        return nil;
+    }
+    uint8_t byte;
+    if (![_inputStream readByte:&byte error:error]) {
+        _streamStatus = NSStreamStatusError;
+        return nil;
+    }
+    if (byte != kFieldTerminator) {
+        _streamStatus = NSStreamStatusError;
+        _streamError = sControlFieldMissingTerminatorError();
         if (error) { *error = [self streamError]; }
         return nil;
     }
@@ -352,8 +348,10 @@ static NSError *sSubfieldContentContainsRecordTerminatorError() {
         switch (byte) {
             case kFieldTerminator:
             case kSubfieldDelimiter: {
-                BibEncoding const encoding = [leader recordEncoding];
-                NSString *const content = [NSString bib_stringWithData:data encoding:encoding error:&streamError];
+                BibInputStream *const inputStream = [[[BibInputStream alloc] initWithData:data] open];
+                NSString *const content = [inputStream readStringWithLength:[data length]
+                                                                bibEncoding:[leader recordEncoding]
+                                                                      error:&streamError];
                 if (content == nil) {
                     _streamStatus = NSStreamStatusError;
                     _streamError = streamError;
