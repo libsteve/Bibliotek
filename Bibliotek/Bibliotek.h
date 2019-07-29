@@ -32,3 +32,13 @@ FOUNDATION_EXPORT const unsigned char BibliotekVersionString[];
 
 #import "BibInputStream.h"
 #import "BibMARCInputStream.h"
+
+#import "BibBibliographicRecord.h"
+#import "BibISBN.h"
+#import "BibTitleStatement.h"
+#import "BibItemDescription.h"
+#import "BibContentDescription.h"
+
+#import "BibClassificationNumber.h"
+#import "BibDDClassificationNumber.h"
+#import "BibLCClassificationNumber.h"
