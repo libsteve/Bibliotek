@@ -83,10 +83,7 @@ class BibliotekTests: XCTestCase {
         XCTAssertNotNil(record)
     }
 
-    // NOTE: The information for the following tests is real data pertaining to "In the Land of Invented Languages"—a great book—and is provided by the Library of Congress's VOYAGER database.
-
-    /*
-    func testFetchIsbn() {
+    func testFetchWithIsbn() {
         do {
             let c = try Connection(host: "z3950.loc.gov", port: 7090, database: "VOYAGER")
             let r = MutableFetchRequest()
@@ -96,24 +93,20 @@ class BibliotekTests: XCTestCase {
             r.strategy = .strict
             let rs = try c.fetchRecords(request: r)
             XCTAssertEqual(rs.count, 1)
-            let record = rs.first
-            XCTAssertNotNil(record)
-            XCTAssertTrue(record is BibliographicRecord)
-            let field = record?.fields.first(where: { $0.tag == "020" })
-            XCTAssertNotNil(field)
-            let isbn13Field = field as? Record.DataField
+            guard let record = rs.first else { return XCTFail("Failure to fetch record by ISBN") }
+            XCTAssertTrue(record.kind?.isBibliographicKind ?? false)
+            let isbn13Field = record.contentFields.first(where: { $0.tag == "020" })
             XCTAssertNotNil(isbn13Field)
-            guard let subfields = isbn13Field?.subfields else { return }
-            XCTAssertEqual(subfields.count, 1)
-            let isbn13Subfield = subfields.first(where: { $0.code == "a" })
-            XCTAssertNotNil(isbn13Subfield)
-            guard let isbn13 = isbn13Subfield?.content else { return }
+            XCTAssertEqual(isbn13Field?.subfields.count, 1)
+            let isbn13 = isbn13Field?.subfields.first(where: { $0.code == "a" }).map { $0.content }
+            XCTAssertNotNil(isbn13)
             XCTAssertEqual(isbn13, r.keywords.first!)
         } catch {
             XCTFail("Connection could not be made. \(error)")
         }
     }
-    */
+
+    // NOTE: The information for the following tests is real data pertaining to "In the Land of Invented Languages"—a great book—and is provided by the Library of Congress's VOYAGER database.
 
     /*
     func testLccClassification() {
