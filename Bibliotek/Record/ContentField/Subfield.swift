@@ -100,3 +100,11 @@ extension Subfield: _ObjectiveCBridgeable {
 extension BibSubfield: CustomPlaygroundDisplayConvertible {
     public var playgroundDescription: Any { return (self as Subfield).playgroundDescription }
 }
+
+// MARK: - Subfield Code
+
+extension SubfieldCode: ExpressibleByStringLiteral {
+    public init(stringLiteral value: String) {
+        self.init(rawValue: value)
+    }
+}
