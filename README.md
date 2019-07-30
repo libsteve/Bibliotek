@@ -34,16 +34,24 @@ let records = try! connection.fetchRecords(request: request)
 With a record, you can access information about the title, author, subject, and more.
 
 ```swift
-let record = records.first as! BibliographicRecord
-record.isbns
-record.callNumbers
-record.titleStatement
-record.author
-record.editions
-record.publications
-record.contents
-record.summaries
-record.subjectHeadings
+extension FieldTag {
+    static let isbn13: FieldTag = "020"
+    static let locCallNumber: FieldTag = "050"
+    static let ddcNumber: FieldTag = "082"
+    static let titleStatement: FieldTag = "245"
+}
+
+extension Array where Element == ContentField {
+    func first(with tag: FieldTag) -> ContentField? {
+        return self.first(where: { $0.tag == tag })
+    }
+}
+
+let record = records.first!
+record.contentFields.first(with: .isbn13)
+record.contentFields.first(with: .locCallNumber)
+record.contentFields.first(with: .ddcNumber)
+record.contentFields.first(with: .titleStatement)
 ```
 
 Instructions
@@ -51,7 +59,7 @@ Instructions
 
 Clone the repository and all its submodules to your local machine.
 
-        git clone --recurse-submodules https://github.com/Altece/Bibliotek.git
+        git clone --recurse-submodules https://github.com/stevebrun/Bibliotek.git
 
 When you build the `Bibliotek` target for the first time, the `./configure` script will be run to install
 prerequisite tools with [Homebrew][brew] before proceeding to build YAZ into the project's build product's directory.

@@ -17,13 +17,28 @@ let records: RecordList = try! connection.fetchRecords(request: request)
 
 //: With a record, you can access information about the title, author, subject, and more.
 
-let record = records.first as! BibliographicRecord
-record.isbns
-record.callNumbers
-record.titleStatement
-record.author
-record.editions
-record.publications
-record.contents
-record.summaries
-record.subjectHeadings
+let record = records.first!
+
+extension FieldTag {
+    static let isbn13: FieldTag = "020"
+    static let locCallNumber: FieldTag = "050"
+    static let ddcNumber: FieldTag = "082"
+    static let titleStatement: FieldTag = "245"
+}
+
+extension Array where Element == ContentField {
+    func first(with tag: FieldTag) -> ContentField? {
+        return self.first(where: { $0.tag == tag })
+    }
+}
+
+extension ContentField {
+    var contentDescription: String {
+        self.subfields.map { $0.content }.joined(separator: " ")
+    }
+}
+
+record.contentFields.first(with: .isbn13)!.contentDescription
+record.contentFields.first(with: .locCallNumber)!.contentDescription
+record.contentFields.first(with: .ddcNumber)!.contentDescription
+record.contentFields.first(with: .titleStatement)!.contentDescription
