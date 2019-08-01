@@ -21,9 +21,18 @@ typedef NS_CLOSED_ENUM(NSUInteger, BibReservedPosition) {
 
 #pragma mark - Metadata
 
-/// A collection of information describing the type and state of a record.
+/// A collection of bytes embeded within a MARC record's leader.
+///
+/// The significance of these metadata values are specific to the scheme used to encode the MARC record.
+/// The reserved bytes are located at index \c 7, \c 8, \c 17, \c 18, and \c 19 within the record leader.
+///
+/// Use a record's \c kind to determine how to interpret these metadata values.
 @interface BibMetadata : NSObject
 
+/// Retrieve the byte stored within the reserved position in the MARC record's leader.
+///
+/// \param position The index location of the desired byte in the record's leader.
+/// \returns The byte held at the reserved location in the record's leader.
 - (int8_t)valueForReservedPosition:(BibReservedPosition)position NS_SWIFT_NAME(value(forReservedPosition:));
 
 @end
@@ -43,16 +52,26 @@ typedef NS_CLOSED_ENUM(NSUInteger, BibReservedPosition) {
 
 #pragma mark - Mutable Metadata
 
+/// A collection of bytes embeded within a MARC record's leader.
+///
+/// The significance of these metadata values are specific to the scheme used to encode the MARC record.
+/// The reserved bytes are located at index \c 7, \c 8, \c 17, \c 18, and \c 19 within the record leader.
+///
+/// Use a record's \c kind to determine how to interpret these metadata values.
 @interface BibMutableMetadata : BibMetadata
 
-- (void)setValue:(int8_t)value forReservedPosition:(BibReservedPosition)index
+/// Set the byte value within the reserved position in the MARC record's leader.
+///
+/// \param value The byte to store within the record's leader.
+/// \param position The index location of the desired byte in the record's leader.
+- (void)setValue:(int8_t)value forReservedPosition:(BibReservedPosition)position
     NS_SWIFT_NAME(setValue(_:forReservedPosition:));
 
 @end
 
 #pragma mark - Encoding
 
-/// The character encoding used to represent textual data.
+/// The character encoding used to represent textual data in a MARC record.
 typedef NS_ENUM(char, BibEncoding) {
     /// MARC8 Encoding
     ///
@@ -66,6 +85,9 @@ typedef NS_ENUM(char, BibEncoding) {
 } NS_SWIFT_NAME(Encoding);
 
 /// A human-readable description of the encoding.
+///
+/// \param encoding The string encoding used to represent textual data.
+/// \returns A human-readable description of \c encoding.
 NSString *BibEncodingDescription(BibEncoding const encoding) NS_REFINED_FOR_SWIFT;
 
 #pragma mark - Record Status

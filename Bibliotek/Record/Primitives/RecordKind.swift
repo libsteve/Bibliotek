@@ -12,6 +12,8 @@ import Foundation
 ///
 /// MARC 21 records can represent multiple kinds of information—bibliographic, classification, etc.—which each use
 /// different schemas to present their information.
+///
+/// Use this value to determine how tags and subfield codes should be used to interpret a record's content.
 public struct RecordKind: RawRepresentable {
     private var _storage: BibRecordKind
 

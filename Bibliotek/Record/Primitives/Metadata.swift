@@ -8,13 +8,23 @@
 
 import Foundation
 
+/// A collection of bytes embeded within a MARC record's leader.
+///
+/// The significance of these metadata values are specific to the scheme used to encode the MARC record.
+/// The reserved bytes are located at index `7`, `8`, `17`, `18`, and `19` within the record leader.
+///
+/// Use a record's `kind` to determine how to interpret these metadata values.
 public struct Metadata {
     private var _storage: BibMetadata!
     private var _mutableStorage: BibMutableMetadata!
     private var storage: BibMetadata! { return self._storage ?? self._mutableStorage }
 
+    /// Retrieve the byte stored within the reserved position in the MARC record's leader.
+    ///
+    /// - parameter position: The index location of the desired byte in the record's leader.
+    /// - returns: The byte held at the reserved location in the record's leader.
     public subscript(position: ReservedPosition) -> Int8 {
-        get { self.storage.value(forReservedPosition: position) }
+        get { return self.storage.value(forReservedPosition: position) }
         set {
             if self._mutableStorage ==  nil {
                 precondition(self._storage != nil)
@@ -31,6 +41,7 @@ public struct Metadata {
         self._storage = storage.copy() as? BibMetadata
     }
 
+    /// Create an empty set of metadata.
     public init() {
         self._storage = BibMetadata()
     }
@@ -47,7 +58,7 @@ extension Metadata: Hashable, Equatable {
 }
 
 extension Metadata: CustomStringConvertible, CustomPlaygroundDisplayConvertible {
-    public var description: String { self.storage.description }
+    public var description: String { return self.storage.description }
 
     public var playgroundDescription: Any {
         return ReservedPosition.allCases.map { String(format: "%c", self[$0]) }

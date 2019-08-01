@@ -10,12 +10,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// A string identifier used by a subfield to semantically label its contents.
+///
+/// MARC 21 subfield codes are always a single ASCII graphic character.
 typedef NSString *BibSubfieldCode NS_EXTENSIBLE_STRING_ENUM NS_SWIFT_NAME(SubfieldCode);
 
-/// \brief A portion of data within a record data field.
-/// \discussion Data fields hold data within labeled subfields.
-/// Each subfield's identifier marks the semantic meaning of its content, which is determined by the record field's tag
-/// as defined in the appropriate MARC 21 format specification.
+/// A portion of data in a content field semantically identified by its \c code.
+///
+/// Content fields hold data within labeled subfields. Each subfield's identifier marks the semantic meaning of its
+/// content, which is determined by the record field's tag as defined in the appropriate MARC 21 format specification.
 @interface BibSubfield : NSObject
 
 /// A record subfield's identifier identifies the semantic purpose of the content within a subfield.
@@ -52,10 +55,10 @@ typedef NSString *BibSubfieldCode NS_EXTENSIBLE_STRING_ENUM NS_SWIFT_NAME(Subfie
 
 #pragma mark - Mutable
 
-/// \brief A portion of data within a record data field.
-/// \discussion Data fields hold data within labeled subfields.
-/// Each subfield's identifier marks the semantic meaning of its content, which is determined by the record field's tag
-/// as defined in the appropriate MARC 21 format specification.
+/// A mutable portion of data in a content field semantically identified by its \c code.
+///
+/// Content fields hold data within labeled subfields. Each subfield's identifier marks the semantic meaning of its
+/// content, which is determined by the record field's tag as defined in the appropriate MARC 21 format specification.
 @interface BibMutableSubfield : BibSubfield
 
 /// A record subfield's identifier identifies the semantic purpose of the content within a subfield.

@@ -8,11 +8,10 @@
 
 import Foundation
 
-/// A portion of data within a record data field.
+/// A portion of data in a content field semantically identified by its \c code.
 ///
-/// Data fields hold data within labeled subfields.
-/// Each subfield's identifier marks the semantic meaning of its content, which is determined by the record field's tag
-/// as defined in the appropriate MARC 21 format specification.
+/// Content fields hold data within labeled subfields. Each subfield's identifier marks the semantic meaning of its
+/// content, which is determined by the record field's tag as defined in the appropriate MARC 21 format specification.
 public struct Subfield {
     private var _storage: BibSubfield!
     private var _mutableStorage: BibMutableSubfield!

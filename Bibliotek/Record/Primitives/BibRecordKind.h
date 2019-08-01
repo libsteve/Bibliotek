@@ -14,12 +14,22 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// MARC 21 records can represent multiple kinds of information—bibliographic, classification, etc.—which each use
 /// different schemas to present their information.
+///
+/// Use this value to determine how tags and subfield codes should be used to interpret a record's content.
 @interface BibRecordKind : NSObject
 
+/// The raw character value used in a record's leader to indicate the record's kind.
 @property (nonatomic, assign, readonly) uint8_t rawValue;
 
+/// Create a \c BibRecordKind instance using the given byte.
+///
+/// \param rawValue The character value in a record's leader that indicates a record's kind.
 - (nullable instancetype)initWithRawValue:(uint8_t)rawValue;
 
+/// Create a \c BibRecordKind instance using the given byte.
+///
+/// \param rawValue The character value in a record's leader that indicates a record's kind.
+/// \returns An instance of \c BibRecordKind when given a \c rawValue representing a known record kind.
 + (nullable instancetype)recordKindWithRawValue:(uint8_t)rawValue NS_SWIFT_UNAVAILABLE("Use init(rawValue:)");
 
 - (instancetype)init NS_UNAVAILABLE;
@@ -31,6 +41,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface BibRecordKind (Equality)
 
+/// Is the given record kind equivalent to the receiver?
+///
+/// \param recordKind The record kind with which the receiver should be compared.
+/// \returns Returns \c YES if the given record kind and the receiver are equivalent.
 - (BOOL)isEqualToRecordKind:(BibRecordKind *)recordKind;
 
 @end

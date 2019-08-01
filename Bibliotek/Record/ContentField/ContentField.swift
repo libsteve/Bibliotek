@@ -8,10 +8,32 @@
 
 import Foundation
 
-/// A content field contains information and metadata contained within the record.
+/// A set of information and metadata about the item represented by a MARC record.
+///
+/// The semantic meaning of a content field is indicated by its `tag` value, and its `indicators` are used as flags
+/// that determine how the data in its subfields should be interpreted or displayed.
+///
+/// Content fields are composed of `subfields`, which are portions of data semantically identified by their `code`.
+/// The interpretation of data within a content field is often determined by the formatting of its subfields' contents.
+/// For example, a bibliographic record's title statement, identified with the tag `245`, formats its content using
+/// ISBD principles and uses subfield codes to semantically tag each piece of the full statement.
+///
+/// You can read more about ISBD on its Wikipedia page:
+/// [https://en.wikipedia.org/wiki/International_Standard_Bibliographic_Description][isbd-wikipedia].
 ///
 /// More information about MARC 21 records can be found in the Library of Congress's documentation on
-/// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html
+/// MARC 21 Record Structure: [https://www.loc.gov/marc/specifications/spechome.html][spec-home]
+///
+/// More information about bibliographic records' content fields can be found in the Library of Congress's documentation
+/// on bibliographic records: [http://www.loc.gov/marc/bibliographic/][bib-docs]
+///
+/// More information about classification records' content fields can be found in the Library of Congress's
+/// documentation on classification records: [https://www.loc.gov/marc/classification/][class-docs]
+///
+/// [bib-docs]: http://www.loc.gov/marc/bibliographic/
+/// [class-docs]: https://www.loc.gov/marc/classification/
+/// [spec-home]: https://www.loc.gov/marc/specifications/spechome.html
+/// [isbd-wikipedia]: https://en.wikipedia.org/wiki/International_Standard_Bibliographic_Description
 public struct ContentField {
     private var _storage: BibContentField!
     private var _mutableStorage: BibMutableContentField!
@@ -23,11 +45,21 @@ public struct ContentField {
         set { self.mutate(keyPath: \.tag, with: newValue as BibFieldTag) }
     }
 
+    /// A collection of byte flags which can indicate how the content field should be interpreted or displayed.
     public var indicators: ContentIndicatorList {
         get { return self.storage.indicators as ContentIndicatorList }
         set { self.mutate(keyPath: \.indicators, with: newValue as BibContentIndicatorList) }
     }
 
+    /// An ordered list of subfields containing portions of data semantically identified by their `code`.
+    /// The interpretation of data within a content field is often determined by the formatting of its subfields'
+    /// contents. For example, a bibliographic record's title statement, identified with the tag `245`, formats its
+    /// content using ISBD principles and uses subfield codes to semantically tag each piece of the full statement.
+    ///
+    /// You can read more about ISBD on its Wikipedia page:
+    /// [https://en.wikipedia.org/wiki/International_Standard_Bibliographic_Description][isbd-wikipedia]
+    ///
+    /// [isbd-wikipedia]: https://en.wikipedia.org/wiki/International_Standard_Bibliographic_Description
     public var subfields: [Subfield] {
         get { return self.storage.subfields as [Subfield] }
         set { self.mutate(keyPath: \.subfields, with: newValue as [BibSubfield]) }

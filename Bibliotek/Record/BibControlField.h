@@ -12,10 +12,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// \brief A control field contains information and metadata pertaining to the processing of a record's data.
+/// \brief A control field contains information and metadata about how a record's content should be processed.
 ///
 /// More information about MARC 21 records can be found in the Library of Congress's documentation on
-/// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html
+/// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/spechome.html
+///
+/// Information about Bibliographic control fields can be found in the Library of Congress's documentation:
+/// http://www.loc.gov/marc/bibliographic/bd00x.html
+///
+/// Information about Classification control fields can be found in the Library of Congress's documentation:
+/// https://www.loc.gov/marc/classification/cd00x.html
 @interface BibControlField : NSObject
 
 /// A value indicating the semantic purpose of the control field.

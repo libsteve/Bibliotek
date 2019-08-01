@@ -12,6 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// A 3-character value identifying the semantic purpose of a record field.
 ///
+/// More information about the tags used with MARC 21 records can be found in the Library of Congress's documentation on
+/// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/spechome.html
+///
 /// \note MARC 21 tags are always 3 digit codes.
 @interface BibFieldTag : NSObject
 

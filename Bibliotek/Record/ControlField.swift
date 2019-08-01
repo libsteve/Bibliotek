@@ -8,10 +8,20 @@
 
 import Foundation
 
-/// A control field contains information and metadata pertaining to the processing of a record's data.
+/// A control field contains information and metadata about how a record's content should be processed.
 ///
 /// More information about MARC 21 records can be found in the Library of Congress's documentation on
-/// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html
+/// MARC 21 Record Structure: [https://www.loc.gov/marc/specifications/spechome.html][spec-home]
+///
+/// Information about Bibliographic control fields can be found in the Library of Congress's documentation:
+/// [http://www.loc.gov/marc/bibliographic/bd00x.html][bib-control]
+///
+/// Information about Classification control fields can be found in the Library of Congress's documentation:
+/// [https://www.loc.gov/marc/classification/cd00x.html][cls-control]
+///
+/// [spec-home]: https://www.loc.gov/marc/specifications/spechome.html
+/// [bib-control]: http://www.loc.gov/marc/bibliographic/bd00x.html
+/// [cls-control]: https://www.loc.gov/marc/classification/cd00x.html
 public struct ControlField {
     private var _storage: BibControlField!
     private var _mutableStorage: BibMutableControlField!

@@ -15,35 +15,49 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// \brief A collection of information pertaining to some item or entity organized using the MARC 21 standard.
-/// \discussion MARC 21 records are comprised of a leader that contains basic metadata about the record itself, a set of
-/// control fields storing semantic metadata about the record; and a set of data fields that provide the bibliographic
-/// or other data describing the record's item or entity.
+/// A collection of information about an item or entity organized using the MARC 21 standard.
+///
+/// MARC 21 records are comprised of metadata about the record itself, a set of control fields storing metadata about
+/// how the record should be processed, and a set of control fields that provide bibliographic, classification,
+/// or other data describing the represented item or entity.
 ///
 /// More information about MARC 21 records can be found in the Library of Congress's documentation on
-/// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html
+/// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/spechome.html
 @interface BibRecord : NSObject
 
 /// The type of data represented by the record.
 ///
 /// MARC 21 records can represent multiple kinds of information—bibliographic, classification, etc.—which each use
 /// different schemas to present their information.
+///
+/// Use this field to determine how tags and subfield codes should be used to interpret field content.
 @property (nonatomic, strong, readonly, nullable) BibRecordKind *kind;
 
 /// The record's current status in the database it was fetched from.
 @property (nonatomic, assign, readonly) BibRecordStatus status;
 
+/// Implementation-defined metadata from the MARC record's leader.
+///
+/// MARC records can have arbitrary implementation-defined data embeded in their leader.
+/// The reserved bytes are located at index \c 7, \c 8, \c 17, \c 18, and \c 19 within the record leader.
+///
+/// Use this field to access those bytes, which should be interpreted using the scheme identified in \c kind.
 @property (nonatomic, copy, readonly) BibMetadata *metadata;
 
+/// An ordered list of fields containing information and metadata about how a record's content should be processed.
 @property (nonatomic, copy, readonly) NSArray<BibControlField *> *controlFields;
 
+/// An ordered list of fields containing information and metadata about the item represented by a record.
 @property (nonatomic, copy, readonly) NSArray<BibContentField *> *contentFields;
 
-/// Create a MARC 21 record containing data from the given leader, control fields, and data fields.
+/// Create a MARC 21 record with the given data.
 ///
+/// \param kind The type of record.
+/// \param status The record's status in its originating database.
+/// \param metadata A set of implementation-defined bytes.
+/// \param controlFields An ordered list of fields describing how the record should be processed.
+/// \param contentFields An ordered list of fields describing the item represented by the record.
 /// \returns Returns a valid MARC 21 record for some item or entity described by the given fields.
-/// \discussion More information about MARC 21 records can be found in the Library of Congress's documentation on
-/// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html
 - (instancetype)initWithKind:(nullable BibRecordKind *)kind
                       status:(BibRecordStatus)status
                     metadata:(BibMetadata *)metadata
@@ -53,8 +67,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// Create a MARC 21 record containing data from the given leader, control fields, and data fields.
 ///
 /// \returns Returns a valid MARC 21 record for some item or entity described by the given fields.
-/// \discussion More information about MARC 21 records can be found in the Library of Congress's documentation on
-/// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html
 + (instancetype)recordWithKind:(nullable BibRecordKind *)kind
                         status:(BibRecordStatus)status
                       metadata:(BibMetadata *)metadata
@@ -82,6 +94,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Mutable
 
+/// A mutable collection of information about an item or entity organized using the MARC 21 standard.
+///
+/// MARC 21 records are comprised of metadata about the record itself, a set of control fields storing metadata about
+/// how the record should be processed, and a set of control fields that provide bibliographic, classification,
+/// or other data describing the represented item or entity.
+///
+/// More information about MARC 21 records can be found in the Library of Congress's documentation on
+/// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/spechome.html
 @interface BibMutableRecord : BibRecord
 
 /// The type of data represented by the record.
