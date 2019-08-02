@@ -102,9 +102,44 @@ NSErrorDomain const BibMARCInputStreamErrorDomain = @"BibMARCInputStreamErrorDom
     return self;
 }
 
+- (BOOL)isStreamStatusOpen:(out NSError *__autoreleasing *)error {
+    switch ([self streamStatus]) {
+        case NSStreamStatusOpen:
+            return YES;
+        case NSStreamStatusError:
+            if (error) { *error = [self streamError]; }
+            return NO;
+        case NSStreamStatusNotOpen:
+            if (error) {
+                static NSString *const message = @"An input stream must be opened before data can be read";
+                *error = [NSError errorWithDomain:BibMARCInputStreamErrorDomain
+                                             code:BibMARCInputStreamNotOpenedError
+                                         userInfo:@{ NSDebugDescriptionErrorKey : message }];
+            }
+            return NO;
+        case NSStreamStatusClosed:
+            if (error) {
+                static NSString *const message = @"A closed input stream cannot read data";
+                *error = [NSError errorWithDomain:BibMARCInputStreamErrorDomain
+                                             code:BibMARCInputStreamNotOpenedError
+                                         userInfo:@{ NSDebugDescriptionErrorKey : message }];
+            }
+            return NO;
+        default:
+            if (error) {
+                NSStreamStatus const status = [self streamStatus];
+                NSString *const message =
+                    [NSString stringWithFormat:@"Cannot read data from an input stream with status %lu", status];
+                *error = [NSError errorWithDomain:BibMARCInputStreamErrorDomain
+                                             code:BibMARCInputStreamNotOpenedError
+                                         userInfo:@{ NSDebugDescriptionErrorKey : message }];
+            }
+            return NO;
+    }
+}
+
 - (BibRecord *)readRecord:(out NSError *__autoreleasing *)error {
-    if ([self streamStatus] == NSStreamStatusError) {
-        if (error) { *error = [self streamError]; }
+    if (![self isStreamStatusOpen:error]) {
         return nil;
     }
     NSUInteger const initialBytesRead = [_inputStream numberOfBytesRead];
