@@ -27,6 +27,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// You can read more about ISBD on its Wikipedia page:
 /// https://en.wikipedia.org/wiki/International_Standard_Bibliographic_Description
 ///
+/// The ISBD punctuation standard can be found in section A3 in this consolidated technical specification:
+/// https://www.ifla.org/files/assets/cataloguing/isbd/isbd-cons_20110321.pdf
+///
 /// More information about MARC 21 records can be found in the Library of Congress's documentation on
 /// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/spechome.html
 ///
@@ -50,6 +53,9 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// You can read more about ISBD on its Wikipedia page:
 /// https://en.wikipedia.org/wiki/International_Standard_Bibliographic_Description
+///
+/// The ISBD punctuation standard can be found in section A3 in this consolidated technical specification:
+/// https://www.ifla.org/files/assets/cataloguing/isbd/isbd-cons_20110321.pdf
 @property (nonatomic, copy, readonly) NSArray<BibSubfield *> *subfields;
 
 - (instancetype)initWithTag:(BibFieldTag *)tag
@@ -90,6 +96,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// You can read more about ISBD on its Wikipedia page:
 /// https://en.wikipedia.org/wiki/International_Standard_Bibliographic_Description
 ///
+/// The ISBD punctuation standard can be found in section A3 in this consolidated technical specification:
+/// https://www.ifla.org/files/assets/cataloguing/isbd/isbd-cons_20110321.pdf
+///
 /// More information about MARC 21 records can be found in the Library of Congress's documentation on
 /// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/spechome.html
 ///
@@ -113,6 +122,9 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// You can read more about ISBD on its Wikipedia page:
 /// https://en.wikipedia.org/wiki/International_Standard_Bibliographic_Description
+///
+/// The ISBD punctuation standard can be found in section A3 in this consolidated technical specification:
+/// https://www.ifla.org/files/assets/cataloguing/isbd/isbd-cons_20110321.pdf
 @property (nonatomic, copy, readwrite) NSArray<BibSubfield *> *subfields;
 
 @end

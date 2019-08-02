@@ -19,7 +19,10 @@ import Foundation
 /// ISBD principles and uses subfield codes to semantically tag each piece of the full statement.
 ///
 /// You can read more about ISBD on its Wikipedia page:
-/// [https://en.wikipedia.org/wiki/International_Standard_Bibliographic_Description][isbd-wikipedia].
+/// [https://en.wikipedia.org/wiki/International_Standard_Bibliographic_Description][isbd-wikipedia]
+///
+/// The ISBD punctuation standard can be found in section A3 in this consolidated technical specification:
+/// [https://www.ifla.org/files/assets/cataloguing/isbd/isbd-cons_20110321.pdf][isbd-spec]
 ///
 /// More information about MARC 21 records can be found in the Library of Congress's documentation on
 /// MARC 21 Record Structure: [https://www.loc.gov/marc/specifications/spechome.html][spec-home]
@@ -34,6 +37,7 @@ import Foundation
 /// [class-docs]: https://www.loc.gov/marc/classification/
 /// [spec-home]: https://www.loc.gov/marc/specifications/spechome.html
 /// [isbd-wikipedia]: https://en.wikipedia.org/wiki/International_Standard_Bibliographic_Description
+/// [isbd-spec]: https://www.ifla.org/files/assets/cataloguing/isbd/isbd-cons_20110321.pdf
 public struct ContentField {
     private var _storage: BibContentField!
     private var _mutableStorage: BibMutableContentField!
@@ -59,7 +63,11 @@ public struct ContentField {
     /// You can read more about ISBD on its Wikipedia page:
     /// [https://en.wikipedia.org/wiki/International_Standard_Bibliographic_Description][isbd-wikipedia]
     ///
+    /// The ISBD punctuation standard can be found in section A3 in this consolidated technical specification:
+    /// [https://www.ifla.org/files/assets/cataloguing/isbd/isbd-cons_20110321.pdf][isbd-spec]
+    ///
     /// [isbd-wikipedia]: https://en.wikipedia.org/wiki/International_Standard_Bibliographic_Description
+    /// [isbd-spec]: https://www.ifla.org/files/assets/cataloguing/isbd/isbd-cons_20110321.pdf
     public var subfields: [Subfield] {
         get { return self.storage.subfields as [Subfield] }
         set { self.mutate(keyPath: \.subfields, with: newValue as [BibSubfield]) }
