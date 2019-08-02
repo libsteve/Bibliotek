@@ -8,29 +8,50 @@
 
 import Foundation
 
-extension RecordList: Sequence, Collection {
-    public var startIndex: UInt { return 0 }
-    public var endIndex: UInt { return count }
-    public func index(after i: UInt) -> UInt { return i + 1 }
-    public func makeIterator() -> RecordListIterator {
-        return RecordListIterator(__recordEnumerator())
+extension RecordList {
+    public var count: Int { return Int(self.__count) }
+
+    /// A list of all records in this collection.
+    public var allRecords: [Record] { return self.__allRecords as [Record] }
+
+    public var first: Record? { return self.__firstRecord as Record? }
+
+    public var last: Record? { return self.__lastRecord as Record? }
+
+    public subscript(index: Int) -> Record {
+        return self.__record(at: UInt(index)) as Record
+    }
+}
+
+extension RecordList: Sequence, Collection, BidirectionalCollection, RandomAccessCollection {
+    public struct Iterator: IteratorProtocol {
+        private var enumerator: NSEnumerator
+
+        fileprivate init(_ enumerator: NSEnumerator) {
+            self.enumerator = enumerator
+        }
+
+        public mutating func next() -> Record? {
+            if !isKnownUniquelyReferenced(&self.enumerator) {
+                self.enumerator = self.enumerator.copy() as! NSEnumerator
+            }
+            return self.enumerator.nextObject() as? Record
+        }
+    }
+
+    public func makeIterator() -> RecordList.Iterator {
+        return RecordList.Iterator(self.__recordEnumerator())
+    }
+
+    public var startIndex: Int { return 0 }
+
+    public var endIndex: Int { return self.count }
+
+    public func index(after i: Int) -> Int {
+        return i + 1
     }
 }
 
 extension RecordList: CustomPlaygroundDisplayConvertible {
-    public var playgroundDescription: Any {
-        return allRecords
-    }
-}
-
-public class RecordListIterator: IteratorProtocol {
-    private let enumerator: NSEnumerator
-
-    fileprivate init(_ enumerator: NSEnumerator) {
-        self.enumerator = enumerator
-    }
-
-    public func next() -> Record? {
-        return enumerator.nextObject() as? Record
-    }
+    public var playgroundDescription: Any { return self.allRecords }
 }

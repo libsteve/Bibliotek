@@ -2,158 +2,172 @@
 //  BibRecord.m
 //  Bibliotek
 //
-//  Created by Steve Brunwasser on 2/19/19.
+//  Created by Steve Brunwasser on 7/2/19.
 //  Copyright © 2019 Steve Brunwasser. All rights reserved.
 //
 
-#import "BibConstants.h"
 #import "BibRecord.h"
-#import "BibRecordLeader.h"
-#import "BibRecordDirectoryEntry.h"
-#import "BibRecordField.h"
-#import "BibGenericRecordControlField.h"
-#import "BibGenericRecordDataField.h"
-#import "BibRecordSubfield.h"
+#import "BibRecordKind.h"
+#import "BibControlField.h"
+#import "BibContentField.h"
 
-#import "BibClassificationRecord.h"
-#import "BibBibliographicRecord.h"
+@implementation BibRecord {
+@protected
+    BibRecordKind *_kind;
+    BibRecordStatus _status;
+    BibMetadata *_metadata;
+    NSArray<BibControlField *> *_controlFields;
+    NSArray<BibContentField *> *_contentFields;
+}
 
-static NSRange const kLeaderRange = {0, 24};
-static NSUInteger const kDirectoryEntryLength = 12;
+@synthesize kind = _kind;
+@synthesize status = _status;
+@synthesize metadata = _metadata;
+@synthesize controlFields = _controlFields;
+@synthesize contentFields = _contentFields;
 
-@implementation BibRecord
-
-+ (NSDictionary<BibRecordFieldTag,Class> *)recordSchema {
-    return @{};
+- (instancetype)initWithKind:(BibRecordKind *)kind
+                      status:(BibRecordStatus)status
+                    metadata:(BibMetadata *)metadata
+               controlFields:(NSArray<BibControlField *> *)controlFields
+               contentFields:(NSArray<BibContentField *> *)contentFields {
+    if (self = [super init]) {
+        _kind = kind;
+        _status = status;
+        _metadata = [metadata copy];
+        _controlFields = [controlFields copy];
+        _contentFields = [contentFields copy];
+    }
+    return self;
 }
 
 - (instancetype)init {
-    return [self initWithLeader:[BibRecordLeader new] directory:@[] fields:@[]];
+    return [self initWithKind:nil
+                       status:BibRecordStatusNew
+                     metadata:[BibMetadata new]
+                controlFields:[NSArray array]
+                contentFields:[NSArray array]];
 }
 
-- (instancetype)initWithData:(NSData *)data {
-    return [self initWithData:data range:NULL];
-}
-
-- (instancetype)initWithData:(NSData *)data range:(NSRange *)range {
-    NSRange const dataRange = range ? *range : NSMakeRange(0, [data length]);
-    NSData *const recordData = (range) ? data : [data subdataWithRange:dataRange];
-    BibRecordLeader *const leader = [[BibRecordLeader alloc] initWithData:[recordData subdataWithRange:kLeaderRange]];
-    NSUInteger const recordLength = [leader recordLength];
-    NSUInteger const recordBodyLocation = [leader recordBodyLocation];
-    NSMutableArray *const directory = [NSMutableArray array];
-    NSUInteger const directoryBodyLength = recordBodyLocation - NSMaxRange(kLeaderRange) - 1;
-    NSUInteger const directoryEntryCount = directoryBodyLength / kDirectoryEntryLength;
-    for (NSUInteger index = 0; index < directoryEntryCount; index += 1) {
-        NSUInteger const location = index * kDirectoryEntryLength + NSMaxRange(kLeaderRange);
-        NSData *const entryData = [recordData subdataWithRange:NSMakeRange(location, kDirectoryEntryLength)];
-        [directory addObject:[[BibRecordDirectoryEntry alloc] initWithData:entryData]];
-    }
-    self = [self initWithLeader:leader directory:directory data:recordData];
-    if (self && range) {
-        (*range).location += recordLength;
-        (*range).length -= recordLength;
-    }
-    return self;
-}
-
-- (instancetype)initWithLeader:(BibRecordLeader *)leader
-                     directory:(NSArray<BibRecordDirectoryEntry *> *)directory
-                        fields:(NSArray<id<BibRecordField>> *)fields {
-    if ([[self class] isEqual:[BibRecord class]]) {
-        BibRecordKind const recordKind = [leader recordType];
-        if (BibRecordKindIsClassification(recordKind)) {
-            return [[BibClassificationRecord alloc] initWithLeader:leader directory:directory fields:fields];
-        }
-        if (BibRecordKindIsBibliographic(recordKind)) {
-            return [[BibBibliographicRecord alloc] initWithLeader:leader directory:directory fields:fields];
-        }
-    }
-    if (self = [super init]) {
-        _leader = leader;
-        _directory = [directory copy];
-        _fields = [fields copy];
-    }
-    return self;
-}
-
-- (instancetype)initWithLeader:(BibRecordLeader *)leader
-                     directory:(NSArray<BibRecordDirectoryEntry *> *)directory
-                          data:(NSData *)data {
-    if ([[self class] isEqual:[BibRecord class]]) {
-        BibRecordKind const recordKind = [leader recordType];
-        if (BibRecordKindIsClassification(recordKind)) {
-            return [[BibClassificationRecord alloc] initWithLeader:leader directory:directory data:data];
-        }
-        if (BibRecordKindIsBibliographic(recordKind)) {
-            return [[BibBibliographicRecord alloc] initWithLeader:leader directory:directory data:data];
-        }
-    }
-    NSDictionary *const recordSchema = [[self class] recordSchema];
-    NSUInteger const recordBodyLocation = [leader recordBodyLocation];
-    NSMutableArray *const fields = [NSMutableArray array];
-    for (BibRecordDirectoryEntry *entry in directory) {
-        BibRecordFieldTag const fieldTag = [entry fieldTag];
-        NSRange fieldRange = [entry fieldRange];
-        fieldRange.location += recordBodyLocation;
-        NSData *const fieldData = [data subdataWithRange:fieldRange];
-        Class const fieldClass = [recordSchema objectForKey:fieldTag];
-        if (fieldClass) {
-            [fields addObject:[[fieldClass alloc] initWithData:fieldData]];
-        } else {
-            id<BibRecordField> const field = ([entry fieldKind] == BibRecordFieldKindControlField)
-                                           ? [[BibGenericRecordControlField alloc] initWithTag:fieldTag data:fieldData]
-                                           : [[BibGenericRecordDataField alloc] initWithTag:fieldTag data:fieldData];
-            [fields addObject:field];
-        }
-    }
-    return [self initWithLeader:leader directory:directory fields:fields];
++ (instancetype)recordWithKind:(BibRecordKind *)kind
+                        status:(BibRecordStatus)status
+                      metadata:(BibMetadata *)metadata
+                 controlFields:(NSArray<BibControlField *> *)controlFields
+                 contentFields:(NSArray<BibContentField *> *)contentFields {
+    return [[self alloc] initWithKind:kind
+                               status:status
+                             metadata:metadata
+                        controlFields:controlFields
+                        contentFields:contentFields];
 }
 
 - (NSString *)description {
-    return [@[ _leader, [_fields componentsJoinedByString:@"\n"] ] componentsJoinedByString:@"\n"];
+    NSArray *const fields = [[self controlFields] arrayByAddingObjectsFromArray:(id)[self contentFields]];
+    return [fields componentsJoinedByString:@"\n"];
 }
 
-- (NSString *)debugDescription {
-    return [@[ _leader, [_fields componentsJoinedByString:@"\n"] ] componentsJoinedByString:@"\n"];
+@end
+
+#pragma mark - Copying
+
+@implementation BibRecord (Copying)
+
+- (id)copyWithZone:(NSZone *)zone {
+    return self;
 }
+
+- (id)mutableCopyWithZone:(NSZone *)zone {
+    return [[BibMutableRecord allocWithZone:zone] initWithKind:[self kind]
+                                                        status:[self status]
+                                                      metadata:[self metadata]
+                                                 controlFields:[self controlFields]
+                                                 contentFields:[self contentFields]];
+}
+
+@end
 
 #pragma mark - Equality
 
+@implementation BibRecord (Equality)
+
 - (BOOL)isEqualToRecord:(BibRecord *)record {
-    return [_leader isEqualToLeader:[record leader]]
-        && [_directory isEqualToArray:[record directory]]
-        && [_fields isEqualToArray:[record fields]];
+    return [[self kind] isEqualToRecordKind:[record kind]]
+        && [self status] == [record status]
+        && [[self metadata] isEqualToMetadata:[record metadata]]
+        && [[self controlFields] isEqualToArray:[record controlFields]]
+        && [[self contentFields] isEqualToArray:[record contentFields]];
 }
 
-- (BOOL)isEqual:(id)other {
-    return self == other
-        || ([other isKindOfClass:[BibRecord class]] && [self isEqualToRecord:other]);
+- (BOOL)isEqual:(id)object {
+    return self == object
+        || ([object isKindOfClass:[BibRecord class]] && [self isEqualToRecord:object]);
 }
 
 - (NSUInteger)hash {
-    return [_leader hash] ^ [_directory hash] ^ [_fields hash];
+    return [[self kind] hash]
+         ^ ([self status] << 16)
+         ^ [[self metadata] hash]
+         ^ [[self controlFields] hash]
+         ^ [[self contentFields] hash];
 }
 
-#pragma mark -
+@end
 
-+ (NSArray<BibRecord *> *)recordsWithData:(NSData *)data {
-    NSRange range = NSMakeRange(0, [data length]);
-    NSMutableArray *records = [NSMutableArray array];
-    while (range.location < NSMaxRange(range)) {
-        BibRecord *record = [[BibRecord alloc] initWithData:data range:&range];
-        if (record == nil) { break; }
-        [records addObject:record];
+#pragma mark - Mutable
+
+@implementation BibMutableRecord
+
+- (id)copyWithZone:(NSZone *)zone {
+    return [[BibMutableRecord allocWithZone:zone] initWithKind:[self kind]
+                                                        status:[self status]
+                                                      metadata:[self metadata]
+                                                 controlFields:[self controlFields]
+                                                 contentFields:[self contentFields]];
+}
+
+@dynamic kind;
+- (void)setKind:(BibRecordKind *)kind {
+    if (_kind != kind) {
+        [self willChangeValueForKey:NSStringFromSelector(@selector(kind))];
+        _kind = kind;
+        [self didChangeValueForKey:NSStringFromSelector(@selector(kind))];
     }
-    return [records copy];
 }
 
-+ (NSArray<BibRecord *> *)recordsWithContentsOfFile:(NSString *)filePath {
-    return [self recordsWithData:[NSData dataWithContentsOfFile:filePath]];
+@dynamic status;
+- (void)setStatus:(BibRecordStatus)status {
+    if (_status != status) {
+        [self willChangeValueForKey:NSStringFromSelector(@selector(status))];
+        _status = status;
+        [self didChangeValueForKey:NSStringFromSelector(@selector(status))];
+    }
 }
 
-+ (NSArray<BibRecord *> *)recordsWithContentsOfURL:(NSURL *)url {
-    return [self recordsWithData:[NSData dataWithContentsOfURL:url]];
+@dynamic metadata;
+- (void)setMetadata:(BibMetadata *)metadata {
+    if (_metadata != metadata) {
+        [self willChangeValueForKey:NSStringFromSelector(@selector(metadata))];
+        _metadata = [metadata copy];
+        [self didChangeValueForKey:NSStringFromSelector(@selector(metadata))];
+    }
+}
+
+@dynamic controlFields;
+- (void)setControlFields:(NSArray<BibControlField *> *)fields {
+    if (_controlFields != fields) {
+        [self willChangeValueForKey:NSStringFromSelector(@selector(controlFields))];
+        _controlFields = [fields copy];
+        [self didChangeValueForKey:NSStringFromSelector(@selector(controlFields))];
+    }
+}
+
+@dynamic contentFields;
+- (void)setContentFields:(NSArray<BibContentField *> *)fields {
+    if (_contentFields != fields) {
+        [self willChangeValueForKey:NSStringFromSelector(@selector(contentFields))];
+        _contentFields = [fields copy];
+        [self didChangeValueForKey:NSStringFromSelector(@selector(contentFields))];
+    }
 }
 
 @end
