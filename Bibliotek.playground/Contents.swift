@@ -34,7 +34,7 @@ extension Array where Element == ContentField {
 
 extension ContentField {
     var contentDescription: String {
-        self.subfields.map { $0.content }.joined(separator: " ")
+        return self.subfields.map { $0.content }.joined(separator: " ")
     }
 }
 
