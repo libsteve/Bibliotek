@@ -10,6 +10,7 @@
 #import "BibRecordKind.h"
 #import "BibControlField.h"
 #import "BibContentField.h"
+#import "BibHasher.h"
 
 @implementation BibRecord {
 @protected
@@ -104,11 +105,13 @@
 }
 
 - (NSUInteger)hash {
-    return [[self kind] hash]
-         ^ ([self status] << 16)
-         ^ [[self metadata] hash]
-         ^ [[self controlFields] hash]
-         ^ [[self contentFields] hash];
+    BibHasher *const hasher = [BibHasher new];
+    [hasher combineWithObject:[self kind]];
+    [hasher combineWithHash:[self status]];
+    [hasher combineWithObject:[self metadata]];
+    [hasher combineWithObject:[self controlFields]];
+    [hasher combineWithObject:[self contentFields]];
+    return [hasher hash];
 }
 
 @end
