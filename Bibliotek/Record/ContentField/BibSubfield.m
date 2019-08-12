@@ -7,6 +7,7 @@
 //
 
 #import "BibSubfield.h"
+#import "BibHasher.h"
 
 @implementation BibSubfield {
 @protected
@@ -63,7 +64,10 @@
 }
 
 - (NSUInteger)hash {
-    return [[self code] hash] ^ [[self content] hash];
+    BibHasher *const hasher = [BibHasher new];
+    [hasher combineWithObject:[self code]];
+    [hasher combineWithObject:[self content]];
+    return [hasher hash];
 }
 
 @end

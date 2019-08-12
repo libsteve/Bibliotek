@@ -8,6 +8,7 @@
 
 #import "BibDirectoryEntry.h"
 #import "BibFieldTag.h"
+#import "BibHasher.h"
 
 @implementation BibDirectoryEntry
 
@@ -47,7 +48,11 @@
 
 - (NSUInteger)hash {
     NSRange const range = [self range];
-    return [[self tag] hash] ^ range.location ^ range.length;
+    BibHasher *const hasher = [BibHasher new];
+    [hasher combineWithObject:[self tag]];
+    [hasher combineWithHash:range.location];
+    [hasher combineWithHash:range.length];
+    return [hasher hash];
 }
 
 @end

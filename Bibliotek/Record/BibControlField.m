@@ -8,6 +8,7 @@
 
 #import "BibControlField.h"
 #import "BibFieldTag.h"
+#import "BibHasher.h"
 
 @implementation BibControlField {
 @protected
@@ -69,7 +70,10 @@
 }
 
 - (NSUInteger)hash {
-    return [[self tag] hash] ^ [[self value] hash];
+    BibHasher *const hasher = [BibHasher new];
+    [hasher combineWithObject:[self tag]];
+    [hasher combineWithObject:[self value]];
+    return [hasher hash];
 }
 
 @end
