@@ -30,7 +30,7 @@
         _item = [item copy];
         _alternatives = [NSArray new];
         _libraryOfCongressOwnership = BibLibraryOfCongressOwnershipUnknown;
-        _source = BibLCClassificationCallNumberSourceOther;
+        _source = BibLCClassificationNumberSourceOther;
     }
     return self;
 }

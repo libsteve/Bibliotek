@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NSString *BibMarcOrganization NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(MarcOrganization);
 
 /// http://www.loc.gov/marc/bibliographic/bd082.html
-NS_SWIFT_NAME(DDCCallNumber)
+NS_SWIFT_NAME(DDClassificationNumber)
 @interface BibDDClassificationNumber : NSObject <BibClassificationNumber, NSCopying, NSMutableCopying>
 
 @property (nonatomic, copy, readonly, nullable) NSString *scheduleEdition;

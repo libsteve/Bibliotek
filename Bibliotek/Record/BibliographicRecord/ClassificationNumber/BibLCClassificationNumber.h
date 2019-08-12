@@ -12,16 +12,16 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, BibLCClassificationNumberSource) {
-    BibLCClassificationCallNumberSourceUnknown = ' ',
-    BibLCClassificationCallNumberSourceLibraryOfCongress = '0',
-    BibLCClassificationCallNumberSourceOther = '4'
-} NS_SWIFT_NAME(LCClassificationCallNumber.Source);
+    BibLCClassificationNumberSourceUnknown = ' ',
+    BibLCClassificationNumberSourceLibraryOfCongress = '0',
+    BibLCClassificationNumberSourceOther = '4'
+} NS_SWIFT_NAME(LCClassificationNumber.Source);
 
 /// http://www.loc.gov/marc/bibliographic/bd050.html
 NS_SWIFT_NAME(LCClassificationNumber)
 @interface BibLCClassificationNumber : NSObject <BibClassificationNumber, NSCopying, NSMutableCopying>
 
-@property (nonatomic, assign, readonly) BibLCClassificationCallNumberSource source;
+@property (nonatomic, assign, readonly) BibLCClassificationNumberSource source;
 
 - (instancetype)initWithClassification:(NSString *)classification item:(nullable NSString *)item;
 
@@ -37,7 +37,7 @@ NS_SWIFT_NAME(LCClassificationNumber)
 
 @interface BibMutableLCClassificationNumber : BibLCClassificationNumber <BibMutableClassificationNumber>
 
-@property (nonatomic, assign, readwrite) BibLCClassificationCallNumberSource source;
+@property (nonatomic, assign, readwrite) BibLCClassificationNumberSource source;
 
 @end
 
