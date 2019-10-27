@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BibSubfield.h"
+#import "BibField.h"
 
 @class BibSubfield;
 @class BibFieldTag;
@@ -38,9 +40,9 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// More information about classification records' content fields can be found in the Library of Congress's
 /// documentation on classification records: https://www.loc.gov/marc/classification/
-@interface BibContentField : NSObject
+@interface BibContentField : NSObject <BibField>
 
-/// A value indicating the semantic purpose of the control field.
+/// A value indicating the semantic purpose of the content field.
 @property (nonatomic, strong, readonly) BibFieldTag *tag;
 
 /// A collection of byte flags which can indicate how the content field should be interpreted or displayed.
@@ -81,6 +83,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+#pragma mark - Subfield Access
+
+@interface BibContentField (SubfieldAccess)
+
+- (BibSubfieldEnumerator *)subfieldEnumerator;
+
+- (nullable BibSubfield *)firstSubfieldWithCode:(BibSubfieldCode)code;
+
+- (nullable NSString *)firstContentWithCode:(BibSubfieldCode)code;
+
+@end
+
 #pragma mark - Mutable
 
 /// A mutable set of information and metadata about the item represented by a MARC record.
@@ -109,7 +123,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// documentation on classification records: https://www.loc.gov/marc/classification/
 @interface BibMutableContentField : BibContentField
 
-/// A value indicating the semantic purpose of the control field.
+/// A value indicating the semantic purpose of the content field.
 @property (nonatomic, strong, readwrite) BibFieldTag *tag;
 
 /// A collection of byte flags which can indicate how the content field should be interpreted or displayed.

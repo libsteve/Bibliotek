@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BibField.h"
 
 @class BibFieldTag;
 
@@ -22,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Information about Classification control fields can be found in the Library of Congress's documentation:
 /// https://www.loc.gov/marc/classification/cd00x.html
-@interface BibControlField : NSObject
+@interface BibControlField : NSObject <BibField>
 
 /// A value indicating the semantic purpose of the control field.
 @property (nonatomic, strong, readonly) BibFieldTag *tag;

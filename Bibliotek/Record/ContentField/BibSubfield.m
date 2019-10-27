@@ -31,6 +31,10 @@
 }
 
 - (NSString *)description {
+    return [self content];
+}
+
+- (NSString *)debugDescription {
     return [NSString stringWithFormat:@"$%@%@", [self code], [self content]];
 }
 
@@ -96,6 +100,42 @@
         _content = [content copy];
         [self didChangeValueForKey:NSStringFromSelector(@selector(content))];
     }
+}
+
+@end
+
+#pragma mark - Enumerator
+
+@implementation BibSubfieldEnumerator {
+    NSEnumerator<BibSubfield *> *_enumerator;
+}
+
+- (instancetype)initWithEnumerator:(NSEnumerator *)enumerator {
+    if (self = [super init]) {
+        _enumerator = enumerator;
+    }
+    return self;
+}
+
+- (instancetype)init {
+    return [self initWithEnumerator:[NSEnumerator new]];
+}
+
+- (id)nextObject {
+    return [_enumerator nextObject];
+}
+
+- (BibSubfield *)nextSubfield {
+    return [self nextObject];
+}
+
+- (BibSubfield *)nextSubfieldWithCode:(BibSubfieldCode)subfieldCode {
+    for (BibSubfield *subfield = [self nextSubfield]; subfield != nil; subfield = [self nextSubfield]) {
+        if ([[subfield code] isEqualToString:subfieldCode]) {
+            return subfield;
+        }
+    }
+    return nil;
 }
 
 @end

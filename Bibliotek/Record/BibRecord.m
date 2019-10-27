@@ -10,6 +10,7 @@
 #import "BibRecordKind.h"
 #import "BibControlField.h"
 #import "BibContentField.h"
+#import "BibFieldTag.h"
 #import "BibHasher.h"
 
 @implementation BibRecord {
@@ -112,6 +113,40 @@
     [hasher combineWithObject:[self controlFields]];
     [hasher combineWithObject:[self contentFields]];
     return [hasher hash];
+}
+
+@end
+
+#pragma mark - Field Access
+
+@implementation BibRecord (FieldAccess)
+
+- (BibFieldEnumerator<BibControlField *> *)controlFieldEnumerator {
+    return [[BibFieldEnumerator alloc] initWithEnumerator:[[self controlFields] objectEnumerator]];
+}
+
+- (BibFieldEnumerator<BibContentField *> *)contentFieldEnumerator {
+    return [[BibFieldEnumerator alloc] initWithEnumerator:[[self contentFields] objectEnumerator]];
+}
+
+- (BibControlField *)firstControlFieldWithTag:(BibFieldTag *)fieldTag {
+    return [[self controlFieldEnumerator] nextFieldWithTag:fieldTag];
+}
+
+- (BibContentField *)firstContentFieldWithTag:(BibFieldTag *)fieldTag {
+    return [[self contentFieldEnumerator] nextFieldWithTag:fieldTag];
+}
+
+- (NSArray<BibControlField *> *)controlFieldsWithTag:(BibFieldTag *)fieldTag {
+    NSString *const keyPath = NSStringFromSelector(@selector(tag));
+    NSPredicate *const predicate = [NSPredicate predicateWithFormat:@"%K = %@", keyPath, fieldTag];
+    return [[self controlFields] filteredArrayUsingPredicate:predicate];
+}
+
+- (NSArray<BibContentField *> *)contentFieldsWithTag:(BibFieldTag *)fieldTag {
+    NSString *const keyPath = NSStringFromSelector(@selector(tag));
+    NSPredicate *const predicate = [NSPredicate predicateWithFormat:@"%K = %@", keyPath, fieldTag];
+    return [[self contentFields] filteredArrayUsingPredicate:predicate];
 }
 
 @end

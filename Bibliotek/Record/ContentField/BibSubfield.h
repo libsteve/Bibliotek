@@ -71,4 +71,16 @@ typedef NSString *BibSubfieldCode NS_EXTENSIBLE_STRING_ENUM NS_SWIFT_NAME(Subfie
 
 @end
 
+#pragma mark - Enumerator
+
+@interface BibSubfieldEnumerator : NSEnumerator<BibSubfield *>
+
+- (instancetype)initWithEnumerator:(NSEnumerator<BibSubfield *> *)enumerator;
+
+- (nullable BibSubfield *)nextSubfield;
+
+- (nullable BibSubfield *)nextSubfieldWithCode:(BibSubfieldCode)subfieldCode;
+
+@end
+
 NS_ASSUME_NONNULL_END

@@ -47,6 +47,10 @@
     return [[self stringValue] hasPrefix:@"00"];
 }
 
+- (id)copyWithZone:(NSZone *)zone {
+    return self;
+}
+
 @end
 
 #pragma mark - Equality
