@@ -7,21 +7,25 @@
 //
 
 #import "BibLCClassificationNumber.h"
+#import "BibFieldTag.h"
+#import "BibContentField.h"
+#import "BibContentIndicatorList.h"
+#import "BibHasher.h"
 
 @implementation BibLCClassificationNumber {
 @protected
     NSString *_classification;
     NSString *_item;
     NSArray *_alternatives;
+    BibClassificationNumberSource _source;
     BibLibraryOfCongressOwnership _libraryOfCongressOwnership;
-    BibLCClassificationNumberSource _source;
 }
 
 @synthesize classification = _classification;
 @synthesize item = _item;
 @synthesize alternatives = _alternatives;
-@synthesize libraryOfCongressOwnership = _libraryOfCongressOwnership;
 @synthesize source = _source;
+@synthesize libraryOfCongressOwnership = _libraryOfCongressOwnership;
 
 - (instancetype)initWithClassification:(NSString *)classification
                                   item:(NSString *)item {
@@ -29,8 +33,8 @@
         _classification = [classification copy];
         _item = [item copy];
         _alternatives = [NSArray new];
+        _source = BibClassificationNumberSourceOther;
         _libraryOfCongressOwnership = BibLibraryOfCongressOwnershipUnknown;
-        _source = BibLCClassificationNumberSourceOther;
     }
     return self;
 }
@@ -64,17 +68,12 @@
 
 @implementation BibLCClassificationNumber (Equality)
 
-inline static BOOL sNullableStringsEqual(NSString *first, NSString *second) {
-    return first == second
-        || (first && second && [first isEqualToString:second]);
-}
-
 - (BOOL)isEqualToLCClassificationNumber:(BibLCClassificationNumber *)classificationNumber {
     if (self == classificationNumber) {
         return YES;
     }
     return [[self classification] isEqualToString:[classificationNumber classification]]
-        && sNullableStringsEqual([self item], [classificationNumber item])
+        && BibNullableStringEqual([self item], [classificationNumber item])
         && [[self alternatives] isEqualToArray:[classificationNumber alternatives]]
         && [self libraryOfCongressOwnership] == [classificationNumber libraryOfCongressOwnership]
         && [self source] == [classificationNumber source];
@@ -85,18 +84,13 @@ inline static BOOL sNullableStringsEqual(NSString *first, NSString *second) {
         || ([object isKindOfClass:[BibLCClassificationNumber class]] && [self isEqualToLCClassificationNumber:object]);
 }
 
-inline static NSUInteger sRotateUnsignedInteger(NSUInteger const value, NSUInteger const rotation) {
-    static NSUInteger const bitCount = CHAR_BIT * sizeof(NSUInteger);
-    NSUInteger const amount = bitCount / rotation;
-    return (value << amount) | (value >> (bitCount - amount));
-}
-
 - (NSUInteger)hash {
-    return [[self classification] hash]
-         ^ sRotateUnsignedInteger([[self item] hash], 2)
-         ^ sRotateUnsignedInteger([[self alternatives] hash], 3)
-         ^ sRotateUnsignedInteger([self libraryOfCongressOwnership], 4)
-         ^ sRotateUnsignedInteger([self source], 5);
+    BibHasher *const hasher = [BibHasher new];
+    [hasher combineWithObject:[self item]];
+    [hasher combineWithObject:[self alternatives]];
+    [hasher combineWithHash:[self source]];
+    [hasher combineWithHash:[self libraryOfCongressOwnership]];
+    return [hasher hash];
 }
 
 @end
@@ -136,7 +130,7 @@ inline static NSUInteger sRotateUnsignedInteger(NSUInteger const value, NSUInteg
 }
 
 @dynamic source;
-- (void)setSource:(BibLCClassificationNumberSource)source {
+- (void)setSource:(BibClassificationNumberSource)source {
     _source = source;
 }
 

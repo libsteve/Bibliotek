@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "BibClassificationNumber.h"
 
+@class BibContentField;
+
 NS_ASSUME_NONNULL_BEGIN
 
 /// http://www.loc.gov/marc/organizations/orgshome.html
@@ -27,6 +29,12 @@ NS_SWIFT_NAME(DDClassificationNumber)
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
+
+@end
+
+@interface BibDDClassificationNumber (Equality)
+
+- (BOOL)isEqualToDDClassificationNumber:(BibDDClassificationNumber *)classificationNumber;
 
 @end
 

@@ -10,11 +10,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, BibLibraryOfCongressOwnership) {
-    BibLibraryOfCongressOwnershipUnknown = ' ',
-    BibLibraryOfCongressOwnershipOwned = '0',
-    BibLibraryOfCongressOwnershipUnowned = '1'
-} NS_SWIFT_NAME(LibraryOfCongressOwnership);
+typedef NS_ENUM(NSUInteger, BibClassificationNumberSource) {
+    BibClassificationNumberSourceLibraryOfCongress = '0',
+    BibClassificationNumberSourceOther = '4'
+} NS_SWIFT_NAME(LCClassificationNumber.Source);
 
 NS_SWIFT_NAME(ClassificationNumber)
 @protocol BibClassificationNumber <NSObject>
@@ -25,7 +24,7 @@ NS_SWIFT_NAME(ClassificationNumber)
 
 @property (nonatomic, copy, readonly) NSArray<NSString *> *alternatives;
 
-@property (nonatomic, assign, readonly) BibLibraryOfCongressOwnership libraryOfCongressOwnership;
+@property (nonatomic, assign, readonly) BibClassificationNumberSource source;
 
 @end
 
@@ -38,7 +37,7 @@ NS_SWIFT_NAME(MutableClassificationNumber)
 
 @property (nonatomic, copy, readwrite) NSArray<NSString *> *alternatives;
 
-@property (nonatomic, assign, readwrite) BibLibraryOfCongressOwnership libraryOfCongressOwnership;
+@property (nonatomic, assign, readwrite) BibClassificationNumberSource source;
 
 @end
 

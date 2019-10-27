@@ -9,19 +9,21 @@
 #import <Foundation/Foundation.h>
 #import "BibClassificationNumber.h"
 
+@class BibContentField;
+
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, BibLCClassificationNumberSource) {
-    BibLCClassificationNumberSourceUnknown = ' ',
-    BibLCClassificationNumberSourceLibraryOfCongress = '0',
-    BibLCClassificationNumberSourceOther = '4'
-} NS_SWIFT_NAME(LCClassificationNumber.Source);
+typedef NS_ENUM(NSUInteger, BibLibraryOfCongressOwnership) {
+    BibLibraryOfCongressOwnershipUnknown = ' ',
+    BibLibraryOfCongressOwnershipOwned = '0',
+    BibLibraryOfCongressOwnershipUnowned = '1'
+} NS_SWIFT_NAME(LibraryOfCongressOwnership);
 
 /// http://www.loc.gov/marc/bibliographic/bd050.html
 NS_SWIFT_NAME(LCClassificationNumber)
 @interface BibLCClassificationNumber : NSObject <BibClassificationNumber, NSCopying, NSMutableCopying>
 
-@property (nonatomic, assign, readonly) BibLCClassificationNumberSource source;
+@property (nonatomic, assign, readonly) BibLibraryOfCongressOwnership libraryOfCongressOwnership;
 
 - (instancetype)initWithClassification:(NSString *)classification item:(nullable NSString *)item;
 
@@ -37,7 +39,7 @@ NS_SWIFT_NAME(LCClassificationNumber)
 
 @interface BibMutableLCClassificationNumber : BibLCClassificationNumber <BibMutableClassificationNumber>
 
-@property (nonatomic, assign, readwrite) BibLCClassificationNumberSource source;
+@property (nonatomic, assign, readwrite) BibLibraryOfCongressOwnership libraryOfCongressOwnership;
 
 @end
 

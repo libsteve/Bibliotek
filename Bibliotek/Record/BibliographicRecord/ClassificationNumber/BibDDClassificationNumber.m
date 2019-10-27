@@ -7,13 +7,17 @@
 //
 
 #import "BibDDClassificationNumber.h"
+#import "BibFieldTag.h"
+#import "BibContentField.h"
+#import "BibContentIndicatorList.h"
+#import "BibHasher.h"
 
 @implementation BibDDClassificationNumber {
 @protected
     NSString *_classification;
     NSString *_item;
     NSArray *_alternatives;
-    BibLibraryOfCongressOwnership _libraryOfCongressOwnership;
+    BibClassificationNumberSource _source;
     NSString *_scheduleEdition;
     BibMarcOrganization _assigningAgency;
 }
@@ -21,7 +25,7 @@
 @synthesize classification = _classification;
 @synthesize item = _item;
 @synthesize alternatives = _alternatives;
-@synthesize libraryOfCongressOwnership = _libraryOfCongressOwnership;
+@synthesize source = _source;
 @synthesize scheduleEdition = _scheduleEdition;
 @synthesize assigningAgency = _assigningAgency;
 
@@ -31,7 +35,7 @@
         _classification = [classification copy];
         _item = [item copy];
         _alternatives = [NSArray new];
-        _libraryOfCongressOwnership = BibLibraryOfCongressOwnershipUnknown;
+        _source = BibClassificationNumberSourceOther;
         _scheduleEdition = nil;
         _assigningAgency = nil;
     }
@@ -42,7 +46,7 @@
     if (self = [self initWithClassification:[callNumber classification]
                                        item:[callNumber item]]) {
         _alternatives = [[callNumber alternatives] copy];
-        _libraryOfCongressOwnership = [callNumber libraryOfCongressOwnership];
+        _source = [callNumber source];
         _scheduleEdition = [[callNumber scheduleEdition] copy];
         _assigningAgency = [[callNumber assigningAgency] copy];
     }
@@ -69,21 +73,16 @@
 
 @implementation BibDDClassificationNumber (Equality)
 
-inline static BOOL sNullableStringsEqual(NSString *first, NSString *second) {
-    return first == second
-        || (first && second && [first isEqualToString:second]);
-}
-
 - (BOOL)isEqualToDDClassificationNumber:(BibDDClassificationNumber *)classificationNumber {
     if (self == classificationNumber) {
         return YES;
     }
     return [[self classification] isEqualToString:[classificationNumber classification]]
-        && sNullableStringsEqual([self item], [classificationNumber item])
+        && BibNullableStringEqual([self item], [classificationNumber item])
         && [[self alternatives] isEqualToArray:[classificationNumber alternatives]]
-        && [self libraryOfCongressOwnership] == [classificationNumber libraryOfCongressOwnership]
-        && sNullableStringsEqual([self scheduleEdition], [classificationNumber scheduleEdition])
-        && sNullableStringsEqual([self assigningAgency], [classificationNumber assigningAgency]);
+        && [self source] == [classificationNumber source]
+        && BibNullableStringEqual([self scheduleEdition], [classificationNumber scheduleEdition])
+        && BibNullableStringEqual([self assigningAgency], [classificationNumber assigningAgency]);
 }
 
 - (BOOL)isEqual:(id)object {
@@ -91,18 +90,15 @@ inline static BOOL sNullableStringsEqual(NSString *first, NSString *second) {
         || ([object isKindOfClass:[BibDDClassificationNumber class]] && [self isEqualToDDClassificationNumber:object]);
 }
 
-inline static NSUInteger sRotateUnsignedInteger(NSUInteger const value, NSUInteger const rotation) {
-    static NSUInteger const bitCount = CHAR_BIT * sizeof(NSUInteger);
-    NSUInteger const amount = bitCount / rotation;
-    return (value << amount) | (value >> (bitCount - amount));
-}
-
 - (NSUInteger)hash {
-    return [[self classification] hash]
-         ^ sRotateUnsignedInteger([[self item] hash], 2)
-         ^ sRotateUnsignedInteger([[self alternatives] hash], 3)
-         ^ sRotateUnsignedInteger([[self scheduleEdition] hash], 4)
-         ^ sRotateUnsignedInteger([[self assigningAgency] hash], 5);
+    BibHasher *const hasher = [BibHasher new];
+    [hasher combineWithObject:[self classification]];
+    [hasher combineWithObject:[self item]];
+    [hasher combineWithHash:[self source]];
+    [hasher combineWithObject:[self alternatives]];
+    [hasher combineWithObject:[self scheduleEdition]];
+    [hasher combineWithObject:[self assigningAgency]];
+    return [hasher hash];
 }
 
 @end
@@ -136,9 +132,9 @@ inline static NSUInteger sRotateUnsignedInteger(NSUInteger const value, NSUInteg
     }
 }
 
-@dynamic libraryOfCongressOwnership;
-- (void)setLibraryOfCongressOwnership:(BibLibraryOfCongressOwnership)libraryOfCongressOwnership {
-    _libraryOfCongressOwnership = libraryOfCongressOwnership;
+@dynamic source;
+- (void)setSource:(BibClassificationNumberSource)source {
+    _source = source;
 }
 
 @dynamic scheduleEdition;
