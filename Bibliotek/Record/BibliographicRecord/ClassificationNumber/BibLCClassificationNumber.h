@@ -27,6 +27,8 @@ NS_SWIFT_NAME(LCClassificationNumber)
 
 - (instancetype)initWithClassification:(NSString *)classification item:(nullable NSString *)item;
 
+- (nullable instancetype)initWithContentField:(BibContentField *)contentField;
+
 @end
 
 @interface BibLCClassificationNumber (Equality)

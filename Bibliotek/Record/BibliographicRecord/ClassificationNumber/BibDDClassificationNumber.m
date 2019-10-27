@@ -53,6 +53,23 @@
     return self;
 }
 
+- (instancetype)initWithContentField:(BibContentField *)contentField {
+    if (![[[contentField tag] stringValue] isEqualToString:@"082"]) {
+        return nil;
+    }
+    NSString *const classification = [[contentField firstSubfieldWithCode:@"a"] content];
+    if (classification == nil) {
+        return nil;
+    }
+    NSString *const item = [[contentField firstSubfieldWithCode:@"b"] content];
+    if (self = [self initWithClassification:classification item:item]) {
+        _source = [[contentField indicators] secondIndicator];
+        _scheduleEdition = [[contentField firstSubfieldWithCode:@"2"] content];
+        _assigningAgency = [[contentField firstSubfieldWithCode:@"q"] content];
+    }
+    return self;
+}
+
 - (instancetype)init {
     return nil;
 }

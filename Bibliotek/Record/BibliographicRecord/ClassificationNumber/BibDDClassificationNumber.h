@@ -27,6 +27,8 @@ NS_SWIFT_NAME(DDClassificationNumber)
 - (instancetype)initWithClassification:(NSString *)classification
                                   item:(nullable NSString *)item NS_DESIGNATED_INITIALIZER;
 
+- (nullable instancetype)initWithContentField:(BibContentField *)contentField;
+
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 

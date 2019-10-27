@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class BibContentField;
+
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, BibISBNKind) {
@@ -25,6 +27,8 @@ typedef NS_ENUM(NSUInteger, BibISBNKind) {
 - (nullable instancetype)initWithStringValue:(NSString *)stringValue NS_DESIGNATED_INITIALIZER;
 
 + (nullable instancetype)isbnWithStringValue:(NSString *)stringValue NS_SWIFT_UNAVAILABLE("Use init(stringValue:)");
+
+- (nullable instancetype)initWithContentField:(BibContentField *)contentField;
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;

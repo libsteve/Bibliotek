@@ -7,6 +7,7 @@
 //
 
 #import "BibISBN.h"
+#import "BibContentField.h"
 
 @implementation BibISBN
 
@@ -32,6 +33,10 @@
 
 + (instancetype)isbnWithStringValue:(NSString *)stringValue {
     return [[self alloc] initWithStringValue:stringValue];
+}
+
+- (instancetype)initWithContentField:(BibContentField *)contentField {
+    return [self initWithStringValue:[[contentField firstSubfieldWithCode:@"a"] content]];
 }
 
 - (instancetype)init {

@@ -48,6 +48,22 @@
     return self;
 }
 
+- (instancetype)initWithContentField:(BibContentField *)contentField {
+    if (![[[contentField tag] stringValue] isEqualToString:@"050"]) {
+        return nil;
+    }
+    NSString *const classification = [[contentField firstSubfieldWithCode:@"a"] content];
+    if (classification == nil) {
+        return nil;
+    }
+    NSString *const item = [[contentField firstSubfieldWithCode:@"b"] content];
+    if (self = [self initWithClassification:classification item:item]) {
+        _source = [[contentField indicators] secondIndicator];
+        _libraryOfCongressOwnership = [[contentField indicators] firstIndicator];
+    }
+    return self;
+}
+
 - (instancetype)init {
     return nil;
 }
