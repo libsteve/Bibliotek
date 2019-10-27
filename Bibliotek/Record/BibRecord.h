@@ -13,6 +13,9 @@
 @class BibContentField;
 @class BibRecordKind;
 
+@class BibFieldTag;
+@class BibFieldEnumerator<FieldType>;
+
 NS_ASSUME_NONNULL_BEGIN
 
 /// A collection of information about an item or entity organized using the MARC 21 standard.
@@ -89,6 +92,21 @@ NS_ASSUME_NONNULL_BEGIN
 /// \param record The record with which the receiver should be compared.
 /// \returns Returns \c YES if the given record and the receiver contain the same data
 - (BOOL)isEqualToRecord:(BibRecord *)record;
+
+@end
+
+#pragma mark - Field Access
+
+@interface BibRecord (FieldAccess)
+
+- (BibFieldEnumerator<BibControlField *> *)controlFieldEnumerator;
+- (BibFieldEnumerator<BibContentField *> *)contentFieldEnumerator;
+
+- (nullable BibControlField *)firstControlFieldWithTag:(BibFieldTag *)fieldTag NS_SWIFT_NAME(firstControlField(with:));
+- (nullable BibContentField *)firstContentFieldWithTag:(BibFieldTag *)fieldTag NS_SWIFT_NAME(firstControlField(with:));
+
+- (NSArray<BibControlField *> *)controlFieldsWithTag:(BibFieldTag *)fieldTag NS_SWIFT_NAME(controlFields(with:));
+- (NSArray<BibContentField *> *)contentFieldsWithTag:(BibFieldTag *)fieldTag NS_SWIFT_NAME(contentFields(with:));
 
 @end
 

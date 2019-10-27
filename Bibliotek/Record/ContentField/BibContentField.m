@@ -39,7 +39,13 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@ %@ %@", [self tag], [self indicators], [[self subfields] componentsJoinedByString:@""]];
+    return [[[self subfields] valueForKey:@"description"] componentsJoinedByString:@" "];
+}
+
+- (NSString *)debugDescription {
+    NSArray *const subfieldDebugDescriptions = [[self subfields] valueForKey:@"debugDescription"];
+    NSString *const combinedSubfiledsDebugDescription = [subfieldDebugDescriptions componentsJoinedByString:@""];
+    return [NSString stringWithFormat:@"%@ %@ %@", [self tag], [self indicators], combinedSubfiledsDebugDescription];
 }
 
 @end
@@ -79,6 +85,24 @@
     [hasher combineWithObject:[self indicators]];
     [hasher combineWithObject:[self subfields]];
     return [hasher hash];
+}
+
+@end
+
+#pragma mark - Subfield Access
+
+@implementation BibContentField (SubfieldAccess)
+
+- (BibSubfieldEnumerator *)subfieldEnumerator {
+    return [[BibSubfieldEnumerator alloc] initWithEnumerator:[[self subfields] objectEnumerator]];
+}
+
+- (BibSubfield *)firstSubfieldWithCode:(BibSubfieldCode)code {
+    return [[self subfieldEnumerator] nextSubfieldWithCode:code];
+}
+
+- (NSString *)firstContentWithCode:(BibSubfieldCode)code {
+    return [[self firstSubfieldWithCode:code] content];
 }
 
 @end

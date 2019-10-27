@@ -118,6 +118,16 @@ extension Record: CustomStringConvertible, CustomPlaygroundDisplayConvertible {
                                                     "contentFields": self.contentFields] }
 }
 
+extension Record {
+    public func controlFields(with tag: FieldTag) -> LazyFilterSequence<[ControlField]> {
+        return self.controlFields.lazy.filter { $0.tag == tag }
+    }
+
+    public func contentFields(with tag: FieldTag) -> LazyFilterSequence<[ContentField]> {
+        return self.contentFields.lazy.filter { $0.tag == tag }
+    }
+}
+
 // MARK: - Bridging
 
 extension Record: _ObjectiveCBridgeable {

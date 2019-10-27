@@ -9,11 +9,10 @@
 #import <Foundation/Foundation.h>
 
 @class BibISBN;
-@class BibDDCCallNumber;
-@class BibLCCCallNumber;
-@class BibContentDescription;
-@class BibItemDescription;
-@class BibTitleStatement;
+@class BibDDClassificationNumber;
+@class BibLCClassificationNumber;
+
+@class BibRecord;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,19 +20,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy, readonly) NSArray<BibISBN *> *isbns;
 
-@property (nonatomic, copy, readonly) NSArray<BibDDCCallNumber *> *ddcCallNumbers;
+@property (nonatomic, copy, readonly) NSArray<BibDDClassificationNumber *> *ddClassificationNumbers;
 
-@property (nonatomic, copy, readonly) NSArray<BibLCCCallNumber *> *lccCallNumbers;
+@property (nonatomic, copy, readonly) NSArray<BibLCClassificationNumber *> *lcClassificationNumbers;
 
-@property (nonatomic, copy, readonly) NSString *title;
-
-@property (nonatomic, copy, readonly, nullable) NSString *author;
-
-@property (nonatomic, copy, readonly) BibTitleStatement *titleStatement;
-
-@property (nonatomic, copy, readonly) NSArray<BibItemDescription *> *descriptions;
-
-@property (nonatomic, copy, readonly, nullable) BibContentDescription *contentDescription;
+- (nullable instancetype)initWithRecord:(BibRecord *)record;
 
 @end
 
