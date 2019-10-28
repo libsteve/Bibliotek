@@ -9,6 +9,8 @@
 #import "BibSubfield.h"
 #import "BibHasher.h"
 
+#import "Bibliotek+Internal.h"
+
 @implementation BibSubfield {
 @protected
     BibSubfieldCode _code;
@@ -34,8 +36,16 @@
     return [self content];
 }
 
++ (NSSet *)keyPathsForValuesAffectingDescription {
+    return [NSSet setWithObject:BibKey(content)];
+}
+
 - (NSString *)debugDescription {
     return [NSString stringWithFormat:@"$%@%@", [self code], [self content]];
+}
+
++ (NSSet *)keyPathsForValuesAffectingDebugDescription {
+    return [NSSet setWithObjects:BibKey(code), BibKey(content), nil];
 }
 
 @end
@@ -87,18 +97,14 @@
 @dynamic code;
 - (void)setCode:(BibSubfieldCode)code {
     if (_code != code) {
-        [self willChangeValueForKey:NSStringFromSelector(@selector(code))];
         _code = [code copy];
-        [self didChangeValueForKey:NSStringFromSelector(@selector(code))];
     }
 }
 
 @dynamic content;
 - (void)setContent:(NSString *)content {
     if (_content != content) {
-        [self willChangeValueForKey:NSStringFromSelector(@selector(content))];
         _content = [content copy];
-        [self didChangeValueForKey:NSStringFromSelector(@selector(content))];
     }
 }
 

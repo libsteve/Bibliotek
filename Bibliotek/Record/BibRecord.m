@@ -13,6 +13,8 @@
 #import "BibFieldTag.h"
 #import "BibHasher.h"
 
+#import "Bibliotek+Internal.h"
+
 @implementation BibRecord {
 @protected
     BibRecordKind *_kind;
@@ -65,7 +67,13 @@
 
 - (NSString *)description {
     NSArray *const fields = [[self controlFields] arrayByAddingObjectsFromArray:(id)[self contentFields]];
-    return [fields componentsJoinedByString:@"\n"];
+    return [[fields valueForKey:BibKey(debugDescription)] componentsJoinedByString:@"\n"];
+}
+
++ (NSSet *)keyPathsForValuesAffectingDescription {
+    return [NSSet setWithObjects:BibKey(controlFields), BibKey(contentFields),
+                                 BibKeyPath(controlFields, debugDescription),
+                                 BibKeyPath(contentFields, debugDescription), nil];
 }
 
 @end
@@ -138,14 +146,12 @@
 }
 
 - (NSArray<BibControlField *> *)controlFieldsWithTag:(BibFieldTag *)fieldTag {
-    NSString *const keyPath = NSStringFromSelector(@selector(tag));
-    NSPredicate *const predicate = [NSPredicate predicateWithFormat:@"%K = %@", keyPath, fieldTag];
+    NSPredicate *const predicate = [NSPredicate predicateWithFormat:@"%K = %@", BibKey(tag), fieldTag];
     return [[self controlFields] filteredArrayUsingPredicate:predicate];
 }
 
 - (NSArray<BibContentField *> *)contentFieldsWithTag:(BibFieldTag *)fieldTag {
-    NSString *const keyPath = NSStringFromSelector(@selector(tag));
-    NSPredicate *const predicate = [NSPredicate predicateWithFormat:@"%K = %@", keyPath, fieldTag];
+    NSPredicate *const predicate = [NSPredicate predicateWithFormat:@"%K = %@", BibKey(tag), fieldTag];
     return [[self contentFields] filteredArrayUsingPredicate:predicate];
 }
 
@@ -166,45 +172,35 @@
 @dynamic kind;
 - (void)setKind:(BibRecordKind *)kind {
     if (_kind != kind) {
-        [self willChangeValueForKey:NSStringFromSelector(@selector(kind))];
         _kind = kind;
-        [self didChangeValueForKey:NSStringFromSelector(@selector(kind))];
     }
 }
 
 @dynamic status;
 - (void)setStatus:(BibRecordStatus)status {
     if (_status != status) {
-        [self willChangeValueForKey:NSStringFromSelector(@selector(status))];
         _status = status;
-        [self didChangeValueForKey:NSStringFromSelector(@selector(status))];
     }
 }
 
 @dynamic metadata;
 - (void)setMetadata:(BibMetadata *)metadata {
     if (_metadata != metadata) {
-        [self willChangeValueForKey:NSStringFromSelector(@selector(metadata))];
         _metadata = [metadata copy];
-        [self didChangeValueForKey:NSStringFromSelector(@selector(metadata))];
     }
 }
 
 @dynamic controlFields;
 - (void)setControlFields:(NSArray<BibControlField *> *)fields {
     if (_controlFields != fields) {
-        [self willChangeValueForKey:NSStringFromSelector(@selector(controlFields))];
         _controlFields = [fields copy];
-        [self didChangeValueForKey:NSStringFromSelector(@selector(controlFields))];
     }
 }
 
 @dynamic contentFields;
 - (void)setContentFields:(NSArray<BibContentField *> *)fields {
     if (_contentFields != fields) {
-        [self willChangeValueForKey:NSStringFromSelector(@selector(contentFields))];
         _contentFields = [fields copy];
-        [self didChangeValueForKey:NSStringFromSelector(@selector(contentFields))];
     }
 }
 

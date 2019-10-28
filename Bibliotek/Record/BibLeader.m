@@ -9,6 +9,8 @@
 #import "BibLeader.h"
 #import "BibRecordKind.h"
 
+#import "Bibliotek+Internal.h"
+
 NSUInteger const BibLeaderRawDataLength = 24;
 
 static NSRange const kRecordLengthRange   = { 0, 5};
@@ -216,50 +218,35 @@ static void sWriteUnsignedInteger(NSMutableData *const data, NSRange const range
     NSAssert(recordRange.location != NSNotFound, @"Range not found.");
     NSAssert(recordRange.location <= kRecordBufferSizeMax && recordRange.length <= kRecordBufferSizeMax,
              @"Records cannot be encoded into data larger than %lu.", kRecordBufferSizeMax);
-    NSString *const key = NSStringFromSelector(@selector(recordRange));
-    [self willChangeValueForKey:key];
     NSMutableData *const data = [[self rawData] mutableCopy];
     sWriteUnsignedInteger(data, kRecordLocationRange, recordRange.location);
     sWriteUnsignedInteger(data, kRecordLengthRange, NSMaxRange(recordRange) + 1);
     [self setRawData:data];
-    [self didChangeValueForKey:key];
 }
 
 - (void)setRecordStatus:(BibRecordStatus)recordStatus {
-    NSString *const key = NSStringFromSelector(@selector(recordStatus));
-    [self willChangeValueForKey:key];
     NSMutableData *const data = [[self rawData] mutableCopy];
     [data replaceBytesInRange:kRecordStatusRange withBytes:&recordStatus];
     [self setRawData:data];
-    [self didChangeValueForKey:key];
 }
 
 - (void)setRecordKind:(BibRecordKind *)recordKind {
-    NSString *const key = NSStringFromSelector(@selector(recordKind));
-    [self willChangeValueForKey:key];
     NSMutableData *const data = [[self rawData] mutableCopy];
     uint8_t const recordKindRawValue = [recordKind rawValue];
     [data replaceBytesInRange:kRecordKindRange withBytes:&recordKindRawValue];
     [self setRawData:data];
-    [self didChangeValueForKey:key];
 }
 
 - (void)setRecordEncoding:(BibEncoding)recordEncoding {
-    NSString *const key = NSStringFromSelector(@selector(recordEncoding));
-    [self willChangeValueForKey:key];
     NSMutableData *const data = [[self rawData] mutableCopy];
     [data replaceBytesInRange:kRecordEncodingRange withBytes:&recordEncoding];
     [self setRawData:data];
-    [self didChangeValueForKey:key];
 }
 
 - (void)setValue:(char)value forReservedPosition:(BibReservedPosition)index {
-    NSString *const key = NSStringFromSelector(@selector(recordEncoding));
-    [self willChangeValueForKey:key];
     NSMutableData *const data = [[self rawData] mutableCopy];
     [data replaceBytesInRange:NSMakeRange(index, 1) withBytes:&value];
     [self setRawData:data];
-    [self didChangeValueForKey:key];
 }
 
 @end

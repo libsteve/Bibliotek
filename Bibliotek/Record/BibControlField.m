@@ -10,6 +10,8 @@
 #import "BibFieldTag.h"
 #import "BibHasher.h"
 
+#import "Bibliotek+Internal.h"
+
 @implementation BibControlField {
 @protected
     BibFieldTag *_tag;
@@ -36,7 +38,19 @@
 }
 
 - (NSString *)description {
+    return [self value];
+}
+
++ (NSSet *)keyPathsForValuesAffectingDescription {
+    return [NSSet setWithObject:BibKey(value)];
+}
+
+- (NSString *)debugDescription {
     return [NSString stringWithFormat:@"%@ %@", [self tag], [self value]];
+}
+
++ (NSSet *)keyPathsForValuesAffectingDebugDescription {
+    return [NSSet setWithObjects:BibKey(tag), BibKey(value), nil];
 }
 
 @end
@@ -89,18 +103,14 @@
 @dynamic tag;
 - (void)setTag:(BibFieldTag *)tag {
     if (_tag != tag) {
-        [self willChangeValueForKey:NSStringFromSelector(@selector(tag))];
         _tag = tag;
-        [self didChangeValueForKey:NSStringFromSelector(@selector(tag))];
     }
 }
 
 @dynamic value;
 - (void)setValue:(NSString *)value {
     if (_value != value) {
-        [self willChangeValueForKey:NSStringFromSelector(@selector(value))];
         _value = [value copy];
-        [self didChangeValueForKey:NSStringFromSelector(@selector(value))];
     }
 }
 

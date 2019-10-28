@@ -12,6 +12,8 @@
 #import "BibFieldTag.h"
 #import "BibHasher.h"
 
+#import "Bibliotek+Internal.h"
+
 @implementation BibContentField {
 @protected
     BibFieldTag *_tag;
@@ -39,13 +41,21 @@
 }
 
 - (NSString *)description {
-    return [[[self subfields] valueForKey:@"description"] componentsJoinedByString:@" "];
+    return [[[self subfields] valueForKey:BibKey(description)] componentsJoinedByString:@" "];
+}
+
++ (NSSet *)keyPathsForValuesAffectingDescription {
+    return [NSSet setWithObjects:BibKey(tag), BibKey(indicators), BibKeyPath(subfields, description), nil];
 }
 
 - (NSString *)debugDescription {
-    NSArray *const subfieldDebugDescriptions = [[self subfields] valueForKey:@"debugDescription"];
+    NSArray *const subfieldDebugDescriptions = [[self subfields] valueForKey:BibKey(debugDescription)];
     NSString *const combinedSubfiledsDebugDescription = [subfieldDebugDescriptions componentsJoinedByString:@""];
     return [NSString stringWithFormat:@"%@ %@ %@", [self tag], [self indicators], combinedSubfiledsDebugDescription];
+}
+
++ (NSSet *)keyPathsForValuesAffectingDebugDescription {
+    return [NSSet setWithObjects:BibKey(tag), BibKey(indicators), BibKey(subfields), nil];
 }
 
 @end
@@ -120,27 +130,21 @@
 @synthesize tag;
 - (void)setTag:(BibFieldTag *)tag {
     if (_tag != tag) {
-        [self willChangeValueForKey:NSStringFromSelector(@selector(tag))];
         _tag = tag;
-        [self didChangeValueForKey:NSStringFromSelector(@selector(tag))];
     }
 }
 
 @synthesize indicators;
 - (void)setIndicators:(BibContentIndicatorList *)indicators {
     if (_indicators != indicators) {
-        [self willChangeValueForKey:NSStringFromSelector(@selector(indicators))];
         _indicators = [indicators copy];
-        [self didChangeValueForKey:NSStringFromSelector(@selector(indicators))];
     }
 }
 
 @synthesize subfields;
 - (void)setSubfields:(NSArray<BibSubfield *> *)subfields {
     if (_subfields != subfields) {
-        [self willChangeValueForKey:NSStringFromSelector(@selector(subfields))];
         _subfields = [subfields copy];
-        [self didChangeValueForKey:NSStringFromSelector(@selector(subfields))];
     }
 }
 

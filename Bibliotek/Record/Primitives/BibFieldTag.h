@@ -45,6 +45,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// \returns Returns \c YES if the given tag and the receiver describe the same MARC 21 field.
 - (BOOL)isEqualToTag:(BibFieldTag *)fieldTag;
 
+- (BOOL)isEqualToString:(NSString *)stringValue;
+
 @end
 
 NS_ASSUME_NONNULL_END

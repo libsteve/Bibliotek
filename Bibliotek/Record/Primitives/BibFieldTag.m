@@ -61,9 +61,14 @@
     return [[self stringValue] isEqualToString:[fieldTag stringValue]];
 }
 
+- (BOOL)isEqualToString:(NSString *)stringValue {
+    return [[self stringValue] isEqualToString:stringValue];
+}
+
 - (BOOL)isEqual:(id)object {
     return self == object
-        || ([object isKindOfClass:[BibFieldTag class]] && [self isEqualToTag:object]);
+        || ([object isKindOfClass:[BibFieldTag class]] && [self isEqualToTag:object])
+        || ([object isKindOfClass:[NSString class]] && [self isEqualToString:object]);
 }
 
 - (NSUInteger)hash {

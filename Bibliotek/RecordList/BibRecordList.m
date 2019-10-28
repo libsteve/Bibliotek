@@ -26,6 +26,7 @@
     ZOOM_resultset _resultset;
     BibConnection *_connection;
     BibFetchRequest *_request;
+    NSArray *_allRecords;
 }
 
 @synthesize connection = _connection;
@@ -64,7 +65,25 @@
 }
 
 - (NSArray<BibRecord *> *)allRecords {
-    return [[self recordEnumerator] allObjects];
+    return [self valueForKey:@"allRecordsProxy"];
+}
+
+- (NSUInteger)countOfAllRecordsProxy {
+    return [self count];
+}
+
+- (NSArray *)allRecordsProxyAtIndexes:(NSIndexSet *)indexes {
+    return [self recordsAtIndexes:indexes];
+}
+
+- (BibRecord *)objectInAllRecordsProxyAtIndex:(NSUInteger)index {
+    return [self recordAtIndex:index];
+}
+
+- (void)getAllRecordsProxy:(BibRecord **)buffer range:(NSRange)inRange {
+    for (NSUInteger offset = 0; offset < inRange.length; offset += 1) {
+        buffer[offset] = [self recordAtIndex:(inRange.location + offset)];
+    }
 }
 
 - (NSEnumerator<BibRecord *> *)recordEnumerator {
