@@ -42,7 +42,7 @@
 #else
 
 #define BibKey(KEY) @#KEY
-#define BibKeyPath(...) @ BibKeyPath_N(__VA_ARGS__)
+#define BibKeyPath(...) @ _BibKeyPath_N(__VA_ARGS__)
 #define _BibKeyPath_1(KEY, ...) #KEY
 #define _BibKeyPath_2(KEY, ...) _BibKeyPath_1(KEY) "." _BibKeyPath_1(__VA_ARGS__)
 #define _BibKeyPath_3(KEY, ...) _BibKeyPath_1(KEY) "." _BibKeyPath_2(__VA_ARGS__)
