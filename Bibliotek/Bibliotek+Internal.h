@@ -11,7 +11,6 @@
 #import "BibLeader.h"
 #import "BibDirectoryEntry.h"
 #import "BibMetadata+Internal.h"
-#import "BibMARCInputStream+Internal.h"
 
 #define BibMApply(M, ...) M(__VA_ARGS__)
 #define BibMConcat(M, ...) M ## __VA_ARGS__

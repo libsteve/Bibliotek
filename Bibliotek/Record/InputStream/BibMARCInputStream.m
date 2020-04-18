@@ -7,7 +7,6 @@
 //
 
 #import "BibMARCInputStream.h"
-#import "BibMARCInputStream+Internal.h"
 #import "BibInputStream.h"
 
 #import "BibMetadata+Internal.h"
@@ -20,17 +19,14 @@
 #import "BibContentField.h"
 #import "BibContentIndicatorList.h"
 #import "BibSubfield.h"
+#import "BibRecordKind.h"
 
-static uint8_t const kRecordTerminator  = 0x1D;
-static uint8_t const kFieldTerminator   = 0x1E;
-static uint8_t const kSubfieldDelimiter = 0x1F;
+#import "BibMarcIO.h"
 
 NSErrorDomain const BibMARCInputStreamErrorDomain = @"BibMARCInputStreamErrorDomain";
 
-#define SET_ERR_PTR(ERRPTR, VALUE) ({ if (ERRPTR) { *(ERRPTR) = (VALUE); } })
-
 @implementation BibMARCInputStream {
-    BibInputStream *_inputStream;
+    NSInputStream *_inputStream;
     NSStreamStatus _streamStatus;
     NSError *_streamError;
 }
@@ -54,7 +50,7 @@ NSErrorDomain const BibMARCInputStreamErrorDomain = @"BibMARCInputStreamErrorDom
 
 - (instancetype)initWithInputStream:(NSInputStream *)inputStream {
     if (self = [super init]) {
-        _inputStream = [BibInputStream inputStreamWithInputStream:inputStream];
+        _inputStream = inputStream;
         _streamStatus = NSStreamStatusNotOpen;
     }
     return self;
@@ -138,337 +134,123 @@ NSErrorDomain const BibMARCInputStreamErrorDomain = @"BibMARCInputStreamErrorDom
     }
 }
 
+static NSError *sEndOfStreamError() {
+    return  [NSError errorWithDomain:BibMARCInputStreamErrorDomain
+                                code:BibMARCInputStreamPrematureEndOfDataError
+                            userInfo:@{ NSDebugDescriptionErrorKey : @"Premature end of stream data" }];
+}
+
+static NSError *sMalformedDataError() {
+    return [NSError errorWithDomain:BibMARCInputStreamErrorDomain
+                               code:BibMARCInputStreamMalformedDataError
+                           userInfo:@{ NSDebugDescriptionErrorKey : @"Malformed stream data" }];
+}
+
 - (BibRecord *)readRecord:(out NSError *__autoreleasing *)error {
     if (![self isStreamStatusOpen:error]) {
         return nil;
     }
-    NSUInteger const initialBytesRead = [_inputStream numberOfBytesRead];
-    BibLeader *const leader = [self readLeader:error];
-    if (leader == nil) { return nil; }
-    NSMutableArray *const directory = [NSMutableArray array];
-    uint8_t byte = 0;
-    while ([_inputStream peekByte:&byte error:NULL] && byte != kFieldTerminator) {
-        BibDirectoryEntry *const directoryEntry = [self readDirectoryEntryWithLeader:leader error:error];
-        if (directoryEntry == nil) { return nil; }
-        [directory addObject:directoryEntry];
-    }
-    if (![_inputStream readBytes:&byte length:1 error:error]) {
-        _streamStatus = NSStreamStatusError;
+    uint8_t *const leaderBytes = alloca(BibLeaderRawDataLength * sizeof(int8_t));
+    NSUInteger const readLength = [_inputStream read:leaderBytes maxLength:BibLeaderRawDataLength];
+    if (readLength == 0)
+    {
+        _streamStatus = NSStreamStatusAtEnd;
         return nil;
     }
-    if (byte != kFieldTerminator) {
-        _streamStatus = NSStreamStatusError;
-        NSString *const message =
-            [NSString stringWithFormat: @"Directory data must end with a field terminator (%#04x)", kFieldTerminator];
-        _streamError = [NSError errorWithDomain:BibMARCInputStreamErrorDomain
-                                           code:BibMARCInputStreamMalformedDataError
-                                       userInfo:@{ NSDebugDescriptionErrorKey :message }];
-        if (error) { *error = [self streamError]; }
+    else if (readLength == NSNotFound)
+    {
+        _streamStatus = [_inputStream streamStatus];
+        _streamError = [_inputStream streamError];
+        if (error != NULL) { *error = _streamError; }
         return nil;
     }
-    NSMutableArray *const controlFields = [NSMutableArray array];
-    NSMutableArray *const contentFields = [NSMutableArray array];
-    for (BibDirectoryEntry *directoryEntry in directory) {
-        if ([[directoryEntry tag] isControlFieldTag]) {
-            if ([contentFields count] > 0) {
-                _streamStatus = NSStreamStatusError;
-                _streamError = [NSError errorWithDomain:BibMARCInputStreamErrorDomain
-                                                   code:BibMARCInputStreamMalformedDataError
-                                               userInfo:nil];
-                if (error) { *error = _streamError; }
-                return nil;
-            }
-            BibControlField *const controlField = [self readControlFieldWithLeader:leader
-                                                                    directoryEntry:directoryEntry
-                                                                             error:error];
-            if (controlField == nil) { return nil; }
-            [controlFields addObject:controlField];
-        } else {
-            if ([controlFields count] == 0) {
-                _streamStatus = NSStreamStatusError;
-                _streamError = [NSError errorWithDomain:BibMARCInputStreamErrorDomain
-                                                   code:BibMARCInputStreamMalformedDataError
-                                               userInfo:nil];
-                if (error) { *error = _streamError; }
-                return nil;
-            }
-            BibContentField *const contentField = [self readContentFieldWithLeader:leader
-                                                                    directoryEntry:directoryEntry
-                                                                             error:error];
-            if (contentField == nil) { return nil; }
-            [contentFields addObject:contentField];
+    else if (readLength != BibLeaderRawDataLength)
+    {
+        _streamStatus = NSStreamStatusError;
+        _streamError = sEndOfStreamError();
+        if (error != NULL) { *error = _streamError; }
+        return nil;
+    }
+
+    BibMarcLeader const leader = BibMarcLeaderRead((int8_t *)leaderBytes, BibLeaderRawDataLength);
+    if (leader.recordLength == NSNotFound || leader.fieldsLocation == NSNotFound)
+    {
+        _streamStatus = NSStreamStatusError;
+        _streamError = sMalformedDataError();
+        if (error != NULL) { *error = _streamError; }
+        return nil;
+    }
+
+    size_t const remainingBytesCount = leader.recordLength - BibLeaderRawDataLength;
+    uint8_t *const buffer = alloca(leader.recordLength * sizeof(int8_t));
+    memcpy(buffer, leaderBytes, BibLeaderRawDataLength);
+
+    NSUInteger const remainingReadLength = [_inputStream read:(buffer + BibLeaderRawDataLength) maxLength:remainingBytesCount];
+    if (remainingReadLength == NSNotFound)
+    {
+        _streamStatus = [_inputStream streamStatus];
+        _streamError = [_inputStream streamError];
+        if (error != NULL) { *error = _streamError; }
+        return nil;
+    }
+    else if (remainingReadLength != remainingBytesCount)
+    {
+        _streamStatus = NSStreamStatusError;
+        _streamError = sEndOfStreamError();
+        if (error != NULL) { *error = _streamError; }
+        return nil;
+    }
+
+    BibMarcRecord record;
+    if (BibMarcRecordRead(&record, (int8_t *)buffer, leader.recordLength) != leader.recordLength) {
+        _streamStatus = NSStreamStatusError;
+        _streamError = sMalformedDataError();
+        if (error != NULL) { *error = _streamError; }
+        return nil;
+    }
+
+    BibRecordKind *const kind = [[BibRecordKind alloc] initWithRawValue:(uint8_t)leader.recordKind];
+    NSData *const leaderData = [[NSData alloc] initWithBytes:leaderBytes length:BibLeaderRawDataLength];
+    BibLeader *const bibLeader = [[BibLeader alloc] initWithData:leaderData];
+    BibMetadata *const metadata = [[BibMetadata alloc] initWithLeader:bibLeader];
+    NSMutableArray *const controlFields = [[NSMutableArray alloc] initWithCapacity:record.controlFieldsCount];
+    for (size_t index = 0; index < record.controlFieldsCount; index += 1)
+    {
+        BibMarcControlField const *const field = &(record.controlFields[index]);
+        NSString *const tagString = [[NSString alloc] initWithUTF8String:field->tag];
+        BibFieldTag *const tag = [[BibFieldTag alloc] initWithString:tagString];
+        NSString *const value = [[NSString alloc] initWithUTF8String:field->content];
+        BibControlField *const controlField = [[BibControlField alloc] initWithTag:tag value:value];
+        [controlFields addObject:controlField];
+    }
+    NSMutableArray *const contentFields = [[NSMutableArray alloc] initWithCapacity:record.contentFieldsCount];
+    for (size_t index = 0; index < record.contentFieldsCount; index += 1)
+    {
+        BibMarcContentField const *const field = &(record.contentFields[index]);
+        NSString *const tagString = [[NSString alloc] initWithUTF8String:field->tag];
+        BibFieldTag *const tag = [[BibFieldTag alloc] initWithString:tagString];
+        BibContentIndicatorList *const indicators = [[BibContentIndicatorList alloc] initWithIndicators:(char *)(field->indicators) count:2];
+        NSMutableArray *const subfields = [[NSMutableArray alloc] initWithCapacity:field->subfieldsCount];
+        for (size_t index = 0; index < field->subfieldsCount; index += 1)
+        {
+            BibMarcSubfield const *const subfield = &(field->subfields[index]);
+            NSString *const code = [[NSString alloc] initWithUTF8String:(char[2]){subfield->code, '\0'}];
+            NSString *const content = [[NSString alloc] initWithUTF8String:subfield->content];
+            BibSubfield *const bibSubfield = [[BibSubfield alloc] initWithCode:code content:content];
+            [subfields addObject:bibSubfield];
         }
+        BibContentField *const contentField = [[BibContentField alloc] initWithTag:tag
+                                                                        indicators:indicators
+                                                                         subfields:subfields];
+        [contentFields addObject:contentField];
     }
-    if (![_inputStream readByte:&byte error:error]) {
-        _streamStatus = NSStreamStatusError;
-        return nil;
-    }
-    if (byte != kRecordTerminator) {
-        _streamStatus = NSStreamStatusError;
-        NSString *const message =
-            [NSString stringWithFormat:@"Record data must end with a record terminator (%#04x)", kRecordTerminator];
-        _streamError = [NSError errorWithDomain:BibMARCInputStreamErrorDomain
-                                           code:BibMARCInputStreamMalformedDataError
-                                       userInfo:@{ NSDebugDescriptionErrorKey : message }];
-        if (error) { *error = [self streamError]; }
-        return nil;
-    }
-    NSUInteger const totalBytesRead = [_inputStream numberOfBytesRead] - initialBytesRead;
-    if (NSMaxRange([leader recordRange]) != totalBytesRead) {
-        _streamStatus = NSStreamStatusError;
-        _streamError = [NSError errorWithDomain:BibMARCInputStreamErrorDomain
-                                           code:BibMARCInputStreamMalformedDataError
-                                       userInfo:@{ NSDebugDescriptionErrorKey : @"Record is not the expected size" }];
-        if (error) { *error = _streamError; }
-        return nil;
-    }
-    return [[BibRecord alloc] initWithKind:[leader recordKind]
-                                    status:[leader recordStatus]
-                                  metadata:[[BibMetadata alloc] initWithLeader:leader]
-                             controlFields:controlFields
-                             contentFields:contentFields];
-}
-
-@end
-
-#pragma mark -
-
-@implementation BibMARCInputStream (Internal)
-
-- (BibLeader *)readLeader:(out NSError *__autoreleasing *)error {
-    if ([self streamStatus] == NSStreamStatusError) {
-        if (error) { *error = [self streamError]; }
-        return nil;
-    }
-    uint8_t buffer[BibLeaderRawDataLength];
-    if ([_inputStream readBytes:buffer length:BibLeaderRawDataLength error:error]) {
-        NSData *const data = [NSData dataWithBytes:buffer length:BibLeaderRawDataLength];
-        return [[BibLeader alloc] initWithData:data];
-    }
-    _streamStatus = NSStreamStatusError;
-    return nil;
-}
-
-- (BibFieldTag *)readFieldTag:(out NSError *__autoreleasing *)error {
-    if ([self streamStatus] == NSStreamStatusError) {
-        if (error) { *error = [self streamError]; }
-        return nil;
-    }
-    NSString *const tagString = [_inputStream readStringWithLength:3 encoding:NSASCIIStringEncoding error:error];
-    if (tagString == nil) {
-        _streamStatus = NSStreamStatusError;
-        return nil;
-    }
-    BibFieldTag *const tag = [[BibFieldTag alloc] initWithString:tagString];
-    if (tag == nil) {
-        _streamStatus = NSStreamStatusError;
-        NSString *const debugDescription = @"Field tags must be exactly 3 ASCII characters";
-        _streamError = [NSError errorWithDomain:BibMARCInputStreamErrorDomain
-                                           code:BibMARCInputStreamMalformedDataError
-                                       userInfo:@{ NSDebugDescriptionErrorKey : debugDescription }];
-        if (error) { *error = [self streamError]; }
-        return nil;
-    }
-    return tag;
-}
-
-- (BibDirectoryEntry *)readDirectoryEntryWithLeader:(BibLeader *)leader
-                                              error:(out NSError *__autoreleasing *)error {
-    BibFieldTag *const tag = [self readFieldTag:error];
-    if (tag == nil) { return nil; }
-    NSUInteger const lengthOfLengthOfField = [leader lengthOfLengthOfField];
-    NSUInteger const lengthOfFieldLocation = [leader lengthOfFieldLocation];
-    NSUInteger const lengthOfField = [_inputStream readUnsignedIntegerWithLength:lengthOfLengthOfField error:error];
-    NSUInteger const fieldLocation = [_inputStream readUnsignedIntegerWithLength:lengthOfFieldLocation error:error];
-    if (tag == nil || lengthOfField == NSNotFound || fieldLocation == NSNotFound) {
-        _streamStatus = NSStreamStatusError;
-        return nil;
-    }
-    return [[BibDirectoryEntry alloc] initWithTag:tag range:NSMakeRange(fieldLocation, lengthOfField)];
-}
-
-static NSError *sControlFieldMissingTerminatorError() {
-    NSString *const debugDescription =
-        [NSString stringWithFormat:@"Control fields must end with a field terminator (%#04x)", kFieldTerminator];
-    return [NSError errorWithDomain:BibMARCInputStreamErrorDomain
-                               code:BibMARCInputStreamMalformedDataError
-                           userInfo:@{ NSDebugDescriptionErrorKey : debugDescription }];;
-}
-
-- (BibControlField *)readControlFieldWithLeader:(BibLeader *)leader
-                                 directoryEntry:(BibDirectoryEntry *)directoryEntry
-                                          error:(out NSError *__autoreleasing *)error {
-    if ([self streamStatus] == NSStreamStatusError) {
-        if (error) { *error = [self streamError]; }
-        return nil;
-    }
-    NSUInteger const length = [directoryEntry range].length - 1;
-    NSString *const value = [_inputStream readStringWithLength:length bibEncoding:[leader recordEncoding] error:error];
-    if (value == nil) {
-        _streamStatus = NSStreamStatusError;
-        return nil;
-    }
-    uint8_t byte;
-    if (![_inputStream readByte:&byte error:error]) {
-        _streamStatus = NSStreamStatusError;
-        return nil;
-    }
-    if (byte != kFieldTerminator) {
-        _streamStatus = NSStreamStatusError;
-        _streamError = sControlFieldMissingTerminatorError();
-        if (error) { *error = [self streamError]; }
-        return nil;
-    }
-    return [BibControlField controlFieldWithTag:[directoryEntry tag] value:value];
-}
-
-- (BibContentIndicatorList *)readContentIndicatorsWithLeader:(BibLeader *)leader
-                                                       error:(out NSError *__autoreleasing *)error {
-    if ([self streamStatus] == NSStreamStatusError) {
-        if (error) { *error = [self streamError]; }
-        return nil;
-    }
-    NSUInteger const numberOfIndicators = [leader numberOfIndicators];
-    uint8_t *const buffer = alloca(numberOfIndicators);
-    if (![_inputStream readBytes:buffer length:numberOfIndicators error:error]) {
-        _streamStatus = NSStreamStatusError;
-        return nil;
-    }
-    BibContentIndicator *const rawIndicators = (BibContentIndicator *)buffer;
-    return [[BibContentIndicatorList alloc] initWithIndicators:rawIndicators count:numberOfIndicators];
-}
-
-static NSError *sSubfieldCodeMissingDelimiterError() {
-    NSString *const debugDescription =
-        [NSString stringWithFormat:@"Subfield codes must begin with a subfield delimiter (%#04x)", kSubfieldDelimiter];
-    return [NSError errorWithDomain:BibMARCInputStreamErrorDomain
-                               code:BibMARCInputStreamMalformedDataError
-                           userInfo:@{ NSDebugDescriptionErrorKey : debugDescription }];;
-}
-
-- (BibSubfieldCode)readSubfieldCodeWithLeader:(BibLeader *)leader error:(out NSError *__autoreleasing *)error {
-    if ([self streamStatus] == NSStreamStatusError) {
-        if (error) { *error = [self streamError]; }
-        return nil;
-    }
-    NSUInteger const length = [leader lengthOfSubfieldCode];
-    uint8_t *const bytes = alloca(length);
-    if (![_inputStream readBytes:bytes length:length error:error]) {
-        _streamStatus = NSStreamStatusError;
-        return nil;
-    }
-    if (length == 0 || bytes[0] != kSubfieldDelimiter) {
-        _streamStatus = NSStreamStatusError;
-        _streamError = sSubfieldCodeMissingDelimiterError();
-        if (error) { *error = [self streamError]; }
-        return nil;
-    }
-    return [[NSString alloc] initWithBytes:(bytes + 1) length:(length - 1) encoding:NSASCIIStringEncoding];
-}
-
-static NSError *sSubfieldContentContainsRecordTerminatorError() {
-    NSString *const debugDescription =
-        [NSString stringWithFormat:@"Content field contains a record terminator (%#04x)", kRecordTerminator];
-    return [NSError errorWithDomain:BibMARCInputStreamErrorDomain
-                               code:BibMARCInputStreamMalformedDataError
-                           userInfo:@{ NSDebugDescriptionErrorKey : debugDescription }];
-}
-
-- (NSString *)readSubfieldContentWithLeader:(BibLeader *)leader error:(out NSError *__autoreleasing *)error {
-    if ([self streamStatus] == NSStreamStatusError) {
-        if (error) { *error = [self streamError]; }
-        return nil;
-    }
-    uint8_t byte;
-    NSError *streamError = nil;
-    NSMutableData *const data = [NSMutableData data];
-    while ([_inputStream peekByte:&byte error:NULL]) {
-        switch (byte) {
-            case kFieldTerminator:
-            case kSubfieldDelimiter: {
-                BibInputStream *const inputStream = [[[BibInputStream alloc] initWithData:data] open];
-                NSString *const content = [inputStream readStringWithLength:[data length]
-                                                                bibEncoding:[leader recordEncoding]
-                                                                      error:&streamError];
-                if (content == nil) {
-                    _streamStatus = NSStreamStatusError;
-                    _streamError = streamError;
-                    if (error) { *error = [self streamError]; }
-                    return nil;
-                }
-                return content;
-            }
-
-            case kRecordTerminator:
-                [_inputStream readByte:&byte error:NULL];
-                _streamStatus = NSStreamStatusError;
-                _streamError = sSubfieldContentContainsRecordTerminatorError();
-                if (error) { *error = [self streamError]; }
-                return nil;
-
-            default:
-                [_inputStream readByte:&byte error:NULL];
-                [data appendBytes:&byte length:1];
-                break;
-        }
-    }
-    [_inputStream readBytes:&byte length:1 error:error];
-    _streamStatus = NSStreamStatusError;
-    return nil;
-}
-
-- (BibContentField *)readContentFieldWithLeader:(BibLeader *)leader
-                                 directoryEntry:(BibDirectoryEntry *)directoryEntry
-                                          error:(out NSError *__autoreleasing *)error {
-    NSUInteger const initialNumberOfBytesRead = [_inputStream numberOfBytesRead];
-    BibContentIndicatorList *const indicators = [self readContentIndicatorsWithLeader:leader error:error];
-    if (indicators == nil) { return nil; }
-    NSMutableArray *const subfields = [NSMutableArray array];
-    uint8_t byte;
-    while ([_inputStream peekByte:&byte error:NULL]) {
-        switch (byte) {
-            case kFieldTerminator: {
-                [_inputStream readByte:&byte error:NULL]; // we know this will succeed
-                NSUInteger const readLength = [_inputStream numberOfBytesRead] - initialNumberOfBytesRead;
-                if (readLength != [directoryEntry range].length) {
-                    _streamStatus = NSStreamStatusError;
-                    NSString *const debugDescription =
-                        @"Directory entry does not correctly describe the content field's size";
-                    _streamError = [NSError errorWithDomain:BibMARCInputStreamErrorDomain
-                                                       code:BibMARCInputStreamMalformedDataError
-                                                   userInfo:@{ NSDebugDescriptionErrorKey : debugDescription }];
-                    if (error) { *error = [self streamError]; }
-                    return nil;
-                }
-                return [[BibContentField alloc] initWithTag:[directoryEntry tag]
-                                                 indicators:indicators
-                                                  subfields:subfields];
-            }
-
-            case kSubfieldDelimiter: {
-                BibSubfieldCode const code = [self readSubfieldCodeWithLeader:leader error:error];
-                if (code == nil) { return nil; }
-                NSString *const content = [self readSubfieldContentWithLeader:leader error:error];
-                if (content == nil) { return nil; }
-                BibSubfield *const subfield = [[BibSubfield alloc] initWithCode:code content:content];
-                [subfields addObject:subfield];
-                break;
-            }
-
-            default: {
-                [_inputStream readByte:&byte error:NULL];
-                _streamStatus = NSStreamStatusError;
-                _streamError = [NSError errorWithDomain:BibMARCInputStreamErrorDomain
-                                                   code:BibMARCInputStreamMalformedDataError
-                                               userInfo:@{ NSDebugDescriptionErrorKey : @"Malformed content field" }];
-                if (error) { *error = [self streamError]; }
-                return nil;
-            }
-        }
-    }
-    [_inputStream readBytes:&byte length:1 error:error]; // we know this is gives an error
-    _streamStatus = NSStreamStatusError;
-    return nil;
+    BibRecord *const bibRecord = [[BibRecord alloc] initWithKind:kind
+                                                          status:BibRecordStatusNew
+                                                        metadata:metadata
+                                                   controlFields:controlFields
+                                                   contentFields:contentFields];
+    BibMarcRecordDestroy(&record);
+    return bibRecord;
 }
 
 @end

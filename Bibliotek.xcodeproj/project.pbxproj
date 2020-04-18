@@ -43,7 +43,6 @@
 		AA99BAFE23020BE30055C078 /* BibField.h in Headers */ = {isa = PBXBuildFile; fileRef = AA99BAFC23020BE30055C078 /* BibField.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA99BAFF23020BE30055C078 /* BibField.m in Sources */ = {isa = PBXBuildFile; fileRef = AA99BAFD23020BE30055C078 /* BibField.m */; };
 		AAA30B9C22F48F7900AF7AE5 /* BibMARCInputStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA30B9B22F48F7900AF7AE5 /* BibMARCInputStream.swift */; };
-		AAA4DFFD22EBD6DB0003AF7B /* BibMARCInputStream+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = AA19397A22E8E0F700429C54 /* BibMARCInputStream+Internal.h */; };
 		AAA4DFFF22EBE2780003AF7B /* BibMARCInputStreamTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA4DFFE22EBE2780003AF7B /* BibMARCInputStreamTests.m */; };
 		AAA4E00122EBF5D20003AF7B /* FieldTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA4E00022EBF5D20003AF7B /* FieldTag.swift */; };
 		AAA4E00322EBFBA40003AF7B /* ControlField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA4E00222EBFBA40003AF7B /* ControlField.swift */; };
@@ -132,7 +131,6 @@
 		AA19397422E7708900429C54 /* record02.marc8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = record02.marc8; sourceTree = "<group>"; };
 		AA19397622E8DF2D00429C54 /* BibMARCInputStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibMARCInputStream.h; sourceTree = "<group>"; };
 		AA19397722E8DF2D00429C54 /* BibMARCInputStream.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibMARCInputStream.m; sourceTree = "<group>"; };
-		AA19397A22E8E0F700429C54 /* BibMARCInputStream+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BibMARCInputStream+Internal.h"; sourceTree = "<group>"; };
 		AA258AED21FA2E1D00CDF88E /* NSCharacterSet+BibASCIICharacterSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSCharacterSet+BibASCIICharacterSet.h"; sourceTree = "<group>"; };
 		AA258AEE21FA2E1D00CDF88E /* NSCharacterSet+BibASCIICharacterSet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSCharacterSet+BibASCIICharacterSet.m"; sourceTree = "<group>"; };
 		AA258AFA21FE3C2A00CDF88E /* NSString+BibCharacterSetValidation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+BibCharacterSetValidation.h"; sourceTree = "<group>"; };
@@ -334,7 +332,6 @@
 				AA19395C22DFC55400429C54 /* BibInputStream.h */,
 				AA19395D22DFC55400429C54 /* BibInputStream.m */,
 				AA19397622E8DF2D00429C54 /* BibMARCInputStream.h */,
-				AA19397A22E8E0F700429C54 /* BibMARCInputStream+Internal.h */,
 				AA19397722E8DF2D00429C54 /* BibMARCInputStream.m */,
 				AAA30B9B22F48F7900AF7AE5 /* BibMARCInputStream.swift */,
 				AA382B2824439CA1009F624D /* BibMarcIO.h */,
@@ -435,7 +432,6 @@
 				AA19396F22E6366B00429C54 /* Bibliotek+Internal.h in Headers */,
 				AAA4E01C22EE0D5A0003AF7B /* BibRecordKind.h in Headers */,
 				AABDC22222DAE7CD00345A58 /* BibRecord.h in Headers */,
-				AAA4DFFD22EBD6DB0003AF7B /* BibMARCInputStream+Internal.h in Headers */,
 				AA51EA91211AB79A00BF28BE /* BibConnectionEndpoint.h in Headers */,
 				AA19397822E8DF2D00429C54 /* BibMARCInputStream.h in Headers */,
 				AA59056820AB419C00D41982 /* BibConnection+Private.h in Headers */,
