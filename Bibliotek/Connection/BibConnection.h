@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BibConstants.h"
+#import <Bibliotek/BibConstants.h>
 
 @class BibConnectionEndpoint;
 @class BibConnectionOptions;

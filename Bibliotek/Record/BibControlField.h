@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BibField.h"
+#import <Bibliotek/BibField.h>
 
 @class BibFieldTag;
 

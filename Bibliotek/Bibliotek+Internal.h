@@ -6,11 +6,11 @@
 //  Copyright © 2019 Steve Brunwasser. All rights reserved.
 //
 
-#import "Bibliotek.h"
+#import <Bibliotek/Bibliotek.h>
 
-#import "BibLeader.h"
-#import "BibDirectoryEntry.h"
-#import "BibMetadata+Internal.h"
+#import <Bibliotek/BibLeader.h>
+#import <Bibliotek/BibDirectoryEntry.h>
+#import <Bibliotek/BibMetadata+Internal.h>
 
 #define BibMApply(M, ...) M(__VA_ARGS__)
 #define BibMConcat(M, ...) M ## __VA_ARGS__

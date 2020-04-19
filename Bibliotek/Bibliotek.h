@@ -14,22 +14,22 @@ FOUNDATION_EXPORT double BibliotekVersionNumber;
 //! Project version string for Bibliotek.
 FOUNDATION_EXPORT const unsigned char BibliotekVersionString[];
 
-#import "BibConnection.h"
-#import "BibConnectionEndpoint.h"
-#import "BibConnectionOptions.h"
-#import "BibConstants.h"
-#import "BibFetchRequest.h"
-#import "BibRecordList.h"
+#import <Bibliotek/BibConnection.h>
+#import <Bibliotek/BibConnectionEndpoint.h>
+#import <Bibliotek/BibConnectionOptions.h>
+#import <Bibliotek/BibConstants.h>
+#import <Bibliotek/BibFetchRequest.h>
+#import <Bibliotek/BibRecordList.h>
 
-#import "BibRecord.h"
-#import "BibControlField.h"
-#import "BibContentField.h"
-#import "BibContentIndicatorList.h"
-#import "BibSubfield.h"
-#import "BibFieldTag.h"
-#import "BibMetadata.h"
-#import "BibRecordKind.h"
-#import "BibField.h"
+#import <Bibliotek/BibRecord.h>
+#import <Bibliotek/BibControlField.h>
+#import <Bibliotek/BibContentField.h>
+#import <Bibliotek/BibContentIndicatorList.h>
+#import <Bibliotek/BibSubfield.h>
+#import <Bibliotek/BibFieldTag.h>
+#import <Bibliotek/BibMetadata.h>
+#import <Bibliotek/BibRecordKind.h>
+#import <Bibliotek/BibField.h>
 
-#import "BibInputStream.h"
-#import "BibMARCInputStream.h"
+#import <Bibliotek/BibInputStream.h>
+#import <Bibliotek/BibMARCInputStream.h>

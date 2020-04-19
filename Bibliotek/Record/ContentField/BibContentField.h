@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BibSubfield.h"
-#import "BibField.h"
+#import <Bibliotek/BibSubfield.h>
+#import <Bibliotek/BibField.h>
 
 @class BibSubfield;
 @class BibFieldTag;

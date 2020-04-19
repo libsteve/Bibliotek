@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BibMetadata.h"
+#import <Bibliotek/BibMetadata.h>
 
 @class BibDirectoryEntry;
 

@@ -6,7 +6,7 @@
 //  Copyright © 2018 Steve Brunwasser. All rights reserved.
 //
 
-#import "BibConnection.h"
+#import <Bibliotek/BibConnection.h>
 #import <yaz/zoom.h>
 
 NS_ASSUME_NONNULL_BEGIN
