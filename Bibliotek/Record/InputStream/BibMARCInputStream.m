@@ -102,6 +102,8 @@ NSErrorDomain const BibMARCInputStreamErrorDomain = @"BibMARCInputStreamErrorDom
     switch ([self streamStatus]) {
         case NSStreamStatusOpen:
             return YES;
+        case NSStreamStatusAtEnd:
+            return NO;
         case NSStreamStatusError:
             if (error) { *error = [self streamError]; }
             return NO;
@@ -250,6 +252,10 @@ static NSError *sMalformedDataError() {
                                                    controlFields:controlFields
                                                    contentFields:contentFields];
     BibMarcRecordDestroy(&record);
+    if ([_inputStream streamStatus] == NSStreamStatusAtEnd)
+    {
+        _streamStatus = NSStreamStatusAtEnd;
+    }
     return bibRecord;
 }
 
