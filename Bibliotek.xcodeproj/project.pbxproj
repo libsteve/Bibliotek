@@ -10,9 +10,9 @@
 		AA14E83720D8D2AD00430A87 /* libyaz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA14E82A20D8C84B00430A87 /* libyaz.dylib */; };
 		AA19395E22DFC55400429C54 /* BibInputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = AA19395C22DFC55400429C54 /* BibInputStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA19395F22DFC55400429C54 /* BibInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = AA19395D22DFC55400429C54 /* BibInputStream.m */; };
-		AA19396D22E2C58000429C54 /* record01.marc8 in Resources */ = {isa = PBXBuildFile; fileRef = AA19396C22E2C58000429C54 /* record01.marc8 */; };
+		AA19396D22E2C58000429C54 /* ClassificationRecord.marc8 in Resources */ = {isa = PBXBuildFile; fileRef = AA19396C22E2C58000429C54 /* ClassificationRecord.marc8 */; };
 		AA19396F22E6366B00429C54 /* Bibliotek+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = AA19396E22E635CF00429C54 /* Bibliotek+Internal.h */; };
-		AA19397522E7708900429C54 /* record02.marc8 in Resources */ = {isa = PBXBuildFile; fileRef = AA19397422E7708900429C54 /* record02.marc8 */; };
+		AA19397522E7708900429C54 /* BibliographicRecord.marc8 in Resources */ = {isa = PBXBuildFile; fileRef = AA19397422E7708900429C54 /* BibliographicRecord.marc8 */; };
 		AA19397822E8DF2D00429C54 /* BibMARCInputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = AA19397622E8DF2D00429C54 /* BibMARCInputStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA19397922E8DF2D00429C54 /* BibMARCInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = AA19397722E8DF2D00429C54 /* BibMARCInputStream.m */; };
 		AA258AF021FA2E1D00CDF88E /* NSCharacterSet+BibASCIICharacterSet.m in Sources */ = {isa = PBXBuildFile; fileRef = AA258AEE21FA2E1D00CDF88E /* NSCharacterSet+BibASCIICharacterSet.m */; };
@@ -126,9 +126,9 @@
 		AA14E82A20D8C84B00430A87 /* libyaz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libyaz.dylib; path = lib/libyaz.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA19395C22DFC55400429C54 /* BibInputStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibInputStream.h; sourceTree = "<group>"; };
 		AA19395D22DFC55400429C54 /* BibInputStream.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibInputStream.m; sourceTree = "<group>"; };
-		AA19396C22E2C58000429C54 /* record01.marc8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = record01.marc8; sourceTree = "<group>"; };
+		AA19396C22E2C58000429C54 /* ClassificationRecord.marc8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ClassificationRecord.marc8; sourceTree = "<group>"; };
 		AA19396E22E635CF00429C54 /* Bibliotek+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bibliotek+Internal.h"; sourceTree = "<group>"; };
-		AA19397422E7708900429C54 /* record02.marc8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = record02.marc8; sourceTree = "<group>"; };
+		AA19397422E7708900429C54 /* BibliographicRecord.marc8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BibliographicRecord.marc8; sourceTree = "<group>"; };
 		AA19397622E8DF2D00429C54 /* BibMARCInputStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibMARCInputStream.h; sourceTree = "<group>"; };
 		AA19397722E8DF2D00429C54 /* BibMARCInputStream.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibMARCInputStream.m; sourceTree = "<group>"; };
 		AA258AED21FA2E1D00CDF88E /* NSCharacterSet+BibASCIICharacterSet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSCharacterSet+BibASCIICharacterSet.h"; sourceTree = "<group>"; };
@@ -365,8 +365,8 @@
 				AAAA429020B9F35600BDB52B /* BibliotekTests.swift */,
 				AA40444022EA417F0099F00B /* BibInputStreamTests.m */,
 				AAA4DFFE22EBE2780003AF7B /* BibMARCInputStreamTests.m */,
-				AA19396C22E2C58000429C54 /* record01.marc8 */,
-				AA19397422E7708900429C54 /* record02.marc8 */,
+				AA19396C22E2C58000429C54 /* ClassificationRecord.marc8 */,
+				AA19397422E7708900429C54 /* BibliographicRecord.marc8 */,
 				AAAA428820B9F32A00BDB52B /* Info.plist */,
 			);
 			path = BibliotekTests;
@@ -578,8 +578,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA19397522E7708900429C54 /* record02.marc8 in Resources */,
-				AA19396D22E2C58000429C54 /* record01.marc8 in Resources */,
+				AA19397522E7708900429C54 /* BibliographicRecord.marc8 in Resources */,
+				AA19396D22E2C58000429C54 /* ClassificationRecord.marc8 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

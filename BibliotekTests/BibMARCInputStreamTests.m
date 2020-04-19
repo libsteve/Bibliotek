@@ -24,20 +24,37 @@
 
 #pragma mark -
 
-- (void)testReadRecord01 {
-    BibMARCInputStream *const inputStream = [self inputStreamForRecordNamed:@"record01"];
+- (void)testReadClassificationRecord {
+    BibMARCInputStream *const inputStream = [self inputStreamForRecordNamed:@"ClassificationRecord"];
     NSError *error = nil;
     BibRecord *const record = [inputStream readRecord:&error];
     XCTAssertNil(error);
     XCTAssertNotNil(record);
+    BibFieldTag *const titleStatementFieldTag = [[BibFieldTag alloc] initWithString:@"153"];
+    BibContentField *const field = [[record contentFieldsWithTag:titleStatementFieldTag] firstObject];
+    XCTAssertEqualObjects([[field firstSubfieldWithCode:@"a"] content], @"KJV5461.3");
+    NSUInteger const firstIndex = [[field subfields] indexOfObject:[field firstSubfieldWithCode:@"h"]];
+    XCTAssertEqualObjects([[[field subfields] objectAtIndex:firstIndex] content], @"Law of France");
+    XCTAssertEqualObjects([[[field subfields] objectAtIndex:firstIndex + 1] content],
+                          @"Cultural affairs. L'action culturelle des pouvoirs publics");
+    XCTAssertEqualObjects([[[field subfields] objectAtIndex:firstIndex + 2] content], @"Education");
+    XCTAssertEqualObjects([[field firstSubfieldWithCode:@"j"] content], @"Private schools");
 }
 
-- (void)testReadRecord02 {
-    BibMARCInputStream *const inputStream = [self inputStreamForRecordNamed:@"record02"];
+- (void)testReadBibliographicRecord {
+    BibMARCInputStream *const inputStream = [self inputStreamForRecordNamed:@"BibliographicRecord"];
     NSError *error = nil;
     BibRecord *const record = [inputStream readRecord:&error];
     XCTAssertNil(error);
     XCTAssertNotNil(record);
+    BibFieldTag *const titleStatementFieldTag = [[BibFieldTag alloc] initWithString:@"245"];
+    BibContentField *const field = [[record contentFieldsWithTag:titleStatementFieldTag] firstObject];
+    XCTAssertEqualObjects([[field firstSubfieldWithCode:@"a"] content], @"In the land of invented languages :");
+    XCTAssertEqualObjects([[field firstSubfieldWithCode:@"b"] content], @"Esperanto rock stars, Klingon poets, "
+                                                                        @"Loglan lovers, and the mad dreamers "
+                                                                        @"who tried to build a perfect language /");
+    XCTAssertEqualObjects([[field firstSubfieldWithCode:@"c"] content], @"Arika Okrent.");
+
 }
 
 @end
