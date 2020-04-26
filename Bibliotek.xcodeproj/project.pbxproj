@@ -307,6 +307,7 @@
 				AA258B0722079B4200CDF88E /* Foundation */,
 				AABDC1F822DAA96C00345A58 /* Record */,
 				AA2F88D42120920C0085A637 /* RecordList */,
+				AAB78655245553050018A833 /* Serialzation */,
 				AA59F0D620A9FACF00D41982 /* Info.plist */,
 			);
 			path = Bibliotek;
@@ -326,21 +327,6 @@
 				AAA4E00822EC0C730003AF7B /* ContentField.swift */,
 			);
 			path = ContentField;
-			sourceTree = "<group>";
-		};
-		AAA4E02122EE33070003AF7B /* InputStream */ = {
-			isa = PBXGroup;
-			children = (
-				AA19397622E8DF2D00429C54 /* BibMARCInputStream.h */,
-				AA19397722E8DF2D00429C54 /* BibMARCInputStream.m */,
-				AAA30B9B22F48F7900AF7AE5 /* BibMARCInputStream.swift */,
-				AAB7864D2454C2D90018A833 /* BibMARCOutputStream.h */,
-				AAB7864E2454C2D90018A833 /* BibMARCOutputStream.m */,
-				AAB7865324550AFB0018A833 /* BibMARCOutputStream.swift */,
-				AA382B2824439CA1009F624D /* BibMarcIO.h */,
-				AA382B2924439CA1009F624D /* BibMarcIO.m */,
-			);
-			path = InputStream;
 			sourceTree = "<group>";
 		};
 		AAA4E02322EE334C0003AF7B /* Primitives */ = {
@@ -393,13 +379,27 @@
 			path = Connection;
 			sourceTree = "<group>";
 		};
+		AAB78655245553050018A833 /* Serialzation */ = {
+			isa = PBXGroup;
+			children = (
+				AA19397622E8DF2D00429C54 /* BibMARCInputStream.h */,
+				AA19397722E8DF2D00429C54 /* BibMARCInputStream.m */,
+				AAA30B9B22F48F7900AF7AE5 /* BibMARCInputStream.swift */,
+				AAB7864D2454C2D90018A833 /* BibMARCOutputStream.h */,
+				AAB7864E2454C2D90018A833 /* BibMARCOutputStream.m */,
+				AAB7865324550AFB0018A833 /* BibMARCOutputStream.swift */,
+				AA382B2824439CA1009F624D /* BibMarcIO.h */,
+				AA382B2924439CA1009F624D /* BibMarcIO.m */,
+			);
+			path = Serialzation;
+			sourceTree = "<group>";
+		};
 		AABDC1F822DAA96C00345A58 /* Record */ = {
 			isa = PBXGroup;
 			children = (
 				AABDC22022DAE7CD00345A58 /* BibRecord.h */,
 				AABDC22122DAE7CD00345A58 /* BibRecord.m */,
 				AAA4E00A22EC119A0003AF7B /* Record.swift */,
-				AAA4E02122EE33070003AF7B /* InputStream */,
 				AABDC1FE22DAB2FD00345A58 /* BibLeader.h */,
 				AABDC1FD22DAB2FD00345A58 /* BibLeader.m */,
 				AABDC20522DAC10500345A58 /* BibDirectoryEntry.h */,
