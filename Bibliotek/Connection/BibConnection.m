@@ -136,6 +136,7 @@
 
 - (BibRecordList *)fetchRecordsWithRequest:(BibFetchRequest *)request error:(NSError *__autoreleasing *)error {
     ZOOM_resultset const resultSet = ZOOM_connection_search(_connection, request.zoomQuery);
+    ZOOM_resultset_option_set(resultSet, "preferredRecordSyntax", "USMARC");
     if ([self error:error]) {
         return nil;
     }
