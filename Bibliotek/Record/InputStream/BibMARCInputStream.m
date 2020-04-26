@@ -7,7 +7,6 @@
 //
 
 #import "BibMARCInputStream.h"
-#import "BibInputStream.h"
 
 #import "BibMetadata+Internal.h"
 

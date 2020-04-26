@@ -31,6 +31,5 @@ FOUNDATION_EXPORT const unsigned char BibliotekVersionString[];
 #import <Bibliotek/BibRecordKind.h>
 #import <Bibliotek/BibField.h>
 
-#import <Bibliotek/BibInputStream.h>
 #import <Bibliotek/BibMARCInputStream.h>
 #import <Bibliotek/BibMARCOutputStream.h>

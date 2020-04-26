@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		AA14E83720D8D2AD00430A87 /* libyaz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA14E82A20D8C84B00430A87 /* libyaz.dylib */; };
-		AA19395E22DFC55400429C54 /* BibInputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = AA19395C22DFC55400429C54 /* BibInputStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA19395F22DFC55400429C54 /* BibInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = AA19395D22DFC55400429C54 /* BibInputStream.m */; };
 		AA19396D22E2C58000429C54 /* ClassificationRecord.marc8 in Resources */ = {isa = PBXBuildFile; fileRef = AA19396C22E2C58000429C54 /* ClassificationRecord.marc8 */; };
 		AA19396F22E6366B00429C54 /* Bibliotek+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = AA19396E22E635CF00429C54 /* Bibliotek+Internal.h */; };
 		AA19397522E7708900429C54 /* BibliographicRecord.marc8 in Resources */ = {isa = PBXBuildFile; fileRef = AA19397422E7708900429C54 /* BibliographicRecord.marc8 */; };
@@ -22,7 +20,6 @@
 		AA2F88DC2121171A0085A637 /* libyaz.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA14E82A20D8C84B00430A87 /* libyaz.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		AA382B2A24439CA1009F624D /* BibMarcIO.h in Headers */ = {isa = PBXBuildFile; fileRef = AA382B2824439CA1009F624D /* BibMarcIO.h */; };
 		AA382B2B24439CA1009F624D /* BibMarcIO.m in Sources */ = {isa = PBXBuildFile; fileRef = AA382B2924439CA1009F624D /* BibMarcIO.m */; };
-		AA40444122EA417F0099F00B /* BibInputStreamTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA40444022EA417F0099F00B /* BibInputStreamTests.m */; };
 		AA51EA8B211AA98B00BF28BE /* BibConnectionOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = AA51EA89211AA98B00BF28BE /* BibConnectionOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA51EA8C211AA98B00BF28BE /* BibConnectionOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA51EA8A211AA98B00BF28BE /* BibConnectionOptions.m */; };
 		AA51EA8E211AAAEB00BF28BE /* BibConnectionOptions+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = AA51EA8D211AAAEA00BF28BE /* BibConnectionOptions+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -128,8 +125,6 @@
 /* Begin PBXFileReference section */
 		AA14E82720D8C2FD00430A87 /* configure */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = configure; sourceTree = "<group>"; };
 		AA14E82A20D8C84B00430A87 /* libyaz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libyaz.dylib; path = lib/libyaz.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
-		AA19395C22DFC55400429C54 /* BibInputStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibInputStream.h; sourceTree = "<group>"; };
-		AA19395D22DFC55400429C54 /* BibInputStream.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibInputStream.m; sourceTree = "<group>"; };
 		AA19396C22E2C58000429C54 /* ClassificationRecord.marc8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ClassificationRecord.marc8; sourceTree = "<group>"; };
 		AA19396E22E635CF00429C54 /* Bibliotek+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bibliotek+Internal.h"; sourceTree = "<group>"; };
 		AA19397422E7708900429C54 /* BibliographicRecord.marc8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BibliographicRecord.marc8; sourceTree = "<group>"; };
@@ -142,7 +137,6 @@
 		AA37678820CDB34000CF101D /* Brewfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Brewfile; sourceTree = "<group>"; };
 		AA382B2824439CA1009F624D /* BibMarcIO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibMarcIO.h; sourceTree = "<group>"; };
 		AA382B2924439CA1009F624D /* BibMarcIO.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibMarcIO.m; sourceTree = "<group>"; };
-		AA40444022EA417F0099F00B /* BibInputStreamTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibInputStreamTests.m; sourceTree = "<group>"; };
 		AA51EA89211AA98B00BF28BE /* BibConnectionOptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibConnectionOptions.h; sourceTree = "<group>"; };
 		AA51EA8A211AA98B00BF28BE /* BibConnectionOptions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibConnectionOptions.m; sourceTree = "<group>"; };
 		AA51EA8D211AAAEA00BF28BE /* BibConnectionOptions+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BibConnectionOptions+Private.h"; sourceTree = "<group>"; };
@@ -337,8 +331,6 @@
 		AAA4E02122EE33070003AF7B /* InputStream */ = {
 			isa = PBXGroup;
 			children = (
-				AA19395C22DFC55400429C54 /* BibInputStream.h */,
-				AA19395D22DFC55400429C54 /* BibInputStream.m */,
 				AA19397622E8DF2D00429C54 /* BibMARCInputStream.h */,
 				AA19397722E8DF2D00429C54 /* BibMARCInputStream.m */,
 				AAA30B9B22F48F7900AF7AE5 /* BibMARCInputStream.swift */,
@@ -374,7 +366,6 @@
 			isa = PBXGroup;
 			children = (
 				AAAA429020B9F35600BDB52B /* BibliotekTests.swift */,
-				AA40444022EA417F0099F00B /* BibInputStreamTests.m */,
 				AAA4DFFE22EBE2780003AF7B /* BibMARCInputStreamTests.m */,
 				AAB786512454F0550018A833 /* BibMARCOutputStreamTests.m */,
 				AA19396C22E2C58000429C54 /* ClassificationRecord.marc8 */,
@@ -452,7 +443,6 @@
 				AABDC21A22DAE05200345A58 /* BibSubfield.h in Headers */,
 				AA6D18D620B5B6CC00603E61 /* BibFetchRequest.h in Headers */,
 				AAA4E01722ED66A70003AF7B /* BibMetadata+Internal.h in Headers */,
-				AA19395E22DFC55400429C54 /* BibInputStream.h in Headers */,
 				AAAA42A220BB156100BDB52B /* BibRecordList.h in Headers */,
 				AA6D18D920B5B9FC00603E61 /* BibFetchRequest+Private.h in Headers */,
 				AA99BAFE23020BE30055C078 /* BibField.h in Headers */,
@@ -624,7 +614,6 @@
 				AABDC21222DACDBC00345A58 /* BibContentIndicatorList.m in Sources */,
 				AAA4E01922ED719F0003AF7B /* Metadata.swift in Sources */,
 				AABDC20322DABA5300345A58 /* BibMetadata.m in Sources */,
-				AA19395F22DFC55400429C54 /* BibInputStream.m in Sources */,
 				AA51EA96211AC93C00BF28BE /* BibConnectionEndpoint.swift in Sources */,
 				AA382B2B24439CA1009F624D /* BibMarcIO.m in Sources */,
 				AAB786502454C2D90018A833 /* BibMARCOutputStream.m in Sources */,
@@ -649,7 +638,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA40444122EA417F0099F00B /* BibInputStreamTests.m in Sources */,
 				AAB786522454F0550018A833 /* BibMARCOutputStreamTests.m in Sources */,
 				AAAA429120B9F35600BDB52B /* BibliotekTests.swift in Sources */,
 				AAA4DFFF22EBE2780003AF7B /* BibMARCInputStreamTests.m in Sources */,
