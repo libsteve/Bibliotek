@@ -31,11 +31,13 @@ BibMarcLeader BibMarcLeaderRead(int8_t const *const buffer, size_t const length)
 {
     assert(buffer != NULL);
     assert(length >= kLeaderLength);
-    return (BibMarcLeader) {
+    BibMarcLeader leader = (BibMarcLeader) {
         .recordKind = buffer[6],
         .recordLength = BibMarcSizeRead(buffer, 5),
-        .fieldsLocation = BibMarcSizeRead(buffer + 12, 5)
+        .fieldsLocation = BibMarcSizeRead(buffer + 12, 5),
     };
+    memcpy(leader.leaderData, buffer, 24);
+    return leader;
 }
 
 BibMarcDirectoryEntry BibMarcDirectoryEntryRead(int8_t const *buffer, size_t length)
@@ -238,7 +240,9 @@ boolean_t BibMarcLeaderWrite(BibMarcLeader const *const leader, int8_t *const bu
 {
     assert(buffer != NULL);
     assert(length >= kLeaderLength);
-    if (buffer == NULL || length < kLeaderLength) { return false; }
+    if (buffer == NULL || length <= kLeaderLength) { return false; }
+
+    memcpy(buffer, leader->leaderData, 24);
 
     buffer[6] = leader->recordKind;
     BibMarcSizeWrite(leader->recordLength, buffer, 5);
@@ -273,11 +277,11 @@ boolean_t BibMarcControlFieldWrite(BibMarcControlField const *const field,
     assert(entry->fieldLocation + entry->fieldLength < length);
     assert(entry->fieldLength - 1 == strlen(field->content));
     if (field == NULL || entry == NULL || buffer == NULL
-        || (entry->fieldLocation + entry->fieldLength < length)
-        || (entry->fieldLength - 1 == strlen(field->content))) { return false; }
+        || (entry->fieldLocation + entry->fieldLength >= length)
+        || (entry->fieldLength - 1 != strlen(field->content))) { return false; }
 
     memcpy(buffer + entry->fieldLocation, field->content, entry->fieldLength - 1);
-    buffer[entry->fieldLocation + entry->fieldLength - 2] = kFieldTerminator;
+    buffer[entry->fieldLocation + entry->fieldLength - 1] = kFieldTerminator;
     return true;
 }
 
@@ -345,11 +349,12 @@ size_t BibMarcRecordWrite(BibMarcRecord const *const record, int8_t *const buffe
     size_t const content_count = record->contentFieldsCount;
     size_t const directory_len = control_count + content_count;
 
-    BibMarcLeader const leader = {
+    BibMarcLeader leader = {
         .recordKind = record->leader.recordKind,
         .recordLength = BibMarcRecordGetWriteSize(record),
-        .fieldsLocation = kLeaderLength + (directory_len * kDirectoryEntryLength) + 1
+        .fieldsLocation = kLeaderLength + (directory_len * kDirectoryEntryLength) + 1,
     };
+    memcpy(leader.leaderData, record->leader.leaderData, 24);
     assert(length >= leader.recordLength);
     if (length < leader.recordLength) { return 0; }
     BibMarcLeaderWrite(&leader, buffer, length);
@@ -427,6 +432,7 @@ size_t BibMarcRecordGetWriteSize(BibMarcRecord const *const record)
 
     size_t buffer_len = kLeaderLength;
     buffer_len += kDirectoryEntryLength * (record->controlFieldsCount + record->contentFieldsCount);
+    buffer_len += 1; // field terminator
     for (size_t index = 0; index < record->controlFieldsCount; index += 1)
     {
         buffer_len += BibMarcControlFieldGetWriteSize(&(record->controlFields[index]));
@@ -527,8 +533,9 @@ void BibMarcSizeWrite(size_t value, int8_t *const buffer, size_t const length)
     for (size_t index = 0; index < length; index += 1)
     {
         size_t const power = length - 1 - index;
-        size_t const digit = value / (size_t)pow(10, (double)power);
+        size_t const divisor = (size_t)pow(10, (double)power);
+        size_t const digit = value / divisor;
         buffer[index] = (int8_t)digit + '0';
-        value -= digit * power;
+        value -= digit * divisor;
     }
 }

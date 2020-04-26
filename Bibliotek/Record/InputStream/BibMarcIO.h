@@ -14,7 +14,7 @@ typedef struct BibMarcLeader {
     int8_t recordKind;
     size_t recordLength;
     size_t fieldsLocation;
-
+    int8_t leaderData[24];
 } BibMarcLeader;
 
 typedef struct BibMarcDirectoryEntry {
