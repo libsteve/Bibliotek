@@ -26,6 +26,12 @@ NS_SWIFT_NAME(MARCInputStream)
 /// No data can be read after \c streamError is set to a non-nil value.
 @property (nonatomic, copy, readonly, nullable) NSError *streamError;
 
+/// Are there more records available to read from the stream?
+///
+/// \returns \c YES when there is more data available in the stream to read as records,
+///          or when the availability of data can't determined without attempting a read.
+@property (nonatomic, assign, readonly) BOOL hasRecordsAvailable;
+
 #pragma mark -
 
 /// Initializes and returns a \c BibMARCInputStream for reading from a file at the given URL.
@@ -96,10 +102,11 @@ NS_SWIFT_NAME(MARCInputStream)
 ///       \c streamError is set to an \c NSError object that indicates the reason for the failure.
 /// \note If the input stream has not yet been opened, \c nil is returned with an error, but \c streamStatus and
 ///       \c streamError will not be set to reflect that failure. Attempting to read from the input stream after it is
-///       opened will attempt to read data as though it did not previously encounter an error.
+///       opened will continue to read data as though it did not previously encounter an error.
 /// \note If \c streamStatus is set to \c NSStreamStatusAtEnd when this method is called, \c nil is returned, but no
 ///       \c NSError is provided through the \c error pointer.
-- (nullable BibRecord *)readRecord:(out NSError *_Nullable __autoreleasing *_Nullable)error NS_REFINED_FOR_SWIFT __attribute__((swift_error(nonnull_error)));
+- (nullable BibRecord *)readRecord:(out NSError *_Nullable __autoreleasing *_Nullable)error NS_REFINED_FOR_SWIFT
+    __attribute__((swift_error(nonnull_error)));
 
 @end
 

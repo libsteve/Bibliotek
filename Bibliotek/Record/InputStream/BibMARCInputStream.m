@@ -84,6 +84,10 @@ NSErrorDomain const BibMARCInputStreamErrorDomain = @"BibMARCInputStreamErrorDom
     return (_streamStatus == NSStreamStatusError) ? (_streamError ?: [_inputStream streamError]) : nil;
 }
 
+- (BOOL)hasRecordsAvailable {
+    return [_inputStream hasBytesAvailable];
+}
+
 - (instancetype)open {
     _streamError = nil;
     [_inputStream open];
