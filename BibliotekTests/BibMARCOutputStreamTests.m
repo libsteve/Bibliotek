@@ -44,7 +44,7 @@
 
 #pragma mark -
 
-- (void)testReadClassificationRecord {
+- (void)testWriteClassificationRecord {
     BibRecord *const readRecord = [self classificationRecord];
 
     NSError *error = nil;
@@ -63,7 +63,7 @@
     XCTAssertEqualObjects(readRecord, rereadRecord);
 }
 
-- (void)testReadBibliographicRecord {
+- (void)testWriteBibliographicRecord {
     BibRecord *const readRecord = [self bibliographicRecord];
 
     NSError *error = nil;
