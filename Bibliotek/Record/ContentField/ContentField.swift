@@ -113,6 +113,24 @@ extension ContentField: CustomStringConvertible, CustomPlaygroundDisplayConverti
                                                     "subfields": self.subfields] }
 }
 
+extension ContentField {
+    public func indexesOfSubfields(with code: SubfieldCode) -> IndexSet {
+        return self.storage.indexesOfSubfields(withCode: code)
+    }
+
+    public func firstSubfield(with code: SubfieldCode) -> Subfield? {
+        return self.storage.firstSubfield(withCode: code) as Subfield?
+    }
+
+    public func subfields(with code: SubfieldCode) -> LazyFilterSequence<[Subfield]> {
+        return self.subfields.lazy.filter { $0.code == code }
+    }
+
+    public func subfield(at index: Int) -> Subfield {
+        return self.storage.subfield(at: UInt(index)) as Subfield
+    }
+}
+
 // MARK: - Bridging
 
 extension ContentField: _ObjectiveCBridgeable {

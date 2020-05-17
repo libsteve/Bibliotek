@@ -31,6 +31,10 @@
     return self;
 }
 
++ (instancetype)fieldTagWithString:(NSString *)stringValue {
+    return [[_BibFieldTag alloc] initWithString:stringValue];
+}
+
 - (instancetype)initWithData:(NSData *)data {
     return [self initWithString:[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding]];
 }

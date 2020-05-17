@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <Bibliotek/BibMetadata.h>
+#import <Bibliotek/BibSubfield.h>
 
 @class BibControlField;
 @class BibContentField;
@@ -15,6 +16,8 @@
 
 @class BibFieldTag;
 @class BibFieldEnumerator<FieldType>;
+@class BibFieldPath;
+@protocol BibField;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -107,6 +110,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray<BibControlField *> *)controlFieldsWithTag:(BibFieldTag *)fieldTag NS_SWIFT_NAME(controlFields(with:));
 - (NSArray<BibContentField *> *)contentFieldsWithTag:(BibFieldTag *)fieldTag NS_SWIFT_NAME(contentFields(with:));
+
+- (NSArray<NSIndexPath *> *)indexPathsForFieldTag:(BibFieldTag *)fieldTag NS_SWIFT_NAME(indexPaths(for:));
+- (NSArray<NSIndexPath *> *)indexPathsForFieldTag:(BibFieldTag *)fieldTag subfieldCode:(BibSubfieldCode)subfieldCode
+    NS_SWIFT_NAME(indexPaths(for:code:));
+- (NSArray<NSIndexPath *> *)indexPathsForFieldPath:(BibFieldPath *)fieldPath NS_SWIFT_NAME(indexPaths(for:));
+
+- (nullable BibControlField *)controlFieldAtIndexPath:(NSIndexPath *)indexPath NS_SWIFT_NAME(controlField(at:));
+- (nullable BibContentField *)contentFieldAtIndexPath:(NSIndexPath *)indexPath NS_SWIFT_NAME(contentField(at:));
+- (nullable BibSubfield *)subfieldAtIndexPath:(NSIndexPath *)indexPath NS_SWIFT_NAME(subfield(at:));
+
+- (NSString *)contentAtIndexPath:(NSIndexPath *)indexPath NS_SWIFT_NAME(content(at:));
+
+- (NSArray<NSString *> *)contentWithFieldTag:(BibFieldTag *)fieldTag NS_SWIFT_NAME(content(with:));
+- (NSArray<NSString *> *)contentWithFieldTag:(BibFieldTag *)fieldTag subfieldCode:(BibSubfieldCode)subfieldCode
+    NS_SWIFT_NAME(content(with:code:));
+- (NSArray<NSString *> *)contentWithFieldPath:(BibFieldPath *)fieldPath NS_SWIFT_NAME(content(with:));
 
 @end
 

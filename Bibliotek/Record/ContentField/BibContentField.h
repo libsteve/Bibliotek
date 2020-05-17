@@ -91,7 +91,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable BibSubfield *)firstSubfieldWithCode:(BibSubfieldCode)code;
 
-- (nullable NSString *)firstContentWithCode:(BibSubfieldCode)code;
+- (nullable NSString *)contentOfFirstSubfieldWithCode:(BibSubfieldCode)code;
+
+- (NSIndexSet *)indexesOfSubfieldsWithCode:(BibSubfieldCode)code;
+
+- (NSArray<BibSubfield *> *)subfieldsWithCode:(BibSubfieldCode)code;
+
+- (BibSubfield *)subfieldAtIndex:(NSUInteger)index;
 
 @end
 

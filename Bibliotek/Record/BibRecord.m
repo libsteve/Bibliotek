@@ -155,6 +155,124 @@
     return [[self contentFields] filteredArrayUsingPredicate:predicate];
 }
 
+- (NSArray<NSIndexPath *> *)indexPathsForFieldTag:(BibFieldTag *)fieldTag {
+    NSMutableArray *const indexPaths = [NSMutableArray new];
+    if ([fieldTag isControlFieldTag]) {
+        NSArray *const controlFields = [self controlFields];
+        NSUInteger const controlFieldsCount = [controlFields count];
+        for (NSUInteger fieldIndex = 0; fieldIndex < controlFieldsCount; fieldIndex += 1) {
+            BibControlField *const controlField = [controlFields objectAtIndex:fieldIndex];
+            if ([[controlField tag] isEqualToTag:fieldTag]) {
+                [indexPaths addObject:[[NSIndexPath alloc] initWithIndex:fieldIndex]];
+            }
+        }
+    } else {
+        NSArray *const contentFields = [self contentFields];
+        NSUInteger const contnetFiledsCount = [contentFields count];
+        NSUInteger const controlFieldsCount = [[self controlFields] count];
+        for (NSUInteger fieldIndex = 0; fieldIndex < contnetFiledsCount; fieldIndex += 1) {
+            BibContentField *const contentField = [contentFields objectAtIndex:fieldIndex];
+            if ([[contentField tag] isEqualToTag:fieldTag]) {
+                [indexPaths addObject:[[NSIndexPath alloc] initWithIndex:(fieldIndex + controlFieldsCount)]];
+            }
+        }
+    }
+    return [indexPaths copy];
+}
+
+- (NSArray<NSIndexPath *> *)indexPathsForFieldTag:(BibFieldTag *)fieldTag subfieldCode:(BibSubfieldCode)subfieldCode {
+    NSMutableArray *const indexPaths = [NSMutableArray new];
+    for (NSIndexPath *path in [self indexPathsForFieldTag:fieldTag]) {
+        BibContentField *const contentField = [self contentFieldAtIndexPath:path];
+        NSIndexSet const *indexes = [contentField indexesOfSubfieldsWithCode:subfieldCode] ?: [NSIndexSet new];
+        for (NSUInteger index = [indexes firstIndex]; index != NSNotFound; index = [indexes indexGreaterThanIndex:index]) {
+            [indexPaths addObject:[path indexPathByAddingIndex:index]];
+        }
+    }
+    return [indexPaths copy];
+}
+
+- (NSArray<NSIndexPath *> *)indexPathsForFieldPath:(BibFieldPath *)fieldPath {
+    if ([fieldPath isSubfieldPath]) {
+        return [self indexPathsForFieldTag:[fieldPath fieldTag] subfieldCode:[fieldPath subfieldCode]];
+    }
+    if ([fieldPath isControlFieldPath] || [fieldPath isContentFieldPath]) {
+        return [self indexPathsForFieldTag:[fieldPath fieldTag]];
+    }
+    return [NSArray array];
+}
+
+- (BibControlField *)controlFieldAtIndexPath:(NSIndexPath *)indexPath {
+    if ([indexPath length] >= 1) {
+        NSUInteger const index = [indexPath indexAtPosition:0];
+        NSArray *const controlFields = [self controlFields];
+        if (index < [controlFields count]) {
+            return [controlFields objectAtIndex:index];
+        }
+    }
+    return nil;
+}
+
+- (BibContentField *)contentFieldAtIndexPath:(NSIndexPath *)indexPath {
+    if ([indexPath length] >= 1) {
+        NSUInteger const index = [indexPath indexAtPosition:0];
+        NSUInteger const controlFieldsCount = [[self controlFields] count];
+        if (index >= controlFieldsCount) {
+            return [[self contentFields] objectAtIndex:(index - controlFieldsCount)];
+        }
+    }
+    return nil;
+}
+
+- (BibSubfield *)subfieldAtIndexPath:(NSIndexPath *)indexPath {
+    if ([indexPath length] >= 2) {
+        BibContentField *const contentField = [self contentFieldAtIndexPath:indexPath];
+        return [contentField subfieldAtIndex:[indexPath indexAtPosition:1]];
+    }
+    return nil;
+}
+
+- (NSString *)contentAtIndexPath:(NSIndexPath *)indexPath {
+    BibSubfield *const subfield = [self subfieldAtIndexPath:indexPath];
+    if (subfield != nil) {
+        return [subfield content];
+    }
+    BibContentField *const contentField = [self contentFieldAtIndexPath:indexPath];
+    if (contentField != nil) {
+        return [[[contentField subfields] valueForKey:BibKey(content)] componentsJoinedByString:@" "];
+    }
+    BibControlField *const controlField = [self controlFieldAtIndexPath:indexPath];
+    if (controlField != nil) {
+        return [controlField value];
+    }
+    NSParameterAssert(NO);
+    return nil;
+}
+
+- (NSArray<NSString *> *)contentWithFieldTag:(BibFieldTag *)fieldTag {
+    NSMutableArray *const contents = [NSMutableArray new];
+    for (NSIndexPath *indexPath in [self indexPathsForFieldTag:fieldTag]) {
+        [contents addObject:[self contentAtIndexPath:indexPath]];
+    }
+    return [contents copy];
+}
+
+- (NSArray<NSString *> *)contentWithFieldTag:(BibFieldTag *)fieldTag subfieldCode:(BibSubfieldCode)subfieldCode {
+    NSMutableArray *const contents = [NSMutableArray new];
+    for (NSIndexPath *indexPath in [self indexPathsForFieldTag:fieldTag subfieldCode:subfieldCode]) {
+        [contents addObject:[self contentAtIndexPath:indexPath]];
+    }
+    return [contents copy];
+}
+
+- (NSArray<NSString *> *)contentWithFieldPath:(BibFieldPath *)fieldPath {
+    NSMutableArray *const contents = [NSMutableArray new];
+    for (NSIndexPath *indexPath in [self indexPathsForFieldPath:fieldPath]) {
+        [contents addObject:[self contentAtIndexPath:indexPath]];
+    }
+    return [contents copy];
+}
+
 @end
 
 #pragma mark - Mutable

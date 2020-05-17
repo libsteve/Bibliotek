@@ -111,8 +111,29 @@
     return [[self subfieldEnumerator] nextSubfieldWithCode:code];
 }
 
-- (NSString *)firstContentWithCode:(BibSubfieldCode)code {
+- (NSString *)contentOfFirstSubfieldWithCode:(BibSubfieldCode)code {
     return [[self firstSubfieldWithCode:code] content];
+}
+
+- (NSIndexSet *)indexesOfSubfieldsWithCode:(BibSubfieldCode)code {
+    NSMutableIndexSet *const indexSet = [NSMutableIndexSet new];
+    NSArray *const subfields = [self subfields];
+    NSUInteger const count = [subfields count];
+    for (NSUInteger index = 0; index < count; index += 1) {
+        BibSubfield *const subfield = [subfields objectAtIndex:index];
+        if ([[subfield code] isEqualToString:code]) {
+            [indexSet addIndex:index];
+        }
+    }
+    return [indexSet copy];
+}
+
+- (NSArray<BibSubfield *> *)subfieldsWithCode:(BibSubfieldCode)code {
+    return [[self subfields] objectsAtIndexes:[self indexesOfSubfieldsWithCode:code]];
+}
+
+- (BibSubfield *)subfieldAtIndex:(NSUInteger)index {
+    return [[self subfields] objectAtIndex:index];
 }
 
 @end

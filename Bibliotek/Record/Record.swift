@@ -126,6 +126,30 @@ extension Record {
     public func contentFields(with tag: FieldTag) -> LazyFilterSequence<[ContentField]> {
         return self.contentFields.lazy.filter { $0.tag == tag }
     }
+
+    public func indexPaths(for fieldPath: FieldPath) -> [IndexPath] {
+        return self.storage.indexPaths(for: fieldPath as BibFieldPath)
+    }
+
+    public func controlField(at indexPath: IndexPath) -> ControlField? {
+        return self.storage.controlField(at: indexPath) as ControlField?
+    }
+
+    public func contentField(at indexPath: IndexPath) -> ContentField? {
+        return self.storage.contentField(at: indexPath) as ContentField?
+    }
+
+    public func subfield(at indexPath: IndexPath) -> Subfield? {
+        return self.storage.subfield(at: indexPath) as Subfield?
+    }
+
+    public func content(at indexPath: IndexPath) -> String {
+        return self.storage.content(at: indexPath)
+    }
+
+    public func content(with fieldPath: FieldPath) -> [String] {
+        return self.storage.content(with: fieldPath as BibFieldPath)
+    }
 }
 
 // MARK: - Bridging

@@ -33,6 +33,12 @@ NS_ASSUME_NONNULL_BEGIN
 /// \returns Returns a valid field tag only if the given string is exactly 3 characters long.
 - (nullable instancetype)initWithString:(NSString *)stringValue NS_DESIGNATED_INITIALIZER;
 
+/// Create a tag with the given string value.
+///
+/// \param stringValue A string containing the 3-character tag value.
+/// \returns Returns a valid field tag only if the given string is exactly 3 characters long.
++ (nullable instancetype)fieldTagWithString:(NSString *)stringValue NS_SWIFT_UNAVAILABLE("Use init(string:)");
+
 @end
 
 #pragma mark - Equality
