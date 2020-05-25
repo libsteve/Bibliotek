@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import <Bibliotek/Bibliotek.h>
+#import <yaz/yaz-iconv.h>
 
 @interface BibMARCSerializationInput : XCTestCase
 
@@ -98,5 +99,31 @@
                                                                         @"who tried to build a perfect language /");
     XCTAssertEqualObjects([[field firstSubfieldWithCode:@"c"] content], @"Arika Okrent.");
 }
+
+#pragma mark -
+
+- (void)testConversionFromMARC8Encoding1 {
+    NSInputStream *const inputStream = [self inputStreamForRecordNamed:@"MARC8Record1"];
+    NSError *error = nil;
+    BibRecord *const record = [BibMARCSerialization recordFromStream:inputStream error:&error];
+    XCTAssertNil(error);
+    XCTAssertNotNil(record);
+    BibFieldTag *const classificationFieldNumberTag = [[BibFieldTag alloc] initWithString:@"153"];
+    BibContentField *const field = [[record contentFieldsWithTag:classificationFieldNumberTag] firstObject];
+    XCTAssertEqualObjects([[field firstSubfieldWithCode:@"j"] content], @"K\x6F\xCC\x88nig, Josef, 1893-1974");
+}
+
+- (void)testConversionFromMARC8Encoding2 {
+    NSInputStream *const inputStream = [self inputStreamForRecordNamed:@"MARC8Record2"];
+    NSError *error = nil;
+    BibRecord *const record = [BibMARCSerialization recordFromStream:inputStream error:&error];
+    XCTAssertNil(error);
+    XCTAssertNotNil(record);
+    BibFieldTag *const classificationFieldNumberTag = [[BibFieldTag alloc] initWithString:@"153"];
+    BibContentField *const field = [[record contentFieldsWithTag:classificationFieldNumberTag] firstObject];
+    XCTAssertEqualObjects([[field firstSubfieldWithCode:@"a"] content], @"E585.I75");
+}
+
+
 
 @end
