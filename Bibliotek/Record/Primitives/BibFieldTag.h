@@ -25,7 +25,22 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// MARC 21 control field tags always begin with two zeros.
 /// For example, a record's control number field has the tag \c 001.
-@property (nonatomic, assign, readonly, getter=isControlFieldTag) BOOL controlFieldTag;
+@property (nonatomic, assign, readonly, getter=isControlFieldTag) BOOL controlFieldTag
+    DEPRECATED_MSG_ATTRIBUTE("Use -isControlTag");
+
+/// Does the tag identify a control field?
+///
+/// MARC 21 controlfield tags always begin with two zeros.
+/// For example, a record's control number controlfield has the tag \c 001.
+///
+/// \note The tag \c 000 is neither a controlfield tag nor a datafield tag.
+@property (nonatomic, assign, readonly) BOOL isControlTag;
+
+/// Does the tag identify a data field?
+///
+/// MARC 21 datafield tags never begin with two zeros.
+/// For example, a bibliographic record's Library of Conrgess call number datafield has the tag \c 050.
+@property (nonatomic, assign, readonly) BOOL isDataTag;
 
 /// Create a tag with the given string value.
 ///

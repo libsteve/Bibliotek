@@ -25,7 +25,22 @@ public struct FieldTag {
     ///
     /// MARC 21 control field tags always begin with two zeros.
     /// For example, a record's control number field has the tag `001`.
+    @available(*, deprecated, message: "Use isControlTag")
     public var isControlFieldTag: Bool { return self.storage.isControlFieldTag }
+
+    /// Does the tag identify a control field?
+    ///
+    /// MARC 21 controlfield tags always begin with two zeros.
+    /// For example, a record's control number controlfield has the tag `001`.
+    ///
+    /// - note: The tag `000` is neither a controlfield tag nor a datafield tag.
+    public var isControlTag: Bool { return self.storage.isControlTag }
+
+    /// Does the tag identify a data field?
+    ///
+    /// MARC 21 datafield tags never begin with two zeros.
+    /// For example, a bibliographic record's Library of Conrgess call number datafield has the tag `050`.
+    public var isDataTag: Bool { return self.storage.isDataTag }
 
     private init(storage: BibFieldTag) {
         self.storage = storage
