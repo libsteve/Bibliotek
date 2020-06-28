@@ -88,8 +88,18 @@ NS_ASSUME_NONNULL_BEGIN
 /// \returns An empty record field object.
 - (instancetype)initWithFieldTag:(BibFieldTag *)fieldTag NS_DESIGNATED_INITIALIZER;
 
+/// Create an empty record field with the given record field tag.
+/// \param fieldTag The field tag identifying the semantic purpose for the new record field.
+/// \param controlValue The control value for the field.
+/// \returns An control field object.
 - (instancetype)initWithFieldTag:(BibFieldTag *)fieldTag controlValue:(NSString *)controlValue;
 
+/// Create an empty record field with the given record field tag.
+/// \param fieldTag The field tag identifying the semantic purpose for the new record field.
+/// \param firstIndicator The first indicator value for a data field.
+/// \param secondIndicator The second indicator value for a data field.
+/// \param subfields A list of subfields for a data field.
+/// \returns A data field object.
 - (instancetype)initWithFieldTag:(BibFieldTag *)fieldTag
                   firstIndicator:(BibFieldIndicator *)firstIndicator
                  secondIndicator:(BibFieldIndicator *)secondIndicator
