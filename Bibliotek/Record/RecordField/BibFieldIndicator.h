@@ -36,18 +36,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithRawValue:(char)rawValue;
 
 /// Create an indicator with the given raw value.
-/// \param value An ASCII space, lowercase letter, or number.
-/// \returns An indicator object with some semantic metadata meaning about a data field.
-/// \note This method will throw an out-of-bounds exception for invalid indicator characters.
-- (instancetype)initWithValue:(char)value NS_SWIFT_NAME(init(_:));
-
-/// Create an indicator with the given raw value.
-/// \param value An ASCII space, lowercase letter, or number.
-/// \returns An indicator object with some semantic metadata meaning about a data field.
-/// \note This method will throw an out-of-bounds exception for invalid indicator characters.
-+ (instancetype)indicatorWithValue:(char)value NS_SWIFT_UNAVAILABLE("Use init(_:)");
-
-/// Create an indicator with the given raw value.
 /// \param rawValue An ASCII space, lowercase letter, or number.
 /// \returns An indicator object with some semantic metadata meaning about a data field.
 /// \note This method will throw an out-of-bounds exception for invalid indicator characters.

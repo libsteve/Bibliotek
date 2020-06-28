@@ -82,13 +82,6 @@ static inline BibFieldIndicator *BibIndicatorGetCachedInstanceAtIndex(size_t ind
     }
 }
 
-- (instancetype)initWithValue:(char)value { return [self initWithRawValue:value]; }
-+ (instancetype)indicatorWithValue:(char)value { return [self indicatorWithRawValue:value]; }
-
-+ (instancetype)objectAtIndexedSubscript:(char)rawValue {
-    return [self indicatorWithRawValue:rawValue];
-}
-
 - (instancetype)init {
     return [self initWithRawValue:' '];
 }
@@ -100,6 +93,10 @@ static inline BibFieldIndicator *BibIndicatorGetCachedInstanceAtIndex(size_t ind
 }
 
 - (id)copyWithZone:(NSZone *)zone { return self; }
+
++ (instancetype)objectAtIndexedSubscript:(char)rawValue {
+    return [self indicatorWithRawValue:rawValue];
+}
 
 #pragma mark - NSCoding
 
