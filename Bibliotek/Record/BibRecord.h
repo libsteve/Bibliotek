@@ -145,8 +145,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable BibControlField *)controlFieldAtIndexPath:(NSIndexPath *)indexPath NS_SWIFT_NAME(controlField(at:)) DEPRECATED_MSG_ATTRIBUTE("Use -fieldAtIndexPath:");
 - (nullable BibContentField *)contentFieldAtIndexPath:(NSIndexPath *)indexPath NS_SWIFT_NAME(contentField(at:)) DEPRECATED_MSG_ATTRIBUTE("Use -fieldAtIndexPath:");
 
-- (nullable BibRecordField *)fieldAtIndexPath:(NSIndexPath *)indexPath NS_SWIFT_NAME(field(at:));
-- (nullable BibSubfield *)subfieldAtIndexPath:(NSIndexPath *)indexPath NS_SWIFT_NAME(subfield(at:));
+- (BibRecordField *)fieldAtIndexPath:(NSIndexPath *)indexPath NS_SWIFT_NAME(field(at:));
+- (BibSubfield *)subfieldAtIndexPath:(NSIndexPath *)indexPath NS_SWIFT_NAME(subfield(at:));
 
 - (NSString *)contentAtIndexPath:(NSIndexPath *)indexPath NS_SWIFT_NAME(content(at:));
 
