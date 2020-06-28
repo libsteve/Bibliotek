@@ -57,21 +57,29 @@ static inline BibFieldIndicator *BibIndicatorGetCachedInstanceAtIndex(size_t ind
 }
 
 + (instancetype)allocWithZone:(struct _NSZone *)zone {
-    return BibIndicatorGetCachedInstanceAtIndex(0);
+    return (self == [BibFieldIndicator self]) ? BibIndicatorGetCachedInstanceAtIndex(0) : [super allocWithZone:zone];
 }
 
 - (instancetype)initWithRawValue:(char)rawValue {
-    size_t const index = BibIndicatorGetCacheIndexForRawValue((uint8_t)rawValue);
-    self = BibIndicatorGetCachedInstanceAtIndex(index);
-    NSParameterAssert(self != nil);
+    if ([self class] == [BibFieldIndicator self]) {
+        size_t const index = BibIndicatorGetCacheIndexForRawValue((uint8_t)rawValue);
+        self = BibIndicatorGetCachedInstanceAtIndex(index);
+        NSParameterAssert(self != nil);
+    } else if (self = [super init]) {
+        self->rawValue = rawValue;
+    }
     return self;
 }
 
 + (instancetype)indicatorWithRawValue:(char)rawValue {
-    size_t const index = BibIndicatorGetCacheIndexForRawValue((uint8_t)rawValue);
-    BibFieldIndicator *indicator = BibIndicatorGetCachedInstanceAtIndex(index);
-    NSParameterAssert(indicator != nil);
-    return indicator;
+    if (self == [BibFieldIndicator self]) {
+        size_t const index = BibIndicatorGetCacheIndexForRawValue((uint8_t)rawValue);
+        BibFieldIndicator *indicator = BibIndicatorGetCachedInstanceAtIndex(index);
+        NSParameterAssert(indicator != nil);
+        return indicator;
+    } else {
+        return [[BibFieldIndicator alloc] initWithRawValue:rawValue];
+    }
 }
 
 - (instancetype)initWithValue:(char)value { return [self initWithRawValue:value]; }
@@ -85,10 +93,11 @@ static inline BibFieldIndicator *BibIndicatorGetCachedInstanceAtIndex(size_t ind
     return [self initWithRawValue:' '];
 }
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wobjc-missing-super-calls"
-- (void)dealloc {}
-#pragma clang diagnostic pop
+- (void)dealloc {
+    if ([self class] != [BibFieldIndicator self]) {
+        [super dealloc];
+    }
+}
 
 - (id)copyWithZone:(NSZone *)zone { return self; }
 
@@ -127,9 +136,11 @@ static inline BibFieldIndicator *BibIndicatorGetCachedInstanceAtIndex(size_t ind
     return (self->rawValue == ' ') ? @"\u2422" : [NSString stringWithFormat:@"%c", self->rawValue];
 }
 
+#if DEBUG
 - (NSString *)debugDescription {
     return [NSString stringWithFormat:@"<BibFieldIndicator rawValue='%c', %#04X; '%@'>",
                                       self->rawValue, self->rawValue, [self description]];
 }
+#endif
 
 @end

@@ -18,10 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// More information about MARC 21 records can be found in the Library of Congress's documentation on
 /// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html
-///
-/// \note It is \b not safe to subclass \c BibFieldIndicator
-NS_SWIFT_NAME(FieldIndicator)
-__attribute__((objc_subclassing_restricted))
 @interface BibFieldIndicator : NSObject <NSCopying, NSSecureCoding>
 
 /// The ASCII value backing this indicator object.
