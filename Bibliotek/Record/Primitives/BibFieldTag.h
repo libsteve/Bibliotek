@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/spechome.html
 ///
 /// \note MARC 21 tags are always 3 digit codes.
-@interface BibFieldTag : NSObject <NSCopying>
+@interface BibFieldTag : NSObject <NSCopying, NSSecureCoding>
 
 /// A string contianing the 3-character value of the tag.
 @property (nonatomic, copy, readonly) NSString *stringValue;

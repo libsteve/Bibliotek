@@ -70,6 +70,19 @@ extension FieldTag: Hashable, Equatable {
     }
 }
 
+extension FieldTag: Codable {
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let rawValue = try container.decode(String.self)
+        self.init(rawValue: rawValue)!
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(self.rawValue)
+    }
+}
+
 extension FieldTag: CustomStringConvertible, CustomPlaygroundDisplayConvertible {
     public var description: String { return self.storage.description }
 
@@ -99,6 +112,16 @@ extension FieldTag: _ObjectiveCBridgeable {
     }
 }
 
-extension BibFieldTag: CustomPlaygroundDisplayConvertible {
+extension BibFieldTag: RawRepresentable, ExpressibleByStringLiteral, CustomPlaygroundDisplayConvertible {
+    public var rawValue: String { return self.stringValue }
+
+    public required convenience init?(rawValue: String) {
+        self.init(string: rawValue)
+    }
+
+    public required convenience init(stringLiteral value: String) {
+        self.init(string: value)!
+    }
+
     public var playgroundDescription: Any { return (self as FieldTag).playgroundDescription }
 }

@@ -47,6 +47,16 @@
     return [self initWithString:@"000"];
 }
 
++ (BOOL)supportsSecureCoding { return YES; }
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    return [self initWithData:[coder decodeDataObject]];
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [coder encodeDataObject:[[self stringValue] dataUsingEncoding:NSASCIIStringEncoding]];
+}
+
 - (NSString *)description {
     return [self stringValue];
 }
