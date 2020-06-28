@@ -41,7 +41,7 @@
 }
 
 - (NSString *)debugDescription {
-    return [NSString stringWithFormat:@"$%@%@", [self code], [self content]];
+    return [NSString stringWithFormat:@"\u2021%@%@", [self code], [self content]];
 }
 
 + (NSSet *)keyPathsForValuesAffectingDebugDescription {
