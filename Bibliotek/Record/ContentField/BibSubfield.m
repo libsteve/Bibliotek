@@ -62,6 +62,19 @@
     return [[BibMutableSubfield allocWithZone:zone] initWithCode:[self code] content:[self content]];
 }
 
++ (BOOL)supportsSecureCoding { return YES; }
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    BibSubfieldCode const code = [coder decodeObjectOfClass:[NSString self] forKey:BibKey(code)];
+    NSString *const content = [coder decodeObjectOfClass:[NSString self] forKey:BibKey(content)];
+    return [self initWithCode:code content:content];
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [coder encodeObject:[self code] forKey:BibKey(code)];
+    [coder encodeObject:[self content] forKey:BibKey(content)];
+}
+
 @end
 
 #pragma mark - Equality

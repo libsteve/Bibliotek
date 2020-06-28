@@ -67,6 +67,26 @@ extension Subfield: Hashable, Equatable {
     }
 }
 
+extension Subfield: Codable {
+    private enum CodingKeys: String, CodingKey {
+        case code
+        case content
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let code = try container.decode(SubfieldCode.RawValue.self, forKey: .code)
+        let content = try container.decode(String.self, forKey: .content)
+        self.init(code: SubfieldCode(rawValue: code), content: content)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.code.rawValue, forKey: .code)
+        try container.encode(self.content, forKey: .content)
+    }
+}
+
 extension Subfield: CustomStringConvertible, CustomPlaygroundDisplayConvertible {
     public var description: String { return self.storage.description }
 

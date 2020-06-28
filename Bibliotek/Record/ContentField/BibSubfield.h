@@ -39,7 +39,7 @@ typedef NSString *BibSubfieldCode NS_EXTENSIBLE_STRING_ENUM NS_SWIFT_NAME(Subfie
 
 #pragma mark - Copying
 
-@interface BibSubfield (Copying) <NSCopying>
+@interface BibSubfield (Copying) <NSCopying, NSSecureCoding>
 @end
 
 #pragma mark - Equality
