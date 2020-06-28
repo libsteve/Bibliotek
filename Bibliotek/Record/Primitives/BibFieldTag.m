@@ -29,8 +29,8 @@
     }
     if (self = [super init]) {
         _stringValue = [stringValue copy];
-        _isDataTag = [stringValue hasPrefix:@"00"];
-        _isControlTag = !_isDataTag && ![stringValue isEqualToString:@"000"];
+        _isControlTag = [stringValue hasPrefix:@"00"];
+        _isDataTag = !_isControlTag && ![stringValue isEqualToString:@"000"];
     }
     return self;
 }
