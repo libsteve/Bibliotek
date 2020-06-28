@@ -154,6 +154,31 @@
     }
 }
 
+- (NSString *)description {
+    if (self.isDataField) {
+        return [[self.subfields valueForKey:BibKey(description)] componentsJoinedByString:@" "];
+
+    } else if (self.isControlField) {
+        return self.controlValue;
+
+    } else {
+        return @"";
+    }
+}
+
+- (NSString *)debugDescription {
+    if (self.isDataField) {
+        NSString *const content = [[self.subfields valueForKey:BibKey(debugDescription)] componentsJoinedByString:@""];
+        return [NSString stringWithFormat:@"%@ %@%@ %@",
+                                          self.fieldTag, self.firstIndicator, self.secondIndicator, content];
+    } else if (self.isControlField) {
+        return [NSString stringWithFormat:@"%@ %@", self.fieldTag, self.controlValue];
+
+    } else {
+        return self.firstIndicator.description;
+    }
+}
+
 @end
 
 @implementation BibRecordField (SubfieldAccess)
