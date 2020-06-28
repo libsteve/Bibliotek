@@ -19,9 +19,8 @@
 #import "BibLeader.h"
 #import "BibFieldTag.h"
 #import "BibDirectoryEntry.h"
-#import "BibControlField.h"
-#import "BibContentField.h"
-#import "BibContentIndicatorList.h"
+#import "BibRecordField.h"
+#import "BibFieldIndicator.h"
 #import "BibSubfield.h"
 #import "BibRecordKind.h"
 
@@ -175,35 +174,42 @@ static BibMarcRecord BibMarcRecordMakeFromBibRecord(BibRecord *bibRecord)
     BibMarcRecord record;
     NSData *const leaderData = bibRecord.metadata.leader.rawData;
     record.leader = BibMarcLeaderRead(leaderData.bytes, leaderData.length);
-    record.controlFieldsCount = bibRecord.controlFields.count;
-    record.contentFieldsCount = bibRecord.contentFields.count;
+    NSMutableArray *const bibControlFields = [NSMutableArray new];
+    NSMutableArray *const bibDataFields = [NSMutableArray new];
+    for (BibRecordField *field in bibRecord.fields) {
+        if (field.isDataField) {
+            [bibDataFields addObject:field];
+        } else if (field.isControlField) {
+            [bibControlFields addObject:field];
+        }
+    }
+    record.controlFieldsCount = bibControlFields.count;
+    record.contentFieldsCount = bibDataFields.count;
     record.controlFields = calloc(record.controlFieldsCount, sizeof(BibMarcControlField));
     record.contentFields = calloc(record.contentFieldsCount, sizeof(BibMarcContentField));
-    NSArray<BibControlField *> *const bibControlFields = bibRecord.controlFields;
-    NSArray<BibContentField *> *const bibContentFields = bibRecord.contentFields;
     bib_char_converter_t const converter = bib_char_converter_open(bib_char_encoding_marc8, bib_char_encoding_utf8);
     for (size_t index = 0; index < record.controlFieldsCount; index += 1)
     {
         BibMarcControlField *const field = &(record.controlFields[index]);
-        BibControlField *const bibField = bibControlFields[index];
-        field->content = bib_char_convert_utf8(converter, bibField.value);
-        strcpy(field->tag, bibField.tag.stringValue.UTF8String);
+        BibRecordField *const bibField = bibControlFields[index];
+        field->content = bib_char_convert_utf8(converter, bibField.controlValue);
+        strcpy(field->tag, bibField.fieldTag.stringValue.UTF8String);
     }
     for (size_t index = 0; index < record.contentFieldsCount; index += 1)
     {
         BibMarcContentField *const field = &(record.contentFields[index]);
-        BibContentField *const bibField = bibContentFields[index];
-        field->indicators[0] = bibField.indicators.firstIndicator;
-        field->indicators[1] = bibField.indicators.secondIndicator;
-        strcpy(field->tag, bibField.tag.stringValue.UTF8String);
+        BibRecordField *const bibField = bibDataFields[index];
+        field->indicators[0] = bibField.firstIndicator.rawValue;
+        field->indicators[1] = bibField.secondIndicator.rawValue;
+        strcpy(field->tag, bibField.fieldTag.stringValue.UTF8String);
         field->subfieldsCount = bibField.subfields.count;
         field->subfields = calloc(field->subfieldsCount, sizeof(BibMarcSubfield));
-        NSEnumerator *const bibSubfields = bibField.subfieldEnumerator;
+        NSEnumerator *const bibSubfields = [bibField.subfields objectEnumerator];
         for (size_t index = 0; index < field->subfieldsCount; index += 1)
         {
             BibMarcSubfield *const subfield = &(field->subfields[index]);
             BibSubfield *const bibSubfield = [bibSubfields nextObject];
-            subfield->code = bibSubfield.code.UTF8String[0];
+            subfield->code = bibSubfield.subfieldCode.UTF8String[0];
             subfield->content = bib_char_convert_utf8(converter, bibSubfield.content);
         }
     }
@@ -211,10 +217,8 @@ static BibMarcRecord BibMarcRecordMakeFromBibRecord(BibRecord *bibRecord)
     return record;
 }
 
-static NSArray *BibControlFieldMakeArrayFromMarcRecord(BibMarcRecord const *marcRecord,
-                                                       bib_char_converter_t converter) NS_RETURNS_RETAINED;
-static NSArray *BibContentFieldMakeArrayFromMarcRecord(BibMarcRecord const *marcRecord,
-                                                       bib_char_converter_t converter) NS_RETURNS_RETAINED;
+static NSArray *BibRecordFieldMakeArrayFromMarcRecord(BibMarcRecord const *marcRecord,
+                                                      bib_char_converter_t converter) NS_RETURNS_RETAINED;
 
 
 static BibRecord *BibRecordMakeFromMarcRecord(BibMarcRecord const *const marcRecord) NS_RETURNS_RETAINED
@@ -230,8 +234,7 @@ static BibRecord *BibRecordMakeFromMarcRecord(BibMarcRecord const *const marcRec
         [[BibRecord alloc] initWithKind:kind
                                  status:metadata.leader.recordStatus
                                metadata:metadata
-                          controlFields:BibControlFieldMakeArrayFromMarcRecord(marcRecord, converter)
-                          contentFields:BibContentFieldMakeArrayFromMarcRecord(marcRecord, converter)];
+                                 fields:BibRecordFieldMakeArrayFromMarcRecord(marcRecord, converter)];
     bib_char_converter_close(converter);
     return record;
 }
@@ -276,33 +279,27 @@ static BOOL BibMarcLeaderReadFromInputStream(BibMarcLeader *const leader, NSInpu
     return YES;
 }
 
-static NSArray *BibControlFieldMakeArrayFromMarcRecord(BibMarcRecord const *const marcRecord,
-                                                       bib_char_converter_t marc8) NS_RETURNS_RETAINED
+static NSArray *BibRecordFieldMakeArrayFromMarcRecord(BibMarcRecord const *const marcRecord,
+                                                      bib_char_converter_t marc8) NS_RETURNS_RETAINED
 {
-    NSMutableArray *const controlFields = [[NSMutableArray alloc] initWithCapacity:marcRecord->controlFieldsCount];
+    NSUInteger const recordFieldsCount = marcRecord->controlFieldsCount + marcRecord->contentFieldsCount;
+    NSMutableArray *const recordFields = [[NSMutableArray alloc] initWithCapacity:recordFieldsCount];
     for (size_t index = 0; index < marcRecord->controlFieldsCount; index += 1)
     {
         BibMarcControlField const *const field = &(marcRecord->controlFields[index]);
         NSString *const tagString = [[NSString alloc] initWithUTF8String:field->tag];
         BibFieldTag *const tag = [[BibFieldTag alloc] initWithString:tagString];
         NSString *const value = bib_char_convert_marc8(marc8, field->content);
-        BibControlField *const controlField = [[BibControlField alloc] initWithTag:tag value:value];
-        [controlFields addObject:controlField];
+        BibRecordField *const controlField = [[BibRecordField alloc] initWithFieldTag:tag controlValue:value];
+        [recordFields addObject:controlField];
     }
-    return controlFields;
-}
-
-static NSArray *BibContentFieldMakeArrayFromMarcRecord(BibMarcRecord const *const marcRecord,
-                                                       bib_char_converter_t marc8) NS_RETURNS_RETAINED
-{
-    NSMutableArray *const contentFields = [[NSMutableArray alloc] initWithCapacity:marcRecord->contentFieldsCount];
     for (size_t index = 0; index < marcRecord->contentFieldsCount; index += 1)
     {
         BibMarcContentField const *const field = &(marcRecord->contentFields[index]);
         NSString *const tagString = [[NSString alloc] initWithUTF8String:field->tag];
         BibFieldTag *const tag = [[BibFieldTag alloc] initWithString:tagString];
-        BibContentIndicatorList *const indicators =
-            [[BibContentIndicatorList alloc] initWithIndicators:(char *)(field->indicators) count:2];
+        BibFieldIndicator *const firstIndicator = [[BibFieldIndicator alloc] initWithRawValue:field->indicators[0]];
+        BibFieldIndicator *const secondIndicator = [[BibFieldIndicator alloc] initWithRawValue:field->indicators[1]];
         NSMutableArray *const subfields = [[NSMutableArray alloc] initWithCapacity:field->subfieldsCount];
         for (size_t index = 0; index < field->subfieldsCount; index += 1)
         {
@@ -312,12 +309,13 @@ static NSArray *BibContentFieldMakeArrayFromMarcRecord(BibMarcRecord const *cons
             BibSubfield *const bibSubfield = [[BibSubfield alloc] initWithCode:code content:content];
             [subfields addObject:bibSubfield];
         }
-        BibContentField *const contentField = [[BibContentField alloc] initWithTag:tag
-                                                                        indicators:indicators
+        BibRecordField *const dataField = [[BibRecordField alloc] initWithFieldTag:tag
+                                                                    firstIndicator:firstIndicator
+                                                                   secondIndicator:secondIndicator
                                                                          subfields:subfields];
-        [contentFields addObject:contentField];
+        [recordFields addObject:dataField];
     }
-    return contentFields;
+    return recordFields;
 }
 
 static BOOL BibMARCSerializationCanUseStream(NSStream *const stream, NSError *__autoreleasing *const error) {
