@@ -353,7 +353,7 @@ static BibRecordField *BibRecordFieldFromContentField(BibContentField *contentFi
 @dynamic controlFields;
 - (void)setControlFields:(NSArray<BibControlField *> *)fields {
     NSMutableArray *newValue = [NSMutableArray new];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == YES", BibKeyPath(isDatafield)];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == YES", BibKeyPath(isDataField)];
     for (BibControlField *field in fields) {
         [newValue addObject:BibRecordFieldFromControlField(field)];
     }
@@ -364,7 +364,7 @@ static BibRecordField *BibRecordFieldFromContentField(BibContentField *contentFi
 
 @dynamic contentFields;
 - (void)setContentFields:(NSArray<BibContentField *> *)fields {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == YES", BibKeyPath(isControlfield)];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == YES", BibKeyPath(isControlField)];
     NSMutableArray *newValue = [[self.fields filteredArrayUsingPredicate:predicate] mutableCopy];
     for (BibContentField *field in fields) {
         [newValue addObject:BibRecordFieldFromContentField(field)];

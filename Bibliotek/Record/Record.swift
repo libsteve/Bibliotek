@@ -52,15 +52,23 @@ public struct Record {
     }
 
     /// An ordered list of fields containing information and metadata about how a record's content should be processed.
+    @available(*, deprecated, message: "Use fields")
     public var controlFields: [ControlField] {
         get { return self.storage.controlFields as [ControlField] }
         set { self.mutate(keyPath: \.controlFields, with: newValue as [BibControlField]) }
     }
 
     /// An ordered list of fields containing information and metadata about the item represented by a record.
+    @available(*, deprecated, message: "Use fields")
     public var contentFields: [ContentField] {
         get { return self.storage.contentFields as [ContentField] }
         set { self.mutate(keyPath: \.contentFields, with: newValue as [BibContentField]) }
+    }
+
+    /// An ordered list of fields containing information and metadata about the record and its represented item.
+    public var fields: [BibRecordField] {
+        get { return self.storage.fields }
+        set { self.mutate(keyPath: \.fields, with: newValue) }
     }
 
     private init(storage: BibRecord) {
@@ -114,15 +122,16 @@ extension Record: CustomStringConvertible, CustomPlaygroundDisplayConvertible {
     public var playgroundDescription: Any { return ["kind": self.kind?.description ?? "unset",
                                                     "status": String(format: "%c", self.status.rawValue),
                                                     "meatdata": self.metadata,
-                                                    "controlFields": self.contentFields,
-                                                    "contentFields": self.contentFields] }
+                                                    "fields": self.fields] }
 }
 
 extension Record {
+    @available(*, deprecated, message: "")
     public func controlFields(with tag: FieldTag) -> LazyFilterSequence<[ControlField]> {
         return self.controlFields.lazy.filter { $0.tag == tag }
     }
 
+    @available(*, deprecated, message: "")
     public func contentFields(with tag: FieldTag) -> LazyFilterSequence<[ContentField]> {
         return self.contentFields.lazy.filter { $0.tag == tag }
     }
@@ -131,16 +140,30 @@ extension Record {
         return self.storage.indexPaths(for: fieldPath as BibFieldPath)
     }
 
+    public func indexPaths(for tag: FieldTag) -> [IndexPath] {
+        return self.storage.indexPaths(for: tag as BibFieldTag)
+    }
+
+    public func indexPaths(for tag: FieldTag, code: SubfieldCode) -> [IndexPath] {
+        return self.storage.indexPaths(for: tag as BibFieldTag, code: code)
+    }
+
+    @available(*, deprecated, message: "Use field(at:)")
     public func controlField(at indexPath: IndexPath) -> ControlField? {
         return self.storage.controlField(at: indexPath) as ControlField?
     }
 
+    @available(*, deprecated, message: "Use field(at:)")
     public func contentField(at indexPath: IndexPath) -> ContentField? {
         return self.storage.contentField(at: indexPath) as ContentField?
     }
 
-    public func subfield(at indexPath: IndexPath) -> Subfield? {
-        return self.storage.subfield(at: indexPath) as Subfield?
+    public func field(at indexPath: IndexPath) -> RecordField {
+        return self.storage.field(at: indexPath) as RecordField
+    }
+
+    public func subfield(at indexPath: IndexPath) -> Subfield {
+        return self.storage.subfield(at: indexPath) as Subfield
     }
 
     public func content(at indexPath: IndexPath) -> String {
