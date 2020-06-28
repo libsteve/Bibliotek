@@ -87,8 +87,38 @@ extern char *bib_char_convert(bib_char_converter_t const converter, char const *
         }
     } while (conversion_count == -1);
 
-    // flush out any state and store remaining characters into the output buffer
-    yaz_iconv(converter->cp, NULL, NULL, &out_buffer, &out_length);
+    do {
+        // flush out any state and store remaining characters into the output buffer
+        conversion_count = yaz_iconv(converter->cp, NULL, NULL, &out_buffer, &out_length);
+        if (conversion_count == -1) {
+            int errorno = yaz_iconv_error(converter->cp);
+            if (errorno == YAZ_ICONV_E2BIG || errorno == 0) {
+                iteraton += 1;
+                size_t const extra_size = iteraton * 32;
+                size_t const offset = length - out_length;
+                length += extra_size;
+                out_length += extra_size;
+                result = realloc(result, length);
+                out_buffer = &(result[offset]);
+            } else {
+                switch (errorno) {
+                    case YAZ_ICONV_EILSEQ:
+                        converter->errorno = EILSEQ;
+                        break;
+                    case YAZ_ICONV_EINVAL:
+                        converter->errorno = EINVAL;
+                        break;
+                    default:
+                        converter->errorno = errno;
+                        break;
+                }
+                // clear any state left in the converter
+                yaz_iconv(converter->cp, NULL, NULL, NULL, NULL);
+                free(result);
+                return NULL;
+            }
+        }
+    } while (conversion_count == -1);
 
     // make sure the result is null-terminated
     size_t result_length = length - out_length;
