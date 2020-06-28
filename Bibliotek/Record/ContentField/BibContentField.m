@@ -121,7 +121,7 @@
     NSUInteger const count = [subfields count];
     for (NSUInteger index = 0; index < count; index += 1) {
         BibSubfield *const subfield = [subfields objectAtIndex:index];
-        if ([[subfield code] isEqualToString:code]) {
+        if ([[subfield subfieldCode] isEqualToString:code]) {
             [indexSet addIndex:index];
         }
     }

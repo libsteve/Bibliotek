@@ -21,7 +21,7 @@ public struct Subfield {
     ///
     /// The semantics of each identifier is determined by the record field's tag as defined in the relevant MARC 21 format.
     public var code: SubfieldCode {
-        get { return self.storage.code }
+        get { return self.storage.subfieldCode }
         set { self.mutate(keyPath: \.code, with: newValue) }
     }
 

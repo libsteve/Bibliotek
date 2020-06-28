@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// The semantic meaning of a data field is indicated by its \c fieldTag value, and its indicators are used as flags
 /// that determine how the data in its subfields should be interpreted or displayed.
 ///
-/// Data fields are composed of \c subfields, which are portions of data semantically identified by their \c code.
+/// Data fields are composed of \c subfields, which are portions of data semantically identified by their \c subfieldCode.
 /// The interpretation of data within a content field is often determined by the formatting of its subfields' contents.
 /// For example, a bibliographic record's title statement, identified with the tag \c 245, formats its content using
 /// ISBD principles and uses subfield codes to semantically tag each piece of the full statement.
@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///       Setting it to \c nil will change its value to the blank indicator.
 @property (nonatomic, readonly, copy, nullable) BibFieldIndicator *secondIndicator;
 
-/// An ordered list of subfields containing portions of data semantically identified by their \c code.
+/// An ordered list of subfields containing portions of data semantically identified by their \c subfieldCode.
 /// The interpretation of data within a content field is often determined by the formatting of its subfields' contents.
 /// For example, a bibliographic record's title statement, identified with the tag \c 245, formats its content using
 /// ISBD principles and uses subfield codes to semantically tag each piece of the full statement.
@@ -157,7 +157,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///       Setting it to \c nil will change its value to the blank indicator.
 @property (nonatomic, readwrite, copy, nullable) BibFieldIndicator *secondIndicator;
 
-/// An ordered list of subfields containing portions of data semantically identified by their \c code.
+/// An ordered list of subfields containing portions of data semantically identified by their \c subfieldCode.
 /// The interpretation of data within a content field is often determined by the formatting of its subfields' contents.
 /// For example, a bibliographic record's title statement, identified with the tag \c 245, formats its content using
 /// ISBD principles and uses subfield codes to semantically tag each piece of the full statement.

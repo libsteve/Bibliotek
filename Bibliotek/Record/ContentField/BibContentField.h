@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// The semantic meaning of a content field is indicated by its \c tag value, and its \c indicators are used as flags
 /// that determine how the data in its subfields should be interpreted or displayed.
 ///
-/// Content fields are composed of \c subfields, which are portions of data semantically identified by their \c code.
+/// Content fields are composed of \c subfields, which are portions of data semantically identified by their \c subfieldCode.
 /// The interpretation of data within a content field is often determined by the formatting of its subfields' contents.
 /// For example, a bibliographic record's title statement, identified with the tag \c 245, formats its content using
 /// ISBD principles and uses subfield codes to semantically tag each piece of the full statement.
@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// A collection of byte flags which can indicate how the content field should be interpreted or displayed.
 @property (nonatomic, copy, readonly) BibContentIndicatorList *indicators;
 
-/// An ordered list of subfields containing portions of data semantically identified by their \c code.
+/// An ordered list of subfields containing portions of data semantically identified by their \c subfieldCode.
 /// The interpretation of data within a content field is often determined by the formatting of its subfields' contents.
 /// For example, a bibliographic record's title statement, identified with the tag \c 245, formats its content using
 /// ISBD principles and uses subfield codes to semantically tag each piece of the full statement.
@@ -108,7 +108,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// The semantic meaning of a content field is indicated by its \c tag value, and its \c indicators are used as flags
 /// that determine how the data in its subfields should be interpreted or displayed.
 ///
-/// Content fields are composed of \c subfields, which are portions of data semantically identified by their \c code.
+/// Content fields are composed of \c subfields, which are portions of data semantically identified by their \c subfieldCode.
 /// The interpretation of data within a content field is often determined by the formatting of its subfields' contents.
 /// For example, a bibliographic record's title statement, identified with the tag \c 245, formats its content using
 /// ISBD principles and uses subfield codes to semantically tag each piece of the full statement.
@@ -135,7 +135,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// A collection of byte flags which can indicate how the content field should be interpreted or displayed.
 @property (nonatomic, copy, readwrite) BibContentIndicatorList *indicators;
 
-/// An ordered list of subfields containing portions of data semantically identified by their \c code.
+/// An ordered list of subfields containing portions of data semantically identified by their \c subfieldCode.
 /// The interpretation of data within a content field is often determined by the formatting of its subfields' contents.
 /// For example, a bibliographic record's title statement, identified with the tag \c 245, formats its content using
 /// ISBD principles and uses subfield codes to semantically tag each piece of the full statement.
