@@ -36,52 +36,45 @@ int bib_char_converter_error(bib_char_converter_t const converter)
     return converter->errorno;
 }
 
+typedef struct bib_char_conversion_context {
+    char const *in_buffer;
+    size_t in_length;
+
+    char  *result_buffer;
+    size_t result_length;
+
+    char  *out_buffer;
+    size_t out_length;
+
+    size_t expansion_factor;
+} bib_char_conversion_context_t;
+
+static void bib_char_conversion_context_init(bib_char_conversion_context_t *context, char const *string);
+static void bib_char_conversion_context_finalize(bib_char_conversion_context_t *context);
+static void bib_char_conversion_context_expand(bib_char_conversion_context_t *context);
+
+static bool bib_char_converter_handle_error(bib_char_converter_t converter,
+                                            bib_char_conversion_context_t *context,
+                                            int errorno);
+
 /// Convert the given string to another encoding, using the given converter.
 /// \param converter The iconv converter handle provided by yaz.
 /// \param string A string of characters to represent using an alternate encoding scheme.
 /// \returns The converted string value of the original string. This value must be freed by the caller.
 ///          \c NULL is returned when there is an error converting the given string.
 /// \post Call \c yaz_iconv_error() to get the error code when \c NULL is returned.
-extern char *bib_char_convert(bib_char_converter_t const converter, char const *string)
+char *bib_char_convert(bib_char_converter_t const converter, char const *const string)
 {
-    char const *in_buffer = string;
-    size_t in_length = strlen(in_buffer) + 1;
+    bib_char_conversion_context_t context;
+    bib_char_conversion_context_init(&context, string);
 
-    size_t length = in_length;
-    char *result = malloc(length);
-
-    char *out_buffer = result;
-    size_t out_length = length;
-
-    size_t iteraton = 0;
     size_t conversion_count;
     do {
-        conversion_count = yaz_iconv(converter->cp, (char **)&in_buffer, &in_length, &out_buffer, &out_length);
+        conversion_count = yaz_iconv(converter->cp, (char **)&context.in_buffer, &context.in_length,
+                                                             &context.out_buffer, &context.out_length);
         if (conversion_count == -1) {
-            int errorno = yaz_iconv_error(converter->cp);
-            if (errorno == YAZ_ICONV_E2BIG || errorno == 0) {
-                iteraton += 1;
-                size_t const extra_size = iteraton * 32;
-                size_t const offset = length - out_length;
-                length += extra_size;
-                out_length += extra_size;
-                result = realloc(result, length);
-                out_buffer = &(result[offset]);
-            } else {
-                switch (errorno) {
-                    case YAZ_ICONV_EILSEQ:
-                        converter->errorno = EILSEQ;
-                        break;
-                    case YAZ_ICONV_EINVAL:
-                        converter->errorno = EINVAL;
-                        break;
-                    default:
-                        converter->errorno = errno;
-                        break;
-                }
-                // clear any state left in the converter
-                yaz_iconv(converter->cp, NULL, NULL, NULL, NULL);
-                free(result);
+            int const errorno = yaz_iconv_error(converter->cp);
+            if (! bib_char_converter_handle_error(converter, &context, errorno)) {
                 return NULL;
             }
         }
@@ -89,49 +82,17 @@ extern char *bib_char_convert(bib_char_converter_t const converter, char const *
 
     do {
         // flush out any state and store remaining characters into the output buffer
-        conversion_count = yaz_iconv(converter->cp, NULL, NULL, &out_buffer, &out_length);
+        conversion_count = yaz_iconv(converter->cp, NULL, NULL, &context.out_buffer, &context.out_length);
         if (conversion_count == -1) {
-            int errorno = yaz_iconv_error(converter->cp);
-            if (errorno == YAZ_ICONV_E2BIG || errorno == 0) {
-                iteraton += 1;
-                size_t const extra_size = iteraton * 32;
-                size_t const offset = length - out_length;
-                length += extra_size;
-                out_length += extra_size;
-                result = realloc(result, length);
-                out_buffer = &(result[offset]);
-            } else {
-                switch (errorno) {
-                    case YAZ_ICONV_EILSEQ:
-                        converter->errorno = EILSEQ;
-                        break;
-                    case YAZ_ICONV_EINVAL:
-                        converter->errorno = EINVAL;
-                        break;
-                    default:
-                        converter->errorno = errno;
-                        break;
-                }
-                // clear any state left in the converter
-                yaz_iconv(converter->cp, NULL, NULL, NULL, NULL);
-                free(result);
+            int const errorno = yaz_iconv_error(converter->cp);
+            if (! bib_char_converter_handle_error(converter, &context, errorno)) {
                 return NULL;
             }
         }
     } while (conversion_count == -1);
 
-    // make sure the result is null-terminated
-    size_t result_length = length - out_length;
-    if (result[result_length - 1] != '\0') {
-        if (out_length == 0) {
-            result = realloc(result, length + 1);
-            result[length] = '\0';
-        } else {
-            result[result_length] = '\0';
-        }
-    }
-
-    return result;
+    bib_char_conversion_context_finalize(&context);
+    return context.result_buffer;
 
 }
 
@@ -148,4 +109,96 @@ char *bib_char_convert_utf8(bib_char_converter_t const converter, NSString *cons
     char *const result = bib_char_convert(converter, [string UTF8String]);
     NSCAssert(result != NULL, @"Error converting UTF8 string to MARC8: %s", strerror(converter->errorno));
     return result;
+}
+
+static void bib_char_conversion_context_init(bib_char_conversion_context_t *const context, char const *const string)
+{
+    size_t const string_len = strlen(string) + 1;
+
+    context->in_buffer = string;
+    context->in_length = string_len;
+
+    context->result_buffer = malloc(string_len);
+    context->result_length = string_len;
+
+    context->out_buffer = context->result_buffer;
+    context->out_length = context->result_length;
+
+    context->expansion_factor = 0;
+}
+
+static void bib_char_conversion_context_finalize(bib_char_conversion_context_t *const context)
+{
+    // make sure the result is null-terminated
+    size_t const final_length = context->result_length - context->out_length;
+    if (context->result_buffer[final_length - 1] != '\0') {
+        if (context->out_length == 0) {
+            context->result_buffer = realloc(context->result_buffer, final_length + 1);
+            context->result_buffer[final_length] = '\0';
+            context->result_length = final_length;
+        } else {
+            context->result_buffer[final_length] = '\0';
+        }
+    }
+
+    context->in_buffer = NULL;
+    context->in_length = 0;
+
+    context->out_buffer = NULL;
+    context->out_length = 0;
+}
+
+static void bib_char_conversion_context_expand(bib_char_conversion_context_t *const context)
+{
+    context->expansion_factor += 1;
+    size_t const extra_size = context->expansion_factor * 32;
+    size_t const offset = context->result_length - context->out_length;
+    context->result_length += extra_size;
+    context->out_length += extra_size;
+    context->result_buffer = realloc(context->result_buffer, context->result_length);
+    context->out_buffer = &(context->result_buffer[offset]);
+}
+
+static void bib_char_conversion_context_destroy(bib_char_conversion_context_t *context)
+{
+    if (context->result_buffer != NULL) {
+        free(context->result_buffer);
+    }
+
+    context->in_buffer = NULL;
+    context->out_buffer = 0;
+
+    context->result_buffer = NULL;
+    context->result_length = 0;
+
+    context->out_buffer = NULL;
+    context->out_length = 0;
+
+    context->expansion_factor = 0;
+}
+
+static bool bib_char_converter_handle_error(bib_char_converter_t const converter,
+                                            bib_char_conversion_context_t *const context,
+                                            int const errorno)
+{
+    if (errorno == YAZ_ICONV_E2BIG || errorno == 0) {
+        bib_char_conversion_context_expand(context);
+        return true;
+    } else {
+        switch (errorno) {
+            case YAZ_ICONV_EILSEQ:
+                converter->errorno = EILSEQ;
+                break;
+            case YAZ_ICONV_EINVAL:
+                converter->errorno = EINVAL;
+                break;
+            default:
+                converter->errorno = errno;
+                break;
+        }
+        // clear any state left in the converter
+        yaz_iconv(converter->cp, NULL, NULL, NULL, NULL);
+        bib_char_conversion_context_destroy(context);
+        return false;
+    }
 }
