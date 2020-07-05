@@ -203,6 +203,35 @@ static BibRecordField *BibRecordFieldFromContentField(BibContentField *contentFi
     return [[self contentFields] filteredArrayUsingPredicate:predicate];
 }
 
+- (BibRecordField *)fieldAtIndex:(NSUInteger)index {
+    return [self.fields objectAtIndex:index];
+}
+
+- (BOOL)containsFieldWithTag:(BibFieldTag *)fieldTag {
+    return [self indexOfFieldWithTag:fieldTag] != NSNotFound;
+}
+
+- (NSUInteger)indexOfFieldWithTag:(BibFieldTag *)fieldTag {
+    NSArray *const recordFields = self.fields;
+    NSUInteger const count = recordFields.count;
+    for (NSUInteger index = 0; index < count; index += 1) {
+        if ([[[recordFields objectAtIndex:index] fieldTag] isEqualToTag:fieldTag]) {
+            return index;
+        }
+    }
+    return NSNotFound;
+}
+
+- (BibRecordField *)fieldWithTag:(BibFieldTag *)fieldTag {
+    NSUInteger const index = [self indexOfFieldWithTag:fieldTag];
+    return (index == NSNotFound) ? nil : [self fieldAtIndex:index];
+}
+
+- (NSArray<BibRecordField *> *)fieldsWithTag:(BibFieldTag *)fieldTag {
+    NSPredicate *const predicate = [NSPredicate predicateWithFormat:@"%K = %@", BibKey(fieldTag), fieldTag];
+    return [[self fields] filteredArrayUsingPredicate:predicate];
+}
+
 - (NSArray<NSIndexPath *> *)indexPathsForFieldTag:(BibFieldTag *)fieldTag {
     NSMutableArray *const indexPaths = [NSMutableArray new];
     NSArray *const fields = [self fields];
@@ -241,7 +270,7 @@ static BibRecordField *BibRecordFieldFromContentField(BibContentField *contentFi
     if ([fieldPath isSubfieldPath]) {
         return [self indexPathsForFieldTag:[fieldPath fieldTag] subfieldCode:[fieldPath subfieldCode]];
     }
-    if ([fieldPath isControlFieldPath] || [fieldPath isContentFieldPath]) {
+    if ([fieldPath isControlFieldPath] || [fieldPath isDataFieldPath]) {
         return [self indexPathsForFieldTag:[fieldPath fieldTag]];
     }
     return [NSArray array];

@@ -137,6 +137,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSArray<BibControlField *> *)controlFieldsWithTag:(BibFieldTag *)fieldTag NS_SWIFT_NAME(controlFields(with:)) DEPRECATED_ATTRIBUTE;
 - (NSArray<BibContentField *> *)contentFieldsWithTag:(BibFieldTag *)fieldTag NS_SWIFT_NAME(contentFields(with:)) DEPRECATED_ATTRIBUTE;
 
+- (BibRecordField *)fieldAtIndex:(NSUInteger)index NS_SWIFT_NAME(field(at:));
+- (BOOL)containsFieldWithTag:(BibFieldTag *)fieldTag NS_SWIFT_NAME(containsField(with:));
+- (NSUInteger)indexOfFieldWithTag:(BibFieldTag *)fieldTag NS_SWIFT_NAME(indexOfField(with:));
+- (nullable BibRecordField *)fieldWithTag:(BibFieldTag *)fieldTag NS_SWIFT_NAME(field(with:));
+
+- (NSArray<BibRecordField *> *)fieldsWithTag:(BibFieldTag *)fieldTag NS_SWIFT_NAME(fields(with:));
+
 - (NSArray<NSIndexPath *> *)indexPathsForFieldTag:(BibFieldTag *)fieldTag NS_SWIFT_NAME(indexPaths(for:));
 - (NSArray<NSIndexPath *> *)indexPathsForFieldTag:(BibFieldTag *)fieldTag subfieldCode:(BibSubfieldCode)subfieldCode
     NS_SWIFT_NAME(indexPaths(for:code:));
