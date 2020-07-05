@@ -175,7 +175,7 @@ static BibRecordField *BibRecordFieldFromContentField(BibContentField *contentFi
 
 #pragma mark - Field Access
 
-@implementation BibRecord (FieldAccess)
+@implementation BibRecord (DeprecatedFieldAccess)
 
 - (BibFieldEnumerator<BibControlField *> *)controlFieldEnumerator {
     return [[BibFieldEnumerator alloc] initWithEnumerator:[[self controlFields] objectEnumerator]];
@@ -203,6 +203,18 @@ static BibRecordField *BibRecordFieldFromContentField(BibContentField *contentFi
     return [[self contentFields] filteredArrayUsingPredicate:predicate];
 }
 
+- (BibControlField *)controlFieldAtIndexPath:(NSIndexPath *)indexPath {
+    return BibControlFieldFromRecordField([self fieldAtIndexPath:indexPath]);
+}
+
+- (BibContentField *)contentFieldAtIndexPath:(NSIndexPath *)indexPath {
+    return BibContentFieldFromRecordField([self fieldAtIndexPath:indexPath]);
+}
+
+@end
+
+@implementation BibRecord (FieldAccess)
+
 - (BibRecordField *)fieldAtIndex:(NSUInteger)index {
     return [self.fields objectAtIndex:index];
 }
@@ -227,7 +239,50 @@ static BibRecordField *BibRecordFieldFromContentField(BibContentField *contentFi
     return (index == NSNotFound) ? nil : [self fieldAtIndex:index];
 }
 
-- (NSArray<BibRecordField *> *)fieldsWithTag:(BibFieldTag *)fieldTag {
+- (BibRecordField *)fieldAtIndexPath:(NSIndexPath *)indexPath {
+    NSUInteger const index = [indexPath indexAtPosition:0];
+    if (indexPath.length != 1) {
+        [NSException raise:NSRangeException format:@"Too many indexes in path for record field access"];
+        return nil;
+    }
+    NSArray *const fields = [self fields];
+    return [fields objectAtIndex:index];
+}
+
+- (BibSubfield *)subfieldAtIndexPath:(NSIndexPath *)indexPath {
+    BibRecordField *const recordField = [[self fields] objectAtIndex:[indexPath indexAtPosition:0]];
+    if ([recordField isDataField]) {
+        return [recordField subfieldAtIndex:[indexPath indexAtPosition:1]];
+    } else {
+        [NSException raise:NSRangeException format:@"Cannot access subfileds in a control field"];
+        return nil;
+    }
+}
+
+- (NSString *)contentAtIndexPath:(NSIndexPath *)indexPath {
+    BibRecordField *const recordField = [[self fields] objectAtIndex:[indexPath indexAtPosition:0]];
+    switch (indexPath.length) {
+        case 1:
+            if (recordField.isControlField) {
+                return [recordField controlValue];
+            } else if (recordField.isDataField) {
+                return [[recordField.subfields valueForKey:BibKey(content)] componentsJoinedByString:@" "];
+            } else {
+                return @"";
+            }
+        case 2:
+            return [[recordField subfieldAtIndex:[indexPath indexAtPosition:1]] content];
+        default:
+            [NSException raise:NSRangeException format:@"To many indexes in path for content access"];
+            return nil;
+    }
+}
+
+@end
+
+@implementation BibRecord (MultipleFieldAccess)
+
+- (NSArray<BibRecordField *> *)allFieldsWithTag:(BibFieldTag *)fieldTag {
     NSPredicate *const predicate = [NSPredicate predicateWithFormat:@"%K = %@", BibKey(fieldTag), fieldTag];
     return [[self fields] filteredArrayUsingPredicate:predicate];
 }
@@ -274,53 +329,6 @@ static BibRecordField *BibRecordFieldFromContentField(BibContentField *contentFi
         return [self indexPathsForFieldTag:[fieldPath fieldTag]];
     }
     return [NSArray array];
-}
-
-- (BibRecordField *)fieldAtIndexPath:(NSIndexPath *)indexPath {
-    NSUInteger const index = [indexPath indexAtPosition:0];
-    if (indexPath.length != 1) {
-        [NSException raise:NSRangeException format:@"Too many indexes in path for record field access"];
-        return nil;
-    }
-    NSArray *const fields = [self fields];
-    return [fields objectAtIndex:index];
-}
-
-- (BibControlField *)controlFieldAtIndexPath:(NSIndexPath *)indexPath {
-    return BibControlFieldFromRecordField([self fieldAtIndexPath:indexPath]);
-}
-
-- (BibContentField *)contentFieldAtIndexPath:(NSIndexPath *)indexPath {
-    return BibContentFieldFromRecordField([self fieldAtIndexPath:indexPath]);
-}
-
-- (BibSubfield *)subfieldAtIndexPath:(NSIndexPath *)indexPath {
-    BibRecordField *const recordField = [[self fields] objectAtIndex:[indexPath indexAtPosition:0]];
-    if ([recordField isDataField]) {
-        return [recordField subfieldAtIndex:[indexPath indexAtPosition:1]];
-    } else {
-        [NSException raise:NSRangeException format:@"Cannot access subfileds in a control field"];
-        return nil;
-    }
-}
-
-- (NSString *)contentAtIndexPath:(NSIndexPath *)indexPath {
-    BibRecordField *const recordField = [[self fields] objectAtIndex:[indexPath indexAtPosition:0]];
-    switch (indexPath.length) {
-        case 1:
-            if (recordField.isControlField) {
-                return [recordField controlValue];
-            } else if (recordField.isDataField) {
-                return [[recordField.subfields valueForKey:BibKey(content)] componentsJoinedByString:@" "];
-            } else {
-                return @"";
-            }
-        case 2:
-            return [[recordField subfieldAtIndex:[indexPath indexAtPosition:1]] content];
-        default:
-            [NSException raise:NSRangeException format:@"To many indexes in path for content access"];
-            return nil;
-    }
 }
 
 - (NSArray<NSString *> *)contentWithFieldTag:(BibFieldTag *)fieldTag {
