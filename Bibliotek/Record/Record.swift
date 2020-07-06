@@ -52,14 +52,14 @@ public struct Record {
     }
 
     /// An ordered list of fields containing information and metadata about how a record's content should be processed.
-    @available(*, deprecated, message: "Use fields")
+    @available(*, deprecated, message: "replaced with 'fields'")
     public var controlFields: [ControlField] {
         get { return self.storage.controlFields as [ControlField] }
         set { self.mutate(keyPath: \.controlFields, with: newValue as [BibControlField]) }
     }
 
     /// An ordered list of fields containing information and metadata about the item represented by a record.
-    @available(*, deprecated, message: "Use fields")
+    @available(*, deprecated, message: "replaced with 'fields'")
     public var contentFields: [ContentField] {
         get { return self.storage.contentFields as [ContentField] }
         set { self.mutate(keyPath: \.contentFields, with: newValue as [BibContentField]) }
@@ -83,6 +83,7 @@ public struct Record {
     /// - parameter controlFields: An ordered list of fields describing how the record should be processed.
     /// - parameter contentFields: An ordered list of fields describing the item represented by the record.
     /// - returns: Returns a valid MARC 21 record for some item or entity described by the given fields.
+    @available(*, deprecated, message: "replaced with 'init(kindLstatus:metadata:fields:)'")
     public init(kind: RecordKind?, status: RecordStatus, metadata: Metadata,
                 controlFields: [ControlField], contentFields: [ContentField]) {
         self._storage = BibRecord(kind: kind as BibRecordKind?,
@@ -90,6 +91,20 @@ public struct Record {
                                   metadata: metadata as BibMetadata,
                                   controlFields: controlFields as [BibControlField],
                                   contentFields: contentFields as [BibContentField])
+    }
+
+    /// Create a MARC 21 record with the given data.
+    ///
+    /// - parameter kind: The type of record.
+    /// - parameter status: The record's status in its originating database.
+    /// - parameter metadata: A set of implementation-defined bytes.
+    /// - parameter fields: An ordered list of fields describing the item represented by the record.
+    /// - returns: Returns a valid MARC 21 record for some item or entity described by the given fields.
+    public init(kind: RecordKind?, status: RecordStatus, metadata: Metadata, fields: [RecordField]) {
+        self._storage = BibRecord(kind: kind as BibRecordKind?,
+                                  status: status,
+                                  metadata: metadata as BibMetadata,
+                                  fields: fields as [BibRecordField])
     }
 
     private mutating func mutate<T>(keyPath: WritableKeyPath<BibMutableRecord, T>, with newValue: T) {
@@ -126,22 +141,22 @@ extension Record: CustomStringConvertible, CustomPlaygroundDisplayConvertible {
 }
 
 extension Record {
-    @available(*, deprecated, message: "")
+    @available(*, deprecated)
     public func controlFields(with tag: FieldTag) -> LazyFilterSequence<[ControlField]> {
         return self.controlFields.lazy.filter { $0.tag == tag }
     }
 
-    @available(*, deprecated, message: "")
+    @available(*, deprecated)
     public func contentFields(with tag: FieldTag) -> LazyFilterSequence<[ContentField]> {
         return self.contentFields.lazy.filter { $0.tag == tag }
     }
 
-    @available(*, deprecated, message: "Use field(at:)")
+    @available(*, deprecated, message: "replaced with 'field(at:)'")
     public func controlField(at indexPath: IndexPath) -> ControlField? {
         return self.storage.controlField(at: indexPath) as ControlField?
     }
 
-    @available(*, deprecated, message: "Use field(at:)")
+    @available(*, deprecated, message: "replaced with 'field(at:)'")
     public func contentField(at indexPath: IndexPath) -> ContentField? {
         return self.storage.contentField(at: indexPath) as ContentField?
     }

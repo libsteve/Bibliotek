@@ -22,6 +22,7 @@ import Foundation
 /// [spec-home]: https://www.loc.gov/marc/specifications/spechome.html
 /// [bib-control]: http://www.loc.gov/marc/bibliographic/bd00x.html
 /// [cls-control]: https://www.loc.gov/marc/classification/cd00x.html
+@available(*, deprecated, message: "replaced with 'RecordField'")
 public struct ControlField {
     private var _storage: BibControlField!
     private var _mutableStorage: BibMutableControlField!
@@ -61,6 +62,7 @@ public struct ControlField {
 
 // MARK: -
 
+@available(*, deprecated)
 extension ControlField: Hashable, Equatable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.storage)
@@ -71,6 +73,7 @@ extension ControlField: Hashable, Equatable {
     }
 }
 
+@available(*, deprecated)
 extension ControlField: CustomStringConvertible, CustomPlaygroundDisplayConvertible {
     public var description: String { return self.storage.description }
 
@@ -79,6 +82,7 @@ extension ControlField: CustomStringConvertible, CustomPlaygroundDisplayConverti
 
 // MARK: - Bridging
 
+@available(*, deprecated)
 extension ControlField: _ObjectiveCBridgeable {
     public typealias _ObjectiveCType = BibControlField
 
@@ -100,6 +104,7 @@ extension ControlField: _ObjectiveCBridgeable {
     }
 }
 
+@available(*, deprecated)
 extension BibControlField: CustomPlaygroundDisplayConvertible {
     public var playgroundDescription: Any { return (self as ControlField).playgroundDescription }
 }

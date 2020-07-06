@@ -40,6 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// More information about classification records' content fields can be found in the Library of Congress's
 /// documentation on classification records: https://www.loc.gov/marc/classification/
+DEPRECATED_MSG_ATTRIBUTE("replaced with 'BibRecordField'")
 @interface BibContentField : NSObject <BibField>
 
 /// A value indicating the semantic purpose of the content field.
@@ -127,6 +128,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// More information about classification records' content fields can be found in the Library of Congress's
 /// documentation on classification records: https://www.loc.gov/marc/classification/
+DEPRECATED_MSG_ATTRIBUTE("replaced with 'BibMutableRecordField'")
 @interface BibMutableContentField : BibContentField
 
 /// A value indicating the semantic purpose of the content field.

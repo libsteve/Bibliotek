@@ -17,10 +17,10 @@
 
 #import "Bibliotek+Internal.h"
 
-static BibControlField *BibControlFieldFromRecordField(BibRecordField *recordField);
-static BibContentField *BibContentFieldFromRecordField(BibRecordField *recordField);
-static BibRecordField *BibRecordFieldFromControlField(BibControlField *controlField);
-static BibRecordField *BibRecordFieldFromContentField(BibContentField *contentField);
+static BibControlField *BibControlFieldFromRecordField(BibRecordField *recordField) DEPRECATED_ATTRIBUTE;
+static BibContentField *BibContentFieldFromRecordField(BibRecordField *recordField) DEPRECATED_ATTRIBUTE;
+static BibRecordField *BibRecordFieldFromControlField(BibControlField *controlField) DEPRECATED_ATTRIBUTE;
+static BibRecordField *BibRecordFieldFromContentField(BibContentField *contentField) DEPRECATED_ATTRIBUTE;
 
 @implementation BibRecord {
 @protected
