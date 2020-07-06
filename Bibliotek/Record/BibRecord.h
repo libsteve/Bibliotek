@@ -146,14 +146,42 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface BibRecord (FieldAccess)
 
+/// Get the field at the given index.
+/// \param index The index of the record field to access.
+/// \returns The data field or control field located at the given index.
 - (BibRecordField *)fieldAtIndex:(NSUInteger)index NS_SWIFT_NAME(field(at:));
+
+/// Test to see if the record contains a field with the given tag.
+/// \param fieldTag If this record has a field with this value, \c YES is returned.
+/// \returns \c YES if at least one record field is marked with the given tag.
 - (BOOL)containsFieldWithTag:(BibFieldTag *)fieldTag NS_SWIFT_NAME(containsField(with:));
+
+/// Get the index of the first record field with the given tag.
+/// \param fieldTag The field tag marking the data field or control field to access.
+/// \returns The index of the first record with the given tag. If no such field exists, \c NSNotFound is returned.
 - (NSUInteger)indexOfFieldWithTag:(BibFieldTag *)fieldTag NS_SWIFT_NAME(indexOfField(with:));
+
+/// Get the first record field with the given tag.
+/// \param fieldTag The field tag marking the data field or control field to access.
+/// \returns The first record with the given tag. If no such field exists, \c nil is returned.
 - (nullable BibRecordField *)fieldWithTag:(BibFieldTag *)fieldTag NS_SWIFT_NAME(field(with:));
 
+/// Get the record field referenced by the given index path.
+/// \param indexPath The index path value pointing to the field or one of its subfields.
+/// \returns The record field referenced by the index path.
+///          If the index path points to a subfield, its field is returned.
 - (BibRecordField *)fieldAtIndexPath:(NSIndexPath *)indexPath NS_SWIFT_NAME(field(at:));
+
+/// Get the subfield referenced by the given index path.
+/// \param indexPath The index path value pointing to a specific subfield value.
+/// \returns The subfield object referenced byt the index path.
+/// \throws \c NSRangeException when given an index path that points to a field instead of its subfield,
+///         or if the index path points into a control field instead of a data field.
 - (BibSubfield *)subfieldAtIndexPath:(NSIndexPath *)indexPath NS_SWIFT_NAME(subfield(at:));
 
+/// Get a string representation of the value stored at the given index path.
+/// \param indexPath The index path of a control field, data field, or subfield.
+/// \returns A string representation of the data contained within the referenced control field, data field, or subfield.
 - (NSString *)contentAtIndexPath:(NSIndexPath *)indexPath NS_SWIFT_NAME(content(at:));
 
 @end

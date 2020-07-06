@@ -110,13 +110,41 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface BibRecordField (SubfieldAccess)
 
+/// The total amount of subfields contained in this data field.
+/// \note This values is always \c 0 for control fields.
 @property (nonatomic, readonly) NSUInteger subfieldCount;
 
+/// Get this data field's subfield at the given index.
+/// \param index The index of the subfield to access.
+/// \returns This data field's subfiled located at the given index.
+/// \note This method will throw an \c NSSRangeException for control fields.
 - (BibSubfield *)subfieldAtIndex:(NSUInteger)index;
+
+/// Use indexed subscripting syntax to access a subfield from this data field.
+/// \param index The index of the subfield to access.
+/// \returns This data field's subfiled located at the given index.
+/// \note This method will throw an \c NSSRangeException for control fields.
 - (BibSubfield *)objectAtIndexedSubscript:(NSUInteger)index;
 
+/// Get the first subfield marked with the given code.
+/// \param subfieldCode The subfield code that the resulting subfield should have.
+/// \returns The first subfield in this data field with the given subfield code.
+///          \c nil is returned if there is no such matching subfield.
+/// \note This method always returns \c nil for control fields.
 - (nullable BibSubfield *)subfieldWithCode:(BibSubfieldCode)subfieldCode;
+
+/// Get the index of the first subfield marked with the given code.
+/// \param subfieldCode The subfield code that the resulting subfield should have.
+/// \returns The index of the first subfield in this data field with the given subfield code.
+///          \c NSNotFound is returned if there is no such matching subfield.
+/// \note This method always returns \c NSNotFound for control fields.
 - (NSUInteger)indexOfSubfieldWithCode:(BibSubfieldCode)subfieldCode;
+
+/// Check to see if this data field has a subfield marked with the given code.
+/// \param subfieldCode The subfield code used to check the presence of any relevant subfields.
+/// \returns \c YES when this data field contains a subfield marked with the given code.
+///          \c NO is returned when no such subfield is found.
+/// \note This method always returns \c NO for control fields.
 - (BOOL)containsSubfieldWithCode:(BibSubfieldCode)subfieldCode;
 
 @end

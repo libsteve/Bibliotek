@@ -163,19 +163,31 @@ extension Record {
 }
 
 extension Record {
+    /// Test to see if the record contains a field with the given tag.
+    /// - parameter tag: If this record has a field with this value, \c YES is returned.
+    /// - returns: `true` if at least one record field is marked with the given tag.
     public func containsField(with tag: FieldTag) -> Bool {
         return self.indexOfField(with: tag) != nil
     }
 
+    /// Get the index of the first record field with the given tag.
+    /// - parameter tag: The field tag marking the data field or control field to access.
+    /// - returns: The index of the first record with the given tag. If no such field exists, `nil` is returned.
     public func indexOfField(with tag: FieldTag) -> Int? {
         let fields = self.fields
         return fields.indices.first(where: { fields[$0].tag == tag })
     }
 
+    /// Get the first record field with the given tag.
+    /// - parameter fieldTag: The field tag marking the data field or control field to access.
+    /// - returns: The first record with the given tag. If no such field exists, `nil` is returned.
     public func field(with tag: FieldTag) -> RecordField? {
         return self.indexOfField(with: tag).map(self.field(at:))
     }
 
+    /// Get the field at the given index.
+    /// - parameter index: The index of the record field to access.
+    /// - returns: The data field or control field located at the given index.
     public func field(at index: Int) -> RecordField {
         return self.fields[index]
     }
@@ -194,14 +206,26 @@ extension Record {
         return self.storage.indexPaths(for: tag as BibFieldTag, code: code)
     }
 
+    /// Get the record field referenced by the given index path.
+    /// - parameter indexPath: The index path value pointing to the field or one of its subfields.
+    /// - returns: The record field referenced by the index path.
+    ///            If the index path points to a subfield, its field is returned.
     public func field(at indexPath: IndexPath) -> RecordField {
         return self.storage.field(at: indexPath) as RecordField
     }
 
+    /// Get the subfield referenced by the given index path.
+    /// - parameter indexPath: The index path value pointing to a specific subfield value.
+    /// - returns: The subfield object referenced byt the index path.
+    /// - note: This method will fatally error when given an index path that points to a field instead of its subfield,
+    ///         or if the index path points into a control field instead of a data field.
     public func subfield(at indexPath: IndexPath) -> Subfield {
         return self.storage.subfield(at: indexPath) as Subfield
     }
 
+    /// Get a string representation of the value stored at the given index path.
+    /// - parameter indexPath: The index path of a control field, data field, or subfield.
+    /// - returns: A string representation of the data within the referenced control field, data field, or subfield.
     public func content(at indexPath: IndexPath) -> String {
         return self.storage.content(at: indexPath)
     }

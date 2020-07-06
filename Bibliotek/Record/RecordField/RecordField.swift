@@ -217,10 +217,24 @@ extension RecordField: Hashable, Equatable {
 }
 
 extension RecordField {
+    /// The total amount of subfields contained in this data field.
+    /// - note: This value is always `0` for control fields.
+    public var subfieldCount: Int { return self.subfields?.count ?? 0 }
+
+    /// Get the first subfield marked with the given code.
+    /// - parameter code: The subfield code that the resulting subfield should have.
+    /// - returns: The first subfield in this data field with the given subfield code.
+    ///            `nil` is returned if there is no such matching subfield.
+    /// - note: This method always returns `nil` for control fields.
     public func subfield(with code: SubfieldCode) -> Subfield? {
         return self.indexOfSubfiled(with: code).map(self.subfield(at:))
     }
 
+    /// Get the index of the first subfield marked with the given code.
+    /// - parameter subfieldCode: The subfield code that the resulting subfield should have.
+    /// - returns: The index of the first subfield in this data field with the given subfield code.
+    ///            `nil` is returned if there is no such matching subfield.
+    /// - note: This method always returns `nil` for control fields.
     public func indexOfSubfiled(with code: SubfieldCode) -> Int? {
         switch self.content {
         case nil, .control(value: _):
@@ -231,10 +245,28 @@ extension RecordField {
         }
     }
 
+    /// Get this data field's subfield at the given index.
+    /// - parameter index: The index of the subfield to access.
+    /// - returns: This data field's subfiled located at the given index.
+    /// - note: This method will fatally error for control fields.
     public func subfield(at index: Int) -> Subfield {
         return self.subfields![index]
     }
 
+    /// Use indexed subscripting syntax to access a subfield from this data field.
+    /// - parameter index: The index of the subfield to access.
+    /// - returns: This data field's subfiled located at the given index.
+    /// - note: This method will throw fatally error for control fields.
+    public subscript(index: Int) -> Subfield {
+        get { return self.subfield(at: index) }
+        set { self.subfields![index] = newValue }
+    }
+
+    /// Check to see if this data field has a subfield marked with the given code.
+    /// - parameter subfieldCode: The subfield code used to check the presence of any relevant subfields.
+    /// - returns: `true` when this data field contains a subfield marked with the given code.
+    ///            `false` is returned when no such subfield is found.
+    /// - note: This method always returns `false` for control fields.
     public func containsSubfield(with code: SubfieldCode) -> Bool {
         return self.indexOfSubfiled(with: code) != nil
     }
