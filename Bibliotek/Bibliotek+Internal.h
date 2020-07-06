@@ -12,6 +12,8 @@
 #import <Bibliotek/BibDirectoryEntry.h>
 #import <Bibliotek/BibMetadata+Internal.h>
 
+#import <Bibliotek/BibHasher.h>
+
 #define BibMApply(M, ...) M(__VA_ARGS__)
 #define BibMConcat(M, ...) M ## __VA_ARGS__
 #define BibMCount(...) _BibMCount_Sequence(__VA_ARGS__, 8, 7, 6, 5, 4, 3, 2, 1)
