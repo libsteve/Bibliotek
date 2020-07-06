@@ -21,7 +21,7 @@ public struct Subfield {
     ///
     /// The semantics of each identifier is determined by the record field's tag as defined in the relevant MARC 21 format.
     public var code: SubfieldCode {
-        get { return self.storage.code }
+        get { return self.storage.subfieldCode }
         set { self.mutate(keyPath: \.code, with: newValue) }
     }
 
@@ -64,6 +64,26 @@ extension Subfield: Hashable, Equatable {
 
     public static func == (lhs: Subfield, rhs: Subfield) -> Bool {
         return lhs.storage.isEqual(to: rhs.storage)
+    }
+}
+
+extension Subfield: Codable {
+    private enum CodingKeys: String, CodingKey {
+        case code
+        case content
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let code = try container.decode(SubfieldCode.RawValue.self, forKey: .code)
+        let content = try container.decode(String.self, forKey: .content)
+        self.init(code: SubfieldCode(rawValue: code), content: content)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.code.rawValue, forKey: .code)
+        try container.encode(self.content, forKey: .content)
     }
 }
 

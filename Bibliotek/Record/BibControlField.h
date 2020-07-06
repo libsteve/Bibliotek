@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Information about Classification control fields can be found in the Library of Congress's documentation:
 /// https://www.loc.gov/marc/classification/cd00x.html
+DEPRECATED_MSG_ATTRIBUTE("replaced with 'BibRecordField'")
 @interface BibControlField : NSObject <BibField>
 
 /// A value indicating the semantic purpose of the control field.
@@ -43,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// \param tag The field tag indicating the semantic purpose of the control field.
 /// \param value The information contained within the control field.
 /// \returns A control field with the given tag and value.
-+ (instancetype)controlFieldWithTag:(BibFieldTag *)tag value:(NSString *)value NS_SWIFT_UNAVAILABLE("Use init(tag:value:");
++ (instancetype)controlFieldWithTag:(BibFieldTag *)tag value:(NSString *)value NS_SWIFT_UNAVAILABLE("use 'init(tag:value:)'");
 
 @end
 
@@ -66,6 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Mutable
 
+DEPRECATED_MSG_ATTRIBUTE("replaced with 'BibMutableRecordField'")
 @interface BibMutableControlField : BibControlField
 
 /// A value indicating the semantic purpose of the control field.

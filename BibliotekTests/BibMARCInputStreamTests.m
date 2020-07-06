@@ -31,14 +31,17 @@
     XCTAssertNil(error);
     XCTAssertNotNil(record);
     BibFieldTag *const titleStatementFieldTag = [[BibFieldTag alloc] initWithString:@"153"];
-    BibContentField *const field = [[record contentFieldsWithTag:titleStatementFieldTag] firstObject];
-    XCTAssertEqualObjects([[field firstSubfieldWithCode:@"a"] content], @"KJV5461.3");
-    NSUInteger const firstIndex = [[field subfields] indexOfObject:[field firstSubfieldWithCode:@"h"]];
-    XCTAssertEqualObjects([[[field subfields] objectAtIndex:firstIndex] content], @"Law of France");
-    XCTAssertEqualObjects([[[field subfields] objectAtIndex:firstIndex + 1] content],
+    BibRecordField *const field = [record fieldWithTag:titleStatementFieldTag];
+    NSUInteger const indexOfSubfieldA = [field indexOfSubfieldWithCode:@"a"];
+    XCTAssertNotEqual(indexOfSubfieldA, NSNotFound);
+    XCTAssertEqualObjects([[field subfieldAtIndex:indexOfSubfieldA] content], @"KJV5461.3");
+    NSUInteger const indexOfSubfieldH = [field indexOfSubfieldWithCode:@"h"];
+    XCTAssertNotEqual(indexOfSubfieldH, NSNotFound);
+    XCTAssertEqualObjects([[field subfieldAtIndex:indexOfSubfieldH] content], @"Law of France");
+    XCTAssertEqualObjects([[field subfieldAtIndex:indexOfSubfieldH + 1] content],
                           @"Cultural affairs. L'action culturelle des pouvoirs publics");
-    XCTAssertEqualObjects([[[field subfields] objectAtIndex:firstIndex + 2] content], @"Education");
-    XCTAssertEqualObjects([[field firstSubfieldWithCode:@"j"] content], @"Private schools");
+    XCTAssertEqualObjects([[field subfieldAtIndex:indexOfSubfieldH + 2] content], @"Education");
+    XCTAssertEqualObjects([[field subfieldWithCode:@"j"] content], @"Private schools");
 }
 
 - (void)testReadBibliographicRecord {
@@ -48,12 +51,12 @@
     XCTAssertNil(error);
     XCTAssertNotNil(record);
     BibFieldTag *const titleStatementFieldTag = [[BibFieldTag alloc] initWithString:@"245"];
-    BibContentField *const field = [[record contentFieldsWithTag:titleStatementFieldTag] firstObject];
-    XCTAssertEqualObjects([[field firstSubfieldWithCode:@"a"] content], @"In the land of invented languages :");
-    XCTAssertEqualObjects([[field firstSubfieldWithCode:@"b"] content], @"Esperanto rock stars, Klingon poets, "
-                                                                        @"Loglan lovers, and the mad dreamers "
-                                                                        @"who tried to build a perfect language /");
-    XCTAssertEqualObjects([[field firstSubfieldWithCode:@"c"] content], @"Arika Okrent.");
+    BibRecordField *const field = [record fieldWithTag:titleStatementFieldTag];
+    XCTAssertEqualObjects([[field subfieldWithCode:@"a"] content], @"In the land of invented languages :");
+    XCTAssertEqualObjects([[field subfieldWithCode:@"b"] content], @"Esperanto rock stars, Klingon poets, "
+                                                                   @"Loglan lovers, and the mad dreamers "
+                                                                   @"who tried to build a perfect language /");
+    XCTAssertEqualObjects([[field subfieldWithCode:@"c"] content], @"Arika Okrent.");
 
 }
 

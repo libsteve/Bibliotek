@@ -13,16 +13,16 @@
 
 @implementation BibSubfield {
 @protected
-    BibSubfieldCode _code;
+    BibSubfieldCode _subfieldCode;
     NSString *_content;
 }
 
-@synthesize code = _code;
+@synthesize subfieldCode = _subfieldCode;
 @synthesize content = _content;
 
 - (instancetype)initWithCode:(BibSubfieldCode)code content:(NSString *)content {
     if (self = [super init]) {
-        _code = [code copy];
+        _subfieldCode = [code copy];
         _content = [content copy];
     }
     return self;
@@ -41,7 +41,7 @@
 }
 
 - (NSString *)debugDescription {
-    return [NSString stringWithFormat:@"$%@%@", [self code], [self content]];
+    return [NSString stringWithFormat:@"\u2021%@%@", [self subfieldCode], [self content]];
 }
 
 + (NSSet *)keyPathsForValuesAffectingDebugDescription {
@@ -59,7 +59,20 @@
 }
 
 - (id)mutableCopyWithZone:(NSZone *)zone {
-    return [[BibMutableSubfield allocWithZone:zone] initWithCode:[self code] content:[self content]];
+    return [[BibMutableSubfield allocWithZone:zone] initWithCode:[self subfieldCode] content:[self content]];
+}
+
++ (BOOL)supportsSecureCoding { return YES; }
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    BibSubfieldCode const code = [coder decodeObjectOfClass:[NSString self] forKey:BibKey(code)];
+    NSString *const content = [coder decodeObjectOfClass:[NSString self] forKey:BibKey(content)];
+    return [self initWithCode:code content:content];
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [coder encodeObject:[self subfieldCode] forKey:BibKey(code)];
+    [coder encodeObject:[self content] forKey:BibKey(content)];
 }
 
 @end
@@ -69,7 +82,8 @@
 @implementation BibSubfield (Equality)
 
 - (BOOL)isEqualToSubfield:(BibSubfield *)subfield {
-    return [self code] == [subfield code] && [[self content] isEqualToString:[subfield content]];
+    return [[self subfieldCode] isEqualToString:[subfield subfieldCode]]
+        && [[self content] isEqualToString:[subfield content]];
 }
 
 - (BOOL)isEqual:(id)object {
@@ -79,7 +93,7 @@
 
 - (NSUInteger)hash {
     BibHasher *const hasher = [BibHasher new];
-    [hasher combineWithObject:[self code]];
+    [hasher combineWithObject:[self subfieldCode]];
     [hasher combineWithObject:[self content]];
     return [hasher hash];
 }
@@ -91,13 +105,13 @@
 @implementation BibMutableSubfield
 
 - (id)copyWithZone:(NSZone *)zone {
-    return [[BibSubfield allocWithZone:zone] initWithCode:[self code] content:[self content]];
+    return [[BibSubfield allocWithZone:zone] initWithCode:[self subfieldCode] content:[self content]];
 }
 
 @dynamic code;
 - (void)setCode:(BibSubfieldCode)code {
-    if (_code != code) {
-        _code = [code copy];
+    if (_subfieldCode != code) {
+        _subfieldCode = [code copy];
     }
 }
 
@@ -137,7 +151,7 @@
 
 - (BibSubfield *)nextSubfieldWithCode:(BibSubfieldCode)subfieldCode {
     for (BibSubfield *subfield = [self nextSubfield]; subfield != nil; subfield = [self nextSubfield]) {
-        if ([[subfield code] isEqualToString:subfieldCode]) {
+        if ([[subfield subfieldCode] isEqualToString:subfieldCode]) {
             return subfield;
         }
     }

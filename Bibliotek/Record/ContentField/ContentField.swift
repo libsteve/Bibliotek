@@ -38,6 +38,7 @@ import Foundation
 /// [spec-home]: https://www.loc.gov/marc/specifications/spechome.html
 /// [isbd-wikipedia]: https://en.wikipedia.org/wiki/International_Standard_Bibliographic_Description
 /// [isbd-spec]: https://www.ifla.org/files/assets/cataloguing/isbd/isbd-cons_20110321.pdf
+@available(*, deprecated, message: "replaced with 'RecordField'")
 public struct ContentField {
     private var _storage: BibContentField!
     private var _mutableStorage: BibMutableContentField!
@@ -95,6 +96,7 @@ public struct ContentField {
     }
 }
 
+@available(*, deprecated)
 extension ContentField: Hashable, Equatable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.storage)
@@ -105,6 +107,7 @@ extension ContentField: Hashable, Equatable {
     }
 }
 
+@available(*, deprecated)
 extension ContentField: CustomStringConvertible, CustomPlaygroundDisplayConvertible {
     public var description: String { return self.storage.description }
 
@@ -113,6 +116,7 @@ extension ContentField: CustomStringConvertible, CustomPlaygroundDisplayConverti
                                                     "subfields": self.subfields] }
 }
 
+@available(*, deprecated)
 extension ContentField {
     public func indexesOfSubfields(with code: SubfieldCode) -> IndexSet {
         return self.storage.indexesOfSubfields(withCode: code)
@@ -133,6 +137,7 @@ extension ContentField {
 
 // MARK: - Bridging
 
+@available(*, deprecated)
 extension ContentField: _ObjectiveCBridgeable {
     public typealias _ObjectiveCType = BibContentField
 
@@ -154,6 +159,7 @@ extension ContentField: _ObjectiveCBridgeable {
     }
 }
 
+@available(*, deprecated)
 extension BibContentField: CustomPlaygroundDisplayConvertible {
     public var playgroundDescription: Any { return (self as ContentField).playgroundDescription }
 }

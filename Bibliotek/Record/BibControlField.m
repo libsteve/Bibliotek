@@ -12,6 +12,8 @@
 
 #import "Bibliotek+Internal.h"
 
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
+
 @implementation BibControlField {
 @protected
     BibFieldTag *_tag;

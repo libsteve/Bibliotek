@@ -14,6 +14,8 @@
 @implementation BibFieldTag
 
 @synthesize stringValue = _stringValue;
+@synthesize isControlTag = _isControlTag;
+@synthesize isDataTag = _isDataTag;
 
 + (instancetype)allocWithZone:(struct _NSZone *)zone {
     return [self isEqualTo:[BibFieldTag class]]
@@ -27,6 +29,8 @@
     }
     if (self = [super init]) {
         _stringValue = [stringValue copy];
+        _isControlTag = [stringValue hasPrefix:@"00"];
+        _isDataTag = !_isControlTag && ![stringValue isEqualToString:@"000"];
     }
     return self;
 }
@@ -43,12 +47,18 @@
     return [self initWithString:@"000"];
 }
 
-- (NSString *)description {
-    return [self stringValue];
++ (BOOL)supportsSecureCoding { return YES; }
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    return [self initWithData:[coder decodeDataObject]];
 }
 
-- (BOOL)isControlFieldTag {
-    return [[self stringValue] hasPrefix:@"00"];
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [coder encodeDataObject:[[self stringValue] dataUsingEncoding:NSASCIIStringEncoding]];
+}
+
+- (NSString *)description {
+    return [self stringValue];
 }
 
 - (id)copyWithZone:(NSZone *)zone {

@@ -25,9 +25,9 @@ class RecordFieldAccessTests: XCTestCase {
         XCTAssertEqual(indexPaths.count, 1, "Expected one control number field")
         XCTAssertEqual(indexPaths.first!.count, 1, "Index paths for fields should have only one index")
 
-        let fields = indexPaths.compactMap(self.record.controlField(at:))
+        let fields = indexPaths.compactMap(self.record.field(at:)).filter { $0.isControlField }
         XCTAssertEqual(fields.count, indexPaths.count, "Expected a control field for all index paths")
-        XCTAssertEqual(fields.first!.value, "15434749")
+        XCTAssertEqual(fields.first!.controlValue, "15434749")
 
         let fieldContents = indexPaths.map(self.record.content(at:))
         XCTAssertEqual(fieldContents.count, indexPaths.count, "Expected content for all index paths")
@@ -40,10 +40,10 @@ class RecordFieldAccessTests: XCTestCase {
         XCTAssertEqual(indexPaths.first!.count, 1, "Index paths for fields should have only one index")
         XCTAssertEqual(indexPaths.last!.count, 1, "Index paths for fields should have only one index")
 
-        let fields = indexPaths.compactMap(self.record.contentField(at:))
-        XCTAssertEqual(fields.count, indexPaths.count, "Expected a content field for all index paths")
-        XCTAssertEqual(fields.first!.subfields.map(\.content).joined(), "9780385527880")
-        XCTAssertEqual(fields.last!.subfields.map(\.content).joined(), "0385527888")
+        let fields = indexPaths.compactMap(self.record.field(at:)).filter { $0.isDataField }
+        XCTAssertEqual(fields.count, indexPaths.count, "Expected a data field for all index paths")
+        XCTAssertEqual(fields.first!.subfields!.map(\.content).joined(), "9780385527880")
+        XCTAssertEqual(fields.last!.subfields!.map(\.content).joined(), "0385527888")
 
         let fieldContents = indexPaths.map(self.record.content(at:))
         XCTAssertEqual(fieldContents.count, indexPaths.count, "Expected content for all index paths")

@@ -25,7 +25,22 @@ public struct FieldTag {
     ///
     /// MARC 21 control field tags always begin with two zeros.
     /// For example, a record's control number field has the tag `001`.
+    @available(*, deprecated, message: "Use isControlTag")
     public var isControlFieldTag: Bool { return self.storage.isControlFieldTag }
+
+    /// Does the tag identify a control field?
+    ///
+    /// MARC 21 controlfield tags always begin with two zeros.
+    /// For example, a record's control number controlfield has the tag `001`.
+    ///
+    /// - note: The tag `000` is neither a controlfield tag nor a datafield tag.
+    public var isControlTag: Bool { return self.storage.isControlTag }
+
+    /// Does the tag identify a data field?
+    ///
+    /// MARC 21 datafield tags never begin with two zeros.
+    /// For example, a bibliographic record's Library of Conrgess call number datafield has the tag `050`.
+    public var isDataTag: Bool { return self.storage.isDataTag }
 
     private init(storage: BibFieldTag) {
         self.storage = storage
@@ -52,6 +67,19 @@ extension FieldTag: Hashable, Equatable {
 
     public static func == (lhs: FieldTag, rhs: FieldTag) -> Bool {
         return lhs.storage.isEqual(to: rhs.storage)
+    }
+}
+
+extension FieldTag: Codable {
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let rawValue = try container.decode(String.self)
+        self.init(rawValue: rawValue)!
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(self.rawValue)
     }
 }
 
@@ -84,6 +112,16 @@ extension FieldTag: _ObjectiveCBridgeable {
     }
 }
 
-extension BibFieldTag: CustomPlaygroundDisplayConvertible {
+extension BibFieldTag: RawRepresentable, ExpressibleByStringLiteral, CustomPlaygroundDisplayConvertible {
+    public var rawValue: String { return self.stringValue }
+
+    public required convenience init?(rawValue: String) {
+        self.init(string: rawValue)
+    }
+
+    public required convenience init(stringLiteral value: String) {
+        self.init(string: value)!
+    }
+
     public var playgroundDescription: Any { return (self as FieldTag).playgroundDescription }
 }

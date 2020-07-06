@@ -52,15 +52,23 @@ public struct Record {
     }
 
     /// An ordered list of fields containing information and metadata about how a record's content should be processed.
+    @available(*, deprecated, message: "replaced with 'fields'")
     public var controlFields: [ControlField] {
         get { return self.storage.controlFields as [ControlField] }
         set { self.mutate(keyPath: \.controlFields, with: newValue as [BibControlField]) }
     }
 
     /// An ordered list of fields containing information and metadata about the item represented by a record.
+    @available(*, deprecated, message: "replaced with 'fields'")
     public var contentFields: [ContentField] {
         get { return self.storage.contentFields as [ContentField] }
         set { self.mutate(keyPath: \.contentFields, with: newValue as [BibContentField]) }
+    }
+
+    /// An ordered list of fields containing information and metadata about the record and its represented item.
+    public var fields: [RecordField] {
+        get { return self.storage.fields as [RecordField] }
+        set { self.mutate(keyPath: \.fields, with: newValue as [BibRecordField]) }
     }
 
     private init(storage: BibRecord) {
@@ -75,6 +83,7 @@ public struct Record {
     /// - parameter controlFields: An ordered list of fields describing how the record should be processed.
     /// - parameter contentFields: An ordered list of fields describing the item represented by the record.
     /// - returns: Returns a valid MARC 21 record for some item or entity described by the given fields.
+    @available(*, deprecated, message: "replaced with 'init(kindLstatus:metadata:fields:)'")
     public init(kind: RecordKind?, status: RecordStatus, metadata: Metadata,
                 controlFields: [ControlField], contentFields: [ContentField]) {
         self._storage = BibRecord(kind: kind as BibRecordKind?,
@@ -82,6 +91,20 @@ public struct Record {
                                   metadata: metadata as BibMetadata,
                                   controlFields: controlFields as [BibControlField],
                                   contentFields: contentFields as [BibContentField])
+    }
+
+    /// Create a MARC 21 record with the given data.
+    ///
+    /// - parameter kind: The type of record.
+    /// - parameter status: The record's status in its originating database.
+    /// - parameter metadata: A set of implementation-defined bytes.
+    /// - parameter fields: An ordered list of fields describing the item represented by the record.
+    /// - returns: Returns a valid MARC 21 record for some item or entity described by the given fields.
+    public init(kind: RecordKind?, status: RecordStatus, metadata: Metadata, fields: [RecordField]) {
+        self._storage = BibRecord(kind: kind as BibRecordKind?,
+                                  status: status,
+                                  metadata: metadata as BibMetadata,
+                                  fields: fields as [BibRecordField])
     }
 
     private mutating func mutate<T>(keyPath: WritableKeyPath<BibMutableRecord, T>, with newValue: T) {
@@ -114,35 +137,95 @@ extension Record: CustomStringConvertible, CustomPlaygroundDisplayConvertible {
     public var playgroundDescription: Any { return ["kind": self.kind?.description ?? "unset",
                                                     "status": String(format: "%c", self.status.rawValue),
                                                     "meatdata": self.metadata,
-                                                    "controlFields": self.contentFields,
-                                                    "contentFields": self.contentFields] }
+                                                    "fields": self.fields] }
 }
 
 extension Record {
+    @available(*, deprecated)
     public func controlFields(with tag: FieldTag) -> LazyFilterSequence<[ControlField]> {
         return self.controlFields.lazy.filter { $0.tag == tag }
     }
 
+    @available(*, deprecated)
     public func contentFields(with tag: FieldTag) -> LazyFilterSequence<[ContentField]> {
         return self.contentFields.lazy.filter { $0.tag == tag }
     }
 
-    public func indexPaths(for fieldPath: FieldPath) -> [IndexPath] {
-        return self.storage.indexPaths(for: fieldPath as BibFieldPath)
-    }
-
+    @available(*, deprecated, message: "replaced with 'field(at:)'")
     public func controlField(at indexPath: IndexPath) -> ControlField? {
         return self.storage.controlField(at: indexPath) as ControlField?
     }
 
+    @available(*, deprecated, message: "replaced with 'field(at:)'")
     public func contentField(at indexPath: IndexPath) -> ContentField? {
         return self.storage.contentField(at: indexPath) as ContentField?
     }
+}
 
-    public func subfield(at indexPath: IndexPath) -> Subfield? {
-        return self.storage.subfield(at: indexPath) as Subfield?
+extension Record {
+    /// Test to see if the record contains a field with the given tag.
+    /// - parameter tag: If this record has a field with this value, \c YES is returned.
+    /// - returns: `true` if at least one record field is marked with the given tag.
+    public func containsField(with tag: FieldTag) -> Bool {
+        return self.indexOfField(with: tag) != nil
     }
 
+    /// Get the index of the first record field with the given tag.
+    /// - parameter tag: The field tag marking the data field or control field to access.
+    /// - returns: The index of the first record with the given tag. If no such field exists, `nil` is returned.
+    public func indexOfField(with tag: FieldTag) -> Int? {
+        let fields = self.fields
+        return fields.indices.first(where: { fields[$0].tag == tag })
+    }
+
+    /// Get the first record field with the given tag.
+    /// - parameter fieldTag: The field tag marking the data field or control field to access.
+    /// - returns: The first record with the given tag. If no such field exists, `nil` is returned.
+    public func field(with tag: FieldTag) -> RecordField? {
+        return self.indexOfField(with: tag).map(self.field(at:))
+    }
+
+    /// Get the field at the given index.
+    /// - parameter index: The index of the record field to access.
+    /// - returns: The data field or control field located at the given index.
+    public func field(at index: Int) -> RecordField {
+        return self.fields[index]
+    }
+}
+
+extension Record {
+    public func indexPaths(for fieldPath: FieldPath) -> [IndexPath] {
+        return self.storage.indexPaths(for: fieldPath as BibFieldPath)
+    }
+
+    public func indexPaths(for tag: FieldTag) -> [IndexPath] {
+        return self.storage.indexPaths(for: tag as BibFieldTag)
+    }
+
+    public func indexPaths(for tag: FieldTag, code: SubfieldCode) -> [IndexPath] {
+        return self.storage.indexPaths(for: tag as BibFieldTag, code: code)
+    }
+
+    /// Get the record field referenced by the given index path.
+    /// - parameter indexPath: The index path value pointing to the field or one of its subfields.
+    /// - returns: The record field referenced by the index path.
+    ///            If the index path points to a subfield, its field is returned.
+    public func field(at indexPath: IndexPath) -> RecordField {
+        return self.storage.field(at: indexPath) as RecordField
+    }
+
+    /// Get the subfield referenced by the given index path.
+    /// - parameter indexPath: The index path value pointing to a specific subfield value.
+    /// - returns: The subfield object referenced byt the index path.
+    /// - note: This method will fatally error when given an index path that points to a field instead of its subfield,
+    ///         or if the index path points into a control field instead of a data field.
+    public func subfield(at indexPath: IndexPath) -> Subfield {
+        return self.storage.subfield(at: indexPath) as Subfield
+    }
+
+    /// Get a string representation of the value stored at the given index path.
+    /// - parameter indexPath: The index path of a control field, data field, or subfield.
+    /// - returns: A string representation of the data within the referenced control field, data field, or subfield.
     public func content(at indexPath: IndexPath) -> String {
         return self.storage.content(at: indexPath)
     }
