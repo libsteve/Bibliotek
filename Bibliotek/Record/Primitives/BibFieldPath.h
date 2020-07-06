@@ -19,7 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, copy, nullable) BibSubfieldCode subfieldCode;
 
 @property (nonatomic, readonly) BOOL isControlFieldPath;
-@property (nonatomic, readonly) BOOL isContentFieldPath;
+@property (nonatomic, readonly) BOOL isContentFieldPath DEPRECATED_MSG_ATTRIBUTE("Use -isDataFieldPath");
+@property (nonatomic, readonly) BOOL isDataFieldPath;
 @property (nonatomic, readonly) BOOL isSubfieldPath;
 
 - (instancetype)initWithFieldTag:(BibFieldTag *)fieldTag NS_DESIGNATED_INITIALIZER;

@@ -17,7 +17,7 @@ public enum FieldPath: Hashable, Equatable {
     }
 
     public init(tag: FieldTag, code: SubfieldCode) {
-        precondition(!tag.isControlFieldTag)
+        precondition(!tag.isControlTag)
         self = .subfieldPath(tag: tag, code: code)
     }
 }
@@ -39,14 +39,14 @@ extension FieldPath {
 
     public var isControlFieldPath: Bool {
         switch self {
-        case let .fieldPath(tag: tag): return tag.isControlFieldTag
+        case let .fieldPath(tag: tag): return tag.isControlTag
         case .subfieldPath(tag: _, code: _): return false
         }
     }
 
     public var isContentFieldPath: Bool {
         switch self {
-        case let .fieldPath(tag: tag): return !tag.isControlFieldTag
+        case let .fieldPath(tag: tag): return !tag.isControlTag
         case .subfieldPath(tag: _, code: _): return false
         }
     }

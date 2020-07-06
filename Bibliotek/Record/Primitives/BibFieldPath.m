@@ -30,21 +30,25 @@
 - (instancetype)initWithFieldTag:(BibFieldTag *)fieldTag subfieldCode:(BibSubfieldCode)subfieldCode {
     if (self = [super init]) {
         _fieldTag = [fieldTag copy];
-        _subfieldCode = [fieldTag isControlFieldTag] ? nil : [subfieldCode copy];
+        _subfieldCode = [fieldTag isControlTag] ? nil : [subfieldCode copy];
     }
     return self;
 }
 
 - (BOOL)isSubfieldPath {
-    return ![[self fieldTag] isControlFieldTag] && ([self subfieldCode] != nil);
+    return [[self fieldTag] isDataTag] && ([self subfieldCode] != nil);
+}
+
+- (BOOL)isDataFieldPath {
+    return [[self fieldTag] isDataTag] && ([self subfieldCode] == nil);
 }
 
 - (BOOL)isContentFieldPath {
-    return ![[self fieldTag] isControlFieldTag] && ([self subfieldCode] == nil);
+    return [self isDataFieldPath];
 }
 
 - (BOOL)isControlFieldPath {
-    return [[self fieldTag] isControlFieldTag];
+    return [[self fieldTag] isControlTag];
 }
 
 - (id)copyWithZone:(NSZone *)zone {
