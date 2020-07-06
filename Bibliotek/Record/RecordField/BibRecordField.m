@@ -187,6 +187,26 @@
 - (BibSubfield *)subfieldAtIndex:(NSUInteger)index { return [self.subfields objectAtIndex:index]; }
 - (BibSubfield *)objectAtIndexedSubscript:(NSUInteger)index { return [self subfieldAtIndex:index]; }
 
+- (NSUInteger)indexOfSubfieldWithCode:(BibSubfieldCode)subfieldCode {
+    NSArray *const subfields = self.subfields;
+    NSUInteger const count = subfields.count;
+    for (NSUInteger index = 0; index < count; index += 1) {
+        if ([[[subfields objectAtIndex:index] subfieldCode] isEqualToString:subfieldCode]) {
+            return index;
+        }
+    }
+    return NSNotFound;
+}
+
+- (BibSubfield *)subfieldWithCode:(BibSubfieldCode)subfieldCode {
+    NSUInteger const index = [self indexOfSubfieldWithCode:subfieldCode];
+    return (index == NSNotFound) ? nil : [self subfieldAtIndex:index];
+}
+
+- (BOOL)containsSubfieldWithCode:(BibSubfieldCode)subfieldCode {
+    return [self indexOfSubfieldWithCode:subfieldCode] != NSNotFound;
+}
+
 @end
 
 @implementation BibRecordField (Equality)
@@ -267,6 +287,9 @@
 
 - (NSUInteger)subfieldCount { return 0; }
 - (BibSubfield *)subfieldAtIndex:(NSUInteger)index { return [[NSArray new] objectAtIndex:index]; }
+- (NSUInteger)indexOfSubfieldWithCode:(BibSubfieldCode)subfieldCode { return NSNotFound; }
+- (BibSubfield *)subfieldWithCode:(BibSubfieldCode)subfieldCode { return nil; }
+- (BOOL)containsSubfieldWithCode:(BibSubfieldCode)subfieldCode { return NO; }
 
 - (Class)classForCoder { return [BibRecordField self]; }
 
@@ -299,6 +322,9 @@
 
 - (NSUInteger)subfieldCount { return 0; }
 - (BibSubfield *)subfieldAtIndex:(NSUInteger)index { return [[NSArray new] objectAtIndex:index]; }
+- (NSUInteger)indexOfSubfieldWithCode:(BibSubfieldCode)subfieldCode { return NSNotFound; }
+- (BibSubfield *)subfieldWithCode:(BibSubfieldCode)subfieldCode { return nil; }
+- (BOOL)containsSubfieldWithCode:(BibSubfieldCode)subfieldCode { return NO; }
 
 - (Class)classForCoder { return [BibRecordField self]; }
 
@@ -417,6 +443,9 @@
 
 - (NSUInteger)subfieldCount { return 0; }
 - (BibSubfield *)subfieldAtIndex:(NSUInteger)index { return [[NSArray new] objectAtIndex:index]; }
+- (NSUInteger)indexOfSubfieldWithCode:(BibSubfieldCode)subfieldCode { return NSNotFound; }
+- (BibSubfield *)subfieldWithCode:(BibSubfieldCode)subfieldCode { return nil; }
+- (BOOL)containsSubfieldWithCode:(BibSubfieldCode)subfieldCode { return NO; }
 
 - (void)setFieldTag:(BibFieldTag *)fieldTag {
     if (_fieldTag != fieldTag) {
@@ -495,6 +524,9 @@
 
 - (NSUInteger)subfieldCount { return 0; }
 - (BibSubfield *)subfieldAtIndex:(NSUInteger)index { return [[NSArray new] objectAtIndex:index]; }
+- (NSUInteger)indexOfSubfieldWithCode:(BibSubfieldCode)subfieldCode { return NSNotFound; }
+- (BibSubfield *)subfieldWithCode:(BibSubfieldCode)subfieldCode { return nil; }
+- (BOOL)containsSubfieldWithCode:(BibSubfieldCode)subfieldCode { return NO; }
 
 - (void)setFieldTag:(BibFieldTag *)fieldTag {
     if (_fieldTag != fieldTag) {

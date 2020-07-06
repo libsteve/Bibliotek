@@ -216,6 +216,30 @@ extension RecordField: Hashable, Equatable {
     }
 }
 
+extension RecordField {
+    public func subfield(with code: SubfieldCode) -> Subfield? {
+        return self.indexOfSubfiled(with: code).map(self.subfield(at:))
+    }
+
+    public func indexOfSubfiled(with code: SubfieldCode) -> Int? {
+        switch self.content {
+        case nil, .control(value: _):
+            return nil
+
+        case let .data(indicators: _, subfields: subfields):
+            return subfields.indices.first(where: { subfields[$0].code == code })
+        }
+    }
+
+    public func subfield(at index: Int) -> Subfield {
+        return self.subfields![index]
+    }
+
+    public func containsSubfield(with code: SubfieldCode) -> Bool {
+        return self.indexOfSubfiled(with: code) != nil
+    }
+}
+
 extension RecordField: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()

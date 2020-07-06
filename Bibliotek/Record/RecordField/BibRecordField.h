@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Bibliotek/BibSubfield.h>
 
 @class BibFieldIndicator;
 @class BibFieldTag;
@@ -113,6 +114,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BibSubfield *)subfieldAtIndex:(NSUInteger)index;
 - (BibSubfield *)objectAtIndexedSubscript:(NSUInteger)index;
+
+- (nullable BibSubfield *)subfieldWithCode:(BibSubfieldCode)subfieldCode;
+- (NSUInteger)indexOfSubfieldWithCode:(BibSubfieldCode)subfieldCode;
+- (BOOL)containsSubfieldWithCode:(BibSubfieldCode)subfieldCode;
 
 @end
 
