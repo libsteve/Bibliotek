@@ -15,6 +15,9 @@ static size_t const BibIndicatorCount = 37;
 static size_t BibIndicatorInstanceSize;
 static void *BibIndicatorBuffer;
 
+@interface _BibFieldIndicator : BibFieldIndicator
+@end
+
 __attribute__((always_inline))
 static inline size_t BibIndicatorGetCacheIndexForRawValue(char rawValue) {
     if (rawValue == ' ') { return 0; }
@@ -34,38 +37,25 @@ static inline char BibIndicatorGetRawValueForCacheIndex(size_t index) {
 }
 
 __attribute__((always_inline))
-static inline BibFieldIndicator *BibIndicatorGetCachedInstanceAtIndex(size_t index)  {
+static inline _BibFieldIndicator *BibIndicatorGetCachedInstanceAtIndex(size_t index)  {
     return BibIndicatorBuffer + (index * BibIndicatorInstanceSize);
 }
 
-@implementation BibFieldIndicator
+@implementation BibFieldIndicator {
+@protected
+    char rawValue;
+}
 
 @synthesize rawValue = rawValue;
 
 + (BibFieldIndicator *)blank { return [BibFieldIndicator indicatorWithRawValue:' ']; }
-
-+ (void)load {
-    BibIndicatorInstanceSize = class_getInstanceSize(self);
-    BibIndicatorBuffer = calloc(BibIndicatorCount, BibIndicatorInstanceSize);
-    for (size_t index = 0; index < BibIndicatorCount; index += 1) {
-        BibFieldIndicator *indicator = BibIndicatorGetCachedInstanceAtIndex(index);
-        objc_constructInstance(self, indicator);
-        struct objc_super _super = { indicator, [NSObject self] };
-        ((id(*)(struct objc_super *, SEL))objc_msgSendSuper)(&_super, @selector(init));
-        indicator->rawValue = BibIndicatorGetRawValueForCacheIndex(index);
-    }
-}
 
 + (instancetype)allocWithZone:(struct _NSZone *)zone {
     return (self == [BibFieldIndicator self]) ? BibIndicatorGetCachedInstanceAtIndex(0) : [super allocWithZone:zone];
 }
 
 - (instancetype)initWithRawValue:(char)rawValue {
-    if ([self class] == [BibFieldIndicator self]) {
-        size_t const index = BibIndicatorGetCacheIndexForRawValue((uint8_t)rawValue);
-        self = BibIndicatorGetCachedInstanceAtIndex(index);
-        NSParameterAssert(self != nil);
-    } else if (self = [super init]) {
+    if (self = [super init]) {
         self->rawValue = rawValue;
     }
     return self;
@@ -73,23 +63,14 @@ static inline BibFieldIndicator *BibIndicatorGetCachedInstanceAtIndex(size_t ind
 
 + (instancetype)indicatorWithRawValue:(char)rawValue {
     if (self == [BibFieldIndicator self]) {
-        size_t const index = BibIndicatorGetCacheIndexForRawValue((uint8_t)rawValue);
-        BibFieldIndicator *indicator = BibIndicatorGetCachedInstanceAtIndex(index);
-        NSParameterAssert(indicator != nil);
-        return indicator;
+        return [_BibFieldIndicator indicatorWithRawValue:rawValue];
     } else {
-        return [[BibFieldIndicator alloc] initWithRawValue:rawValue];
+        return [[[self alloc] initWithRawValue:rawValue] autorelease];
     }
 }
 
 - (instancetype)init {
     return [self initWithRawValue:' '];
-}
-
-- (void)dealloc {
-    if ([self class] != [BibFieldIndicator self]) {
-        [super dealloc];
-    }
 }
 
 - (id)copyWithZone:(NSZone *)zone { return self; }
@@ -139,5 +120,50 @@ static inline BibFieldIndicator *BibIndicatorGetCachedInstanceAtIndex(size_t ind
                                       self->rawValue, self->rawValue, [self description]];
 }
 #endif
+
+@end
+
+#pragma mark -
+
+@implementation _BibFieldIndicator
+
++ (void)load {
+    BibIndicatorInstanceSize = class_getInstanceSize(self);
+    BibIndicatorBuffer = calloc(BibIndicatorCount, BibIndicatorInstanceSize);
+    for (size_t index = 0; index < BibIndicatorCount; index += 1) {
+        BibFieldIndicator *indicator = BibIndicatorGetCachedInstanceAtIndex(index);
+        objc_constructInstance(self, indicator);
+        struct objc_super _super = { indicator, [NSObject self] };
+        ((id(*)(struct objc_super *, SEL))objc_msgSendSuper)(&_super, @selector(init));
+        indicator->rawValue = BibIndicatorGetRawValueForCacheIndex(index);
+    }
+}
+
+- (instancetype)initWithRawValue:(char)rawValue {
+    size_t const index = BibIndicatorGetCacheIndexForRawValue((uint8_t)rawValue);
+    self = BibIndicatorGetCachedInstanceAtIndex(index);
+    NSParameterAssert(self != nil);
+    return self;
+}
+
++ (instancetype)indicatorWithRawValue:(char)rawValue {
+    size_t const index = BibIndicatorGetCacheIndexForRawValue((uint8_t)rawValue);
+    _BibFieldIndicator *indicator = [BibIndicatorGetCachedInstanceAtIndex(index) retain];
+    NSParameterAssert(indicator != nil);
+    return indicator;
+}
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-missing-super-calls"
+- (void)dealloc {}
+#pragma clang diagnostic pop
+
+- (instancetype)retain { return self; }
+
+- (oneway void)release {}
+
+- (instancetype)autorelease { return self; }
+
+- (NSUInteger)retainCount { return 1; }
 
 @end
