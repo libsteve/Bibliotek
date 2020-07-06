@@ -34,24 +34,17 @@ let records = try! connection.fetchRecords(request: request)
 With a record, you can access information about the title, author, subject, and more.
 
 ```swift
-extension FieldTag {
-    static let isbn13: FieldTag = "020"
-    static let locCallNumber: FieldTag = "050"
-    static let ddcNumber: FieldTag = "082"
-    static let titleStatement: FieldTag = "245"
+extension FieldPath {
+    static let isbn13 = FieldPath(tag: "020", code: "a")
+    static let locCallNumber = FieldPath(tag: "050")
+    static let dccNumber = FieldPath(tag: "082", code: "a")
+    static let titleStatement = FieldPath(tag: "245")
 }
 
-extension Array where Element == ContentField {
-    func first(with tag: FieldTag) -> ContentField? {
-        return self.first(where: { $0.tag == tag })
-    }
-}
-
-let record = records.first!
-record.contentFields.first(with: .isbn13)
-record.contentFields.first(with: .locCallNumber)
-record.contentFields.first(with: .ddcNumber)
-record.contentFields.first(with: .titleStatement)
+record.content(with: .isbn13)
+record.content(with: .locCallNumber)
+record.content(with: .dccNumber)
+record.content(with: .titleStatement)
 ```
 
 Instructions
