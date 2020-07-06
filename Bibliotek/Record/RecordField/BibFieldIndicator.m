@@ -11,7 +11,12 @@
 #import <objc/runtime.h>
 #import <objc/message.h>
 
-static size_t const BibIndicatorCount = 37;
+/// \note Although only a lowercase ASCII characters and ASCII digits are valid indicators, the MARC8 formatted 2014
+///       Library of Congress Classification schedule at https://loc.gov/cds/products/MDSConnect-classification.html
+///       contains an indicator value of \c ')' at offset \c 42507804 , so we should be gracefully handling this case
+///       by assuming that any 8-byte value could be provided as a valid indicator. If the LoC's schedule has this
+///       indicator value, it must be valid, right‽ ¯\_(ツ)_/¯
+static size_t const BibIndicatorCount = 256;
 static size_t BibIndicatorInstanceSize;
 static void *BibIndicatorBuffer;
 
@@ -19,26 +24,8 @@ static void *BibIndicatorBuffer;
 @end
 
 __attribute__((always_inline))
-static inline size_t BibIndicatorGetCacheIndexForRawValue(char rawValue) {
-    if (rawValue == ' ') { return 0; }
-    if (rawValue >= '0' && rawValue <= '9') { return (rawValue - '0') + 1; }
-    if (rawValue >= 'a' && rawValue <= 'z') { return (rawValue - 'a') + 11; }
-    [NSException raise:NSRangeException format:@"Invalid indicator characher '%c'", rawValue];
-    return NSNotFound;
-}
-
-__attribute__((always_inline))
-static inline char BibIndicatorGetRawValueForCacheIndex(size_t index) {
-    if (index == 0) { return ' '; }
-    if (index >= 1 && index <= 10) { return '0' + (index - 1); }
-    if (index >= 11 && index <= 36) { return 'a' + (index - 11); }
-    [NSException raise:NSRangeException format:@"Cache index %zu is out of bounds", index];
-    return -1;
-}
-
-__attribute__((always_inline))
-static inline _BibFieldIndicator *BibIndicatorGetCachedInstanceAtIndex(size_t index)  {
-    return BibIndicatorBuffer + (index * BibIndicatorInstanceSize);
+static inline _BibFieldIndicator *BibIndicatorGetCachedInstance(char rawValue)  {
+    return BibIndicatorBuffer + (((size_t)rawValue) * BibIndicatorInstanceSize);
 }
 
 @implementation BibFieldIndicator {
@@ -51,7 +38,7 @@ static inline _BibFieldIndicator *BibIndicatorGetCachedInstanceAtIndex(size_t in
 + (BibFieldIndicator *)blank { return [BibFieldIndicator indicatorWithRawValue:' ']; }
 
 + (instancetype)allocWithZone:(struct _NSZone *)zone {
-    return (self == [BibFieldIndicator self]) ? BibIndicatorGetCachedInstanceAtIndex(0) : [super allocWithZone:zone];
+    return (self == [BibFieldIndicator self]) ? BibIndicatorGetCachedInstance(' ') : [super allocWithZone:zone];
 }
 
 - (instancetype)initWithRawValue:(char)rawValue {
@@ -130,25 +117,23 @@ static inline _BibFieldIndicator *BibIndicatorGetCachedInstanceAtIndex(size_t in
 + (void)load {
     BibIndicatorInstanceSize = class_getInstanceSize(self);
     BibIndicatorBuffer = calloc(BibIndicatorCount, BibIndicatorInstanceSize);
-    for (size_t index = 0; index < BibIndicatorCount; index += 1) {
-        BibFieldIndicator *indicator = BibIndicatorGetCachedInstanceAtIndex(index);
+    for (char rawValue = 0; rawValue < BibIndicatorCount; rawValue += 1) {
+        BibFieldIndicator *indicator = BibIndicatorGetCachedInstance(rawValue);
         objc_constructInstance(self, indicator);
         struct objc_super _super = { indicator, [NSObject self] };
         ((id(*)(struct objc_super *, SEL))objc_msgSendSuper)(&_super, @selector(init));
-        indicator->rawValue = BibIndicatorGetRawValueForCacheIndex(index);
+        indicator->rawValue = rawValue;
     }
 }
 
 - (instancetype)initWithRawValue:(char)rawValue {
-    size_t const index = BibIndicatorGetCacheIndexForRawValue((uint8_t)rawValue);
-    self = BibIndicatorGetCachedInstanceAtIndex(index);
+    self = BibIndicatorGetCachedInstance(rawValue);
     NSParameterAssert(self != nil);
     return self;
 }
 
 + (instancetype)indicatorWithRawValue:(char)rawValue {
-    size_t const index = BibIndicatorGetCacheIndexForRawValue((uint8_t)rawValue);
-    _BibFieldIndicator *indicator = [BibIndicatorGetCachedInstanceAtIndex(index) retain];
+    _BibFieldIndicator *indicator = BibIndicatorGetCachedInstance(rawValue);
     NSParameterAssert(indicator != nil);
     return indicator;
 }
