@@ -66,9 +66,9 @@ public struct Record {
     }
 
     /// An ordered list of fields containing information and metadata about the record and its represented item.
-    public var fields: [BibRecordField] {
-        get { return self.storage.fields }
-        set { self.mutate(keyPath: \.fields, with: newValue) }
+    public var fields: [RecordField] {
+        get { return self.storage.fields as [RecordField] }
+        set { self.mutate(keyPath: \.fields, with: newValue as [BibRecordField]) }
     }
 
     private init(storage: BibRecord) {
@@ -136,6 +136,37 @@ extension Record {
         return self.contentFields.lazy.filter { $0.tag == tag }
     }
 
+    @available(*, deprecated, message: "Use field(at:)")
+    public func controlField(at indexPath: IndexPath) -> ControlField? {
+        return self.storage.controlField(at: indexPath) as ControlField?
+    }
+
+    @available(*, deprecated, message: "Use field(at:)")
+    public func contentField(at indexPath: IndexPath) -> ContentField? {
+        return self.storage.contentField(at: indexPath) as ContentField?
+    }
+}
+
+extension Record {
+    public func containsField(with tag: FieldTag) -> Bool {
+        return self.indexOfField(with: tag) != nil
+    }
+
+    public func indexOfField(with tag: FieldTag) -> Int? {
+        let fields = self.fields
+        return fields.indices.first(where: { fields[$0].tag == tag })
+    }
+
+    public func field(with tag: FieldTag) -> RecordField? {
+        return self.indexOfField(with: tag).map(self.field(at:))
+    }
+
+    public func field(at index: Int) -> RecordField {
+        return self.fields[index]
+    }
+}
+
+extension Record {
     public func indexPaths(for fieldPath: FieldPath) -> [IndexPath] {
         return self.storage.indexPaths(for: fieldPath as BibFieldPath)
     }
@@ -146,16 +177,6 @@ extension Record {
 
     public func indexPaths(for tag: FieldTag, code: SubfieldCode) -> [IndexPath] {
         return self.storage.indexPaths(for: tag as BibFieldTag, code: code)
-    }
-
-    @available(*, deprecated, message: "Use field(at:)")
-    public func controlField(at indexPath: IndexPath) -> ControlField? {
-        return self.storage.controlField(at: indexPath) as ControlField?
-    }
-
-    @available(*, deprecated, message: "Use field(at:)")
-    public func contentField(at indexPath: IndexPath) -> ContentField? {
-        return self.storage.contentField(at: indexPath) as ContentField?
     }
 
     public func field(at indexPath: IndexPath) -> RecordField {
