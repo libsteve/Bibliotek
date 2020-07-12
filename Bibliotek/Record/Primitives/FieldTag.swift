@@ -83,13 +83,19 @@ extension FieldTag: Codable {
     }
 }
 
-extension FieldTag: CustomStringConvertible, CustomPlaygroundDisplayConvertible {
+extension FieldTag: CustomStringConvertible, CustomDebugStringConvertible, CustomPlaygroundDisplayConvertible {
     public var description: String { return self.storage.description }
+
+    public var debugDescription: String { return self.storage.debugDescription }
 
     public var playgroundDescription: Any { return self.description }
 }
 
 // MARK: - Bridging
+
+extension FieldTag: ReferenceConvertible {
+    public typealias ReferenceType = BibFieldTag
+}
 
 extension FieldTag: _ObjectiveCBridgeable {
     public typealias _ObjectiveCType = BibFieldTag

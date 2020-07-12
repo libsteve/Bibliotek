@@ -131,8 +131,10 @@ extension Record: Hashable, Equatable {
     }
 }
 
-extension Record: CustomStringConvertible, CustomPlaygroundDisplayConvertible {
+extension Record: CustomStringConvertible, CustomDebugStringConvertible, CustomPlaygroundDisplayConvertible {
     public var description: String { return self.storage.description }
+
+    public var debugDescription: String { return self.storage.debugDescription }
 
     public var playgroundDescription: Any { return ["kind": self.kind?.description ?? "unset",
                                                     "status": String(format: "%c", self.status.rawValue),
@@ -236,6 +238,10 @@ extension Record {
 }
 
 // MARK: - Bridging
+
+extension Record: ReferenceConvertible {
+    public typealias ReferenceType = BibRecord
+}
 
 extension Record: _ObjectiveCBridgeable {
     public typealias _ObjectiveCType = BibRecord

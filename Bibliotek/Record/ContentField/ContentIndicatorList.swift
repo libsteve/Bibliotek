@@ -120,13 +120,19 @@ extension ContentIndicatorList: Hashable, Equatable {
     }
 }
 
-extension ContentIndicatorList: CustomStringConvertible, CustomPlaygroundDisplayConvertible {
+extension ContentIndicatorList: CustomStringConvertible, CustomDebugStringConvertible, CustomPlaygroundDisplayConvertible {
     public var description: String { return self.storage.description }
+
+    public var debugDescription: String { return self.storage.debugDescription }
 
     public var playgroundDescription: Any { return self.storage.description }
 }
 
 // MARK: - Bridging
+
+extension ContentIndicatorList: ReferenceConvertible {
+    public typealias ReferenceType = BibContentIndicatorList
+}
 
 extension ContentIndicatorList: _ObjectiveCBridgeable {
     public typealias _ObjectiveCType = BibContentIndicatorList

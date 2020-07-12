@@ -366,6 +366,10 @@ extension RecordField: CustomStringConvertible, CustomDebugStringConvertible, Cu
 
 // MARK: - Bridging
 
+extension RecordField: ReferenceConvertible {
+    public typealias ReferenceType = BibRecordField
+}
+
 extension RecordField: _ObjectiveCBridgeable {
     public typealias _ObjectiveCType = BibRecordField
 

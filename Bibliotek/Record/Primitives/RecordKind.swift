@@ -101,13 +101,19 @@ extension RecordKind: Hashable, Equatable {
     }
 }
 
-extension RecordKind: CustomStringConvertible, CustomPlaygroundDisplayConvertible {
+extension RecordKind: CustomStringConvertible, CustomDebugStringConvertible, CustomPlaygroundDisplayConvertible {
     public var description: String { return self._storage.description }
+
+    public var debugDescription: String { return self._storage.debugDescription }
 
     public var playgroundDescription: Any { return self.description }
 }
 
 // MARK: - Bridging
+
+extension RecordKind: ReferenceConvertible {
+    public typealias ReferenceType = BibRecordKind
+}
 
 extension RecordKind: _ObjectiveCBridgeable {
     public typealias _ObjectiveCType = BibRecordKind

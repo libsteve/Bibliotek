@@ -32,6 +32,11 @@
     return [[BibLCCallNumber alloc] initWithString:string];
 }
 
+- (id)copyWithZone:(NSZone *)zone
+{
+    return self;
+}
+
 - (void)dealloc
 {
     bib_lc_calln_deinit(&_rawCallNumber);

@@ -87,13 +87,19 @@ extension Subfield: Codable {
     }
 }
 
-extension Subfield: CustomStringConvertible, CustomPlaygroundDisplayConvertible {
+extension Subfield: CustomStringConvertible, CustomDebugStringConvertible, CustomPlaygroundDisplayConvertible {
     public var description: String { return self.storage.description }
+
+    public var debugDescription: String { return self.storage.debugDescription }
 
     public var playgroundDescription: Any { return ["code": self.code.rawValue, "content": self.content] }
 }
 
 // MARK: - Bridging
+
+extension Subfield: ReferenceConvertible {
+    public typealias ReferenceType = BibSubfield
+}
 
 extension Subfield: _ObjectiveCBridgeable {
     public typealias _ObjectiveCType = BibSubfield

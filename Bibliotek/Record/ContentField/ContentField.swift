@@ -108,8 +108,10 @@ extension ContentField: Hashable, Equatable {
 }
 
 @available(*, deprecated)
-extension ContentField: CustomStringConvertible, CustomPlaygroundDisplayConvertible {
+extension ContentField: CustomStringConvertible, CustomDebugStringConvertible, CustomPlaygroundDisplayConvertible {
     public var description: String { return self.storage.description }
+
+    public var debugDescription: String { return self.storage.debugDescription }
 
     public var playgroundDescription: Any { return ["tag": self.tag.rawValue,
                                                     "indicators": self.indicators,
@@ -136,6 +138,11 @@ extension ContentField {
 }
 
 // MARK: - Bridging
+
+@available(*, deprecated)
+extension ContentField: ReferenceConvertible {
+    public typealias ReferenceType = BibContentField
+}
 
 @available(*, deprecated)
 extension ContentField: _ObjectiveCBridgeable {

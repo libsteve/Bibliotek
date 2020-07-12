@@ -32,11 +32,17 @@
     return [[self alloc] initWithRawValue:rawValue];
 }
 
+- (id)copyWithZone:(NSZone *)zone {
+    return self;
+}
+
 - (instancetype)init {
+    [self doesNotRecognizeSelector:_cmd];
     return nil;
 }
 
 + (instancetype)new {
+    [self doesNotRecognizeSelector:_cmd];
     return nil;
 }
 

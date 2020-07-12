@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// different schemas to present their information.
 ///
 /// Use this value to determine how tags and subfield codes should be used to interpret a record's content.
-@interface BibRecordKind : NSObject
+@interface BibRecordKind : NSObject <NSCopying>
 
 /// The raw character value used in a record's leader to indicate the record's kind.
 @property (nonatomic, assign, readonly) uint8_t rawValue;

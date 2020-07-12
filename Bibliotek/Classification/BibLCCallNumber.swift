@@ -49,13 +49,19 @@ extension LCCallNumber: Hashable, Equatable, Comparable {
     }
 }
 
-extension LCCallNumber: CustomStringConvertible, CustomPlaygroundDisplayConvertible {
+extension LCCallNumber: CustomStringConvertible, CustomDebugStringConvertible, CustomPlaygroundDisplayConvertible {
     public var description: String { return self.rawValue }
+
+    public var debugDescription: String { return self.rawValue }
 
     public var playgroundDescription: Any { return self.rawValue }
 }
 
 // MARK: Bridging
+
+extension LCCallNumber: ReferenceConvertible {
+    public typealias ReferenceType = BibLCCallNumber
+}
 
 extension LCCallNumber: _ObjectiveCBridgeable {
     public typealias _ObjectiveCType = BibLCCallNumber

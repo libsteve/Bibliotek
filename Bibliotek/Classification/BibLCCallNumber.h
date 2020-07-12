@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface BibLCCallNumber : NSObject
+@interface BibLCCallNumber : NSObject <NSCopying>
 
 @property (nonatomic, readonly, copy) NSString *stringValue;
 

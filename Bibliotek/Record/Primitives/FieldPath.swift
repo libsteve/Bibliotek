@@ -59,13 +59,19 @@ extension FieldPath {
     }
 }
 
-extension FieldPath: CustomStringConvertible, CustomPlaygroundDisplayConvertible {
+extension FieldPath: CustomStringConvertible, CustomDebugStringConvertible, CustomPlaygroundDisplayConvertible {
     public var description: String { return (self as BibFieldPath).description }
+
+    public var debugDescription: String { return self.description }
 
     public var playgroundDescription: Any { return self.description }
 }
 
 // MARK: - Bridging
+
+extension FieldPath: ReferenceConvertible {
+    public typealias ReferenceType = BibFieldPath
+}
 
 extension FieldPath: _ObjectiveCBridgeable {
     public typealias _ObjectiveCType = BibFieldPath

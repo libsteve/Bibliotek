@@ -57,12 +57,18 @@ extension Metadata: Hashable, Equatable {
     }
 }
 
-extension Metadata: CustomStringConvertible, CustomPlaygroundDisplayConvertible {
+extension Metadata: CustomStringConvertible, CustomDebugStringConvertible, CustomPlaygroundDisplayConvertible {
     public var description: String { return self.storage.description }
+
+    public var debugDescription: String { return self.storage.debugDescription }
 
     public var playgroundDescription: Any {
         return ReservedPosition.allCases.map { String(format: "%c", self[$0]) }
     }
+}
+
+extension Metadata: ReferenceConvertible {
+    public typealias ReferenceType = BibMetadata
 }
 
 extension Metadata: _ObjectiveCBridgeable {

@@ -74,13 +74,20 @@ extension ControlField: Hashable, Equatable {
 }
 
 @available(*, deprecated)
-extension ControlField: CustomStringConvertible, CustomPlaygroundDisplayConvertible {
+extension ControlField: CustomStringConvertible, CustomDebugStringConvertible, CustomPlaygroundDisplayConvertible {
     public var description: String { return self.storage.description }
+
+    public var debugDescription: String { return self.storage.debugDescription }
 
     public var playgroundDescription: Any { return ["tag": self.tag.rawValue, "value": self.value] }
 }
 
 // MARK: - Bridging
+
+@available(*, deprecated)
+extension ControlField: ReferenceConvertible {
+    public typealias ReferenceType = BibControlField
+}
 
 @available(*, deprecated)
 extension ControlField: _ObjectiveCBridgeable {

@@ -92,6 +92,10 @@ extension FieldIndicator: CustomStringConvertible, CustomDebugStringConvertible,
 
 // MARK: - Bridging
 
+extension FieldIndicator: ReferenceConvertible {
+    public typealias ReferenceType = BibFieldIndicator
+}
+
 extension FieldIndicator: _ObjectiveCBridgeable {
     public typealias _ObjectiveCType = BibFieldIndicator
 
