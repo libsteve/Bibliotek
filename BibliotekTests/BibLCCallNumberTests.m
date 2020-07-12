@@ -328,4 +328,57 @@
     }
 }
 
+- (void)testLCCallNumberInclusion {
+    {
+        BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"Q76"];
+        BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"QA76"];
+        BibLCCallNumber *const c = [[BibLCCallNumber alloc] initWithString:@"QA76.76"];
+        BibLCCallNumber *const d = [[BibLCCallNumber alloc] initWithString:@"QA76.C65"];
+        BibLCCallNumber *const e = [[BibLCCallNumber alloc] initWithString:@"QA76.76.C65"];
+
+        XCTAssertTrue([b includesCallNumber:c]);
+        XCTAssertTrue([b includesCallNumber:d]);
+        XCTAssertTrue([c includesCallNumber:e]);
+        XCTAssertTrue([b includesCallNumber:e]);
+        XCTAssertFalse([a includesCallNumber:b]);
+        XCTAssertFalse([c includesCallNumber:b]);
+        XCTAssertFalse([c includesCallNumber:d]);
+        XCTAssertFalse([d includesCallNumber:c]);
+    }
+    {
+        BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"DR1879"];
+        BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"DR18"];
+        BibLCCallNumber *const c = [[BibLCCallNumber alloc] initWithString:@"DR1879.5 1988"];
+        BibLCCallNumber *const d = [[BibLCCallNumber alloc] initWithString:@"DR1879.5"];
+
+        XCTAssertTrue([a includesCallNumber:c]);
+        XCTAssertTrue([d includesCallNumber:c]);
+        XCTAssertTrue([a includesCallNumber:d]);
+        XCTAssertFalse([b includesCallNumber:a]);
+        XCTAssertFalse([b includesCallNumber:c]);
+        XCTAssertFalse([b includesCallNumber:d]);
+        XCTAssertFalse([c includesCallNumber:d]);
+    }
+    {
+        BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"KF4558 .K46"];
+        BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"KF4558 15th .K46"];
+        BibLCCallNumber *const c = [[BibLCCallNumber alloc] initWithString:@"KF4558 .K46 1908"];
+        BibLCCallNumber *const d = [[BibLCCallNumber alloc] initWithString:@"KF4558 15th .K46 1908"];
+        BibLCCallNumber *const e = [[BibLCCallNumber alloc] initWithString:@"KF4558 15th"];
+
+        XCTAssertTrue([a includesCallNumber:c]);
+        XCTAssertTrue([b includesCallNumber:d]);
+        XCTAssertTrue([e includesCallNumber:b]);
+        XCTAssertTrue([e includesCallNumber:d]);
+        XCTAssertFalse([b includesCallNumber:c]);
+        XCTAssertFalse([c includesCallNumber:b]);
+        XCTAssertFalse([c includesCallNumber:d]);
+        XCTAssertFalse([a includesCallNumber:b]);
+        XCTAssertFalse([b includesCallNumber:a]);
+        XCTAssertFalse([d includesCallNumber:c]);
+        XCTAssertFalse([a includesCallNumber:e]);
+        XCTAssertFalse([e includesCallNumber:a]);
+    }
+}
+
 @end

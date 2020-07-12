@@ -47,6 +47,17 @@ extension LCCallNumber: Hashable, Equatable, Comparable {
     public static func > (lhs: LCCallNumber, rhs: LCCallNumber) -> Bool {
         return lhs.storage.compare(rhs.storage) == .orderedDescending
     }
+
+    /// Does the subject matter represented by this call number include that of the given call number?
+    ///
+    /// For example, the calssification `QA76` encompasses the more specific classifications `QA76.76` and `QA76.75`,
+    /// but does not include the classification `QA70`, nor its parent classification `QA`.
+    ///
+    /// - parameter callNumber: The call number whose subject matter may be a subset of the receiver's.
+    /// - returns: `true` when the given call number belongs within the receiver's domain.
+    public func includes(_ callNumber: LCCallNumber) -> Bool {
+        return self.storage.includes(callNumber.storage)
+    }
 }
 
 extension LCCallNumber: CustomStringConvertible, CustomDebugStringConvertible, CustomPlaygroundDisplayConvertible {
