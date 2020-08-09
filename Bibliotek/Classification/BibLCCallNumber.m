@@ -76,58 +76,27 @@
 
 - (NSComparisonResult)compare:(BibLCCallNumber *)other
 {
-    if (other == nil) {
-        return NSOrderedDescending;
+    switch ([self compareWithCallNumber:other forSpecialization:NO]) {
+        case BibClassificationOrderedDescending: return NSOrderedDescending;
+        case BibClassificationOrderedSame: return NSOrderedSame;
+        case BibClassificationOrderedAscending: return NSOrderedAscending;
+        case BibClassificationOrderedSpecifying: return NSOrderedAscending;
     }
-    
-    int result = strcmp(_rawCallNumber.alphabetic_segment, other->_rawCallNumber.alphabetic_segment);
-    if (result != 0) { return (result < 0) ? NSOrderedAscending : NSOrderedDescending; }
-
-    int const leftNum = atoi(_rawCallNumber.whole_number);
-    int const rightNum = atoi(other->_rawCallNumber.whole_number);
-    if (leftNum != rightNum) { return (leftNum < rightNum) ? NSOrderedAscending : NSOrderedDescending; }
-
-    result = strcmp(_rawCallNumber.decimal_number, other->_rawCallNumber.decimal_number);
-    if (result != 0) { return (result < 0) ? NSOrderedAscending : NSOrderedDescending; }
-
-    result = strcmp(_rawCallNumber.date_or_other_number, other->_rawCallNumber.date_or_other_number);
-    if (result != 0) { return (result < 0) ? NSOrderedAscending : NSOrderedDescending; }
-
-    result = strcmp(_rawCallNumber.first_cutter_number, other->_rawCallNumber.first_cutter_number);
-    if (result != 0) { return (result < 0) ? NSOrderedAscending : NSOrderedDescending; }
-
-    result = strcmp(_rawCallNumber.date_or_other_number_after_first_cutter,
-                    other->_rawCallNumber.date_or_other_number_after_first_cutter);
-    if (result != 0) { return (result < 0) ? NSOrderedAscending : NSOrderedDescending; }
-
-    result = strcmp(_rawCallNumber.second_cutter_number, other->_rawCallNumber.second_cutter_number);
-    if (result != 0) { return (result < 0) ? NSOrderedAscending : NSOrderedDescending; }
-
-    size_t const remaining_count = MIN(_rawCallNumber.remaing_segments_length,
-                                       other->_rawCallNumber.remaing_segments_length);
-    for (size_t index = 0; index < remaining_count; index += 1) {
-        result = strcmp(_rawCallNumber.remaing_segments[index], other->_rawCallNumber.remaing_segments[index]);
-        if (result != 0) { return (result < 0) ? NSOrderedAscending : NSOrderedDescending; }
-    }
-    if (_rawCallNumber.remaing_segments_length < other->_rawCallNumber.remaing_segments_length) {
-        return NSOrderedAscending;
-    }
-    if (_rawCallNumber.remaing_segments_length > other->_rawCallNumber.remaing_segments_length) {
-        return NSOrderedDescending;
-    }
-    return NSOrderedSame;
 }
 
-typedef enum string_specialization {
-    /// The \c string does not begin with \c prefix and therefore does not specialize it.
-    string_specialization_none,
+typedef enum string_specialized_comparison_result {
+    /// The \c string is lexically ordered before the \c prefix and therefore does not specialize it.
+    string_specialized_ordered_descending = -1,
 
     /// The \c string does begin with \c prefix and they are equal.
-    string_specialization_maybe,
+    string_specialized_ordered_same       =  0,
+
+    /// The \c string is lexically ordered after the \c prefix in a way that does not specialize it.
+    string_specialized_ordered_ascending  =  1,
 
     /// The \c string does begin with \c prefix but they are not equal.
-    string_specialization_found
-} string_specialization_t;
+    string_specialized_ordered_specifying =  2
+} string_specialized_comparison_result_t;
 
 /// Determine if the given \c string begins with the given \c prefix and whether or not they are equal.
 /// \param status The result of previous specialization comparisons. This is used to continue matching
@@ -143,85 +112,120 @@ typedef enum string_specialization {
 /// \returns \c string_specialization_found when the string begins with, but is not equal to, the given prefix.
 /// \returns \c string_specialization_found when the status is set to \c string_specialization_found
 ///          and the given prefix is empty the empty string.
-static string_specialization_t string_specialization_compare(string_specialization_t status,
-                                                             char const *const prefix,
-                                                             char const *const string)
+static string_specialized_comparison_result_t string_specialized_compare(string_specialized_comparison_result_t status,
+                                                                         char const *const prefix,
+                                                                         char const *const string)
 {
     switch (status) {
-        case string_specialization_none: {
-            return string_specialization_none;
+        case string_specialized_ordered_ascending:
+        case string_specialized_ordered_descending: {
+            return status;
         }
-        case string_specialization_maybe:
-            if (prefix == NULL) { return string_specialization_maybe; }
-            else if (string == NULL) { return string_specialization_none; }
+        case string_specialized_ordered_same:
+            if (prefix == NULL) { return string_specialized_ordered_same; }
+            else if (string == NULL) { return string_specialized_ordered_descending; }
             for (size_t index = 0; true; index += 1) {
                 char const prefix_char = prefix[index];
                 char const string_char = string[index];
                 if (prefix_char == '\0') {
-                    return (string_char == '\0') ? string_specialization_maybe : string_specialization_found;
+                    return (string_char == '\0') ? string_specialized_ordered_same
+                                                 : string_specialized_ordered_specifying;
                 }
                 if (string_char == '\0') {
-                    return string_specialization_none;
+                    return string_specialized_ordered_descending;
                 }
-                if (prefix_char != string_char) {
-                    return string_specialization_none;
+                if (prefix_char < string_char) {
+                    return string_specialized_ordered_ascending;
+                }
+                if (prefix_char > string_char) {
+                    return string_specialized_ordered_descending;
                 }
             }
-        case string_specialization_found: {
+        case string_specialized_ordered_specifying: {
             BOOL empty_prefix = (prefix == NULL) || (prefix[0] == '\0');
-            return (empty_prefix) ? string_specialization_found : string_specialization_none;
+            return (empty_prefix) ? string_specialized_ordered_specifying : string_specialized_ordered_ascending;
         }
+    }
+}
+- (BibClassificationComparisonResult)compareWithCallNumber:(BibLCCallNumber *)other
+{
+    return [self compareWithCallNumber:other forSpecialization:YES];
+}
+
+- (BibClassificationComparisonResult)compareWithCallNumber:(BibLCCallNumber *)other forSpecialization:(BOOL)specialize
+{
+    if (other == nil) {
+        return BibClassificationOrderedDescending;
+    }
+
+    bib_lc_calln_t const *const leftn = &_rawCallNumber;
+    bib_lc_calln_t const *const rightn = &(other->_rawCallNumber);
+
+    string_specialized_comparison_result_t result = string_specialized_ordered_same;
+    result = string_specialized_compare(result, leftn->alphabetic_segment, rightn->alphabetic_segment);
+    if (result == string_specialized_ordered_ascending) { return BibClassificationOrderedAscending; }
+    if (result == string_specialized_ordered_descending) { return BibClassificationOrderedDescending; }
+    if (!specialize && result == BibClassificationOrderedSpecifying) { return BibClassificationOrderedAscending; }
+
+    if (result == string_specialized_ordered_specifying && (leftn->whole_number[0] != '\0')) { return BibClassificationOrderedAscending; }
+    int const leftNum = atoi(leftn->whole_number);
+    int const rightNum = atoi(rightn->whole_number);
+    if (leftNum != rightNum) { return (leftNum < rightNum) ? BibClassificationOrderedAscending : BibClassificationOrderedDescending; }
+
+    result = string_specialized_compare(result, leftn->decimal_number, rightn->decimal_number);
+    if (!specialize && result == BibClassificationOrderedSpecifying) { return BibClassificationOrderedAscending; }
+    result = string_specialized_compare(result, leftn->date_or_other_number, rightn->date_or_other_number);
+    if (!specialize && result == BibClassificationOrderedSpecifying) { return BibClassificationOrderedAscending; }
+    result = string_specialized_compare(result, leftn->first_cutter_number, rightn->first_cutter_number);
+    if (!specialize && result == BibClassificationOrderedSpecifying) { return BibClassificationOrderedAscending; }
+    result = string_specialized_compare(result, leftn->date_or_other_number_after_first_cutter, rightn->date_or_other_number_after_first_cutter);
+    if (!specialize && result == BibClassificationOrderedSpecifying) { return BibClassificationOrderedAscending; }
+    result = string_specialized_compare(result, leftn->second_cutter_number, rightn->second_cutter_number);
+    if (!specialize && result == BibClassificationOrderedSpecifying) { return BibClassificationOrderedAscending; }
+
+    switch (result) {
+        case BibClassificationOrderedAscending: return BibClassificationOrderedAscending;
+        case BibClassificationOrderedDescending: return BibClassificationOrderedDescending;
+        case BibClassificationOrderedSpecifying: if (!specialize) { return BibClassificationOrderedAscending; }
+        case BibClassificationOrderedSame: break;
+    }
+
+    size_t const remaining_count = MIN(leftn->remaing_segments_length, rightn->remaing_segments_length);
+    for (size_t index = 0; index < remaining_count; index += 1) {
+        result = string_specialized_compare(result, leftn->remaing_segments[index], rightn->remaing_segments[index]);
+        if (result == string_specialized_ordered_ascending) { return BibClassificationOrderedAscending; }
+        if (result == string_specialized_ordered_descending) { return BibClassificationOrderedDescending; }
+        if (!specialize && result == string_specialized_ordered_specifying) { return BibClassificationOrderedAscending; }
+    }
+    if (leftn->remaing_segments_length < rightn->remaing_segments_length) {
+        return (specialize) ? BibClassificationOrderedSpecifying : BibClassificationOrderedAscending;
+    }
+    if (leftn->remaing_segments_length > rightn->remaing_segments_length) {
+        return BibClassificationOrderedDescending;
+    }
+    switch (result) {
+        case BibClassificationOrderedSame: return BibClassificationOrderedSame;
+        case BibClassificationOrderedSpecifying: return BibClassificationOrderedSpecifying;
+        case BibClassificationOrderedAscending: return BibClassificationOrderedAscending;
+        case BibClassificationOrderedDescending: return BibClassificationOrderedDescending;
     }
 }
 
 - (BOOL)includesCallNumber:(BibLCCallNumber *)callNumber
 {
-    if (callNumber == nil) {
-        return NO;
-    }
+    switch ([self compareWithCallNumber:callNumber forSpecialization:YES]) {
+        case BibClassificationOrderedSpecifying:
+        case BibClassificationOrderedSame:
+            return YES;
 
-    bib_lc_calln_t const *const leftn = &_rawCallNumber;
-    bib_lc_calln_t const *const rightn = &(callNumber->_rawCallNumber);
-
-    string_specialization_t status = string_specialization_maybe;
-    status = string_specialization_compare(status, leftn->alphabetic_segment, rightn->alphabetic_segment);
-
-    if ((status == string_specialization_none)
-        || (status == string_specialization_found && (leftn->whole_number[0] != '\0'))
-        || (atoi(leftn->whole_number) != atoi(rightn->whole_number))) {
+        default:
             return NO;
     }
-
-    status = string_specialization_compare(status, leftn->decimal_number, rightn->decimal_number);
-    status = string_specialization_compare(status, leftn->date_or_other_number, rightn->date_or_other_number);
-    status = string_specialization_compare(status, leftn->first_cutter_number, rightn->first_cutter_number);
-    status = string_specialization_compare(status, leftn->date_or_other_number_after_first_cutter,
-                                           rightn->date_or_other_number_after_first_cutter);
-    status = string_specialization_compare(status, leftn->second_cutter_number, rightn->second_cutter_number);
-
-    switch (status) {
-        case string_specialization_none:
-            return NO;
-        case string_specialization_maybe:
-            if (leftn->remaing_segments_length == 0) { return YES; }
-            if (leftn->remaing_segments_length > rightn->remaing_segments_length) { return NO; }
-            break;
-        case string_specialization_found:
-            return (leftn->remaing_segments_length == 0);
-    }
-
-    size_t const remaining_count = leftn->remaing_segments_length;
-    for (size_t index = 0; index < remaining_count; index += 1) {
-        status = string_specialization_compare(status, leftn->remaing_segments[index], rightn->remaing_segments[index]);
-        if (status == string_specialization_none) { return NO; }
-    }
-
-    return YES;
 }
 
 - (BOOL)isEqualToCallNumber:(BibLCCallNumber *)other
 {
-    return self == other || [[self stringValue] isEqualToString:[other stringValue]];
+    return self == other || [self compareWithCallNumber:other forSpecialization:NO] == BibClassificationOrderedSame;
 }
 
 - (BOOL)isEqual:(id)object

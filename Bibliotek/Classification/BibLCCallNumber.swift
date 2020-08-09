@@ -41,11 +41,15 @@ extension LCCallNumber: Hashable, Equatable, Comparable {
     }
 
     public static func < (lhs: LCCallNumber, rhs: LCCallNumber) -> Bool {
-        return lhs.storage.compare(rhs.storage) == .orderedAscending
+        return lhs.storage.compare(rhs.storage) == ComparisonResult.orderedAscending
     }
 
     public static func > (lhs: LCCallNumber, rhs: LCCallNumber) -> Bool {
-        return lhs.storage.compare(rhs.storage) == .orderedDescending
+        return lhs.storage.compare(rhs.storage) == ComparisonResult.orderedDescending
+    }
+
+    public func compare(with callNumber: LCCallNumber) -> ClassificationComparisonResult {
+        return self.storage.compare(with: callNumber as BibLCCallNumber)
     }
 
     /// Does the subject matter represented by this call number include that of the given call number?

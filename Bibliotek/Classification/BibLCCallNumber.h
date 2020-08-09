@@ -8,6 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSInteger, BibClassificationComparisonResult) {
+    BibClassificationOrderedDescending = -1L,
+    BibClassificationOrderedSame       =  0L,
+    BibClassificationOrderedAscending  =  1L,
+    BibClassificationOrderedSpecifying =  2L
+} NS_SWIFT_NAME(ClassificationComparisonResult);
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BibLCCallNumber : NSObject <NSCopying>
@@ -19,6 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (nullable instancetype)callNumberWithString:(NSString *)string NS_SWIFT_UNAVAILABLE("Use init(string:)");
 
 - (NSComparisonResult)compare:(BibLCCallNumber *)other;
+
+- (BibClassificationComparisonResult)compareWithCallNumber:(BibLCCallNumber *)other;
 
 - (BOOL)isEqualToCallNumber:(BibLCCallNumber *)other;
 

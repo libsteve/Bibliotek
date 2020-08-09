@@ -381,4 +381,106 @@
     }
 }
 
+- (void)testLCCallNumberClassificationComparison {
+    {
+        BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"Q172.J64 2017"];
+        BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"QA76.9.T48 I544 2013"];
+        BibLCCallNumber *const c = [[BibLCCallNumber alloc] initWithString:@"QA76.73.J39 D83 2014"];
+        BibLCCallNumber *const d = [[BibLCCallNumber alloc] initWithString:@"QA76.76.C65 A37 1986"];
+
+        XCTAssertEqual(BibClassificationOrderedAscending, [a compareWithCallNumber:b]);
+        XCTAssertEqual(BibClassificationOrderedDescending, [b compareWithCallNumber:c]);
+        XCTAssertEqual(BibClassificationOrderedAscending, [c compareWithCallNumber:d]);
+    }
+    {
+        BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"DR1879.5.M37 M37 1988"];
+        BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"DR1879.M37 M37 1988"];
+        XCTAssertEqual(BibClassificationOrderedDescending, [a compareWithCallNumber:b]);
+    }
+    {
+        BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"PE1574.F67 2012"];
+        BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"PE1574.L37 1998"];
+        XCTAssertEqual(BibClassificationOrderedAscending, [a compareWithCallNumber:b]);
+    }
+    {
+        BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"PN6737.M66 N46 2011"];
+        BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"PN6737.M66 V2 2005"];
+        XCTAssertEqual(BibClassificationOrderedAscending, [a compareWithCallNumber:b]);
+    }
+    {
+        BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"QA76"];
+        BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"QA76"];
+        BibLCCallNumber *const c = [[BibLCCallNumber alloc] initWithString:@"QA76.76.C65"];
+        BibLCCallNumber *const d = [[BibLCCallNumber alloc] initWithString:@"QA76.76.C65"];
+
+        XCTAssertEqual(BibClassificationOrderedSame, [a compareWithCallNumber:b]);
+        XCTAssertEqual(BibClassificationOrderedSame, [b compareWithCallNumber:a]);
+        XCTAssertEqual(BibClassificationOrderedSame, [c compareWithCallNumber:d]);
+        XCTAssertEqual(BibClassificationOrderedSame, [d compareWithCallNumber:c]);
+
+        XCTAssertEqual(BibClassificationOrderedSpecifying, [a compareWithCallNumber:c]);
+        XCTAssertEqual(BibClassificationOrderedSpecifying, [b compareWithCallNumber:d]);
+        XCTAssertEqual(BibClassificationOrderedSpecifying, [a compareWithCallNumber:d]);
+        XCTAssertEqual(BibClassificationOrderedSpecifying, [b compareWithCallNumber:c]);
+
+        XCTAssertEqual(BibClassificationOrderedDescending, [c compareWithCallNumber:a]);
+        XCTAssertEqual(BibClassificationOrderedDescending, [d compareWithCallNumber:b]);
+        XCTAssertEqual(BibClassificationOrderedDescending, [c compareWithCallNumber:b]);
+        XCTAssertEqual(BibClassificationOrderedDescending, [d compareWithCallNumber:a]);
+    }
+    {
+        BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"Q76"];
+        BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"QA76"];
+        BibLCCallNumber *const c = [[BibLCCallNumber alloc] initWithString:@"QA76.76"];
+        BibLCCallNumber *const d = [[BibLCCallNumber alloc] initWithString:@"QA76.C65"];
+        BibLCCallNumber *const e = [[BibLCCallNumber alloc] initWithString:@"QA76.76.C65"];
+
+        XCTAssertEqual(BibClassificationOrderedSpecifying, [b compareWithCallNumber:c]);
+        XCTAssertEqual(BibClassificationOrderedSpecifying, [b compareWithCallNumber:d]);
+        XCTAssertEqual(BibClassificationOrderedSpecifying, [c compareWithCallNumber:e]);
+        XCTAssertEqual(BibClassificationOrderedSpecifying, [b compareWithCallNumber:e]);
+
+        XCTAssertEqual(BibClassificationOrderedAscending, [a compareWithCallNumber:b]);
+        XCTAssertEqual(BibClassificationOrderedDescending, [c compareWithCallNumber:b]);
+        XCTAssertEqual(BibClassificationOrderedDescending, [c compareWithCallNumber:d]);
+        XCTAssertEqual(BibClassificationOrderedAscending, [d compareWithCallNumber:c]);
+    }
+    {
+        BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"DR1879"];
+        BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"DR18"];
+        BibLCCallNumber *const c = [[BibLCCallNumber alloc] initWithString:@"DR1879.5 1988"];
+        BibLCCallNumber *const d = [[BibLCCallNumber alloc] initWithString:@"DR1879.5"];
+
+        XCTAssertEqual(BibClassificationOrderedSpecifying, [a compareWithCallNumber:c]);
+        XCTAssertEqual(BibClassificationOrderedSpecifying, [d compareWithCallNumber:c]);
+        XCTAssertEqual(BibClassificationOrderedSpecifying, [a compareWithCallNumber:d]);
+
+        XCTAssertEqual(BibClassificationOrderedAscending, [b compareWithCallNumber:a]);
+        XCTAssertEqual(BibClassificationOrderedAscending, [b compareWithCallNumber:c]);
+        XCTAssertEqual(BibClassificationOrderedAscending, [b compareWithCallNumber:d]);
+        XCTAssertEqual(BibClassificationOrderedDescending, [c compareWithCallNumber:d]);
+    }
+    {
+        BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"KF4558 .K46"];
+        BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"KF4558 15th .K46"];
+        BibLCCallNumber *const c = [[BibLCCallNumber alloc] initWithString:@"KF4558 .K46 1908"];
+        BibLCCallNumber *const d = [[BibLCCallNumber alloc] initWithString:@"KF4558 15th .K46 1908"];
+        BibLCCallNumber *const e = [[BibLCCallNumber alloc] initWithString:@"KF4558 15th"];
+
+        XCTAssertEqual(BibClassificationOrderedSpecifying, [a compareWithCallNumber:c]);
+        XCTAssertEqual(BibClassificationOrderedSpecifying, [b compareWithCallNumber:d]);
+        XCTAssertEqual(BibClassificationOrderedSpecifying, [e compareWithCallNumber:b]);
+        XCTAssertEqual(BibClassificationOrderedSpecifying, [e compareWithCallNumber:d]);
+
+        XCTAssertEqual(BibClassificationOrderedDescending, [b compareWithCallNumber:c]);
+        XCTAssertEqual(BibClassificationOrderedAscending, [c compareWithCallNumber:b]);
+        XCTAssertEqual(BibClassificationOrderedAscending, [c compareWithCallNumber:d]);
+        XCTAssertEqual(BibClassificationOrderedAscending, [a compareWithCallNumber:b]);
+        XCTAssertEqual(BibClassificationOrderedDescending, [b compareWithCallNumber:a]);
+        XCTAssertEqual(BibClassificationOrderedDescending, [d compareWithCallNumber:c]);
+        XCTAssertEqual(BibClassificationOrderedAscending, [a compareWithCallNumber:e]);
+        XCTAssertEqual(BibClassificationOrderedDescending, [e compareWithCallNumber:a]);
+    }
+}
+
 @end
