@@ -14,14 +14,20 @@
 #include <stdbool.h>
 #include <ctype.h>
 
+static size_t const alpha_len = 3;
+static size_t const whole_len = 4;
+static size_t const decml_len = 3;
+static size_t const daten_len = 4;
+static size_t const cuttr_len = 4;
+
 typedef struct bib_lc_calln {
-    char alphabetic_segment[4];
-    char whole_number[5];
-    char decimal_number[4];
-    char date_or_other_number[5];
-    char first_cutter_number[5];
-    char date_or_other_number_after_first_cutter[5];
-    char second_cutter_number[5];
+    char alphabetic_segment  [alpha_len + 1];
+    char whole_number        [whole_len + 1];
+    char decimal_number      [decml_len + 1];
+    char date_or_other_number[daten_len + 1];
+    char first_cutter_number [cuttr_len + 1];
+    char date_or_other_number_after_first_cutter[daten_len + 1];
+    char second_cutter_number[cuttr_len + 1];
     char **remaing_segments;
     size_t remaing_segments_length;
 } bib_lc_calln_t;
@@ -37,8 +43,8 @@ extern bool bib_lc_calln_read_first_cutter_number   (bib_lc_calln_t *call_number
 extern bool bib_lc_calln_read_number_after_cutter   (bib_lc_calln_t *call_number, char const **str, unsigned long *len);
 extern bool bib_lc_calln_read_second_cutter_number  (bib_lc_calln_t *call_number, char const **str, unsigned long *len);
 
-extern bool bib_read_lc_calln_alphabetic_segment    (char buffer[3], char const **str, unsigned long *len);
-extern bool bib_read_lc_calln_whole_number          (char buffer[4], char const **str, unsigned long *len);
-extern bool bib_read_lc_calln_decimal_number        (char buffer[3], char const **str, unsigned long *len);
-extern bool bib_read_lc_calln_date_or_other_number  (char buffer[4], char const **str, unsigned long *len);
-extern bool bib_read_lc_calln_cutter_number         (char buffer[4], char const **str, unsigned long *len);
+extern bool bib_read_lc_calln_alphabetic_segment    (char buffer[alpha_len], char const **str, unsigned long *len);
+extern bool bib_read_lc_calln_whole_number          (char buffer[whole_len], char const **str, unsigned long *len);
+extern bool bib_read_lc_calln_decimal_number        (char buffer[decml_len], char const **str, unsigned long *len);
+extern bool bib_read_lc_calln_date_or_other_number  (char buffer[daten_len], char const **str, unsigned long *len);
+extern bool bib_read_lc_calln_cutter_number         (char buffer[cuttr_len], char const **str, unsigned long *len);

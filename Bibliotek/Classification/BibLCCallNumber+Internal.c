@@ -197,7 +197,7 @@ bool bib_lc_calln_read_second_cutter_number(bib_lc_calln_t *const call_number, c
 
 #pragma mark -
 
-bool bib_read_lc_calln_alphabetic_segment(char buffer[3], char const **const str, unsigned long *const len)
+bool bib_read_lc_calln_alphabetic_segment(char buffer[alpha_len], char const **const str, unsigned long *const len)
 {
     if (buffer == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
@@ -207,7 +207,7 @@ bool bib_read_lc_calln_alphabetic_segment(char buffer[3], char const **const str
 
     bool stop = false;
     size_t bufflen = 0;
-    while ((bufflen < 3) && (inlen != 0) && !stop) {
+    while ((bufflen < alpha_len) && (inlen != 0) && !stop) {
         char const c = inbuf[0];
         if (isalpha(c)) {
             buffer[bufflen] = c;
@@ -227,7 +227,7 @@ bool bib_read_lc_calln_alphabetic_segment(char buffer[3], char const **const str
     return success;
 }
 
-bool bib_read_lc_calln_whole_number(char buffer[4], char const **const str, unsigned long *const len)
+bool bib_read_lc_calln_whole_number(char buffer[whole_len], char const **const str, unsigned long *const len)
 {
     if (buffer == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
@@ -238,7 +238,7 @@ bool bib_read_lc_calln_whole_number(char buffer[4], char const **const str, unsi
     bool stop = false;
     u_long string_index = 0;
     size_t buffer_index = 0;
-    while ((buffer_index < 4) && (string_index < string_length) && !stop) {
+    while ((buffer_index < whole_len) && (string_index < string_length) && !stop) {
         char const current_char = string[string_index];
         if (isnumber(current_char)) {
             buffer[buffer_index] = current_char;
@@ -264,7 +264,7 @@ bool bib_read_lc_calln_whole_number(char buffer[4], char const **const str, unsi
     return success;
 }
 
-bool bib_read_lc_calln_decimal_number(char buffer[3], char const **const str, unsigned long *const len)
+bool bib_read_lc_calln_decimal_number(char buffer[decml_len], char const **const str, unsigned long *const len)
 {
     if (buffer == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
@@ -276,7 +276,7 @@ bool bib_read_lc_calln_decimal_number(char buffer[3], char const **const str, un
     bool found_decimal = false;
     u_long string_index = 0;
     size_t buffer_index = 0;
-    while ((buffer_index < 3) && (string_index < string_length) && !stop) {
+    while ((buffer_index < decml_len) && (string_index < string_length) && !stop) {
         char const current_char = string[string_index];
         if (found_decimal) {
             if (isnumber(current_char)) {
@@ -304,7 +304,7 @@ bool bib_read_lc_calln_decimal_number(char buffer[3], char const **const str, un
     return success;
 }
 
-bool bib_read_lc_calln_date_or_other_number(char buffer[4], char const **const str, unsigned long *const len)
+bool bib_read_lc_calln_date_or_other_number(char buffer[daten_len], char const **const str, unsigned long *const len)
 {
     if (buffer == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
@@ -315,7 +315,7 @@ bool bib_read_lc_calln_date_or_other_number(char buffer[4], char const **const s
     bool stop = false;
     u_long string_index = 0;
     size_t buffer_index = 0;
-    while ((buffer_index < 4) && (string_index < string_length) && !stop) {
+    while ((buffer_index < daten_len) && (string_index < string_length) && !stop) {
         char const current_char = string[string_index];
             if (buffer_index == 0) {
                 if (isnumber(current_char)) {
@@ -342,7 +342,7 @@ bool bib_read_lc_calln_date_or_other_number(char buffer[4], char const **const s
     return success;
 }
 
-bool bib_read_lc_calln_cutter_number(char buffer[4], char const **const str, unsigned long *const len)
+bool bib_read_lc_calln_cutter_number(char buffer[cuttr_len], char const **const str, unsigned long *const len)
 {
     if (buffer == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
@@ -353,7 +353,7 @@ bool bib_read_lc_calln_cutter_number(char buffer[4], char const **const str, uns
     bool stop = false;
     u_long string_index = 0;
     size_t buffer_index = 0;
-    while ((buffer_index < 4) && (string_index < string_length) && !stop) {
+    while ((buffer_index < cuttr_len) && (string_index < string_length) && !stop) {
         char const current_char = string[string_index];
         if (buffer_index == 0) {
             if (isalpha(current_char)) {
