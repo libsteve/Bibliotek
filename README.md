@@ -107,10 +107,12 @@ References
 - [Segmentation Marks in Dewey Numbers][dewey-segmentation]
 - [Bibliographic Formats and Standards][oclc-bib-std]
 - [Z39.50 Configuration Guide for OCLC Z39.50 Cataloging][oclc-config]
+- [Library of Congress Call Number Format][oclc-loc-format]
 
 [dewey-segmentation]: https://www.oclc.org/content/dam/oclc/dewey/discussion/papers/segmentation_marks.pdf
 [oclc-bib-std]: https://www.oclc.org/bibformats/en.html
 [oclc-config]: https://www.oclc.org/support/services/z3950/documentation/config_guide.en.html
+[oclc-loc-format]: https://www.oclc.org/bibformats/en/0xx/050.htm
 
 ### Cataloger's Reference Shelf
 
