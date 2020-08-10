@@ -8,9 +8,13 @@
 
 import Foundation
 
+/// More information about Library of Congress Classification can be found at
+/// https://www.librarianshipstudies.com/2017/11/library-of-congress-classification.html
 public struct LCCallNumber {
     private var storage: BibLCCallNumber
 
+    /// Create a Library of Congress call number with the given string representation.
+    /// - parameter string: The string value of the call number.
     public init?(_ string: String) {
         guard let storage = BibLCCallNumber(string: string) else { return nil }
         self.storage = storage
@@ -48,6 +52,27 @@ extension LCCallNumber: Hashable, Equatable, Comparable {
         return lhs.storage.compare(rhs.storage) == ComparisonResult.orderedDescending
     }
 
+    /// Determine the ordering relationship between the subject matters represented by two call numbers.
+    ///
+    /// The classification `HQ76` is ordered before `QA76`.
+    ///
+    /// The classification `QA76.76` is ordered before `QA76.9`.
+    ///
+    /// The classification `P35` is ordered before `P112`.
+    ///
+    /// The classification `P327` is ordered before `PC5615`.
+    ///
+    /// The calssification `QA76` encompasses the more specific classifications `QA76.76` and `QA76.75`,
+    /// but does not include the classification `QA70`, nor its parent classification `QA`.
+    ///
+    /// - parameter callNumber: The call number being compaired with the receiver.
+    /// - returns:
+    ///     - `.descending` when the given call number is ordered before the receiver.
+    ///     - `.same` when the given call number is euqivalent to the receiver.
+    ///     - `.ascending` when the given call number is ordered after the receiver.
+    ///     - `.specifying` when the given call number's represented subject matter is included
+    ///       in that represented by the receiver. The given call number, being a specialization of the receiver,
+    ///       is necessarily ordered linearly after the receiver.
     public func compare(with callNumber: LCCallNumber) -> ClassificationComparisonResult {
         return self.storage.compare(with: callNumber as BibLCCallNumber)
     }
