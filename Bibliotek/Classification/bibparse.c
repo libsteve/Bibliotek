@@ -63,8 +63,42 @@ bool bib_parse_lc_callnum_base(bib_lc_callnum_t *const num, char const **const s
 
 bool bib_parse_lc_callnum_shelf(bib_lc_callnum_t *num, char const **str, size_t *len)
 {
-    // TODO: parse shelf
-    return false;
+    if (num == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
+        return false;
+    }
+    char const *str_0 = *str;
+    size_t      len_0 = *len;
+
+    bool suffix_success_0 = bib_lex_suffix(num->suffix, &str_0, &len_0);
+    bool   work_success_0 = !suffix_success_0 && bib_lex_workmark(num->workmark, &str_0, &len_0);
+    bool  space_success_0 = !suffix_success_0 && !work_success_0 && bib_read_space(&str_0, &len_0);
+
+    char const *str_1 = str_0;
+    size_t      len_1 = len_0;
+    bool  space_success_1 = suffix_success_0 && bib_read_space(&str_1, &len_1);
+    bool   work_success_1 = !space_success_1 && space_success_0 && bib_lex_workmark(num->workmark, &str_1, &len_1);
+    bool   spec_success_1 = !space_success_1 && !work_success_1 && space_success_0
+                         && bib_parse_lc_special(&(num->special), &(num->special_count), &str_1, &len_1);
+
+    char const *str_2 = str_1;
+    size_t      len_2 = len_1;
+    bool  space_success_2 =   work_success_1 && bib_read_space(&str_2, &len_2);
+    bool   spec_success_2 = !space_success_2 && space_success_1
+                         && bib_parse_lc_special(&(num->special), &(num->special_count), &str_2, &len_2);
+    bool   spec_success_3 = space_success_2
+                         && bib_parse_lc_special(&(num->special), &(num->special_count), &str_2, &len_2);
+
+    size_t  final_length = (  spec_success_2 || spec_success_3) ? len_2
+                         : (  spec_success_1 || work_success_1) ? len_1
+                         : (suffix_success_0 || work_success_0) ? len_0
+                         :                                       *len; 
+    bool success = (final_length != *len) && bib_advance_step(*len - final_length, str, len);
+    if (!success) {
+        memset(num->suffix,   0, sizeof(num->suffix));
+        memset(num->workmark, 0, sizeof(num->workmark));
+        bib_lc_special_list_deinit(&(num->special), &(num->special_count));
+    }
+    return success;
 }
 
 #pragma mark - lc caption
