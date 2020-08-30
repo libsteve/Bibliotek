@@ -30,6 +30,7 @@ extern size_t bib_lex_digit_n (char *buffer, size_t buffer_len, char const **str
 
 extern bool bib_read_space(char const **str, size_t *len);
 extern bool bib_read_point(char const **str, size_t *len);
+extern bool bib_read_dash (char const **str, size_t *len);
 
 #pragma mark - advance
 

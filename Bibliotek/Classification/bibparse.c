@@ -229,8 +229,53 @@ bool bib_parse_lc_special(bib_lc_special_t **spc_list, size_t *spc_size, char co
 
 bool bib_parse_lc_special_date   (bib_lc_special_t **spc_list, size_t *spc_size, char const **str, size_t *len)
 {
-    // TODO: parse special date
-    return false;
+    if (spc_list == NULL || spc_size == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
+        return false;
+    }
+    if (spc_list == NULL && *spc_size != 0) {
+        return false;
+    }
+
+    char const *string = *str;
+    size_t      length = *len;
+
+    char date[bib_datenum_size + 1];
+    memset(date, 0, sizeof(date));
+
+    char span[bib_datenum_size + 1];
+    memset(span, 0, sizeof(span));
+
+    char suffix[bib_suffix_size + 1];
+    memset(suffix, 0, sizeof(suffix));
+
+    bool   date_success_0 = bib_lex_date(date, &string, &length);
+    bool   dash_success_0 = date_success_0 && bib_read_dash(&string, &length);
+    bool suffix_success_0 = date_success_0 && !dash_success_0 && bib_lex_suffix(suffix, &string, &length);
+
+    bool   date_success_1 = date_success_0 && dash_success_0 && bib_lex_date(span, &string, &length);
+    bool suffix_success_1 = date_success_1 && bib_lex_suffix(suffix, &string, &length);
+
+    bool success = date_success_0 && bib_advance_step(*len - length, str, len);
+    if (success) {
+        if (dash_success_0) {
+            bib_lc_special_t spc_span;
+            bib_lc_special_init(&spc_span, bib_lc_special_spec_datespan);
+            memcpy(spc_span.value.datespan.date, date, sizeof(date));
+            memcpy(spc_span.value.datespan.span, span, sizeof(span));
+            bib_lc_special_list_append(spc_list, spc_size, &spc_span, 1);
+        } else if (date_success_0) {
+            bib_lc_special_t spc_date;
+            bib_lc_special_init(&spc_date, bib_lc_special_spec_date);
+            memcpy(spc_date.value.date, date, sizeof(date));
+            bib_lc_special_list_append(spc_list, spc_size, &spc_date, 1);
+        }
+        if (suffix_success_0 || suffix_success_1) {
+            bib_lc_special_t spc_suffix;
+            bib_lc_special_init(&spc_suffix, bib_lc_special_spec_suffix);
+            memcpy(spc_suffix.value.suffix, suffix, sizeof(suffix));
+        }
+    }
+    return success;
 }
 
 bool bib_parse_lc_special_ordinal(bib_lc_special_t **spc_list, size_t *spc_size, char const **str, size_t *len)

@@ -220,6 +220,14 @@ bool bib_read_point(char const **const str, size_t *const len)
     return ((*str)[0] == '.') ? bib_advance_step(1, str, len) : false;
 }
 
+bool bib_read_dash(char const **str, size_t *len)
+{
+    if (str == NULL || *str == NULL || len == NULL || *len == 0) {
+        return false;
+    }
+    return ((*str)[0] == '-') ? bib_advance_step(1, str, len) : false;
+}
+
 #pragma mark - advance
 
 bool bib_advance_step(size_t const step, char const **const str, size_t *const len)
