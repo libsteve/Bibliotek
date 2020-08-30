@@ -203,6 +203,7 @@
 		AA83210624F18608000945B3 /* bibparse.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = bibparse.c; sourceTree = "<group>"; };
 		AA83210924F186DD000945B3 /* bibtype.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bibtype.h; sourceTree = "<group>"; };
 		AA83210A24F186DD000945B3 /* bibtype.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = bibtype.c; sourceTree = "<group>"; };
+		AA83210D24F39835000945B3 /* BibLCCallNumber.bnf */ = {isa = PBXFileReference; lastKnownFileType = text; path = BibLCCallNumber.bnf; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		AA99BAF42301E4370055C078 /* BibHasher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibHasher.h; sourceTree = "<group>"; };
 		AA99BAF52301E4370055C078 /* BibHasher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibHasher.m; sourceTree = "<group>"; };
 		AA99BAFC23020BE30055C078 /* BibField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibField.h; sourceTree = "<group>"; };
@@ -470,6 +471,7 @@
 		AAAFD99D247C3A6C00D2D1F0 /* Classification */ = {
 			isa = PBXGroup;
 			children = (
+				AA83210D24F39835000945B3 /* BibLCCallNumber.bnf */,
 				AAAFD999247C3A6300D2D1F0 /* BibLCCallNumber.h */,
 				AAAFD99E247C3C5500D2D1F0 /* BibLCCallNumber+Internal.h */,
 				AAAFD9A0247C473A00D2D1F0 /* BibLCCallNumber+Internal.c */,
