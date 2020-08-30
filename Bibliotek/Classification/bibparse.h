@@ -38,8 +38,9 @@ extern bool bib_parse_lc_dated_cutter(bib_cutter_t *cut, char const **str, size_
 #pragma mark - lc special
 
 extern bool bib_parse_lc_special(bib_lc_special_t **spc_list, size_t *spc_size, char const **str, size_t *len);
-extern bool bib_parse_lc_special_date   (bib_lc_special_t **spc_list, size_t *spc_size, char const **str, size_t *len);
-extern bool bib_parse_lc_special_ordinal(bib_lc_special_t **spc_list, size_t *spc_size, char const **str, size_t *len);
+extern bool bib_parse_lc_special_date    (bib_lc_special_t **spc_list, size_t *spc_size, char const **str, size_t *len);
+extern bool bib_parse_lc_special_workmark(bib_lc_special_t **spc_list, size_t *spc_size, char const **str, size_t *len);
+extern bool bib_parse_lc_special_ordinal (bib_lc_special_t **spc_list, size_t *spc_size, char const **str, size_t *len);
 extern bool bib_parse_lc_special_ordinal_root(bib_ordinal_t *ord, char const **str, size_t *len);
 
 __END_DECLS

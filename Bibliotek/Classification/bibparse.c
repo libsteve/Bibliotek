@@ -223,11 +223,44 @@ bool bib_parse_lc_dated_cutter(bib_cutter_t *cut, char const **const str, size_t
 
 bool bib_parse_lc_special(bib_lc_special_t **spc_list, size_t *spc_size, char const **str, size_t *len)
 {
-    // TODO: parse special
-    return false;
+    if (spc_list == NULL || spc_size == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
+        return false;
+    }
+    if (spc_list == NULL && *spc_size != 0) {
+        return false;
+    }
+
+    bib_lc_special_t *new_list = NULL;
+    size_t            new_size = 0;
+
+    char const *prev_str = *str;
+    size_t      prev_len = *len;
+    char const *curr_str = prev_str;
+    size_t      curr_len = prev_len;
+
+    bool loop_continue = true;
+    while (loop_continue) {
+        bool date_success = bib_parse_lc_special_date(&new_list, &new_size, &curr_str, &curr_len);
+        bool  ord_success = !date_success && bib_parse_lc_special_ordinal(&new_list, &new_size, &curr_str, &curr_len);
+        bool work_success = (date_success || ord_success)
+                          && bib_parse_lc_special_workmark(&new_list, &new_size, &curr_str, &curr_len);
+        bool loop_success = work_success || date_success || ord_success;
+        if (loop_success) {
+            prev_str = curr_str;
+            prev_len = curr_len;
+        }
+        loop_continue = loop_success && bib_read_space(&curr_str, &curr_len);
+    }
+
+    bool parse_success = (new_list != NULL) && (new_size != 0) && bib_advance_step(*len - prev_len, str, len);
+    if (parse_success) {
+        bib_lc_special_list_append(spc_list, spc_size, new_list, new_size);
+    }
+    bib_lc_special_list_deinit(&new_list, &new_size);
+    return parse_success;
 }
 
-bool bib_parse_lc_special_date   (bib_lc_special_t **spc_list, size_t *spc_size, char const **str, size_t *len)
+bool bib_parse_lc_special_date(bib_lc_special_t **spc_list, size_t *spc_size, char const **str, size_t *len)
 {
     if (spc_list == NULL || spc_size == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
@@ -274,6 +307,25 @@ bool bib_parse_lc_special_date   (bib_lc_special_t **spc_list, size_t *spc_size,
             bib_lc_special_init(&spc_suffix, bib_lc_special_spec_suffix);
             memcpy(spc_suffix.value.suffix, suffix, sizeof(suffix));
         }
+    }
+    return success;
+}
+
+bool bib_parse_lc_special_workmark(bib_lc_special_t **const spc_list, size_t *const spc_size,
+                                   char const **const str, size_t *const len)
+{
+    if (spc_list == NULL || spc_size == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
+        return false;
+    }
+    if (spc_list == NULL && *spc_size != 0) {
+        return false;
+    }
+
+    bib_lc_special_t work;
+    bib_lc_special_init(&work, bib_lc_special_spec_workmark);
+    bool success = bib_lex_workmark(work.value.workmark, str, len);
+    if (success) {
+        bib_lc_special_list_append(spc_list, spc_size, &work, 1);
     }
     return success;
 }
