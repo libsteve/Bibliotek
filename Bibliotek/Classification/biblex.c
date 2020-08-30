@@ -12,21 +12,21 @@
 
 #pragma mark - lex
 
-bool bib_lex_integer (char buffer[bib_integer_size + 1], char const **const str, size_t *const len)
+bool bib_lex_integer(char buffer[bib_integer_size + 1], char const **const str, size_t *const len)
 {
     size_t length = bib_lex_digit_n(buffer, bib_integer_size, str, len);
     buffer[length] = '\0';
     return (length > 0);
 }
 
-bool bib_lex_digit16 (char buffer[bib_digit16_size + 1], char const **const str, size_t *const len)
+bool bib_lex_digit16(char buffer[bib_digit16_size + 1], char const **const str, size_t *const len)
 {
     size_t length = bib_lex_digit_n(buffer, bib_digit16_size, str, len);
     buffer[length] = '\0';
     return (length > 0);
 }
 
-bool bib_lex_decimal (char buffer[bib_digit16_size + 1], char const **const str, size_t *const len)
+bool bib_lex_decimal(char buffer[bib_digit16_size + 1], char const **const str, size_t *const len)
 {
     if (buffer == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
@@ -42,7 +42,7 @@ bool bib_lex_decimal (char buffer[bib_digit16_size + 1], char const **const str,
     return success;
 }
 
-bool bib_lex_suffix  (char buffer[bib_suffix_size  + 1], char const **const str, size_t *const len)
+bool bib_lex_suffix(char buffer[bib_suffix_size  + 1], char const **const str, size_t *const len)
 {
     if (buffer == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
@@ -66,14 +66,14 @@ bool bib_lex_suffix  (char buffer[bib_suffix_size  + 1], char const **const str,
     return bib_advance_step(buffer_index, str, len);
 }
 
-bool bib_lex_date    (char buffer[bib_datenum_size + 1], char const **const str, size_t *const len)
+bool bib_lex_date(char buffer[bib_datenum_size + 1], char const **const str, size_t *const len)
 {
     size_t length = bib_lex_digit_n(buffer, bib_datenum_size, str, len);
     buffer[length] = '\0';
     return (length > 0);
 }
 
-bool bib_lex_cutter  (char buffer[bib_cuttern_size + 1], char const **const str, size_t *const len)
+bool bib_lex_cutter(char buffer[bib_cuttern_size + 1], char const **const str, size_t *const len)
 {
     if (buffer == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
@@ -162,7 +162,7 @@ bool bib_lex_workmark(char buffer[bib_suffix_size  + 1], char const **const str,
     return success;
 }
 
-size_t bib_lex_digit_n (char *const buffer, size_t const buffer_len, char const **const str, size_t *const len)
+size_t bib_lex_digit_n(char *const buffer, size_t const buffer_len, char const **const str, size_t *const len)
 {
     if (buffer == NULL || buffer_len < 1 || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;

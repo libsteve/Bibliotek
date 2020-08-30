@@ -32,7 +32,7 @@ void bib_lc_special_init(bib_lc_special_t *const spc, typeof(spc->spec) spec) {
 }
 
 void bib_lc_special_list_append(bib_lc_special_t **const spc_list, size_t *const spc_size,
-                                bib_lc_special_t *const spc_buff, size_t const buff_len) {
+                                bib_lc_special_t  *const spc_buff, size_t  const buff_len) {
     if (spc_list == NULL || spc_size == NULL || spc_buff == NULL || buff_len == 0) {
         return;
     }

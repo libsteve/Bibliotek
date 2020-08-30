@@ -144,7 +144,7 @@ bool bib_parse_lc_caption_root(bib_lc_caption_t *const cap, char const **const s
     bool cls_success = bib_lex_subclass(cap->letters, &string, &length);
     bib_read_space(&string, &length); // optional space
     bool int_success = cls_success && bib_lex_integer(cap->integer, &string, &length);
-    bool __unused _  = int_success && bib_lex_decimal(cap->decimal, &string, &length);
+    bool  __unused _ = int_success && bib_lex_decimal(cap->decimal, &string, &length);
 
     bool success = cls_success && bib_advance_step(*len - length, str, len);
     if (!success) {
@@ -162,8 +162,8 @@ bool bib_parse_lc_caption_ordinal_suffix(char buffer[bib_suffix_size + 2], char 
     size_t      length = *len;
 
     bool suffix_success = bib_lex_suffix(buffer, &string, &length);
-    bool point_success  = suffix_success && bib_read_point(&string, &length);
-    bool __unused _     = point_success  && bib_read_space(&string, &length);
+    bool  point_success = suffix_success && bib_read_point(&string, &length);
+    bool     __unused _ =  point_success && bib_read_space(&string, &length);
 
     if (point_success) {
         size_t last_index = strlen(buffer);
@@ -424,7 +424,7 @@ bool bib_parse_lc_special_ordinal_root(bib_ordinal_t *ord, char const **str, siz
     size_t      length = *len;
 
     bool  digit_success = bib_lex_digit16(ord->number, &string, &length);
-    bool __unused     _ = digit_success && bib_read_space(&string, &length);
+    bool     __unused _ = digit_success && bib_read_space(&string, &length);
     bool success = bib_lex_suffix(ord->suffix, &string, &length)
                 && bib_lex_suffix(ord->suffix, &string, &length)
                 && bib_advance_step(*len - length, str, len);

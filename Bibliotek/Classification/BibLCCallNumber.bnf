@@ -1,97 +1,97 @@
-lc-calln ::= <lc-calln-base>
-           | <lc-calln-base> <lc-calln-shelf>
+lc-calln := <lc-calln-base>
+          | <lc-calln-base> <lc-calln-shelf>
 
-lc-calln-base ::= <lc-caption>
-                | <lc-caption> '.' <lc-cutter>
+lc-calln-base := <lc-caption>
+               | <lc-caption> '.' <lc-cutter>
 
-lc-calln-shelf ::= <suffix>
-                 | <suffix> <space> <lc-special>
-                 | <work-mark>
-                 | <space> <work-mark>
-                 | <space> <work-mark> <space> <lc-special>
-                 | <space> <lc-special>
+lc-calln-shelf := <suffix>
+                | <suffix> <space> <lc-special>
+                | <work-mark>
+                | <space> <work-mark>
+                | <space> <work-mark> <space> <lc-special>
+                | <space> <lc-special>
 
-lc-caption ::= <lc-caption-root>
-             | <lc-caption-root> <space> <lc-date>
-             | <lc-caption-root> <space> <lc-caption-ordinal>
-             | <lc-cpation-root> <space> <lc-date> <space> <lc-caption-ordinal>
+lc-caption := <lc-caption-root>
+            | <lc-caption-root> <space> <lc-date>
+            | <lc-caption-root> <space> <lc-caption-ordinal>
+            | <lc-cpation-root> <space> <lc-date> <space> <lc-caption-ordinal>
 
-lc-caption-root ::= <subclass>
-                  | <subclass> <lc-caption-integer>
-                  | <subclass> <lc-caption-integer> '.' <lc-caption-decimal>
+lc-caption-root := <subclass>
+                 | <subclass> <lc-caption-integer>
+                 | <subclass> <lc-caption-integer> '.' <lc-caption-decimal>
 
 lc-caption-integer ::= <digit4>
 
-lc-caption-decimal ::= <digit16>
+lc-caption-decimal := <digit16>
 
-lc-caption-ordinal ::= <lc-caption-ordinal-suffix>
-                     | <digit16> <space>
-                     | <digit16> <lc-caption-ordinal-suffix>
-                     | <digit16> <space> <lc-caption-ordinal-suffix>
+lc-caption-ordinal := <lc-caption-ordinal-suffix>
+                    | <digit16> <space>
+                    | <digit16> <lc-caption-ordinal-suffix>
+                    | <digit16> <space> <lc-caption-ordinal-suffix>
 
-lc-caption-ordinal-suffix ::= <suffix>
-                            | <suffix> '.'
-                            | <suffix> '.' <space>
+lc-caption-ordinal-suffix := <suffix>
+                           | <suffix> '.'
+                           | <suffix> '.' <space>
 
-lc-cutter ::= <cutter>
-            | <cutter> <lc-cutter>
-            | <cutter> <space> <lc-date>
-            | <cutter> <space> <lc-cutter>
-            | <cutter> <space> <lc-date> <space> <lc-cutter>
+lc-cutter := <cutter>
+           | <cutter> <lc-cutter>
+           | <cutter> <space> <lc-date>
+           | <cutter> <space> <lc-cutter>
+           | <cutter> <space> <lc-date> <space> <lc-cutter>
 
-lc-special ::= <lc-special-date>
-             | <lc-special-date> <work-mark>
-             | <lc-special-ordinal>
-             | <lc-special-ordinal> <work-mark>
-             | <lc-special> <space> <lc-special>
+lc-special := <lc-special-date>
+            | <lc-special-date> <work-mark>
+            | <lc-special-ordinal>
+            | <lc-special-ordinal> <work-mark>
+            | <lc-special> <space> <lc-special>
 
-lc-special-date ::= <lc-date>
-                  | <lc-date> <suffix>
-                  | <lc-date> '-'
-                  | <lc-date> '-' <lc-date>
-                  | <lc-date> '-' <lc-date> <suffix>
+lc-special-date := <lc-date>
+                 | <lc-date> <suffix>
+                 | <lc-date> '-'
+                 | <lc-date> '-' <lc-date>
+                 | <lc-date> '-' <lc-date> <suffix>
 
-lc-date ::= <digit4>
+lc-date := <digit4>
 
-lc-special-ordinal ::= <lc-special-ordinal-root>
-                     | <lc-special-ordinal-root> <lc-special-ordinal>
-                     | <lc-special-ordinal-root> <space> <lc-special-ordinal>
+lc-special-ordinal := <lc-special-ordinal-root>
+                    | <lc-special-ordinal-root> <lc-special-ordinal>
+                    | <lc-special-ordinal-root> <space> <lc-special-ordinal>
 
-lc-special-ordinal-root ::= <suffix> '.'
-                          | <digit16> <suffix> '.'
-                          | <digit16> <space> <suffix> '.'
+lc-special-ordinal-root := <suffix> '.'
+                         | <digit16> <suffix> '.'
+                         | <digit16> <space> <suffix> '.'
 
-suffix ::= <lower>
-         | <lower> <lower>
+suffix := <lower>
+        | <lower> <lower>
 
-cutter ::= <upper>
-         | <upper> <digit16>
+cutter := <upper>
+        | <upper> <digit16>
 
-subclass ::= <upper>
-           | <upper> <upper>
-           | <upper> <upper> <upper>
+subclass := <upper>
+          | <upper> <upper>
+          | <upper> <upper> <upper>
 
-work-mark ::= <upper> <lower>
-            | <upper> <lower> <lower>
-            | <space> <upper> <lower>
-            | <space> <upper> <lower> <lower>
+work-mark := <upper> <lower>
+           | <upper> <lower> <lower>
+           | <space> <upper> <lower>
+           | <space> <upper> <lower> <lower>
 
-digit16 ::= <digit4>
-          | <digit4> <digit4>
-          | <digit4> <digit4> <digit4>
-          | <digit4> <digit4> <digit4> <digit4>
+digit16 := <digit4>
+         | <digit4> <digit4>
+         | <digit4> <digit4> <digit4>
+         | <digit4> <digit4> <digit4> <digit4>
 
-digit4 ::= <digit>
-         | <digit> <digit>
-         | <digit> <digit> <digit>
-         | <digit> <digit> <digit> <digit>
+digit4 := <digit>
+        | <digit> <digit>
+        | <digit> <digit> <digit>
+        | <digit> <digit> <digit> <digit>
 
-letter ::= <upper> | <lower>
+letter := <upper> | <lower>
 
-upper ::= 'A' | 'B' | 'C' | ... | 'Z'
+upper := 'A' | 'B' | 'C' | ... | 'Z'
 
-lower ::= 'a' | 'b' | 'c' | ... | 'z'
+lower := 'a' | 'b' | 'c' | ... | 'z'
 
-digit ::= '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
+digit := '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
 
-space ::= ' ' | '\n' | '\t' | <space> <space>
+space := ' ' | '\n' | '\t' | <space> <space>
