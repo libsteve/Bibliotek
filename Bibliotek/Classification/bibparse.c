@@ -144,7 +144,7 @@ bool bib_parse_lc_caption_root(bib_lc_caption_t *const cap, char const **const s
     bool cls_success = bib_lex_subclass(cap->letters, &string, &length);
     bib_read_space(&string, &length); // optional space
     bool int_success = cls_success && bib_lex_integer(cap->integer, &string, &length);
-    bool __unused _  = int_success && bib_lex_integer(cap->decimal, &string, &length);
+    bool __unused _  = int_success && bib_lex_decimal(cap->decimal, &string, &length);
 
     bool success = cls_success && bib_advance_step(*len - length, str, len);
     if (!success) {
