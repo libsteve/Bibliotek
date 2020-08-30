@@ -271,17 +271,12 @@ bool bib_parse_lc_special_ordinal(bib_lc_special_t **spc_list, size_t *spc_size,
 
     bool success = (ordinals != NULL) && (ordinals_count > 0) && bib_advance_step(*len - prev_length, str, len);
     if (success) {
-        size_t size = *spc_size + ordinals_count;
-        bib_lc_special_t *list = (*spc_list == NULL)
-                               ? calloc(size, sizeof(bib_lc_special_t))
-                               : realloc(*spc_list, size * sizeof(bib_lc_special_t));
+        bib_lc_special_t spc_ordinals[ordinals_count];
         for (size_t index = 0; index < ordinals_count; index += 1) {
-            size_t location = *spc_size + index;
-            list[location] = (bib_lc_special_t){ .spec = bib_lc_special_spec_ordinal,
-                                                 .value.ordinal = ordinals[index] };
+            bib_lc_special_init(&(spc_ordinals[index]), bib_lc_special_spec_ordinal);
+            memcpy(&(spc_ordinals[index].value.ordinal), &(ordinals[index]), sizeof(bib_ordinal_t));
         }
-        *spc_size = size;
-        *spc_list = list;
+        bib_lc_special_list_append(spc_list, spc_size, spc_ordinals, ordinals_count);
     }
     if (ordinals != NULL) {
         free(ordinals);

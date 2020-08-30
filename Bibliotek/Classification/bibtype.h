@@ -73,6 +73,11 @@ typedef struct bib_lc_callnum {
 __BEGIN_DECLS
 extern void bib_lc_callnum_init  (bib_lc_callnum_t *num);
 extern void bib_lc_callnum_deinit(bib_lc_callnum_t *num);
+
+extern void bib_lc_special_init(bib_lc_special_t *spc, typeof(spc->spec) spec);
+extern void bib_lc_special_list_append(bib_lc_special_t **spc_list, size_t *spc_size,
+                                       bib_lc_special_t *spc_buff, size_t buff_len);
+extern void bib_lc_special_list_deinit(bib_lc_special_t **spc_list, size_t *spc_size);
 __END_DECLS
 
 #endif /* bibtype_h */
