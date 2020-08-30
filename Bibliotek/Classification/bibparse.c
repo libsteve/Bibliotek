@@ -235,12 +235,75 @@ bool bib_parse_lc_special_date   (bib_lc_special_t **spc_list, size_t *spc_size,
 
 bool bib_parse_lc_special_ordinal(bib_lc_special_t **spc_list, size_t *spc_size, char const **str, size_t *len)
 {
-    // TODO: parse special ordinal
+    if (spc_list == NULL || spc_size == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
+        return false;
+    }
+    if (spc_list == NULL && *spc_size != 0) {
+        return false;
+    }
+    bool finished = false;
+    size_t ordinals_count = 0;
+    bib_ordinal_t *ordinals = NULL;
+
+    char const *prev_string = *str;
+    size_t      prev_length = *len;
+    char const *curr_string = *str;
+    size_t      curr_length = *len;
+    while (!finished) {
+        size_t index = ordinals_count;
+        if (index > 0) {
+            bib_read_space(&curr_string, &curr_length);
+        }
+        bib_ordinal_t current;
+        memset(&current, 0, sizeof(bib_ordinal_t));
+        if (bib_parse_lc_special_ordinal_root(&current, &curr_string, &curr_length)) {
+            prev_string = curr_string;
+            prev_length = curr_length;
+            ordinals_count += 1;
+            ordinals = (ordinals)
+                     ? realloc(ordinals, ordinals_count * sizeof(bib_ordinal_t))
+                     : calloc(ordinals_count, sizeof(bib_ordinal_t));
+            ordinals[index] = current;
+        } else {
+            finished = true;
+        }
+    }
+
+    bool success = (ordinals != NULL) && (ordinals_count > 0) && bib_advance_step(*len - prev_length, str, len);
+    if (success) {
+        size_t size = *spc_size + ordinals_count;
+        bib_lc_special_t *list = (*spc_list == NULL)
+                               ? calloc(size, sizeof(bib_lc_special_t))
+                               : realloc(*spc_list, size * sizeof(bib_lc_special_t));
+        for (size_t index = 0; index < ordinals_count; index += 1) {
+            size_t location = *spc_size + index;
+            list[location] = (bib_lc_special_t){ .spec = bib_lc_special_spec_ordinal,
+                                                 .value.ordinal = ordinals[index] };
+        }
+        *spc_size = size;
+        *spc_list = list;
+    }
+    if (ordinals != NULL) {
+        free(ordinals);
+    }
     return false;
 }
 
-bool bib_parse_lc_sepcial_ordinal_root(bib_ordinal_t *ord, char const **str, size_t *len)
+bool bib_parse_lc_special_ordinal_root(bib_ordinal_t *ord, char const **str, size_t *len)
 {
-    // TODO: parse ordinal root
-    return false;
+    if (ord == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
+        return false;
+    }
+    char const *string = *str;
+    size_t      length = *len;
+
+    bool  digit_success = bib_lex_digit16(ord->number, &string, &length);
+    bool __unused     _ = digit_success && bib_read_space(&string, &length);
+    bool success = bib_lex_suffix(ord->suffix, &string, &length)
+                && bib_lex_suffix(ord->suffix, &string, &length)
+                && bib_advance_step(*len - length, str, len);
+    if (!success) {
+        memset(ord, 0, sizeof(bib_ordinal_t));
+    }
+    return success;
 }
