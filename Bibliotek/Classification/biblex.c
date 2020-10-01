@@ -83,6 +83,7 @@ bool bib_lex_cutter(char buffer[bib_cuttern_size + 1], char const **const str, s
 
     if (isupper(string[0])) {
         buffer[0] = string[0];
+        string = &(string[1]);
         string_length -= 1;
         buffer[1] = '\0';
     } else {
@@ -155,7 +156,7 @@ bool bib_lex_workmark(char buffer[bib_suffix_size  + 1], char const **const str,
         }
     }
     buffer[buffer_index] = '\0';
-    bool success = bib_advance_step(buffer_index, str, len);
+    bool success = (buffer_index > 1) && bib_advance_step(buffer_index, str, len);
     if (!success) {
         memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
     }
@@ -203,7 +204,7 @@ bool bib_read_space(char const **const str, size_t *const len)
     size_t string_index = 0;
     while ((string_index < string_length) && !stop) {
         char current_char = string[string_index];
-        if (isblank(current_char)) {
+        if (isspace(current_char)) {
             string_index += 1;
         } else {
             stop = true;

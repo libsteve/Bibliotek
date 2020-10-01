@@ -13,13 +13,13 @@
 #include <stddef.h>
 #include <stdbool.h>
 
-static size_t const bib_letters_size =  3 + 1;
-static size_t const bib_integer_size =  4 + 1;
-static size_t const bib_digit16_size = 16 + 1;
-static size_t const bib_datenum_size =  4 + 1;
-static size_t const bib_suffix_size  =  3 + 1;
-static size_t const bib_lcalpha_size =  3 + 1;
-static size_t const bib_cuttern_size = bib_digit16_size + 1;
+static size_t const bib_letters_size =  3;
+static size_t const bib_integer_size =  4;
+static size_t const bib_digit16_size = 16;
+static size_t const bib_datenum_size =  4;
+static size_t const bib_suffix_size  =  3;
+static size_t const bib_lcalpha_size =  3;
+static size_t const bib_cuttern_size = bib_digit16_size;
 
 typedef struct bib_ordinal {
     char number[bib_digit16_size + 1];
