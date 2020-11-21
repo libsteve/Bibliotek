@@ -9,7 +9,7 @@
 #ifndef bibparse_h
 #define bibparse_h
 
-#include <Bibliotek/bibtype.h>
+#include "bibtype.h"
 
 __BEGIN_DECLS
 

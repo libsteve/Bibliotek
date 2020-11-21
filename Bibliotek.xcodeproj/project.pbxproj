@@ -53,6 +53,7 @@
 		AA83210B24F186DD000945B3 /* bibtype.h in Headers */ = {isa = PBXBuildFile; fileRef = AA83210924F186DD000945B3 /* bibtype.h */; };
 		AA83210C24F186DD000945B3 /* bibtype.c in Sources */ = {isa = PBXBuildFile; fileRef = AA83210A24F186DD000945B3 /* bibtype.c */; };
 		AA9554A52523A23000B8690C /* BibLexTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9554A42523A23000B8690C /* BibLexTests.m */; };
+		AA9554A8252646AB00B8690C /* BibParseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9554A7252646AB00B8690C /* BibParseTests.m */; };
 		AA99BAF62301E4370055C078 /* BibHasher.h in Headers */ = {isa = PBXBuildFile; fileRef = AA99BAF42301E4370055C078 /* BibHasher.h */; };
 		AA99BAF72301E4370055C078 /* BibHasher.m in Sources */ = {isa = PBXBuildFile; fileRef = AA99BAF52301E4370055C078 /* BibHasher.m */; };
 		AA99BAFE23020BE30055C078 /* BibField.h in Headers */ = {isa = PBXBuildFile; fileRef = AA99BAFC23020BE30055C078 /* BibField.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -206,6 +207,7 @@
 		AA83210A24F186DD000945B3 /* bibtype.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = bibtype.c; sourceTree = "<group>"; };
 		AA83210D24F39835000945B3 /* BibLCCallNumber.bnf */ = {isa = PBXFileReference; lastKnownFileType = text; path = BibLCCallNumber.bnf; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
 		AA9554A42523A23000B8690C /* BibLexTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibLexTests.m; sourceTree = "<group>"; };
+		AA9554A7252646AB00B8690C /* BibParseTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibParseTests.m; sourceTree = "<group>"; };
 		AA99BAF42301E4370055C078 /* BibHasher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibHasher.h; sourceTree = "<group>"; };
 		AA99BAF52301E4370055C078 /* BibHasher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibHasher.m; sourceTree = "<group>"; };
 		AA99BAFC23020BE30055C078 /* BibField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibField.h; sourceTree = "<group>"; };
@@ -444,6 +446,7 @@
 				AAAFD997247B712400D2D1F0 /* BibCharacterConversionTests.m */,
 				AAAFD9A2247CC03800D2D1F0 /* BibLCCallNumberTests.m */,
 				AA9554A42523A23000B8690C /* BibLexTests.m */,
+				AA9554A7252646AB00B8690C /* BibParseTests.m */,
 				AA19396C22E2C58000429C54 /* ClassificationRecord.marc8 */,
 				AA19397422E7708900429C54 /* BibliographicRecord.marc8 */,
 				AA091796247AFBEE0074CF6E /* MARC8Record1.marc8 */,
@@ -791,6 +794,7 @@
 				AAAFD9A3247CC03800D2D1F0 /* BibLCCallNumberTests.m in Sources */,
 				AAB7865B2456208E0018A833 /* BibMARCSerializationInput.m in Sources */,
 				AA79FFDE2469A1AF00134C98 /* RecordFieldAccessTests.swift in Sources */,
+				AA9554A8252646AB00B8690C /* BibParseTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

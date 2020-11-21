@@ -125,6 +125,24 @@ bool bib_parse_lc_caption(bib_lc_caption_t *const cap, char const **const str, s
                      && bib_read_space(&string_2, &length_2)
                      && bib_parse_lc_caption_ordinal(&(cap->ordinal), &string_2, &length_2);
 
+    // if we could parse both a date and an ordinal, we'll prefer the ordinal
+    if (date_success && !ordn_success) {
+        char const *string_3 = string_0;
+        size_t      length_3 = length_0;
+        bool success = root_success
+                    && bib_read_space(&string_3, &length_3)
+                    && bib_parse_lc_caption_ordinal(&(cap->ordinal), &string_3, &length_3);\
+        if (success) {
+            memset(cap->date, 0, sizeof(char) * bib_datenum_size);
+            date_success = false;
+            string_1 = string_0;
+            length_1 = length_0;
+            ordn_success = success;
+            string_2 = string_3;
+            length_2 = length_3;
+        }
+    }
+
     size_t final_length = (ordn_success) ? length_2 : length_1;
     bool success = root_success && bib_advance_step(*len - final_length, str, len);
     if (!success) {
@@ -138,15 +156,20 @@ bool bib_parse_lc_caption_root(bib_lc_caption_t *const cap, char const **const s
     if (cap == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
     }
-    char const *string = *str;
-    size_t length = *len;
+    char const *string_0 = *str;
+    size_t length_0 = *len;
 
-    bool cls_success = bib_lex_subclass(cap->letters, &string, &length);
-    bib_read_space(&string, &length); // optional space
-    bool int_success = cls_success && bib_lex_integer(cap->integer, &string, &length);
-    bool  __unused _ = int_success && bib_lex_decimal(cap->decimal, &string, &length);
+    bool cls_success = bib_lex_subclass(cap->letters, &string_0, &length_0);
 
-    bool success = cls_success && bib_advance_step(*len - length, str, len);
+    char const *string_1 = string_0;
+    size_t length_1 = length_0;
+
+    bool __unused __ = cls_success && bib_read_space(&string_1, &length_1); // optional space
+    bool int_success = cls_success && bib_lex_integer(cap->integer, &string_1, &length_1);
+    bool  __unused _ = int_success && bib_lex_decimal(cap->decimal, &string_1, &length_1);
+
+    size_t final_length = (int_success) ? length_1 : length_0;
+    bool success = cls_success && bib_advance_step(*len - final_length, str, len);
     if (!success) {
         memset(cap, 0, sizeof(bib_lc_caption_t));
     }
@@ -245,7 +268,7 @@ bool bib_parse_lc_dated_cutter(bib_cutter_t *cut, char const **const str, size_t
 
     bool success = bib_lex_cutter(cut->number, &string, &length)
                 && bib_read_space(&string, &length)
-                && bib_lex_cutter(cut->date, &string, &length)
+                && bib_lex_date(cut->date, &string, &length)
                 && bib_advance_step(*len - length, str, len);
     if (!success) {
         memset(cut, 0, sizeof(bib_cutter_t));

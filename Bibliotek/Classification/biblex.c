@@ -71,6 +71,34 @@ bool bib_lex_date(char buffer[bib_datenum_size + 1], char const **const str, siz
     size_t length = bib_lex_digit_n(buffer, bib_datenum_size, str, len);
     buffer[length] = '\0';
     return (length > 0);
+    /*
+    if (buffer == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
+        return false;
+    }
+    char const *const string = *str;
+    size_t const string_length = *len;
+    static size_t const buffer_len = bib_datenum_size + 1;
+
+    size_t string_index = 0;
+    size_t buffer_index = 0;
+    while ((buffer_index < bib_datenum_size) && (string_index < string_length)) {
+        const char current_char = string[string_index];
+        if (isnumber(current_char)) {
+            buffer[buffer_index] = current_char;
+            buffer_index += 1;
+            string_index += 1;
+        } else {
+            break;
+        }
+    }
+    bool success = (buffer_index == bib_datenum_size) && bib_advance_step(buffer_index, str, len);
+    if (!success) {
+        memset(buffer, 0, sizeof(char) * buffer_len);
+    } else {
+        buffer[buffer_index] = '\0';
+    }
+    return success;
+     */
 }
 
 bool bib_lex_cutter(char buffer[bib_cuttern_size + 1], char const **const str, size_t *const len)
