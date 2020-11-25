@@ -16,9 +16,9 @@ bool bib_lc_callnum_init(bib_lc_callnum_t *const num, char const *const str)
     if (num == NULL || str == NULL) { return false; }
     memset(num, 0, sizeof(bib_lc_callnum_t));
     char const *string = str;
-    size_t      length = strlen(str);
+    size_t      length = strlen(str) + 1;
     bool parse_success = bib_parse_lc_callnum(num, &string, &length);
-    bool total_success = parse_success && (length == 0);
+    bool total_success = parse_success && (length == 1);
     if (parse_success && !total_success) {
         bib_lc_callnum_deinit(num);
     }

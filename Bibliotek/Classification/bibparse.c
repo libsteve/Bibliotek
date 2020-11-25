@@ -49,8 +49,7 @@ bool bib_parse_lc_callnum_base(bib_lc_callnum_t *const num, char const **const s
 
     char const *str_1 = str_0;
     size_t      len_1 = len_0;
-    bool period_success = caption_success && bib_read_point(&str_1, &len_1);
-    bool cutter_success = period_success  && bib_parse_lc_cutter(num->cutters, &str_1, &len_1);
+    bool cutter_success = caption_success  && bib_parse_lc_cutter(num->cutters, &str_1, &len_1);
 
     size_t final_length = (cutter_success) ? len_1 : len_0;
     bool success = caption_success && bib_advance_step(*len - final_length, str, len);
