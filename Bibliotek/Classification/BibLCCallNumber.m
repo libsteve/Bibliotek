@@ -52,24 +52,53 @@
 {
     if (_stringValue == nil) {
         NSMutableString *const string = [NSMutableString new];
-        [string appendFormat:@"%s%s", _rawCallNumber.alphabetic_segment, _rawCallNumber.whole_number];
-        if (_rawCallNumber.decimal_number[0] != '\0') {
-            [string appendFormat:@".%s", _rawCallNumber.decimal_number];
+        [string appendFormat:@"%s%s", _calln.caption.letters, _calln.caption.integer];
+        if (_calln.caption.decimal[0] != '\0') {
+            [string appendFormat:@".%s", _calln.caption.decimal];
         }
-        if (_rawCallNumber.date_or_other_number[0] != '\0') {
-            [string appendFormat:@" %s ", _rawCallNumber.date_or_other_number];
+        if (_calln.caption.date[0] != '\0') {
+            [string appendFormat:@" %s", _calln.caption.date];
         }
-        if (_rawCallNumber.first_cutter_number[0] != '\0') {
-            [string appendFormat:@".%s", _rawCallNumber.first_cutter_number];
+        if (_calln.caption.ordinal.number[0] != '\0') {
+            [string appendFormat:@" %s", _calln.caption.ordinal.number];
+            if (_calln.caption.ordinal.suffix[0] != '\0') {
+                [string appendFormat:@"%s", _calln.caption.ordinal.suffix];
+            }
         }
-        if (_rawCallNumber.date_or_other_number_after_first_cutter[0] != '\0') {
-            [string appendFormat:@" %s", _rawCallNumber.date_or_other_number_after_first_cutter];
+        for (size_t index = 0; (index < 3) && (_calln.cutters[index].number[0] != '\0'); index += 1) {
+            if (index == 0) {
+                [string appendString:@"."];
+            } else {
+                [string appendString:@" "];
+            }
+            [string appendFormat:@"%s", _calln.cutters[index].number];
+            if (_calln.cutters[index].suffix[0] != '\0') {
+                [string appendFormat:@"%s", _calln.cutters[index].suffix];
+            }
+            if (_calln.cutters[index].date[0] != '\0') {
+                [string appendFormat:@" %s", _calln.cutters[index].date];
+            }
         }
-        if (_rawCallNumber.second_cutter_number[0] != '\0') {
-            [string appendFormat:@" %s", _rawCallNumber.second_cutter_number];
-        }
-        for (size_t index = 0; index < _rawCallNumber.remaing_segments_length; index += 1) {
-            [string appendFormat:@" %s", _rawCallNumber.remaing_segments[index]];
+        for (size_t index = 0; index < _calln.special_count; index += 1) {
+            switch (_calln.special[index].spec) {
+                case bib_lc_special_spec_date:
+                    [string appendFormat:@" %s", _calln.special[index].value.date];
+                    break;
+                case bib_lc_special_spec_suffix:
+                    [string appendFormat:@"%s", _calln.special[index].value.suffix];
+                    break;
+                case bib_lc_special_spec_ordinal:
+                    [string appendFormat:@" %s%s", _calln.special[index].value.ordinal.number,
+                                                   _calln.special[index].value.ordinal.suffix];
+                    break;
+                case bib_lc_special_spec_workmark:
+                    [string appendFormat:@"%s", _calln.special[index].value.workmark];
+                    break;
+                case bib_lc_special_spec_datespan:
+                    [string appendFormat:@"%s-%s", _calln.special[index].value.datespan.date,
+                                                   _calln.special[index].value.datespan.span];
+                    break;
+            }
         }
         _stringValue = [string copy];
     }
