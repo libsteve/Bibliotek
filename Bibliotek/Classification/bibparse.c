@@ -233,6 +233,7 @@ bool bib_parse_lc_cutter(bib_cutter_t cutters[3], char const **const str, size_t
 
     char const    *str_0 = *str;
     size_t         len_0 = *len;
+    bib_read_space(&str_0, &len_0);
     bool point_success_0 = bib_read_point(&str_0, &len_0);
     bool  date_success_0 = point_success_0 && bib_parse_lc_dated_cutter(cut_0, &str_0, &len_0);
     bool  cutt_success_0 = !date_success_0 && point_success_0 && bib_parse_cutter(cut_0, &str_0, &len_0);

@@ -54,10 +54,12 @@
         if (_calln.caption.decimal[0] != '\0') {
             [string appendFormat:@".%s", _calln.caption.decimal];
         }
-        if (_calln.caption.date[0] != '\0') {
+        BOOL const hasCaptionDate = (_calln.caption.date[0] != '\0');
+        if (hasCaptionDate) {
             [string appendFormat:@" %s", _calln.caption.date];
         }
-        if (_calln.caption.ordinal.number[0] != '\0') {
+        BOOL const hasOrdinalNumber = (_calln.caption.ordinal.number[0] != '\0');
+        if (hasOrdinalNumber) {
             [string appendFormat:@" %s", _calln.caption.ordinal.number];
             if (_calln.caption.ordinal.suffix[0] != '\0') {
                 [string appendFormat:@"%s", _calln.caption.ordinal.suffix];
@@ -65,7 +67,11 @@
         }
         for (size_t index = 0; (index < 3) && (_calln.cutters[index].number[0] != '\0'); index += 1) {
             if (index == 0) {
-                [string appendString:@"."];
+                if (hasCaptionDate || hasOrdinalNumber) {
+                    [string appendString:@" ."];
+                } else {
+                    [string appendString:@"."];
+                }
             } else {
                 [string appendString:@" "];
             }
