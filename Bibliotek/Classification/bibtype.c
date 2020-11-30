@@ -66,6 +66,64 @@ void bib_lc_special_list_deinit(bib_lc_special_t **const spc_list, size_t *const
 
 #pragma mark -
 
+bib_calln_comparison_t bib_lc_callnum_compare(bib_calln_comparison_t const status,
+                                              bib_lc_callnum_t const *left, bib_lc_callnum_t const *right,
+                                              bool const specify)
+{
+    if (status == bib_calln_ordered_ascending || status == bib_calln_ordered_descending) { return status; }
+
+    bib_calln_comparison_t result = status;
+
+    // caption
+    result = bib_lc_caption_compare(result, &(left->caption), &(right->caption), specify);
+    if (result == bib_calln_ordered_ascending) { return result; }
+    if (result == bib_calln_ordered_descending) { return result; }
+    if (!specify && result == bib_calln_ordered_specifying) { return bib_calln_ordered_ascending; }
+
+    // cutters
+    for (size_t index = 0; index < 3; index += 1) {
+        result = bib_cutter_compare(result, &(left->cutters[index]), &(right->cutters[index]), specify);
+        if (result == bib_calln_ordered_ascending) { return result; }
+        if (result == bib_calln_ordered_descending) { return result; }
+        if (!specify && result == bib_calln_ordered_specifying) { return bib_calln_ordered_ascending; }
+    }
+
+    // suffix
+    result = string_specialized_compare(result, left->suffix, right->suffix);
+    if (result == string_specialized_ordered_ascending) { return bib_calln_ordered_ascending; }
+    if (result == string_specialized_ordered_descending) { return bib_calln_ordered_descending; }
+    if (!specify && result == bib_calln_ordered_specifying) { return bib_calln_ordered_ascending; }
+
+    // work mark
+    result = string_specialized_compare(result, left->workmark, right->workmark);
+    if (result == string_specialized_ordered_ascending) { return bib_calln_ordered_ascending; }
+    if (result == string_specialized_ordered_descending) { return bib_calln_ordered_descending; }
+    if (!specify && result == bib_calln_ordered_specifying) { return bib_calln_ordered_ascending; }
+
+    // special
+
+    return (bib_calln_comparison_t)result;
+}
+
+bib_calln_comparison_t bib_date_compare(bib_calln_comparison_t const status,
+                                        char const *left, char const *right, bool const specify)
+{
+    if (status == bib_calln_ordered_ascending || status == bib_calln_ordered_descending) { return status; }
+
+    if (status == string_specialized_ordered_specifying && (left[0] != '\0')) { return bib_calln_ordered_ascending; }
+    int const left_date = (left[0] == '\0') ? 0 : atoi(left);
+    int const right_date = (right[0] == '\0') ? 0 : atoi(right);
+    if (left_date != right_date) {
+        if (specify && left_date == 0) {
+            if (status == string_specialized_ordered_same) { return bib_calln_ordered_specifying; }
+            if (status == string_specialized_ordered_specifying) { return bib_calln_ordered_specifying; }
+        }
+        return (left_date < right_date) ? bib_calln_ordered_ascending : bib_calln_ordered_descending;
+    }
+
+    return status;
+}
+
 bib_calln_comparison_t bib_lc_caption_compare(bib_calln_comparison_t const status,
                                               bib_lc_caption_t const *left, bib_lc_caption_t const *right,
                                               bool const specify)
@@ -91,16 +149,89 @@ bib_calln_comparison_t bib_lc_caption_compare(bib_calln_comparison_t const statu
     if (!specify && result == string_specialized_ordered_specifying) { return bib_calln_ordered_ascending; }
 
     // date
-    if (result == string_specialized_ordered_specifying && (left->date[0] != '\0')) { return bib_calln_ordered_ascending; }
-    int const left_date = (left->date[0] == '\0') ? 0 : atoi(left->date);
-    int const right_date = (right->date[0] == '\0') ? 0 : atoi(right->date);
-    if (left_date != right_date) { return (left_date < right_date) ? bib_calln_ordered_ascending : bib_calln_ordered_descending; }
+    result = bib_date_compare(result, left->date, right->date, specify);
+    if (result == string_specialized_ordered_ascending) { return bib_calln_ordered_ascending; }
+    if (result == string_specialized_ordered_descending) { return bib_calln_ordered_descending; }
+    if (!specify && result == string_specialized_ordered_specifying) { return bib_calln_ordered_ascending; }
 
     // ordinal
     result = bib_ordinal_compare(result, &(left->ordinal), &(right->ordinal), specify);
     if (!specify && result == string_specialized_ordered_specifying) { return bib_calln_ordered_ascending; }
 
     return (bib_calln_comparison_t)result;
+}
+
+bib_calln_comparison_t bib_lc_special_compare(bib_calln_comparison_t const status,
+                                              bib_lc_special_t const *left, bib_lc_special_t const *right, bool specify)
+{
+    if (status == bib_calln_ordered_ascending || status == bib_calln_ordered_descending) { return status; }
+
+    bib_calln_comparison_t result = status;
+
+    switch (left->spec) {
+        case bib_lc_special_spec_date:
+            switch (right->spec) {
+                case bib_lc_special_spec_date: {
+                    result = bib_date_compare(result, left->value.date, right->value.date, specify);
+                    return result;
+                }
+                case bib_lc_special_spec_suffix: return bib_calln_ordered_ascending;
+                case bib_lc_special_spec_ordinal: return bib_calln_ordered_ascending;
+                case bib_lc_special_spec_datespan: return bib_calln_ordered_ascending;
+                case bib_lc_special_spec_workmark: return bib_calln_ordered_ascending;
+            }
+        case bib_lc_special_spec_suffix:
+            switch (right->spec) {
+                case bib_lc_special_spec_date: return bib_calln_ordered_descending;
+                case bib_lc_special_spec_suffix: {
+                    result = string_specialized_compare(result, left->value.suffix, right->value.suffix);
+                    if (result == string_specialized_ordered_ascending) { return bib_calln_ordered_ascending; }
+                    if (result == string_specialized_ordered_descending) { return bib_calln_ordered_descending; }
+                    if (!specify && result == bib_calln_ordered_specifying) { return bib_calln_ordered_ascending; }
+                    return result;
+                }
+                case bib_lc_special_spec_ordinal: return bib_calln_ordered_ascending;
+                case bib_lc_special_spec_datespan: return bib_calln_ordered_ascending;
+                case bib_lc_special_spec_workmark: return bib_calln_ordered_ascending;
+            }
+        case bib_lc_special_spec_ordinal:
+            switch (right->spec) {
+                case bib_lc_special_spec_date: return bib_calln_ordered_descending;
+                case bib_lc_special_spec_suffix: return bib_calln_ordered_descending;
+                case bib_lc_special_spec_ordinal: {
+                    return bib_ordinal_compare(result, &(left->value.ordinal), &(right->value.ordinal), specify);
+                }
+                case bib_lc_special_spec_datespan: return bib_calln_ordered_ascending;
+                case bib_lc_special_spec_workmark: return bib_calln_ordered_ascending;
+            }
+        case bib_lc_special_spec_datespan:
+            switch (right->spec) {
+                case bib_lc_special_spec_date: return bib_calln_ordered_descending;
+                case bib_lc_special_spec_suffix: return bib_calln_ordered_descending;
+                case bib_lc_special_spec_ordinal: return bib_calln_ordered_descending;
+                case bib_lc_special_spec_datespan: {
+                    result = bib_date_compare(result,left->value.datespan.date, right->value.datespan.date, specify);
+                    result = bib_date_compare(result, left->value.datespan.span, right->value.datespan.span, specify);
+                    return result;
+                }
+                case bib_lc_special_spec_workmark: return bib_calln_ordered_ascending;
+            }
+        case bib_lc_special_spec_workmark:
+            switch (right->spec) {
+                case bib_lc_special_spec_date: return bib_calln_ordered_descending;
+                case bib_lc_special_spec_suffix: return bib_calln_ordered_descending;
+                case bib_lc_special_spec_ordinal: return bib_calln_ordered_descending;
+                case bib_lc_special_spec_datespan: return bib_calln_ordered_descending;
+                case bib_lc_special_spec_workmark:  {
+                    result = string_specialized_compare(result, left->value.workmark, right->value.workmark);
+                    if (result == string_specialized_ordered_ascending) { return bib_calln_ordered_ascending; }
+                    if (result == string_specialized_ordered_descending) { return bib_calln_ordered_descending; }
+                    if (!specify && result == bib_calln_ordered_specifying) { return bib_calln_ordered_ascending; }
+                    return result;
+                }
+            }
+    }
+    return (bib_calln_comparison_t)status;
 }
 
 bib_calln_comparison_t bib_ordinal_compare(bib_calln_comparison_t const status,
@@ -112,7 +243,7 @@ bib_calln_comparison_t bib_ordinal_compare(bib_calln_comparison_t const status,
     int const right_num = (right->number[0] == '\0') ? 0 : atoi(right->number);
     if (left_num != right_num) { return (left_num < right_num) ? bib_calln_ordered_ascending : bib_calln_ordered_descending; }
 
-    bib_calln_comparison_t result = bib_calln_ordered_same;
+    bib_calln_comparison_t result = status;
     result = string_specialized_compare(result, left->suffix, right->suffix);
     if (!specify && result == string_specialized_ordered_specifying) { return bib_calln_ordered_ascending; }
 
@@ -124,17 +255,19 @@ bib_calln_comparison_t bib_cutter_compare(bib_calln_comparison_t const status,
 {
     if (status == bib_calln_ordered_ascending || status == bib_calln_ordered_descending) { return status; }
 
-    if (left->number[0] == '\0' && right->number[0] == '\0') { return bib_calln_ordered_same; }
+    if (left->number[0] == '\0' && right->number[0] == '\0') { return status; }
 
-    bib_calln_comparison_t result = bib_calln_ordered_same;
+    bib_calln_comparison_t result = status;
 
     result = string_specialized_compare(result, left->number, right->number);
+    if (result == string_specialized_ordered_ascending) { return result; }
+    if (result == string_specialized_ordered_descending) { return result; }
     if (!specify && result == string_specialized_ordered_specifying) { return bib_calln_ordered_ascending; }
 
-    if (result == string_specialized_ordered_specifying && (left->date[0] != '\0')) { return bib_calln_ordered_ascending; }
-    int const left_date = (left->date[0] == '\0') ? 0 : atoi(left->date);
-    int const right_date = (right->date[0] == '\0') ? 0 : atoi(right->date);
-    if (left_date != right_date) { return (left_date < right_date) ? bib_calln_ordered_ascending : bib_calln_ordered_descending; }
+    result = bib_date_compare(result, left->date, right->date, specify);
+    if (result == string_specialized_ordered_ascending) { return bib_calln_ordered_ascending; }
+    if (result == string_specialized_ordered_descending) { return bib_calln_ordered_descending; }
+    if (!specify && result == string_specialized_ordered_specifying) { return bib_calln_ordered_ascending; }
 
     return (bib_calln_comparison_t)result;
 }

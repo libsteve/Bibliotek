@@ -7,11 +7,9 @@
 //
 
 #import "BibLCCallNumber.h"
-#import "BibLCCallNumber+Internal.h"
 #import "bibtype.h"
 
 @implementation BibLCCallNumber {
-    bib_lc_calln_t _rawCallNumber;
     bib_lc_callnum_t _calln;
 }
 
@@ -126,56 +124,16 @@
         return BibClassificationOrderedDescending;
     }
 
-    bib_lc_calln_t const *const leftn = &_rawCallNumber;
-    bib_lc_calln_t const *const rightn = &(other->_rawCallNumber);
+    bib_lc_callnum_t const *const leftn = &_calln;
+    bib_lc_callnum_t const *const rightn = &(other->_calln);
 
-    string_specialized_comparison_result_t result = string_specialized_ordered_same;
-    result = string_specialized_compare(result, leftn->alphabetic_segment, rightn->alphabetic_segment);
-    if (result == string_specialized_ordered_ascending) { return BibClassificationOrderedAscending; }
-    if (result == string_specialized_ordered_descending) { return BibClassificationOrderedDescending; }
-    if (!specialize && result == BibClassificationOrderedSpecifying) { return BibClassificationOrderedAscending; }
-
-    if (result == string_specialized_ordered_specifying && (leftn->whole_number[0] != '\0')) { return BibClassificationOrderedAscending; }
-    int const leftNum = atoi(leftn->whole_number);
-    int const rightNum = atoi(rightn->whole_number);
-    if (leftNum != rightNum) { return (leftNum < rightNum) ? BibClassificationOrderedAscending : BibClassificationOrderedDescending; }
-
-    result = string_specialized_compare(result, leftn->decimal_number, rightn->decimal_number);
-    if (!specialize && result == BibClassificationOrderedSpecifying) { return BibClassificationOrderedAscending; }
-    result = string_specialized_compare(result, leftn->date_or_other_number, rightn->date_or_other_number);
-    if (!specialize && result == BibClassificationOrderedSpecifying) { return BibClassificationOrderedAscending; }
-    result = string_specialized_compare(result, leftn->first_cutter_number, rightn->first_cutter_number);
-    if (!specialize && result == BibClassificationOrderedSpecifying) { return BibClassificationOrderedAscending; }
-    result = string_specialized_compare(result, leftn->date_or_other_number_after_first_cutter, rightn->date_or_other_number_after_first_cutter);
-    if (!specialize && result == BibClassificationOrderedSpecifying) { return BibClassificationOrderedAscending; }
-    result = string_specialized_compare(result, leftn->second_cutter_number, rightn->second_cutter_number);
-    if (!specialize && result == BibClassificationOrderedSpecifying) { return BibClassificationOrderedAscending; }
-
+    bib_calln_comparison_t result = bib_calln_ordered_same;
+    result = bib_lc_callnum_compare(result, leftn, rightn, specialize);
     switch (result) {
-        case BibClassificationOrderedAscending: return BibClassificationOrderedAscending;
-        case BibClassificationOrderedDescending: return BibClassificationOrderedDescending;
-        case BibClassificationOrderedSpecifying: if (!specialize) { return BibClassificationOrderedAscending; }
-        case BibClassificationOrderedSame: break;
-    }
-
-    size_t const remaining_count = MIN(leftn->remaing_segments_length, rightn->remaing_segments_length);
-    for (size_t index = 0; index < remaining_count; index += 1) {
-        result = string_specialized_compare(result, leftn->remaing_segments[index], rightn->remaing_segments[index]);
-        if (result == string_specialized_ordered_ascending) { return BibClassificationOrderedAscending; }
-        if (result == string_specialized_ordered_descending) { return BibClassificationOrderedDescending; }
-        if (!specialize && result == string_specialized_ordered_specifying) { return BibClassificationOrderedAscending; }
-    }
-    if (leftn->remaing_segments_length < rightn->remaing_segments_length) {
-        return (specialize) ? BibClassificationOrderedSpecifying : BibClassificationOrderedAscending;
-    }
-    if (leftn->remaing_segments_length > rightn->remaing_segments_length) {
-        return BibClassificationOrderedDescending;
-    }
-    switch (result) {
-        case BibClassificationOrderedSame: return BibClassificationOrderedSame;
-        case BibClassificationOrderedSpecifying: return BibClassificationOrderedSpecifying;
-        case BibClassificationOrderedAscending: return BibClassificationOrderedAscending;
-        case BibClassificationOrderedDescending: return BibClassificationOrderedDescending;
+        case bib_calln_ordered_same: return BibClassificationOrderedSame;
+        case bib_calln_ordered_specifying: return BibClassificationOrderedSpecifying;
+        case bib_calln_ordered_ascending: return BibClassificationOrderedAscending;
+        case bib_calln_ordered_descending: return BibClassificationOrderedDescending;
     }
 }
 
