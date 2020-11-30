@@ -84,8 +84,6 @@
 		AAAFD998247B712400D2D1F0 /* BibCharacterConversionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAFD997247B712400D2D1F0 /* BibCharacterConversionTests.m */; };
 		AAAFD99B247C3A6300D2D1F0 /* BibLCCallNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = AAAFD999247C3A6300D2D1F0 /* BibLCCallNumber.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAAFD99C247C3A6300D2D1F0 /* BibLCCallNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAFD99A247C3A6300D2D1F0 /* BibLCCallNumber.m */; };
-		AAAFD99F247C3C5500D2D1F0 /* BibLCCallNumber+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = AAAFD99E247C3C5500D2D1F0 /* BibLCCallNumber+Internal.h */; };
-		AAAFD9A1247C473A00D2D1F0 /* BibLCCallNumber+Internal.c in Sources */ = {isa = PBXBuildFile; fileRef = AAAFD9A0247C473A00D2D1F0 /* BibLCCallNumber+Internal.c */; };
 		AAAFD9A3247CC03800D2D1F0 /* BibLCCallNumberTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAFD9A2247CC03800D2D1F0 /* BibLCCallNumberTests.m */; };
 		AAAFD9A5247CDAB200D2D1F0 /* BibLCCallNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAFD9A4247CDAB200D2D1F0 /* BibLCCallNumber.swift */; };
 		AAB7864F2454C2D90018A833 /* BibMARCOutputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB7864D2454C2D90018A833 /* BibMARCOutputStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -240,8 +238,6 @@
 		AAAFD997247B712400D2D1F0 /* BibCharacterConversionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibCharacterConversionTests.m; sourceTree = "<group>"; };
 		AAAFD999247C3A6300D2D1F0 /* BibLCCallNumber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibLCCallNumber.h; sourceTree = "<group>"; };
 		AAAFD99A247C3A6300D2D1F0 /* BibLCCallNumber.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibLCCallNumber.m; sourceTree = "<group>"; };
-		AAAFD99E247C3C5500D2D1F0 /* BibLCCallNumber+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BibLCCallNumber+Internal.h"; sourceTree = "<group>"; };
-		AAAFD9A0247C473A00D2D1F0 /* BibLCCallNumber+Internal.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "BibLCCallNumber+Internal.c"; sourceTree = "<group>"; };
 		AAAFD9A2247CC03800D2D1F0 /* BibLCCallNumberTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibLCCallNumberTests.m; sourceTree = "<group>"; };
 		AAAFD9A4247CDAB200D2D1F0 /* BibLCCallNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibLCCallNumber.swift; sourceTree = "<group>"; };
 		AAB7864D2454C2D90018A833 /* BibMARCOutputStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibMARCOutputStream.h; sourceTree = "<group>"; };
@@ -479,8 +475,6 @@
 			children = (
 				AA83210D24F39835000945B3 /* BibLCCallNumber.bnf */,
 				AAAFD999247C3A6300D2D1F0 /* BibLCCallNumber.h */,
-				AAAFD99E247C3C5500D2D1F0 /* BibLCCallNumber+Internal.h */,
-				AAAFD9A0247C473A00D2D1F0 /* BibLCCallNumber+Internal.c */,
 				AAAFD99A247C3A6300D2D1F0 /* BibLCCallNumber.m */,
 				AAAFD9A4247CDAB200D2D1F0 /* BibLCCallNumber.swift */,
 				AA83210124F18505000945B3 /* biblex.h */,
@@ -544,7 +538,6 @@
 				AA59055220AA43DD00D41982 /* BibConnection.h in Headers */,
 				AA79FFD924685D0100134C98 /* BibFieldPath.h in Headers */,
 				AABDC20B22DAC17A00345A58 /* BibFieldTag.h in Headers */,
-				AAAFD99F247C3C5500D2D1F0 /* BibLCCallNumber+Internal.h in Headers */,
 				AABDC20722DAC10500345A58 /* BibDirectoryEntry.h in Headers */,
 				AA59F0D720A9FACF00D41982 /* Bibliotek.h in Headers */,
 				AAB786582455FCEB0018A833 /* BibMARCSerialization.h in Headers */,
@@ -741,7 +734,6 @@
 				AA19397922E8DF2D00429C54 /* BibMARCInputStream.m in Sources */,
 				AABDC22322DAE7CD00345A58 /* BibRecord.m in Sources */,
 				AAA4E01F22EE270E0003AF7B /* RecordKind.swift in Sources */,
-				AAAFD9A1247C473A00D2D1F0 /* BibLCCallNumber+Internal.c in Sources */,
 				AAA4E00122EBF5D20003AF7B /* FieldTag.swift in Sources */,
 				AA51EA92211AB79A00BF28BE /* BibConnectionEndpoint.m in Sources */,
 				AAAA429F20BB0E3600BDB52B /* BibConstants.m in Sources */,
