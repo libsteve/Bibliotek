@@ -51,8 +51,10 @@ lc-special-date := <lc-date>
 lc-date := <lc-date-num>
          | <lc-date-num> <suffix>
 
-lc-date-range := <lc-date-num> '-' <digit> <digit>
-               | <lc-date-num> '-' <digit> <digit> <suffix>
+lc-date-range-sep := '-' | '/'
+
+lc-date-range := <lc-date-num> <lc-date-range-sep> <digit> <digit>
+               | <lc-date-num> <lc-date-range-sep> <digit> <digit> <suffix>
 
 lc-date-num := <digit> <digit> <digit> <digit>
 
@@ -113,39 +115,3 @@ lower := 'a' | 'b' | 'c' | ... | 'z'
 digit := '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
 
 space := ' ' | '\n' | '\t' | <space> <space>
-
-
-
-
-
-
-
-lc-classification := <lc-class-root>
-                   | <lc-class-root> <space> <lc-date>
-                   | <lc-class-root> <space> <digit4> <suffix>
-
-lc-class-root := <lc-subclass>
-               | <lc-subclass> <lc-caption>
-               | <lc-subclass> <space> <lc-caption>
-
-lc-subclass := <letter>
-             | <letter> <letter>
-             | <letter> <letter> <letter>
-
-lc-caption := <digit4>
-            | <digit4> '.' <digit16>
-            | <digit4> <space> '.' <digit16>
-
-lc-date := <lc-date-year>
-         | <lc-date-year> <lc-suffix>
-         | <lc-date-range>
-         | <lc-date-range> <lc-suffix>
-
-lc-date-year := <digit> <digit> <digit> <digit>
-
-lc-date-range := <lc-date-year> '-' <digit> <digit>
-               | <lc-date-year> '/' <digit> <digit>
-
-lc-suffix := <letter>
-           | <letter> <letter>
-           | <letter> <letter> <letter>

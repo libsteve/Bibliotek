@@ -99,8 +99,9 @@
                     [string appendFormat:@"%s", _calln.special[index].value.workmark];
                     break;
                 case bib_lc_special_spec_datespan:
-                    [string appendFormat:@"%s-%s", _calln.special[index].value.datespan.date,
-                                                   _calln.special[index].value.datespan.span];
+                    [string appendFormat:@" %s%c%s", _calln.special[index].value.datespan.year,
+                                                     _calln.special[index].value.datespan.separator,
+                                                     _calln.special[index].value.datespan.span];
                     break;
             }
         }

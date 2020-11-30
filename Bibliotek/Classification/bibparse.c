@@ -17,6 +17,57 @@ bool bib_parse_cutter(bib_cutter_t *const cut, char const **const str, size_t *c
     return bib_lex_cutter(cut->number, str, len);
 }
 
+#pragma mark - date
+
+bool bib_parse_date(bib_date_t *date, char const **str, size_t *len)
+{
+    if (str == NULL || *str == NULL || len == NULL || *len == 0) {
+        return false;
+    }
+
+    char const *str_0 = *str;
+    size_t      len_0 = *len;
+    bool year_success = bib_lex_date(*date, &str_0, &len_0);
+
+    char const *str_1 = str_0;
+    size_t      len_1 = len_0;
+    bool  dash_success = year_success && bib_read_dash(&str_1, &len_1);
+    bool slash_success = year_success && !dash_success && bib_read_slash(&str_1, &len_1);
+
+    bool success = year_success && !dash_success && !slash_success && bib_advance_step(*len - len_0, str, len);
+    if (!success) {
+        memset(date, 0, sizeof(bib_date_t));
+    }
+    return success;
+}
+
+bool bib_parse_datespan(bib_datespan_t *const span, char const **const str, size_t *const len)
+{
+    if (str == NULL || *str == NULL || len == NULL || *len == 0) {
+        return false;
+    }
+
+    char const *string = *str;
+    size_t      length = *len;
+
+    bool   date_success_0 = bib_lex_date(span->year, &string, &length);
+    bool   dash_success_0 = date_success_0 && bib_read_dash(&string, &length);
+    bool  slash_success_0 = date_success_0 && !dash_success_0 && bib_read_slash(&string, &length);
+    bool    sep_success_0 = dash_success_0 || slash_success_0;
+
+    bool   date_success_1 = date_success_0 && sep_success_0 && bib_lex_date(span->span, &string, &length);
+
+    bool success = date_success_0 && bib_advance_step(*len - length, str, len);
+    if (success) {
+        if (date_success_1) {
+            span->separator = (slash_success_0) ? '/' : '-';
+        }
+    } else {
+        memset(span, 0, sizeof(bib_date_t));
+    }
+    return success;
+}
+
 #pragma mark - lc call number
 
 bool bib_parse_lc_callnum(bib_lc_callnum_t *const num, char const **const str, size_t *const len)
@@ -116,7 +167,7 @@ bool bib_parse_lc_caption(bib_lc_caption_t *const cap, char const **const str, s
     size_t      length_1 = length_0;
     bool date_success = root_success
                      && bib_read_space(&string_1, &length_1)
-                     && bib_lex_date(cap->date, &string_1, &length_1);
+                     && bib_parse_date(&(cap->date), &string_1, &length_1);
 
     char const *string_2 = (date_success) ? string_1 : string_0;
     size_t      length_2 = (date_success) ? length_1 : length_0;
@@ -268,7 +319,7 @@ bool bib_parse_lc_dated_cutter(bib_cutter_t *cut, char const **const str, size_t
 
     bool success = bib_lex_cutter(cut->number, &string, &length)
                 && bib_read_space(&string, &length)
-                && bib_lex_date(cut->date, &string, &length)
+                && bib_parse_date(&(cut->date), &string, &length)
                 && bib_advance_step(*len - length, str, len);
     if (!success) {
         memset(cut, 0, sizeof(bib_cutter_t));
@@ -340,18 +391,20 @@ bool bib_parse_lc_special_date(bib_lc_special_t **spc_list, size_t *spc_size, ch
 
     bool   date_success_0 = bib_lex_date(date, &string, &length);
     bool   dash_success_0 = date_success_0 && bib_read_dash(&string, &length);
+    bool  slash_success_0 = date_success_0 && !dash_success_0 && bib_read_slash(&string, &length);
     bool suffix_success_0 = date_success_0 && !dash_success_0 && bib_lex_suffix(suffix, &string, &length);
 
-    bool   date_success_1 = date_success_0 && dash_success_0 && bib_lex_date(span, &string, &length);
+    bool   date_success_1 = date_success_0 && (dash_success_0 || slash_success_0) && bib_lex_date(span, &string, &length);
     bool suffix_success_1 = date_success_1 && bib_lex_suffix(suffix, &string, &length);
 
     bool success = date_success_0 && bib_advance_step(*len - length, str, len);
     if (success) {
-        if (dash_success_0) {
+        if (dash_success_0 || slash_success_0) {
             bib_lc_special_t spc_span;
             bib_lc_special_init(&spc_span, bib_lc_special_spec_datespan);
-            memcpy(spc_span.value.datespan.date, date, sizeof(date));
+            memcpy(spc_span.value.datespan.year, date, sizeof(date));
             memcpy(spc_span.value.datespan.span, span, sizeof(span));
+            spc_span.value.datespan.separator = (slash_success_0) ? '/' : '-';
             bib_lc_special_list_append(spc_list, spc_size, &spc_span, 1);
         } else if (date_success_0) {
             bib_lc_special_t spc_date;

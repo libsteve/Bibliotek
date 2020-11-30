@@ -17,6 +17,11 @@ __BEGIN_DECLS
 
 extern bool bib_parse_cutter(bib_cutter_t *cut, char const **str, size_t *len);
 
+#pragma mark - date
+
+extern bool bib_parse_date(bib_date_t *date, char const **str, size_t *len);
+extern bool bib_parse_datespan(bib_datespan_t *span, char const **str, size_t *len);
+
 #pragma mark - lc call number
 
 extern bool bib_parse_lc_callnum(bib_lc_callnum_t *num, char const **str, size_t *len);

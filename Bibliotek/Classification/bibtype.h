@@ -28,6 +28,14 @@ typedef struct bib_ordinal {
     char suffix[bib_suffix_size  + 2];
 } bib_ordinal_t;
 
+typedef char bib_date_t[bib_datenum_size + 1];
+
+typedef struct bib_datespan {
+    bib_date_t year;
+    char separator;
+    bib_date_t span;
+} bib_datespan_t;
+
 typedef struct bib_cutter {
     char number[bib_cuttern_size + 1];
     char date  [bib_datenum_size + 1];
@@ -43,14 +51,11 @@ typedef struct bib_lc_special {
         bib_lc_special_spec_datespan
     } spec;
     union {
-        char date    [bib_datenum_size + 1];
+        bib_date_t date;
         char suffix  [bib_suffix_size  + 1];
         char workmark[bib_suffix_size  + 1];
         bib_ordinal_t ordinal;
-        struct {
-            char date[bib_datenum_size + 1];
-            char span[bib_datenum_size + 1];
-        } datespan;
+        bib_datespan_t datespan;
     } value;
 } bib_lc_special_t;
 
@@ -96,6 +101,7 @@ extern bib_calln_comparison_t bib_lc_caption_compare(bib_calln_comparison_t stat
 extern bib_calln_comparison_t bib_lc_special_compare(bib_calln_comparison_t status, bib_lc_special_t const *left, bib_lc_special_t const *right, bool specify);
 extern bib_calln_comparison_t bib_ordinal_compare(bib_calln_comparison_t status, bib_ordinal_t const *left, bib_ordinal_t const *right, bool specify);
 extern bib_calln_comparison_t bib_cutter_compare(bib_calln_comparison_t status, bib_cutter_t const *left, bib_cutter_t const *right, bool specify);
+extern bib_calln_comparison_t bib_date_compare(bib_calln_comparison_t status, bib_date_t const *left, bib_date_t const *right, bool specify);
 
 #pragma mark -
 

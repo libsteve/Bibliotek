@@ -39,6 +39,11 @@
         XCTAssertNotNil(calln);
         XCTAssertEqualObjects(calln.stringValue, @"JZ33.D4 1999 E37");
     }
+    {
+        BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"DR1879.5.M37 M37 1988/89"];
+        XCTAssertNotNil(calln);
+        XCTAssertEqualObjects(calln.stringValue, @"DR1879.5.M37 M37 1988/89");
+    }
 }
 
 - (void)testLCCallNumberComparison {

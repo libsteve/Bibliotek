@@ -57,6 +57,14 @@ extern bool bib_read_point(char const **str, size_t *len);
 /// \post \c len will point to the number of bytes remaining in the input string.
 extern bool bib_read_dash (char const **str, size_t *len);
 
+/// Consume a single forward-slash character from the input string.
+/// \param str Pointer to the current reading position in the input string.
+/// \param len Pointer to the amount of bytes remaining in the input string's buffer.
+/// \returns \c true when the input string begins with a dash.
+/// \post \c str will point to the character after the consumed forward-slash when \c true is returned.
+/// \post \c len will point to the number of bytes remaining in the input string.
+extern bool bib_read_slash(char const **str, size_t *len);
+
 #pragma mark - advance
 
 extern bool bib_advance_step(size_t step, char const **str, size_t *len);
