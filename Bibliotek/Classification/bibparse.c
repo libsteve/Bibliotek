@@ -293,7 +293,13 @@ bool bib_parse_date(bib_date_t *const date, char const **const str, size_t *cons
                         : '-';
     }
 
-    size_t final_len = (span_success) ? len_1 : len_0;
+    char const *str_2 = (span_success) ? str_1 : str_0;
+    size_t      len_2 = (span_success) ? len_1 : len_0;
+    bool mark_success = year_success && bib_lex_mark(date->mark, &str_2, &len_2);
+
+    size_t final_len = (mark_success) ? len_2
+                     : (span_success) ? len_1
+                     : len_0;
     bool success = year_success && bib_advance_step(*len - final_len, str, len);
     if (!success) {
         memset(date, 0, sizeof(bib_date_t));
