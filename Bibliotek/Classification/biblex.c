@@ -163,8 +163,9 @@ bool bib_lex_caption_ordinal_suffix(bib_word_t buffer, char const **const str, s
     size_t      len1 = len0;
     bool space_success = alpha_success && bib_read_space(&str1, &len1);
     bool point_success = alpha_success && bib_read_point(&str1, &len1);
+    bool blank_success = alpha_success && !space_success && !point_success && bib_peek_break(str1, len1);
 
-    bool success = (space_success || point_success) && bib_advance_step(*len - len0, str, len);
+    bool success = (space_success || point_success || blank_success) && bib_advance_step(*len - len0, str, len);
     if (!success) {
         memset(buffer, 0, outlen0);
     }

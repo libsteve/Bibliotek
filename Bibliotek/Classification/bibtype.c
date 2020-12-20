@@ -321,7 +321,7 @@ bib_calln_comparison_t bib_cutter_compare(bib_calln_comparison_t const status,
     char const lefta = toupper(left->letter);
     char const righta = toupper(right->letter);
     if (lefta < righta) {
-        return (specify) ? bib_calln_ordered_specifying : bib_calln_ordered_ascending;
+        return bib_calln_ordered_ascending;
     } else if (lefta > righta) {
         return (status == bib_calln_ordered_specifying) ? bib_calln_ordered_ascending : bib_calln_ordered_descending;
     }
