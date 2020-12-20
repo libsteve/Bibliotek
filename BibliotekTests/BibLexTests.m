@@ -12,7 +12,7 @@
 
 #define BibAssertEqualStrings(expression1, expression2, ...) \
     _XCTPrimitiveAssertEqualObjects(self, @(expression1), @#expression1, @(expression2), @#expression2, __VA_ARGS__)
-/*
+
 @interface BibLexTests : XCTestCase
 
 @end
@@ -21,7 +21,7 @@
 
 - (void)test_lex_integer {
     {
-        char buffer[bib_integer_size + 1];
+        bib_digit04_t buffer;
         memset(buffer, 0, sizeof(char) * (bib_integer_size + 1));
         char const *str = "1234";
         size_t len = strlen(str) + 1;
@@ -31,7 +31,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        char buffer[bib_integer_size + 1];
+        bib_digit04_t buffer;
         memset(buffer, 0, sizeof(char) * (bib_integer_size + 1));
         char const *str = "1234567";
         size_t len = strlen(str) + 1;
@@ -41,7 +41,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        char buffer[bib_integer_size + 1];
+        bib_digit04_t buffer;
         memset(buffer, 0, sizeof(char) * (bib_integer_size + 1));
         char const *str = "12";
         size_t len = strlen(str) + 1;
@@ -51,7 +51,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        char buffer[bib_integer_size + 1];
+        bib_digit04_t buffer;
         memset(buffer, 0, sizeof(char) * (bib_integer_size + 1));
         char const *str = "A1";
         size_t len = strlen(str) + 1;
@@ -61,7 +61,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        char buffer[bib_suffix_size  + 1];
+        bib_digit04_t buffer;
         memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
         char const *str = "";
         size_t len = strlen(str) + 1;
@@ -74,7 +74,7 @@
 
 - (void)test_lex_digit16 {
     {
-        char buffer[bib_digit16_size + 1];
+        bib_digit16_t buffer;
         memset(buffer, 0, sizeof(char) * (bib_digit16_size + 1));
         char const *str = "1234567812345678";
         size_t len = strlen(str) + 1;
@@ -84,7 +84,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        char buffer[bib_digit16_size + 1];
+        bib_digit16_t buffer;
         memset(buffer, 0, sizeof(char) * (bib_digit16_size + 1));
         char const *str = "abc1234567812345";
         size_t len = strlen(str) + 1;
@@ -94,7 +94,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        char buffer[bib_digit16_size + 1];
+        bib_digit16_t buffer;
         memset(buffer, 0, sizeof(char) * (bib_digit16_size + 1));
         char const *str = "12345";
         size_t len = strlen(str) + 1;
@@ -104,7 +104,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        char buffer[bib_digit16_size + 1];
+        bib_digit16_t buffer;
         memset(buffer, 0, sizeof(char) * (bib_digit16_size + 1));
         char const *str = "12345abcdefg";
         size_t len = strlen(str) + 1;
@@ -114,7 +114,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        char buffer[bib_suffix_size  + 1];
+        bib_digit16_t buffer;
         memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
         char const *str = "";
         size_t len = strlen(str) + 1;
@@ -127,7 +127,7 @@
 
 - (void)test_lex_decimal {
     {
-        char buffer[bib_digit16_size + 1];
+        bib_digit16_t buffer;
         memset(buffer, 0, sizeof(char) * (bib_digit16_size + 1));
         char const *str = ".1234567812345678";
         size_t len = strlen(str) + 1;
@@ -137,7 +137,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        char buffer[bib_digit16_size + 1];
+        bib_digit16_t buffer;
         memset(buffer, 0, sizeof(char) * (bib_digit16_size + 1));
         char const *str = "1234567812345678";
         size_t len = strlen(str) + 1;
@@ -147,7 +147,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        char buffer[bib_digit16_size + 1];
+        bib_digit16_t buffer;
         memset(buffer, 0, sizeof(char) * (bib_digit16_size + 1));
         char const *str = ".abcdefg";
         size_t len = strlen(str) + 1;
@@ -157,7 +157,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        char buffer[bib_digit16_size + 1];
+        bib_digit16_t buffer;
         memset(buffer, 0, sizeof(char) * (bib_digit16_size + 1));
         char const *str = ".12345";
         size_t len = strlen(str) + 1;
@@ -167,7 +167,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        char buffer[bib_digit16_size + 1];
+        bib_digit16_t buffer;
         memset(buffer, 0, sizeof(char) * (bib_digit16_size + 1));
         char const *str = ".12345abcdefg";
         size_t len = strlen(str) + 1;
@@ -177,7 +177,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        char buffer[bib_suffix_size  + 1];
+        bib_digit16_t buffer;
         memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
         char const *str = "";
         size_t len = strlen(str) + 1;
@@ -188,151 +188,151 @@
     }
 }
 
-- (void)test_lex_suffix {
-    {
-        char buffer[bib_suffix_size  + 1];
-        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
-        char const *str = "abc";
-        size_t len = strlen(str) + 1;
-        XCTAssertTrue(bib_lex_suffix(buffer, &str, &len), @"suffix can contain three lowercase letters");
-        BibAssertEqualStrings(buffer, "abc", @"the output buffer should contain both lowercase letters");
-        BibAssertEqualStrings(str, "", @"the input string should be empty, containing only the null terminator");
-        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
-    }
-    {
-        char buffer[bib_suffix_size  + 1];
-        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
-        char const *str = "a";
-        size_t len = strlen(str) + 1;
-        XCTAssertTrue(bib_lex_suffix(buffer, &str, &len), @"suffix can contain one lowercase letters");
-        BibAssertEqualStrings(buffer, "a", @"the output buffer should contain the lowercase letter");
-        BibAssertEqualStrings(str, "", @"the input string should be empty, containing only the null terminator");
-        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
-    }
-    {
-        char buffer[bib_suffix_size  + 1];
-        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
-        char const *str = "abcd";
-        size_t len = strlen(str) + 1;
-        XCTAssertTrue(bib_lex_suffix(buffer, &str, &len), @"suffix can contain three lowercase letters");
-        BibAssertEqualStrings(buffer, "abc", @"the output buffer should contain only the first two letters");
-        BibAssertEqualStrings(str, "d", @"the input string should still contain that last lowercase letter");
-        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
-    }
-    {
-        char buffer[bib_suffix_size  + 1];
-        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
-        char const *str = "A";
-        size_t len = strlen(str) + 1;
-        XCTAssertFalse(bib_lex_suffix(buffer, &str, &len), @"suffix may only contain lowercase letters");
-        BibAssertEqualStrings(buffer, "", @"the output buffer should be empty");
-        BibAssertEqualStrings(str, "A", @"failure should leave the input string unchanged");
-        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
-    }
-    {
-        char buffer[bib_suffix_size  + 1];
-        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
-        char const *str = "aB";
-        size_t len = strlen(str) + 1;
-        XCTAssertTrue(bib_lex_suffix(buffer, &str, &len), @"suffix may contain one lowercase letter");
-        BibAssertEqualStrings(buffer, "a", @"the output buffer should contain only the lowercase letter");
-        BibAssertEqualStrings(str, "B", @"the input string should still contain that last uppercase letter");
-        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
-    }
-    {
-        char buffer[bib_suffix_size  + 1];
-        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
-        char const *str = "";
-        size_t len = strlen(str) + 1;
-        XCTAssertFalse(bib_lex_suffix(buffer, &str, &len), @"cannot lex the empty string");
-        BibAssertEqualStrings(buffer, "", @"the output buffer should be empty");
-        BibAssertEqualStrings(str, "", @"failure should leave the input string unchanged");
-        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
-    }
-}
+//- (void)test_lex_suffix {
+//    {
+//        char buffer[bib_suffix_size  + 1];
+//        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
+//        char const *str = "abc";
+//        size_t len = strlen(str) + 1;
+//        XCTAssertTrue(bib_lex_suffix(buffer, &str, &len), @"suffix can contain three lowercase letters");
+//        BibAssertEqualStrings(buffer, "abc", @"the output buffer should contain both lowercase letters");
+//        BibAssertEqualStrings(str, "", @"the input string should be empty, containing only the null terminator");
+//        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
+//    }
+//    {
+//        char buffer[bib_suffix_size  + 1];
+//        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
+//        char const *str = "a";
+//        size_t len = strlen(str) + 1;
+//        XCTAssertTrue(bib_lex_suffix(buffer, &str, &len), @"suffix can contain one lowercase letters");
+//        BibAssertEqualStrings(buffer, "a", @"the output buffer should contain the lowercase letter");
+//        BibAssertEqualStrings(str, "", @"the input string should be empty, containing only the null terminator");
+//        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
+//    }
+//    {
+//        char buffer[bib_suffix_size  + 1];
+//        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
+//        char const *str = "abcd";
+//        size_t len = strlen(str) + 1;
+//        XCTAssertTrue(bib_lex_suffix(buffer, &str, &len), @"suffix can contain three lowercase letters");
+//        BibAssertEqualStrings(buffer, "abc", @"the output buffer should contain only the first two letters");
+//        BibAssertEqualStrings(str, "d", @"the input string should still contain that last lowercase letter");
+//        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
+//    }
+//    {
+//        char buffer[bib_suffix_size  + 1];
+//        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
+//        char const *str = "A";
+//        size_t len = strlen(str) + 1;
+//        XCTAssertFalse(bib_lex_suffix(buffer, &str, &len), @"suffix may only contain lowercase letters");
+//        BibAssertEqualStrings(buffer, "", @"the output buffer should be empty");
+//        BibAssertEqualStrings(str, "A", @"failure should leave the input string unchanged");
+//        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
+//    }
+//    {
+//        char buffer[bib_suffix_size  + 1];
+//        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
+//        char const *str = "aB";
+//        size_t len = strlen(str) + 1;
+//        XCTAssertTrue(bib_lex_suffix(buffer, &str, &len), @"suffix may contain one lowercase letter");
+//        BibAssertEqualStrings(buffer, "a", @"the output buffer should contain only the lowercase letter");
+//        BibAssertEqualStrings(str, "B", @"the input string should still contain that last uppercase letter");
+//        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
+//    }
+//    {
+//        char buffer[bib_suffix_size  + 1];
+//        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
+//        char const *str = "";
+//        size_t len = strlen(str) + 1;
+//        XCTAssertFalse(bib_lex_suffix(buffer, &str, &len), @"cannot lex the empty string");
+//        BibAssertEqualStrings(buffer, "", @"the output buffer should be empty");
+//        BibAssertEqualStrings(str, "", @"failure should leave the input string unchanged");
+//        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
+//    }
+//}
 
-- (void)test_lex_cutter {
-    {
-        char buffer[bib_cuttern_size + 1];
-        memset(buffer, 0, sizeof(char) * (bib_cuttern_size + 1));
-        char const *str = "A1234567";
-        size_t len = strlen(str) + 1;
-        XCTAssertTrue(bib_lex_cutter(buffer, &str, &len),
-                      @"cutter number contains one uppercase letter and some digits");
-        BibAssertEqualStrings(buffer, "A1234567", @"buffer should contain the full cuttern number");
-        BibAssertEqualStrings(str, "", @"the input string should be empty");
-        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
-    }
-    {
-        char buffer[bib_cuttern_size + 1];
-        memset(buffer, 0, sizeof(char) * (bib_cuttern_size + 1));
-        char const *str = "A1234567 123";
-        size_t len = strlen(str) + 1;
-        XCTAssertTrue(bib_lex_cutter(buffer, &str, &len),
-                      @"cutter contains all numerals until the first non-numeral character");
-        BibAssertEqualStrings(buffer, "A1234567", @"buffer should contain the string before the space character");
-        BibAssertEqualStrings(str, " 123", @"the input string should retain the space character");
-        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
-    }
-    {
-        char buffer[bib_cuttern_size + 1];
-        memset(buffer, 0, sizeof(char) * (bib_cuttern_size + 1));
-        char const *str = "a123";
-        size_t len = strlen(str) + 1;
-        XCTAssertFalse(bib_lex_cutter(buffer, &str, &len), @"cutter numbers must begin with a caplital letter");
-        BibAssertEqualStrings(buffer, "", @"the output buffer should contain the empty string");
-        BibAssertEqualStrings(str, "a123", @"failure should leave the input string unmodified");
-        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
-    }
-    {
-        char buffer[bib_cuttern_size + 1];
-        memset(buffer, 0, sizeof(char) * (bib_cuttern_size + 1));
-        char const *str = "123";
-        size_t len = strlen(str) + 1;
-        XCTAssertFalse(bib_lex_cutter(buffer, &str, &len), @"cutter numbers must begin with a caplital letter");
-        BibAssertEqualStrings(buffer, "", @"the output buffer should contain the empty string");
-        BibAssertEqualStrings(str, "123", @"failure should leave the input string unmodified");
-        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
-    }
-    {
-        char buffer[bib_cuttern_size + 1];
-        memset(buffer, 0, sizeof(char) * (bib_cuttern_size + 1));
-        char const *str = "A";
-        size_t len = strlen(str) + 1;
-        XCTAssertTrue(bib_lex_cutter(buffer, &str, &len), @"a single capital letter is a valid cutter number");
-        BibAssertEqualStrings(buffer, "A", @"the output buffer should contain the cutter letter");
-        BibAssertEqualStrings(str, "", @"the input string should be empty");
-        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
-    }
-    {
-        char buffer[bib_cuttern_size + 1];
-        memset(buffer, 0, sizeof(char) * (bib_cuttern_size + 1));
-        char const *str = "AA123";
-        size_t len = strlen(str) + 1;
-        XCTAssertTrue(bib_lex_cutter(buffer, &str, &len), @"cutter numbers must begin with exactly one letter");
-        BibAssertEqualStrings(buffer, "A", @"only the first letter should have been included in the cutter");
-        BibAssertEqualStrings(str, "A123", @"the input string should contain everything after the firtst letter");
-        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
-        XCTAssertTrue(bib_lex_cutter(buffer, &str, &len), @"the following cutter should be vailid");
-        BibAssertEqualStrings(buffer, "A123", @"buffer should contain the full cuttern number");
-        BibAssertEqualStrings(str, "", @"the input string should be empty");
-        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
-    }
-    {
-        char buffer[bib_suffix_size  + 1];
-        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
-        char const *str = "";
-        size_t len = strlen(str) + 1;
-        XCTAssertFalse(bib_lex_cutter(buffer, &str, &len), @"cannot lex the empty string");
-        BibAssertEqualStrings(buffer, "", @"the output buffer should be empty");
-        BibAssertEqualStrings(str, "", @"failure should leave the input string unchanged");
-        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
-    }
-}
+//- (void)test_lex_cutter {
+//    {
+//        char buffer[bib_cuttern_size + 1];
+//        memset(buffer, 0, sizeof(char) * (bib_cuttern_size + 1));
+//        char const *str = "A1234567";
+//        size_t len = strlen(str) + 1;
+//        XCTAssertTrue(bib_lex_cutter(buffer, &str, &len),
+//                      @"cutter number contains one uppercase letter and some digits");
+//        BibAssertEqualStrings(buffer, "A1234567", @"buffer should contain the full cuttern number");
+//        BibAssertEqualStrings(str, "", @"the input string should be empty");
+//        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
+//    }
+//    {
+//        char buffer[bib_cuttern_size + 1];
+//        memset(buffer, 0, sizeof(char) * (bib_cuttern_size + 1));
+//        char const *str = "A1234567 123";
+//        size_t len = strlen(str) + 1;
+//        XCTAssertTrue(bib_lex_cutter(buffer, &str, &len),
+//                      @"cutter contains all numerals until the first non-numeral character");
+//        BibAssertEqualStrings(buffer, "A1234567", @"buffer should contain the string before the space character");
+//        BibAssertEqualStrings(str, " 123", @"the input string should retain the space character");
+//        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
+//    }
+//    {
+//        char buffer[bib_cuttern_size + 1];
+//        memset(buffer, 0, sizeof(char) * (bib_cuttern_size + 1));
+//        char const *str = "a123";
+//        size_t len = strlen(str) + 1;
+//        XCTAssertFalse(bib_lex_cutter(buffer, &str, &len), @"cutter numbers must begin with a caplital letter");
+//        BibAssertEqualStrings(buffer, "", @"the output buffer should contain the empty string");
+//        BibAssertEqualStrings(str, "a123", @"failure should leave the input string unmodified");
+//        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
+//    }
+//    {
+//        char buffer[bib_cuttern_size + 1];
+//        memset(buffer, 0, sizeof(char) * (bib_cuttern_size + 1));
+//        char const *str = "123";
+//        size_t len = strlen(str) + 1;
+//        XCTAssertFalse(bib_lex_cutter(buffer, &str, &len), @"cutter numbers must begin with a caplital letter");
+//        BibAssertEqualStrings(buffer, "", @"the output buffer should contain the empty string");
+//        BibAssertEqualStrings(str, "123", @"failure should leave the input string unmodified");
+//        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
+//    }
+//    {
+//        char buffer[bib_cuttern_size + 1];
+//        memset(buffer, 0, sizeof(char) * (bib_cuttern_size + 1));
+//        char const *str = "A";
+//        size_t len = strlen(str) + 1;
+//        XCTAssertTrue(bib_lex_cutter(buffer, &str, &len), @"a single capital letter is a valid cutter number");
+//        BibAssertEqualStrings(buffer, "A", @"the output buffer should contain the cutter letter");
+//        BibAssertEqualStrings(str, "", @"the input string should be empty");
+//        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
+//    }
+//    {
+//        char buffer[bib_cuttern_size + 1];
+//        memset(buffer, 0, sizeof(char) * (bib_cuttern_size + 1));
+//        char const *str = "AA123";
+//        size_t len = strlen(str) + 1;
+//        XCTAssertTrue(bib_lex_cutter(buffer, &str, &len), @"cutter numbers must begin with exactly one letter");
+//        BibAssertEqualStrings(buffer, "A", @"only the first letter should have been included in the cutter");
+//        BibAssertEqualStrings(str, "A123", @"the input string should contain everything after the firtst letter");
+//        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
+//        XCTAssertTrue(bib_lex_cutter(buffer, &str, &len), @"the following cutter should be vailid");
+//        BibAssertEqualStrings(buffer, "A123", @"buffer should contain the full cuttern number");
+//        BibAssertEqualStrings(str, "", @"the input string should be empty");
+//        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
+//    }
+//    {
+//        char buffer[bib_suffix_size  + 1];
+//        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
+//        char const *str = "";
+//        size_t len = strlen(str) + 1;
+//        XCTAssertFalse(bib_lex_cutter(buffer, &str, &len), @"cannot lex the empty string");
+//        BibAssertEqualStrings(buffer, "", @"the output buffer should be empty");
+//        BibAssertEqualStrings(str, "", @"failure should leave the input string unchanged");
+//        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
+//    }
+//}
 
 - (void)test_lex_subclass {
     {
-        char buffer[bib_suffix_size + 1];
+        bib_alpah03_t buffer;
         memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
         char const *str = "A";
         size_t len = strlen(str) + 1;
@@ -342,7 +342,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        char buffer[bib_suffix_size + 1];
+        bib_alpah03_t buffer;
         memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
         char const *str = "AB";
         size_t len = strlen(str) + 1;
@@ -352,7 +352,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        char buffer[bib_suffix_size + 1];
+        bib_alpah03_t buffer;
         memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
         char const *str = "ABC";
         size_t len = strlen(str) + 1;
@@ -362,7 +362,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        char buffer[bib_suffix_size + 1];
+        bib_alpah03_t buffer;
         memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
         char const *str = "ABCD";
         size_t len = strlen(str) + 1;
@@ -372,7 +372,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        char buffer[bib_suffix_size  + 1];
+        bib_alpah03_t buffer;
         memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
         char const *str = "";
         size_t len = strlen(str) + 1;
@@ -383,92 +383,92 @@
     }
 }
 
-- (void)test_lex_workmark {
-    {
-        char buffer[bib_suffix_size + 1];
-        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
-        char const *str = "Ab";
-        size_t len = strlen(str) + 1;
-        XCTAssertTrue(bib_lex_workmark(buffer, &str, &len), @"work mark can contain two characters");
-        BibAssertEqualStrings(buffer, "Ab", @"buffer should contain the two consumed characters");
-        BibAssertEqualStrings(str, "", @"the input string should be empty");
-        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
-    }
-    {
-        char buffer[bib_suffix_size + 1];
-        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
-        char const *str = "Abc";
-        size_t len = strlen(str) + 1;
-        XCTAssertTrue(bib_lex_workmark(buffer, &str, &len), @"work mark can contain three characters");
-        BibAssertEqualStrings(buffer, "Abc", @"buffer should contain the first three characters");
-        BibAssertEqualStrings(str, "", @"the input string should be empty");
-        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
-    }
-    {
-        char buffer[bib_suffix_size + 1];
-        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
-        char const *str = "Abcd";
-        size_t len = strlen(str) + 1;
-        XCTAssertTrue(bib_lex_workmark(buffer, &str, &len), @"work mark is at most three characters");
-        BibAssertEqualStrings(buffer, "Abc", @"buffer should contain the first three characters");
-        BibAssertEqualStrings(str, "d", @"the input string should still contain the fourth character");
-        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
-    }
-    {
-        char buffer[bib_suffix_size + 1];
-        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
-        char const *str = "Ab1";
-        size_t len = strlen(str) + 1;
-        XCTAssertTrue(bib_lex_workmark(buffer, &str, &len), @"work mark contains only alphabetic characters");
-        BibAssertEqualStrings(buffer, "Ab", @"buffer should contain the first two characters");
-        BibAssertEqualStrings(str, "1", @"the input string should still contain the third character");
-        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
-    }
-    {
-        char buffer[bib_suffix_size + 1];
-        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
-        char const *str = "a";
-        size_t len = strlen(str) + 1;
-        XCTAssertFalse(bib_lex_workmark(buffer, &str, &len), @"work mark must begin with a capital letter");
-        BibAssertEqualStrings(buffer, "", @"failure should set the buffer to the empty string");
-        BibAssertEqualStrings(str, "a", @"failure should leave the input string unmodified");
-        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
-    }
-    {
-        char buffer[bib_suffix_size + 1];
-        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
-        char const *str = "A";
-        size_t len = strlen(str) + 1;
-        XCTAssertFalse(bib_lex_workmark(buffer, &str, &len), @"work mark must contain at least two characters");
-        BibAssertEqualStrings(buffer, "", @"failure should set the buffer to the empty string");
-        BibAssertEqualStrings(str, "A", @"failure should leave the input string unmodified");
-        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
-    }
-    {
-        char buffer[bib_suffix_size + 1];
-        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
-        char const *str = "A1";
-        size_t len = strlen(str) + 1;
-        XCTAssertFalse(bib_lex_workmark(buffer, &str, &len), @"work mark may only contain alphabetic characters");
-        BibAssertEqualStrings(buffer, "", @"failure should set the buffer to the empty string");
-        BibAssertEqualStrings(str, "A1", @"failure should leave the input string unmodified");
-        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
-    }
-    {
-        char buffer[bib_suffix_size  + 1];
-        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
-        char const *str = "";
-        size_t len = strlen(str) + 1;
-        XCTAssertFalse(bib_lex_workmark(buffer, &str, &len), @"cannot lex the empty string");
-        BibAssertEqualStrings(buffer, "", @"the output buffer should be empty");
-        BibAssertEqualStrings(str, "", @"failure should leave the input string unchanged");
-        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
-    }
-}
+//- (void)test_lex_workmark {
+//    {
+//        char buffer[bib_suffix_size + 1];
+//        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
+//        char const *str = "Ab";
+//        size_t len = strlen(str) + 1;
+//        XCTAssertTrue(bib_lex_workmark(buffer, &str, &len), @"work mark can contain two characters");
+//        BibAssertEqualStrings(buffer, "Ab", @"buffer should contain the two consumed characters");
+//        BibAssertEqualStrings(str, "", @"the input string should be empty");
+//        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
+//    }
+//    {
+//        char buffer[bib_suffix_size + 1];
+//        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
+//        char const *str = "Abc";
+//        size_t len = strlen(str) + 1;
+//        XCTAssertTrue(bib_lex_workmark(buffer, &str, &len), @"work mark can contain three characters");
+//        BibAssertEqualStrings(buffer, "Abc", @"buffer should contain the first three characters");
+//        BibAssertEqualStrings(str, "", @"the input string should be empty");
+//        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
+//    }
+//    {
+//        char buffer[bib_suffix_size + 1];
+//        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
+//        char const *str = "Abcd";
+//        size_t len = strlen(str) + 1;
+//        XCTAssertTrue(bib_lex_workmark(buffer, &str, &len), @"work mark is at most three characters");
+//        BibAssertEqualStrings(buffer, "Abc", @"buffer should contain the first three characters");
+//        BibAssertEqualStrings(str, "d", @"the input string should still contain the fourth character");
+//        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
+//    }
+//    {
+//        char buffer[bib_suffix_size + 1];
+//        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
+//        char const *str = "Ab1";
+//        size_t len = strlen(str) + 1;
+//        XCTAssertTrue(bib_lex_workmark(buffer, &str, &len), @"work mark contains only alphabetic characters");
+//        BibAssertEqualStrings(buffer, "Ab", @"buffer should contain the first two characters");
+//        BibAssertEqualStrings(str, "1", @"the input string should still contain the third character");
+//        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
+//    }
+//    {
+//        char buffer[bib_suffix_size + 1];
+//        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
+//        char const *str = "a";
+//        size_t len = strlen(str) + 1;
+//        XCTAssertFalse(bib_lex_workmark(buffer, &str, &len), @"work mark must begin with a capital letter");
+//        BibAssertEqualStrings(buffer, "", @"failure should set the buffer to the empty string");
+//        BibAssertEqualStrings(str, "a", @"failure should leave the input string unmodified");
+//        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
+//    }
+//    {
+//        char buffer[bib_suffix_size + 1];
+//        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
+//        char const *str = "A";
+//        size_t len = strlen(str) + 1;
+//        XCTAssertFalse(bib_lex_workmark(buffer, &str, &len), @"work mark must contain at least two characters");
+//        BibAssertEqualStrings(buffer, "", @"failure should set the buffer to the empty string");
+//        BibAssertEqualStrings(str, "A", @"failure should leave the input string unmodified");
+//        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
+//    }
+//    {
+//        char buffer[bib_suffix_size + 1];
+//        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
+//        char const *str = "A1";
+//        size_t len = strlen(str) + 1;
+//        XCTAssertFalse(bib_lex_workmark(buffer, &str, &len), @"work mark may only contain alphabetic characters");
+//        BibAssertEqualStrings(buffer, "", @"failure should set the buffer to the empty string");
+//        BibAssertEqualStrings(str, "A1", @"failure should leave the input string unmodified");
+//        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
+//    }
+//    {
+//        char buffer[bib_suffix_size  + 1];
+//        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
+//        char const *str = "";
+//        size_t len = strlen(str) + 1;
+//        XCTAssertFalse(bib_lex_workmark(buffer, &str, &len), @"cannot lex the empty string");
+//        BibAssertEqualStrings(buffer, "", @"the output buffer should be empty");
+//        BibAssertEqualStrings(str, "", @"failure should leave the input string unchanged");
+//        XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
+//    }
+//}
 
 - (void)test_lex_digit_n {
     {
-        char buffer[bib_digit16_size + 1];
+        bib_digit16_t buffer;
         memset(buffer, 0, sizeof(char) * (bib_digit16_size + 1));
         char const *str = "1234567812345678";
         size_t len = strlen(str) + 1;
@@ -479,7 +479,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        char buffer[bib_digit16_size + 1];
+        bib_digit16_t buffer;
         memset(buffer, 0, sizeof(char) * (bib_digit16_size + 1));
         char const *str = "abc1234567812345";
         size_t len = strlen(str) + 1;
@@ -490,7 +490,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        char buffer[bib_digit16_size + 1];
+        bib_digit16_t buffer;
         memset(buffer, 0, sizeof(char) * (bib_digit16_size + 1));
         char const *str = "12345";
         size_t len = strlen(str) + 1;
@@ -501,7 +501,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        char buffer[bib_digit16_size + 1];
+        bib_digit16_t buffer;
         memset(buffer, 0, sizeof(char) * (bib_digit16_size + 1));
         char const *str = "12345abcdefg";
         size_t len = strlen(str) + 1;
@@ -512,7 +512,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        char buffer[bib_suffix_size  + 1];
+        bib_digit16_t buffer;
         memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
         char const *str = "";
         size_t len = strlen(str) + 1;
@@ -638,4 +638,3 @@
 }
 
 @end
-*/
