@@ -13,40 +13,18 @@
 
 __BEGIN_DECLS
 
-#pragma mark - cutter
+extern bool bib_parse_lc_calln(bib_lc_calln_t *calln, char const **str, size_t *len);
 
-extern bool bib_parse_cutter(bib_cutter_t *cut, char const **str, size_t *len);
-
-#pragma mark - date
+extern bool bib_parse_lc_number(bib_lc_number_t *num, char const **str, size_t *len);
+extern bool bib_parse_lc_cutter(bib_lc_cutter_t *cut, char const **str, size_t *len);
+extern bool bib_parse_lc_spacial(bib_lc_special_t *spc, char const **str, size_t *len);
+extern bool bib_parse_lc_remainder(bib_lc_special_list_t *rem, char const **str, size_t *len);
 
 extern bool bib_parse_date(bib_date_t *date, char const **str, size_t *len);
-extern bool bib_parse_datespan(bib_datespan_t *span, char const **str, size_t *len);
-
-#pragma mark - lc call number
-
-extern bool bib_parse_lc_callnum(bib_lc_callnum_t *num, char const **str, size_t *len);
-extern bool bib_parse_lc_callnum_base (bib_lc_callnum_t *num, char const **str, size_t *len);
-extern bool bib_parse_lc_callnum_shelf(bib_lc_callnum_t *num, char const **str, size_t *len);
-
-#pragma mark - lc caption
-
-extern bool bib_parse_lc_caption(bib_lc_caption_t *cap, char const **str, size_t *len);
-extern bool bib_parse_lc_caption_root   (bib_lc_caption_t *cap, char const **str, size_t *len);
-extern bool bib_parse_lc_caption_ordinal(bib_ordinal_t    *ord, char const **str, size_t *len);
-extern bool bib_parse_lc_caption_ordinal_suffix(char buffer[bib_suffix_size + 2], char const **str, size_t *len);
-
-#pragma mark - lc cutter
-
-extern bool bib_parse_lc_cutter(bib_cutter_t cutters[3], char const **str, size_t *len);
-extern bool bib_parse_lc_dated_cutter(bib_cutter_t *cut, char const **str, size_t *len);
-
-#pragma mark - lc special
-
-extern bool bib_parse_lc_special(bib_lc_special_t **spc_list, size_t *spc_size, char const **str, size_t *len);
-extern bool bib_parse_lc_special_date    (bib_lc_special_t **spc_list, size_t *spc_size, char const **str, size_t *len);
-extern bool bib_parse_lc_special_workmark(bib_lc_special_t **spc_list, size_t *spc_size, char const **str, size_t *len);
-extern bool bib_parse_lc_special_ordinal (bib_lc_special_t **spc_list, size_t *spc_size, char const **str, size_t *len);
-extern bool bib_parse_lc_special_ordinal_root(bib_ordinal_t *ord, char const **str, size_t *len);
+extern bool bib_parse_cutter(bib_cutter_t *cut, char const **str, size_t *len);
+extern bool bib_parse_caption_ordinal(bib_ordinal_t *ord, char const **str, size_t *len);
+extern bool bib_parse_special_ordinal(bib_ordinal_t *ord, char const **str, size_t *len);
+extern bool bib_parse_volume(bib_volume_t *vol, char const **str, size_t *len);
 
 __END_DECLS
 

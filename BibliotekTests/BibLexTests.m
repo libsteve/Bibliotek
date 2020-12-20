@@ -12,7 +12,7 @@
 
 #define BibAssertEqualStrings(expression1, expression2, ...) \
     _XCTPrimitiveAssertEqualObjects(self, @(expression1), @#expression1, @(expression2), @#expression2, __VA_ARGS__)
-
+/*
 @interface BibLexTests : XCTestCase
 
 @end
@@ -638,3 +638,4 @@
 }
 
 @end
+*/

@@ -23,7 +23,7 @@ static char const *const examples[] = {
     "QA 76.76 .D47 v.13",
     NULL
 };
-
+/*
 @interface BibParseTests : XCTestCase
 
 @end
@@ -478,3 +478,4 @@ static char const *const examples[] = {
 }
 
 @end
+*/

@@ -10,502 +10,348 @@
 #include "biblex.h"
 #include <string.h>
 
-#pragma mark - cutter
+static bool bib_parse_lc_calln_caption_root(bib_lc_calln_t *calln, char const **str, size_t *len);
+static bool bib_parse_lc_calln_cutters_list(bib_lc_calln_t *calln, char const **str, size_t *len);
 
-bool bib_parse_cutter(bib_cutter_t *const cut, char const **const str, size_t *const len)
+bool bib_parse_lc_calln(bib_lc_calln_t *const calln, char const **const str, size_t *const len)
 {
-    return bib_lex_cutter(cut->number, str, len);
+    if (calln == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
+        return false;
+    }
+
+    /// caption class and number
+    char const *str_0 = *str;
+    size_t      len_0 = *len;
+    bool cap_success = bib_parse_lc_calln_caption_root(calln, &str_0, &len_0);
+
+    /// caption date or ordinal
+    char const *str_1 = str_0;
+    size_t      len_1 = len_0;
+    bool cap_space_success = cap_success && bib_read_space(&str_1, &len_1);
+    bool cap_other_success = cap_space_success && bib_parse_lc_number(&(calln->datenum), &str_1, &len_1);
+
+    /// cutter numbers
+    char const *str_2 = (cap_other_success) ? str_1 : str_0;
+    size_t      len_2 = (cap_other_success) ? len_1 : len_0;
+    bool __unused  _ = cap_success && bib_read_space(&str_2, &len_2);
+    bool cut_success = cap_success && bib_parse_lc_calln_cutters_list(calln, &str_2, &len_2);
+
+    // special[0]
+    char const *str_3 = (cut_success) ? str_2 : str_1;
+    size_t      len_3 = (cut_success) ? len_2 : len_1;
+    bool spc_0_space_success = cut_success && bib_read_space(&str_3, &len_3);
+    bool spc_0_parse_success = spc_0_space_success && bib_parse_lc_spacial(&(calln->special[0]), &str_3, &len_3);
+
+    // special[1]
+    char const *str_4 = (spc_0_parse_success) ? str_3 : str_2;
+    size_t      len_4 = (spc_0_parse_success) ? len_3 : len_2;
+    bool spc_1_space_success = spc_0_parse_success && bib_read_space(&str_4, &len_4);
+    bool spc_1_parse_success = spc_1_space_success && bib_parse_lc_spacial(&(calln->special[1]), &str_4, &len_4);
+
+    // remainder
+    char const *str_5 = (spc_1_parse_success) ? str_4 : str_3;
+    size_t      len_5 = (spc_1_parse_success) ? len_4 : len_3;
+    bool rem_space_success = spc_1_parse_success && bib_read_space(&str_5, &len_5);
+    bool rem_parse_success = rem_space_success && bib_parse_lc_remainder(&(calln->remainder), &str_5, &len_5);
+
+    size_t final_len = (rem_parse_success)   ? len_5
+                     : (spc_1_parse_success) ? len_4
+                     : (spc_0_parse_success) ? len_3
+                     : (cut_success)         ? len_2
+                     : (cap_other_success)   ? len_1
+                     : (cap_success)         ? len_0
+                     : *len;
+    bool success = bib_advance_step(*len - final_len, str, len);
+    if (!success) {
+        bib_lc_special_list_deinit(&(calln->remainder));
+    }
+    return success;
 }
 
-#pragma mark - date
-
-bool bib_parse_date(bib_date_t *date, char const **str, size_t *len)
+static bool bib_parse_lc_calln_caption_root(bib_lc_calln_t *const calln, char const **const str, size_t *const len)
 {
-    if (str == NULL || *str == NULL || len == NULL || *len == 0) {
+    if (calln == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
+        return false;
+    }
+
+    // caption class
+    char const *str_0 = *str;
+    size_t      len_0 = *len;
+    bool cls_success = bib_lex_subclass(calln->letters, &str_0, &len_0);
+
+    // caption number
+    char const *str_1 = str_0;
+    size_t      len_1 = len_0;
+    bool __unused __ = cls_success && bib_read_space(&str_1, &len_1); // optional space
+    bool int_success = cls_success && bib_lex_integer(calln->integer, &str_1, &len_1);
+    bool __unused  _ = int_success && bib_lex_decimal(calln->decimal, &str_1, &len_1);
+
+    size_t final_len = (int_success) ? len_1 : len_0;
+    bool success = cls_success && bib_advance_step(*len - final_len, str, len);
+    if (!success) {
+        memset(calln->letters, 0, sizeof(bib_alpah03_t));
+        memset(calln->integer, 0, sizeof(bib_digit04_t));
+        memset(calln->decimal, 0, sizeof(bib_digit16_t));
+    }
+    return success;
+}
+
+static bool bib_parse_lc_calln_cutters_list(bib_lc_calln_t *calln, char const **str, size_t *len)
+{
+    if (calln == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
     }
 
     char const *str_0 = *str;
     size_t      len_0 = *len;
-    bool year_success = bib_lex_date(*date, &str_0, &len_0);
+    bool point_success = bib_read_point(&str_0, &len_0);
 
-    char const *str_1 = str_0;
-    size_t      len_1 = len_0;
-    bool  dash_success = year_success && bib_read_dash(&str_1, &len_1);
-    bool slash_success = year_success && !dash_success && bib_read_slash(&str_1, &len_1);
+    bool stop = false;
+    size_t index = 0;
+    bool success = point_success;
+    while (index < 3 && success && !stop) {
+        char const *str_1 = str_0;
+        size_t      len_1 = len_0;
+        bool first = (index == 0);
+        bool has_prev_date = !first && !bib_lc_number_is_empty(&(calln->cutters[index - 1].datenum));
+        bool has_prev_mark = !first && !(calln->cutters[index - 1].cuttnum.mark[0] == '\0');
+        bool space_success = !first && bib_read_space(&str_1, &len_1);
+        bool require_space = (has_prev_date || has_prev_mark);
 
-    bool success = year_success && !dash_success && !slash_success && bib_advance_step(*len - len_0, str, len);
-    if (!success) {
-        memset(date, 0, sizeof(bib_date_t));
-    }
-    return success;
-}
-
-bool bib_parse_datespan(bib_datespan_t *const span, char const **const str, size_t *const len)
-{
-    if (str == NULL || *str == NULL || len == NULL || *len == 0) {
-        return false;
-    }
-
-    char const *string = *str;
-    size_t      length = *len;
-
-    bool   date_success_0 = bib_lex_date(span->year, &string, &length);
-    bool   dash_success_0 = date_success_0 && bib_read_dash(&string, &length);
-    bool  slash_success_0 = date_success_0 && !dash_success_0 && bib_read_slash(&string, &length);
-    bool    sep_success_0 = dash_success_0 || slash_success_0;
-
-    bool   date_success_1 = date_success_0 && sep_success_0 && bib_lex_date(span->span, &string, &length);
-
-    bool success = date_success_0 && bib_advance_step(*len - length, str, len);
-    if (success) {
-        if (date_success_1) {
-            span->separator = (slash_success_0) ? '/' : '-';
-        }
-    } else {
-        memset(span, 0, sizeof(bib_date_t));
-    }
-    return success;
-}
-
-#pragma mark - lc call number
-
-bool bib_parse_lc_callnum(bib_lc_callnum_t *const num, char const **const str, size_t *const len)
-{
-    if (num == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
-        return false;
-    }
-    char const *string = *str;
-    size_t      length = *len;
-
-    bool base_success  = bib_parse_lc_callnum_base(num, &string, &length);
-    bool __unused _    = base_success && bib_parse_lc_callnum_shelf(num, &string, &length);
-
-    bool success = base_success && bib_advance_step(*len - length, str, len);
-    if (!success) {
-        memset(num, 0, sizeof(bib_lc_callnum_t));
-    }
-    return success;
-}
-
-bool bib_parse_lc_callnum_base(bib_lc_callnum_t *const num, char const **const str, size_t *const len)
-{
-    if (num == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
-        return false;
-    }
-    char const *str_0 = *str;
-    size_t      len_0 = *len;
-
-    bool caption_success = bib_parse_lc_caption(&(num->caption), &str_0, &len_0);
-
-    char const *str_1 = str_0;
-    size_t      len_1 = len_0;
-    bool cutter_success = caption_success  && bib_parse_lc_cutter(num->cutters, &str_1, &len_1);
-
-    size_t final_length = (cutter_success) ? len_1 : len_0;
-    bool success = caption_success && bib_advance_step(*len - final_length, str, len);
-    if (!success) {
-        memset(&(num->caption),    0, sizeof(num->caption));
-        memset(&(num->cutters[0]), 0, sizeof(num->cutters[0]));
-    }
-    return success;
-}
-
-bool bib_parse_lc_callnum_shelf(bib_lc_callnum_t *num, char const **str, size_t *len)
-{
-    if (num == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
-        return false;
-    }
-    char const *str_0 = *str;
-    size_t      len_0 = *len;
-
-    bool suffix_success_0 = bib_lex_suffix(num->suffix, &str_0, &len_0);
-    bool   work_success_0 = !suffix_success_0 && bib_lex_workmark(num->workmark, &str_0, &len_0);
-    bool  space_success_0 = !suffix_success_0 && !work_success_0 && bib_read_space(&str_0, &len_0);
-
-    char const *str_1 = str_0;
-    size_t      len_1 = len_0;
-    bool  space_success_1 = suffix_success_0 && bib_read_space(&str_1, &len_1);
-    bool   work_success_1 = !space_success_1 && space_success_0 && bib_lex_workmark(num->workmark, &str_1, &len_1);
-    bool   spec_success_1 = !space_success_1 && !work_success_1 && space_success_0
-                         && bib_parse_lc_special(&(num->special), &(num->special_count), &str_1, &len_1);
-
-    char const *str_2 = str_1;
-    size_t      len_2 = len_1;
-    bool  space_success_2 =   work_success_1 && bib_read_space(&str_2, &len_2);
-    bool   spec_success_2 = !space_success_2 && space_success_1
-                         && bib_parse_lc_special(&(num->special), &(num->special_count), &str_2, &len_2);
-    bool   spec_success_3 = space_success_2
-                         && bib_parse_lc_special(&(num->special), &(num->special_count), &str_2, &len_2);
-
-    size_t  final_length = (  spec_success_2 || spec_success_3) ? len_2
-                         : (  spec_success_1 || work_success_1) ? len_1
-                         : (suffix_success_0 || work_success_0) ? len_0
-                         :                                       *len; 
-    bool success = (final_length != *len) && bib_advance_step(*len - final_length, str, len);
-    if (!success) {
-        memset(num->suffix,   0, sizeof(num->suffix));
-        memset(num->workmark, 0, sizeof(num->workmark));
-        bib_lc_special_list_deinit(&(num->special), &(num->special_count));
-    }
-    return success;
-}
-
-#pragma mark - lc caption
-
-bool bib_parse_lc_caption(bib_lc_caption_t *const cap, char const **const str, size_t *const len)
-{
-    if (cap == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
-        return false;
-    }
-    char const *string_0 = *str;
-    size_t      length_0 = *len;
-
-    bool root_success = bib_parse_lc_caption_root(cap, &string_0, &length_0);
-
-    char const *string_1 = string_0;
-    size_t      length_1 = length_0;
-    bool date_success = root_success
-                     && bib_read_space(&string_1, &length_1)
-                     && bib_parse_date(&(cap->date), &string_1, &length_1);
-
-    char const *string_2 = (date_success) ? string_1 : string_0;
-    size_t      length_2 = (date_success) ? length_1 : length_0;
-    bool ordn_success = root_success
-                     && bib_read_space(&string_2, &length_2)
-                     && bib_parse_lc_caption_ordinal(&(cap->ordinal), &string_2, &length_2);
-
-    // if we could parse both a date and an ordinal, we'll prefer the ordinal
-    if (date_success && !ordn_success) {
-        char const *string_3 = string_0;
-        size_t      length_3 = length_0;
-        bool success = root_success
-                    && bib_read_space(&string_3, &length_3)
-                    && bib_parse_lc_caption_ordinal(&(cap->ordinal), &string_3, &length_3);\
-        if (success) {
-            memset(cap->date, 0, sizeof(char) * bib_datenum_size);
-            date_success = false;
-            string_1 = string_0;
-            length_1 = length_0;
-            ordn_success = success;
-            string_2 = string_3;
-            length_2 = length_3;
+        if (require_space && !space_success) {
+            success = bib_peek_break(str_1, len_1);
+            stop = true;
+            break;
+        } else if (bib_parse_lc_cutter(&(calln->cutters[index]), &str_1, &len_1)) {
+            str_0 = str_1;
+            len_0 = len_1;
+            index += 1;
+        } else {
+            success = !first || space_success || bib_peek_break(str_1, len_1);
+            stop = true;
         }
     }
 
-    size_t final_length = (ordn_success) ? length_2 : length_1;
-    bool success = root_success && bib_advance_step(*len - final_length, str, len);
+    success = success && bib_advance_step(*len - len_0, str, len);
     if (!success) {
-        memset(cap, 0, sizeof(bib_lc_caption_t));
+        memset(calln->cutters, 0, sizeof(bib_lc_cutter_t) * 3);
     }
     return success;
 }
 
-bool bib_parse_lc_caption_root(bib_lc_caption_t *const cap, char const **const str, size_t *const len)
+bool bib_parse_lc_number(bib_lc_number_t *const num, char const **const str, size_t *const len)
 {
-    if (cap == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
+    if (num == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
     }
-    char const *string_0 = *str;
-    size_t length_0 = *len;
 
-    bool cls_success = bib_lex_subclass(cap->letters, &string_0, &length_0);
+    char const *str_0 = *str;
+    size_t      len_0 = *len;
+    bool date_success = bib_parse_date(&(num->value.date), &str_0, &len_0);
+    bool ordl_success = !date_success && bib_parse_caption_ordinal(&(num->value.ordinal), &str_0, &len_0);
 
-    char const *string_1 = string_0;
-    size_t length_1 = length_0;
+    if (date_success) {
+        num->kind = bib_lc_number_date;
+    } else if (ordl_success) {
+        num->kind = bib_lc_number_ordinal;
+    }
 
-    bool __unused __ = cls_success && bib_read_space(&string_1, &length_1); // optional space
-    bool int_success = cls_success && bib_lex_integer(cap->integer, &string_1, &length_1);
-    bool  __unused _ = int_success && bib_lex_decimal(cap->decimal, &string_1, &length_1);
-
-    size_t final_length = (int_success) ? length_1 : length_0;
-    bool success = cls_success && bib_advance_step(*len - final_length, str, len);
+    size_t final_len = (date_success || ordl_success) ? len_0 : *len;
+    bool success = (date_success || ordl_success) && bib_advance_step(*len - final_len, str, len);
     if (!success) {
-        memset(cap, 0, sizeof(bib_lc_caption_t));
+        memset(num, 0, sizeof(bib_lc_number_ordinal));
     }
     return success;
 }
 
-bool bib_parse_lc_caption_ordinal_suffix(char buffer[bib_suffix_size + 2], char const **const str, size_t *const len)
-{
-    if (buffer == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
-        return false;
-    }
-    char const *string = *str;
-    size_t      length = *len;
-
-    bool suffix_success = bib_lex_suffix(buffer, &string, &length);
-    bool  point_success = suffix_success && bib_read_point(&string, &length);
-    bool     __unused _ =  point_success && bib_read_space(&string, &length);
-
-    if (point_success) {
-        size_t last_index = strlen(buffer);
-        buffer[last_index    ] = '.';
-        buffer[last_index + 1] = '\0';
-    }
-
-    bool success = suffix_success && bib_advance_step(*len - length, str, len);
-    if (!success) {
-        memset(buffer, 0, sizeof(char) * (bib_suffix_size + 2));
-    }
-    return success;
-}
-
-bool bib_parse_lc_caption_ordinal(bib_ordinal_t *ord, char const **const str, size_t *const len)
-{
-    if (ord == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
-        return false;
-    }
-    char const *string = *str;
-    size_t      length = *len;
-
-    bool number_success = bib_lex_digit16(ord->number, &string, &length);
-    bool space_success  = number_success && bib_read_space(&string, &length);
-    bool suffix_success = bib_parse_lc_caption_ordinal_suffix(ord->suffix, &string, &length);
-
-    bool success = (suffix_success || (number_success && space_success))
-                && bib_advance_step(*len - length, str, len);
-    if (!success)  {
-        memset(ord, 0, sizeof(bib_ordinal_t));
-    }
-    return success;
-}
-
-#pragma mark - lc cutter
-
-bool bib_parse_lc_cutter(bib_cutter_t cutters[3], char const **const str, size_t *const len)
-{
-    if (cutters == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
-        return false;
-    }
-    bib_cutter_t  *cut_0 = &(cutters[0]);
-    bib_cutter_t  *cut_1 = &(cutters[1]);
-    bib_cutter_t  *cut_2 = &(cutters[2]);
-
-    char const    *str_0 = *str;
-    size_t         len_0 = *len;
-    bib_read_space(&str_0, &len_0);
-    bool point_success_0 = bib_read_point(&str_0, &len_0);
-    bool  date_success_0 = point_success_0 && bib_parse_lc_dated_cutter(cut_0, &str_0, &len_0);
-    bool  cutt_success_0 = !date_success_0 && point_success_0 && bib_parse_cutter(cut_0, &str_0, &len_0);
-    bool parse_success_0 =  date_success_0 || cutt_success_0;
-
-    char const    *str_1 = (parse_success_0) ? str_0 : *str;
-    size_t         len_1 = (parse_success_0) ? len_0 : *len;
-    bool      __unused _ =  parse_success_0 && (bib_read_space(&str_1, &len_1) || cutt_success_0);
-    bool  date_success_1 =  parse_success_0 &&  bib_parse_lc_dated_cutter(cut_1, &str_1, &len_1);
-    bool  cutt_success_1 =  parse_success_0 && !date_success_1 && bib_parse_cutter(cut_1, &str_1, &len_1);
-    bool parse_success_1 =   date_success_1 ||  cutt_success_1;
-
-    char const    *str_2 = (parse_success_1) ? str_1 : str_0;
-    size_t         len_2 = (parse_success_1) ? len_1 : len_0;
-    bool     __unused __ =  parse_success_1 && (bib_read_space(&str_2, &len_2) || cutt_success_1);
-    bool  date_success_2 =  parse_success_1 &&  bib_parse_lc_dated_cutter(cut_2, &str_2, &len_2);
-    bool  cutt_success_2 =  parse_success_1 && !date_success_2 && bib_parse_cutter(cut_2, &str_2, &len_2);
-    bool parse_success_2 =   date_success_2 ||  cutt_success_2;
-
-    size_t  final_length = (parse_success_2) ? len_2 : len_1;
-    bool         success =  parse_success_0 && bib_advance_step(*len - final_length, str, len);
-    return success;
-}
-
-bool bib_parse_lc_dated_cutter(bib_cutter_t *cut, char const **const str, size_t *const len)
+bool bib_parse_lc_cutter(bib_lc_cutter_t *cut, char const **const str, size_t *const len)
 {
     if (cut == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
     }
-    char const *string = *str;
-    size_t      length = *len;
 
-    bool success = bib_lex_cutter(cut->number, &string, &length)
-                && bib_read_space(&string, &length)
-                && bib_parse_date(&(cut->date), &string, &length)
-                && bib_advance_step(*len - length, str, len);
+    char const *str_0 = *str;
+    size_t      len_0 = *len;
+    bool cutter_success = bib_parse_cutter(&(cut->cuttnum), &str_0, &len_0);
+
+    char const *str_1 = str_0;
+    size_t      len_1 = len_0;
+    bool  space_success = cutter_success && bib_read_space(&str_1, &len_1);
+    bool number_success = space_success && bib_parse_lc_number(&(cut->datenum), &str_1, &len_1);
+
+    size_t final_len = (number_success) ? len_1 : (cutter_success) ? len_0 : *len;
+    bool success = (number_success || cutter_success) && bib_advance_step(*len - final_len, str, len);
+    if (!success) {
+        memset(cut, 0, sizeof(bib_lc_cutter_t));
+    }
+    return success;
+}
+
+bool bib_parse_lc_spacial(bib_lc_special_t *const spc, char const **const str, size_t *const len)
+{
+    if (spc == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
+        return false;
+    }
+
+    char const *str_0 = *str;
+    size_t      len_0 = *len;
+    bool date_success = bib_parse_date(&(spc->value.date), &str_0, &len_0);
+    bool  ord_success = !date_success && bib_parse_special_ordinal(&(spc->value.ordinal), &str_0, &len_0);
+    bool  vol_success = !date_success && !ord_success && bib_parse_volume(&(spc->value.volume), &str_0, &len_0);
+    bool word_success = !date_success && !ord_success && !vol_success && bib_lex_longword(spc->value.word, &str_0, &len_0);
+
+    spc->spec = (date_success) ? bib_lc_special_spec_date
+              :  (ord_success) ? bib_lc_special_spec_ordinal
+              :  (vol_success) ? bib_lc_special_spec_volume
+              : (word_success) ? bib_lc_special_spec_word
+              : 0;
+    bool success = (spc->spec != 0) && bib_advance_step(*len - len_0, str, len);
+    if (!success) {
+        bib_lc_special_deinit(spc);
+    }
+    return success;
+}
+
+bool bib_parse_lc_remainder(bib_lc_special_list_t *const rem, char const **const str, size_t *const len)
+{
+    if (rem == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
+        return false;
+    }
+
+    char const *str_0 = *str;
+    size_t      len_0 = *len;
+
+    size_t index = 0;
+    bool stop = false;
+    bool success = true;
+    bib_lc_special_list_init(rem);
+    while ((len_0 != 0) && success && !stop) {
+        char const *str_1 = str_0;
+        size_t      len_1 = len_0;
+        bib_lc_special_t special = {};
+        bool pre_success = (index == 0) || bib_read_space(&str_1, &len_1);
+        bool spc_success = pre_success && bib_parse_lc_spacial(&special, &str_1, &len_1);
+        success = spc_success || (index > 0);
+        stop = !spc_success;
+        if (spc_success) {
+            bib_lc_special_list_append(rem, &special, 1);
+            str_0 = str_1;
+            len_0 = len_1;
+            index += 1;
+        }
+    }
+
+    success = success && bib_advance_step(*len - len_0, str, len);
+    if (!success) {
+        bib_lc_special_list_deinit(rem);
+    }
+    return success;
+}
+
+bool bib_parse_cutter(bib_cutter_t *cut, char const **str, size_t *len)
+{
+    if (cut == NULL || str == NULL || *str == NULL || len == NULL || len == 0) {
+        return false;
+    }
+
+    char const *str_0 = *str;
+    size_t      len_0 = *len;
+    bool cutter_success = bib_read_char(&(cut->letter), &str_0, &len_0)
+                       && bib_lex_digit16(cut->number, &str_0, &len_0);
+
+    char const *str_1 = str_0;
+    size_t      len_1 = len_0;
+    bool __unused _ = cutter_success && bib_lex_mark(cut->mark, &str_1, &len_1);
+
+    bool success = cutter_success && bib_advance_step(*len - len_0, str, len);
     if (!success) {
         memset(cut, 0, sizeof(bib_cutter_t));
     }
     return success;
 }
 
-#pragma mark - lc special
-
-bool bib_parse_lc_special(bib_lc_special_t **spc_list, size_t *spc_size, char const **str, size_t *len)
+bool bib_parse_date(bib_date_t *const date, char const **const str, size_t *const len)
 {
-    if (spc_list == NULL || spc_size == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
-        return false;
-    }
-    if (spc_list == NULL && *spc_size != 0) {
+    if (date == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
     }
 
-    bib_lc_special_t *new_list = NULL;
-    size_t            new_size = 0;
+    char const *str_0 = *str;
+    size_t      len_0 = *len;
+    bool year_success = bib_lex_year(date->year, &str_0, &len_0);
 
-    char const *prev_str = *str;
-    size_t      prev_len = *len;
-    char const *curr_str = prev_str;
-    size_t      curr_len = prev_len;
+    char const *str_1 = (year_success) ? str_0 : *str;
+    size_t      len_1 = (year_success) ? len_0 : *len;
+    bool dash_success = year_success && bib_read_dash(&str_1, &len_1);
+    bool slsh_success = year_success && !dash_success && bib_read_slash(&str_1, &len_1);
+    bool span_success = (dash_success || slsh_success)
+                     && (bib_lex_year(date->span, &str_1, &len_1) || bib_lex_year_abv(date->span, &str_1, &len_1));
 
-    bool loop_continue = true;
-    while (loop_continue) {
-        bool date_success = bib_parse_lc_special_date(&new_list, &new_size, &curr_str, &curr_len);
-        bool  ord_success = !date_success && bib_parse_lc_special_ordinal(&new_list, &new_size, &curr_str, &curr_len);
-        bool work_success = (date_success || ord_success)
-                          && bib_parse_lc_special_workmark(&new_list, &new_size, &curr_str, &curr_len);
-        bool loop_success = work_success || date_success || ord_success;
-        if (loop_success) {
-            prev_str = curr_str;
-            prev_len = curr_len;
-        }
-        loop_continue = loop_success && bib_read_space(&curr_str, &curr_len);
+    if (span_success) {
+        date->separator = (dash_success) ? '-'
+                        : (slsh_success) ? '/'
+                        : '-';
     }
 
-    bool parse_success = (new_list != NULL) && (new_size != 0) && bib_advance_step(*len - prev_len, str, len);
-    if (parse_success) {
-        bib_lc_special_list_append(spc_list, spc_size, new_list, new_size);
-    }
-    bib_lc_special_list_deinit(&new_list, &new_size);
-    return parse_success;
-}
-
-bool bib_parse_lc_special_date(bib_lc_special_t **spc_list, size_t *spc_size, char const **str, size_t *len)
-{
-    if (spc_list == NULL || spc_size == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
-        return false;
-    }
-    if (spc_list == NULL && *spc_size != 0) {
-        return false;
-    }
-
-    char const *string = *str;
-    size_t      length = *len;
-
-    char date[bib_datenum_size + 1];
-    memset(date, 0, sizeof(date));
-
-    char span[bib_datenum_size + 1];
-    memset(span, 0, sizeof(span));
-
-    char suffix[bib_suffix_size + 1];
-    memset(suffix, 0, sizeof(suffix));
-
-    bool   date_success_0 = bib_lex_date(date, &string, &length);
-    bool   dash_success_0 = date_success_0 && bib_read_dash(&string, &length);
-    bool  slash_success_0 = date_success_0 && !dash_success_0 && bib_read_slash(&string, &length);
-    bool suffix_success_0 = date_success_0 && !dash_success_0 && bib_lex_suffix(suffix, &string, &length);
-
-    bool   date_success_1 = date_success_0 && (dash_success_0 || slash_success_0) && bib_lex_date(span, &string, &length);
-    bool suffix_success_1 = date_success_1 && bib_lex_suffix(suffix, &string, &length);
-
-    bool success = date_success_0 && bib_advance_step(*len - length, str, len);
-    if (success) {
-        if (dash_success_0 || slash_success_0) {
-            bib_lc_special_t spc_span;
-            bib_lc_special_init(&spc_span, bib_lc_special_spec_datespan);
-            memcpy(spc_span.value.datespan.year, date, sizeof(date));
-            memcpy(spc_span.value.datespan.span, span, sizeof(span));
-            spc_span.value.datespan.separator = (slash_success_0) ? '/' : '-';
-            bib_lc_special_list_append(spc_list, spc_size, &spc_span, 1);
-        } else if (date_success_0) {
-            bib_lc_special_t spc_date;
-            bib_lc_special_init(&spc_date, bib_lc_special_spec_date);
-            memcpy(spc_date.value.date, date, sizeof(date));
-            bib_lc_special_list_append(spc_list, spc_size, &spc_date, 1);
-        }
-        if (suffix_success_0 || suffix_success_1) {
-            bib_lc_special_t spc_suffix;
-            bib_lc_special_init(&spc_suffix, bib_lc_special_spec_suffix);
-            memcpy(spc_suffix.value.suffix, suffix, sizeof(suffix));
-        }
+    size_t final_len = (span_success) ? len_1 : len_0;
+    bool success = year_success && bib_advance_step(*len - final_len, str, len);
+    if (!success) {
+        memset(date, 0, sizeof(bib_date_t));
     }
     return success;
 }
 
-bool bib_parse_lc_special_workmark(bib_lc_special_t **const spc_list, size_t *const spc_size,
-                                   char const **const str, size_t *const len)
-{
-    if (spc_list == NULL || spc_size == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
-        return false;
-    }
-    if (spc_list == NULL && *spc_size != 0) {
-        return false;
-    }
-
-    bib_lc_special_t work;
-    bib_lc_special_init(&work, bib_lc_special_spec_workmark);
-    bool success = bib_lex_workmark(work.value.workmark, str, len);
-    if (success) {
-        bib_lc_special_list_append(spc_list, spc_size, &work, 1);
-    }
-    return success;
-}
-
-bool bib_parse_lc_special_ordinal(bib_lc_special_t **spc_list, size_t *spc_size, char const **str, size_t *len)
-{
-    if (spc_list == NULL || spc_size == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
-        return false;
-    }
-    if (spc_list == NULL && *spc_size != 0) {
-        return false;
-    }
-    bool finished = false;
-    size_t ordinals_count = 0;
-    bib_ordinal_t *ordinals = NULL;
-
-    char const *prev_string = *str;
-    size_t      prev_length = *len;
-    char const *curr_string = *str;
-    size_t      curr_length = *len;
-    while (!finished) {
-        size_t index = ordinals_count;
-        if (index > 0) {
-            bib_read_space(&curr_string, &curr_length);
-        }
-        bib_ordinal_t current;
-        memset(&current, 0, sizeof(bib_ordinal_t));
-        if (bib_parse_lc_special_ordinal_root(&current, &curr_string, &curr_length)) {
-            prev_string = curr_string;
-            prev_length = curr_length;
-            ordinals_count += 1;
-            ordinals = (ordinals)
-                     ? realloc(ordinals, ordinals_count * sizeof(bib_ordinal_t))
-                     : calloc(ordinals_count, sizeof(bib_ordinal_t));
-            ordinals[index] = current;
-        } else {
-            finished = true;
-        }
-    }
-
-    bool success = (ordinals != NULL) && (ordinals_count > 0) && bib_advance_step(*len - prev_length, str, len);
-    if (success) {
-        bib_lc_special_t spc_ordinals[ordinals_count];
-        for (size_t index = 0; index < ordinals_count; index += 1) {
-            bib_lc_special_init(&(spc_ordinals[index]), bib_lc_special_spec_ordinal);
-            memcpy(&(spc_ordinals[index].value.ordinal), &(ordinals[index]), sizeof(bib_ordinal_t));
-        }
-        bib_lc_special_list_append(spc_list, spc_size, spc_ordinals, ordinals_count);
-    }
-    if (ordinals != NULL) {
-        free(ordinals);
-    }
-    return false;
-}
-
-bool bib_parse_lc_special_ordinal_root(bib_ordinal_t *ord, char const **str, size_t *len)
+bool bib_parse_caption_ordinal(bib_ordinal_t *const ord, char const **const str, size_t *const len)
 {
     if (ord == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
     }
-    char const *string = *str;
-    size_t      length = *len;
 
-    bool  digit_success = bib_lex_digit16(ord->number, &string, &length);
-    bool     __unused _ = digit_success && bib_read_space(&string, &length);
-    bool success = bib_lex_suffix(ord->suffix, &string, &length)
-                && bib_lex_suffix(ord->suffix, &string, &length)
-                && bib_advance_step(*len - length, str, len);
+    char const *str_0 = *str;
+    size_t      len_0 = *len;
+    bool success = bib_lex_digit16(ord->number, &str_0, &len_0)
+                && bib_lex_caption_ordinal_suffix(ord->suffix, &str_0, &len_0)
+                && bib_advance_step(*len - len_0, str, len);
+
     if (!success) {
         memset(ord, 0, sizeof(bib_ordinal_t));
+    }
+    return success;
+}
+
+bool bib_parse_special_ordinal(bib_ordinal_t *const ord, char const **const str, size_t *const len)
+{
+    if (ord == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
+        return false;
+    }
+
+    char const *str_0 = *str;
+    size_t      len_0 = *len;
+    bool success = bib_lex_digit16(ord->number, &str_0, &len_0)
+                && bib_lex_special_ordinal_suffix(ord->suffix, &str_0, &len_0)
+                && bib_advance_step(*len - len_0, str, len);
+
+    if (!success) {
+        memset(ord, 0, sizeof(bib_ordinal_t));
+    }
+    return success;
+}
+
+bool bib_parse_volume(bib_volume_t *const vol, char const **const str, size_t *const len)
+{
+    if (vol == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
+        return false;
+    }
+
+    char const *str_0 = *str;
+    size_t      len_0 = *len;
+    bool prefix_success = bib_lex_volume_prefix(vol->prefix, &str_0, &len_0);
+    bool __unused space = bib_read_space(&str_0, &len_0);
+    bool number_success = prefix_success && bib_lex_digit16(vol->number, &str_0, &len_0);
+
+    bool success = number_success && bib_advance_step(*len - len_0, str, len);
+    if (!success) {
+        memset(vol, 0, sizeof(bib_volume_t));
     }
     return success;
 }

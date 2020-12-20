@@ -23,69 +23,133 @@ static size_t const bib_suffix_size  =  3;
 static size_t const bib_lcalpha_size =  3;
 static size_t const bib_cuttern_size = bib_digit16_size;
 
-typedef struct bib_ordinal {
-    char number[bib_digit16_size + 1];
-    char suffix[bib_suffix_size  + 2];
-} bib_ordinal_t;
+#pragma mark -
 
-typedef char bib_date_t[bib_datenum_size + 1];
+typedef char bib_initial_t;
+typedef char bib_alpah03_t[4];
+typedef char bib_digit04_t[5];
+typedef char bib_digit16_t[17];
 
-typedef struct bib_datespan {
-    bib_date_t year;
+typedef char bib_word_t[17];
+typedef char bib_numeral_t[17];
+typedef char bib_longword_t[25];
+
+typedef char bib_year_t[5];
+typedef char bib_mark_t[5];
+
+#pragma mark -
+
+typedef struct bib_date {
+    bib_year_t year;
     char separator;
-    bib_date_t span;
-} bib_datespan_t;
+    bib_year_t span;
+    bib_mark_t mark;
+} bib_date_t;
+
+static inline bool bib_date_is_empty(bib_date_t const *const date) { return (date == NULL) || (date->year[0] == '\0'); }
+static inline bool bib_date_has_span(bib_date_t const *const date) { return (date != NULL) && (date->separator != '\0'); }
+
+#pragma mark -
 
 typedef struct bib_cutter {
-    char number[bib_cuttern_size + 1];
-    char date  [bib_datenum_size + 1];
-    char suffix[bib_suffix_size  + 2];
+    bib_initial_t letter;
+    bib_digit16_t number;
+    bib_mark_t mark;
 } bib_cutter_t;
+
+static inline bool bib_cutter_is_empty(bib_cutter_t const *const cut) { return (cut == NULL) || (cut->letter == '\0'); }
+
+#pragma mark -
+
+typedef struct bib_ordinal {
+    bib_digit16_t number;
+    bib_word_t    suffix;
+} bib_ordinal_t;
+
+static inline bool bib_ordinal_is_empty(bib_ordinal_t const *const ord) { return (ord == NULL) || (ord->number[0] == '\0'); }
+
+typedef struct bib_volume {
+    bib_word_t    prefix;
+    bib_digit16_t number;
+} bib_volume_t;
+
+static inline bool bib_volume_is_empty(bib_volume_t const *const vol) { return (vol == NULL) || (vol->prefix[0] == '\0'); }
+
+#pragma mark -
 
 typedef struct bib_lc_special {
     enum {
         bib_lc_special_spec_date = 1,
-        bib_lc_special_spec_suffix,
-        bib_lc_special_spec_workmark,
         bib_lc_special_spec_ordinal,
-        bib_lc_special_spec_datespan
+        bib_lc_special_spec_volume,
+        bib_lc_special_spec_word
     } spec;
     union {
-        bib_date_t date;
-        char suffix  [bib_suffix_size  + 1];
-        char workmark[bib_suffix_size  + 1];
-        bib_ordinal_t ordinal;
-        bib_datespan_t datespan;
+        bib_date_t     date;
+        bib_ordinal_t  ordinal;
+        bib_volume_t   volume;
+        bib_longword_t word;
     } value;
 } bib_lc_special_t;
 
-typedef struct bib_lc_caption {
-    char letters[bib_letters_size + 1];
-    char integer[bib_integer_size + 1];
-    char decimal[bib_digit16_size + 1];
-    char date   [bib_datenum_size + 1];
-    bib_ordinal_t ordinal;
-} bib_lc_caption_t;
+static inline bool bib_lc_special_is_empty(bib_lc_special_t const *const spc) { return (spc == NULL) || (spc->spec == 0); }
 
-typedef struct bib_lc_callnum {
-    bib_lc_caption_t caption;
-    bib_cutter_t cutters[3];
-    char suffix  [bib_suffix_size + 1];
-    char workmark[bib_suffix_size + 1];
-    bib_lc_special_t *special;
-    size_t special_count;
-    char *remainder;
-} bib_lc_callnum_t;
+extern void bib_lc_special_init(bib_lc_special_t *spc, typeof(spc->spec) spec);
+extern void bib_lc_special_deinit(bib_lc_special_t *spc);
+
+typedef struct bib_lc_special_list {
+    bib_lc_special_t *buffer;
+    size_t            length;
+} bib_lc_special_list_t;
+
+static inline bool bib_lc_special_list_is_empty(bib_lc_special_list_t const *const list) {
+    return (list == NULL) || (list->buffer == NULL) || (list->length == 0);
+}
+
+extern void bib_lc_special_list_init  (bib_lc_special_list_t *list);
+extern void bib_lc_special_list_append(bib_lc_special_list_t *list, bib_lc_special_t *buff, size_t len);
+extern void bib_lc_special_list_deinit(bib_lc_special_list_t *list);
 
 #pragma mark -
 
-extern bool bib_lc_callnum_init  (bib_lc_callnum_t *num, char const *str);
-extern void bib_lc_callnum_deinit(bib_lc_callnum_t *num);
+typedef struct bib_lc_number {
+    enum {
+        bib_lc_number_date = 1,
+        bib_lc_number_ordinal
+    } kind;
+    union {
+        bib_date_t    date;
+        bib_ordinal_t ordinal;
+    } value;
+} bib_lc_number_t;
 
-extern void bib_lc_special_init(bib_lc_special_t *spc, typeof(spc->spec) spec);
-extern void bib_lc_special_list_append(bib_lc_special_t **spc_list, size_t *spc_size,
-                                       bib_lc_special_t  *spc_buff, size_t  buff_len);
-extern void bib_lc_special_list_deinit(bib_lc_special_t **spc_list, size_t *spc_size);
+static inline bool bib_lc_number_is_empty(bib_lc_number_t const *const num) { return (num == NULL) || (num->kind == 0); }
+
+#pragma mark -
+
+typedef struct bib_lc_cutter {
+    bib_cutter_t    cuttnum;
+    bib_lc_number_t datenum;
+} bib_lc_cutter_t;
+
+static inline bool bib_lc_cutter_is_empty(bib_lc_cutter_t const *const cut) {
+    return (cut == NULL) || bib_cutter_is_empty(&(cut->cuttnum));
+}
+
+#pragma mark -
+
+typedef struct bib_lc_calln {
+    bib_alpah03_t letters;
+    bib_digit04_t integer;
+    bib_digit16_t decimal;
+    bib_lc_number_t datenum;
+    bib_lc_cutter_t cutters[3];
+    bib_lc_special_t special[2];
+    bib_lc_special_list_t remainder;
+} bib_lc_calln_t;
+
+extern bool bib_lc_calln_init  (bib_lc_calln_t *num, char const *str);
+extern void bib_lc_calln_deinit(bib_lc_calln_t *num);
 
 #pragma mark -
 
@@ -96,12 +160,15 @@ typedef enum bib_calln_comparison {
     bib_calln_ordered_specifying =  2
 } bib_calln_comparison_t;
 
-extern bib_calln_comparison_t bib_lc_callnum_compare(bib_calln_comparison_t status, bib_lc_callnum_t const *left, bib_lc_callnum_t const *right, bool specify);
-extern bib_calln_comparison_t bib_lc_caption_compare(bib_calln_comparison_t status, bib_lc_caption_t const *left, bib_lc_caption_t const *right, bool specify);
+extern bib_calln_comparison_t bib_lc_calln_compare(bib_calln_comparison_t status, bib_lc_calln_t const *left, bib_lc_calln_t const *right, bool specify);
+extern bib_calln_comparison_t bib_lc_cutter_compare(bib_calln_comparison_t status, bib_lc_cutter_t const *left, bib_lc_cutter_t const *right, bool specify);
+extern bib_calln_comparison_t bib_lc_number_compare(bib_calln_comparison_t status, bib_lc_number_t const *left, bib_lc_number_t const *right, bool specify);
 extern bib_calln_comparison_t bib_lc_special_compare(bib_calln_comparison_t status, bib_lc_special_t const *left, bib_lc_special_t const *right, bool specify);
-extern bib_calln_comparison_t bib_ordinal_compare(bib_calln_comparison_t status, bib_ordinal_t const *left, bib_ordinal_t const *right, bool specify);
-extern bib_calln_comparison_t bib_cutter_compare(bib_calln_comparison_t status, bib_cutter_t const *left, bib_cutter_t const *right, bool specify);
+
 extern bib_calln_comparison_t bib_date_compare(bib_calln_comparison_t status, bib_date_t const *left, bib_date_t const *right, bool specify);
+extern bib_calln_comparison_t bib_cutter_compare(bib_calln_comparison_t status, bib_cutter_t const *left, bib_cutter_t const *right, bool specify);
+extern bib_calln_comparison_t bib_volume_compare(bib_calln_comparison_t status, bib_volume_t const *left, bib_volume_t const *right, bool specify);
+extern bib_calln_comparison_t bib_ordinal_compare(bib_calln_comparison_t status, bib_ordinal_t const *left, bib_ordinal_t const *right, bool specify);
 
 #pragma mark -
 
@@ -136,6 +203,9 @@ typedef enum string_specialized_comparison_result {
 extern bib_calln_comparison_t string_specialized_compare(bib_calln_comparison_t status,
                                                                          char const *prefix,
                                                                          char const *string);
+
+extern bib_calln_comparison_t bib_string_specify_compare(bib_calln_comparison_t status,
+                                                         char const *prefix, char const *string, bool specify);
 
 __END_DECLS
 
