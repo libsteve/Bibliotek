@@ -30,7 +30,7 @@
         XCTAssertEqualObjects(calln.stringValue, @"DR1879.5.M37 M37 1988");
     }
     {
-        BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"KF4558 15th .K46 1908"];
+        BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"KF4558 15th.K46 1908"];
         XCTAssertNotNil(calln);
         XCTAssertEqualObjects(calln.stringValue, @"KF4558 15th .K46 1908");
     }
@@ -43,6 +43,21 @@
         BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"DR1879.5.M37 M37 1988/89"];
         XCTAssertNotNil(calln);
         XCTAssertEqualObjects(calln.stringValue, @"DR1879.5.M37 M37 1988/89");
+    }
+    {
+        BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"QL737.C2C37 1984a"];
+        XCTAssertNotNil(calln);
+        XCTAssertEqualObjects(calln.stringValue, @"QL737.C2 C37 1984a");
+    }
+    {
+        BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"AB32.64.S6L552 vol. 1 1976ab"];
+        XCTAssertNotNil(calln);
+        XCTAssertEqualObjects(calln.stringValue, @"AB32.64.S6 L552 vol. 1 1976ab");
+    }
+    {
+        BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"DR1879.5 1988.C786 15th.ed. Suppl. 3"];
+        XCTAssertNotNil(calln);
+        XCTAssertEqualObjects(calln.stringValue, @"DR1879.5 1988 .C786 15th.ed. Suppl. 3");
     }
 }
 

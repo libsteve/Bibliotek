@@ -15,16 +15,22 @@ __BEGIN_DECLS
 
 extern bool bib_parse_lc_calln(bib_lc_calln_t *calln, char const **str, size_t *len);
 
-extern bool bib_parse_lc_number(bib_lc_number_t *num, char const **str, size_t *len);
+//extern bool bib_parse_lc_number(bib_lc_number_t *num, char const **str, size_t *len);
 extern bool bib_parse_lc_cutter(bib_lc_cutter_t *cut, char const **str, size_t *len);
 extern bool bib_parse_lc_spacial(bib_lc_special_t *spc, char const **str, size_t *len);
 extern bool bib_parse_lc_remainder(bib_lc_special_list_t *rem, char const **str, size_t *len);
 
 extern bool bib_parse_date(bib_date_t *date, char const **str, size_t *len);
 extern bool bib_parse_cutter(bib_cutter_t *cut, char const **str, size_t *len);
+extern bool bib_parse_cutter_ordinal(bib_ordinal_t *ord, char const **str, size_t *len);
 extern bool bib_parse_caption_ordinal(bib_ordinal_t *ord, char const **str, size_t *len);
 extern bool bib_parse_special_ordinal(bib_ordinal_t *ord, char const **str, size_t *len);
 extern bool bib_parse_volume(bib_volume_t *vol, char const **str, size_t *len);
+
+typedef bool (*bib_lex_suffix_f)(bib_word_t word, char const **str, size_t *len);
+extern bool bib_parse_ordinal(bib_ordinal_t *ord, bib_lex_suffix_f lex_suffix, char const **str, size_t *len);
+
+extern bool bib_parse_lc_number(bib_lc_number_t *num, bib_lex_suffix_f lex_ord_suffix, char const **str, size_t *len);
 
 __END_DECLS
 

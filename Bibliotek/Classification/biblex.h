@@ -23,6 +23,7 @@ extern bool bib_lex_year_abv(bib_year_t    buffer, char const **str, size_t *len
 extern bool bib_lex_mark    (bib_mark_t    buffer, char const **str, size_t *len);
 extern bool bib_lex_subclass(bib_alpah03_t buffer, char const **str, size_t *len);
 
+extern bool bib_lex_cutter_ordinal_suffix(bib_word_t buffer, char const **str, size_t *len);
 extern bool bib_lex_caption_ordinal_suffix(bib_word_t buffer, char const **str, size_t *len);
 extern bool bib_lex_special_ordinal_suffix(bib_word_t buffer, char const **str, size_t *len);
 extern bool bib_lex_volume_prefix(bib_word_t buffer, char const **str, size_t *len);
@@ -85,6 +86,7 @@ extern bool bib_read_dash (char const **str, size_t *len);
 extern bool bib_read_slash(char const **str, size_t *len);
 
 extern bool bib_read_char (char *c, char const **str, size_t *len);
+extern bool bib_read_alpha (char *c, char const **str, size_t *len);
 extern size_t bib_read_buff (char *buffer, size_t buflen, bool (*pred)(char), char const **str, size_t *len);
 
 /// Check if the next character seprates one word from another—such as whitespace, the null terminator, or EOF.

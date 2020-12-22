@@ -13,38 +13,11 @@
 #define BibAssertEqualStrings(expression1, expression2, ...) \
     _XCTPrimitiveAssertEqualObjects(self, @(expression1), @#expression1, @(expression2), @#expression2, __VA_ARGS__)
 
-static char const *const examples[] = {
-    "QL737.C2 C37 1984a",
-    "AB32.64.S6L552 1976ab vol 1",
-    "QA76.76.D47 1995B vol. 2",
-    "DR1879.5 1988 Suppl 3",
-    "KF4558 15th .K46 1908",
-    "E101.43 1999a 15th.K46 1908",
-    "QA 76.76 .D47 v.13",
-    NULL
-};
-
 @interface BibParseTests : XCTestCase
 
 @end
 
 @implementation BibParseTests
-
-#pragma mark - lc call number
-
-- (void)test_parse_lc_calln {
-
-}
-
-- (void)test_parse_lc_calln_base {
-
-}
-
-- (void)test_parse_lc_calln_shelf {
-
-}
-
-#pragma mark - lc caption
 
 //- (void)test_parse_lc_caption {
 //    {
@@ -467,28 +440,6 @@ static char const *const examples[] = {
         BibAssertEqualStrings(str, " B123", @"input string should contain a space and the second cutter number");
         XCTAssertEqual(len, strlen(str) + 1, @"input string contains null terminator");
     }
-}
-
-#pragma mark - lc special
-
-- (void)test_parse_lc_special {
-
-}
-
-- (void)test_parse_lc_special_date {
-
-}
-
-- (void)test_parse_lc_special_workmark {
-
-}
-
-- (void)test_parse_lc_sepcial_ordinal {
-
-}
-
-- (void)test_parse_lc_special_ordinal_root {
-
 }
 
 @end

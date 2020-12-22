@@ -57,7 +57,7 @@ static NSString *bib_date_description(bib_date_t const *const date) {
 }
 
 static NSString *bib_ordinal_description(bib_ordinal_t const *const ord) {
-    return [NSString stringWithFormat:@" %s%s", ord->number, ord->suffix];
+    return [NSString stringWithFormat:@"%s%s", ord->number, ord->suffix];
 }
 
 static NSString *bib_lc_number_description(bib_lc_number_t const *const num) {
@@ -91,7 +91,7 @@ static NSString *bib_lc_special_description(bib_lc_special_t const *const spc) {
         }
         BOOL hasNumber = !bib_lc_number_is_empty(&_calln.datenum);
         if (hasNumber) {
-            [string appendString:bib_lc_number_description(&(_calln.datenum))];
+            [string appendFormat:@" %@", bib_lc_number_description(&(_calln.datenum))];
         }
         BOOL lastCutterHasNumber = NO;
         for (size_t index = 0; index < 3; index += 1) {

@@ -144,6 +144,33 @@ bool bib_lex_subclass(bib_alpah03_t buffer, char const **const str, size_t *cons
     return success;
 }
 
+bool bib_lex_cutter_ordinal_suffix(bib_word_t buffer, char const **const str, size_t *const len)
+{
+    if (buffer == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
+        return false;
+    }
+
+    char const *str0 = *str;
+    size_t      len0 = *len;
+
+    char  *outbuf0 = buffer;
+    size_t outlen0 = sizeof(bib_word_t);
+
+    size_t alphalen = bib_lex_alpha_n(outbuf0, outlen0, &str0, &len0);
+    bool alpha_success = (alphalen > 0);
+
+    char const *str1 = str0;
+    size_t      len1 = len0;
+    bool break_success = alpha_success && bib_peek_break(str1, len1);
+    bool point_success = alpha_success && bib_read_point(&str1, &len1);
+
+    bool success = !point_success && break_success && bib_advance_step(*len - len0, str, len);
+    if (!success) {
+        memset(buffer, 0, outlen0);
+    }
+    return success;
+}
+
 bool bib_lex_caption_ordinal_suffix(bib_word_t buffer, char const **const str, size_t *const len)
 {
     if (buffer == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
@@ -212,7 +239,7 @@ bool bib_lex_special_ordinal_suffix(bib_word_t buffer, char const **const str, s
         }
         if (point_success) {
             outbuf1[0] = '.';
-            bib_advance_step(1, (char const **)&outlen1, &outlen1);
+            bib_advance_step(1, (char const **)&outbuf1, &outlen1);
         }
 
         char const *str2 = str1;
@@ -242,7 +269,7 @@ bool bib_lex_special_ordinal_suffix(bib_word_t buffer, char const **const str, s
                 stop = true;
                 break;
             }
-            if (success && !stop) {
+            if (success) {
                 outbuf0 = outbuf2;
                 outlen0 = outlen2;
                 str0 = str3;
@@ -504,6 +531,23 @@ bool bib_read_char(char *const c, char const **const str, size_t *const len)
     }
     char v = (*str)[0];
     bool success = bib_advance_step(1, str, len);
+    if (success && c != NULL) {
+        *c = v;
+    }
+    return success;
+}
+
+bool bib_read_alpha(char *const c, char const **const str, size_t *const len)
+{
+    if (str == NULL || *str == NULL || len == NULL || *len == 0) {
+        return false;
+    }
+    char v = '\0';
+    char const *str_0 = *str;
+    size_t      len_0 = *len;
+    bool success = bib_read_char(&v, &str_0, &len_0)
+                && isalpha(v)
+                && bib_advance_step(1, str, len);
     if (success && c != NULL) {
         *c = v;
     }

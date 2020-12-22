@@ -28,7 +28,9 @@ bool bib_parse_lc_calln(bib_lc_calln_t *const calln, char const **const str, siz
     char const *str_1 = str_0;
     size_t      len_1 = len_0;
     bool cap_space_success = cap_success && bib_read_space(&str_1, &len_1);
-    bool cap_other_success = cap_space_success && bib_parse_lc_number(&(calln->datenum), &str_1, &len_1);
+    bool cap_other_success = cap_space_success && bib_parse_lc_number(&(calln->datenum),
+                                                                      bib_lex_caption_ordinal_suffix,
+                                                                      &str_1, &len_1);
 
     /// cutter numbers
     char const *str_2 = (cap_other_success) ? str_1 : str_0;
@@ -139,7 +141,8 @@ static bool bib_parse_lc_calln_cutters_list(bib_lc_calln_t *calln, char const **
     return success;
 }
 
-bool bib_parse_lc_number(bib_lc_number_t *const num, char const **const str, size_t *const len)
+bool bib_parse_lc_number(bib_lc_number_t *const num, bib_lex_suffix_f const lex_ord_suffix,
+                         char const **const str, size_t *const len)
 {
     if (num == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
@@ -148,7 +151,7 @@ bool bib_parse_lc_number(bib_lc_number_t *const num, char const **const str, siz
     char const *str_0 = *str;
     size_t      len_0 = *len;
     bool date_success = bib_parse_date(&(num->value.date), &str_0, &len_0);
-    bool ordl_success = !date_success && bib_parse_caption_ordinal(&(num->value.ordinal), &str_0, &len_0);
+    bool ordl_success = !date_success && bib_parse_ordinal(&(num->value.ordinal), lex_ord_suffix, &str_0, &len_0);
 
     if (date_success) {
         num->kind = bib_lc_number_date;
@@ -177,7 +180,9 @@ bool bib_parse_lc_cutter(bib_lc_cutter_t *cut, char const **const str, size_t *c
     char const *str_1 = str_0;
     size_t      len_1 = len_0;
     bool  space_success = cutter_success && bib_read_space(&str_1, &len_1);
-    bool number_success = space_success && bib_parse_lc_number(&(cut->datenum), &str_1, &len_1);
+    bool number_success = space_success && bib_parse_lc_number(&(cut->datenum),
+                                                               bib_lex_cutter_ordinal_suffix,
+                                                               &str_1, &len_1);
 
     size_t final_len = (number_success) ? len_1 : (cutter_success) ? len_0 : *len;
     bool success = (number_success || cutter_success) && bib_advance_step(*len - final_len, str, len);
@@ -256,7 +261,7 @@ bool bib_parse_cutter(bib_cutter_t *cut, char const **str, size_t *len)
 
     char const *str_0 = *str;
     size_t      len_0 = *len;
-    bool cutter_success = bib_read_char(&(cut->letter), &str_0, &len_0)
+    bool cutter_success = bib_read_alpha(&(cut->letter), &str_0, &len_0)
                        && bib_lex_digit16(cut->number, &str_0, &len_0);
 
     char const *str_1 = str_0;
@@ -307,16 +312,16 @@ bool bib_parse_date(bib_date_t *const date, char const **const str, size_t *cons
     return success;
 }
 
-bool bib_parse_caption_ordinal(bib_ordinal_t *const ord, char const **const str, size_t *const len)
+bool bib_parse_ordinal(bib_ordinal_t *ord, bib_lex_suffix_f lex_suffix, char const **str, size_t *len)
 {
-    if (ord == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
+    if (ord == NULL || lex_suffix == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
     }
 
     char const *str_0 = *str;
     size_t      len_0 = *len;
     bool success = bib_lex_digit16(ord->number, &str_0, &len_0)
-                && bib_lex_caption_ordinal_suffix(ord->suffix, &str_0, &len_0)
+                && lex_suffix(ord->suffix, &str_0, &len_0)
                 && bib_advance_step(*len - len_0, str, len);
 
     if (!success) {
@@ -325,22 +330,19 @@ bool bib_parse_caption_ordinal(bib_ordinal_t *const ord, char const **const str,
     return success;
 }
 
+bool bib_parse_cutter_ordinal(bib_ordinal_t *const ord, char const **const str, size_t *const len)
+{
+    return bib_parse_ordinal(ord, bib_lex_cutter_ordinal_suffix, str, len);
+}
+
+bool bib_parse_caption_ordinal(bib_ordinal_t *const ord, char const **const str, size_t *const len)
+{
+    return bib_parse_ordinal(ord, bib_lex_caption_ordinal_suffix, str, len);
+}
+
 bool bib_parse_special_ordinal(bib_ordinal_t *const ord, char const **const str, size_t *const len)
 {
-    if (ord == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
-        return false;
-    }
-
-    char const *str_0 = *str;
-    size_t      len_0 = *len;
-    bool success = bib_lex_digit16(ord->number, &str_0, &len_0)
-                && bib_lex_special_ordinal_suffix(ord->suffix, &str_0, &len_0)
-                && bib_advance_step(*len - len_0, str, len);
-
-    if (!success) {
-        memset(ord, 0, sizeof(bib_ordinal_t));
-    }
-    return success;
+    return bib_parse_ordinal(ord, bib_lex_special_ordinal_suffix, str, len);
 }
 
 bool bib_parse_volume(bib_volume_t *const vol, char const **const str, size_t *const len)
