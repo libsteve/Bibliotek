@@ -13,22 +13,17 @@
 #include <stddef.h>
 #include <stdio.h>
 
-static bool bib_isnumber(char c) { return isnumber(c); }
-static bool bib_isletter(char c) { return isalpha(c); }
-
 #pragma mark - lex
 
 bool bib_lex_integer(bib_digit04_t buffer, char const **const str, size_t *const len)
 {
     size_t length = bib_lex_digit_n(buffer, bib_integer_size, str, len);
-    buffer[length] = '\0';
     return (length > 0);
 }
 
 bool bib_lex_digit16(bib_digit16_t buffer, char const **const str, size_t *const len)
 {
     size_t length = bib_lex_digit_n(buffer, bib_digit16_size, str, len);
-    buffer[length] = '\0';
     return (length > 0);
 }
 
@@ -89,32 +84,6 @@ bool bib_lex_mark(bib_mark_t buffer, char const **const str, size_t *const len)
     }
     return success;
 }
-
-//bool bib_lex_cutter(char buffer[bib_cuttern_size + 1], char const **const str, size_t *const len)
-//{
-//    if (buffer == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
-//        return false;
-//    }
-//    char const *string = *str;
-//    size_t string_length = *len;
-//
-//    if (isupper(string[0])) {
-//        buffer[0] = string[0];
-//        string = &(string[1]);
-//        string_length -= 1;
-//        buffer[1] = '\0';
-//    } else {
-//        return false;
-//    }
-//
-//    size_t digit_length = bib_lex_digit_n(&(buffer[1]), bib_cuttern_size - 1, &string, &string_length);
-//    buffer[digit_length + 1] = '\0';
-//    bool success = bib_advance_step(*len - string_length, str, len);
-//    if (!success) {
-//        memset(buffer, 0, sizeof(char) * (bib_cuttern_size + 1));
-//    }
-//    return success;
-//}
 
 bool bib_lex_subclass(bib_alpah03_t buffer, char const **const str, size_t *const len)
 {
@@ -290,104 +259,6 @@ bool bib_lex_special_ordinal_suffix(bib_word_t buffer, char const **const str, s
     return final_success;
 }
 
-bool bib_lex_ordinal_suffix_(bib_word_t buffer, bool *const take_point, char const **const str, size_t *const len)
-{
-    if (buffer == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
-        return false;
-    }
-    if (take_point != NULL) {
-        *take_point = false;
-    }
-
-    char const *str_0 = *str;
-    size_t      len_0 = *len;
-
-    char  *out_buf_0 = buffer;
-    size_t out_len_0 = sizeof(bib_word_t);
-
-    bool stop = false;
-    while ((len_0 > 0) && (out_len_0 > 1) && !stop) {
-        char  *out_buf_1 = out_buf_0;
-        size_t out_len_1 = out_len_0;
-
-        char const *str_1 = str_0;
-        size_t      len_1 = len_0;
-        bool __unused _ = bib_read_space(&str_1, &len_1);
-        size_t alpha_len = bib_read_buff(out_buf_1, out_len_1 - 1, bib_isletter, &str_1, &len_1);
-        bool alpha_success = (alpha_len > 0);
-        if (alpha_success) {
-            assert(alpha_len < out_len_1);
-            out_buf_1 = &(out_buf_1[alpha_len]);
-            out_len_1 -= alpha_len;
-        }
-
-        char const *str_2 = str_1;
-        size_t      len_2 = len_1;
-        bool point_success = alpha_success && bib_read_point(&str_2, &len_2);
-
-        char const *str_3 = str_2;
-        size_t      len_3 = len_2;
-        bool space_success = alpha_success && bib_read_space(&str_3, &len_3);
-
-        if (point_success) {
-            char const *str_4 = str_3;
-            size_t      len_4 = len_3;
-            if (bib_read_point(&str_4, &len_4)) {
-                assert(out_len_1 > 1);
-                out_buf_1[0] = '.';
-                out_len_1 -= 1;
-                out_buf_0 = out_buf_1;
-                out_len_0 = out_len_1;
-                str_0 = str_2;
-                len_0 = len_2;
-            } else {
-                char c0 = '\0', c1 = '\0';
-                bool s0 = bib_read_char(&c0, &str_4, &len_4);
-                bool s1 = bib_read_char(&c1, &str_4, &len_4);
-                bool cutter_tail = (s0 && isalpha(c0) && s1 && isnumber(c1));
-                if (cutter_tail) {
-                    stop = true;
-                } else {
-                    assert(out_len_1 > 1);
-                    out_buf_1[0] = '.';
-                    out_len_1 -= 1;
-                }
-                if (space_success) {
-                    str_0 = str_2;
-                    len_0 = len_2;
-                    if (cutter_tail) {
-                        if (take_point != NULL) {
-                            *take_point = true;
-                        }
-                    }
-                } else {
-                    str_0 = str_1;
-                    len_0 = len_1;
-                }
-                out_buf_0 = out_buf_1;
-                out_len_0 = out_len_1;
-            }
-        } else if (space_success) {
-            out_buf_0 = out_buf_1;
-            out_len_0 = out_len_1;
-            str_0 = str_1;
-            len_0 = len_1;
-            stop = true;
-        } else {
-            stop = true;
-        }
-    }
-
-    bool success = (out_buf_0 != buffer) && bib_advance_step(*len - len_0, str, len);
-    if (success) {
-        assert(out_len_0 > 0);
-        out_buf_0[0] = '\0';
-    } else {
-        memset(buffer, 0, sizeof(bib_word_t));
-    }
-    return success;
-}
-
 bool bib_lex_volume_prefix(bib_word_t buffer, char const **const str, size_t *const len)
 {
     if (buffer == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
@@ -414,9 +285,6 @@ bool bib_lex_volume_prefix(bib_word_t buffer, char const **const str, size_t *co
     return success;
 }
 
-
-static bool bib_lex_word_pred(char const c) { return !isspace(c); }
-
 bool bib_lex_longword(bib_longword_t buffer, char const **str, size_t *len)
 {
     if (buffer == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
@@ -429,7 +297,7 @@ bool bib_lex_longword(bib_longword_t buffer, char const **str, size_t *len)
     char  *outbuf0 = buffer;
     size_t outlen0 = sizeof(bib_longword_t);
 
-    size_t wordlen = bib_lex_char_n(outbuf0, outlen0, bib_lex_word_pred, &str0, &len0);
+    size_t wordlen = bib_lex_char_n(outbuf0, outlen0, bib_notspace, &str0, &len0);
     bool word_success = (wordlen > 0);
 
     bool success = word_success && bib_advance_step(*len - len0, str, len);
@@ -439,6 +307,8 @@ bool bib_lex_longword(bib_longword_t buffer, char const **str, size_t *len)
     return success;
 }
 
+#pragma mark - lex primitives
+
 size_t bib_lex_digit_n(char *const buffer, size_t const buffer_len, char const **const str, size_t *const len)
 {
     return bib_lex_char_n(buffer, buffer_len, bib_isnumber, str, len);
@@ -446,11 +316,11 @@ size_t bib_lex_digit_n(char *const buffer, size_t const buffer_len, char const *
 
 size_t bib_lex_alpha_n(char *const buffer, size_t const buffer_len, char const **const str, size_t *const len)
 {
-    return bib_lex_char_n(buffer, buffer_len, bib_isletter, str, len);
+    return bib_lex_char_n(buffer, buffer_len, bib_isalpha, str, len);
 }
 
-size_t bib_lex_char_n  (char *const buffer, size_t const buffer_len, bool (*const pred)(char),
-                        char const **const str, size_t *const len)
+size_t bib_lex_char_n(char *const buffer, size_t const buffer_len, bool (*const pred)(char),
+                      char const **const str, size_t *const len)
 {
     if (buffer == NULL || buffer_len < 1 || pred == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
@@ -502,35 +372,28 @@ bool bib_read_space(char const **const str, size_t *const len)
 
 bool bib_read_point(char const **const str, size_t *const len)
 {
-    if (str == NULL || *str == NULL || len == NULL || *len == 0) {
-        return false;
-    }
-    return ((*str)[0] == '.') ? bib_advance_step(1, str, len) : false;
+    return bib_read_char(NULL, bib_ispoint, str, len);
 }
 
 bool bib_read_dash(char const **str, size_t *len)
 {
-    if (str == NULL || *str == NULL || len == NULL || *len == 0) {
-        return false;
-    }
-    return ((*str)[0] == '-') ? bib_advance_step(1, str, len) : false;
+    return bib_read_char(NULL, bib_isdash, str, len);
 }
 
 bool bib_read_slash(char const **str, size_t *len)
 {
-    if (str == NULL || *str == NULL || len == NULL || *len == 0) {
-        return false;
-    }
-    return ((*str)[0] == '/') ? bib_advance_step(1, str, len) : false;
+    return bib_read_char(NULL, bib_isslash, str, len);
 }
 
-bool bib_read_char(char *const c, char const **const str, size_t *const len)
+#pragma mark - read primitives
+
+bool bib_read_char(char *const c, bool (*const pred)(char), char const **const str, size_t *const len)
 {
-    if (str == NULL || *str == NULL || len == NULL || *len == 0) {
+    if (str == NULL || len == NULL) {
         return false;
     }
-    char v = (*str)[0];
-    bool success = bib_advance_step(1, str, len);
+    char v = '\0';
+    bool success = bib_peek_char(&v, pred, *str, *len) && bib_advance_step(1, str, len);
     if (success && c != NULL) {
         *c = v;
     }
@@ -539,38 +402,61 @@ bool bib_read_char(char *const c, char const **const str, size_t *const len)
 
 bool bib_read_alpha(char *const c, char const **const str, size_t *const len)
 {
-    if (str == NULL || *str == NULL || len == NULL || *len == 0) {
-        return false;
-    }
-    char v = '\0';
-    char const *str_0 = *str;
-    size_t      len_0 = *len;
-    bool success = bib_read_char(&v, &str_0, &len_0)
-                && isalpha(v)
-                && bib_advance_step(1, str, len);
-    if (success && c != NULL) {
-        *c = v;
-    }
-    return success;
+    return bib_read_char(c, bib_isalpha, str, len);
 }
 
-size_t bib_read_buff(char *const buffer, size_t const buflen, bool (*const pred)(char),
-                     char const **const str, size_t *const len)
-{
-    if (buffer == NULL || buflen <= 0 || pred == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
+#pragma mark - character predicates
+
+bool bib_isalpha(char c) {
+    return isalpha(c);
+}
+
+bool bib_isnumber(char c) {
+    return isnumber(c);
+}
+
+bool bib_notspace(char c) {
+    return !isspace(c);
+}
+
+bool bib_ispoint(char c) {
+    return c == '.';
+}
+
+bool bib_isdash(char c) {
+    return c == '-';
+}
+
+bool bib_isslash(char c) {
+    return c == '/';
+}
+
+bool bib_isstop(char c) {
+    switch (c) {
+    case '\0': // null terminator
+    case  EOF: // end of file
+    case 0x03: // end of text
+    case 0x1C: // file separator
+    case 0x1D: // group separator
+    case 0x1E: // record separator
+    case 0x1F: // unit separator
+        return true;
+    default:
         return false;
     }
-    char const *const input = *str;
-    size_t const      inlen = *len;
-    size_t index = 0;
-    char current = input[index];
-    while ((index < inlen) && (index < buflen) && pred(current)) {
-        buffer[index] = current;
-        index += 1;
+}
+
+#pragma mark - peek
+
+bool bib_peek_char(char *const c, bib_cpred_f const pred, char const *const str, size_t const len)
+{
+    if (str == NULL || len == 0) {
+        return false;
     }
-    bool success = (index > 0) && bib_advance_step(index, str, len);
-    if (!success) {
-        memset(buffer, 0, buflen);
+    char v = str[0];
+    bool success = (pred == NULL) || pred(v);
+    if (success && c != NULL) {
+        *c = v;
     }
     return success;
 }
@@ -586,21 +472,7 @@ bool bib_peek_break(char const *const str, size_t const len)
         return true;
     }
     char c = '\0';
-    if (!bib_read_char(&c, &str_0, &len_0)) {
-        return false;
-    }
-    switch (c) {
-    case '\0': // null terminator
-    case  EOF: // end of file
-    case 0x03: // end of text
-    case 0x1C: // file separator
-    case 0x1D: // group separator
-    case 0x1E: // record separator
-    case 0x1F: // unit separator
-        return true;
-    default:
-        return false;
-    }
+    return bib_read_char(&c, bib_isstop, &str_0, &len_0);
 }
 
 #pragma mark - advance
