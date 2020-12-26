@@ -38,7 +38,7 @@ void bib_lc_calln_deinit(bib_lc_calln_t *const num)
 
 #pragma mark lc special
 
-void bib_lc_special_init(bib_lc_special_t *const spc, typeof(spc->spec) spec)
+void bib_lc_special_init(bib_lc_special_t *const spc, bib_lc_special_spec_t spec)
 {
     if (spc == NULL) { return; }
     memset(spc, 0, sizeof(bib_lc_special_t));
