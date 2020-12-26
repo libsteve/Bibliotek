@@ -15,19 +15,19 @@
 
 #pragma mark - lex
 
-bool bib_lex_integer(bib_digit04_t buffer, char const **const str, size_t *const len)
+bool bib_lex_integer(bib_digit04_b buffer, char const **const str, size_t *const len)
 {
     size_t length = bib_lex_digit_n(buffer, bib_integer_size, str, len);
     return (length > 0);
 }
 
-bool bib_lex_digit16(bib_digit16_t buffer, char const **const str, size_t *const len)
+bool bib_lex_digit16(bib_digit16_b buffer, char const **const str, size_t *const len)
 {
     size_t length = bib_lex_digit_n(buffer, bib_digit16_size, str, len);
     return (length > 0);
 }
 
-bool bib_lex_decimal(bib_digit16_t buffer, char const **const str, size_t *const len)
+bool bib_lex_decimal(bib_digit16_b buffer, char const **const str, size_t *const len)
 {
     if (buffer == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
@@ -43,7 +43,7 @@ bool bib_lex_decimal(bib_digit16_t buffer, char const **const str, size_t *const
     return success;
 }
 
-bool bib_lex_year(bib_year_t buffer, char const **const str, size_t *const len)
+bool bib_lex_year(bib_year_b buffer, char const **const str, size_t *const len)
 {
     if (buffer == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
@@ -54,7 +54,7 @@ bool bib_lex_year(bib_year_t buffer, char const **const str, size_t *const len)
     return (length == 4) && bib_advance_step(*len - len_0, str, len);
 }
 
-bool bib_lex_year_abv(bib_year_t buffer, char const **const str, size_t *const len)
+bool bib_lex_year_abv(bib_year_b buffer, char const **const str, size_t *const len)
 {
     if (buffer == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
@@ -65,14 +65,14 @@ bool bib_lex_year_abv(bib_year_t buffer, char const **const str, size_t *const l
     return (length == 2) && bib_advance_step(*len - len_0, str, len);
 }
 
-bool bib_lex_mark(bib_mark_t buffer, char const **const str, size_t *const len)
+bool bib_lex_mark(bib_mark_b buffer, char const **const str, size_t *const len)
 {
     if (buffer == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
     }
     char const *str_0 = *str;
     size_t      len_0 = *len;
-    bool alpha_success = bib_lex_alpha_n(buffer, sizeof(bib_mark_t), &str_0, &len_0);
+    bool alpha_success = bib_lex_alpha_n(buffer, sizeof(bib_mark_b), &str_0, &len_0);
 
     char const *str_1 = str_0;
     size_t      len_1 = len_0;
@@ -80,12 +80,12 @@ bool bib_lex_mark(bib_mark_t buffer, char const **const str, size_t *const len)
 
     bool success = alpha_success && break_success && bib_advance_step(*len - len_0, str, len);
     if (!success) {
-        memset(buffer, 0, sizeof(bib_mark_t));
+        memset(buffer, 0, sizeof(bib_mark_b));
     }
     return success;
 }
 
-bool bib_lex_subclass(bib_alpah03_t buffer, char const **const str, size_t *const len)
+bool bib_lex_subclass(bib_alpah03_b buffer, char const **const str, size_t *const len)
 {
     if (buffer == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
@@ -113,7 +113,7 @@ bool bib_lex_subclass(bib_alpah03_t buffer, char const **const str, size_t *cons
     return success;
 }
 
-bool bib_lex_cutter_ordinal_suffix(bib_word_t buffer, char const **const str, size_t *const len)
+bool bib_lex_cutter_ordinal_suffix(bib_word_b buffer, char const **const str, size_t *const len)
 {
     if (buffer == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
@@ -123,7 +123,7 @@ bool bib_lex_cutter_ordinal_suffix(bib_word_t buffer, char const **const str, si
     size_t      len0 = *len;
 
     char  *outbuf0 = buffer;
-    size_t outlen0 = sizeof(bib_word_t);
+    size_t outlen0 = sizeof(bib_word_b);
 
     size_t alphalen = bib_lex_alpha_n(outbuf0, outlen0, &str0, &len0);
     bool alpha_success = (alphalen > 0);
@@ -140,7 +140,7 @@ bool bib_lex_cutter_ordinal_suffix(bib_word_t buffer, char const **const str, si
     return success;
 }
 
-bool bib_lex_caption_ordinal_suffix(bib_word_t buffer, char const **const str, size_t *const len)
+bool bib_lex_caption_ordinal_suffix(bib_word_b buffer, char const **const str, size_t *const len)
 {
     if (buffer == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
@@ -150,7 +150,7 @@ bool bib_lex_caption_ordinal_suffix(bib_word_t buffer, char const **const str, s
     size_t      len0 = *len;
 
     char  *outbuf0 = buffer;
-    size_t outlen0 = sizeof(bib_word_t);
+    size_t outlen0 = sizeof(bib_word_b);
 
     size_t alphalen = bib_lex_alpha_n(outbuf0, outlen0, &str0, &len0);
     bool alpha_success = (alphalen > 0);
@@ -168,7 +168,7 @@ bool bib_lex_caption_ordinal_suffix(bib_word_t buffer, char const **const str, s
     return success;
 }
 
-bool bib_lex_special_ordinal_suffix(bib_word_t buffer, char const **const str, size_t *const len)
+bool bib_lex_special_ordinal_suffix(bib_word_b buffer, char const **const str, size_t *const len)
 {
     if (buffer == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
@@ -178,8 +178,8 @@ bool bib_lex_special_ordinal_suffix(bib_word_t buffer, char const **const str, s
     size_t      len0 = *len;
 
     char  *outbuf0 = buffer;
-    size_t outlen0 = sizeof(bib_word_t);
-    memset(buffer, 0, sizeof(bib_word_t));
+    size_t outlen0 = sizeof(bib_word_b);
+    memset(buffer, 0, sizeof(bib_word_b));
 
     size_t alphalen = bib_lex_alpha_n(outbuf0, outlen0, &str0, &len0);
     bool alpha_success = (alphalen > 0) && bib_advance_step(alphalen, (char const **)&outbuf0, &outlen0);
@@ -254,12 +254,12 @@ bool bib_lex_special_ordinal_suffix(bib_word_t buffer, char const **const str, s
 
     bool final_success = success && bib_advance_step(*len - len0, str, len);
     if (!final_success) {
-        memset(buffer, 0, sizeof(bib_word_t));
+        memset(buffer, 0, sizeof(bib_word_b));
     }
     return final_success;
 }
 
-bool bib_lex_volume_prefix(bib_word_t buffer, char const **const str, size_t *const len)
+bool bib_lex_volume_prefix(bib_word_b buffer, char const **const str, size_t *const len)
 {
     if (buffer == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
@@ -269,7 +269,7 @@ bool bib_lex_volume_prefix(bib_word_t buffer, char const **const str, size_t *co
     size_t      len0 = *len;
 
     char  *outbuf0 = buffer;
-    size_t outlen0 = sizeof(bib_word_t);
+    size_t outlen0 = sizeof(bib_word_b);
 
     size_t alphalen = bib_lex_alpha_n(outbuf0, outlen0, &str0, &len0);
     bool alpha_success = (alphalen > 0);
@@ -285,7 +285,7 @@ bool bib_lex_volume_prefix(bib_word_t buffer, char const **const str, size_t *co
     return success;
 }
 
-bool bib_lex_longword(bib_longword_t buffer, char const **str, size_t *len)
+bool bib_lex_longword(bib_longword_b buffer, char const **str, size_t *len)
 {
     if (buffer == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
@@ -295,7 +295,7 @@ bool bib_lex_longword(bib_longword_t buffer, char const **str, size_t *len)
     size_t      len0 = *len;
 
     char  *outbuf0 = buffer;
-    size_t outlen0 = sizeof(bib_longword_t);
+    size_t outlen0 = sizeof(bib_longword_b);
 
     size_t wordlen = bib_lex_char_n(outbuf0, outlen0, bib_notspace, &str0, &len0);
     bool word_success = (wordlen > 0);

@@ -21,7 +21,7 @@
 
 - (void)test_lex_integer {
     {
-        bib_digit04_t buffer;
+        bib_digit04_b buffer;
         memset(buffer, 0, sizeof(char) * (bib_integer_size + 1));
         char const *str = "1234";
         size_t len = strlen(str) + 1;
@@ -31,7 +31,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        bib_digit04_t buffer;
+        bib_digit04_b buffer;
         memset(buffer, 0, sizeof(char) * (bib_integer_size + 1));
         char const *str = "1234567";
         size_t len = strlen(str) + 1;
@@ -41,7 +41,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        bib_digit04_t buffer;
+        bib_digit04_b buffer;
         memset(buffer, 0, sizeof(char) * (bib_integer_size + 1));
         char const *str = "12";
         size_t len = strlen(str) + 1;
@@ -51,7 +51,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        bib_digit04_t buffer;
+        bib_digit04_b buffer;
         memset(buffer, 0, sizeof(char) * (bib_integer_size + 1));
         char const *str = "A1";
         size_t len = strlen(str) + 1;
@@ -61,7 +61,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        bib_digit04_t buffer;
+        bib_digit04_b buffer;
         memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
         char const *str = "";
         size_t len = strlen(str) + 1;
@@ -74,7 +74,7 @@
 
 - (void)test_lex_digit16 {
     {
-        bib_digit16_t buffer;
+        bib_digit16_b buffer;
         memset(buffer, 0, sizeof(char) * (bib_digit16_size + 1));
         char const *str = "1234567812345678";
         size_t len = strlen(str) + 1;
@@ -84,7 +84,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        bib_digit16_t buffer;
+        bib_digit16_b buffer;
         memset(buffer, 0, sizeof(char) * (bib_digit16_size + 1));
         char const *str = "abc1234567812345";
         size_t len = strlen(str) + 1;
@@ -94,7 +94,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        bib_digit16_t buffer;
+        bib_digit16_b buffer;
         memset(buffer, 0, sizeof(char) * (bib_digit16_size + 1));
         char const *str = "12345";
         size_t len = strlen(str) + 1;
@@ -104,7 +104,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        bib_digit16_t buffer;
+        bib_digit16_b buffer;
         memset(buffer, 0, sizeof(char) * (bib_digit16_size + 1));
         char const *str = "12345abcdefg";
         size_t len = strlen(str) + 1;
@@ -114,7 +114,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        bib_digit16_t buffer;
+        bib_digit16_b buffer;
         memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
         char const *str = "";
         size_t len = strlen(str) + 1;
@@ -127,7 +127,7 @@
 
 - (void)test_lex_decimal {
     {
-        bib_digit16_t buffer;
+        bib_digit16_b buffer;
         memset(buffer, 0, sizeof(char) * (bib_digit16_size + 1));
         char const *str = ".1234567812345678";
         size_t len = strlen(str) + 1;
@@ -137,7 +137,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        bib_digit16_t buffer;
+        bib_digit16_b buffer;
         memset(buffer, 0, sizeof(char) * (bib_digit16_size + 1));
         char const *str = "1234567812345678";
         size_t len = strlen(str) + 1;
@@ -147,7 +147,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        bib_digit16_t buffer;
+        bib_digit16_b buffer;
         memset(buffer, 0, sizeof(char) * (bib_digit16_size + 1));
         char const *str = ".abcdefg";
         size_t len = strlen(str) + 1;
@@ -157,7 +157,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        bib_digit16_t buffer;
+        bib_digit16_b buffer;
         memset(buffer, 0, sizeof(char) * (bib_digit16_size + 1));
         char const *str = ".12345";
         size_t len = strlen(str) + 1;
@@ -167,7 +167,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        bib_digit16_t buffer;
+        bib_digit16_b buffer;
         memset(buffer, 0, sizeof(char) * (bib_digit16_size + 1));
         char const *str = ".12345abcdefg";
         size_t len = strlen(str) + 1;
@@ -177,7 +177,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        bib_digit16_t buffer;
+        bib_digit16_b buffer;
         memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
         char const *str = "";
         size_t len = strlen(str) + 1;
@@ -332,7 +332,7 @@
 
 - (void)test_lex_subclass {
     {
-        bib_alpah03_t buffer;
+        bib_alpah03_b buffer;
         memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
         char const *str = "A";
         size_t len = strlen(str) + 1;
@@ -342,7 +342,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        bib_alpah03_t buffer;
+        bib_alpah03_b buffer;
         memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
         char const *str = "AB";
         size_t len = strlen(str) + 1;
@@ -352,7 +352,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        bib_alpah03_t buffer;
+        bib_alpah03_b buffer;
         memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
         char const *str = "ABC";
         size_t len = strlen(str) + 1;
@@ -362,7 +362,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        bib_alpah03_t buffer;
+        bib_alpah03_b buffer;
         memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
         char const *str = "ABCD";
         size_t len = strlen(str) + 1;
@@ -372,7 +372,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        bib_alpah03_t buffer;
+        bib_alpah03_b buffer;
         memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
         char const *str = "";
         size_t len = strlen(str) + 1;
@@ -385,7 +385,7 @@
 
 - (void)test_lex_digit_n {
     {
-        bib_digit16_t buffer;
+        bib_digit16_b buffer;
         memset(buffer, 0, sizeof(char) * (bib_digit16_size + 1));
         char const *str = "1234567812345678";
         size_t len = strlen(str) + 1;
@@ -396,7 +396,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        bib_digit16_t buffer;
+        bib_digit16_b buffer;
         memset(buffer, 0, sizeof(char) * (bib_digit16_size + 1));
         char const *str = "abc1234567812345";
         size_t len = strlen(str) + 1;
@@ -407,7 +407,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        bib_digit16_t buffer;
+        bib_digit16_b buffer;
         memset(buffer, 0, sizeof(char) * (bib_digit16_size + 1));
         char const *str = "12345";
         size_t len = strlen(str) + 1;
@@ -418,7 +418,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        bib_digit16_t buffer;
+        bib_digit16_b buffer;
         memset(buffer, 0, sizeof(char) * (bib_digit16_size + 1));
         char const *str = "12345abcdefg";
         size_t len = strlen(str) + 1;
@@ -429,7 +429,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        bib_digit16_t buffer;
+        bib_digit16_b buffer;
         memset(buffer, 0, sizeof(char) * (bib_suffix_size + 1));
         char const *str = "";
         size_t len = strlen(str) + 1;
@@ -496,7 +496,7 @@
     {
         char const *str = "th";
         size_t len = strlen(str) + 1;
-        bib_word_t suffix = {};
+        bib_word_b suffix = {};
         XCTAssertTrue(bib_lex_cutter_ordinal_suffix(suffix, &str, &len), @"should read ordinal suffix");
         BibAssertEqualStrings(suffix, "th", @"buffer should contain the whole suffix");
         BibAssertEqualStrings(str, "", @"the input string should be empty, containing only the null character");
@@ -505,7 +505,7 @@
     {
         char const *str = "th ";
         size_t len = strlen(str) + 1;
-        bib_word_t suffix = {};
+        bib_word_b suffix = {};
         XCTAssertTrue(bib_lex_cutter_ordinal_suffix(suffix, &str, &len), @"should read ordinal suffix");
         BibAssertEqualStrings(suffix, "th", @"buffer should contain the whole suffix");
         BibAssertEqualStrings(str, " ", @"the input string should still contain the trailing space");
@@ -514,7 +514,7 @@
     {
         char const *str = "th.";
         size_t len = strlen(str) + 1;
-        bib_word_t suffix = {};
+        bib_word_b suffix = {};
         XCTAssertFalse(bib_lex_cutter_ordinal_suffix(suffix, &str, &len), @"should not read ordinal suffix with period");
         BibAssertEqualStrings(suffix, "", @"buffer should be empty");
         BibAssertEqualStrings(str, "th.", @"failure should leave the input string unchanged");
@@ -523,7 +523,7 @@
     {
         char const *str = "th C24";
         size_t len = strlen(str) + 1;
-        bib_word_t suffix = {};
+        bib_word_b suffix = {};
         XCTAssertTrue(bib_lex_cutter_ordinal_suffix(suffix, &str, &len), @"should read ordinal suffix without cutter");
         BibAssertEqualStrings(suffix, "th", @"buffer should contain the whole suffix");
         BibAssertEqualStrings(str, " C24", @"the input string should contain the next cutter");
@@ -532,7 +532,7 @@
     {
         char const *str = "th1";
         size_t len = strlen(str) + 1;
-        bib_word_t suffix = {};
+        bib_word_b suffix = {};
         XCTAssertFalse(bib_lex_cutter_ordinal_suffix(suffix, &str, &len), @"should not read ordinal suffix with digits");
         BibAssertEqualStrings(suffix, "", @"buffer should be empty");
         BibAssertEqualStrings(str, "th1", @"failure should leave the input string unchanged");
@@ -544,7 +544,7 @@
     {
         char const *str = "th";
         size_t len = strlen(str) + 1;
-        bib_word_t suffix = {};
+        bib_word_b suffix = {};
         XCTAssertTrue(bib_lex_caption_ordinal_suffix(suffix, &str, &len), @"should read ordinal suffix at end");
         BibAssertEqualStrings(suffix, "th", @"buffer should contain the whole suffix");
         BibAssertEqualStrings(str, "", @"the input string should be empty, containing only the null character");
@@ -553,7 +553,7 @@
     {
         char const *str = "th.";
         size_t len = strlen(str) + 1;
-        bib_word_t suffix = {};
+        bib_word_b suffix = {};
         XCTAssertTrue(bib_lex_caption_ordinal_suffix(suffix, &str, &len), @"should read ordinal suffix before period");
         BibAssertEqualStrings(suffix, "th", @"buffer should contain the whole suffix");
         BibAssertEqualStrings(str, ".", @"the input string should still contain the trailing period");
@@ -562,7 +562,7 @@
     {
         char const *str = "th.C64";
         size_t len = strlen(str) + 1;
-        bib_word_t suffix = {};
+        bib_word_b suffix = {};
         XCTAssertTrue(bib_lex_caption_ordinal_suffix(suffix, &str, &len), @"should read ordinal suffix before period");
         BibAssertEqualStrings(suffix, "th", @"buffer should contain the whole suffix");
         BibAssertEqualStrings(str, ".C64", @"the input string should still contain the trailing period");
@@ -571,7 +571,7 @@
     {
         char const *str = "th .C64";
         size_t len = strlen(str) + 1;
-        bib_word_t suffix = {};
+        bib_word_b suffix = {};
         XCTAssertTrue(bib_lex_caption_ordinal_suffix(suffix, &str, &len), @"shouldn read suffix without period");
         BibAssertEqualStrings(suffix, "th", @"buffer should contain the whole suffix");
         BibAssertEqualStrings(str, " .C64", @"the input string should still contain the trailing period");
@@ -580,7 +580,7 @@
     {
         char const *str = "th1";
         size_t len = strlen(str) + 1;
-        bib_word_t suffix = {};
+        bib_word_b suffix = {};
         XCTAssertFalse(bib_lex_caption_ordinal_suffix(suffix, &str, &len), @"should not read ordinal suffix with digits");
         BibAssertEqualStrings(suffix, "", @"buffer should be empty");
         BibAssertEqualStrings(str, "th1", @"failure should leave the input string unchanged");
@@ -592,7 +592,7 @@
     {
         char const *str = "th.";
         size_t len = strlen(str) + 1;
-        bib_word_t suffix = {};
+        bib_word_b suffix = {};
         XCTAssertTrue(bib_lex_special_ordinal_suffix(suffix, &str, &len), @"should read ordinal suffix");
         BibAssertEqualStrings(suffix, "th.", @"buffer should contain the whole suffix with the period");
         BibAssertEqualStrings(str, "", @"the input string should be empty, containing only the null character");
@@ -601,7 +601,7 @@
     {
         char const *str = "th.ed.";
         size_t len = strlen(str) + 1;
-        bib_word_t suffix = {};
+        bib_word_b suffix = {};
         XCTAssertTrue(bib_lex_special_ordinal_suffix(suffix, &str, &len), @"should read compound ordinal suffix");
         BibAssertEqualStrings(suffix, "th.ed.", @"buffer should contain the whole suffix with periods");
         BibAssertEqualStrings(str, "", @"the input string should be empty, containing only the null character");
@@ -610,7 +610,7 @@
     {
         char const *str = "th";
         size_t len = strlen(str) + 1;
-        bib_word_t suffix = {};
+        bib_word_b suffix = {};
         XCTAssertFalse(bib_lex_special_ordinal_suffix(suffix, &str, &len), @"shouldn't read suffix without period");
         BibAssertEqualStrings(suffix, "", @"buffer should be empty");
         BibAssertEqualStrings(str, "th", @"failure should leave the input string unchanged");
@@ -619,7 +619,7 @@
     {
         char const *str = "th.ed";
         size_t len = strlen(str) + 1;
-        bib_word_t suffix = {};
+        bib_word_b suffix = {};
         XCTAssertFalse(bib_lex_special_ordinal_suffix(suffix, &str, &len), @"shouldn't read compound suffix without period");
         BibAssertEqualStrings(suffix, "", @"buffer should be empty");
         BibAssertEqualStrings(str, "th.ed", @"failure should leave the input string unchanged");
@@ -628,7 +628,7 @@
     {
         char const *str = "th1";
         size_t len = strlen(str) + 1;
-        bib_word_t suffix = {};
+        bib_word_b suffix = {};
         XCTAssertFalse(bib_lex_special_ordinal_suffix(suffix, &str, &len), @"should not read ordinal suffix with digits");
         BibAssertEqualStrings(suffix, "", @"buffer should be empty");
         BibAssertEqualStrings(str, "th1", @"failure should leave the input string unchanged");

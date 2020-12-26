@@ -20,14 +20,14 @@ __BEGIN_DECLS
 /// \param str A pointer to the input string. Characters read from the string are removed only if lexing was successful.
 /// \param len The length of the input string, including the null terminator.
 /// \returns \c true when a number between 0 and 999 is successfully read from the input string.
-extern bool bib_lex_integer (bib_digit04_t buffer, char const **str, size_t *len);
+extern bool bib_lex_integer (bib_digit04_b buffer, char const **str, size_t *len);
 
 /// Read between one and 16 digits from 0-9 from the input stream into the given buffer.
 /// \param buffer Allocated space for the number. The written value will contain a null terminator.
 /// \param str A pointer to the input string. Characters read from the string are removed only if lexing was successful.
 /// \param len The length of the input string, including the null terminator.
 /// \returns \c true when a number between one and 16 digits in length is successfully read from the input string.
-extern bool bib_lex_digit16 (bib_digit16_t buffer, char const **str, size_t *len);
+extern bool bib_lex_digit16 (bib_digit16_b buffer, char const **str, size_t *len);
 
 /// Read between one and 16 digits following a decimal point from the input stream into the given buffer.
 /// \param buffer Allocated space for the number. The written value will contain a null terminator.
@@ -35,35 +35,35 @@ extern bool bib_lex_digit16 (bib_digit16_t buffer, char const **str, size_t *len
 /// \param len The length of the input string, including the null terminator.
 /// \returns \c true when a period followed by one to 16 digits is successfully read from the input string.
 /// \note The decimal point will not be written to the buffer.
-extern bool bib_lex_decimal (bib_digit16_t buffer, char const **str, size_t *len);
+extern bool bib_lex_decimal (bib_digit16_b buffer, char const **str, size_t *len);
 
 /// Read a four-digit year from the input stream into the given buffer.
 /// \param buffer Allocated space for a four-digit year. The written value will contain a null terminator.
 /// \param str A pointer to the input string. Characters read from the string are removed only if lexing was successful.
 /// \param len The length of the input string, including the null terminator.
 /// \returns \c true when a four-digit year is successfully read from the input string.
-extern bool bib_lex_year    (bib_year_t    buffer, char const **str, size_t *len);
+extern bool bib_lex_year    (bib_year_b    buffer, char const **str, size_t *len);
 
 /// Read a two-digit abbreviated year from the input stream into the given buffer.
 /// \param buffer Allocated space for a two-digit abbreviated year. The written value will contain a null terminator.
 /// \param str A pointer to the input string. Characters read from the string are removed only if lexing was successful.
 /// \param len The length of the input string, including the null terminator.
 /// \returns \c true when a two-digit abbreviated year is successfully read from the input string.
-extern bool bib_lex_year_abv(bib_year_t    buffer, char const **str, size_t *len);
+extern bool bib_lex_year_abv(bib_year_b    buffer, char const **str, size_t *len);
 
 /// Read a mark suffix with between one and four letters from the input stream into the given buffer.
 /// \param buffer Allocated space for a mark suffix. The written value will contain a null terminator.
 /// \param str A pointer to the input string. Characters read from the string are removed only if lexing was successful.
 /// \param len The length of the input string, including the null terminator.
 /// \returns \c true when a mark suffix is successfully read from the input string.
-extern bool bib_lex_mark    (bib_mark_t    buffer, char const **str, size_t *len);
+extern bool bib_lex_mark    (bib_mark_b    buffer, char const **str, size_t *len);
 
 /// Read between one and three letters from the input stream into the given buffer.
 /// \param buffer Allocated space for up to three letters. The written value will contain a null terminator.
 /// \param str A pointer to the input string. Characters read from the string are removed only if lexing was successful.
 /// \param len The length of the input string, including the null terminator.
 /// \returns \c true when between one and three letters are successfully read from the input string.
-extern bool bib_lex_subclass(bib_alpah03_t buffer, char const **str, size_t *len);
+extern bool bib_lex_subclass(bib_alpah03_b buffer, char const **str, size_t *len);
 
 /// A function that can parse some word-length value from the input stream.
 /// \param word A buffer to write the parsed string into. The written value will contain a null terminator.
@@ -71,7 +71,7 @@ extern bool bib_lex_subclass(bib_alpah03_t buffer, char const **str, size_t *len
 ///            Characters read from the stream are removed only when lexing is successful.
 /// \param len Pointer to the amount of bytes remaining in the input stream's buffer.
 /// \returns \c true when a word was successfully parsed from the input stream.
-typedef bool (*bib_lex_word_f)(bib_word_t word, char const **str, size_t *len);
+typedef bool (*bib_lex_word_f)(bib_word_b word, char const **str, size_t *len);
 
 /// Read the suffix for a cutter segment's ordinal number from the input stream into the given buffer.
 /// \param buffer Allocated space for an ordinal suffix. The written value will contain a null terminator.
@@ -79,7 +79,7 @@ typedef bool (*bib_lex_word_f)(bib_word_t word, char const **str, size_t *len);
 /// \param len The length of the input string, including the null terminator.
 /// \returns \c true when a cutter segment's ordinal's suffix is successfully read from the input string.
 /// \note Cutter segments' ordinals' suffixes must not end with a period.
-extern bool bib_lex_cutter_ordinal_suffix(bib_word_t buffer, char const **str, size_t *len);
+extern bool bib_lex_cutter_ordinal_suffix(bib_word_b buffer, char const **str, size_t *len);
 
 /// Read the suffix for the caption segment's ordinal number from the input stream into the given buffer.
 /// \param buffer Allocated space for an ordinal suffix. The written value will contain a null terminator.
@@ -88,7 +88,7 @@ extern bool bib_lex_cutter_ordinal_suffix(bib_word_t buffer, char const **str, s
 /// \returns \c true when the caption segment's ordinal's suffix is successfully read from the input string.
 /// \note Caption segments' ordinals' suffixes must not end with a period, but they should preceed the first
 ///       cutter number's leading period.
-extern bool bib_lex_caption_ordinal_suffix(bib_word_t buffer, char const **str, size_t *len);
+extern bool bib_lex_caption_ordinal_suffix(bib_word_b buffer, char const **str, size_t *len);
 
 /// Read the suffix for an ordinal number in the specification segment from the input stream into the given buffer.
 /// \param buffer Allocated space for an ordinal suffix. The written value will contain a null terminator.
@@ -97,21 +97,21 @@ extern bool bib_lex_caption_ordinal_suffix(bib_word_t buffer, char const **str, 
 /// \returns \c true when the suffix for an ordinal number in the specification segment is successfully read from the
 ///          input string.
 /// \note Suffixes for ordinal numbers in the sepcification section must end with a period.
-extern bool bib_lex_special_ordinal_suffix(bib_word_t buffer, char const **str, size_t *len);
+extern bool bib_lex_special_ordinal_suffix(bib_word_b buffer, char const **str, size_t *len);
 
 /// Read the a volume prefix from the input stream into the given buffer.
 /// \param buffer Allocated space for a volume prefix. The written value will contain a null terminator.
 /// \param str A pointer to the input string. Characters read from the string are removed only if lexing was successful.
 /// \param len The length of the input string, including the null terminator.
 /// \returns \c true when a volume prefix is successfully read from the input string.
-extern bool bib_lex_volume_prefix(bib_word_t buffer, char const **str, size_t *len);
+extern bool bib_lex_volume_prefix(bib_word_b buffer, char const **str, size_t *len);
 
 /// Read the value of a long word from the input stream into the given buffer.
 /// \param buffer Allocated space for a long word. The written value will contain a null terminator.
 /// \param str A pointer to the input string. Characters read from the string are removed only if lexing was successful.
 /// \param len The length of the input string, including the null terminator.
 /// \returns \c true when a long word is successfully read from the input string.
-extern bool bib_lex_longword(bib_longword_t buffer, char const **str, size_t *len);
+extern bool bib_lex_longword(bib_longword_b buffer, char const **str, size_t *len);
 
 #pragma mark - lex primitives
 

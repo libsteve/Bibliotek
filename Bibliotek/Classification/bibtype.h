@@ -26,24 +26,24 @@ static size_t const bib_cuttern_size = bib_digit16_size;
 #pragma mark -
 
 typedef char bib_initial_t;
-typedef char bib_alpah03_t[4];
-typedef char bib_digit04_t[5];
-typedef char bib_digit16_t[17];
+typedef char bib_alpah03_b[4];
+typedef char bib_digit04_b[5];
+typedef char bib_digit16_b[17];
 
-typedef char bib_word_t[17];
-typedef char bib_numeral_t[17];
-typedef char bib_longword_t[25];
+typedef char bib_word_b[17];
+typedef char bib_numeral_b[17];
+typedef char bib_longword_b[25];
 
-typedef char bib_year_t[5];
-typedef char bib_mark_t[5];
+typedef char bib_year_b[5];
+typedef char bib_mark_b[5];
 
 #pragma mark -
 
 typedef struct bib_date {
-    bib_year_t year;
+    bib_year_b year;
     char separator;
-    bib_year_t span;
-    bib_mark_t mark;
+    bib_year_b span;
+    bib_mark_b mark;
 } bib_date_t;
 
 static inline bool bib_date_is_empty(bib_date_t const *const date) { return (date == NULL) || (date->year[0] == '\0'); }
@@ -53,8 +53,8 @@ static inline bool bib_date_has_span(bib_date_t const *const date) { return (dat
 
 typedef struct bib_cutter {
     bib_initial_t letter;
-    bib_digit16_t number;
-    bib_mark_t mark;
+    bib_digit16_b number;
+    bib_mark_b mark;
 } bib_cutter_t;
 
 static inline bool bib_cutter_is_empty(bib_cutter_t const *const cut) { return (cut == NULL) || (cut->letter == '\0'); }
@@ -62,15 +62,15 @@ static inline bool bib_cutter_is_empty(bib_cutter_t const *const cut) { return (
 #pragma mark -
 
 typedef struct bib_ordinal {
-    bib_digit16_t number;
-    bib_word_t    suffix;
+    bib_digit16_b number;
+    bib_word_b    suffix;
 } bib_ordinal_t;
 
 static inline bool bib_ordinal_is_empty(bib_ordinal_t const *const ord) { return (ord == NULL) || (ord->number[0] == '\0'); }
 
 typedef struct bib_volume {
-    bib_word_t    prefix;
-    bib_digit16_t number;
+    bib_word_b    prefix;
+    bib_digit16_b number;
 } bib_volume_t;
 
 static inline bool bib_volume_is_empty(bib_volume_t const *const vol) { return (vol == NULL) || (vol->prefix[0] == '\0'); }
@@ -88,7 +88,7 @@ typedef struct bib_lc_special {
         bib_date_t     date;
         bib_ordinal_t  ordinal;
         bib_volume_t   volume;
-        bib_longword_t word;
+        bib_longword_b word;
     } value;
 } bib_lc_special_t;
 
@@ -139,9 +139,9 @@ static inline bool bib_lc_cutter_is_empty(bib_lc_cutter_t const *const cut) {
 #pragma mark -
 
 typedef struct bib_lc_calln {
-    bib_alpah03_t letters;
-    bib_digit04_t integer;
-    bib_digit16_t decimal;
+    bib_alpah03_b letters;
+    bib_digit04_b integer;
+    bib_digit16_b decimal;
     bib_lc_number_t datenum;
     bib_lc_cutter_t cutters[3];
     bib_lc_special_t special[2];

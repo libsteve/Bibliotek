@@ -266,7 +266,7 @@ bib_calln_comparison_t bib_lc_special_compare(bib_calln_comparison_t const statu
 }
 
 bib_calln_comparison_t bib_year_compare(bib_calln_comparison_t const status,
-                                        bib_year_t const left, bib_year_t const right, bool const specify)
+                                        bib_year_b const left, bib_year_b const right, bool const specify)
 {
     if (status == bib_calln_ordered_ascending || status == bib_calln_ordered_descending) { return status; }
 
