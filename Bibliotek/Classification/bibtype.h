@@ -114,58 +114,58 @@ static inline bool bib_volume_is_empty(bib_volume_t const *const vol) { return (
 #pragma mark -
 
 /// A flag indicating the type of data within a specification segment.
-typedef enum bib_lc_special_spec {
-    bib_lc_special_spec_date = 1,
-    bib_lc_special_spec_ordinal,
-    bib_lc_special_spec_volume,
-    bib_lc_special_spec_word
-} bib_lc_special_spec_t;
+typedef enum bib_lc_specification_kind {
+    bib_lc_specification_kind_date = 1,
+    bib_lc_specification_kind_ordinal,
+    bib_lc_specification_kind_volume,
+    bib_lc_specification_kind_word
+} bib_lc_specification_kind_t;
 
 /// A union of the possible values for a specification segment.
-typedef union bib_lc_special_value {
-    /// A date value, marked by \c bib_lc_special_spec_date
+typedef union bib_lc_specification_value {
+    /// A date value, marked by \c bib_lc_specification_kind_date
     bib_date_t     date;
 
-    /// An ordinal value, marked by \c bib_lc_special_spec_ordinal
+    /// An ordinal value, marked by \c bib_lc_specification_kind_ordinal
     bib_ordinal_t  ordinal;
 
-    /// A volume value, marked by \c bib_lc_special_spec_volume
+    /// A volume value, marked by \c bib_lc_specification_kind_volume
     bib_volume_t   volume;
 
-    /// A long word value, marked by \c bib_lc_special_spec_word
+    /// A long word value, marked by \c bib_lc_specification_kind_word
     bib_longword_b word;
-} bib_lc_special_value_t;
+} bib_lc_specific_value_t;
 
 /// A value within the specification section of a Library of Congress call number.
-typedef struct bib_lc_special {
+typedef struct bib_lc_specification {
     /// The type of data within the specification segment.
-    bib_lc_special_spec_t spec;
+    bib_lc_specification_kind_t kind;
 
     /// The value of the specification segment.
-    bib_lc_special_value_t value;
-} bib_lc_special_t;
+    bib_lc_specific_value_t value;
+} bib_lc_specification_t;
 
-static inline bool bib_lc_special_is_empty(bib_lc_special_t const *const spc) { return (spc == NULL) || (spc->spec == 0); }
+static inline bool bib_lc_specification_is_empty(bib_lc_specification_t const *const spc) { return (spc == NULL) || (spc->kind == 0); }
 
-extern void bib_lc_special_init(bib_lc_special_t *spc, bib_lc_special_spec_t spec);
-extern void bib_lc_special_deinit(bib_lc_special_t *spc);
+extern void bib_lc_specification_init(bib_lc_specification_t *spc, bib_lc_specification_kind_t spec);
+extern void bib_lc_specification_deinit(bib_lc_specification_t *spc);
 
 /// A list of specification segment values.
-typedef struct bib_lc_special_list {
+typedef struct bib_lc_specification_list {
     /// The raw heap-allocated buffer contianing the heap-allocated segments.
-    bib_lc_special_t *buffer;
+    bib_lc_specification_t *buffer;
 
     /// The amount of specification segments within this list.
     size_t            length;
-} bib_lc_special_list_t;
+} bib_lc_specification_list_t;
 
-static inline bool bib_lc_special_list_is_empty(bib_lc_special_list_t const *const list) {
+static inline bool bib_lc_specification_list_is_empty(bib_lc_specification_list_t const *const list) {
     return (list == NULL) || (list->buffer == NULL) || (list->length == 0);
 }
 
-extern void bib_lc_special_list_init  (bib_lc_special_list_t *list);
-extern void bib_lc_special_list_append(bib_lc_special_list_t *list, bib_lc_special_t *buff, size_t len);
-extern void bib_lc_special_list_deinit(bib_lc_special_list_t *list);
+extern void bib_lc_specification_list_init  (bib_lc_specification_list_t *list);
+extern void bib_lc_specification_list_append(bib_lc_specification_list_t *list, bib_lc_specification_t *buff, size_t len);
+extern void bib_lc_specification_list_deinit(bib_lc_specification_list_t *list);
 
 #pragma mark -
 
@@ -230,10 +230,10 @@ typedef struct bib_lc_calln {
     bib_lc_cutter_t cutters[3];
 
     /// The first two specification segments.
-    bib_lc_special_t special[2];
+    bib_lc_specification_t specifications[2];
 
     /// The remaining sepcifiation segments.
-    bib_lc_special_list_t remainder;
+    bib_lc_specification_list_t remainder;
 } bib_lc_calln_t;
 
 extern bool bib_lc_calln_init  (bib_lc_calln_t *num, char const *str);
@@ -259,7 +259,7 @@ typedef enum bib_calln_comparison {
 extern bib_calln_comparison_t bib_lc_calln_compare(bib_calln_comparison_t status, bib_lc_calln_t const *left, bib_lc_calln_t const *right, bool specify);
 extern bib_calln_comparison_t bib_lc_cutter_compare(bib_calln_comparison_t status, bib_lc_cutter_t const *left, bib_lc_cutter_t const *right, bool specify);
 extern bib_calln_comparison_t bib_lc_number_compare(bib_calln_comparison_t status, bib_lc_number_t const *left, bib_lc_number_t const *right, bool specify);
-extern bib_calln_comparison_t bib_lc_special_compare(bib_calln_comparison_t status, bib_lc_special_t const *left, bib_lc_special_t const *right, bool specify);
+extern bib_calln_comparison_t bib_lc_special_compare(bib_calln_comparison_t status, bib_lc_specification_t const *left, bib_lc_specification_t const *right, bool specify);
 
 extern bib_calln_comparison_t bib_date_compare(bib_calln_comparison_t status, bib_date_t const *left, bib_date_t const *right, bool specify);
 extern bib_calln_comparison_t bib_cutter_compare(bib_calln_comparison_t status, bib_cutter_t const *left, bib_cutter_t const *right, bool specify);

@@ -54,7 +54,7 @@ extern bool bib_parse_lc_cutter(bib_lc_cutter_t *cut, char const **str, size_t *
 /// \param len Pointer to the amount of bytes remaining in the input stream.
 /// \returns \c true when a specification segment is successfully read from the input stream.
 /// \post \c spc is set to a data structure representing the specification value when parsing is successful.
-extern bool bib_parse_lc_spacial(bib_lc_special_t *spc, char const **str, size_t *len);
+extern bool bib_parse_lc_specification(bib_lc_specification_t *spc, char const **str, size_t *len);
 
 /// Read a list of specification segments for a Library of Congress call number from the given input stream.
 /// \param rem Allocated space for a list of specification segments in a call number.
@@ -64,7 +64,7 @@ extern bool bib_parse_lc_spacial(bib_lc_special_t *spc, char const **str, size_t
 /// \returns \c true when a list of specification segments is successfully read from the input stream.
 /// \post \c rem is populated with heap-allocated data structures representing each specification segment
 ///       when parsing is successful.
-extern bool bib_parse_lc_remainder(bib_lc_special_list_t *rem, char const **str, size_t *len);
+extern bool bib_parse_lc_remainder(bib_lc_specification_list_t *rem, char const **str, size_t *len);
 
 #pragma mark - parse components
 
@@ -111,7 +111,7 @@ extern bool bib_parse_caption_ordinal(bib_ordinal_t *ord, char const **str, size
 /// \param len Pointer to the amount of bytes remaining in the input stream.
 /// \returns \c true when an ordinal value is successfully read from the input stream.
 /// \post \c ord is set to a data structure representing the ordinal value when parsing is successful.
-extern bool bib_parse_special_ordinal(bib_ordinal_t *ord, char const **str, size_t *len);
+extern bool bib_parse_specification_ordinal(bib_ordinal_t *ord, char const **str, size_t *len);
 
 /// Read an ordinal value from the given input stream.
 /// \param ord Allocated space for a structure representing the parsed ordinal value.

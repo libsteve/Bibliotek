@@ -32,43 +32,43 @@ bool bib_lc_calln_init(bib_lc_calln_t *const num, char const *const str)
 void bib_lc_calln_deinit(bib_lc_calln_t *const num)
 {
     if (num == NULL) { return; }
-    bib_lc_special_list_deinit(&(num->remainder));
+    bib_lc_specification_list_deinit(&(num->remainder));
     memset(num, 0, sizeof(bib_lc_calln_t));
 }
 
 #pragma mark lc special
 
-void bib_lc_special_init(bib_lc_special_t *const spc, bib_lc_special_spec_t spec)
+void bib_lc_specification_init(bib_lc_specification_t *const spc, bib_lc_specification_kind_t kind)
 {
     if (spc == NULL) { return; }
-    memset(spc, 0, sizeof(bib_lc_special_t));
-    spc->spec = spec;
+    memset(spc, 0, sizeof(bib_lc_specification_t));
+    spc->kind = kind;
 }
 
-void bib_lc_special_deinit(bib_lc_special_t *const spc)
+void bib_lc_specification_deinit(bib_lc_specification_t *const spc)
 {
     if (spc == NULL) { return; }
-    memset(spc, 0, sizeof(bib_lc_special_t));
+    memset(spc, 0, sizeof(bib_lc_specification_t));
 }
 
-void bib_lc_special_list_init(bib_lc_special_list_t *list)
+void bib_lc_specification_list_init(bib_lc_specification_list_t *list)
 {
     if (list == NULL) { return; }
-    memset(list, 0, sizeof(bib_lc_special_list_t));
+    memset(list, 0, sizeof(bib_lc_specification_list_t));
 }
 
-void bib_lc_special_list_append(bib_lc_special_list_t *list, bib_lc_special_t *buff, size_t len)
+void bib_lc_specification_list_append(bib_lc_specification_list_t *list, bib_lc_specification_t *buff, size_t len)
 {
     if (list == NULL || buff == NULL || len == 0) { return; }
     assert(list->buffer != NULL || list->length == 0);
     size_t const prev_end_index = list->length;
     list->length = prev_end_index + len;
-    list->buffer = (list->buffer == NULL) ? malloc(sizeof(bib_lc_special_t))
-                                          : realloc(list->buffer, list->length * sizeof(bib_lc_special_t));
-    memcpy(&(list->buffer[prev_end_index]), buff, len * sizeof(bib_lc_special_t));
+    list->buffer = (list->buffer == NULL) ? malloc(sizeof(bib_lc_specification_t))
+                                          : realloc(list->buffer, list->length * sizeof(bib_lc_specification_t));
+    memcpy(&(list->buffer[prev_end_index]), buff, len * sizeof(bib_lc_specification_t));
 }
 
-void bib_lc_special_list_deinit(bib_lc_special_list_t *const list)
+void bib_lc_specification_list_deinit(bib_lc_specification_list_t *const list)
 {
     if (list == NULL || list->buffer == NULL) { return; }
     free(list->buffer);
@@ -125,10 +125,10 @@ bib_calln_comparison_t bib_lc_calln_compare(bib_calln_comparison_t const status,
         result = bib_lc_cutter_compare(result, left_cut, right_cut, specify);
     }
 
-    // special
+    // specifications
     for (size_t index = 0; index < 2; index += 1) {
-        bib_lc_special_t const *const left_spc = &(left->special[index]);
-        bib_lc_special_t const *const right_spc = &(right->special[index]);
+        bib_lc_specification_t const *const left_spc = &(left->specifications[index]);
+        bib_lc_specification_t const *const right_spc = &(right->specifications[index]);
         result = bib_lc_special_compare(result, left_spc, right_spc, specify);
     }
 
@@ -138,8 +138,8 @@ bib_calln_comparison_t bib_lc_calln_compare(bib_calln_comparison_t const status,
         size_t const left_len = left->remainder.length;
         size_t const right_len = right->remainder.length;
         for (; (index < left_len) && (index < right_len); index += 1) {
-            bib_lc_special_t const *const l = &(left->remainder.buffer[index]);
-            bib_lc_special_t const *const r = &(right->remainder.buffer[index]);
+            bib_lc_specification_t const *const l = &(left->remainder.buffer[index]);
+            bib_lc_specification_t const *const r = &(right->remainder.buffer[index]);
             result = bib_lc_special_compare(result, l, r, specify);
         }
         if (result == bib_calln_ordered_same) {
@@ -201,65 +201,65 @@ bib_calln_comparison_t bib_lc_number_compare(bib_calln_comparison_t const status
 }
 
 bib_calln_comparison_t bib_lc_special_compare(bib_calln_comparison_t const status,
-                                              bib_lc_special_t const *const left, bib_lc_special_t const *const right,
+                                              bib_lc_specification_t const *const left, bib_lc_specification_t const *const right,
                                               bool specify)
 {
     if (status == bib_calln_ordered_ascending || status == bib_calln_ordered_descending) { return status; }
 
-    bool const left_empty = bib_lc_special_is_empty(left);
-    bool const right_empty = bib_lc_special_is_empty(right);
+    bool const left_empty = bib_lc_specification_is_empty(left);
+    bool const right_empty = bib_lc_specification_is_empty(right);
     if (left_empty && right_empty) { return status; }
     else if (left_empty) { return (specify) ? bib_calln_ordered_specifying : bib_calln_ordered_ascending; }
     else if (right_empty) {
         return (status == bib_calln_ordered_specifying) ? bib_calln_ordered_ascending : bib_calln_ordered_descending;
     }
 
-    switch (left->spec) {
-        case bib_lc_special_spec_date:
-            switch (right->spec) {
-                case bib_lc_special_spec_date:
+    switch (left->kind) {
+        case bib_lc_specification_kind_date:
+            switch (right->kind) {
+                case bib_lc_specification_kind_date:
                     return bib_date_compare(status, &(left->value.date), &(right->value.date), specify);
 
-                case bib_lc_special_spec_word:
-                case bib_lc_number_ordinal:
-                case bib_lc_special_spec_volume:
+                case bib_lc_specification_kind_word:
+                case bib_lc_specification_kind_ordinal:
+                case bib_lc_specification_kind_volume:
                     return bib_calln_ordered_ascending;
             }
 
-        case bib_lc_special_spec_word:
-            switch (right->spec) {
-                case bib_lc_special_spec_date:
+        case bib_lc_specification_kind_word:
+            switch (right->kind) {
+                case bib_lc_specification_kind_date:
                     return bib_calln_ordered_descending;
 
-                case bib_lc_special_spec_word:
+                case bib_lc_specification_kind_word:
                     return bib_string_specify_compare(status, left->value.word, right->value.word, specify);
 
-                case bib_lc_special_spec_ordinal:
-                case bib_lc_special_spec_volume:
+                case bib_lc_specification_kind_ordinal:
+                case bib_lc_specification_kind_volume:
                     return bib_calln_ordered_ascending;
             }
 
-        case bib_lc_special_spec_ordinal:
-            switch (right->spec) {
-                case bib_lc_special_spec_date:
-                case bib_lc_special_spec_word:
+        case bib_lc_specification_kind_ordinal:
+            switch (right->kind) {
+                case bib_lc_specification_kind_date:
+                case bib_lc_specification_kind_word:
                     return  bib_calln_ordered_descending;
 
-                case bib_lc_special_spec_ordinal:
+                case bib_lc_specification_kind_ordinal:
                     return bib_ordinal_compare(status, &(left->value.ordinal), &(right->value.ordinal), specify);
 
-                case bib_lc_special_spec_volume:
+                case bib_lc_specification_kind_volume:
                     return bib_calln_ordered_ascending;
             }
 
-        case bib_lc_special_spec_volume:
-            switch (right->spec) {
-                case bib_lc_special_spec_date:
-                case bib_lc_special_spec_word:
-                case bib_lc_special_spec_ordinal:
+        case bib_lc_specification_kind_volume:
+            switch (right->kind) {
+                case bib_lc_specification_kind_date:
+                case bib_lc_specification_kind_word:
+                case bib_lc_specification_kind_ordinal:
                     return bib_calln_ordered_descending;
 
-                case bib_lc_special_spec_volume:
+                case bib_lc_specification_kind_volume:
                     return bib_volume_compare(status, &(left->value.volume), &(right->value.volume), specify);
             }
     }

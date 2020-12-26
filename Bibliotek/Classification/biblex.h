@@ -97,7 +97,7 @@ extern bool bib_lex_caption_ordinal_suffix(bib_word_b buffer, char const **str, 
 /// \returns \c true when the suffix for an ordinal number in the specification segment is successfully read from the
 ///          input string.
 /// \note Suffixes for ordinal numbers in the sepcification section must end with a period.
-extern bool bib_lex_special_ordinal_suffix(bib_word_b buffer, char const **str, size_t *len);
+extern bool bib_lex_specification_ordinal_suffix(bib_word_b buffer, char const **str, size_t *len);
 
 /// Read the a volume prefix from the input stream into the given buffer.
 /// \param buffer Allocated space for a volume prefix. The written value will contain a null terminator.

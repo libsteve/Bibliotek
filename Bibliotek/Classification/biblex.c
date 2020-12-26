@@ -168,7 +168,7 @@ bool bib_lex_caption_ordinal_suffix(bib_word_b buffer, char const **const str, s
     return success;
 }
 
-bool bib_lex_special_ordinal_suffix(bib_word_b buffer, char const **const str, size_t *const len)
+bool bib_lex_specification_ordinal_suffix(bib_word_b buffer, char const **const str, size_t *const len)
 {
     if (buffer == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;

@@ -515,7 +515,8 @@
         char const *str = "th.";
         size_t len = strlen(str) + 1;
         bib_word_b suffix = {};
-        XCTAssertFalse(bib_lex_cutter_ordinal_suffix(suffix, &str, &len), @"should not read ordinal suffix with period");
+        XCTAssertFalse(bib_lex_cutter_ordinal_suffix(suffix, &str, &len),
+                       @"should not read ordinal suffix with period");
         BibAssertEqualStrings(suffix, "", @"buffer should be empty");
         BibAssertEqualStrings(str, "th.", @"failure should leave the input string unchanged");
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
@@ -524,7 +525,8 @@
         char const *str = "th C24";
         size_t len = strlen(str) + 1;
         bib_word_b suffix = {};
-        XCTAssertTrue(bib_lex_cutter_ordinal_suffix(suffix, &str, &len), @"should read ordinal suffix without cutter");
+        XCTAssertTrue(bib_lex_cutter_ordinal_suffix(suffix, &str, &len),
+                      @"should read ordinal suffix without cutter");
         BibAssertEqualStrings(suffix, "th", @"buffer should contain the whole suffix");
         BibAssertEqualStrings(str, " C24", @"the input string should contain the next cutter");
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
@@ -533,7 +535,8 @@
         char const *str = "th1";
         size_t len = strlen(str) + 1;
         bib_word_b suffix = {};
-        XCTAssertFalse(bib_lex_cutter_ordinal_suffix(suffix, &str, &len), @"should not read ordinal suffix with digits");
+        XCTAssertFalse(bib_lex_cutter_ordinal_suffix(suffix, &str, &len),
+                       @"should not read ordinal suffix with digits");
         BibAssertEqualStrings(suffix, "", @"buffer should be empty");
         BibAssertEqualStrings(str, "th1", @"failure should leave the input string unchanged");
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
@@ -554,7 +557,8 @@
         char const *str = "th.";
         size_t len = strlen(str) + 1;
         bib_word_b suffix = {};
-        XCTAssertTrue(bib_lex_caption_ordinal_suffix(suffix, &str, &len), @"should read ordinal suffix before period");
+        XCTAssertTrue(bib_lex_caption_ordinal_suffix(suffix, &str, &len),
+                      @"should read ordinal suffix before period");
         BibAssertEqualStrings(suffix, "th", @"buffer should contain the whole suffix");
         BibAssertEqualStrings(str, ".", @"the input string should still contain the trailing period");
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
@@ -563,7 +567,8 @@
         char const *str = "th.C64";
         size_t len = strlen(str) + 1;
         bib_word_b suffix = {};
-        XCTAssertTrue(bib_lex_caption_ordinal_suffix(suffix, &str, &len), @"should read ordinal suffix before period");
+        XCTAssertTrue(bib_lex_caption_ordinal_suffix(suffix, &str, &len),
+                      @"should read ordinal suffix before period");
         BibAssertEqualStrings(suffix, "th", @"buffer should contain the whole suffix");
         BibAssertEqualStrings(str, ".C64", @"the input string should still contain the trailing period");
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
@@ -581,19 +586,20 @@
         char const *str = "th1";
         size_t len = strlen(str) + 1;
         bib_word_b suffix = {};
-        XCTAssertFalse(bib_lex_caption_ordinal_suffix(suffix, &str, &len), @"should not read ordinal suffix with digits");
+        XCTAssertFalse(bib_lex_caption_ordinal_suffix(suffix, &str, &len),
+                       @"should not read ordinal suffix with digits");
         BibAssertEqualStrings(suffix, "", @"buffer should be empty");
         BibAssertEqualStrings(str, "th1", @"failure should leave the input string unchanged");
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
 }
 
-- (void)test_lex_special_ordinal_suffix {
+- (void)test_lex_specification_ordinal_suffix {
     {
         char const *str = "th.";
         size_t len = strlen(str) + 1;
         bib_word_b suffix = {};
-        XCTAssertTrue(bib_lex_special_ordinal_suffix(suffix, &str, &len), @"should read ordinal suffix");
+        XCTAssertTrue(bib_lex_specification_ordinal_suffix(suffix, &str, &len), @"should read ordinal suffix");
         BibAssertEqualStrings(suffix, "th.", @"buffer should contain the whole suffix with the period");
         BibAssertEqualStrings(str, "", @"the input string should be empty, containing only the null character");
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
@@ -602,7 +608,8 @@
         char const *str = "th.ed.";
         size_t len = strlen(str) + 1;
         bib_word_b suffix = {};
-        XCTAssertTrue(bib_lex_special_ordinal_suffix(suffix, &str, &len), @"should read compound ordinal suffix");
+        XCTAssertTrue(bib_lex_specification_ordinal_suffix(suffix, &str, &len),
+                      @"should read compound ordinal suffix");
         BibAssertEqualStrings(suffix, "th.ed.", @"buffer should contain the whole suffix with periods");
         BibAssertEqualStrings(str, "", @"the input string should be empty, containing only the null character");
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
@@ -611,7 +618,8 @@
         char const *str = "th";
         size_t len = strlen(str) + 1;
         bib_word_b suffix = {};
-        XCTAssertFalse(bib_lex_special_ordinal_suffix(suffix, &str, &len), @"shouldn't read suffix without period");
+        XCTAssertFalse(bib_lex_specification_ordinal_suffix(suffix, &str, &len),
+                       @"should not read suffix without period");
         BibAssertEqualStrings(suffix, "", @"buffer should be empty");
         BibAssertEqualStrings(str, "th", @"failure should leave the input string unchanged");
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
@@ -620,7 +628,8 @@
         char const *str = "th.ed";
         size_t len = strlen(str) + 1;
         bib_word_b suffix = {};
-        XCTAssertFalse(bib_lex_special_ordinal_suffix(suffix, &str, &len), @"shouldn't read compound suffix without period");
+        XCTAssertFalse(bib_lex_specification_ordinal_suffix(suffix, &str, &len),
+                       @"should not read compound suffix without period");
         BibAssertEqualStrings(suffix, "", @"buffer should be empty");
         BibAssertEqualStrings(str, "th.ed", @"failure should leave the input string unchanged");
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
@@ -629,7 +638,8 @@
         char const *str = "th1";
         size_t len = strlen(str) + 1;
         bib_word_b suffix = {};
-        XCTAssertFalse(bib_lex_special_ordinal_suffix(suffix, &str, &len), @"should not read ordinal suffix with digits");
+        XCTAssertFalse(bib_lex_specification_ordinal_suffix(suffix, &str, &len),
+                       @"should not read ordinal suffix with digits");
         BibAssertEqualStrings(suffix, "", @"buffer should be empty");
         BibAssertEqualStrings(str, "th1", @"failure should leave the input string unchanged");
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
