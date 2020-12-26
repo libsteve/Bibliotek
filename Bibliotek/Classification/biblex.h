@@ -65,6 +65,14 @@ extern bool bib_lex_mark    (bib_mark_t    buffer, char const **str, size_t *len
 /// \returns \c true when between one and three letters are successfully read from the input string.
 extern bool bib_lex_subclass(bib_alpah03_t buffer, char const **str, size_t *len);
 
+/// A function that can parse some word-length value from the input stream.
+/// \param word A buffer to write the parsed string into. The written value will contain a null terminator.
+/// \param str Pointer to the current reading position in the input stream.
+///            Characters read from the stream are removed only when lexing is successful.
+/// \param len Pointer to the amount of bytes remaining in the input stream's buffer.
+/// \returns \c true when a word was successfully parsed from the input stream.
+typedef bool (*bib_lex_word_f)(bib_word_t word, char const **str, size_t *len);
+
 /// Read the suffix for a cutter segment's ordinal number from the input stream into the given buffer.
 /// \param buffer Allocated space for an ordinal suffix. The written value will contain a null terminator.
 /// \param str A pointer to the input string. Characters read from the string are removed only if lexing was successful.
@@ -231,4 +239,4 @@ extern bool bib_advance_step(size_t step, char const **str, size_t *len);
 
 __END_DECLS
 
-#endif /* bib_lex_h */
+#endif /* biblex_h */

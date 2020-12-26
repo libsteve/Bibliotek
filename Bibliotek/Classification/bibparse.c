@@ -141,7 +141,7 @@ static bool bib_parse_lc_calln_cutters_list(bib_lc_calln_t *calln, char const **
     return success;
 }
 
-bool bib_parse_lc_number(bib_lc_number_t *const num, bib_lex_suffix_f const lex_ord_suffix,
+bool bib_parse_lc_number(bib_lc_number_t *const num, bib_lex_word_f const lex_ord_suffix,
                          char const **const str, size_t *const len)
 {
     if (num == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
@@ -312,7 +312,7 @@ bool bib_parse_date(bib_date_t *const date, char const **const str, size_t *cons
     return success;
 }
 
-bool bib_parse_ordinal(bib_ordinal_t *ord, bib_lex_suffix_f lex_suffix, char const **str, size_t *len)
+bool bib_parse_ordinal(bib_ordinal_t *ord, bib_lex_word_f lex_suffix, char const **str, size_t *len)
 {
     if (ord == NULL || lex_suffix == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
