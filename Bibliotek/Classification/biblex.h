@@ -65,6 +65,13 @@ extern bool bib_lex_mark    (bib_mark_b    buffer, char const **str, size_t *len
 /// \returns \c true when between one and three letters are successfully read from the input string.
 extern bool bib_lex_subclass(bib_alpah03_b buffer, char const **str, size_t *len);
 
+/// Read a single letter from the ASCII Latin alphabet from the input stream into the given buffer.
+/// \param initial Pointer to allocated space to set the read character.
+/// \param str A pointer to the input string. Characters read from the string are removed only if lexing was successful.
+/// \param len The length of the input string, including the null terminator.
+/// \returns \c true when a single letter is successfully read from the input stream.
+extern bool bib_lex_initial (bib_initial_t *initial, char const **str, size_t *len);
+
 /// A function that can parse some word-length value from the input stream.
 /// \param word A buffer to write the parsed string into. The written value will contain a null terminator.
 /// \param str Pointer to the current reading position in the input stream.
@@ -191,12 +198,16 @@ extern bool bib_read_slash(char const **str, size_t *len);
 /// \returns \c true when a character matching the given predicate is consumed from the input stream.
 extern bool bib_read_char(char *c, bib_cpred_f pred, char const **str, size_t *len);
 
-extern bool bib_read_alpha(char *c, char const **str, size_t *len);
-
 #pragma mark - character predicates
 
 /// An ASCII latin alphabet character.
 extern bool bib_isalpha(char c);
+
+/// An uppercase ASCII latin alphabet character.
+extern bool bib_isupper(char c);
+
+/// A lowercase ASCII latin alphabet character.
+extern bool bib_islower(char c);
 
 /// A number from 0 to 9.
 extern bool bib_isnumber(char c);

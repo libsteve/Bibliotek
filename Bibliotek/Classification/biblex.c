@@ -13,6 +13,10 @@
 #include <stddef.h>
 #include <stdio.h>
 
+/// The presence of this macro causes lowercase letters in the subject and cutters to
+/// autocorrect to their uppercase value instead of failing the lex/parse.
+#define BIB_LEX_AUTO_UPPERCASE
+
 #pragma mark - lex
 
 bool bib_lex_integer(bib_digit04_b buffer, char const **const str, size_t *const len)
@@ -101,6 +105,12 @@ bool bib_lex_subclass(bib_alpah03_b buffer, char const **const str, size_t *cons
             buffer[buffer_index] = current_char;
             buffer_index += 1;
             string_index += 1;
+#ifdef BIB_LEX_AUTO_UPPERCASE
+        } else if (islower(current_char)) {
+            buffer[buffer_index] = toupper(current_char);
+            buffer_index += 1;
+            string_index += 1;
+#endif
         } else {
             break;
         }
@@ -110,7 +120,25 @@ bool bib_lex_subclass(bib_alpah03_b buffer, char const **const str, size_t *cons
     if (!success) {
         memset(buffer, 0, sizeof(char) * (bib_lcalpha_size + 1));
     }
+
     return success;
+}
+
+bool bib_lex_initial(bib_initial_t *initial, char const **str, size_t *len)
+{
+    if (initial == NULL) {
+        return false;
+    }
+
+#ifdef BIB_LEX_AUTO_UPPERCASE
+    bool success = bib_read_char(initial, bib_isalpha, str, len);
+    if (success && islower(*initial)) {
+        *initial = toupper(*initial);
+    }
+    return success;
+#else
+    return bib_read_char(initial, bib_isupper, str, len);
+#endif
 }
 
 bool bib_lex_cutter_ordinal_suffix(bib_word_b buffer, char const **const str, size_t *const len)
@@ -400,15 +428,18 @@ bool bib_read_char(char *const c, bool (*const pred)(char), char const **const s
     return success;
 }
 
-bool bib_read_alpha(char *const c, char const **const str, size_t *const len)
-{
-    return bib_read_char(c, bib_isalpha, str, len);
-}
-
 #pragma mark - character predicates
 
 bool bib_isalpha(char c) {
     return isalpha(c);
+}
+
+bool bib_isupper(char c) {
+    return isupper(c);
+}
+
+bool bib_islower(char c) {
+    return islower(c);
 }
 
 bool bib_isnumber(char c) {

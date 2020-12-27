@@ -387,8 +387,8 @@ bib_calln_comparison_t string_specialized_compare(bib_calln_comparison_t status,
             else if (prefix == NULL && string != NULL) { return bib_calln_ordered_specifying; }
             else if (prefix != NULL && string == NULL) { return bib_calln_ordered_descending; }
             for (size_t index = 0; true; index += 1) {
-                char const prefix_char = prefix[index];
-                char const string_char = string[index];
+                char const prefix_char = toupper(prefix[index]);
+                char const string_char = toupper(string[index]);
                 if (prefix_char == '\0') {
                     return (string_char == '\0') ? bib_calln_ordered_same
                                                  : bib_calln_ordered_specifying;

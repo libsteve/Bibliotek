@@ -263,7 +263,7 @@ bool bib_parse_cutter(bib_cutter_t *cut, char const **str, size_t *len)
 
     char const *str_0 = *str;
     size_t      len_0 = *len;
-    bool cutter_success = bib_read_alpha(&(cut->letter), &str_0, &len_0)
+    bool cutter_success = bib_lex_initial(&(cut->letter), &str_0, &len_0)
                        && bib_lex_digit16(cut->number, &str_0, &len_0);
 
     char const *str_1 = str_0;
