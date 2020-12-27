@@ -60,10 +60,10 @@ static NSString *bib_ordinal_description(bib_ordinal_t const *const ord) {
     return [NSString stringWithFormat:@"%s%s", ord->number, ord->suffix];
 }
 
-static NSString *bib_lc_number_description(bib_lc_number_t const *const num) {
+static NSString *bib_lc_number_description(bib_lc_dateord_t const *const num) {
     switch (num->kind) {
-    case bib_lc_number_date:    return bib_date_description(&(num->value.date));
-    case bib_lc_number_ordinal: return bib_ordinal_description(&(num->value.ordinal));
+    case bib_lc_dateord_kind_date:    return bib_date_description(&(num->value.date));
+    case bib_lc_dateord_kind_ordinal: return bib_ordinal_description(&(num->value.ordinal));
     }
 }
 
@@ -89,9 +89,9 @@ static NSString *bib_lc_special_description(bib_lc_specification_t const *const 
         if (_calln.decimal[0] != '\0') {
             [string appendFormat:@".%s", _calln.decimal];
         }
-        BOOL hasNumber = !bib_lc_number_is_empty(&_calln.datenum);
+        BOOL hasNumber = !bib_lc_dateord_is_empty(&_calln.dateord);
         if (hasNumber) {
-            [string appendFormat:@" %@", bib_lc_number_description(&(_calln.datenum))];
+            [string appendFormat:@" %@", bib_lc_number_description(&(_calln.dateord))];
         }
         BOOL lastCutterHasNumber = NO;
         for (size_t index = 0; index < 3; index += 1) {
@@ -106,9 +106,9 @@ static NSString *bib_lc_special_description(bib_lc_specification_t const *const 
                     [string appendFormat:@" "];
                 }
                 [string appendFormat:@"%c%s%s", cut->cuttnum.letter, cut->cuttnum.number, cut->cuttnum.mark];
-                lastCutterHasNumber = !bib_lc_number_is_empty(&(cut->datenum));
+                lastCutterHasNumber = !bib_lc_dateord_is_empty(&(cut->dateord));
                 if (lastCutterHasNumber) {
-                    [string appendFormat:@" %@", bib_lc_number_description(&(cut->datenum))];
+                    [string appendFormat:@" %@", bib_lc_number_description(&(cut->dateord))];
                 }
             }
         }

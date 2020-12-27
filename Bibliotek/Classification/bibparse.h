@@ -36,7 +36,7 @@ extern bool bib_parse_lc_calln(bib_lc_calln_t *calln, char const **str, size_t *
 /// \param len Pointer to the amount of bytes remaining in the input stream.
 /// \returns \c true when a date or ordinal value is successfully read from the input stream.
 /// \post \c num is set to a data structure representing the date or ordinal value when parsing is successful.
-extern bool bib_parse_lc_number(bib_lc_number_t *num, bib_lex_word_f lex_ord_suffix, char const **str, size_t *len);
+extern bool bib_parse_lc_dateord(bib_lc_dateord_t *num, bib_lex_word_f lex_ord_suffix, char const **str, size_t *len);
 
 /// Read a cutter segment for a Library of Congress call number from the given input stream.
 /// \param cut Allocated space for a structure representing the parsed cutter segment.

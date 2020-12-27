@@ -116,7 +116,7 @@ bib_calln_comparison_t bib_lc_calln_compare(bib_calln_comparison_t const status,
     result = bib_string_specify_compare(result, left->decimal, right->decimal, specify);
 
     // datenum
-    result = bib_lc_number_compare(result, &(left->datenum), &(right->datenum), specify);
+    result = bib_lc_dateord_compare(result, &(left->dateord), &(right->dateord), specify);
 
     // cutters
     for (size_t index = 0; index < 3; index += 1) {
@@ -170,18 +170,18 @@ bib_calln_comparison_t bib_lc_cutter_compare(bib_calln_comparison_t const status
 
     bib_calln_comparison_t result = status;
     result = bib_cutter_compare(result, &(left->cuttnum), &(right->cuttnum), specify);
-    result = bib_lc_number_compare(result, &(left->datenum), &(right->datenum), specify);
+    result = bib_lc_dateord_compare(result, &(left->dateord), &(right->dateord), specify);
     return result;
 }
 
-bib_calln_comparison_t bib_lc_number_compare(bib_calln_comparison_t const status,
-                                             bib_lc_number_t const *const left, bib_lc_number_t const *const right,
-                                             bool specify)
+bib_calln_comparison_t bib_lc_dateord_compare(bib_calln_comparison_t const status,
+                                              bib_lc_dateord_t const *const left, bib_lc_dateord_t const *const right,
+                                              bool specify)
 {
     if (status == bib_calln_ordered_ascending || status == bib_calln_ordered_descending) { return status; }
 
-    bool const left_empty = bib_lc_number_is_empty(left);
-    bool const right_empty = bib_lc_number_is_empty(right);
+    bool const left_empty = bib_lc_dateord_is_empty(left);
+    bool const right_empty = bib_lc_dateord_is_empty(right);
     if (left_empty && right_empty) { return status; }
     else if (left_empty) { return (specify) ? bib_calln_ordered_specifying : bib_calln_ordered_ascending; }
     else if (right_empty) {
@@ -189,13 +189,13 @@ bib_calln_comparison_t bib_lc_number_compare(bib_calln_comparison_t const status
     }
 
     if (left->kind != right->kind) {
-        return (left->kind == bib_lc_number_ordinal) ? bib_calln_ordered_ascending : bib_calln_ordered_descending;
+        return (left->kind == bib_lc_dateord_kind_ordinal) ? bib_calln_ordered_ascending : bib_calln_ordered_descending;
     }
 
     switch (left->kind) {
-        case bib_lc_number_date:
+        case bib_lc_dateord_kind_date:
             return bib_date_compare(status, &(left->value.date), &(right->value.date), specify);
-        case bib_lc_number_ordinal:
+        case bib_lc_dateord_kind_ordinal:
             return bib_ordinal_compare(status, &(left->value.ordinal), &(right->value.ordinal), specify);
     }
 }

@@ -403,9 +403,9 @@
         XCTAssertEqual(cut.cuttnum.letter, 'A', @"parse cutter initial");
         BibAssertEqualStrings(cut.cuttnum.number, "123", @"parse cutter number");
         BibAssertEqualStrings(cut.cuttnum.mark, "");
-        XCTAssertEqual(cut.datenum.kind, bib_lc_number_date, @"parse date value");
-        BibAssertEqualStrings(cut.datenum.value.date.year, "2020", @"parse year");
-        BibAssertEqualStrings(cut.datenum.value.date.span, "");
+        XCTAssertEqual(cut.dateord.kind, bib_lc_dateord_kind_date, @"parse date value");
+        BibAssertEqualStrings(cut.dateord.value.date.year, "2020", @"parse year");
+        BibAssertEqualStrings(cut.dateord.value.date.span, "");
 
         BibAssertEqualStrings(str, "", @"input string should be empty");
         XCTAssertEqual(len, strlen(str) + 1, @"input string contains null terminator");
@@ -420,7 +420,7 @@
         XCTAssertEqual(cut.cuttnum.letter, 'A', @"parse cutter initial");
         BibAssertEqualStrings(cut.cuttnum.number, "123", @"parse cutter number");
         BibAssertEqualStrings(cut.cuttnum.mark, "");
-        XCTAssertTrue(bib_lc_number_is_empty(&(cut.datenum)), @"don't parse date value");
+        XCTAssertTrue(bib_lc_dateord_is_empty(&(cut.dateord)), @"don't parse date value");
 
         BibAssertEqualStrings(str, "", @"input string should be empty");
         XCTAssertEqual(len, strlen(str) + 1, @"input string contains null terminator");
@@ -435,7 +435,7 @@
         XCTAssertEqual(cut.cuttnum.letter, 'A', @"parse cutter initial");
         BibAssertEqualStrings(cut.cuttnum.number, "123", @"parse cutter number");
         BibAssertEqualStrings(cut.cuttnum.mark, "");
-        XCTAssertTrue(bib_lc_number_is_empty(&(cut.datenum)), @"don't parse date value");
+        XCTAssertTrue(bib_lc_dateord_is_empty(&(cut.dateord)), @"don't parse date value");
 
         BibAssertEqualStrings(str, " B123", @"input string should contain a space and the second cutter number");
         XCTAssertEqual(len, strlen(str) + 1, @"input string contains null terminator");
