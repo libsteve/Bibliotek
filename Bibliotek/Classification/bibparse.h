@@ -29,14 +29,14 @@ extern bool bib_parse_lc_calln(bib_lc_calln_t *calln, char const **str, size_t *
 
 /// Read a date or an ordinal value appearing within the caption or a cutter segment in a Library of Congress call
 /// number from the given input stream.
-/// \param num Allocated space for a structure representing the parsed date-or-ordinal segment.
+/// \param dord Allocated space for a structure representing the parsed date-or-ordinal segment.
 /// \param lex_ord_suffix A function defining the lexing strategy used for the suffix of a possible ordinal value.
 /// \param str Pointer to the current reading position in the input stream.
 ///            Characters read from the stream are removed only when parsing is successful.
 /// \param len Pointer to the amount of bytes remaining in the input stream.
 /// \returns \c true when a date or ordinal value is successfully read from the input stream.
 /// \post \c num is set to a data structure representing the date or ordinal value when parsing is successful.
-extern bool bib_parse_lc_dateord(bib_lc_dateord_t *num, bib_lex_word_f lex_ord_suffix, char const **str, size_t *len);
+extern bool bib_parse_lc_dateord(bib_lc_dateord_t *dord, bib_lex_word_f lex_ord_suffix, char const **str, size_t *len);
 
 /// Read a cutter segment for a Library of Congress call number from the given input stream.
 /// \param cut Allocated space for a structure representing the parsed cutter segment.

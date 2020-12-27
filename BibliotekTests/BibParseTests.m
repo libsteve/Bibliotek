@@ -19,99 +19,109 @@
 
 @implementation BibParseTests
 
-//- (void)test_parse_lc_caption {
-//    {
-//        char const *str = "QA";
-//        size_t len = strlen(str) + 1;
-//        bib_lc_caption_t cap;
-//        memset(&cap, 0, sizeof(bib_lc_caption_t));
-//        XCTAssertTrue(bib_parse_lc_caption(&cap, &str, &len));
-//        BibAssertEqualStrings(cap.letters, "QA");
-//        BibAssertEqualStrings(cap.integer, "");
-//        BibAssertEqualStrings(cap.decimal, "");
-//        BibAssertEqualStrings(cap.date, "");
-//        BibAssertEqualStrings(cap.ordinal.number, "");
-//        BibAssertEqualStrings(cap.ordinal.suffix, "");
-//        BibAssertEqualStrings(str, "");
-//        XCTAssertEqual(len, strlen(str) + 1);
-//    }
-//    {
-//        char const *str = "KF4558 15th";
-//        size_t len = strlen(str) + 1;
-//        bib_lc_caption_t cap;
-//        memset(&cap, 0, sizeof(bib_lc_caption_t));
-//        XCTAssertTrue(bib_parse_lc_caption(&cap, &str, &len));
-//        BibAssertEqualStrings(cap.letters, "KF");
-//        BibAssertEqualStrings(cap.integer, "4558");
-//        BibAssertEqualStrings(cap.decimal, "");
-//        BibAssertEqualStrings(cap.date, "");
-//        BibAssertEqualStrings(cap.ordinal.number, "15");
-//        BibAssertEqualStrings(cap.ordinal.suffix, "th");
-//        BibAssertEqualStrings(str, "");
-//        XCTAssertEqual(len, strlen(str) + 1);
-//    }
-//    {
-//        char const *str = "DR1879.5 1988";
-//        size_t len = strlen(str) + 1;
-//        bib_lc_caption_t cap;
-//        memset(&cap, 0, sizeof(bib_lc_caption_t));
-//        XCTAssertTrue(bib_parse_lc_caption(&cap, &str, &len));
-//        BibAssertEqualStrings(cap.letters, "DR");
-//        BibAssertEqualStrings(cap.integer, "1879");
-//        BibAssertEqualStrings(cap.decimal, "5");
-//        BibAssertEqualStrings(cap.date, "1988");
-//        BibAssertEqualStrings(cap.ordinal.number, "");
-//        BibAssertEqualStrings(cap.ordinal.suffix, "");
-//        BibAssertEqualStrings(str, "");
-//        XCTAssertEqual(len, strlen(str) + 1);
-//    }
-//    {
-//        char const *str = "QA76.76 1988 15p";
-//        size_t len = strlen(str) + 1;
-//        bib_lc_caption_t cap;
-//        memset(&cap, 0, sizeof(bib_lc_caption_t));
-//        XCTAssertTrue(bib_parse_lc_caption(&cap, &str, &len));
-//        BibAssertEqualStrings(cap.letters, "QA");
-//        BibAssertEqualStrings(cap.integer, "76");
-//        BibAssertEqualStrings(cap.decimal, "76");
-//        BibAssertEqualStrings(cap.date, "1988");
-//        BibAssertEqualStrings(cap.ordinal.number, "15");
-//        BibAssertEqualStrings(cap.ordinal.suffix, "p");
-//        BibAssertEqualStrings(str, "");
-//        XCTAssertEqual(len, strlen(str) + 1);
-//    }
-//    {
-//        char const *str = "QA 76.76 1988 15 p";
-//        size_t len = strlen(str) + 1;
-//        bib_lc_caption_t cap;
-//        memset(&cap, 0, sizeof(bib_lc_caption_t));
-//        XCTAssertTrue(bib_parse_lc_caption(&cap, &str, &len));
-//        BibAssertEqualStrings(cap.letters, "QA");
-//        BibAssertEqualStrings(cap.integer, "76");
-//        BibAssertEqualStrings(cap.decimal, "76");
-//        BibAssertEqualStrings(cap.date, "1988");
-//        BibAssertEqualStrings(cap.ordinal.number, "15");
-//        BibAssertEqualStrings(cap.ordinal.suffix, "p");
-//        BibAssertEqualStrings(str, "");
-//        XCTAssertEqual(len, strlen(str) + 1);
-//    }
-//    {
-//        char const *str = "KF4558 7088p";
-//        size_t len = strlen(str) + 1;
-//        bib_lc_caption_t cap;
-//        memset(&cap, 0, sizeof(bib_lc_caption_t));
-//        XCTAssertTrue(bib_parse_lc_caption(&cap, &str, &len));
-//        BibAssertEqualStrings(cap.letters, "KF");
-//        BibAssertEqualStrings(cap.integer, "4558");
-//        BibAssertEqualStrings(cap.decimal, "");
-//        BibAssertEqualStrings(cap.date, "");
-//        BibAssertEqualStrings(cap.ordinal.number, "7088");
-//        BibAssertEqualStrings(cap.ordinal.suffix, "p");
-//        BibAssertEqualStrings(str, "");
-//        XCTAssertEqual(len, strlen(str) + 1);
-//    }
-//}
-//
+- (void)test_parse_lc_subject {
+    {
+        char const *str = "QA";
+        size_t len = strlen(str) + 1;
+        bib_lc_calln_t cap = {};
+        XCTAssertTrue(bib_parse_lc_calln(&cap, &str, &len));
+        BibAssertEqualStrings(cap.letters, "QA");
+        BibAssertEqualStrings(cap.integer, "");
+        BibAssertEqualStrings(cap.decimal, "");
+        XCTAssertTrue(bib_lc_dateord_is_empty(&cap.dateord));
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "KF4558 15th";
+        size_t len = strlen(str) + 1;
+        bib_lc_calln_t cap = {};
+        XCTAssertTrue(bib_parse_lc_calln(&cap, &str, &len));
+        BibAssertEqualStrings(cap.letters, "KF");
+        BibAssertEqualStrings(cap.integer, "4558");
+        BibAssertEqualStrings(cap.decimal, "");
+        XCTAssertEqual(cap.dateord.kind, bib_lc_dateord_kind_ordinal);
+        BibAssertEqualStrings(cap.dateord.ordinal.number, "15");
+        BibAssertEqualStrings(cap.dateord.ordinal.suffix, "th");
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "DR1879.5 1988";
+        size_t len = strlen(str) + 1;
+        bib_lc_calln_t cap = {};
+        XCTAssertTrue(bib_parse_lc_calln(&cap, &str, &len));
+        BibAssertEqualStrings(cap.letters, "DR");
+        BibAssertEqualStrings(cap.integer, "1879");
+        BibAssertEqualStrings(cap.decimal, "5");
+        XCTAssertEqual(cap.dateord.kind, bib_lc_dateord_kind_date);
+        BibAssertEqualStrings(cap.dateord.date.year, "1988");
+        XCTAssertFalse(bib_date_has_span(&(cap.dateord.date)));
+        XCTAssertEqual(cap.dateord.date.separator, '\0');
+        BibAssertEqualStrings(cap.dateord.date.span, "");
+        BibAssertEqualStrings(cap.dateord.date.mark, "");
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "QA76.76 1988 15th";
+        size_t len = strlen(str) + 1;
+        bib_lc_calln_t cap = {};
+        XCTAssertTrue(bib_parse_lc_calln(&cap, &str, &len));
+        BibAssertEqualStrings(cap.letters, "QA");
+        BibAssertEqualStrings(cap.integer, "76");
+        BibAssertEqualStrings(cap.decimal, "76");
+        BibAssertEqualStrings(cap.dateord.date.year, "1988");
+        XCTAssertEqual(cap.dateord.kind, bib_lc_dateord_kind_date);
+        XCTAssertNotEqual(cap.dateord.kind, bib_lc_dateord_kind_ordinal);
+        BibAssertEqualStrings(str, " 15th", @"shouldn't parse an ordinal after parsing a year");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "QA 76 .76 1988";
+        size_t len = strlen(str) + 1;
+        bib_lc_calln_t cap = {};
+        XCTAssertTrue(bib_parse_lc_calln(&cap, &str, &len), @"allow partial match");
+        BibAssertEqualStrings(cap.letters, "QA");
+        BibAssertEqualStrings(cap.integer, "76");
+        BibAssertEqualStrings(cap.decimal, "", @"don't parse decimals with leading space");
+        XCTAssertTrue(bib_lc_dateord_is_empty(&cap.dateord));
+        BibAssertEqualStrings(str, " .76 1988", @"leave decimal with leading space");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "QA 76.76 1988 15th .C16";
+        size_t len = strlen(str) + 1;
+        bib_lc_calln_t cap = {};
+        XCTAssertTrue(bib_parse_lc_calln(&cap, &str, &len), @"allow partial match");
+        BibAssertEqualStrings(cap.letters, "QA");
+        BibAssertEqualStrings(cap.integer, "76");
+        BibAssertEqualStrings(cap.decimal, "76");
+        BibAssertEqualStrings(cap.dateord.date.year, "1988");
+        XCTAssertEqual(cap.dateord.kind, bib_lc_dateord_kind_date);
+        XCTAssertNotEqual(cap.dateord.kind, bib_lc_dateord_kind_ordinal);
+        XCTAssertTrue(bib_lc_cutter_is_empty(&(cap.cutters[0])));
+        BibAssertEqualStrings(str, " 15th .C16", @"stop parsing when an ordinal is found after pasing a year");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "KF4558 1988p";
+        size_t len = strlen(str) + 1;
+        bib_lc_calln_t cap = {};
+        XCTAssertTrue(bib_parse_lc_calln(&cap, &str, &len), @"allow partial match");
+        BibAssertEqualStrings(cap.letters, "KF");
+        BibAssertEqualStrings(cap.integer, "4558");
+        BibAssertEqualStrings(cap.decimal, "");
+        XCTAssertEqual(cap.dateord.kind, bib_lc_dateord_kind_date);
+        BibAssertEqualStrings(cap.dateord.date.year, "1988");
+        XCTAssertEqual(cap.dateord.date.separator, '\0');
+        BibAssertEqualStrings(cap.dateord.date.span, "");
+        BibAssertEqualStrings(cap.dateord.date.mark, "p");
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+}
+
 //- (void)test_parse_lc_caption_root {
 //    {
 //        char const *str = "QA";
@@ -404,8 +414,11 @@
         BibAssertEqualStrings(cut.cuttnum.number, "123", @"parse cutter number");
         BibAssertEqualStrings(cut.cuttnum.mark, "");
         XCTAssertEqual(cut.dateord.kind, bib_lc_dateord_kind_date, @"parse date value");
-        BibAssertEqualStrings(cut.dateord.value.date.year, "2020", @"parse year");
-        BibAssertEqualStrings(cut.dateord.value.date.span, "");
+        BibAssertEqualStrings(cut.dateord.date.year, "2020", @"parse year");
+        XCTAssertFalse(bib_date_has_span(&(cut.dateord.date)));
+        XCTAssertEqual(cut.dateord.date.separator, '\0');
+        BibAssertEqualStrings(cut.dateord.date.span, "");
+        BibAssertEqualStrings(cut.dateord.date.mark, "");
 
         BibAssertEqualStrings(str, "", @"input string should be empty");
         XCTAssertEqual(len, strlen(str) + 1, @"input string contains null terminator");

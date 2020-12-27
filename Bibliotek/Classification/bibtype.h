@@ -15,14 +15,6 @@
 
 __BEGIN_DECLS
 
-static size_t const bib_letters_size =  3;
-static size_t const bib_integer_size =  4;
-static size_t const bib_digit16_size = 16;
-static size_t const bib_datenum_size =  4;
-static size_t const bib_suffix_size  =  3;
-static size_t const bib_lcalpha_size =  3;
-static size_t const bib_cuttern_size = bib_digit16_size;
-
 #pragma mark -
 
 /// A single alphabetic character.
@@ -49,7 +41,7 @@ typedef char bib_year_b[5];
 /// A string of at most four alphabetic characters
 typedef char bib_mark_b[5];
 
-#pragma mark -
+#pragma mark - date
 
 /// A year or range of years used within a call number.
 typedef struct bib_date {
@@ -68,10 +60,11 @@ typedef struct bib_date {
     bib_mark_b mark;
 } bib_date_t;
 
-static inline bool bib_date_is_empty(bib_date_t const *const date) { return (date == NULL) || (date->year[0] == '\0'); }
-static inline bool bib_date_has_span(bib_date_t const *const date) { return (date != NULL) && (date->separator != '\0'); }
+extern bool bib_date_init(bib_date_t *date, char const *str);
+extern bool bib_date_is_empty(bib_date_t const *date);
+extern bool bib_date_has_span(bib_date_t const *date);
 
-#pragma mark -
+#pragma mark - cutter
 
 /// A cutter number.
 typedef struct bib_cutter {
@@ -85,9 +78,10 @@ typedef struct bib_cutter {
     bib_mark_b mark;
 } bib_cutter_t;
 
-static inline bool bib_cutter_is_empty(bib_cutter_t const *const cut) { return (cut == NULL) || (cut->letter == '\0'); }
+extern bool bib_cutter_init(bib_cutter_t *cut, char const *str);
+extern bool bib_cutter_is_empty(bib_cutter_t const *cut);
 
-#pragma mark -
+#pragma mark - ordinal
 
 /// An integer value followed by an alphabetic suffix. i.e. "15th"
 typedef struct bib_ordinal {
@@ -98,7 +92,9 @@ typedef struct bib_ordinal {
     bib_word_b    suffix;
 } bib_ordinal_t;
 
-static inline bool bib_ordinal_is_empty(bib_ordinal_t const *const ord) { return (ord == NULL) || (ord->number[0] == '\0'); }
+extern bool bib_ordinal_is_empty(bib_ordinal_t const *ord);
+
+#pragma mark - volume
 
 /// An integer value preceeded by some alphabetic marker. i.e. "vol. 1"
 typedef struct bib_volume {
@@ -109,9 +105,10 @@ typedef struct bib_volume {
     bib_digit16_b number;
 } bib_volume_t;
 
-static inline bool bib_volume_is_empty(bib_volume_t const *const vol) { return (vol == NULL) || (vol->prefix[0] == '\0'); }
+bool bib_volume_init(bib_volume_t *vol, char const *str);
+extern bool bib_volume_is_empty(bib_volume_t const *vol);
 
-#pragma mark -
+#pragma mark - lc specification
 
 /// A flag indicating the type of data within a specification segment.
 typedef enum bib_lc_specification_kind {
@@ -121,34 +118,29 @@ typedef enum bib_lc_specification_kind {
     bib_lc_specification_kind_word
 } bib_lc_specification_kind_t;
 
-/// A union of the possible values for a specification segment.
-typedef union bib_lc_specification_value {
-    /// A date value, marked by \c bib_lc_specification_kind_date
-    bib_date_t     date;
-
-    /// An ordinal value, marked by \c bib_lc_specification_kind_ordinal
-    bib_ordinal_t  ordinal;
-
-    /// A volume value, marked by \c bib_lc_specification_kind_volume
-    bib_volume_t   volume;
-
-    /// A long word value, marked by \c bib_lc_specification_kind_word
-    bib_longword_b word;
-} bib_lc_specific_value_t;
-
 /// A value within the specification section of a Library of Congress call number.
 typedef struct bib_lc_specification {
     /// The type of data within the specification segment.
     bib_lc_specification_kind_t kind;
 
-    /// The value of the specification segment.
-    bib_lc_specific_value_t value;
-} bib_lc_specification_t;
+    union {
+        /// A date value, marked by \c bib_lc_specification_kind_date
+        bib_date_t     date;
 
-static inline bool bib_lc_specification_is_empty(bib_lc_specification_t const *const spc) { return (spc == NULL) || (spc->kind == 0); }
+        /// An ordinal value, marked by \c bib_lc_specification_kind_ordinal
+        bib_ordinal_t  ordinal;
+
+        /// A volume value, marked by \c bib_lc_specification_kind_volume
+        bib_volume_t   volume;
+
+        /// A long word value, marked by \c bib_lc_specification_kind_word
+        bib_longword_b word;
+    };
+} bib_lc_specification_t;
 
 extern void bib_lc_specification_init(bib_lc_specification_t *spc, bib_lc_specification_kind_t spec);
 extern void bib_lc_specification_deinit(bib_lc_specification_t *spc);
+extern bool bib_lc_specification_is_empty(bib_lc_specification_t const *spc);
 
 /// A list of specification segment values.
 typedef struct bib_lc_specification_list {
@@ -159,15 +151,12 @@ typedef struct bib_lc_specification_list {
     size_t            length;
 } bib_lc_specification_list_t;
 
-static inline bool bib_lc_specification_list_is_empty(bib_lc_specification_list_t const *const list) {
-    return (list == NULL) || (list->buffer == NULL) || (list->length == 0);
-}
-
 extern void bib_lc_specification_list_init  (bib_lc_specification_list_t *list);
-extern void bib_lc_specification_list_append(bib_lc_specification_list_t *list, bib_lc_specification_t *buff, size_t len);
+extern void bib_lc_specification_list_append(bib_lc_specification_list_t *list, bib_lc_specification_t *spc);
 extern void bib_lc_specification_list_deinit(bib_lc_specification_list_t *list);
+extern bool bib_lc_specification_list_is_empty(bib_lc_specification_list_t const *list);
 
-#pragma mark -
+#pragma mark - dateord
 
 /// A flag indicating the type of data within a date-or-other value.
 typedef enum bib_lc_dateord_kind {
@@ -175,27 +164,31 @@ typedef enum bib_lc_dateord_kind {
     bib_lc_dateord_kind_ordinal
 } bib_lc_dateord_kind_t;
 
-/// A union of the possible values for a date-or-ordinal value.
-typedef union bib_lc_dateord_value {
-    /// A date value, marked by \c bib_lc_dateord_kind_date
-    bib_date_t date;
-
-    /// An ordinal value, marked by \c bib_lc_dateord_kind_ordinal
-    bib_ordinal_t ordinal;
-} bib_lc_dateord_value_t;
-
 /// A date or ordinal value within the caption section or a cutter segment in a Library of Congress call number.
 typedef struct bib_lc_dateord {
     /// The type of data within the date-or-ordinal value.
     bib_lc_dateord_kind_t kind;
 
-    /// The value of the date-or-ordinal value.
-    bib_lc_dateord_value_t value;
+    union {
+        /// A date value, marked by \c bib_lc_dateord_kind_date
+        bib_date_t date;
+
+        /// An ordinal value, marked by \c bib_lc_dateord_kind_ordinal
+        bib_ordinal_t ordinal;
+    };
 } bib_lc_dateord_t;
 
-static inline bool bib_lc_dateord_is_empty(bib_lc_dateord_t const *const num) { return (num == NULL) || (num->kind == 0); }
 
-#pragma mark -
+extern bool bib_lc_dateord_init_date(bib_lc_dateord_t *dord, bib_date_t const *date);
+extern bool bib_lc_dateord_init_ordinal(bib_lc_dateord_t *dord, bib_ordinal_t const *ord);
+
+extern bib_date_t const *bib_lc_dateord_get_date(bib_lc_dateord_t *const dord);
+extern bib_ordinal_t const *bib_lc_dateord_get_ordinal(bib_lc_dateord_t *const dord);
+
+extern bool bib_lc_dateord_is_empty(bib_lc_dateord_t const *dord);
+
+
+#pragma mark - lc cutter
 
 /// A cutter segment within a Library of Congress call number.
 typedef struct bib_lc_cutter {
@@ -206,9 +199,8 @@ typedef struct bib_lc_cutter {
     bib_lc_dateord_t dateord;
 } bib_lc_cutter_t;
 
-static inline bool bib_lc_cutter_is_empty(bib_lc_cutter_t const *const cut) {
-    return (cut == NULL) || bib_cutter_is_empty(&(cut->cuttnum));
-}
+extern bool bib_lc_cutter_init(bib_lc_cutter_t *cut, bib_cutter_t const *num, bib_lc_dateord_t const *dord);
+extern bool bib_lc_cutter_is_empty(bib_lc_cutter_t const *cut);
 
 #pragma mark -
 

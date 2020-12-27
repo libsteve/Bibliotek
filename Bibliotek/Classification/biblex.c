@@ -21,13 +21,13 @@
 
 bool bib_lex_integer(bib_digit04_b buffer, char const **const str, size_t *const len)
 {
-    size_t length = bib_lex_digit_n(buffer, bib_integer_size, str, len);
+    size_t length = bib_lex_digit_n(buffer, sizeof(bib_digit04_b), str, len);
     return (length > 0);
 }
 
 bool bib_lex_digit16(bib_digit16_b buffer, char const **const str, size_t *const len)
 {
-    size_t length = bib_lex_digit_n(buffer, bib_digit16_size, str, len);
+    size_t length = bib_lex_digit_n(buffer, sizeof(bib_digit16_b), str, len);
     return (length > 0);
 }
 
@@ -42,7 +42,7 @@ bool bib_lex_decimal(bib_digit16_b buffer, char const **const str, size_t *const
                 && bib_lex_digit16(buffer, &string, &string_length)
                 && bib_advance_step(*len - string_length, str, len);
     if (!success) {
-        memset(buffer, 0, sizeof(char) * (bib_digit16_size + 1));
+        memset(buffer, 0, sizeof(bib_digit16_b));
     }
     return success;
 }
@@ -54,7 +54,7 @@ bool bib_lex_year(bib_year_b buffer, char const **const str, size_t *const len)
     }
     char const *str_0 = *str;
     size_t      len_0 = *len;
-    size_t length = bib_lex_digit_n(buffer, bib_datenum_size, &str_0, &len_0);
+    size_t length = bib_lex_digit_n(buffer, sizeof(bib_year_b), &str_0, &len_0);
     return (length == 4) && bib_advance_step(*len - len_0, str, len);
 }
 
@@ -65,7 +65,7 @@ bool bib_lex_year_abv(bib_year_b buffer, char const **const str, size_t *const l
     }
     char const *str_0 = *str;
     size_t      len_0 = *len;
-    size_t length = bib_lex_digit_n(buffer, 3, &str_0, &len_0);
+    size_t length = bib_lex_digit_n(buffer, sizeof(char) * 3, &str_0, &len_0);
     return (length == 2) && bib_advance_step(*len - len_0, str, len);
 }
 
@@ -99,7 +99,8 @@ bool bib_lex_subclass(bib_alpah03_b buffer, char const **const str, size_t *cons
 
     size_t string_index = 0;
     size_t buffer_index = 0;
-    while ((buffer_index < bib_lcalpha_size) && (string_index < string_length)) {
+    static size_t const max_buffer_index = sizeof(bib_alpah03_b) - sizeof(char);
+    while ((buffer_index < max_buffer_index) && (string_index < string_length)) {
         const char current_char = string[string_index];
         if (isupper(current_char)) {
             buffer[buffer_index] = current_char;
@@ -118,7 +119,7 @@ bool bib_lex_subclass(bib_alpah03_b buffer, char const **const str, size_t *cons
     buffer[buffer_index] = '\0';
     bool success = bib_advance_step(buffer_index, str, len);
     if (!success) {
-        memset(buffer, 0, sizeof(char) * (bib_lcalpha_size + 1));
+        memset(buffer, 0, sizeof(bib_alpah03_b));
     }
 
     return success;
@@ -358,7 +359,8 @@ size_t bib_lex_char_n(char *const buffer, size_t const buffer_len, bool (*const 
 
     size_t string_index = 0;
     size_t buffer_index = 0;
-    while ((buffer_index < buffer_len) && (string_index < string_length)) {
+    size_t const buffer_max_index = buffer_len - 1;
+    while ((buffer_index < buffer_max_index) && (string_index < string_length)) {
         const char current_char = string[string_index];
         if (pred(current_char)) {
             buffer[buffer_index] = current_char;
@@ -370,7 +372,7 @@ size_t bib_lex_char_n(char *const buffer, size_t const buffer_len, bool (*const 
     }
     bool success = bib_advance_step(buffer_index, str, len);
     if (!success) {
-        memset(buffer, 0, sizeof(char) * buffer_len);
+        memset(buffer, 0, buffer_len);
     }
     return (success) ? buffer_index : 0;
 }

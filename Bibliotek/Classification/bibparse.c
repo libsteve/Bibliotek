@@ -143,28 +143,34 @@ static bool bib_parse_lc_calln_cutters_list(bib_lc_calln_t *calln, char const **
     return success;
 }
 
-bool bib_parse_lc_dateord(bib_lc_dateord_t *const num, bib_lex_word_f const lex_ord_suffix,
+bool bib_parse_lc_dateord(bib_lc_dateord_t *const dord, bib_lex_word_f const lex_ord_suffix,
                           char const **const str, size_t *const len)
 {
-    if (num == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
+    if (dord == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
     }
 
     char const *str_0 = *str;
     size_t      len_0 = *len;
-    bool date_success = bib_parse_date(&(num->value.date), &str_0, &len_0);
-    bool ordl_success = !date_success && bib_parse_ordinal(&(num->value.ordinal), lex_ord_suffix, &str_0, &len_0);
 
-    if (date_success) {
-        num->kind = bib_lc_dateord_kind_date;
-    } else if (ordl_success) {
-        num->kind = bib_lc_dateord_kind_ordinal;
-    }
+    bib_date_t date = {};
+    bool date_success = bib_parse_date(&date, &str_0, &len_0)
+                     && bib_lc_dateord_init_date(dord, &date);
 
-    size_t final_len = (date_success || ordl_success) ? len_0 : *len;
+    char const *str_1 = *str;
+    size_t      len_1 = *len;
+
+    bib_ordinal_t ord = {};
+    bool ordl_success = !date_success
+                     && bib_parse_ordinal(&ord, lex_ord_suffix, &str_1, &len_1)
+                     && bib_lc_dateord_init_ordinal(dord, &ord);
+
+    size_t final_len = (date_success) ? len_0
+                     : (ordl_success) ? len_1
+                     : *len;
     bool success = (date_success || ordl_success) && bib_advance_step(*len - final_len, str, len);
     if (!success) {
-        memset(num, 0, sizeof(bib_lc_dateord_kind_ordinal));
+        memset(dord, 0, sizeof(bib_lc_dateord_t));
     }
     return success;
 }
@@ -202,10 +208,10 @@ bool bib_parse_lc_specification(bib_lc_specification_t *const spc, char const **
 
     char const *str_0 = *str;
     size_t      len_0 = *len;
-    bool date_success = bib_parse_date(&(spc->value.date), &str_0, &len_0);
-    bool  ord_success = !date_success && bib_parse_specification_ordinal(&(spc->value.ordinal), &str_0, &len_0);
-    bool  vol_success = !date_success && !ord_success && bib_parse_volume(&(spc->value.volume), &str_0, &len_0);
-    bool word_success = !date_success && !ord_success && !vol_success && bib_lex_longword(spc->value.word, &str_0, &len_0);
+    bool date_success = bib_parse_date(&(spc->date), &str_0, &len_0);
+    bool  ord_success = !date_success && bib_parse_specification_ordinal(&(spc->ordinal), &str_0, &len_0);
+    bool  vol_success = !date_success && !ord_success && bib_parse_volume(&(spc->volume), &str_0, &len_0);
+    bool word_success = !date_success && !ord_success && !vol_success && bib_lex_longword(spc->word, &str_0, &len_0);
 
     spc->kind = (date_success) ? bib_lc_specification_kind_date
               :  (ord_success) ? bib_lc_specification_kind_ordinal
@@ -241,7 +247,7 @@ bool bib_parse_lc_remainder(bib_lc_specification_list_t *const rem, char const *
         success = spc_success || (index > 0);
         stop = !spc_success;
         if (spc_success) {
-            bib_lc_specification_list_append(rem, &special, 1);
+            bib_lc_specification_list_append(rem, &special);
             str_0 = str_1;
             len_0 = len_1;
             index += 1;

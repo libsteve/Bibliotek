@@ -36,7 +36,61 @@ void bib_lc_calln_deinit(bib_lc_calln_t *const num)
     memset(num, 0, sizeof(bib_lc_calln_t));
 }
 
-#pragma mark lc special
+#pragma mark - date
+
+bool bib_date_init(bib_date_t *const date, char const *const str)
+{
+    char const *str0 = str;
+    size_t      len0 = strlen(str);
+    return bib_parse_date(date, &str0, &len0);
+}
+
+bool bib_date_is_empty(bib_date_t const *const date)
+{
+    return (date == NULL) || (date->year[0] == '\0');
+}
+
+bool bib_date_has_span(bib_date_t const *const date)
+{
+    return (date != NULL) && (date->separator != '\0');
+}
+
+#pragma mark - cutter
+
+bool bib_cutter_init(bib_cutter_t *cut, char const *str)
+{
+    char const *str0 = str;
+    size_t      len0 = strlen(str);
+    return bib_parse_cutter(cut, &str0, &len0);
+}
+
+bool bib_cutter_is_empty(bib_cutter_t const *const cut)
+{
+    return (cut == NULL) || (cut->letter == '\0');
+}
+
+#pragma mark - ordinal
+
+bool bib_ordinal_is_empty(bib_ordinal_t const *const ord)
+{
+    return (ord == NULL) || (ord->number[0] == '\0');
+}
+
+#pragma mark - volume
+
+bool bib_volume_init(bib_volume_t *const vol, char const *const str)
+{
+    char const *str0 = str;
+    size_t      len0 = strlen(str);
+    return bib_parse_volume(vol, &str0, &len0);
+}
+
+bool bib_volume_is_empty(bib_volume_t const *const vol)
+{
+    return (vol == NULL) || (vol->prefix[0] == '\0');
+}
+
+#pragma mark - lc specification
 
 void bib_lc_specification_init(bib_lc_specification_t *const spc, bib_lc_specification_kind_t kind)
 {
@@ -51,21 +105,26 @@ void bib_lc_specification_deinit(bib_lc_specification_t *const spc)
     memset(spc, 0, sizeof(bib_lc_specification_t));
 }
 
+bool bib_lc_specification_is_empty(bib_lc_specification_t const *const spc)
+{
+    return (spc == NULL) || (spc->kind == 0);
+}
+
 void bib_lc_specification_list_init(bib_lc_specification_list_t *list)
 {
     if (list == NULL) { return; }
     memset(list, 0, sizeof(bib_lc_specification_list_t));
 }
 
-void bib_lc_specification_list_append(bib_lc_specification_list_t *list, bib_lc_specification_t *buff, size_t len)
+void bib_lc_specification_list_append(bib_lc_specification_list_t *list, bib_lc_specification_t *spc)
 {
-    if (list == NULL || buff == NULL || len == 0) { return; }
+    if (list == NULL || spc == NULL) { return; }
     assert(list->buffer != NULL || list->length == 0);
     size_t const prev_end_index = list->length;
-    list->length = prev_end_index + len;
+    list->length = prev_end_index + 1;
     list->buffer = (list->buffer == NULL) ? malloc(sizeof(bib_lc_specification_t))
                                           : realloc(list->buffer, list->length * sizeof(bib_lc_specification_t));
-    memcpy(&(list->buffer[prev_end_index]), buff, len * sizeof(bib_lc_specification_t));
+    list->buffer[prev_end_index] = *spc;
 }
 
 void bib_lc_specification_list_deinit(bib_lc_specification_list_t *const list)
@@ -74,6 +133,74 @@ void bib_lc_specification_list_deinit(bib_lc_specification_list_t *const list)
     free(list->buffer);
     list->buffer = NULL;
     list->length = 0;
+}
+
+bool bib_lc_specification_list_is_empty(bib_lc_specification_list_t const *const list) {
+    return (list == NULL) || (list->buffer == NULL) || (list->length == 0);
+}
+
+#pragma mark - lc dateord
+
+bool bib_lc_dateord_init_date(bib_lc_dateord_t *const dord, bib_date_t const *const date)
+{
+    if (dord == NULL || date == NULL || bib_date_is_empty(date)) {
+        return false;
+    }
+    memset(dord, 0, sizeof(bib_lc_dateord_t));
+    dord->kind = bib_lc_dateord_kind_date;
+    dord->date = *date;
+    return true;
+}
+
+bool bib_lc_dateord_init_ordinal(bib_lc_dateord_t *const dord, bib_ordinal_t const *const ord)
+{
+    if (dord == NULL || ord == NULL || bib_ordinal_is_empty(ord)) {
+        return false;
+    }
+    memset(dord, 0, sizeof(bib_lc_dateord_t));
+    dord->kind = bib_lc_dateord_kind_ordinal;
+    dord->ordinal = *ord;
+    return true;
+}
+
+bib_date_t const *bib_lc_dateord_get_date(bib_lc_dateord_t *const dord)
+{
+    if (dord == NULL || dord->kind != bib_lc_dateord_kind_date) {
+        return NULL;
+    }
+    return &(dord->date);
+}
+
+bib_ordinal_t const *bib_lc_dateord_get_ordinal(bib_lc_dateord_t *const dord)
+{
+    if (dord == NULL || dord->kind != bib_lc_dateord_kind_ordinal) {
+        return NULL;
+    }
+    return &(dord->ordinal);
+}
+
+bool bib_lc_dateord_is_empty(bib_lc_dateord_t const *const num)
+{
+    return (num == NULL) || (num->kind == 0);
+}
+
+#pragma mark - lc cutter
+
+bool bib_lc_cutter_init(bib_lc_cutter_t *const cut, bib_cutter_t const *const num, bib_lc_dateord_t const *const dord)
+{
+    if (cut == NULL || bib_cutter_is_empty(num)) {
+        return false;
+    }
+    cut->cuttnum = *num;
+    if (!bib_lc_dateord_is_empty(dord)) {
+        cut->dateord = *dord;
+    }
+    return true;
+}
+
+bool bib_lc_cutter_is_empty(bib_lc_cutter_t const *const cut)
+{
+    return (cut == NULL) || bib_cutter_is_empty(&(cut->cuttnum));
 }
 
 #pragma mark -
@@ -194,9 +321,9 @@ bib_calln_comparison_t bib_lc_dateord_compare(bib_calln_comparison_t const statu
 
     switch (left->kind) {
         case bib_lc_dateord_kind_date:
-            return bib_date_compare(status, &(left->value.date), &(right->value.date), specify);
+            return bib_date_compare(status, &(left->date), &(right->date), specify);
         case bib_lc_dateord_kind_ordinal:
-            return bib_ordinal_compare(status, &(left->value.ordinal), &(right->value.ordinal), specify);
+            return bib_ordinal_compare(status, &(left->ordinal), &(right->ordinal), specify);
     }
 }
 
@@ -218,7 +345,7 @@ bib_calln_comparison_t bib_lc_special_compare(bib_calln_comparison_t const statu
         case bib_lc_specification_kind_date:
             switch (right->kind) {
                 case bib_lc_specification_kind_date:
-                    return bib_date_compare(status, &(left->value.date), &(right->value.date), specify);
+                    return bib_date_compare(status, &(left->date), &(right->date), specify);
 
                 case bib_lc_specification_kind_word:
                 case bib_lc_specification_kind_ordinal:
@@ -232,7 +359,7 @@ bib_calln_comparison_t bib_lc_special_compare(bib_calln_comparison_t const statu
                     return bib_calln_ordered_descending;
 
                 case bib_lc_specification_kind_word:
-                    return bib_string_specify_compare(status, left->value.word, right->value.word, specify);
+                    return bib_string_specify_compare(status, left->word, right->word, specify);
 
                 case bib_lc_specification_kind_ordinal:
                 case bib_lc_specification_kind_volume:
@@ -246,7 +373,7 @@ bib_calln_comparison_t bib_lc_special_compare(bib_calln_comparison_t const statu
                     return  bib_calln_ordered_descending;
 
                 case bib_lc_specification_kind_ordinal:
-                    return bib_ordinal_compare(status, &(left->value.ordinal), &(right->value.ordinal), specify);
+                    return bib_ordinal_compare(status, &(left->ordinal), &(right->ordinal), specify);
 
                 case bib_lc_specification_kind_volume:
                     return bib_calln_ordered_ascending;
@@ -260,7 +387,7 @@ bib_calln_comparison_t bib_lc_special_compare(bib_calln_comparison_t const statu
                     return bib_calln_ordered_descending;
 
                 case bib_lc_specification_kind_volume:
-                    return bib_volume_compare(status, &(left->value.volume), &(right->value.volume), specify);
+                    return bib_volume_compare(status, &(left->volume), &(right->volume), specify);
             }
     }
 }

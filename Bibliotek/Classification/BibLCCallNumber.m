@@ -62,8 +62,8 @@ static NSString *bib_ordinal_description(bib_ordinal_t const *const ord) {
 
 static NSString *bib_lc_number_description(bib_lc_dateord_t const *const num) {
     switch (num->kind) {
-    case bib_lc_dateord_kind_date:    return bib_date_description(&(num->value.date));
-    case bib_lc_dateord_kind_ordinal: return bib_ordinal_description(&(num->value.ordinal));
+    case bib_lc_dateord_kind_date:    return bib_date_description(&(num->date));
+    case bib_lc_dateord_kind_ordinal: return bib_ordinal_description(&(num->ordinal));
     }
 }
 
@@ -73,10 +73,10 @@ static NSString *bib_volume_description(bib_volume_t const *const vol) {
 
 static NSString *bib_lc_special_description(bib_lc_specification_t const *const spc) {
     switch (spc->kind) {
-        case bib_lc_specification_kind_date: return bib_date_description(&(spc->value.date));
-        case bib_lc_specification_kind_ordinal: return bib_ordinal_description(&(spc->value.ordinal));
-        case bib_lc_specification_kind_volume: return bib_volume_description(&(spc->value.volume));
-        case bib_lc_specification_kind_word: return [NSString stringWithFormat:@"%s", spc->value.word];
+        case bib_lc_specification_kind_date: return bib_date_description(&(spc->date));
+        case bib_lc_specification_kind_ordinal: return bib_ordinal_description(&(spc->ordinal));
+        case bib_lc_specification_kind_volume: return bib_volume_description(&(spc->volume));
+        case bib_lc_specification_kind_word: return [NSString stringWithFormat:@"%s", spc->word];
     }
 }
 
