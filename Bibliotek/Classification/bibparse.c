@@ -402,8 +402,8 @@ bool bib_parse_volume(bib_volume_t *const vol, char const **const str, size_t *c
     char const *str_0 = *str;
     size_t      len_0 = *len;
     bool prefix_success = bib_lex_volume_prefix(vol->prefix, &str_0, &len_0);
-    bool __unused space = bib_read_space(&str_0, &len_0);
-    bool number_success = prefix_success && bib_lex_digit16(vol->number, &str_0, &len_0);
+    bool  space_success = prefix_success && bib_read_space(&str_0, &len_0);
+    bool number_success = prefix_success && space_success && bib_lex_digit16(vol->number, &str_0, &len_0);
 
     bool success = number_success && bib_advance_step(*len - len_0, str, len);
     if (!success) {

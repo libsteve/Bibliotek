@@ -830,10 +830,11 @@
         char const *str = "vol.10";
         size_t len = strlen(str) + 1;
         bib_volume_t vol = {};
-        XCTAssertTrue(bib_parse_volume(&vol, &str, &len), @"optional space before numeral");
-        BibAssertEqualStrings(vol.prefix, "vol", @"don't save periods");
-        BibAssertEqualStrings(vol.number, "10");
-        BibAssertEqualStrings(str, "");
+        XCTAssertFalse(bib_parse_volume(&vol, &str, &len), @"require space before numeral");
+        XCTAssertTrue(bib_volume_is_empty(&vol));
+        BibAssertEqualStrings(vol.prefix, "");
+        BibAssertEqualStrings(vol.number, "");
+        BibAssertEqualStrings(str, "vol.10");
         XCTAssertEqual(len, strlen(str) + 1);
     }
     {
@@ -921,23 +922,22 @@
         XCTAssertEqual(len, strlen(str) + 1);
     }
     {
-        char const *str = "vol.15";
-        size_t len = strlen(str) + 1;
-        bib_lc_specification_t spc = {};
-        XCTAssertTrue(bib_parse_lc_specification(&spc, &str, &len));
-        XCTAssertEqual(spc.kind, bib_lc_specification_kind_volume);
-        BibAssertEqualStrings(spc.volume.prefix, "vol");
-        BibAssertEqualStrings(spc.volume.number, "15");
-        BibAssertEqualStrings(str, "");
-        XCTAssertEqual(len, strlen(str) + 1);
-    }
-    {
         char const *str = "n.s.";
         size_t len = strlen(str) + 1;
         bib_lc_specification_t spc = {};
         XCTAssertTrue(bib_parse_lc_specification(&spc, &str, &len));
         XCTAssertEqual(spc.kind, bib_lc_specification_kind_word);
         BibAssertEqualStrings(spc.word, "n.s.");
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "K.252";
+        size_t len = strlen(str) + 1;
+        bib_lc_specification_t spc = {};
+        XCTAssertTrue(bib_parse_lc_specification(&spc, &str, &len));
+        XCTAssertEqual(spc.kind, bib_lc_specification_kind_word);
+        BibAssertEqualStrings(spc.word, "K.252");
         BibAssertEqualStrings(str, "");
         XCTAssertEqual(len, strlen(str) + 1);
     }
