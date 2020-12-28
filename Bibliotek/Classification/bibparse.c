@@ -224,17 +224,41 @@ bool bib_parse_lc_specification(bib_lc_specification_t *const spc, char const **
 
     char const *str_0 = *str;
     size_t      len_0 = *len;
-    bool date_success = bib_parse_date(&(spc->date), &str_0, &len_0);
-    bool  ord_success = !date_success && bib_parse_specification_ordinal(&(spc->ordinal), &str_0, &len_0);
-    bool  vol_success = !date_success && !ord_success && bib_parse_volume(&(spc->volume), &str_0, &len_0);
-    bool word_success = !date_success && !ord_success && !vol_success && bib_lex_longword(spc->word, &str_0, &len_0);
+    bool date_success = bib_parse_date(&(spc->date), &str_0, &len_0)
+                     && bib_peek_break(str_0, len_0);
+
+    char const *str_1 = *str;
+    size_t      len_1 = *len;
+    bool  ord_success = !date_success
+                     && bib_parse_specification_ordinal(&(spc->ordinal), &str_1, &len_1)
+                     && bib_peek_break(str_1, len_1);
+
+    char const *str_2 = *str;
+    size_t      len_2 = *len;
+    bool  vol_success = !date_success
+                     && !ord_success
+                     && bib_parse_volume(&(spc->volume), &str_2, &len_2)
+                     && bib_peek_break(str_2, len_2);
+
+    char const *str_3 = *str;
+    size_t      len_3 = *len;
+    bool word_success = !date_success
+                     && !ord_success
+                     && !vol_success
+                     && bib_lex_longword(spc->word, &str_3, &len_3)
+                     && bib_peek_break(str_3, len_3);
 
     spc->kind = (date_success) ? bib_lc_specification_kind_date
               :  (ord_success) ? bib_lc_specification_kind_ordinal
               :  (vol_success) ? bib_lc_specification_kind_volume
               : (word_success) ? bib_lc_specification_kind_word
               : 0;
-    bool success = (spc->kind != 0) && bib_advance_step(*len - len_0, str, len);
+    size_t final_len = (date_success) ? len_0
+                     :  (ord_success) ? len_1
+                     :  (vol_success) ? len_2
+                     : (word_success) ? len_3
+                     : *len;
+    bool success = (spc->kind != 0) && bib_advance_step(*len - final_len, str, len);
     if (!success) {
         bib_lc_specification_deinit(spc);
     }

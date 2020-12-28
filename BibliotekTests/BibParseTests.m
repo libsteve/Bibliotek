@@ -231,100 +231,343 @@
     }
 }
 
-//- (void)test_parse_lc_caption_ordinal {
-//    {
-//        char const *str = "15th.";
-//        size_t len = strlen(str) + 1;
-//        bib_ordinal_t ord;
-//        memset(&ord, 0, sizeof(bib_ordinal_t));
-//        XCTAssertTrue(bib_parse_lc_caption_ordinal(&ord, &str, &len));
-//        BibAssertEqualStrings(ord.number, "15");
-//        BibAssertEqualStrings(ord.suffix, "th.");
-//        BibAssertEqualStrings(str, "");
-//        XCTAssertEqual(len, strlen(str) + 1);
-//    }
-//    {
-//        char const *str = "15 th.";
-//        size_t len = strlen(str) + 1;
-//        bib_ordinal_t ord;
-//        memset(&ord, 0, sizeof(bib_ordinal_t));
-//        XCTAssertTrue(bib_parse_lc_caption_ordinal(&ord, &str, &len));
-//        BibAssertEqualStrings(ord.number, "15");
-//        BibAssertEqualStrings(ord.suffix, "th.");
-//        BibAssertEqualStrings(str, "");
-//        XCTAssertEqual(len, strlen(str) + 1);
-//    }
-//    {
-//        char const *str = "15 th";
-//        size_t len = strlen(str) + 1;
-//        bib_ordinal_t ord;
-//        memset(&ord, 0, sizeof(bib_ordinal_t));
-//        XCTAssertTrue(bib_parse_lc_caption_ordinal(&ord, &str, &len));
-//        BibAssertEqualStrings(ord.number, "15");
-//        BibAssertEqualStrings(ord.suffix, "th");
-//        BibAssertEqualStrings(str, "");
-//        XCTAssertEqual(len, strlen(str) + 1);
-//    }
-//    {
-//        char const *str = "15th";
-//        size_t len = strlen(str) + 1;
-//        bib_ordinal_t ord;
-//        memset(&ord, 0, sizeof(bib_ordinal_t));
-//        XCTAssertTrue(bib_parse_lc_caption_ordinal(&ord, &str, &len));
-//        BibAssertEqualStrings(ord.number, "15");
-//        BibAssertEqualStrings(ord.suffix, "th");
-//        BibAssertEqualStrings(str, "");
-//        XCTAssertEqual(len, strlen(str) + 1);
-//    }
-//}
-//
-//- (void)test_parse_lc_caption_ordinal_suffix {
-//    {
-//        char const *str = "th.";
-//        size_t len = strlen(str) + 1;
-//        char buffer[bib_suffix_size + 2];
-//        XCTAssertTrue(bib_parse_lc_caption_ordinal_suffix(buffer, &str, &len));
-//        BibAssertEqualStrings(buffer, "th.");
-//        BibAssertEqualStrings(str, "");
-//        XCTAssertEqual(len, strlen(str) + 1);
-//    }
-//    {
-//        char const *str = "th. ";
-//        size_t len = strlen(str) + 1;
-//        char buffer[bib_suffix_size + 2];
-//        XCTAssertTrue(bib_parse_lc_caption_ordinal_suffix(buffer, &str, &len));
-//        BibAssertEqualStrings(buffer, "th.");
-//        BibAssertEqualStrings(str, "");
-//        XCTAssertEqual(len, strlen(str) + 1);
-//    }
-//    {
-//        char const *str = "th ";
-//        size_t len = strlen(str) + 1;
-//        char buffer[bib_suffix_size + 2];
-//        XCTAssertTrue(bib_parse_lc_caption_ordinal_suffix(buffer, &str, &len));
-//        BibAssertEqualStrings(buffer, "th", @"don't add a period that doesn't appear in the input");
-//        BibAssertEqualStrings(str, " ", @"don't consume the trailing space without a period");
-//        XCTAssertEqual(len, strlen(str) + 1);
-//    }
-//    {
-//        char const *str = "th";
-//        size_t len = strlen(str) + 1;
-//        char buffer[bib_suffix_size + 2];
-//        XCTAssertTrue(bib_parse_lc_caption_ordinal_suffix(buffer, &str, &len));
-//        BibAssertEqualStrings(buffer, "th", @"don't add a period that doesn't appear in the input");
-//        BibAssertEqualStrings(str, "");
-//        XCTAssertEqual(len, strlen(str) + 1);
-//    }
-//    {
-//        char const *str = "TH";
-//        size_t len = strlen(str) + 1;
-//        char buffer[bib_suffix_size + 2];
-//        XCTAssertFalse(bib_parse_lc_caption_ordinal_suffix(buffer, &str, &len), @"no capitals in ordinal suffixes");
-//        BibAssertEqualStrings(buffer, "");
-//        BibAssertEqualStrings(str, "TH");
-//        XCTAssertEqual(len, strlen(str) + 1);
-//    }
-//}
+- (void)test_parse_lc_cutter_ordinal {
+    {
+        char const *str = "15th C21";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertTrue(bib_parse_cutter_ordinal(&ord, &str, &len));
+        BibAssertEqualStrings(ord.number, "15");
+        BibAssertEqualStrings(ord.suffix, "th");
+        BibAssertEqualStrings(str, " C21", @"don't consume the space");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "15 th C21";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertFalse(bib_parse_cutter_ordinal(&ord, &str, &len), @"don't allow space before the suffix");
+        XCTAssertTrue(bib_ordinal_is_empty(&ord));
+        BibAssertEqualStrings(ord.number, "");
+        BibAssertEqualStrings(ord.suffix, "");
+        BibAssertEqualStrings(str, "15 th C21", @"don't allow space before the suffix");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "15th. C21";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertFalse(bib_parse_cutter_ordinal(&ord, &str, &len), @"don't allow trailing periods");
+        XCTAssertTrue(bib_ordinal_is_empty(&ord));
+        BibAssertEqualStrings(ord.number, "");
+        BibAssertEqualStrings(ord.suffix, "");
+        BibAssertEqualStrings(str, "15th. C21", @"don't consume the period");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "15th.C21";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertFalse(bib_parse_cutter_ordinal(&ord, &str, &len), @"don't allow trailing periods");
+        XCTAssertTrue(bib_ordinal_is_empty(&ord));
+        BibAssertEqualStrings(ord.number, "");
+        BibAssertEqualStrings(ord.suffix, "");
+        BibAssertEqualStrings(str, "15th.C21", @"don't consume the period");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "15th";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertTrue(bib_parse_cutter_ordinal(&ord, &str, &len));
+        BibAssertEqualStrings(ord.number, "15");
+        BibAssertEqualStrings(ord.suffix, "th");
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "15 th";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertFalse(bib_parse_cutter_ordinal(&ord, &str, &len), @"don't allow space before the suffix");
+        XCTAssertTrue(bib_ordinal_is_empty(&ord));
+        BibAssertEqualStrings(ord.number, "");
+        BibAssertEqualStrings(ord.suffix, "");
+        BibAssertEqualStrings(str, "15 th", @"don't allow space before the suffix");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "15thC21";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertFalse(bib_parse_cutter_ordinal(&ord, &str, &len), @"word break required");
+        XCTAssertTrue(bib_ordinal_is_empty(&ord));
+        BibAssertEqualStrings(ord.number, "");
+        BibAssertEqualStrings(ord.suffix, "");
+        BibAssertEqualStrings(str, "15thC21");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+}
+
+- (void)test_parse_lc_caption_ordinal {
+    {
+        char const *str = "15th.C21";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertTrue(bib_parse_caption_ordinal(&ord, &str, &len));
+        BibAssertEqualStrings(ord.number, "15");
+        BibAssertEqualStrings(ord.suffix, "th");
+        BibAssertEqualStrings(str, ".C21", @"don't consume the period");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "15 th.C21";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertFalse(bib_parse_caption_ordinal(&ord, &str, &len), @"don't allow space before the suffix");
+        XCTAssertTrue(bib_ordinal_is_empty(&ord));
+        BibAssertEqualStrings(ord.number, "");
+        BibAssertEqualStrings(ord.suffix, "");
+        BibAssertEqualStrings(str, "15 th.C21", @"don't allow space before the suffix");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "15th. C21";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertTrue(bib_parse_caption_ordinal(&ord, &str, &len));
+        BibAssertEqualStrings(ord.number, "15");
+        BibAssertEqualStrings(ord.suffix, "th");
+        BibAssertEqualStrings(str, ". C21", @"don't consume the period");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "15 th. C21";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertFalse(bib_parse_caption_ordinal(&ord, &str, &len), @"don't allow space before the suffix");
+        XCTAssertTrue(bib_ordinal_is_empty(&ord));
+        BibAssertEqualStrings(ord.number, "");
+        BibAssertEqualStrings(ord.suffix, "");
+        BibAssertEqualStrings(str, "15 th. C21", @"don't allow space before the suffix");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "15th C21";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertTrue(bib_parse_caption_ordinal(&ord, &str, &len));
+        BibAssertEqualStrings(ord.number, "15");
+        BibAssertEqualStrings(ord.suffix, "th");
+        BibAssertEqualStrings(str, " C21", @"don't consume the space");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "15 th C21";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertFalse(bib_parse_caption_ordinal(&ord, &str, &len), @"don't allow space before the suffix");
+        XCTAssertTrue(bib_ordinal_is_empty(&ord));
+        BibAssertEqualStrings(ord.number, "");
+        BibAssertEqualStrings(ord.suffix, "");
+        BibAssertEqualStrings(str, "15 th C21", @"don't allow space before the suffix");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "15th .C21";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertTrue(bib_parse_caption_ordinal(&ord, &str, &len));
+        BibAssertEqualStrings(ord.number, "15");
+        BibAssertEqualStrings(ord.suffix, "th");
+        BibAssertEqualStrings(str, " .C21", @"don't consume the space and period");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "15 th .C21";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertFalse(bib_parse_caption_ordinal(&ord, &str, &len), @"don't allow space before the suffix");
+        XCTAssertTrue(bib_ordinal_is_empty(&ord));
+        BibAssertEqualStrings(ord.number, "");
+        BibAssertEqualStrings(ord.suffix, "");
+        BibAssertEqualStrings(str, "15 th .C21", @"don't allow space before the suffix");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "15th";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertTrue(bib_parse_caption_ordinal(&ord, &str, &len));
+        BibAssertEqualStrings(ord.number, "15");
+        BibAssertEqualStrings(ord.suffix, "th");
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "15 th";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertFalse(bib_parse_caption_ordinal(&ord, &str, &len), @"don't allow space before the suffix");
+        XCTAssertTrue(bib_ordinal_is_empty(&ord));
+        BibAssertEqualStrings(ord.number, "");
+        BibAssertEqualStrings(ord.suffix, "");
+        BibAssertEqualStrings(str, "15 th", @"don't allow space before the suffix");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "15thC21";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertFalse(bib_parse_caption_ordinal(&ord, &str, &len), @"word break required");
+        XCTAssertTrue(bib_ordinal_is_empty(&ord));
+        BibAssertEqualStrings(ord.number, "");
+        BibAssertEqualStrings(ord.suffix, "");
+        BibAssertEqualStrings(str, "15thC21");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+}
+
+- (void)test_parse_specification_ordinal {
+    {
+        char const *str = "15th.";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertTrue(bib_parse_specification_ordinal(&ord, &str, &len));
+        BibAssertEqualStrings(ord.number, "15");
+        BibAssertEqualStrings(ord.suffix, "th.", @"consume periods");
+        BibAssertEqualStrings(str, "", @"consume periods");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "15 th.";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertFalse(bib_parse_specification_ordinal(&ord, &str, &len), @"don't allow space before the suffix");
+        XCTAssertTrue(bib_ordinal_is_empty(&ord));
+        BibAssertEqualStrings(ord.number, "");
+        BibAssertEqualStrings(ord.suffix, "");
+        BibAssertEqualStrings(str, "15 th.", @"don't allow space before the suffix");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "15th.ed.";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertTrue(bib_parse_specification_ordinal(&ord, &str, &len));
+        BibAssertEqualStrings(ord.number, "15");
+        BibAssertEqualStrings(ord.suffix, "th.ed.", @"consume periods");
+        BibAssertEqualStrings(str, "", @"consume periods");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "15 th.ed.";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertFalse(bib_parse_specification_ordinal(&ord, &str, &len), @"don't allow space before the suffix");
+        XCTAssertTrue(bib_ordinal_is_empty(&ord));
+        BibAssertEqualStrings(ord.number, "");
+        BibAssertEqualStrings(ord.suffix, "");
+        BibAssertEqualStrings(str, "15 th.ed.", @"don't allow space before the suffix");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "15th.ed. 2020s";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertTrue(bib_parse_specification_ordinal(&ord, &str, &len));
+        BibAssertEqualStrings(ord.number, "15");
+        BibAssertEqualStrings(ord.suffix, "th.ed.");
+        BibAssertEqualStrings(str, " 2020s", @"consume periods, don't consume the space");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "15 th.ed. 2020s";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertFalse(bib_parse_specification_ordinal(&ord, &str, &len), @"don't allow space before the suffix");
+        XCTAssertTrue(bib_ordinal_is_empty(&ord));
+        BibAssertEqualStrings(ord.number, "");
+        BibAssertEqualStrings(ord.suffix, "");
+        BibAssertEqualStrings(str, "15 th.ed. 2020s", @"don't allow space before the suffix");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "15th. 2020s";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertTrue(bib_parse_specification_ordinal(&ord, &str, &len));
+        BibAssertEqualStrings(ord.number, "15");
+        BibAssertEqualStrings(ord.suffix, "th.", @"consume periods");
+        BibAssertEqualStrings(str, " 2020s", @"consume periods, don't consume the space");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "15 th. 2020s";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertFalse(bib_parse_specification_ordinal(&ord, &str, &len), @"don't allow space before the suffix");
+        XCTAssertTrue(bib_ordinal_is_empty(&ord));
+        BibAssertEqualStrings(ord.number, "");
+        BibAssertEqualStrings(ord.suffix, "");
+        BibAssertEqualStrings(str, "15 th. 2020s", @"don't allow space before the suffix");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "15th 2020s";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertFalse(bib_parse_specification_ordinal(&ord, &str, &len), @"require trailing periods");
+        XCTAssertTrue(bib_ordinal_is_empty(&ord));
+        BibAssertEqualStrings(ord.number, "");
+        BibAssertEqualStrings(ord.suffix, "");
+        BibAssertEqualStrings(str, "15th 2020s");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "15th";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertFalse(bib_parse_specification_ordinal(&ord, &str, &len), @"require trailing periods");
+        XCTAssertTrue(bib_ordinal_is_empty(&ord));
+        BibAssertEqualStrings(ord.number, "");
+        BibAssertEqualStrings(ord.suffix, "");
+        BibAssertEqualStrings(str, "15th");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "15th.ed";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertFalse(bib_parse_specification_ordinal(&ord, &str, &len), @"require trailing periods");
+        XCTAssertTrue(bib_ordinal_is_empty(&ord));
+        BibAssertEqualStrings(ord.number, "");
+        BibAssertEqualStrings(ord.suffix, "");
+        BibAssertEqualStrings(str, "15th.ed");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "15th.ed.2020s";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertFalse(bib_parse_specification_ordinal(&ord, &str, &len), @"word break required");
+        XCTAssertTrue(bib_ordinal_is_empty(&ord));
+        BibAssertEqualStrings(ord.number, "");
+        BibAssertEqualStrings(ord.suffix, "");
+        BibAssertEqualStrings(str, "15th.ed.2020s");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "15th. ed.";
+        size_t len = strlen(str) + 1;
+        bib_ordinal_t ord = {};
+        XCTAssertTrue(bib_parse_specification_ordinal(&ord, &str, &len), @"don't read anything after the first space");
+        BibAssertEqualStrings(ord.number, "15");
+        BibAssertEqualStrings(ord.suffix, "th.", @"consume period, exclude everything after a space");
+        BibAssertEqualStrings(str, " ed.", @"consume period, don't consume the space");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+}
 
 - (void)test_parse_date {
     {
@@ -469,8 +712,6 @@
     }
 }
 
-#pragma mark - lc cutter
-
 - (void)test_parse_lc_cuttseg_list {
     {
         char const *str = ".A123 2020 B123";
@@ -571,6 +812,134 @@
 
         BibAssertEqualStrings(str, " B123", @"input string should contain a space and the second cutter number");
         XCTAssertEqual(len, strlen(str) + 1, @"input string contains null terminator");
+    }
+}
+
+- (void)test_parse_volume {
+    {
+        char const *str = "vol. 10";
+        size_t len = strlen(str) + 1;
+        bib_volume_t vol = {};
+        XCTAssertTrue(bib_parse_volume(&vol, &str, &len));
+        BibAssertEqualStrings(vol.prefix, "vol", @"don't save periods");
+        BibAssertEqualStrings(vol.number, "10");
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "vol.10";
+        size_t len = strlen(str) + 1;
+        bib_volume_t vol = {};
+        XCTAssertTrue(bib_parse_volume(&vol, &str, &len), @"optional space before numeral");
+        BibAssertEqualStrings(vol.prefix, "vol", @"don't save periods");
+        BibAssertEqualStrings(vol.number, "10");
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "vol 10";
+        size_t len = strlen(str) + 1;
+        bib_volume_t vol = {};
+        XCTAssertFalse(bib_parse_volume(&vol, &str, &len), @"require period after prefix");
+        XCTAssertTrue(bib_volume_is_empty(&vol));
+        BibAssertEqualStrings(vol.prefix, "");
+        BibAssertEqualStrings(vol.number, "");
+        BibAssertEqualStrings(str, "vol 10");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "vol10";
+        size_t len = strlen(str) + 1;
+        bib_volume_t vol = {};
+        XCTAssertFalse(bib_parse_volume(&vol, &str, &len), @"require period after prefix");
+        XCTAssertTrue(bib_volume_is_empty(&vol));
+        BibAssertEqualStrings(vol.prefix, "");
+        BibAssertEqualStrings(vol.number, "");
+        BibAssertEqualStrings(str, "vol10");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+}
+
+- (void)test_parse_lc_specification {
+    {
+        char const *str = "1999s";
+        size_t len = strlen(str) + 1;
+        bib_lc_specification_t spc = {};
+        XCTAssertTrue(bib_parse_lc_specification(&spc, &str, &len));
+        XCTAssertEqual(spc.kind, bib_lc_specification_kind_date);
+        BibAssertEqualStrings(spc.date.year, "1999");
+        BibAssertEqualStrings(spc.date.mark, "s");
+        BibAssertEqualStrings(spc.date.span, "");
+        XCTAssertEqual(spc.date.separator, '\0');
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "2010/11s";
+        size_t len = strlen(str) + 1;
+        bib_lc_specification_t spc = {};
+        XCTAssertTrue(bib_parse_lc_specification(&spc, &str, &len));
+        XCTAssertEqual(spc.kind, bib_lc_specification_kind_date);
+        BibAssertEqualStrings(spc.date.year, "2010");
+        BibAssertEqualStrings(spc.date.span, "11");
+        BibAssertEqualStrings(spc.date.mark, "s");
+        XCTAssertEqual(spc.date.separator, '/');
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "15th.ed.";
+        size_t len = strlen(str) + 1;
+        bib_lc_specification_t spc = {};
+        XCTAssertTrue(bib_parse_lc_specification(&spc, &str, &len));
+        XCTAssertEqual(spc.kind, bib_lc_specification_kind_ordinal);
+        BibAssertEqualStrings(spc.ordinal.number, "15");
+        BibAssertEqualStrings(spc.ordinal.suffix, "th.ed.");
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "2015th.";
+        size_t len = strlen(str) + 1;
+        bib_lc_specification_t spc = {};
+        XCTAssertTrue(bib_parse_lc_specification(&spc, &str, &len));
+        XCTAssertEqual(spc.kind, bib_lc_specification_kind_ordinal, @"parse an ordinal, not a date");
+        BibAssertEqualStrings(spc.ordinal.number, "2015");
+        BibAssertEqualStrings(spc.ordinal.suffix, "th.");
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "Suppl. 15";
+        size_t len = strlen(str) + 1;
+        bib_lc_specification_t spc = {};
+        XCTAssertTrue(bib_parse_lc_specification(&spc, &str, &len));
+        XCTAssertEqual(spc.kind, bib_lc_specification_kind_volume);
+        BibAssertEqualStrings(spc.volume.prefix, "Suppl");
+        BibAssertEqualStrings(spc.volume.number, "15");
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "vol.15";
+        size_t len = strlen(str) + 1;
+        bib_lc_specification_t spc = {};
+        XCTAssertTrue(bib_parse_lc_specification(&spc, &str, &len));
+        XCTAssertEqual(spc.kind, bib_lc_specification_kind_volume);
+        BibAssertEqualStrings(spc.volume.prefix, "vol");
+        BibAssertEqualStrings(spc.volume.number, "15");
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "n.s.";
+        size_t len = strlen(str) + 1;
+        bib_lc_specification_t spc = {};
+        XCTAssertTrue(bib_parse_lc_specification(&spc, &str, &len));
+        XCTAssertEqual(spc.kind, bib_lc_specification_kind_word);
+        BibAssertEqualStrings(spc.word, "n.s.");
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
     }
 }
 

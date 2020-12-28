@@ -222,7 +222,7 @@ bool bib_lex_specification_ordinal_suffix(bib_word_b buffer, char const **const 
     bool alpha_success = (alphalen > 0) && bib_advance_step(alphalen, (char const **)&outbuf0, &outlen0);
 
     bool stop = false;
-    bool needs_point = false;
+    bool needs_point = true;
     bool success = alpha_success;
     while ((len0 > 0) && (outlen0 > 1) && success && !stop) {
         char const *str1 = str0;
@@ -457,7 +457,7 @@ bool bib_isnumber(char c) {
 }
 
 bool bib_notspace(char c) {
-    return !isspace(c);
+    return !isspace(c) && (c != '\0');
 }
 
 bool bib_ispoint(char c) {
