@@ -215,6 +215,14 @@ extern bool bib_cuttseg_is_empty(bib_cuttseg_t const *seg);
 #pragma mark - lc calln
 
 /// A Library of Congress call number.
+///
+/// This structure is based in part on the sorting strategy described in "A Comprehensive
+/// Approach to Algorithmic Machine Sorting of Library of Congress Call Numbers" by Scott Wagner
+/// and Corey Wetherington \a https://doi.org/10.6017/ital.v38i4.11585
+///
+/// Other parts of this structure are based on description found in the OCLC's documentation on
+/// the MARC bibliographic field 050 Library of Congress Call Number
+/// \a https://www.oclc.org/bibformats/en/0xx/050.html
 typedef struct bib_lc_calln {
     /// The at most three letter initial of the subject matter class.
     bib_alpah03_b letters;
@@ -266,6 +274,10 @@ typedef enum bib_calln_comparison {
 ///               prefixes for subsequent segments that have been completly equivalend thus far.
 /// \param specify Pass \c true when the comparison should include specialization ordering.
 /// \returns The ordering relationship between the \c left and \c right objects.
+///
+/// Sorting strategy based on that described in "A Comprehensive Approach to Algorithmic Machine Sorting
+/// of Library of Congress Call Numbers" by Scott Wagner and Corey Wetherington.
+/// \a https://doi.org/10.6017/ital.v38i4.11585
 extern bib_calln_comparison_t bib_lc_calln_compare(bib_calln_comparison_t status,
                                                    bib_lc_calln_t const *left, bib_lc_calln_t const *right,
                                                    bool specify);

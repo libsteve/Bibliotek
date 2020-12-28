@@ -158,6 +158,7 @@ References
 - [Documentation for the ZOOM Pearl extension][zoom-pearl]
 - [Dewey Segmentation (the '/' in the dewey number)][dewey-segmentation]
 - [The ``Hello World'' Zoo][hello-world-zoo]
+- [A Comprehensive Approach to Algorithmic Machine Sorting of Library of Congress Call Numbers][lc-algorithmic-sorting]
 
 [isbn2.py]: https://gist.github.com/toroidal-code/6415977
 [parsecallno.py]: https://gist.github.com/kurtraschke/560162
@@ -166,3 +167,4 @@ References
 [zoom-pearl]: https://metacpan.org/pod/release/MIRK/Net-Z3950-ZOOM-1.01/lib/ZOOM.pod
 [dewey-segmentation]: https://ddc.typepad.com/025431/2005/06/one_segmentatio.html
 [hello-world-zoo]: http://zoom.z3950.org/misc/zoo.html#11
+[lc-algorithmic-sorting]: https://doi.org/10.6017/ital.v38i4.11585
