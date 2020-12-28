@@ -39,13 +39,22 @@ extern bool bib_parse_lc_calln(bib_lc_calln_t *calln, char const **str, size_t *
 extern bool bib_parse_lc_dateord(bib_lc_dateord_t *dord, bib_lex_word_f lex_ord_suffix, char const **str, size_t *len);
 
 /// Read a cutter segment for a Library of Congress call number from the given input stream.
-/// \param cut Allocated space for a structure representing the parsed cutter segment.
+/// \param seg Allocated space for a structure representing the parsed cutter segment.
 /// \param str Pointer to the current reading position in the input stream.
 ///            Characters read from the stream are removed only when parsing is successful.
 /// \param len Pointer to the amount of bytes remaining in the input stream.
 /// \returns \c true when a cutter segment is successfully read from the input stream.
 /// \post \c cut is set to a data structure representing the cutter segment when parsing is successful.
-extern bool bib_parse_lc_cutter(bib_lc_cutter_t *cut, char const **str, size_t *len);
+extern bool bib_parse_cuttseg(bib_cuttseg_t *seg, char const **str, size_t *len);
+
+/// Read up to three cutter segments for a Library of Congress call number from the given input stream.
+/// \param segs Allocated space for three structures representing the parsed cutter segments.
+/// \param str Pointer to the current reading position in the input stream.
+///            Characters read from the stream are removed only when parsing is successful.
+/// \param len Pointer to the amount of bytes remaining in the input stream.
+/// \returns \c true when a cutter segment is successfully read from the input stream.
+/// \post \c segs is set to an array of data structure representing the cutter segments when parsing is successful.
+extern bool bib_parse_cuttseg_list(bib_cuttseg_t segs[3], char const **str, size_t *len);
 
 /// Read a specification segment for a Library of Conrgess call number from the given input stream.
 /// \param spc Allocated space for a structure representing the parsed specification segment.

@@ -55,7 +55,11 @@ bool bib_lex_year(bib_year_b buffer, char const **const str, size_t *const len)
     char const *str_0 = *str;
     size_t      len_0 = *len;
     size_t length = bib_lex_digit_n(buffer, sizeof(bib_year_b), &str_0, &len_0);
-    return (length == 4) && bib_advance_step(*len - len_0, str, len);
+    bool success = (length == 4) && bib_advance_step(*len - len_0, str, len);
+    if (!success) {
+        memset(buffer, 0, sizeof(bib_year_b));
+    }
+    return success;
 }
 
 bool bib_lex_year_abv(bib_year_b buffer, char const **const str, size_t *const len)
@@ -66,7 +70,11 @@ bool bib_lex_year_abv(bib_year_b buffer, char const **const str, size_t *const l
     char const *str_0 = *str;
     size_t      len_0 = *len;
     size_t length = bib_lex_digit_n(buffer, sizeof(char) * 3, &str_0, &len_0);
-    return (length == 2) && bib_advance_step(*len - len_0, str, len);
+    bool success = (length == 2) && bib_advance_step(*len - len_0, str, len);
+    if (!success) {
+        memset(buffer, 0, sizeof(bib_year_b));
+    }
+    return success;
 }
 
 bool bib_lex_mark(bib_mark_b buffer, char const **const str, size_t *const len)

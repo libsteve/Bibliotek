@@ -66,13 +66,23 @@ extern bool bib_date_has_span(bib_date_t const *date);
 
 #pragma mark - cutter
 
+/// A cutter number string.
+typedef char bib_cutter_b[18];
+
 /// A cutter number.
 typedef struct bib_cutter {
-    /// The initial alphabetic character for the number.
-    bib_initial_t letter;
+    union {
+        /// The cutter number string value, combining the initial letter with its trailing number.
+        bib_cutter_b string;
 
-    /// The decimal digits following the initial letter in the number.
-    bib_digit16_b number;
+        struct {
+            /// The initial alphabetic character for the number.
+            bib_initial_t letter;
+
+            /// The decimal digits following the initial letter in the number.
+            bib_digit16_b number;
+        };
+    };
 
     /// Some short optional alphabetic suffix attached to the cutter number.
     bib_mark_b mark;
@@ -188,21 +198,21 @@ extern bib_ordinal_t const *bib_lc_dateord_get_ordinal(bib_lc_dateord_t *const d
 extern bool bib_lc_dateord_is_empty(bib_lc_dateord_t const *dord);
 
 
-#pragma mark - lc cutter
+#pragma mark - cuttseg
 
 /// A cutter segment within a Library of Congress call number.
-typedef struct bib_lc_cutter {
+typedef struct bib_cuttseg {
     /// The cutter number.
-    bib_cutter_t    cuttnum;
+    bib_cutter_t cutter;
 
     /// The date or ordinal value trailing the cutter number.
     bib_lc_dateord_t dateord;
-} bib_lc_cutter_t;
+} bib_cuttseg_t;
 
-extern bool bib_lc_cutter_init(bib_lc_cutter_t *cut, bib_cutter_t const *num, bib_lc_dateord_t const *dord);
-extern bool bib_lc_cutter_is_empty(bib_lc_cutter_t const *cut);
+extern bool bib_cuttseg_init(bib_cuttseg_t *seg, bib_cutter_t const *num, bib_lc_dateord_t const *dord);
+extern bool bib_cuttseg_is_empty(bib_cuttseg_t const *seg);
 
-#pragma mark -
+#pragma mark - lc calln
 
 /// A Library of Congress call number.
 typedef struct bib_lc_calln {
@@ -219,7 +229,7 @@ typedef struct bib_lc_calln {
     bib_lc_dateord_t dateord;
 
     /// The three cutter number segments.
-    bib_lc_cutter_t cutters[3];
+    bib_cuttseg_t cutters[3];
 
     /// The first two specification segments.
     bib_lc_specification_t specifications[2];
@@ -249,7 +259,7 @@ typedef enum bib_calln_comparison {
 } bib_calln_comparison_t;
 
 extern bib_calln_comparison_t bib_lc_calln_compare(bib_calln_comparison_t status, bib_lc_calln_t const *left, bib_lc_calln_t const *right, bool specify);
-extern bib_calln_comparison_t bib_lc_cutter_compare(bib_calln_comparison_t status, bib_lc_cutter_t const *left, bib_lc_cutter_t const *right, bool specify);
+extern bib_calln_comparison_t bib_lc_cutter_compare(bib_calln_comparison_t status, bib_cuttseg_t const *left, bib_cuttseg_t const *right, bool specify);
 extern bib_calln_comparison_t bib_lc_dateord_compare(bib_calln_comparison_t status, bib_lc_dateord_t const *left, bib_lc_dateord_t const *right, bool specify);
 extern bib_calln_comparison_t bib_lc_special_compare(bib_calln_comparison_t status, bib_lc_specification_t const *left, bib_lc_specification_t const *right, bool specify);
 

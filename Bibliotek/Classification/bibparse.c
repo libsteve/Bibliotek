@@ -11,7 +11,6 @@
 #include <string.h>
 
 static bool bib_parse_lc_calln_caption_root(bib_lc_calln_t *calln, char const **str, size_t *len);
-static bool bib_parse_lc_calln_cutters_list(bib_lc_calln_t *calln, char const **str, size_t *len);
 
 bool bib_parse_lc_calln(bib_lc_calln_t *const calln, char const **const str, size_t *const len)
 {
@@ -36,7 +35,7 @@ bool bib_parse_lc_calln(bib_lc_calln_t *const calln, char const **const str, siz
     char const *str_2 = (cap_other_success) ? str_1 : str_0;
     size_t      len_2 = (cap_other_success) ? len_1 : len_0;
     bool __unused  _ = cap_success && bib_read_space(&str_2, &len_2);
-    bool cut_success = cap_success && bib_parse_lc_calln_cutters_list(calln, &str_2, &len_2);
+    bool cut_success = cap_success && bib_parse_cuttseg_list(calln->cutters, &str_2, &len_2);
 
     // specifications[0]
     char const *str_3 = (cut_success) ? str_2 : str_1;
@@ -100,9 +99,9 @@ static bool bib_parse_lc_calln_caption_root(bib_lc_calln_t *const calln, char co
     return success;
 }
 
-static bool bib_parse_lc_calln_cutters_list(bib_lc_calln_t *calln, char const **str, size_t *len)
+bool bib_parse_cuttseg_list(bib_cuttseg_t segs[3], char const **const str, size_t *const len)
 {
-    if (calln == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
+    if (segs == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
     }
 
@@ -117,8 +116,8 @@ static bool bib_parse_lc_calln_cutters_list(bib_lc_calln_t *calln, char const **
         char const *str_1 = str_0;
         size_t      len_1 = len_0;
         bool first = (index == 0);
-        bool has_prev_date = !first && !bib_lc_dateord_is_empty(&(calln->cutters[index - 1].dateord));
-        bool has_prev_mark = !first && !(calln->cutters[index - 1].cuttnum.mark[0] == '\0');
+        bool has_prev_date = !first && !bib_lc_dateord_is_empty(&(segs[index - 1].dateord));
+        bool has_prev_mark = !first && !(segs[index - 1].cutter.mark[0] == '\0');
         bool space_success = !first && bib_read_space(&str_1, &len_1);
         bool require_space = (has_prev_date || has_prev_mark);
 
@@ -126,7 +125,7 @@ static bool bib_parse_lc_calln_cutters_list(bib_lc_calln_t *calln, char const **
             success = bib_peek_break(str_1, len_1);
             stop = true;
             break;
-        } else if (bib_parse_lc_cutter(&(calln->cutters[index]), &str_1, &len_1)) {
+        } else if (bib_parse_cuttseg(&(segs[index]), &str_1, &len_1)) {
             str_0 = str_1;
             len_0 = len_1;
             index += 1;
@@ -138,7 +137,7 @@ static bool bib_parse_lc_calln_cutters_list(bib_lc_calln_t *calln, char const **
 
     success = success && bib_advance_step(*len - len_0, str, len);
     if (!success) {
-        memset(calln->cutters, 0, sizeof(bib_lc_cutter_t) * 3);
+        memset(segs, 0, sizeof(bib_cuttseg_t) * 3);
     }
     return success;
 }
@@ -175,27 +174,27 @@ bool bib_parse_lc_dateord(bib_lc_dateord_t *const dord, bib_lex_word_f const lex
     return success;
 }
 
-bool bib_parse_lc_cutter(bib_lc_cutter_t *cut, char const **const str, size_t *const len)
+bool bib_parse_cuttseg(bib_cuttseg_t *seg, char const **const str, size_t *const len)
 {
-    if (cut == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
+    if (seg == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
     }
 
     char const *str_0 = *str;
     size_t      len_0 = *len;
-    bool cutter_success = bib_parse_cutter(&(cut->cuttnum), &str_0, &len_0);
+    bool cutter_success = bib_parse_cutter(&(seg->cutter), &str_0, &len_0);
 
     char const *str_1 = str_0;
     size_t      len_1 = len_0;
     bool  space_success = cutter_success && bib_read_space(&str_1, &len_1);
-    bool number_success = space_success && bib_parse_lc_dateord(&(cut->dateord),
+    bool number_success = space_success && bib_parse_lc_dateord(&(seg->dateord),
                                                                 bib_lex_cutter_ordinal_suffix,
                                                                 &str_1, &len_1);
 
     size_t final_len = (number_success) ? len_1 : (cutter_success) ? len_0 : *len;
     bool success = (number_success || cutter_success) && bib_advance_step(*len - final_len, str, len);
     if (!success) {
-        memset(cut, 0, sizeof(bib_lc_cutter_t));
+        memset(seg, 0, sizeof(bib_cuttseg_t));
     }
     return success;
 }

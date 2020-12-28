@@ -100,7 +100,7 @@
         BibAssertEqualStrings(cap.dateord.date.year, "1988");
         XCTAssertEqual(cap.dateord.kind, bib_lc_dateord_kind_date);
         XCTAssertNotEqual(cap.dateord.kind, bib_lc_dateord_kind_ordinal);
-        XCTAssertTrue(bib_lc_cutter_is_empty(&(cap.cutters[0])));
+        XCTAssertTrue(bib_cuttseg_is_empty(&(cap.cutters[0])));
         BibAssertEqualStrings(str, " 15th .C16", @"stop parsing when an ordinal is found after pasing a year");
         XCTAssertEqual(len, strlen(str) + 1);
     }
@@ -352,67 +352,212 @@
 //    }
 //}
 
+- (void)test_parse_date {
+    {
+        char const *str = "1989";
+        size_t len = strlen(str) + 1;
+        bib_date_t date = {};
+        XCTAssertTrue(bib_parse_date(&date, &str, &len));
+        BibAssertEqualStrings(date.year, "1989");
+        XCTAssertFalse(bib_date_is_empty(&date));
+        XCTAssertFalse(bib_date_has_span(&date));
+        XCTAssertEqual(date.separator, '\0');
+        BibAssertEqualStrings(date.span, "");
+        BibAssertEqualStrings(date.mark, "");
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "1989/90";
+        size_t len = strlen(str) + 1;
+        bib_date_t date = {};
+        XCTAssertTrue(bib_parse_date(&date, &str, &len));
+        BibAssertEqualStrings(date.year, "1989");
+        XCTAssertFalse(bib_date_is_empty(&date));
+        XCTAssertTrue(bib_date_has_span(&date));
+        XCTAssertEqual(date.separator, '/');
+        BibAssertEqualStrings(date.span, "90");
+        BibAssertEqualStrings(date.mark, "");
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "1989-99";
+        size_t len = strlen(str) + 1;
+        bib_date_t date = {};
+        XCTAssertTrue(bib_parse_date(&date, &str, &len));
+        BibAssertEqualStrings(date.year, "1989");
+        XCTAssertFalse(bib_date_is_empty(&date));
+        XCTAssertTrue(bib_date_has_span(&date));
+        XCTAssertEqual(date.separator, '-');
+        BibAssertEqualStrings(date.span, "99");
+        BibAssertEqualStrings(date.mark, "");
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "1989-1999";
+        size_t len = strlen(str) + 1;
+        bib_date_t date = {};
+        XCTAssertTrue(bib_parse_date(&date, &str, &len));
+        BibAssertEqualStrings(date.year, "1989");
+        XCTAssertFalse(bib_date_is_empty(&date));
+        XCTAssertTrue(bib_date_has_span(&date));
+        XCTAssertEqual(date.separator, '-');
+        BibAssertEqualStrings(date.span, "1999");
+        BibAssertEqualStrings(date.mark, "");
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "1989s";
+        size_t len = strlen(str) + 1;
+        bib_date_t date = {};
+        XCTAssertTrue(bib_parse_date(&date, &str, &len));
+        BibAssertEqualStrings(date.year, "1989");
+        XCTAssertFalse(bib_date_is_empty(&date));
+        XCTAssertFalse(bib_date_has_span(&date));
+        XCTAssertEqual(date.separator, '\0');
+        BibAssertEqualStrings(date.span, "");
+        BibAssertEqualStrings(date.mark, "s");
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "1989/90s";
+        size_t len = strlen(str) + 1;
+        bib_date_t date = {};
+        XCTAssertTrue(bib_parse_date(&date, &str, &len));
+        BibAssertEqualStrings(date.year, "1989");
+        XCTAssertFalse(bib_date_is_empty(&date));
+        XCTAssertTrue(bib_date_has_span(&date));
+        XCTAssertEqual(date.separator, '/');
+        BibAssertEqualStrings(date.span, "90");
+        BibAssertEqualStrings(date.mark, "s");
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "1989-1999s";
+        size_t len = strlen(str) + 1;
+        bib_date_t date = {};
+        XCTAssertTrue(bib_parse_date(&date, &str, &len));
+        BibAssertEqualStrings(date.year, "1989");
+        XCTAssertFalse(bib_date_is_empty(&date));
+        XCTAssertTrue(bib_date_has_span(&date));
+        XCTAssertEqual(date.separator, '-');
+        BibAssertEqualStrings(date.span, "1999");
+        BibAssertEqualStrings(date.mark, "s");
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "89/99";
+        size_t len = strlen(str) + 1;
+        bib_date_t date = {};
+        XCTAssertFalse(bib_parse_date(&date, &str, &len), "year must be 4 digits long");
+        XCTAssertTrue(bib_date_is_empty(&date));
+        XCTAssertFalse(bib_date_has_span(&date));
+        BibAssertEqualStrings(date.year, "");
+        XCTAssertEqual(date.separator, '\0');
+        BibAssertEqualStrings(date.span, "");
+        BibAssertEqualStrings(date.mark, "");
+        BibAssertEqualStrings(str, "89/99");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "1989/999";
+        size_t len = strlen(str) + 1;
+        bib_date_t date = {};
+        XCTAssertTrue(bib_parse_date(&date, &str, &len));
+        XCTAssertFalse(bib_date_is_empty(&date));
+        XCTAssertTrue(bib_date_has_span(&date));
+        BibAssertEqualStrings(date.year, "1989");
+        XCTAssertEqual(date.separator, '/');
+        BibAssertEqualStrings(date.span, "99", @"span must be 2 or 4 digits long");
+        BibAssertEqualStrings(date.mark, "");
+        BibAssertEqualStrings(str, "9");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "1989s-1999s";
+        size_t len = strlen(str) + 1;
+        bib_date_t date = {};
+        XCTAssertTrue(bib_parse_date(&date, &str, &len));
+        XCTAssertFalse(bib_date_is_empty(&date));
+        XCTAssertFalse(bib_date_has_span(&date), @"date ranges cannot have marks on the initial year");
+        BibAssertEqualStrings(date.year, "1989");
+        XCTAssertEqual(date.separator, '\0');
+        BibAssertEqualStrings(date.span, "");
+        BibAssertEqualStrings(date.mark, "", @"shouldn't read mark");
+        BibAssertEqualStrings(str, "s-1999s");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+}
+
 #pragma mark - lc cutter
 
-//- (void)test_parse_lc_cutter {
-//    {
-//        char const *str = ".A123 2020 B123";
-//        size_t len = strlen(str) + 1;
-//        bib_cutter_t cutters[3];
-//        memset(cutters, 0, sizeof(cutters));
-//        XCTAssertTrue(bib_parse_lc_cutter(cutters, &str, &len), @"parse valid cutter section");
-//        BibAssertEqualStrings(cutters[0].number, "A123");
-//        BibAssertEqualStrings(cutters[0].date, "2020");
-//        BibAssertEqualStrings(cutters[1].number, "B123");
-//        BibAssertEqualStrings(cutters[1].date, "");
-//        BibAssertEqualStrings(cutters[2].number, "");
-//        BibAssertEqualStrings(cutters[2].date, "");
-//        BibAssertEqualStrings(str, "");
-//        XCTAssertEqual(len, strlen(str) + 1);
-//    }
-//    {
-//        char const *str = "A123 2020 B123";
-//        size_t len = strlen(str) + 1;
-//        bib_cutter_t cutters[3];
-//        memset(cutters, 0, sizeof(cutters));
-//        XCTAssertFalse(bib_parse_lc_cutter(cutters, &str, &len), @"cutter section must begin with a period");
-//        BibAssertEqualStrings(cutters[0].number, "");
-//        BibAssertEqualStrings(cutters[0].date, "");
-//        BibAssertEqualStrings(cutters[1].number, "");
-//        BibAssertEqualStrings(cutters[1].date, "");
-//        BibAssertEqualStrings(cutters[2].number, "");
-//        BibAssertEqualStrings(cutters[2].date, "");
-//        BibAssertEqualStrings(str, "A123 2020 B123");
-//        XCTAssertEqual(len, strlen(str) + 1);
-//    }
-//    {
-//        char const *str = ".E59 A21";
-//        size_t len = strlen(str) + 1;
-//        bib_cutter_t cutters[3];
-//        memset(cutters, 0, sizeof(cutters));
-//        XCTAssertTrue(bib_parse_lc_cutter(cutters, &str, &len), @"parse valid cutter section");
-//        BibAssertEqualStrings(cutters[0].number, "E59");
-//        BibAssertEqualStrings(cutters[0].date, "");
-//        BibAssertEqualStrings(cutters[1].number, "A21");
-//        BibAssertEqualStrings(cutters[1].date, "");
-//        BibAssertEqualStrings(cutters[2].number, "");
-//        BibAssertEqualStrings(cutters[2].date, "");
-//        BibAssertEqualStrings(str, "");
-//        XCTAssertEqual(len, strlen(str) + 1);
-//    }
-//}
+- (void)test_parse_lc_cuttseg_list {
+    {
+        char const *str = ".A123 2020 B123";
+        size_t len = strlen(str) + 1;
+        bib_cuttseg_t cutters[3] = {};
+        XCTAssertTrue(bib_parse_cuttseg_list(cutters, &str, &len), @"parse valid cutter section");
 
-- (void)test_parse_lc_cutter {
+        BibAssertEqualStrings(cutters[0].cutter.string, "A123");
+        BibAssertEqualStrings(cutters[0].cutter.mark, "");
+        BibAssertEqualStrings(cutters[0].dateord.date.year, "2020");
+        XCTAssertFalse(bib_date_has_span(&(cutters[0].dateord.date)));
+
+        BibAssertEqualStrings(cutters[1].cutter.string, "B123");
+        BibAssertEqualStrings(cutters[1].cutter.mark, "");
+        XCTAssertTrue(bib_lc_dateord_is_empty(&(cutters[1].dateord)));
+
+        XCTAssertTrue(bib_cuttseg_is_empty(&(cutters[2])));
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "A123 2020 B123";
+        size_t len = strlen(str) + 1;
+        bib_cuttseg_t cutters[3] = {};
+        XCTAssertFalse(bib_parse_cuttseg_list(cutters, &str, &len), @"cutter section must begin with a period");
+        XCTAssertTrue(bib_cuttseg_is_empty(&(cutters[0])));
+        XCTAssertTrue(bib_cuttseg_is_empty(&(cutters[1])));
+        XCTAssertTrue(bib_cuttseg_is_empty(&(cutters[2])));
+        BibAssertEqualStrings(str, "A123 2020 B123");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = ".E59 A21";
+        size_t len = strlen(str) + 1;
+        bib_cuttseg_t cutters[3] = {};
+        XCTAssertTrue(bib_parse_cuttseg_list(cutters, &str, &len), @"parse valid cutter section");
+        BibAssertEqualStrings(cutters[0].cutter.string, "E59");
+        BibAssertEqualStrings(cutters[0].cutter.mark, "");
+        XCTAssertTrue(bib_lc_dateord_is_empty(&(cutters[0].dateord)));
+        BibAssertEqualStrings(cutters[1].cutter.string, "A21");
+        BibAssertEqualStrings(cutters[1].cutter.mark, "");
+        XCTAssertTrue(bib_lc_dateord_is_empty(&(cutters[1].dateord)));
+        BibAssertEqualStrings(cutters[2].cutter.string, "");
+        BibAssertEqualStrings(cutters[2].cutter.mark, "");
+        XCTAssertTrue(bib_lc_dateord_is_empty(&(cutters[2].dateord)));
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+}
+
+- (void)test_parse_lc_cuttseg {
     {
         char const *str = "A123 2020";
         size_t len = strlen(str) + 1;
-        bib_lc_cutter_t cut;
+        bib_cuttseg_t cut;
         memset(&cut, 0, sizeof(cut));
-        XCTAssertTrue(bib_parse_lc_cutter(&cut, &str, &len), @"parse valid cutter number with date");
+        XCTAssertTrue(bib_parse_cuttseg(&cut, &str, &len), @"parse valid cutter number with date");
 
-        XCTAssertEqual(cut.cuttnum.letter, 'A', @"parse cutter initial");
-        BibAssertEqualStrings(cut.cuttnum.number, "123", @"parse cutter number");
-        BibAssertEqualStrings(cut.cuttnum.mark, "");
+        XCTAssertEqual(cut.cutter.letter, 'A', @"parse cutter initial");
+        BibAssertEqualStrings(cut.cutter.number, "123", @"parse cutter number");
+        BibAssertEqualStrings(cut.cutter.mark, "");
         XCTAssertEqual(cut.dateord.kind, bib_lc_dateord_kind_date, @"parse date value");
         BibAssertEqualStrings(cut.dateord.date.year, "2020", @"parse year");
         XCTAssertFalse(bib_date_has_span(&(cut.dateord.date)));
@@ -426,13 +571,13 @@
     {
         char const *str = "A123";
         size_t len = strlen(str) + 1;
-        bib_lc_cutter_t cut;
+        bib_cuttseg_t cut;
         memset(&cut, 0, sizeof(cut));
-        XCTAssertTrue(bib_parse_lc_cutter(&cut, &str, &len), @"parse valid cutter number without date");
+        XCTAssertTrue(bib_parse_cuttseg(&cut, &str, &len), @"parse valid cutter number without date");
 
-        XCTAssertEqual(cut.cuttnum.letter, 'A', @"parse cutter initial");
-        BibAssertEqualStrings(cut.cuttnum.number, "123", @"parse cutter number");
-        BibAssertEqualStrings(cut.cuttnum.mark, "");
+        XCTAssertEqual(cut.cutter.letter, 'A', @"parse cutter initial");
+        BibAssertEqualStrings(cut.cutter.number, "123", @"parse cutter number");
+        BibAssertEqualStrings(cut.cutter.mark, "");
         XCTAssertTrue(bib_lc_dateord_is_empty(&(cut.dateord)), @"don't parse date value");
 
         BibAssertEqualStrings(str, "", @"input string should be empty");
@@ -441,13 +586,13 @@
     {
         char const *str = "A123 B123";
         size_t len = strlen(str) + 1;
-        bib_lc_cutter_t cut;
+        bib_cuttseg_t cut;
         memset(&cut, 0, sizeof(cut));
-        XCTAssertTrue(bib_parse_lc_cutter(&cut, &str, &len), @"parse valid cutter number without date");
+        XCTAssertTrue(bib_parse_cuttseg(&cut, &str, &len), @"parse valid cutter number without date");
 
-        XCTAssertEqual(cut.cuttnum.letter, 'A', @"parse cutter initial");
-        BibAssertEqualStrings(cut.cuttnum.number, "123", @"parse cutter number");
-        BibAssertEqualStrings(cut.cuttnum.mark, "");
+        XCTAssertEqual(cut.cutter.letter, 'A', @"parse cutter initial");
+        BibAssertEqualStrings(cut.cutter.number, "123", @"parse cutter number");
+        BibAssertEqualStrings(cut.cutter.mark, "");
         XCTAssertTrue(bib_lc_dateord_is_empty(&(cut.dateord)), @"don't parse date value");
 
         BibAssertEqualStrings(str, " B123", @"input string should contain a space and the second cutter number");

@@ -95,8 +95,8 @@ static NSString *bib_lc_special_description(bib_lc_specification_t const *const 
         }
         BOOL lastCutterHasNumber = NO;
         for (size_t index = 0; index < 3; index += 1) {
-            bib_lc_cutter_t const *const cut = &(_calln.cutters[index]);
-            if (!bib_lc_cutter_is_empty(cut)) {
+            bib_cuttseg_t const *const cut = &(_calln.cutters[index]);
+            if (!bib_cuttseg_is_empty(cut)) {
                 if (index == 0) {
                     if (hasNumber) {
                         [string appendFormat:@" "];
@@ -105,7 +105,7 @@ static NSString *bib_lc_special_description(bib_lc_specification_t const *const 
                 } else if (separateCutterNumbers || lastCutterHasNumber) {
                     [string appendFormat:@" "];
                 }
-                [string appendFormat:@"%c%s%s", cut->cuttnum.letter, cut->cuttnum.number, cut->cuttnum.mark];
+                [string appendFormat:@"%c%s%s", cut->cutter.letter, cut->cutter.number, cut->cutter.mark];
                 lastCutterHasNumber = !bib_lc_dateord_is_empty(&(cut->dateord));
                 if (lastCutterHasNumber) {
                     [string appendFormat:@" %@", bib_lc_number_description(&(cut->dateord))];

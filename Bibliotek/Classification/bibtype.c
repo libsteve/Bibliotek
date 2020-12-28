@@ -186,21 +186,21 @@ bool bib_lc_dateord_is_empty(bib_lc_dateord_t const *const num)
 
 #pragma mark - lc cutter
 
-bool bib_lc_cutter_init(bib_lc_cutter_t *const cut, bib_cutter_t const *const num, bib_lc_dateord_t const *const dord)
+bool bib_cuttseg_init(bib_cuttseg_t *const seg, bib_cutter_t const *const num, bib_lc_dateord_t const *const dord)
 {
-    if (cut == NULL || bib_cutter_is_empty(num)) {
+    if (seg == NULL || bib_cutter_is_empty(num)) {
         return false;
     }
-    cut->cuttnum = *num;
+    seg->cutter = *num;
     if (!bib_lc_dateord_is_empty(dord)) {
-        cut->dateord = *dord;
+        seg->dateord = *dord;
     }
     return true;
 }
 
-bool bib_lc_cutter_is_empty(bib_lc_cutter_t const *const cut)
+bool bib_cuttseg_is_empty(bib_cuttseg_t const *const seg)
 {
-    return (cut == NULL) || bib_cutter_is_empty(&(cut->cuttnum));
+    return (seg == NULL) || bib_cutter_is_empty(&(seg->cutter));
 }
 
 #pragma mark -
@@ -247,8 +247,8 @@ bib_calln_comparison_t bib_lc_calln_compare(bib_calln_comparison_t const status,
 
     // cutters
     for (size_t index = 0; index < 3; index += 1) {
-        bib_lc_cutter_t const *const left_cut = &(left->cutters[index]);
-        bib_lc_cutter_t const *const right_cut = &(right->cutters[index]);
+        bib_cuttseg_t const *const left_cut = &(left->cutters[index]);
+        bib_cuttseg_t const *const right_cut = &(right->cutters[index]);
         result = bib_lc_cutter_compare(result, left_cut, right_cut, specify);
     }
 
@@ -282,13 +282,13 @@ bib_calln_comparison_t bib_lc_calln_compare(bib_calln_comparison_t const status,
 }
 
 bib_calln_comparison_t bib_lc_cutter_compare(bib_calln_comparison_t const status,
-                                             bib_lc_cutter_t const *const left, bib_lc_cutter_t const *const right,
+                                             bib_cuttseg_t const *const left, bib_cuttseg_t const *const right,
                                              bool const specify)
 {
     if (status == bib_calln_ordered_ascending || status == bib_calln_ordered_descending) { return status; }
 
-    bool const left_empty = bib_lc_cutter_is_empty(left);
-    bool const right_empty = bib_lc_cutter_is_empty(right);
+    bool const left_empty = bib_cuttseg_is_empty(left);
+    bool const right_empty = bib_cuttseg_is_empty(right);
     if (left_empty && right_empty) { return status; }
     else if (left_empty) { return (specify) ? bib_calln_ordered_specifying : bib_calln_ordered_ascending; }
     else if (right_empty) {
@@ -296,7 +296,7 @@ bib_calln_comparison_t bib_lc_cutter_compare(bib_calln_comparison_t const status
     }
 
     bib_calln_comparison_t result = status;
-    result = bib_cutter_compare(result, &(left->cuttnum), &(right->cuttnum), specify);
+    result = bib_cutter_compare(result, &(left->cutter), &(right->cutter), specify);
     result = bib_lc_dateord_compare(result, &(left->dateord), &(right->dateord), specify);
     return result;
 }
