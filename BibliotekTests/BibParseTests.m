@@ -24,7 +24,7 @@
         char const *str = "QA";
         size_t len = strlen(str) + 1;
         bib_lc_calln_t cap = {};
-        XCTAssertTrue(bib_parse_lc_calln(&cap, &str, &len));
+        XCTAssertTrue(bib_parse_lc_subject(&cap, &str, &len));
         BibAssertEqualStrings(cap.letters, "QA");
         BibAssertEqualStrings(cap.integer, "");
         BibAssertEqualStrings(cap.decimal, "");
@@ -36,7 +36,7 @@
         char const *str = "KF4558 15th";
         size_t len = strlen(str) + 1;
         bib_lc_calln_t cap = {};
-        XCTAssertTrue(bib_parse_lc_calln(&cap, &str, &len));
+        XCTAssertTrue(bib_parse_lc_subject(&cap, &str, &len));
         BibAssertEqualStrings(cap.letters, "KF");
         BibAssertEqualStrings(cap.integer, "4558");
         BibAssertEqualStrings(cap.decimal, "");
@@ -50,7 +50,7 @@
         char const *str = "DR1879.5 1988";
         size_t len = strlen(str) + 1;
         bib_lc_calln_t cap = {};
-        XCTAssertTrue(bib_parse_lc_calln(&cap, &str, &len));
+        XCTAssertTrue(bib_parse_lc_subject(&cap, &str, &len));
         BibAssertEqualStrings(cap.letters, "DR");
         BibAssertEqualStrings(cap.integer, "1879");
         BibAssertEqualStrings(cap.decimal, "5");
@@ -67,7 +67,7 @@
         char const *str = "QA76.76 1988 15th";
         size_t len = strlen(str) + 1;
         bib_lc_calln_t cap = {};
-        XCTAssertTrue(bib_parse_lc_calln(&cap, &str, &len));
+        XCTAssertTrue(bib_parse_lc_subject(&cap, &str, &len), @"allow partial match");
         BibAssertEqualStrings(cap.letters, "QA");
         BibAssertEqualStrings(cap.integer, "76");
         BibAssertEqualStrings(cap.decimal, "76");
@@ -81,7 +81,7 @@
         char const *str = "QA 76 .76 1988";
         size_t len = strlen(str) + 1;
         bib_lc_calln_t cap = {};
-        XCTAssertTrue(bib_parse_lc_calln(&cap, &str, &len), @"allow partial match");
+        XCTAssertTrue(bib_parse_lc_subject(&cap, &str, &len), @"allow partial match");
         BibAssertEqualStrings(cap.letters, "QA");
         BibAssertEqualStrings(cap.integer, "76");
         BibAssertEqualStrings(cap.decimal, "", @"don't parse decimals with leading space");
@@ -90,25 +90,10 @@
         XCTAssertEqual(len, strlen(str) + 1);
     }
     {
-        char const *str = "QA 76.76 1988 15th .C16";
-        size_t len = strlen(str) + 1;
-        bib_lc_calln_t cap = {};
-        XCTAssertTrue(bib_parse_lc_calln(&cap, &str, &len), @"allow partial match");
-        BibAssertEqualStrings(cap.letters, "QA");
-        BibAssertEqualStrings(cap.integer, "76");
-        BibAssertEqualStrings(cap.decimal, "76");
-        BibAssertEqualStrings(cap.dateord.date.year, "1988");
-        XCTAssertEqual(cap.dateord.kind, bib_dateord_kind_date);
-        XCTAssertNotEqual(cap.dateord.kind, bib_dateord_kind_ordinal);
-        XCTAssertTrue(bib_cuttseg_is_empty(&(cap.cutters[0])));
-        BibAssertEqualStrings(str, " 15th .C16", @"stop parsing when an ordinal is found after pasing a year");
-        XCTAssertEqual(len, strlen(str) + 1);
-    }
-    {
         char const *str = "KF4558 1988p";
         size_t len = strlen(str) + 1;
         bib_lc_calln_t cap = {};
-        XCTAssertTrue(bib_parse_lc_calln(&cap, &str, &len), @"allow partial match");
+        XCTAssertTrue(bib_parse_lc_subject(&cap, &str, &len), @"allow partial match");
         BibAssertEqualStrings(cap.letters, "KF");
         BibAssertEqualStrings(cap.integer, "4558");
         BibAssertEqualStrings(cap.decimal, "");
@@ -122,141 +107,130 @@
     }
 }
 
-//- (void)test_parse_lc_caption_root {
-//    {
-//        char const *str = "QA";
-//        size_t len = strlen(str) + 1;
-//        bib_lc_caption_t cap;
-//        memset(&cap, 0, sizeof(bib_lc_caption_t));
-//        XCTAssertTrue(bib_parse_lc_caption_root(&cap, &str, &len));
-//        BibAssertEqualStrings(cap.letters, "QA");
-//        BibAssertEqualStrings(cap.integer, "");
-//        BibAssertEqualStrings(cap.decimal, "");
-//        BibAssertEqualStrings(str, "");
-//        XCTAssertEqual(len, strlen(str) + 1);
-//    }
-//    {
-//        char const *str = "QA76";
-//        size_t len = strlen(str) + 1;
-//        bib_lc_caption_t cap;
-//        memset(&cap, 0, sizeof(bib_lc_caption_t));
-//        XCTAssertTrue(bib_parse_lc_caption_root(&cap, &str, &len));
-//        BibAssertEqualStrings(cap.letters, "QA");
-//        BibAssertEqualStrings(cap.integer, "76");
-//        BibAssertEqualStrings(cap.decimal, "");
-//        BibAssertEqualStrings(str, "");
-//        XCTAssertEqual(len, strlen(str) + 1);
-//    }
-//    {
-//        char const *str = "QA76.76";
-//        size_t len = strlen(str) + 1;
-//        bib_lc_caption_t cap;
-//        memset(&cap, 0, sizeof(bib_lc_caption_t));
-//        XCTAssertTrue(bib_parse_lc_caption_root(&cap, &str, &len));
-//        BibAssertEqualStrings(cap.letters, "QA");
-//        BibAssertEqualStrings(cap.integer, "76");
-//        BibAssertEqualStrings(cap.decimal, "76");
-//        BibAssertEqualStrings(str, "");
-//        XCTAssertEqual(len, strlen(str) + 1);
-//    }
-//    {
-//        char const *str = "DR1879.5";
-//        size_t len = strlen(str) + 1;
-//        bib_lc_caption_t cap;
-//        memset(&cap, 0, sizeof(bib_lc_caption_t));
-//        XCTAssertTrue(bib_parse_lc_caption_root(&cap, &str, &len));
-//        BibAssertEqualStrings(cap.letters, "DR");
-//        BibAssertEqualStrings(cap.integer, "1879");
-//        BibAssertEqualStrings(cap.decimal, "5");
-//        BibAssertEqualStrings(str, "");
-//        XCTAssertEqual(len, strlen(str) + 1);
-//    }
-//    {
-//        char const *str = "QA ";
-//        size_t len = strlen(str) + 1;
-//        bib_lc_caption_t cap;
-//        memset(&cap, 0, sizeof(bib_lc_caption_t));
-//        XCTAssertTrue(bib_parse_lc_caption_root(&cap, &str, &len));
-//        BibAssertEqualStrings(cap.letters, "QA");
-//        BibAssertEqualStrings(cap.integer, "");
-//        BibAssertEqualStrings(cap.decimal, "");
-//        BibAssertEqualStrings(str, " ", @"don't consume trailing space");
-//        XCTAssertEqual(len, strlen(str) + 1);
-//    }
-//    {
-//        char const *str = "QA 76";
-//        size_t len = strlen(str) + 1;
-//        bib_lc_caption_t cap;
-//        memset(&cap, 0, sizeof(bib_lc_caption_t));
-//        XCTAssertTrue(bib_parse_lc_caption_root(&cap, &str, &len));
-//        BibAssertEqualStrings(cap.letters, "QA");
-//        BibAssertEqualStrings(cap.integer, "76");
-//        BibAssertEqualStrings(cap.decimal, "");
-//        BibAssertEqualStrings(str, "");
-//        XCTAssertEqual(len, strlen(str) + 1);
-//    }
-//    {
-//        char const *str = "QA 76.76";
-//        size_t len = strlen(str) + 1;
-//        bib_lc_caption_t cap;
-//        memset(&cap, 0, sizeof(bib_lc_caption_t));
-//        XCTAssertTrue(bib_parse_lc_caption_root(&cap, &str, &len));
-//        BibAssertEqualStrings(cap.letters, "QA");
-//        BibAssertEqualStrings(cap.integer, "76");
-//        BibAssertEqualStrings(cap.decimal, "76");
-//        BibAssertEqualStrings(str, "");
-//        XCTAssertEqual(len, strlen(str) + 1);
-//    }
-//    {
-//        char const *str = " ";
-//        size_t len = strlen(str) + 1;
-//        bib_lc_caption_t cap;
-//        memset(&cap, 0, sizeof(bib_lc_caption_t));
-//        XCTAssertFalse(bib_parse_lc_caption_root(&cap, &str, &len), @"don't consume leading space");
-//        BibAssertEqualStrings(cap.letters, "");
-//        BibAssertEqualStrings(cap.integer, "");
-//        BibAssertEqualStrings(cap.decimal, "");
-//        BibAssertEqualStrings(str, " ");
-//        XCTAssertEqual(len, strlen(str) + 1);
-//    }
-//    {
-//        char const *str = " QA76.76";
-//        size_t len = strlen(str) + 1;
-//        bib_lc_caption_t cap;
-//        memset(&cap, 0, sizeof(bib_lc_caption_t));
-//        XCTAssertFalse(bib_parse_lc_caption_root(&cap, &str, &len), @"don't consume leading space");
-//        BibAssertEqualStrings(cap.letters, "");
-//        BibAssertEqualStrings(cap.integer, "");
-//        BibAssertEqualStrings(cap.decimal, "");
-//        BibAssertEqualStrings(str, " QA76.76");
-//        XCTAssertEqual(len, strlen(str) + 1);
-//    }
-//    {
-//        char const *str = "76.76";
-//        size_t len = strlen(str) + 1;
-//        bib_lc_caption_t cap;
-//        memset(&cap, 0, sizeof(bib_lc_caption_t));
-//        XCTAssertFalse(bib_parse_lc_caption_root(&cap, &str, &len), @"require class letters");
-//        BibAssertEqualStrings(cap.letters, "");
-//        BibAssertEqualStrings(cap.integer, "");
-//        BibAssertEqualStrings(cap.decimal, "");
-//        BibAssertEqualStrings(str, "76.76");
-//        XCTAssertEqual(len, strlen(str) + 1);
-//    }
-//    {
-//        char const *str = "QA 76 .76";
-//        size_t len = strlen(str) + 1;
-//        bib_lc_caption_t cap;
-//        memset(&cap, 0, sizeof(bib_lc_caption_t));
-//        XCTAssertTrue(bib_parse_lc_caption_root(&cap, &str, &len), @"allow partial match");
-//        BibAssertEqualStrings(cap.letters, "QA");
-//        BibAssertEqualStrings(cap.integer, "76");
-//        BibAssertEqualStrings(cap.decimal, "", @"don't parse decimal with leading spacee");
-//        BibAssertEqualStrings(str, " .76", @"leave decimal with leading space");
-//        XCTAssertEqual(len, strlen(str) + 1);
-//    }
-//}
-//
+- (void)test_parse_lc_subject_base {
+    {
+        char const *str = "QA";
+        size_t len = strlen(str) + 1;
+        bib_lc_calln_t cap = {};
+        XCTAssertTrue(bib_parse_lc_subject_base(&cap, &str, &len));
+        BibAssertEqualStrings(cap.letters, "QA");
+        BibAssertEqualStrings(cap.integer, "");
+        BibAssertEqualStrings(cap.decimal, "");
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "QA76";
+        size_t len = strlen(str) + 1;
+        bib_lc_calln_t cap = {};
+        XCTAssertTrue(bib_parse_lc_subject_base(&cap, &str, &len));
+        BibAssertEqualStrings(cap.letters, "QA");
+        BibAssertEqualStrings(cap.integer, "76");
+        BibAssertEqualStrings(cap.decimal, "");
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "QA76.76";
+        size_t len = strlen(str) + 1;
+        bib_lc_calln_t cap = {};
+        XCTAssertTrue(bib_parse_lc_subject_base(&cap, &str, &len));
+        BibAssertEqualStrings(cap.letters, "QA");
+        BibAssertEqualStrings(cap.integer, "76");
+        BibAssertEqualStrings(cap.decimal, "76");
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "DR1879.5";
+        size_t len = strlen(str) + 1;
+        bib_lc_calln_t cap = {};
+        XCTAssertTrue(bib_parse_lc_subject_base(&cap, &str, &len));
+        BibAssertEqualStrings(cap.letters, "DR");
+        BibAssertEqualStrings(cap.integer, "1879");
+        BibAssertEqualStrings(cap.decimal, "5");
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "QA ";
+        size_t len = strlen(str) + 1;
+        bib_lc_calln_t cap = {};
+        XCTAssertTrue(bib_parse_lc_subject_base(&cap, &str, &len));
+        BibAssertEqualStrings(cap.letters, "QA");
+        BibAssertEqualStrings(cap.integer, "");
+        BibAssertEqualStrings(cap.decimal, "");
+        BibAssertEqualStrings(str, " ", @"don't consume trailing space");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "QA 76";
+        size_t len = strlen(str) + 1;
+        bib_lc_calln_t cap = {};
+        XCTAssertTrue(bib_parse_lc_subject_base(&cap, &str, &len));
+        BibAssertEqualStrings(cap.letters, "QA");
+        BibAssertEqualStrings(cap.integer, "76");
+        BibAssertEqualStrings(cap.decimal, "");
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "QA 76.76";
+        size_t len = strlen(str) + 1;
+        bib_lc_calln_t cap = {};
+        XCTAssertTrue(bib_parse_lc_subject_base(&cap, &str, &len));
+        BibAssertEqualStrings(cap.letters, "QA");
+        BibAssertEqualStrings(cap.integer, "76");
+        BibAssertEqualStrings(cap.decimal, "76");
+        BibAssertEqualStrings(str, "");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = " ";
+        size_t len = strlen(str) + 1;
+        bib_lc_calln_t cap = {};
+        XCTAssertFalse(bib_parse_lc_subject_base(&cap, &str, &len), @"don't consume leading space");
+        BibAssertEqualStrings(cap.letters, "");
+        BibAssertEqualStrings(cap.integer, "");
+        BibAssertEqualStrings(cap.decimal, "");
+        BibAssertEqualStrings(str, " ");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = " QA76.76";
+        size_t len = strlen(str) + 1;
+        bib_lc_calln_t cap = {};
+        XCTAssertFalse(bib_parse_lc_subject_base(&cap, &str, &len), @"don't consume leading space");
+        BibAssertEqualStrings(cap.letters, "");
+        BibAssertEqualStrings(cap.integer, "");
+        BibAssertEqualStrings(cap.decimal, "");
+        BibAssertEqualStrings(str, " QA76.76");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "76.76";
+        size_t len = strlen(str) + 1;
+        bib_lc_calln_t cap = {};
+        XCTAssertFalse(bib_parse_lc_subject_base(&cap, &str, &len), @"require class letters");
+        BibAssertEqualStrings(cap.letters, "");
+        BibAssertEqualStrings(cap.integer, "");
+        BibAssertEqualStrings(cap.decimal, "");
+        BibAssertEqualStrings(str, "76.76");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+    {
+        char const *str = "QA 76 .76";
+        size_t len = strlen(str) + 1;
+        bib_lc_calln_t cap = {};
+        XCTAssertTrue(bib_parse_lc_subject_base(&cap, &str, &len), @"allow partial match");
+        BibAssertEqualStrings(cap.letters, "QA");
+        BibAssertEqualStrings(cap.integer, "76");
+        BibAssertEqualStrings(cap.decimal, "", @"don't parse decimal with leading spacee");
+        BibAssertEqualStrings(str, " .76", @"leave decimal with leading space");
+        XCTAssertEqual(len, strlen(str) + 1);
+    }
+}
+
 //- (void)test_parse_lc_caption_ordinal {
 //    {
 //        char const *str = "15th.";

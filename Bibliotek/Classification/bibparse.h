@@ -27,6 +27,24 @@ extern bool bib_parse_lc_calln(bib_lc_calln_t *calln, char const **str, size_t *
 
 #pragma mark - parse lc components
 
+/// Read the subject matter for a Library of Congress call number from the given input stream.
+/// \param calln Allocated space for a structure representing the parsed call number.
+/// \param str Pointer to the current reading position in the input stream.
+///            Characters read from the stream are removed only when parsing is successful.
+/// \param len Pointer to the amount of bytes remaining in the input stream.
+/// \returns \c true when a Library of Congress call number is successfully read from the input stream.
+/// \post \c calln is set to a data structure representing the call number when parsing is successful.
+extern bool bib_parse_lc_subject(bib_lc_calln_t *calln, char const **str, size_t *len);
+
+/// Read the subject class and subclass for a Library of Congress call number from the given input stream.
+/// \param calln Allocated space for a structure representing the parsed call number.
+/// \param str Pointer to the current reading position in the input stream.
+///            Characters read from the stream are removed only when parsing is successful.
+/// \param len Pointer to the amount of bytes remaining in the input stream.
+/// \returns \c true when a Library of Congress call number is successfully read from the input stream.
+/// \post \c calln is set to a data structure representing the call number when parsing is successful.
+extern bool bib_parse_lc_subject_base(bib_lc_calln_t *calln, char const **str, size_t *len);
+
 /// Read a date or an ordinal value appearing within the caption or a cutter segment in a Library of Congress call
 /// number from the given input stream.
 /// \param dord Allocated space for a structure representing the parsed date-or-ordinal segment.

@@ -10,32 +10,22 @@
 #include "biblex.h"
 #include <string.h>
 
-static bool bib_parse_lc_calln_caption_root(bib_lc_calln_t *calln, char const **str, size_t *len);
-
 bool bib_parse_lc_calln(bib_lc_calln_t *const calln, char const **const str, size_t *const len)
 {
     if (calln == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
     }
 
-    /// caption class and number
-    char const *str_0 = *str;
-    size_t      len_0 = *len;
-    bool cap_success = bib_parse_lc_calln_caption_root(calln, &str_0, &len_0);
-
-    /// caption date or ordinal
-    char const *str_1 = str_0;
-    size_t      len_1 = len_0;
-    bool cap_space_success = cap_success && bib_read_space(&str_1, &len_1);
-    bool cap_other_success = cap_space_success && bib_parse_dateord(&(calln->dateord),
-                                                                    bib_lex_caption_ordinal_suffix,
-                                                                    &str_1, &len_1);
+    /// subject matter
+    char const *str_1 = *str;
+    size_t      len_1 = *len;
+    bool sub_success = bib_parse_lc_subject(calln, &str_1, &len_1);
 
     /// cutter numbers
-    char const *str_2 = (cap_other_success) ? str_1 : str_0;
-    size_t      len_2 = (cap_other_success) ? len_1 : len_0;
-    bool __unused  _ = cap_success && bib_read_space(&str_2, &len_2);
-    bool cut_success = cap_success && bib_parse_cuttseg_list(calln->cutters, &str_2, &len_2);
+    char const *str_2 = (sub_success) ? str_1 : *str;
+    size_t      len_2 = (sub_success) ? len_1 : *len;
+    bool __unused  _ = sub_success && bib_read_space(&str_2, &len_2);
+    bool cut_success = sub_success && bib_parse_cuttseg_list(calln->cutters, &str_2, &len_2);
 
     // specifications[0]
     char const *str_3 = (cut_success) ? str_2 : str_1;
@@ -61,8 +51,7 @@ bool bib_parse_lc_calln(bib_lc_calln_t *const calln, char const **const str, siz
                      : (spc_1_parse_success) ? len_4
                      : (spc_0_parse_success) ? len_3
                      : (cut_success)         ? len_2
-                     : (cap_other_success)   ? len_1
-                     : (cap_success)         ? len_0
+                     : (sub_success)         ? len_1
                      : *len;
     bool success = bib_advance_step(*len - final_len, str, len);
     if (!success) {
@@ -71,18 +60,46 @@ bool bib_parse_lc_calln(bib_lc_calln_t *const calln, char const **const str, siz
     return success;
 }
 
-static bool bib_parse_lc_calln_caption_root(bib_lc_calln_t *const calln, char const **const str, size_t *const len)
+bool bib_parse_lc_subject(bib_lc_calln_t *const calln, char const **const str, size_t *const len)
 {
     if (calln == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
     }
 
-    // caption class
+    /// subject matter class and subclass
+    char const *str_0 = *str;
+    size_t      len_0 = *len;
+    bool base_success = bib_parse_lc_subject_base(calln, &str_0, &len_0);
+
+    /// subject matter date or ordinal
+    char const *str_1 = str_0;
+    size_t      len_1 = len_0;
+    bool space_success = base_success && bib_read_space(&str_1, &len_1);
+    bool dord_success = space_success && bib_parse_dateord(&(calln->dateord),
+                                                           bib_lex_caption_ordinal_suffix,
+                                                           &str_1, &len_1);
+    size_t final_len = (dord_success) ? len_1
+                     : (base_success) ? len_0
+                     : *len;
+    bool success = bib_advance_step(*len - final_len, str, len);
+    if (!success) {
+        memset(calln, 0, sizeof(bib_lc_calln_t));
+    }
+    return success;
+}
+
+bool bib_parse_lc_subject_base(bib_lc_calln_t *const calln, char const **const str, size_t *const len)
+{
+    if (calln == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
+        return false;
+    }
+
+    // subject matter class
     char const *str_0 = *str;
     size_t      len_0 = *len;
     bool cls_success = bib_lex_subclass(calln->letters, &str_0, &len_0);
 
-    // caption number
+    // subject matter subclass
     char const *str_1 = str_0;
     size_t      len_1 = len_0;
     bool __unused __ = cls_success && bib_read_space(&str_1, &len_1); // optional space

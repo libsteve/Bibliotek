@@ -1,14 +1,15 @@
-lc-calln := <lc-subject-matter>
-          | <lc-subject-matter> '.' <lc-cutter-section>
-          | <lc-subject-matter> <space> '.' <lc-cutter-section>
-          | <lc-subject-matter> '.' <lc-cutter-section> <space> <lc-specification-list>
-          | <lc-subject-matter> <space> '.' <lc-cutter-section> <space> <lc-specification-list>
+lc-calln := <lc-subject>
+          | <lc-subject> '.' <lc-cutter-section>
+          | <lc-subject> <space> '.' <lc-cutter-section>
+          | <lc-subject> '.' <lc-cutter-section> <space> <lc-specification-list>
+          | <lc-subject> <space> '.' <lc-cutter-section> <space> <lc-specification-list>
 
-lc-subject-matter := <lc-subject-class>
-                   | <lc-subject-class> <lc-subject-subclass>
-                   | <lc-subject-class> <space> <lc-subject-subclass>
-                   | <lc-subject-class> <lc-subject-subclass> <space> <lc-subject-dateord>
-                   | <lc-subject-class> <space> <lc-subject-subclass> <space> <lc-subject-dateord>
+lc-subject := <lc-subject-base>
+            | <lc-subject-base> <space> <lc-subject-dateord>
+
+lc-subject-base := <lc-subject-class>
+                 | <lc-subject-class> <lc-subject-subclass>
+                 | <lc-subject-class> <space> <lc-subject-subclass>
 
 lc-subject-class := <upper>
                   | <upper> <upper>

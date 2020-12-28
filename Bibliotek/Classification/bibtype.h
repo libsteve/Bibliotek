@@ -216,19 +216,19 @@ extern bool bib_cuttseg_is_empty(bib_cuttseg_t const *seg);
 
 /// A Library of Congress call number.
 typedef struct bib_lc_calln {
-    /// The at most three letter initial of the subject matter.
+    /// The at most three letter initial of the subject matter class.
     bib_alpah03_b letters;
 
-    /// The integer value of the subject matter.
+    /// The integer value of the subject matter subclass.
     bib_digit04_b integer;
 
-    /// The decimal portion of the subject matter.
+    /// The decimal portion of the subject matter subclass.
     bib_digit16_b decimal;
 
-    /// The date or ordinal value within the caption.
+    /// The date or ordinal value within the subject matter section.
     bib_dateord_t dateord;
 
-    /// The three cutter number segments.
+    /// The three cutter segments.
     bib_cuttseg_t cutters[3];
 
     /// The first two specification segments.
