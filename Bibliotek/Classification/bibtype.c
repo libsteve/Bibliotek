@@ -203,7 +203,7 @@ bool bib_cuttseg_is_empty(bib_cuttseg_t const *const seg)
     return (seg == NULL) || bib_cutter_is_empty(&(seg->cutter));
 }
 
-#pragma mark -
+#pragma mark - lc comparison
 
 static inline bool bib_str_is_empty(char const *const str) { return str == NULL || str[0] == '\0'; }
 
@@ -243,20 +243,20 @@ bib_calln_comparison_t bib_lc_calln_compare(bib_calln_comparison_t const status,
     result = bib_string_specify_compare(result, left->decimal, right->decimal, specify);
 
     // datenum
-    result = bib_lc_dateord_compare(result, &(left->dateord), &(right->dateord), specify);
+    result = bib_dateord_compare(result, &(left->dateord), &(right->dateord), specify);
 
     // cutters
     for (size_t index = 0; index < 3; index += 1) {
         bib_cuttseg_t const *const left_cut = &(left->cutters[index]);
         bib_cuttseg_t const *const right_cut = &(right->cutters[index]);
-        result = bib_lc_cutter_compare(result, left_cut, right_cut, specify);
+        result = bib_cuttseg_compare(result, left_cut, right_cut, specify);
     }
 
     // specifications
     for (size_t index = 0; index < 2; index += 1) {
         bib_lc_specification_t const *const left_spc = &(left->specifications[index]);
         bib_lc_specification_t const *const right_spc = &(right->specifications[index]);
-        result = bib_lc_special_compare(result, left_spc, right_spc, specify);
+        result = bib_specification_compare(result, left_spc, right_spc, specify);
     }
 
     // remainder
@@ -267,7 +267,7 @@ bib_calln_comparison_t bib_lc_calln_compare(bib_calln_comparison_t const status,
         for (; (index < left_len) && (index < right_len); index += 1) {
             bib_lc_specification_t const *const l = &(left->remainder.buffer[index]);
             bib_lc_specification_t const *const r = &(right->remainder.buffer[index]);
-            result = bib_lc_special_compare(result, l, r, specify);
+            result = bib_specification_compare(result, l, r, specify);
         }
         if (result == bib_calln_ordered_same) {
             if (left_len > right_len) {
@@ -281,9 +281,9 @@ bib_calln_comparison_t bib_lc_calln_compare(bib_calln_comparison_t const status,
     return result;
 }
 
-bib_calln_comparison_t bib_lc_cutter_compare(bib_calln_comparison_t const status,
-                                             bib_cuttseg_t const *const left, bib_cuttseg_t const *const right,
-                                             bool const specify)
+bib_calln_comparison_t bib_cuttseg_compare(bib_calln_comparison_t const status,
+                                           bib_cuttseg_t const *const left, bib_cuttseg_t const *const right,
+                                           bool const specify)
 {
     if (status == bib_calln_ordered_ascending || status == bib_calln_ordered_descending) { return status; }
 
@@ -297,13 +297,13 @@ bib_calln_comparison_t bib_lc_cutter_compare(bib_calln_comparison_t const status
 
     bib_calln_comparison_t result = status;
     result = bib_cutter_compare(result, &(left->cutter), &(right->cutter), specify);
-    result = bib_lc_dateord_compare(result, &(left->dateord), &(right->dateord), specify);
+    result = bib_dateord_compare(result, &(left->dateord), &(right->dateord), specify);
     return result;
 }
 
-bib_calln_comparison_t bib_lc_dateord_compare(bib_calln_comparison_t const status,
-                                              bib_dateord_t const *const left, bib_dateord_t const *const right,
-                                              bool specify)
+bib_calln_comparison_t bib_dateord_compare(bib_calln_comparison_t const status,
+                                           bib_dateord_t const *const left, bib_dateord_t const *const right,
+                                           bool specify)
 {
     if (status == bib_calln_ordered_ascending || status == bib_calln_ordered_descending) { return status; }
 
@@ -327,9 +327,10 @@ bib_calln_comparison_t bib_lc_dateord_compare(bib_calln_comparison_t const statu
     }
 }
 
-bib_calln_comparison_t bib_lc_special_compare(bib_calln_comparison_t const status,
-                                              bib_lc_specification_t const *const left, bib_lc_specification_t const *const right,
-                                              bool specify)
+bib_calln_comparison_t bib_specification_compare(bib_calln_comparison_t const status,
+                                                 bib_lc_specification_t const *const left,
+                                                 bib_lc_specification_t const *const right,
+                                                 bool specify)
 {
     if (status == bib_calln_ordered_ascending || status == bib_calln_ordered_descending) { return status; }
 
@@ -402,8 +403,8 @@ bib_calln_comparison_t bib_year_compare(bib_calln_comparison_t const status,
     int const right_year = (bib_str_is_empty(right) ? 0 : atoi(right));
     if (left_year != right_year) {
         if (specify && left_year == 0) {
-            if (status == string_specialized_ordered_same) { return bib_calln_ordered_specifying; }
-            if (status == string_specialized_ordered_specifying) { return bib_calln_ordered_specifying; }
+            if (status == bib_calln_ordered_same) { return bib_calln_ordered_specifying; }
+            if (status == bib_calln_ordered_specifying) { return bib_calln_ordered_specifying; }
         }
         return (left_year < right_year) ? bib_calln_ordered_ascending : bib_calln_ordered_descending;
     }
@@ -499,17 +500,17 @@ bib_calln_comparison_t bib_ordinal_compare(bib_calln_comparison_t status,
     return result;
 }
 
-#pragma mark -
+#pragma mark - string comparison
 
-bib_calln_comparison_t string_specialized_compare(bib_calln_comparison_t status,
-                                                  char const *const prefix, char const *const string)
+static bib_calln_comparison_t bib_string_specify_compare_base(bib_calln_comparison_t status,
+                                                              char const *const prefix, char const *const string)
 {
     switch (status) {
         case bib_calln_ordered_ascending:
         case bib_calln_ordered_descending: {
             return status;
         }
-        case string_specialized_ordered_same:
+        case bib_calln_ordered_same:
             if (prefix == NULL && string == NULL) { return bib_calln_ordered_same; }
             else if (prefix == NULL && string != NULL) { return bib_calln_ordered_specifying; }
             else if (prefix != NULL && string == NULL) { return bib_calln_ordered_descending; }
@@ -530,7 +531,7 @@ bib_calln_comparison_t string_specialized_compare(bib_calln_comparison_t status,
                     return bib_calln_ordered_descending;
                 }
             }
-        case string_specialized_ordered_specifying: {
+        case bib_calln_ordered_specifying: {
             bool empty_prefix = (prefix == NULL) || (prefix[0] == '\0');
             return (empty_prefix) ? bib_calln_ordered_specifying : bib_calln_ordered_ascending;
         }
@@ -542,6 +543,6 @@ bib_calln_comparison_t bib_string_specify_compare(bib_calln_comparison_t const s
                                                   bool const specify)
 {
     if (status == bib_calln_ordered_ascending || status == bib_calln_ordered_descending) { return status; }
-    bib_calln_comparison_t const result = string_specialized_compare(status, prefix, string);
+    bib_calln_comparison_t const result = bib_string_specify_compare_base(status, prefix, string);
     return (!specify && result == bib_calln_ordered_specifying) ? bib_calln_ordered_ascending : result;
 }

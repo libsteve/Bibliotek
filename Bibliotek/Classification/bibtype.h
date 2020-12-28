@@ -241,8 +241,9 @@ typedef struct bib_lc_calln {
 extern bool bib_lc_calln_init  (bib_lc_calln_t *num, char const *str);
 extern void bib_lc_calln_deinit(bib_lc_calln_t *num);
 
-#pragma mark -
+#pragma mark - lc comparison
 
+/// The ordering relationship between two call number components.
 typedef enum bib_calln_comparison {
     /// The leading value is ordered before the trailing value, and therefore does not specialize it.
     bib_calln_ordered_descending = -1,
@@ -258,50 +259,102 @@ typedef enum bib_calln_comparison {
 
 } bib_calln_comparison_t;
 
-extern bib_calln_comparison_t bib_lc_calln_compare(bib_calln_comparison_t status, bib_lc_calln_t const *left, bib_lc_calln_t const *right, bool specify);
-extern bib_calln_comparison_t bib_lc_cutter_compare(bib_calln_comparison_t status, bib_cuttseg_t const *left, bib_cuttseg_t const *right, bool specify);
-extern bib_calln_comparison_t bib_lc_dateord_compare(bib_calln_comparison_t status, bib_dateord_t const *left, bib_dateord_t const *right, bool specify);
-extern bib_calln_comparison_t bib_lc_special_compare(bib_calln_comparison_t status, bib_lc_specification_t const *left, bib_lc_specification_t const *right, bool specify);
+/// Get the ordering relationship between two call numbers.
+/// \param left The call number at the first location.
+/// \param right The call number at the last location.
+/// \param status The result of previous specialization comparisons. This is used to continue matching
+///               prefixes for subsequent segments that have been completly equivalend thus far.
+/// \param specify Pass \c true when the comparison should include specialization ordering.
+/// \returns The ordering relationship between the \c left and \c right objects.
+extern bib_calln_comparison_t bib_lc_calln_compare(bib_calln_comparison_t status,
+                                                   bib_lc_calln_t const *left, bib_lc_calln_t const *right,
+                                                   bool specify);
 
-extern bib_calln_comparison_t bib_date_compare(bib_calln_comparison_t status, bib_date_t const *left, bib_date_t const *right, bool specify);
-extern bib_calln_comparison_t bib_cutter_compare(bib_calln_comparison_t status, bib_cutter_t const *left, bib_cutter_t const *right, bool specify);
-extern bib_calln_comparison_t bib_volume_compare(bib_calln_comparison_t status, bib_volume_t const *left, bib_volume_t const *right, bool specify);
-extern bib_calln_comparison_t bib_ordinal_compare(bib_calln_comparison_t status, bib_ordinal_t const *left, bib_ordinal_t const *right, bool specify);
+/// Get the ordering relationship between two cutter segments.
+/// \param left The cutter segment at the first location.
+/// \param right The cutter segment at the last location.
+/// \param status The result of previous specialization comparisons. This is used to continue matching
+///               prefixes for subsequent segments that have been completly equivalend thus far.
+/// \param specify Pass \c true when the comparison should include specialization ordering.
+/// \returns The ordering relationship between the \c left and \c right objects.
+extern bib_calln_comparison_t bib_cuttseg_compare(bib_calln_comparison_t status,
+                                                  bib_cuttseg_t const *left, bib_cuttseg_t const *right,
+                                                  bool specify);
 
-#pragma mark -
+/// Get the ordering relationship between two date-or-ordinal values.
+/// \param left The date-or-ordinal value at the first location.
+/// \param right The date-or-ordinal value at the last location.
+/// \param status The result of previous specialization comparisons. This is used to continue matching
+///               prefixes for subsequent segments that have been completly equivalend thus far.
+/// \param specify Pass \c true when the comparison should include specialization ordering.
+/// \returns The ordering relationship between the \c left and \c right objects.
+extern bib_calln_comparison_t bib_dateord_compare(bib_calln_comparison_t status,
+                                                  bib_dateord_t const *left, bib_dateord_t const *right,
+                                                  bool specify);
 
-typedef enum string_specialized_comparison_result {
-    /// The \c string is lexically ordered before the \c prefix and therefore does not specialize it.
-    string_specialized_ordered_descending = -1,
+/// Get the ordering relationship between two specification segments.
+/// \param left The specification segment at the first location.
+/// \param right The specification segment at the last location.
+/// \param status The result of previous specialization comparisons. This is used to continue matching
+///               prefixes for subsequent segments that have been completly equivalend thus far.
+/// \param specify Pass \c true when the comparison should include specialization ordering.
+/// \returns The ordering relationship between the \c left and \c right objects.
+extern bib_calln_comparison_t bib_specification_compare(bib_calln_comparison_t status,
+                                                        bib_lc_specification_t const *left,
+                                                        bib_lc_specification_t const *right,
+                                                        bool specify);
+/// Get the ordering relationship between two dates.
+/// \param left The date at the first location.
+/// \param right The date at the last location.
+/// \param status The result of previous specialization comparisons. This is used to continue matching
+///               prefixes for subsequent segments that have been completly equivalend thus far.
+/// \param specify Pass \c true when the comparison should include specialization ordering.
+/// \returns The ordering relationship between the \c left and \c right objects.
+extern bib_calln_comparison_t bib_date_compare(bib_calln_comparison_t status,
+                                               bib_date_t const *left, bib_date_t const *right,
+                                               bool specify);
 
-    /// The \c string does begin with \c prefix and they are equal.
-    string_specialized_ordered_same       =  0,
+/// Get the ordering relationship between two cutter numbers.
+/// \param left The cutter number at the first location.
+/// \param right The cutter number at the last location.
+/// \param status The result of previous specialization comparisons. This is used to continue matching
+///               prefixes for subsequent segments that have been completly equivalend thus far.
+/// \param specify Pass \c true when the comparison should include specialization ordering.
+/// \returns The ordering relationship between the \c left and \c right objects.
+extern bib_calln_comparison_t bib_cutter_compare(bib_calln_comparison_t status,
+                                                 bib_cutter_t const *left, bib_cutter_t const *right,
+                                                 bool specify);
 
-    /// The \c string is lexically ordered after the \c prefix in a way that does not specialize it.
-    string_specialized_ordered_ascending  =  1,
+/// Get the ordering relationship between two volume numbers.
+/// \param left The volume number at the first location.
+/// \param right The volume number at the last location.
+/// \param status The result of previous specialization comparisons. This is used to continue matching
+///               prefixes for subsequent segments that have been completly equivalend thus far.
+/// \param specify Pass \c true when the comparison should include specialization ordering.
+/// \returns The ordering relationship between the \c left and \c right objects.
+extern bib_calln_comparison_t bib_volume_compare(bib_calln_comparison_t status,
+                                                 bib_volume_t const *left, bib_volume_t const *right,
+                                                 bool specify);
 
-    /// The \c string does begin with \c prefix but they are not equal.
-    string_specialized_ordered_specifying =  2
-} string_specialized_comparison_result_t;
+/// Get the ordering relationship between two ordinal values.
+/// \param left The ordinal value at the first location.
+/// \param right The ordinal value at the last location.
+/// \param status The result of previous specialization comparisons. This is used to continue matching
+///               prefixes for subsequent segments that have been completly equivalend thus far.
+/// \param specify Pass \c true when the comparison should include specialization ordering.
+/// \returns The ordering relationship between the \c left and \c right objects.
+extern bib_calln_comparison_t bib_ordinal_compare(bib_calln_comparison_t status,
+                                                  bib_ordinal_t const *left, bib_ordinal_t const *right,
+                                                  bool specify);
+
+#pragma mark - string comparison
 
 /// Determine if the given \c string begins with the given \c prefix and whether or not they are equal.
 /// \param status The result of previous specialization comparisons. This is used to continue matching
 ///               prefixes for subsequent segments that have been completly equivalend thus far.
 /// \param prefix A prefix string search for.
 /// \param string A string that may or may not begin with or euqal to the given prefix
-/// \returns \c string_specialization_none when the string does begin with the given prefix
-/// \returns \c string_specialization_none when the status is set to \c string_specialization_none
-/// \returns \c string_specialization_none when the status is \c string_specialization_found
-///          and the given prefix is not the empty string.
-/// \returns \c string_specialization_maybe when the status is set to \c string_specialization_maybe
-///          and the string and prefix are equivalent.
-/// \returns \c string_specialization_found when the string begins with, but is not equal to, the given prefix.
-/// \returns \c string_specialization_found when the status is set to \c string_specialization_found
-///          and the given prefix is empty the empty string.
-extern bib_calln_comparison_t string_specialized_compare(bib_calln_comparison_t status,
-                                                                         char const *prefix,
-                                                                         char const *string);
-
+/// \param specify Pass \c true when the comparison should include specialization ordering.
 extern bib_calln_comparison_t bib_string_specify_compare(bib_calln_comparison_t status,
                                                          char const *prefix, char const *string, bool specify);
 
