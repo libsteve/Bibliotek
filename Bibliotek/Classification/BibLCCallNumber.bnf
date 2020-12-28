@@ -1,110 +1,92 @@
-lc-calln := <lc-calln-base>
-          | <lc-calln-base> <lc-calln-shelf>
+lc-calln := <lc-subject-matter>
+          | <lc-subject-matter> '.' <lc-cutter-section>
+          | <lc-subject-matter> <space> '.' <lc-cutter-section>
+          | <lc-subject-matter> '.' <lc-cutter-section> <space> <lc-specification-list>
+          | <lc-subject-matter> <space> '.' <lc-cutter-section> <space> <lc-specification-list>
 
-lc-calln-base := <lc-caption>
-               | <lc-caption> '.' <lc-cutter>
+lc-subject-matter := <lc-subject-class>
+                   | <lc-subject-class> <lc-subject-subclass>
+                   | <lc-subject-class> <space> <lc-subject-subclass>
+                   | <lc-subject-class> <lc-subject-subclass> <space> <lc-subject-dateord>
+                   | <lc-subject-class> <space> <lc-subject-subclass> <space> <lc-subject-dateord>
 
-lc-calln-shelf := <suffix>
-                | <suffix> <space> <lc-special>
-                | <work-mark>
-                | <space> <work-mark>
-                | <space> <work-mark> <space> <lc-special>
-                | <space> <lc-special>
+lc-subject-class := <upper>
+                  | <upper> <upper>
+                  | <upper> <upper> <upper>
 
-lc-caption := <lc-caption-root>
-            | <lc-caption-root> <space> <lc-date>
-            | <lc-caption-root> <space> <lc-caption-ordinal>
-            | <lc-cpation-root> <space> <lc-date> <space> <lc-caption-ordinal>
+lc-subject-subclass := <digit04>
+                     | <digit04> '.' <digit16>
 
-lc-caption-root := <subclass>
-                 | <subclass> <lc-caption-integer>
-                 | <subclass> <lc-caption-integer> '.' <lc-caption-decimal>
+lc-subject-dateord := <date>
+                    | <digit16> <word>
 
-lc-caption-integer ::= <digit4>
+date := <date-body>
+      | <date-body> <mark>
 
-lc-caption-decimal := <digit16>
+date-body := <year>
+           | <year> <date-sep> <year>
+           | <year> <date-sep> <year-abv>
 
-lc-caption-ordinal := <lc-caption-ordinal-suffix>
-                    | <digit16> <space>
-                    | <digit16> <lc-caption-ordinal-suffix>
-                    | <digit16> <space> <lc-caption-ordinal-suffix>
+year := <digit> <digit> <digit> <digit>
 
-lc-caption-ordinal-suffix := <suffix>
-                           | <suffix> '.'
-                           | <suffix> '.' <space>
+year-abv := <digit> <digit>
 
-lc-cutter := <cutter>
-           | <cutter> <lc-cutter>
-           | <cutter> <space> <lc-date>
-           | <cutter> <space> <lc-cutter>
-           | <cutter> <space> <lc-date> <space> <lc-cutter>
+date-sep := '-' | '/'
 
-lc-special := <lc-special-date>
-            | <lc-special-date> <work-mark>
-            | <lc-special-ordinal>
-            | <lc-special-ordinal> <work-mark>
-            | <lc-special> <space> <lc-special>
+lc-cutter-section := <cutter-number>
+                   | <cutter-number> <lc-cutter-segment>
+                   | <cutter-number> <space> <lc-cutter-segment>
+                   | <cutter-number> <space> <lc-cutter-dateord>
+                   | <cutter-numner> <space> <lc-cutter-dateord> <space> <lc-cutter-section>
 
-lc-special-date := <lc-date>
-                 | <lc-date-range>
+lc-cutter-dateord := <date>
+                   | <digit16> <word>
 
-lc-date := <lc-date-num>
-         | <lc-date-num> <suffix>
+lc-specification-list := <lc-specification>
+                       | <lc-specification> <space> <lc-specification-list>
 
-lc-date-range-sep := '-' | '/'
+lc-specification := <date>
+                  | <ordinal>
+                  | <volume>
+                  | <longword>
 
-lc-date-range := <lc-date-num> <lc-date-range-sep> <digit> <digit>
-               | <lc-date-num> <lc-date-range-sep> <digit> <digit> <suffix>
+ordinal := <digit16> <lc-spec-ordinal-suffix>
 
-lc-date-num := <digit> <digit> <digit> <digit>
+ordinal-suffix := <word> '.'
+                | <word> '.' <ordinal-suffix>
 
-lc-special-ordinal := <lc-special-ordinal-root>
-                    | <lc-special-ordinal-root> <lc-special-ordinal>
-                    | <lc-special-ordinal-root> <space> <lc-special-ordinal>
+volume := <word> '.' <digit16>
+        | <word> '.' <space> <digit16>
 
-lc-special-ordinal-root := <suffix> '.'
-                         | <digit16> <suffix> '.'
-                         | <digit16> <space> <suffix> '.'
+digit16 := <digit04>
+         | <digit04> <digit04>
+         | <digit04> <digit04> <digit04>
+         | <digit04> <digit04> <digit04> <digit04>
 
-lc-volume := <letter16> '.' <digit16>
-           | <letter16> <space> <digit16>
-           | <letter16> '.' <space> <digit16>
+digit04 := <digit>
+         | <digit> <digit>
+         | <digit> <digit> <digit>
+         | <digit> <digit> <digit> <digit>
 
-suffix := <letter>
-        | <letter> <letter>
-        | <letter> <letter> <letter>
+letter16 := <letter04>
+          | <letter04> <letter04>
+          | <letter04> <letter04> <letter04>
+          | <letter04> <letter04> <letter04> <letter04>
 
-cutter := <letter>
-        | <letter> <digit16>
+mark := <letter>
+      | <letter> <letter>
+      | <letter> <letter> <letter>
+      | <letter> <letter> <letter> <letter>
 
-subclass := <letter>
-          | <letter> <letter>
-          | <letter> <letter> <letter>
+word := <not-space>
+      | <not-space> <not-space>
+      | <not-space> <not-space> <not-space>
+      | <not-space> <not-space> <not-space> <not-space>
 
-work-mark := <upper> <lower>
-           | <upper> <lower> <lower>
-           | <space> <upper> <lower>
-           | <space> <upper> <lower> <lower>
-
-digit16 := <digit4>
-         | <digit4> <digit4>
-         | <digit4> <digit4> <digit4>
-         | <digit4> <digit4> <digit4> <digit4>
-
-digit4 := <digit>
-        | <digit> <digit>
-        | <digit> <digit> <digit>
-        | <digit> <digit> <digit> <digit>
-
-letter16 := <letter4>
-          | <letter4> <letter4>
-          | <letter4> <letter4> <letter4>
-          | <letter4> <letter4> <letter4> <letter4>
-
-letter4 := <letter>
-         | <letter> <letter>
-         | <letter> <letter> <letter>
-         | <letter> <letter> <letter> <letter>
+longword := <word>
+          | <word> <word>
+          | <word> <word> <word>
+          | <word> <word> <word> <word>
 
 letter := <upper> | <lower>
 
@@ -115,3 +97,5 @@ lower := 'a' | 'b' | 'c' | ... | 'z'
 digit := '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
 
 space := ' ' | '\n' | '\t' | <space> <space>
+
+not-space := '.' | '-' | <letter> | <digit> | ...
