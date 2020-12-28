@@ -28,7 +28,7 @@
         BibAssertEqualStrings(cap.letters, "QA");
         BibAssertEqualStrings(cap.integer, "");
         BibAssertEqualStrings(cap.decimal, "");
-        XCTAssertTrue(bib_lc_dateord_is_empty(&cap.dateord));
+        XCTAssertTrue(bib_dateord_is_empty(&cap.dateord));
         BibAssertEqualStrings(str, "");
         XCTAssertEqual(len, strlen(str) + 1);
     }
@@ -40,7 +40,7 @@
         BibAssertEqualStrings(cap.letters, "KF");
         BibAssertEqualStrings(cap.integer, "4558");
         BibAssertEqualStrings(cap.decimal, "");
-        XCTAssertEqual(cap.dateord.kind, bib_lc_dateord_kind_ordinal);
+        XCTAssertEqual(cap.dateord.kind, bib_dateord_kind_ordinal);
         BibAssertEqualStrings(cap.dateord.ordinal.number, "15");
         BibAssertEqualStrings(cap.dateord.ordinal.suffix, "th");
         BibAssertEqualStrings(str, "");
@@ -54,7 +54,7 @@
         BibAssertEqualStrings(cap.letters, "DR");
         BibAssertEqualStrings(cap.integer, "1879");
         BibAssertEqualStrings(cap.decimal, "5");
-        XCTAssertEqual(cap.dateord.kind, bib_lc_dateord_kind_date);
+        XCTAssertEqual(cap.dateord.kind, bib_dateord_kind_date);
         BibAssertEqualStrings(cap.dateord.date.year, "1988");
         XCTAssertFalse(bib_date_has_span(&(cap.dateord.date)));
         XCTAssertEqual(cap.dateord.date.separator, '\0');
@@ -72,8 +72,8 @@
         BibAssertEqualStrings(cap.integer, "76");
         BibAssertEqualStrings(cap.decimal, "76");
         BibAssertEqualStrings(cap.dateord.date.year, "1988");
-        XCTAssertEqual(cap.dateord.kind, bib_lc_dateord_kind_date);
-        XCTAssertNotEqual(cap.dateord.kind, bib_lc_dateord_kind_ordinal);
+        XCTAssertEqual(cap.dateord.kind, bib_dateord_kind_date);
+        XCTAssertNotEqual(cap.dateord.kind, bib_dateord_kind_ordinal);
         BibAssertEqualStrings(str, " 15th", @"shouldn't parse an ordinal after parsing a year");
         XCTAssertEqual(len, strlen(str) + 1);
     }
@@ -85,7 +85,7 @@
         BibAssertEqualStrings(cap.letters, "QA");
         BibAssertEqualStrings(cap.integer, "76");
         BibAssertEqualStrings(cap.decimal, "", @"don't parse decimals with leading space");
-        XCTAssertTrue(bib_lc_dateord_is_empty(&cap.dateord));
+        XCTAssertTrue(bib_dateord_is_empty(&cap.dateord));
         BibAssertEqualStrings(str, " .76 1988", @"leave decimal with leading space");
         XCTAssertEqual(len, strlen(str) + 1);
     }
@@ -98,8 +98,8 @@
         BibAssertEqualStrings(cap.integer, "76");
         BibAssertEqualStrings(cap.decimal, "76");
         BibAssertEqualStrings(cap.dateord.date.year, "1988");
-        XCTAssertEqual(cap.dateord.kind, bib_lc_dateord_kind_date);
-        XCTAssertNotEqual(cap.dateord.kind, bib_lc_dateord_kind_ordinal);
+        XCTAssertEqual(cap.dateord.kind, bib_dateord_kind_date);
+        XCTAssertNotEqual(cap.dateord.kind, bib_dateord_kind_ordinal);
         XCTAssertTrue(bib_cuttseg_is_empty(&(cap.cutters[0])));
         BibAssertEqualStrings(str, " 15th .C16", @"stop parsing when an ordinal is found after pasing a year");
         XCTAssertEqual(len, strlen(str) + 1);
@@ -112,7 +112,7 @@
         BibAssertEqualStrings(cap.letters, "KF");
         BibAssertEqualStrings(cap.integer, "4558");
         BibAssertEqualStrings(cap.decimal, "");
-        XCTAssertEqual(cap.dateord.kind, bib_lc_dateord_kind_date);
+        XCTAssertEqual(cap.dateord.kind, bib_dateord_kind_date);
         BibAssertEqualStrings(cap.dateord.date.year, "1988");
         XCTAssertEqual(cap.dateord.date.separator, '\0');
         BibAssertEqualStrings(cap.dateord.date.span, "");
@@ -511,7 +511,7 @@
 
         BibAssertEqualStrings(cutters[1].cutter.string, "B123");
         BibAssertEqualStrings(cutters[1].cutter.mark, "");
-        XCTAssertTrue(bib_lc_dateord_is_empty(&(cutters[1].dateord)));
+        XCTAssertTrue(bib_dateord_is_empty(&(cutters[1].dateord)));
 
         XCTAssertTrue(bib_cuttseg_is_empty(&(cutters[2])));
         BibAssertEqualStrings(str, "");
@@ -535,13 +535,13 @@
         XCTAssertTrue(bib_parse_cuttseg_list(cutters, &str, &len), @"parse valid cutter section");
         BibAssertEqualStrings(cutters[0].cutter.string, "E59");
         BibAssertEqualStrings(cutters[0].cutter.mark, "");
-        XCTAssertTrue(bib_lc_dateord_is_empty(&(cutters[0].dateord)));
+        XCTAssertTrue(bib_dateord_is_empty(&(cutters[0].dateord)));
         BibAssertEqualStrings(cutters[1].cutter.string, "A21");
         BibAssertEqualStrings(cutters[1].cutter.mark, "");
-        XCTAssertTrue(bib_lc_dateord_is_empty(&(cutters[1].dateord)));
+        XCTAssertTrue(bib_dateord_is_empty(&(cutters[1].dateord)));
         BibAssertEqualStrings(cutters[2].cutter.string, "");
         BibAssertEqualStrings(cutters[2].cutter.mark, "");
-        XCTAssertTrue(bib_lc_dateord_is_empty(&(cutters[2].dateord)));
+        XCTAssertTrue(bib_dateord_is_empty(&(cutters[2].dateord)));
         BibAssertEqualStrings(str, "");
         XCTAssertEqual(len, strlen(str) + 1);
     }
@@ -558,7 +558,7 @@
         XCTAssertEqual(cut.cutter.letter, 'A', @"parse cutter initial");
         BibAssertEqualStrings(cut.cutter.number, "123", @"parse cutter number");
         BibAssertEqualStrings(cut.cutter.mark, "");
-        XCTAssertEqual(cut.dateord.kind, bib_lc_dateord_kind_date, @"parse date value");
+        XCTAssertEqual(cut.dateord.kind, bib_dateord_kind_date, @"parse date value");
         BibAssertEqualStrings(cut.dateord.date.year, "2020", @"parse year");
         XCTAssertFalse(bib_date_has_span(&(cut.dateord.date)));
         XCTAssertEqual(cut.dateord.date.separator, '\0');
@@ -578,7 +578,7 @@
         XCTAssertEqual(cut.cutter.letter, 'A', @"parse cutter initial");
         BibAssertEqualStrings(cut.cutter.number, "123", @"parse cutter number");
         BibAssertEqualStrings(cut.cutter.mark, "");
-        XCTAssertTrue(bib_lc_dateord_is_empty(&(cut.dateord)), @"don't parse date value");
+        XCTAssertTrue(bib_dateord_is_empty(&(cut.dateord)), @"don't parse date value");
 
         BibAssertEqualStrings(str, "", @"input string should be empty");
         XCTAssertEqual(len, strlen(str) + 1, @"input string contains null terminator");
@@ -593,7 +593,7 @@
         XCTAssertEqual(cut.cutter.letter, 'A', @"parse cutter initial");
         BibAssertEqualStrings(cut.cutter.number, "123", @"parse cutter number");
         BibAssertEqualStrings(cut.cutter.mark, "");
-        XCTAssertTrue(bib_lc_dateord_is_empty(&(cut.dateord)), @"don't parse date value");
+        XCTAssertTrue(bib_dateord_is_empty(&(cut.dateord)), @"don't parse date value");
 
         BibAssertEqualStrings(str, " B123", @"input string should contain a space and the second cutter number");
         XCTAssertEqual(len, strlen(str) + 1, @"input string contains null terminator");

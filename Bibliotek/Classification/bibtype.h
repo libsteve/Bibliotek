@@ -169,33 +169,33 @@ extern bool bib_lc_specification_list_is_empty(bib_lc_specification_list_t const
 #pragma mark - dateord
 
 /// A flag indicating the type of data within a date-or-other value.
-typedef enum bib_lc_dateord_kind {
-    bib_lc_dateord_kind_date = 1,
-    bib_lc_dateord_kind_ordinal
-} bib_lc_dateord_kind_t;
+typedef enum bib_dateord_kind {
+    bib_dateord_kind_date = 1,
+    bib_dateord_kind_ordinal
+} bib_dateord_kind_t;
 
 /// A date or ordinal value within the caption section or a cutter segment in a Library of Congress call number.
-typedef struct bib_lc_dateord {
+typedef struct bib_dateord {
     /// The type of data within the date-or-ordinal value.
-    bib_lc_dateord_kind_t kind;
+    bib_dateord_kind_t kind;
 
     union {
-        /// A date value, marked by \c bib_lc_dateord_kind_date
+        /// A date value, marked by \c bib_dateord_kind_date
         bib_date_t date;
 
-        /// An ordinal value, marked by \c bib_lc_dateord_kind_ordinal
+        /// An ordinal value, marked by \c bib_dateord_kind_ordinal
         bib_ordinal_t ordinal;
     };
-} bib_lc_dateord_t;
+} bib_dateord_t;
 
 
-extern bool bib_lc_dateord_init_date(bib_lc_dateord_t *dord, bib_date_t const *date);
-extern bool bib_lc_dateord_init_ordinal(bib_lc_dateord_t *dord, bib_ordinal_t const *ord);
+extern bool bib_dateord_init_date(bib_dateord_t *dord, bib_date_t const *date);
+extern bool bib_dateord_init_ordinal(bib_dateord_t *dord, bib_ordinal_t const *ord);
 
-extern bib_date_t const *bib_lc_dateord_get_date(bib_lc_dateord_t *const dord);
-extern bib_ordinal_t const *bib_lc_dateord_get_ordinal(bib_lc_dateord_t *const dord);
+extern bib_date_t const *bib_dateord_get_date(bib_dateord_t *const dord);
+extern bib_ordinal_t const *bib_dateord_get_ordinal(bib_dateord_t *const dord);
 
-extern bool bib_lc_dateord_is_empty(bib_lc_dateord_t const *dord);
+extern bool bib_dateord_is_empty(bib_dateord_t const *dord);
 
 
 #pragma mark - cuttseg
@@ -206,10 +206,10 @@ typedef struct bib_cuttseg {
     bib_cutter_t cutter;
 
     /// The date or ordinal value trailing the cutter number.
-    bib_lc_dateord_t dateord;
+    bib_dateord_t dateord;
 } bib_cuttseg_t;
 
-extern bool bib_cuttseg_init(bib_cuttseg_t *seg, bib_cutter_t const *num, bib_lc_dateord_t const *dord);
+extern bool bib_cuttseg_init(bib_cuttseg_t *seg, bib_cutter_t const *num, bib_dateord_t const *dord);
 extern bool bib_cuttseg_is_empty(bib_cuttseg_t const *seg);
 
 #pragma mark - lc calln
@@ -226,7 +226,7 @@ typedef struct bib_lc_calln {
     bib_digit16_b decimal;
 
     /// The date or ordinal value within the caption.
-    bib_lc_dateord_t dateord;
+    bib_dateord_t dateord;
 
     /// The three cutter number segments.
     bib_cuttseg_t cutters[3];
@@ -260,7 +260,7 @@ typedef enum bib_calln_comparison {
 
 extern bib_calln_comparison_t bib_lc_calln_compare(bib_calln_comparison_t status, bib_lc_calln_t const *left, bib_lc_calln_t const *right, bool specify);
 extern bib_calln_comparison_t bib_lc_cutter_compare(bib_calln_comparison_t status, bib_cuttseg_t const *left, bib_cuttseg_t const *right, bool specify);
-extern bib_calln_comparison_t bib_lc_dateord_compare(bib_calln_comparison_t status, bib_lc_dateord_t const *left, bib_lc_dateord_t const *right, bool specify);
+extern bib_calln_comparison_t bib_lc_dateord_compare(bib_calln_comparison_t status, bib_dateord_t const *left, bib_dateord_t const *right, bool specify);
 extern bib_calln_comparison_t bib_lc_special_compare(bib_calln_comparison_t status, bib_lc_specification_t const *left, bib_lc_specification_t const *right, bool specify);
 
 extern bib_calln_comparison_t bib_date_compare(bib_calln_comparison_t status, bib_date_t const *left, bib_date_t const *right, bool specify);

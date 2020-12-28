@@ -27,9 +27,9 @@ bool bib_parse_lc_calln(bib_lc_calln_t *const calln, char const **const str, siz
     char const *str_1 = str_0;
     size_t      len_1 = len_0;
     bool cap_space_success = cap_success && bib_read_space(&str_1, &len_1);
-    bool cap_other_success = cap_space_success && bib_parse_lc_dateord(&(calln->dateord),
-                                                                      bib_lex_caption_ordinal_suffix,
-                                                                      &str_1, &len_1);
+    bool cap_other_success = cap_space_success && bib_parse_dateord(&(calln->dateord),
+                                                                    bib_lex_caption_ordinal_suffix,
+                                                                    &str_1, &len_1);
 
     /// cutter numbers
     char const *str_2 = (cap_other_success) ? str_1 : str_0;
@@ -116,7 +116,7 @@ bool bib_parse_cuttseg_list(bib_cuttseg_t segs[3], char const **const str, size_
         char const *str_1 = str_0;
         size_t      len_1 = len_0;
         bool first = (index == 0);
-        bool has_prev_date = !first && !bib_lc_dateord_is_empty(&(segs[index - 1].dateord));
+        bool has_prev_date = !first && !bib_dateord_is_empty(&(segs[index - 1].dateord));
         bool has_prev_mark = !first && !(segs[index - 1].cutter.mark[0] == '\0');
         bool space_success = !first && bib_read_space(&str_1, &len_1);
         bool require_space = (has_prev_date || has_prev_mark);
@@ -142,8 +142,8 @@ bool bib_parse_cuttseg_list(bib_cuttseg_t segs[3], char const **const str, size_
     return success;
 }
 
-bool bib_parse_lc_dateord(bib_lc_dateord_t *const dord, bib_lex_word_f const lex_ord_suffix,
-                          char const **const str, size_t *const len)
+bool bib_parse_dateord(bib_dateord_t *const dord, bib_lex_word_f const lex_ord_suffix,
+                       char const **const str, size_t *const len)
 {
     if (dord == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
         return false;
@@ -154,7 +154,7 @@ bool bib_parse_lc_dateord(bib_lc_dateord_t *const dord, bib_lex_word_f const lex
 
     bib_date_t date = {};
     bool date_success = bib_parse_date(&date, &str_0, &len_0)
-                     && bib_lc_dateord_init_date(dord, &date);
+                     && bib_dateord_init_date(dord, &date);
 
     char const *str_1 = *str;
     size_t      len_1 = *len;
@@ -162,14 +162,14 @@ bool bib_parse_lc_dateord(bib_lc_dateord_t *const dord, bib_lex_word_f const lex
     bib_ordinal_t ord = {};
     bool ordl_success = !date_success
                      && bib_parse_ordinal(&ord, lex_ord_suffix, &str_1, &len_1)
-                     && bib_lc_dateord_init_ordinal(dord, &ord);
+                     && bib_dateord_init_ordinal(dord, &ord);
 
     size_t final_len = (date_success) ? len_0
                      : (ordl_success) ? len_1
                      : *len;
     bool success = (date_success || ordl_success) && bib_advance_step(*len - final_len, str, len);
     if (!success) {
-        memset(dord, 0, sizeof(bib_lc_dateord_t));
+        memset(dord, 0, sizeof(bib_dateord_t));
     }
     return success;
 }
@@ -187,9 +187,9 @@ bool bib_parse_cuttseg(bib_cuttseg_t *seg, char const **const str, size_t *const
     char const *str_1 = str_0;
     size_t      len_1 = len_0;
     bool  space_success = cutter_success && bib_read_space(&str_1, &len_1);
-    bool number_success = space_success && bib_parse_lc_dateord(&(seg->dateord),
-                                                                bib_lex_cutter_ordinal_suffix,
-                                                                &str_1, &len_1);
+    bool number_success = space_success && bib_parse_dateord(&(seg->dateord),
+                                                             bib_lex_cutter_ordinal_suffix,
+                                                             &str_1, &len_1);
 
     size_t final_len = (number_success) ? len_1 : (cutter_success) ? len_0 : *len;
     bool success = (number_success || cutter_success) && bib_advance_step(*len - final_len, str, len);

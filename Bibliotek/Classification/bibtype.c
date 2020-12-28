@@ -141,58 +141,58 @@ bool bib_lc_specification_list_is_empty(bib_lc_specification_list_t const *const
 
 #pragma mark - lc dateord
 
-bool bib_lc_dateord_init_date(bib_lc_dateord_t *const dord, bib_date_t const *const date)
+bool bib_dateord_init_date(bib_dateord_t *const dord, bib_date_t const *const date)
 {
     if (dord == NULL || date == NULL || bib_date_is_empty(date)) {
         return false;
     }
-    memset(dord, 0, sizeof(bib_lc_dateord_t));
-    dord->kind = bib_lc_dateord_kind_date;
+    memset(dord, 0, sizeof(bib_dateord_t));
+    dord->kind = bib_dateord_kind_date;
     dord->date = *date;
     return true;
 }
 
-bool bib_lc_dateord_init_ordinal(bib_lc_dateord_t *const dord, bib_ordinal_t const *const ord)
+bool bib_dateord_init_ordinal(bib_dateord_t *const dord, bib_ordinal_t const *const ord)
 {
     if (dord == NULL || ord == NULL || bib_ordinal_is_empty(ord)) {
         return false;
     }
-    memset(dord, 0, sizeof(bib_lc_dateord_t));
-    dord->kind = bib_lc_dateord_kind_ordinal;
+    memset(dord, 0, sizeof(bib_dateord_t));
+    dord->kind = bib_dateord_kind_ordinal;
     dord->ordinal = *ord;
     return true;
 }
 
-bib_date_t const *bib_lc_dateord_get_date(bib_lc_dateord_t *const dord)
+bib_date_t const *bib_dateord_get_date(bib_dateord_t *const dord)
 {
-    if (dord == NULL || dord->kind != bib_lc_dateord_kind_date) {
+    if (dord == NULL || dord->kind != bib_dateord_kind_date) {
         return NULL;
     }
     return &(dord->date);
 }
 
-bib_ordinal_t const *bib_lc_dateord_get_ordinal(bib_lc_dateord_t *const dord)
+bib_ordinal_t const *bib_dateord_get_ordinal(bib_dateord_t *const dord)
 {
-    if (dord == NULL || dord->kind != bib_lc_dateord_kind_ordinal) {
+    if (dord == NULL || dord->kind != bib_dateord_kind_ordinal) {
         return NULL;
     }
     return &(dord->ordinal);
 }
 
-bool bib_lc_dateord_is_empty(bib_lc_dateord_t const *const num)
+bool bib_dateord_is_empty(bib_dateord_t const *const num)
 {
     return (num == NULL) || (num->kind == 0);
 }
 
 #pragma mark - lc cutter
 
-bool bib_cuttseg_init(bib_cuttseg_t *const seg, bib_cutter_t const *const num, bib_lc_dateord_t const *const dord)
+bool bib_cuttseg_init(bib_cuttseg_t *const seg, bib_cutter_t const *const num, bib_dateord_t const *const dord)
 {
     if (seg == NULL || bib_cutter_is_empty(num)) {
         return false;
     }
     seg->cutter = *num;
-    if (!bib_lc_dateord_is_empty(dord)) {
+    if (!bib_dateord_is_empty(dord)) {
         seg->dateord = *dord;
     }
     return true;
@@ -302,13 +302,13 @@ bib_calln_comparison_t bib_lc_cutter_compare(bib_calln_comparison_t const status
 }
 
 bib_calln_comparison_t bib_lc_dateord_compare(bib_calln_comparison_t const status,
-                                              bib_lc_dateord_t const *const left, bib_lc_dateord_t const *const right,
+                                              bib_dateord_t const *const left, bib_dateord_t const *const right,
                                               bool specify)
 {
     if (status == bib_calln_ordered_ascending || status == bib_calln_ordered_descending) { return status; }
 
-    bool const left_empty = bib_lc_dateord_is_empty(left);
-    bool const right_empty = bib_lc_dateord_is_empty(right);
+    bool const left_empty = bib_dateord_is_empty(left);
+    bool const right_empty = bib_dateord_is_empty(right);
     if (left_empty && right_empty) { return status; }
     else if (left_empty) { return (specify) ? bib_calln_ordered_specifying : bib_calln_ordered_ascending; }
     else if (right_empty) {
@@ -316,13 +316,13 @@ bib_calln_comparison_t bib_lc_dateord_compare(bib_calln_comparison_t const statu
     }
 
     if (left->kind != right->kind) {
-        return (left->kind == bib_lc_dateord_kind_ordinal) ? bib_calln_ordered_ascending : bib_calln_ordered_descending;
+        return (left->kind == bib_dateord_kind_ordinal) ? bib_calln_ordered_ascending : bib_calln_ordered_descending;
     }
 
     switch (left->kind) {
-        case bib_lc_dateord_kind_date:
+        case bib_dateord_kind_date:
             return bib_date_compare(status, &(left->date), &(right->date), specify);
-        case bib_lc_dateord_kind_ordinal:
+        case bib_dateord_kind_ordinal:
             return bib_ordinal_compare(status, &(left->ordinal), &(right->ordinal), specify);
     }
 }
