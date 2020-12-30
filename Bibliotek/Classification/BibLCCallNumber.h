@@ -15,6 +15,10 @@ typedef NS_ENUM(NSInteger, BibClassificationComparisonResult) {
     BibClassificationOrderedSpecifying NS_SWIFT_NAME(specifying) =  2L
 } NS_SWIFT_NAME(ClassificationComparisonResult);
 
+typedef NS_OPTIONS(NSInteger, BibLCCallNumberFormatOptions);
+
+#pragma mark -
+
 NS_ASSUME_NONNULL_BEGIN
 
 /// More information about Library of Congress Classification can be found at
@@ -31,6 +35,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// Create a Library of Congress call number with the given string representation.
 /// \param string The string value of the call number.
 + (nullable instancetype)callNumberWithString:(NSString *)string NS_SWIFT_UNAVAILABLE("Use init(string:)");
+
+/// Create a string representation of the call number using the given style attributes.
+/// \param options Attributes describing the format of the resulting string value.
+/// \returns A string representation of the call number in a format described by the given attributes.
+- (NSString *)stringWithFormatOptions:(BibLCCallNumberFormatOptions)options;
 
 /// Determine the linear ordering relationship between two call numbers.
 ///
@@ -92,5 +101,61 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)new NS_UNAVAILABLE;
 
 @end
+
+#pragma mark -
+
+/// Attributes describing the format of a string value representing a Library of Congress call number.
+typedef NS_OPTIONS(NSInteger, BibLCCallNumberFormatOptions) {
+    /// A compact single-line call number.
+    ///
+    /// \example QA76.76.C65A37 \c 1986
+    BibLCCallNumberFormatOptionsDefault NS_SWIFT_NAME(default) = 0,
+
+    /// Insert a space between the class letters and the subclass number.
+    ///
+    /// \example \c QA \c 76.76.C65A37 \c 1986
+    BibLCCallNumberFormatOptionsExpandSubject = 1 << 1,
+
+    /// Insert a space between adjacent cutter numbers.
+    ///
+    /// \example \c QA76.76.C65 \c A37 \c 1986
+    BibLCCallNumberFormatOptionsExpandCutters = 1 << 2,
+
+    /// Insert a space before the period marking a cutter section.
+    ///
+    /// \example \c QA76.76 \c .C65A37 \c 1986
+    BibLCCallNumberFormatOptionsExpandCutterMarks = 1 << 3,
+
+    /// Separate components of the call numner with a newline instead of a space.
+    BibLCCallNumberFormatOptionsMultiline     = 1 << 4,
+
+    /// Insert a period before any cutter numner that appears after a date or ordinal number.
+    ///
+    /// \example \c JZ33.D4 \c 1999.E37
+    BibLCCallNumberFormatOptionsMarkCutterAfterDate = 1 << 5
+
+} NS_SWIFT_NAME(BibLCCallNumber.FormatOptions);
+
+/// The format for a call number appearing on a book's pocket label.
+///
+/// \example \c QA \c 76.76 \c .C65 \c A37 \c 1986
+extern BibLCCallNumberFormatOptions const BibLCCallNumberFormatOptionsPocket
+NS_SWIFT_NAME(BibLCCallNumberFormatOptions.pocket);
+
+/// The format for a call number appearing on a book's spine label.
+///
+/// \example
+///
+/// \c QA
+///
+/// \c 76.76
+///
+/// \c .C65
+///
+/// \c A37
+///
+/// \c 1986
+extern BibLCCallNumberFormatOptions const BibLCCallNumberFormatOptionsSpine
+NS_SWIFT_NAME(BibLCCallNumberFormatOptions.spine);
 
 NS_ASSUME_NONNULL_END

@@ -8,7 +8,6 @@
 
 #import <XCTest/XCTest.h>
 #import <Bibliotek/Bibliotek.h>
-#import "BibLCCallNumber+Internal.h"
 
 #define BibAssertEqualStrings(expression1, expression2, ...) \
     _XCTPrimitiveAssertEqualObjects(self, @(expression1), @#expression1, @(expression2), @#expression2, __VA_ARGS__)
@@ -19,274 +18,46 @@
 
 @implementation BibLCCallNumberTests
 
-- (void)test_read_alphabetic_segment {
-    char buffer[4];
-    memset(buffer, 0, 4);
-    char const *const string = "QA76.76.E95";
-    char const *input = string;
-    u_long length = strlen(string);
-
-    XCTAssertTrue(bib_read_lc_calln_alphabetic_segment(buffer, &input, &length));
-    BibAssertEqualStrings(buffer, "QA");
-    BibAssertEqualStrings(input, "76.76.E95");
-}
-
-- (void)test_read_whole_number {
-    char buffer[5];
-    memset(buffer, 0, 5);
-    char const *const string = "76.76.E95";
-    char const *input = string;
-    u_long length = strlen(string);
-
-    XCTAssertTrue(bib_read_lc_calln_whole_number(buffer, &input, &length));
-    BibAssertEqualStrings(buffer, "76");
-    BibAssertEqualStrings(input, ".76.E95");
-}
-
-- (void)test_read_decimal_number {
-    char buffer[4];
-    memset(buffer, 0, 4);
-    char const *const string = ".76.E59";
-    char const *input = string;
-    u_long length = strlen(string);
-
-    XCTAssertTrue(bib_read_lc_calln_decimal_number(buffer, &input, &length));
-    BibAssertEqualStrings(buffer, "76");
-    BibAssertEqualStrings(input, ".E59");
-}
-
-- (void)test_read_date_or_other_number {
-    {
-        char buffer[5];
-        memset(buffer, 0, 5);
-        char const *const string = "2012 I13";
-        char const *input = string;
-        u_long length = strlen(string);
-
-        XCTAssertTrue(bib_read_lc_calln_date_or_other_number(buffer, &input, &length));
-        BibAssertEqualStrings(buffer, "2012");
-        BibAssertEqualStrings(input, " I13");
-    }
-    {
-        char buffer[5];
-        memset(buffer, 0, 5);
-        char const *const string = "15th I13";
-        char const *input = string;
-        u_long length = strlen(string);
-
-        XCTAssertTrue(bib_read_lc_calln_date_or_other_number(buffer, &input, &length));
-        BibAssertEqualStrings(buffer, "15th");
-        BibAssertEqualStrings(input, " I13");
-    }
-}
-
-- (void)test_read_cutter_number {
-    char buffer[5];
-    memset(buffer, 0, 5);
-    char const *const string = "E59 A21";
-    char const *input = string;
-    u_long length = strlen(string);
-
-    XCTAssertTrue(bib_read_lc_calln_cutter_number(buffer, &input, &length));
-    BibAssertEqualStrings(buffer, "E59");
-    BibAssertEqualStrings(input, " A21");
-}
-
-#pragma mark -
-
-- (void)test_calln_read_alphabetic_segment {
-    bib_lc_calln_t calln;
-    memset(&calln, 0, sizeof(calln));
-    char const *const string = "QA76.76.E95";
-    char const *input = string;
-    u_long length = strlen(string);
-
-    XCTAssertTrue(bib_lc_calln_read_alphabetic_segment(&calln, &input, &length));
-    BibAssertEqualStrings(calln.alphabetic_segment, "QA");
-    BibAssertEqualStrings(input, "76.76.E95");
-}
-
-- (void)test_calln_read_whole_number {
-    {
-        bib_lc_calln_t calln;
-        memset(&calln, 0, sizeof(calln));
-        char const *const string = "76.76.E95";
-        char const *input = string;
-        u_long length = strlen(string);
-
-        XCTAssertTrue(bib_lc_calln_read_whole_number(&calln, &input, &length));
-        BibAssertEqualStrings(calln.whole_number, "76");
-        BibAssertEqualStrings(input, ".76.E95");
-    }
-    {
-        bib_lc_calln_t calln;
-        memset(&calln, 0, sizeof(calln));
-        char const *const string = " 76.76.E95";
-        char const *input = string;
-        u_long length = strlen(string);
-
-        XCTAssertTrue(bib_lc_calln_read_whole_number(&calln, &input, &length));
-        BibAssertEqualStrings(calln.whole_number, "76");
-        BibAssertEqualStrings(input, ".76.E95");
-    }
-}
-
-- (void)test_calln_read_decimal_number {
-    bib_lc_calln_t calln;
-    memset(&calln, 0, sizeof(calln));
-    char const *const string = ".76.E95";
-    char const *input = string;
-    u_long length = strlen(string);
-
-    XCTAssertTrue(bib_lc_calln_read_decimal_number(&calln, &input, &length));
-    BibAssertEqualStrings(calln.decimal_number, "76");
-    BibAssertEqualStrings(input, ".E95");
-}
-
-- (void)test_calln_read_date_or_other_number {
-    {
-        bib_lc_calln_t calln;
-        memset(&calln, 0, sizeof(calln));
-        char const *const string = " 2012 I13";
-        char const *input = string;
-        u_long length = strlen(string);
-
-        XCTAssertTrue(bib_lc_calln_read_date_or_other_number(&calln, &input, &length));
-        BibAssertEqualStrings(calln.date_or_other_number, "2012");
-        BibAssertEqualStrings(input, "I13");
-    }
-    {
-        bib_lc_calln_t calln;
-        memset(&calln, 0, sizeof(calln));
-        char const *const string = " 15th I13";
-        char const *input = string;
-        u_long length = strlen(string);
-
-        XCTAssertTrue(bib_lc_calln_read_date_or_other_number(&calln, &input, &length));
-        BibAssertEqualStrings(calln.date_or_other_number, "15th");
-        BibAssertEqualStrings(input, "I13");
-    }
-    {
-        bib_lc_calln_t calln;
-        memset(&calln, 0, sizeof(calln));
-        char const *const string = "15th I13";
-        char const *input = string;
-        u_long length = strlen(string);
-
-        XCTAssertFalse(bib_lc_calln_read_date_or_other_number(&calln, &input, &length), @"A leading space is required");
-        BibAssertEqualStrings(calln.date_or_other_number, "");
-        BibAssertEqualStrings(input, "15th I13");
-    }
-}
-
-- (void)test_calln_read_first_cutter_number {
-    {
-        bib_lc_calln_t calln;
-        memset(&calln, 0, sizeof(calln));
-        char const *const string = ".E95 A21";
-        char const *input = string;
-        u_long length = strlen(string);
-
-        XCTAssertTrue(bib_lc_calln_read_first_cutter_number(&calln, &input, &length));
-        BibAssertEqualStrings(calln.first_cutter_number, "E95");
-        BibAssertEqualStrings(input, " A21");
-    }
-    {
-        bib_lc_calln_t calln;
-        memset(&calln, 0, sizeof(calln));
-        char const *const string = " .E95 A21";
-        char const *input = string;
-        u_long length = strlen(string);
-
-        XCTAssertTrue(bib_lc_calln_read_first_cutter_number(&calln, &input, &length));
-        BibAssertEqualStrings(calln.first_cutter_number, "E95");
-        BibAssertEqualStrings(input, " A21");
-    }
-}
-
-- (void)test_calln_read_number_after_cutter {
-    {
-        bib_lc_calln_t calln;
-        memset(&calln, 0, sizeof(calln));
-        char const *const string = " 2012 I13";
-        char const *input = string;
-        u_long length = strlen(string);
-
-        XCTAssertTrue(bib_lc_calln_read_number_after_cutter(&calln, &input, &length));
-        BibAssertEqualStrings(calln.date_or_other_number_after_first_cutter, "2012");
-        BibAssertEqualStrings(input, " I13");
-    }
-    {
-        bib_lc_calln_t calln;
-        memset(&calln, 0, sizeof(calln));
-        char const *const string = " 15th I13";
-        char const *input = string;
-        u_long length = strlen(string);
-
-        XCTAssertTrue(bib_lc_calln_read_number_after_cutter(&calln, &input, &length));
-        BibAssertEqualStrings(calln.date_or_other_number_after_first_cutter, "15th");
-        BibAssertEqualStrings(input, " I13");
-    }
-    {
-        bib_lc_calln_t calln;
-        memset(&calln, 0, sizeof(calln));
-        char const *const string = "15th I13";
-        char const *input = string;
-        u_long length = strlen(string);
-
-        XCTAssertFalse(bib_lc_calln_read_number_after_cutter(&calln, &input, &length), @"A leading space is required");
-        BibAssertEqualStrings(calln.date_or_other_number_after_first_cutter, "");
-        BibAssertEqualStrings(input, "15th I13");
-    }
-}
-
-- (void)test_calln_read_second_cutter_number {
-    {
-        bib_lc_calln_t calln;
-        memset(&calln, 0, sizeof(calln));
-        char const *const string = " A21";
-        char const *input = string;
-        u_long length = strlen(string);
-
-        XCTAssertTrue(bib_lc_calln_read_second_cutter_number(&calln, &input, &length));
-        BibAssertEqualStrings(calln.second_cutter_number, "A21");
-        BibAssertEqualStrings(input, "");
-    }
-    {
-        bib_lc_calln_t calln;
-        memset(&calln, 0, sizeof(calln));
-        char const *const string = "A21";
-        char const *input = string;
-        u_long length = strlen(string);
-
-        XCTAssertFalse(bib_lc_calln_read_second_cutter_number(&calln, &input, &length), @"A leading space is required");
-        BibAssertEqualStrings(calln.second_cutter_number, "");
-        BibAssertEqualStrings(input, "A21");
-    }
-}
-
-#pragma mark -
-
 - (void)testLCCallNumberWithString {
     {
         BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"QA76.76.C65 A37 1986"];
         XCTAssertNotNil(calln);
-        XCTAssertEqualObjects(calln.stringValue, @"QA76.76.C65 A37 1986");
+        XCTAssertEqualObjects(calln.stringValue, @"QA76.76.C65A37 1986");
     }
     {
         BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"DR1879.5.M37 M37 1988"];
         XCTAssertNotNil(calln);
-        XCTAssertEqualObjects(calln.stringValue, @"DR1879.5.M37 M37 1988");
+        XCTAssertEqualObjects(calln.stringValue, @"DR1879.5.M37M37 1988");
     }
     {
-        BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"KF4558 15th .K46 1908"];
+        BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"KF4558 15th.K46 1908"];
         XCTAssertNotNil(calln);
-        XCTAssertEqualObjects(calln.stringValue, @"KF4558 15th .K46 1908");
+        XCTAssertEqualObjects(calln.stringValue, @"KF4558 15th.K46 1908");
     }
     {
         BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"JZ33.D4 1999 E37"];
         XCTAssertNotNil(calln);
         XCTAssertEqualObjects(calln.stringValue, @"JZ33.D4 1999 E37");
+    }
+    {
+        BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"DR1879.5.M37 M37 1988/89"];
+        XCTAssertNotNil(calln);
+        XCTAssertEqualObjects(calln.stringValue, @"DR1879.5.M37M37 1988/89");
+    }
+    {
+        BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"QL737.C2C37 1984a"];
+        XCTAssertNotNil(calln);
+        XCTAssertEqualObjects(calln.stringValue, @"QL737.C2C37 1984a");
+    }
+    {
+        BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"AB32.64.S6L552 vol. 1 1976ab"];
+        XCTAssertNotNil(calln);
+        XCTAssertEqualObjects(calln.stringValue, @"AB32.64.S6L552 vol. 1 1976ab");
+    }
+    {
+        BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"DR1879.5 1988.C786 15th.ed. Suppl. 3"];
+        XCTAssertNotNil(calln);
+        XCTAssertEqualObjects(calln.stringValue, @"DR1879.5 1988.C786 15th.ed. Suppl. 3");
     }
 }
 
@@ -326,6 +97,55 @@
         BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"PN6737.M66 V2 2005"];
         XCTAssertEqual(NSOrderedAscending, [a compare:b]);
     }
+}
+
+/// These test cases are taken from the OCLC's documentation on the MARC bibliographic field
+/// 050 Library of Congress Call Number \a https://www.oclc.org/bibformats/en/0xx/050.html
+- (void)testLCCalNumberStringWithFormatOptions {
+    BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"DR1879.5.M37M37 1998"];
+    XCTAssertNotNil(a);
+    XCTAssertEqualObjects([a stringWithFormatOptions:BibLCCallNumberFormatOptionsDefault], @"DR1879.5.M37M37 1998");
+    XCTAssertEqualObjects([a stringWithFormatOptions:BibLCCallNumberFormatOptionsPocket], @"DR 1879.5 .M37 M37 1998");
+    XCTAssertEqualObjects([a stringWithFormatOptions:BibLCCallNumberFormatOptionsSpine], @"DR\n1879.5\n.M37\nM37\n1998");
+
+    BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"M211.M94 K.252 1989 c"];
+    XCTAssertNotNil(b);
+    XCTAssertEqualObjects([b stringWithFormatOptions:BibLCCallNumberFormatOptionsDefault], @"M211.M94 K.252 1989 c");
+    XCTAssertEqualObjects([b stringWithFormatOptions:BibLCCallNumberFormatOptionsPocket], @"M 211 .M94 K.252 1989 c");
+    XCTAssertEqualObjects([b stringWithFormatOptions:BibLCCallNumberFormatOptionsSpine], @"M\n211\n.M94\nK.252\n1989\nc");
+
+    BibLCCallNumber *const c = [[BibLCCallNumber alloc] initWithString:@"JZ33.D4 1999 E37"];
+    XCTAssertNotNil(c);
+    XCTAssertEqualObjects([c stringWithFormatOptions:BibLCCallNumberFormatOptionsDefault], @"JZ33.D4 1999 E37");
+    XCTAssertEqualObjects([c stringWithFormatOptions:BibLCCallNumberFormatOptionsPocket], @"JZ 33 .D4 1999 E37");
+    XCTAssertEqualObjects([c stringWithFormatOptions:BibLCCallNumberFormatOptionsSpine], @"JZ\n33\n.D4\n1999\nE37");
+    XCTAssertEqualObjects([c stringWithFormatOptions:(BibLCCallNumberFormatOptionsExpandCutterMarks
+                                                      | BibLCCallNumberFormatOptionsMarkCutterAfterDate)],
+                          @"JZ33 .D4 1999 .E37");
+
+    BibLCCallNumber *const d = [[BibLCCallNumber alloc] initWithString:@"PS3523.O46 1968"];
+    XCTAssertNotNil(d);
+    XCTAssertEqualObjects([d stringWithFormatOptions:BibLCCallNumberFormatOptionsDefault], @"PS3523.O46 1968");
+    XCTAssertEqualObjects([d stringWithFormatOptions:BibLCCallNumberFormatOptionsPocket], @"PS 3523 .O46 1968");
+    XCTAssertEqualObjects([d stringWithFormatOptions:BibLCCallNumberFormatOptionsSpine], @"PS\n3523\n.O46\n1968");
+
+    BibLCCallNumber *const e = [[BibLCCallNumber alloc] initWithString:@"HF5414.13.R73 1978"];
+    XCTAssertNotNil(e);
+    XCTAssertEqualObjects([e stringWithFormatOptions:BibLCCallNumberFormatOptionsDefault], @"HF5414.13.R73 1978");
+    XCTAssertEqualObjects([e stringWithFormatOptions:BibLCCallNumberFormatOptionsPocket], @"HF 5414.13 .R73 1978");
+    XCTAssertEqualObjects([e stringWithFormatOptions:BibLCCallNumberFormatOptionsSpine], @"HF\n5414.13\n.R73\n1978");
+
+    BibLCCallNumber *const f = [[BibLCCallNumber alloc] initWithString:@"KF4558 15th.K46 1908"];
+    XCTAssertNotNil(f);
+    XCTAssertEqualObjects([f stringWithFormatOptions:BibLCCallNumberFormatOptionsDefault], @"KF4558 15th.K46 1908");
+    XCTAssertEqualObjects([f stringWithFormatOptions:BibLCCallNumberFormatOptionsPocket], @"KF 4558 15th .K46 1908");
+    XCTAssertEqualObjects([f stringWithFormatOptions:BibLCCallNumberFormatOptionsSpine], @"KF\n4558\n15th\n.K46\n1908");
+
+    BibLCCallNumber *const g = [[BibLCCallNumber alloc] initWithString:@"Q11.P6 n.s. v. 56 pt. 9"];
+    XCTAssertNotNil(g);
+    XCTAssertEqualObjects([g stringWithFormatOptions:BibLCCallNumberFormatOptionsDefault], @"Q11.P6 n.s. v. 56 pt. 9");
+    XCTAssertEqualObjects([g stringWithFormatOptions:BibLCCallNumberFormatOptionsPocket], @"Q 11 .P6 n.s. v. 56 pt. 9");
+    XCTAssertEqualObjects([g stringWithFormatOptions:BibLCCallNumberFormatOptionsSpine], @"Q\n11\n.P6\nn.s.\nv. 56\npt. 9");
 }
 
 - (void)testLCCallNumberInclusion {

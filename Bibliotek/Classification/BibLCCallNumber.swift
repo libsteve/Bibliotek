@@ -95,6 +95,16 @@ extension LCCallNumber: CustomStringConvertible, CustomDebugStringConvertible, C
     public var debugDescription: String { return self.rawValue }
 
     public var playgroundDescription: Any { return self.rawValue }
+
+    /// Attributes describing the format of a string value representing a Library of Congress call number.
+    public typealias FormatOptions = BibLCCallNumber.FormatOptions
+
+    /// Create a string representation of the call number using the given style attributes.
+    /// - parameter formatOptions: Attributes describing the format of the resulting string value.
+    /// - returns: A string representation of the call number in a format described by the given attributes.
+    public func string(formatOptions: FormatOptions) -> String {
+        self.storage.string(formatOptions: formatOptions)
+    }
 }
 
 // MARK: Bridging

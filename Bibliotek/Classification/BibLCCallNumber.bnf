@@ -1,0 +1,104 @@
+lc-calln := <lc-subject>
+          | <lc-subject> '.' <lc-cutter-section>
+          | <lc-subject> <space> '.' <lc-cutter-section>
+          | <lc-subject> '.' <lc-cutter-section> <space> <lc-specification-list>
+          | <lc-subject> <space> '.' <lc-cutter-section> <space> <lc-specification-list>
+
+lc-subject := <lc-subject-base>
+            | <lc-subject-base> <space> <lc-subject-dateord>
+
+lc-subject-base := <lc-subject-class>
+                 | <lc-subject-class> <lc-subject-subclass>
+                 | <lc-subject-class> <space> <lc-subject-subclass>
+
+lc-subject-class := <upper>
+                  | <upper> <upper>
+                  | <upper> <upper> <upper>
+
+lc-subject-subclass := <digit04>
+                     | <digit04> '.' <digit16>
+
+lc-subject-dateord := <date>
+                    | <digit16> <word>
+
+date := <date-body>
+      | <date-body> <mark>
+
+date-body := <year>
+           | <year> <date-sep> <year>
+           | <year> <date-sep> <year-abv>
+
+year := <digit> <digit> <digit> <digit>
+
+year-abv := <digit> <digit>
+
+date-sep := '-' | '/'
+
+lc-cutter-section := <cutter-number>
+                   | <cutter-number> <lc-cutter-section>
+                   | <cutter-number> <space> <lc-cutter-section>
+                   | <cutter-number> <space> <lc-cutter-dateord>
+                   | <cutter-numner> <space> <lc-cutter-dateord> <space> <lc-cutter-section>
+                   | <cutter-numner> <space> <lc-cutter-dateord> <space> '.' <lc-cutter-section>
+                   | <cutter-numner> <space> <lc-cutter-dateord> '.' <lc-cutter-section>
+
+lc-cutter-dateord := <date>
+                   | <digit16> <word>
+
+lc-specification-list := <lc-specification>
+                       | <lc-specification> <space> <lc-specification-list>
+
+lc-specification := <date>
+                  | <ordinal>
+                  | <volume>
+                  | <longword>
+
+ordinal := <digit16> <lc-spec-ordinal-suffix>
+
+ordinal-suffix := <word> '.'
+                | <word> '.' <ordinal-suffix>
+
+volume := <word> '.' <digit16>
+        | <word> '.' <space> <digit16>
+
+digit16 := <digit04>
+         | <digit04> <digit04>
+         | <digit04> <digit04> <digit04>
+         | <digit04> <digit04> <digit04> <digit04>
+
+digit04 := <digit>
+         | <digit> <digit>
+         | <digit> <digit> <digit>
+         | <digit> <digit> <digit> <digit>
+
+letter16 := <letter04>
+          | <letter04> <letter04>
+          | <letter04> <letter04> <letter04>
+          | <letter04> <letter04> <letter04> <letter04>
+
+mark := <letter>
+      | <letter> <letter>
+      | <letter> <letter> <letter>
+      | <letter> <letter> <letter> <letter>
+
+word := <not-space>
+      | <not-space> <not-space>
+      | <not-space> <not-space> <not-space>
+      | <not-space> <not-space> <not-space> <not-space>
+
+longword := <word>
+          | <word> <word>
+          | <word> <word> <word>
+          | <word> <word> <word> <word>
+
+letter := <upper> | <lower>
+
+upper := 'A' | 'B' | 'C' | ... | 'Z'
+
+lower := 'a' | 'b' | 'c' | ... | 'z'
+
+digit := '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
+
+space := ' ' | '\n' | '\t' | <space> <space>
+
+not-space := '.' | '-' | <letter> | <digit> | ...
