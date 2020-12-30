@@ -137,8 +137,9 @@ bool bib_parse_cuttseg_list(bib_cuttseg_t segs[3], char const **const str, size_
         bool has_prev_mark = !first && !(segs[index - 1].cutter.mark[0] == '\0');
         bool space_success = !first && bib_read_space(&str_1, &len_1);
         bool require_space = (has_prev_date || has_prev_mark);
+        bool point_success = require_space && bib_read_point(&str_1, &len_1);
 
-        if (require_space && !space_success) {
+        if (require_space && !space_success && !point_success) {
             success = bib_peek_break(str_1, len_1);
             stop = true;
             break;

@@ -35,10 +35,12 @@ year-abv := <digit> <digit>
 date-sep := '-' | '/'
 
 lc-cutter-section := <cutter-number>
-                   | <cutter-number> <lc-cutter-segment>
-                   | <cutter-number> <space> <lc-cutter-segment>
+                   | <cutter-number> <lc-cutter-section>
+                   | <cutter-number> <space> <lc-cutter-section>
                    | <cutter-number> <space> <lc-cutter-dateord>
                    | <cutter-numner> <space> <lc-cutter-dateord> <space> <lc-cutter-section>
+                   | <cutter-numner> <space> <lc-cutter-dateord> <space> '.' <lc-cutter-section>
+                   | <cutter-numner> <space> <lc-cutter-dateord> '.' <lc-cutter-section>
 
 lc-cutter-dateord := <date>
                    | <digit16> <word>

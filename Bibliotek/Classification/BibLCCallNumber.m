@@ -8,6 +8,15 @@
 
 #import "BibLCCallNumber.h"
 #import "bibtype.h"
+#import "bibtypeio.h"
+
+BibLCCallNumberFormatOptions const BibLCCallNumberFormatOptionsPocket = BibLCCallNumberFormatOptionsExpandSubject
+                                                                      | BibLCCallNumberFormatOptionsExpandCutters
+                                                                      | BibLCCallNumberFormatOptionsExpandCutterMarks;
+BibLCCallNumberFormatOptions const BibLCCallNumberFormatOptionsSpine = BibLCCallNumberFormatOptionsExpandSubject
+                                                                     | BibLCCallNumberFormatOptionsExpandCutters
+                                                                     | BibLCCallNumberFormatOptionsExpandCutterMarks
+                                                                     | BibLCCallNumberFormatOptionsMultiline;
 
 @implementation BibLCCallNumber {
     bib_lc_calln_t _calln;
@@ -46,85 +55,41 @@
     return [self stringValue];
 }
 
-static NSString *bib_date_description(bib_date_t const *const date) {
-    NSMutableString *const string = [NSMutableString new];
-    [string appendFormat:@"%s", date->year];
-    if (bib_date_has_span(date)) {
-        [string appendFormat:@"%c%s", date->separator, date->span];
-    }
-    [string appendFormat:@"%s", date->mark];
-    return [string copy];
-}
-
-static NSString *bib_ordinal_description(bib_ordinal_t const *const ord) {
-    return [NSString stringWithFormat:@"%s%s", ord->number, ord->suffix];
-}
-
-static NSString *bib_lc_number_description(bib_dateord_t const *const num) {
-    switch (num->kind) {
-    case bib_dateord_kind_date:    return bib_date_description(&(num->date));
-    case bib_dateord_kind_ordinal: return bib_ordinal_description(&(num->ordinal));
-    }
-}
-
-static NSString *bib_volume_description(bib_volume_t const *const vol) {
-    return [NSString stringWithFormat:@"%s. %s", vol->prefix, vol->number];
-}
-
-static NSString *bib_lc_special_description(bib_lc_specification_t const *const spc) {
-    switch (spc->kind) {
-        case bib_lc_specification_kind_date: return bib_date_description(&(spc->date));
-        case bib_lc_specification_kind_ordinal: return bib_ordinal_description(&(spc->ordinal));
-        case bib_lc_specification_kind_volume: return bib_volume_description(&(spc->volume));
-        case bib_lc_specification_kind_word: return [NSString stringWithFormat:@"%s", spc->word];
-    }
-}
-
 - (NSString *)stringValue
 {
-    static BOOL const separateCutterNumbers = YES;
     if (_stringValue == nil) {
-        NSMutableString *const string = [NSMutableString new];
-        [string appendFormat:@"%s%s", _calln.letters, _calln.integer];
-        if (_calln.decimal[0] != '\0') {
-            [string appendFormat:@".%s", _calln.decimal];
-        }
-        BOOL hasNumber = !bib_dateord_is_empty(&_calln.dateord);
-        if (hasNumber) {
-            [string appendFormat:@" %@", bib_lc_number_description(&(_calln.dateord))];
-        }
-        BOOL lastCutterHasNumber = NO;
-        for (size_t index = 0; index < 3; index += 1) {
-            bib_cuttseg_t const *const cut = &(_calln.cutters[index]);
-            if (!bib_cuttseg_is_empty(cut)) {
-                if (index == 0) {
-                    if (hasNumber) {
-                        [string appendFormat:@" "];
-                    }
-                    [string appendFormat:@"."];
-                } else if (separateCutterNumbers || lastCutterHasNumber) {
-                    [string appendFormat:@" "];
-                }
-                [string appendFormat:@"%c%s%s", cut->cutter.letter, cut->cutter.number, cut->cutter.mark];
-                lastCutterHasNumber = !bib_dateord_is_empty(&(cut->dateord));
-                if (lastCutterHasNumber) {
-                    [string appendFormat:@" %@", bib_lc_number_description(&(cut->dateord))];
-                }
-            }
-        }
-        for (size_t index = 0; index < 2; index += 1) {
-            bib_lc_specification_t const *const spc = &(_calln.specifications[index]);
-            if (!bib_lc_specification_is_empty(spc)) {
-                [string appendFormat:@" %@", bib_lc_special_description(spc)];
-            }
-        }
-        for (size_t index = 0; index < _calln.remainder.length; index += 1) {
-            bib_lc_specification_t const *const spc = &(_calln.remainder.buffer[index]);
-            [string appendFormat:@" %@", bib_lc_special_description(spc)];
-        }
-        _stringValue = [string copy];
+        _stringValue = [self stringWithFormatOptions:BibLCCallNumberFormatOptionsDefault];
     }
     return _stringValue;
+}
+
+- (NSString *)stringWithFormatOptions:(BibLCCallNumberFormatOptions)options
+{
+    char buffer[] = (char[256]){};
+    bib_lc_calln_style_t style = {
+        .separator = ' ',
+        .split_subject = false,
+        .split_cutters = false,
+        .split_sections = false,
+        .extra_cutpoint = false
+    };
+    if (options & BibLCCallNumberFormatOptionsExpandSubject) {
+        style.split_subject = true;
+    }
+    if (options & BibLCCallNumberFormatOptionsExpandCutters) {
+        style.split_cutters = true;
+    }
+    if (options & BibLCCallNumberFormatOptionsExpandCutterMarks) {
+        style.split_sections = true;
+    }
+    if (options & BibLCCallNumberFormatOptionsMultiline) {
+        style.separator = '\n';
+    }
+    if (options & BibLCCallNumberFormatOptionsMarkCutterAfterDate) {
+        style.extra_cutpoint = true;
+    }
+    size_t __unused _ = bib_snprint_lc_calln(buffer, sizeof(buffer), &_calln, style);
+    return [NSString stringWithCString:buffer encoding:NSASCIIStringEncoding];
 }
 
 - (NSComparisonResult)compare:(BibLCCallNumber *)other
