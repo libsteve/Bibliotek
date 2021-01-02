@@ -19,10 +19,12 @@ bool bib_lc_calln_init(bib_lc_calln_t *const num, char const *const str)
 {
     if (num == NULL || str == NULL) { return false; }
     memset(num, 0, sizeof(bib_lc_calln_t));
-    char const *string = str;
-    size_t      length = strlen(str) + 1;
-    bool parse_success = bib_parse_lc_calln(num, &string, &length);
-    bool total_success = parse_success && (length == 1);
+    bib_strbuf_t strbuf = {
+        .str = str,
+        .len = strlen(str) + 1
+    };
+    bool parse_success = bib_parse_lc_calln(num, &strbuf);
+    bool total_success = parse_success && (strbuf.len == 1);
     if (parse_success && !total_success) {
         bib_lc_calln_deinit(num);
     }
@@ -40,9 +42,8 @@ void bib_lc_calln_deinit(bib_lc_calln_t *const num)
 
 bool bib_date_init(bib_date_t *const date, char const *const str)
 {
-    char const *str0 = str;
-    size_t      len0 = strlen(str);
-    return bib_parse_date(date, &str0, &len0);
+    bib_strbuf_t parser = { .str = str, .len = strlen(str) };
+    return bib_parse_date(date, &parser);
 }
 
 bool bib_date_is_empty(bib_date_t const *const date)
@@ -59,9 +60,8 @@ bool bib_date_has_span(bib_date_t const *const date)
 
 bool bib_cutter_init(bib_cutter_t *cut, char const *str)
 {
-    char const *str0 = str;
-    size_t      len0 = strlen(str);
-    return bib_parse_cutter(cut, &str0, &len0);
+    bib_strbuf_t parser = { .str = str, .len = strlen(str) };
+    return bib_parse_cutter(cut, &parser);
 }
 
 bool bib_cutter_is_empty(bib_cutter_t const *const cut)
@@ -80,9 +80,8 @@ bool bib_ordinal_is_empty(bib_ordinal_t const *const ord)
 
 bool bib_volume_init(bib_volume_t *const vol, char const *const str)
 {
-    char const *str0 = str;
-    size_t      len0 = strlen(str);
-    return bib_parse_volume(vol, &str0, &len0);
+    bib_strbuf_t parser = { .str = str, .len = strlen(str) };
+    return bib_parse_volume(vol, &parser);
 }
 
 bool bib_volume_is_empty(bib_volume_t const *const vol)

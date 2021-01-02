@@ -13,6 +13,16 @@
 
 __BEGIN_DECLS
 
+typedef struct bib_strbuff {
+    /// Tthe current reading position in the input stream.
+    ///
+    /// Characters read from the stream are removed only when parsing is successful.
+    char const *str;
+
+    /// The amount of bytes remaining in the input stream.
+    size_t      len;
+} bib_strbuf_t;
+
 #pragma mark - lex
 
 /// Read between one and six digits from 0-9 from the input stream into the given buffer.
