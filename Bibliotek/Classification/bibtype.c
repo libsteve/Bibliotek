@@ -19,10 +19,7 @@ bool bib_lc_calln_init(bib_lc_calln_t *const num, char const *const str)
 {
     if (num == NULL || str == NULL) { return false; }
     memset(num, 0, sizeof(bib_lc_calln_t));
-    bib_strbuf_t strbuf = {
-        .str = str,
-        .len = strlen(str) + 1
-    };
+    bib_strbuf_t strbuf = bib_strbuf(str, 0);
     bool parse_success = bib_parse_lc_calln(num, &strbuf);
     bool total_success = parse_success && (strbuf.len == 1);
     if (parse_success && !total_success) {

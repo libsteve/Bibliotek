@@ -23,6 +23,13 @@ typedef struct bib_strbuff {
     size_t      len;
 } bib_strbuf_t;
 
+/// Create a string buffer object with the given string and length.
+/// \param str Pointer to the input string buffer to parse. The string is expected to be null-terminated.
+/// \param len The length of allocated space in the string buffer, including the null-terminator.
+///            Pass \c 0 to use \c strlen() to calculate the length for you.
+/// \returns A string buffer object with the given string.
+extern bib_strbuf_t bib_strbuf(char const *volatile str, size_t len);
+
 extern bool bib_advance_strbuf(bib_strbuf_t *volatile lexer, bib_strbuf_t const *volatile update);
 
 #pragma mark - lex

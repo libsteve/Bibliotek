@@ -17,6 +17,16 @@
 /// autocorrect to their uppercase value instead of failing the lex/parse.
 #define BIB_LEX_AUTO_UPPERCASE
 
+bib_strbuf_t bib_strbuf(char const *const str, size_t const len)
+{
+    return (bib_strbuf_t){
+        .str = str,
+        .len = (str == NULL) ? 0
+             : (len == 0) ? strlen(str) + 1
+             : 0
+    };
+}
+
 bool bib_advance_strbuf(bib_strbuf_t *const volatile lexer, bib_strbuf_t const *const volatile update)
 {
     if (lexer == NULL || update == NULL) {

@@ -42,13 +42,12 @@ bool bib_parse_lc_calln(bib_lc_calln_t *const calln, bib_strbuf_t *const parser)
     bool rem_space_success = spc_1_parse_success && bib_read_space(&p4);
     bool rem_parse_success = rem_space_success && bib_parse_lc_remainder(&(calln->remainder), &p4);
 
-    size_t final_len = (rem_parse_success)   ? p4.len
-                     : (spc_1_parse_success) ? p3.len
-                     : (spc_0_parse_success) ? p2.len
-                     : (cut_success)         ? p1.len
-                     : (sub_success)         ? p0.len
-                     : parser->len;
-    bool success = bib_advance_step(parser->len - final_len, &(parser->str), &(parser->len));
+    bool success = bib_advance_strbuf(parser, (rem_parse_success)   ? &p4
+                                            : (spc_1_parse_success) ? &p3
+                                            : (spc_0_parse_success) ? &p2
+                                            : (cut_success)         ? &p1
+                                            : (sub_success)         ? &p0
+                                            : NULL);
     if (!success) {
         bib_lc_specification_list_deinit(&(calln->remainder));
     }
@@ -71,10 +70,9 @@ bool bib_parse_lc_subject(bib_lc_calln_t *const calln, bib_strbuf_t *const parse
     bool dord_success = space_success && bib_parse_dateord(&(calln->dateord),
                                                            bib_lex_caption_ordinal_suffix,
                                                            &p1);
-    size_t final_len = (dord_success) ? p1.len
-                     : (base_success) ? p0.len
-                     : parser->len;
-    bool success = bib_advance_step(parser->len - final_len, &(parser->str), &(parser->len));
+    bool success = bib_advance_strbuf(parser, (dord_success) ? &p1
+                                            : (base_success) ? &p0
+                                            : NULL);
     if (!success) {
         memset(calln, 0, sizeof(bib_lc_calln_t));
     }
@@ -97,8 +95,9 @@ bool bib_parse_lc_subject_base(bib_lc_calln_t *const calln, bib_strbuf_t *const 
     bool int_success = cls_success && bib_lex_integer(calln->integer, &p1);
     bool __unused  _ = int_success && bib_lex_decimal(calln->decimal, &p1);
 
-    size_t final_len = (int_success) ? p1.len : p0.len;
-    bool success = cls_success && bib_advance_step(parser->len - final_len, &(parser->str), &(parser->len));
+    bool success = bib_advance_strbuf(parser, (int_success) ? &p1
+                                            : (cls_success) ? &p0
+                                            : NULL);
     if (!success) {
         memset(calln->letters, 0, sizeof(calln->letters));
         memset(calln->integer, 0, sizeof(calln->integer));
@@ -141,7 +140,7 @@ bool bib_parse_cuttseg_list(bib_cuttseg_t segs[3], bib_strbuf_t *const parser)
         }
     }
 
-    success = success && bib_advance_step(parser->len - p0.len, &(parser->str), &(parser->len));
+    success = success && bib_advance_strbuf(parser, &p0);
     if (!success) {
         memset(segs, 0, sizeof(bib_cuttseg_t) * 3);
     }
@@ -167,10 +166,9 @@ bool bib_parse_dateord(bib_dateord_t *const dord, bib_lex_word_f const lex_ord_s
                      && bib_parse_ordinal(&ord, lex_ord_suffix, &p1)
                      && bib_dateord_init_ordinal(dord, &ord);
 
-    size_t final_len = (date_success) ? p0.len
-                     : (ordl_success) ? p1.len
-                     : parser->len;
-    bool success = (date_success || ordl_success) && bib_advance_step(parser->len - final_len, &(parser->str), &(parser->len));
+    bool success = (date_success || ordl_success) && bib_advance_strbuf(parser, (date_success) ? &p0
+                                                                              : (ordl_success) ? &p1
+                                                                              : NULL);
     if (!success) {
         memset(dord, 0, sizeof(bib_dateord_t));
     }
@@ -192,8 +190,9 @@ bool bib_parse_cuttseg(bib_cuttseg_t *seg, bib_strbuf_t *const parser)
                                                              bib_lex_cutter_ordinal_suffix,
                                                              &p1);
 
-    size_t final_len = (number_success) ? p1.len : (cutter_success) ? p0.len : parser->len;
-    bool success = (number_success || cutter_success) && bib_advance_step(parser->len - final_len, &(parser->str), &(parser->len));
+    bool success = (number_success || cutter_success) && bib_advance_strbuf(parser, (number_success) ? &p1
+                                                                                  : (cutter_success) ? &p0
+                                                                                  : NULL);
     if (!success) {
         memset(seg, 0, sizeof(bib_cuttseg_t));
     }
@@ -233,12 +232,11 @@ bool bib_parse_lc_specification(bib_lc_specification_t *const spc, bib_strbuf_t 
               :  (vol_success) ? bib_lc_specification_kind_volume
               : (word_success) ? bib_lc_specification_kind_word
               : 0;
-    size_t final_len = (date_success) ? p0.len
-                     :  (ord_success) ? p1.len
-                     :  (vol_success) ? p2.len
-                     : (word_success) ? p3.len
-                     : parser->len;
-    bool success = (spc->kind != 0) && bib_advance_step(parser->len - final_len, &(parser->str), &(parser->len));
+    bool success = (spc->kind != 0) && bib_advance_strbuf(parser, (date_success) ? &p0
+                                                                :  (ord_success) ? &p1
+                                                                :  (vol_success) ? &p2
+                                                                : (word_success) ? &p3
+                                                                : NULL);
     if (!success) {
         bib_lc_specification_deinit(spc);
     }
@@ -271,7 +269,7 @@ bool bib_parse_lc_remainder(bib_lc_specification_list_t *const rem, bib_strbuf_t
         }
     }
 
-    success = success && bib_advance_step(parser->len - p0.len, &(parser->str), &(parser->len));
+    success = success && bib_advance_strbuf(parser, &p0);
     if (!success) {
         bib_lc_specification_list_deinit(rem);
     }
@@ -291,7 +289,7 @@ bool bib_parse_cutter(bib_cutter_t *cut, bib_strbuf_t *const parser)
     bib_strbuf_t p1 = p0;
     bool __unused _ = cutter_success && bib_lex_mark(cut->mark, &p1);
 
-    bool success = cutter_success && bib_advance_step(parser->len - p0.len, &(parser->str), &(parser->len));
+    bool success = cutter_success && bib_advance_strbuf(parser, &p0);
     if (!success) {
         memset(cut, 0, sizeof(bib_cutter_t));
     }
@@ -322,10 +320,9 @@ bool bib_parse_date(bib_date_t *const date, bib_strbuf_t *const parser)
     bib_strbuf_t p2 = (span_success) ? p1 : p0;
     bool mark_success = year_success && bib_lex_mark(date->mark, &p2);
 
-    size_t final_len = (mark_success) ? p2.len
-                     : (span_success) ? p1.len
-                     : p0.len;
-    bool success = year_success && bib_advance_step(parser->len - final_len, &(parser->str), &(parser->len));
+    bool success = year_success && bib_advance_strbuf(parser, (mark_success) ? &p2
+                                                            : (span_success) ? &p1
+                                                            : &p0);
     if (!success) {
         memset(date, 0, sizeof(bib_date_t));
     }
@@ -341,7 +338,7 @@ bool bib_parse_ordinal(bib_ordinal_t *ord, bib_lex_word_f lex_suffix, bib_strbuf
     bib_strbuf_t p = *parser;
     bool success = bib_lex_digit16(ord->number, &p)
                 && lex_suffix(ord->suffix, &p)
-                && bib_advance_step(parser->len - p.len, &(parser->str), &(parser->len));
+                && bib_advance_strbuf(parser, &p);
 
     if (!success) {
         memset(ord, 0, sizeof(bib_ordinal_t));
@@ -375,7 +372,7 @@ bool bib_parse_volume(bib_volume_t *const vol, bib_strbuf_t *const parser)
     bool  space_success = prefix_success && bib_read_space(&p);
     bool number_success = prefix_success && space_success && bib_lex_digit16(vol->number, &p);
 
-    bool success = number_success && bib_advance_step(parser->len - p.len, &(parser->str), &(parser->len));
+    bool success = number_success && bib_advance_strbuf(parser, &p);
     if (!success) {
         memset(vol, 0, sizeof(bib_volume_t));
     }
