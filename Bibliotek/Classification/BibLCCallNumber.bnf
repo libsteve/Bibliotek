@@ -15,8 +15,8 @@ lc-subject-class := <upper>
                   | <upper> <upper>
                   | <upper> <upper> <upper>
 
-lc-subject-subclass := <digit04>
-                     | <digit04> '.' <digit16>
+lc-subject-subclass := <digit06>
+                     | <digit06> '.' <digit16>
 
 lc-subject-dateord := <date>
                     | <digit16> <word>
@@ -25,8 +25,19 @@ date := <date-body>
       | <date-body> <mark>
 
 date-body := <year>
-           | <year> <date-sep> <year>
+           | <date-span>
+           | <year-month-day>
+
+date-span := <year> <date-sep> <year>
            | <year> <date-sep> <year-abv>
+
+year-month-day := <year-month>
+                | <year-month>
+                | <year-month> <space> <digit02>
+                | <year-month> '.' <space> <digit02>
+
+year-month := <year> <space> <month>
+            | <year> ',' <space> <month>
 
 year := <digit> <digit> <digit> <digit>
 
@@ -84,6 +95,9 @@ digit04 := <digit>
          | <digit> <digit> <digit>
          | <digit> <digit> <digit> <digit>
 
+digit02 := <digit>
+         | <digit> <digit>
+
 letter15 := <letter04>
           | <letter04> <letter04>
           | <letter04> <letter04> <letter04>
@@ -129,3 +143,7 @@ digit := '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
 space := ' ' | '\n' | '\t' | <space> <space>
 
 not-space := '.' | '-' | <letter> | <digit> | ...
+
+month := "Jan"  | "Feb" | "Mar" | "Apr"
+       | "May"  | "Jun" | "Jul" | "Aug"
+       | "Sept" | "Oct" | "Nov" | "Dec"
