@@ -13,7 +13,12 @@
 
 __BEGIN_DECLS
 
-typedef struct bib_strbuff {
+/// An object holding the a pointer to a character buffer and its length.
+///
+/// This is used to easily keep the buffer pointer and its length in sync, while also allowing
+/// them to be copied-by-value to easily implement look-ahead without needing to mutate the
+/// original string buffer.
+typedef struct bib_strbuf {
     /// Tthe current reading position in the input stream.
     ///
     /// Characters read from the stream are removed only when parsing is successful.
@@ -30,7 +35,14 @@ typedef struct bib_strbuff {
 /// \returns A string buffer object with the given string.
 extern bib_strbuf_t bib_strbuf(char const *volatile str, size_t len);
 
-extern bool bib_advance_strbuf(bib_strbuf_t *volatile lexer, bib_strbuf_t const *volatile update);
+/// Consume some amount of characters from the input stream.
+/// \param strbuf The string buffer to advance.
+/// \param update A string buffer with the state that \c strbuf should be advanced to.
+/// \returns \c true when \c strbuf is successfully able to consumed characters from the input stream
+///          to match the state of the \c update string buffer.
+///          \c false is returned when the input stream is is empty, when \c update is \c NULL or when
+///          the difference between \c lexer->len and \c update->len is less than or equal to \c 0.
+extern bool bib_advance_strbuf(bib_strbuf_t *volatile strbuf, bib_strbuf_t const *volatile update);
 
 #pragma mark - lex
 
@@ -226,6 +238,14 @@ extern bool bib_isstop(char c);
 
 #pragma mark - peek
 
+/// Read the next character in the buffer whithout consuming it.
+/// \param c Pointer to allocated space to set the read character.
+///          Pass \c NULL to ignore the consumed value.
+/// \param pred A function that filters for characters that indicate a "successful" read.
+///             Pass \c NULL to accept any character value.
+/// \param lexer Pointer to a string buffer object to read from.
+/// \returns \c true when a character matching the given predicate is next to be consumed from the input stream.
+///          \c false is returned when a character matching the predicate isn't found, or when the buffer is empty.
 extern bool bib_peek_char(char *c, bib_cpred_f pred, bib_strbuf_t const *lexer);
 
 /// Check if the next character seprates one word from another—such as whitespace, the null terminator, or EOF.
