@@ -19,10 +19,9 @@ bool bib_lc_calln_init(bib_lc_calln_t *const num, char const *const str)
 {
     if (num == NULL || str == NULL) { return false; }
     memset(num, 0, sizeof(bib_lc_calln_t));
-    char const *string = str;
-    size_t      length = strlen(str) + 1;
-    bool parse_success = bib_parse_lc_calln(num, &string, &length);
-    bool total_success = parse_success && (length == 1);
+    bib_strbuf_t strbuf = bib_strbuf(str, 0);
+    bool parse_success = bib_parse_lc_calln(num, &strbuf);
+    bool total_success = parse_success && (strbuf.len == 1);
     if (parse_success && !total_success) {
         bib_lc_calln_deinit(num);
     }
@@ -40,9 +39,8 @@ void bib_lc_calln_deinit(bib_lc_calln_t *const num)
 
 bool bib_date_init(bib_date_t *const date, char const *const str)
 {
-    char const *str0 = str;
-    size_t      len0 = strlen(str);
-    return bib_parse_date(date, &str0, &len0);
+    bib_strbuf_t parser = { .str = str, .len = strlen(str) };
+    return bib_parse_date(date, &parser);
 }
 
 bool bib_date_is_empty(bib_date_t const *const date)
@@ -59,9 +57,8 @@ bool bib_date_has_span(bib_date_t const *const date)
 
 bool bib_cutter_init(bib_cutter_t *cut, char const *str)
 {
-    char const *str0 = str;
-    size_t      len0 = strlen(str);
-    return bib_parse_cutter(cut, &str0, &len0);
+    bib_strbuf_t parser = { .str = str, .len = strlen(str) };
+    return bib_parse_cutter(cut, &parser);
 }
 
 bool bib_cutter_is_empty(bib_cutter_t const *const cut)
@@ -80,14 +77,18 @@ bool bib_ordinal_is_empty(bib_ordinal_t const *const ord)
 
 bool bib_volume_init(bib_volume_t *const vol, char const *const str)
 {
-    char const *str0 = str;
-    size_t      len0 = strlen(str);
-    return bib_parse_volume(vol, &str0, &len0);
+    bib_strbuf_t parser = { .str = str, .len = strlen(str) };
+    return bib_parse_volume(vol, &parser);
 }
 
 bool bib_volume_is_empty(bib_volume_t const *const vol)
 {
     return (vol == NULL) || (vol->prefix[0] == '\0');
+}
+
+bool bib_supplement_is_empty(bib_supplement_t const *supl)
+{
+    return (supl == NULL) || (supl->prefix[0] == '\0');
 }
 
 #pragma mark - lc specification
@@ -351,6 +352,7 @@ bib_calln_comparison_t bib_specification_compare(bib_calln_comparison_t const st
                 case bib_lc_specification_kind_word:
                 case bib_lc_specification_kind_ordinal:
                 case bib_lc_specification_kind_volume:
+                case bib_lc_specification_kind_supplement:
                     return bib_calln_ordered_ascending;
             }
 
@@ -364,6 +366,7 @@ bib_calln_comparison_t bib_specification_compare(bib_calln_comparison_t const st
 
                 case bib_lc_specification_kind_ordinal:
                 case bib_lc_specification_kind_volume:
+                case bib_lc_specification_kind_supplement:
                     return bib_calln_ordered_ascending;
             }
 
@@ -377,6 +380,7 @@ bib_calln_comparison_t bib_specification_compare(bib_calln_comparison_t const st
                     return bib_ordinal_compare(status, &(left->ordinal), &(right->ordinal), specify);
 
                 case bib_lc_specification_kind_volume:
+                case bib_lc_specification_kind_supplement:
                     return bib_calln_ordered_ascending;
             }
 
@@ -389,6 +393,21 @@ bib_calln_comparison_t bib_specification_compare(bib_calln_comparison_t const st
 
                 case bib_lc_specification_kind_volume:
                     return bib_volume_compare(status, &(left->volume), &(right->volume), specify);
+
+                case bib_lc_specification_kind_supplement:
+                    return bib_calln_ordered_ascending;
+            }
+
+        case bib_lc_specification_kind_supplement:
+            switch (right->kind) {
+                case bib_lc_specification_kind_date:
+                case bib_lc_specification_kind_word:
+                case bib_lc_specification_kind_ordinal:
+                case bib_lc_specification_kind_volume:
+                    return bib_calln_ordered_descending;
+
+                case bib_lc_specification_kind_supplement:
+                    return bib_supplement_compare(status, &(left->supplement), &(right->supplement), specify);
             }
     }
 }
@@ -427,7 +446,49 @@ bib_calln_comparison_t bib_date_compare(bib_calln_comparison_t const status,
 
     bib_calln_comparison_t result = status;
     result = bib_year_compare(result, left->year, right->year, specify);
-    result = bib_year_compare(result, left->span, right->span, specify);
+    if (result == bib_calln_ordered_ascending || result == bib_calln_ordered_descending) {
+        return result;
+    }
+    if (left->isspan) {
+        if (right->isspan) {
+            result = bib_year_compare(result, left->span, right->span, specify);
+        } else if (right->isdate) {
+            if (result == bib_calln_ordered_same) {
+                result = (specify) ? bib_calln_ordered_specifying : bib_calln_ordered_ascending;
+            } else {
+                result = bib_calln_ordered_ascending;
+            }
+        } else {
+            result = (specify) ? bib_calln_ordered_specifying : bib_calln_ordered_ascending;
+        }
+    } else if (left->isdate) {
+        if (right->isspan) {
+            result = bib_calln_ordered_descending;
+        } else if (right->isdate) {
+            result = (left->month == right->month) ? result
+                   : (left->month < right->month) ? bib_calln_ordered_ascending
+                   : bib_calln_ordered_descending;
+            if (result == bib_calln_ordered_same || bib_calln_ordered_specifying) {
+                if (left->day == 0 && left->day < right->day) {
+                    if (result == bib_calln_ordered_same) {
+                        result = (specify) ? bib_calln_ordered_specifying : bib_calln_ordered_ascending;
+                    } else {
+                        result = bib_calln_ordered_ascending;
+                    }
+                } else {
+                    result = (left->day == right->day) ? result
+                           : (left->day < right->day) ? bib_calln_ordered_ascending
+                           : bib_calln_ordered_descending;
+                }
+            }
+        }
+    } else {
+        if (right->isspan) {
+            result = bib_calln_ordered_descending;
+        } else if (right->isdate) {
+            result = (specify) ? bib_calln_ordered_specifying : bib_calln_ordered_ascending;
+        }
+    }
     result = bib_string_specify_compare(result, left->mark, right->mark, specify);
     return result;
 }
@@ -477,6 +538,19 @@ bib_calln_comparison_t bib_volume_compare(bib_calln_comparison_t const status,
     bib_calln_comparison_t result = status;
     result = bib_string_specify_compare(result, left->prefix, right->prefix, specify);
     result = bib_string_specify_compare(result, left->number, right->number, specify);
+    if (left->hasetc != right->hasetc) {
+        switch (result) {
+            case bib_calln_ordered_ascending:
+            case bib_calln_ordered_descending:
+                break;
+            case bib_calln_ordered_same:
+                result = (left->hasetc) ? bib_calln_ordered_descending : bib_calln_ordered_ascending;
+                break;
+            case bib_calln_ordered_specifying:
+                result = (right->hasetc) ? bib_calln_ordered_specifying : bib_calln_ordered_ascending;
+                break;
+        }
+    }
     return result;
 }
 
@@ -497,6 +571,39 @@ bib_calln_comparison_t bib_ordinal_compare(bib_calln_comparison_t status,
     bib_calln_comparison_t result = status;
     result = bib_string_specify_compare(result, left->number, right->number, specify);
     result = bib_string_specify_compare(result, left->suffix, right->suffix, specify);
+    return result;
+}
+
+bib_calln_comparison_t bib_supplement_compare(bib_calln_comparison_t status,
+                                              bib_supplement_t const *const left, bib_supplement_t const *const right,
+                                              bool specify)
+{
+    if (status == bib_calln_ordered_ascending || status == bib_calln_ordered_descending) { return status; }
+
+    bool const left_empty = bib_supplement_is_empty(left);
+    bool const right_empty = bib_supplement_is_empty(right);
+    if (left_empty && right_empty) { return status; }
+    else if (left_empty) { return (specify) ? bib_calln_ordered_specifying : bib_calln_ordered_ascending; }
+    else if (right_empty) {
+        return (status == bib_calln_ordered_specifying) ? bib_calln_ordered_ascending : bib_calln_ordered_descending;
+    }
+
+    bib_calln_comparison_t result = status;
+    result = bib_string_specify_compare(result, left->prefix, right->prefix, specify);
+    result = bib_string_specify_compare(result, left->number, right->number, specify);
+    if (left->hasetc != right->hasetc) {
+        switch (result) {
+            case bib_calln_ordered_ascending:
+            case bib_calln_ordered_descending:
+                break;
+            case bib_calln_ordered_same:
+                result = (left->hasetc) ? bib_calln_ordered_descending : bib_calln_ordered_ascending;
+                break;
+            case bib_calln_ordered_specifying:
+                result = (right->hasetc) ? bib_calln_ordered_specifying : bib_calln_ordered_ascending;
+                break;
+        }
+    }
     return result;
 }
 

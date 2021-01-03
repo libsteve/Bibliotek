@@ -36,9 +36,15 @@ size_t bib_snprint_date(char *restrict const dst, size_t const len, bib_date_t  
     if (bib_date_is_empty(date)) {
         return snprintf(dst, len, "");
     }
-    return bib_date_has_span(date)
-         ? snprintf(dst, len, "%s%c%s%s", date->year, date->separator, date->span, date->mark)
-         : snprintf(dst, len, "%s%s", date->year, date->mark);
+    if (date->isspan) {
+        return snprintf(dst, len, "%s%c%s%s", date->year, date->separator, date->span, date->mark);
+    }
+    if (date->isdate) {
+        return (date->day > 0)
+             ? snprintf(dst, len, "%s %d %d", date->year, date->month, date->day)
+             : snprintf(dst, len, "%s %d", date->year, date->month);
+    }
+    return snprintf(dst, len, "%s%s", date->year, date->mark);
 }
 
 size_t bib_snprint_dord(char *restrict const dst, size_t const len, bib_dateord_t const *restrict const dord) {
@@ -57,9 +63,26 @@ size_t bib_snprint_ordn(char *restrict const dst, size_t const len, bib_ordinal_
          : snprintf(dst, len, "%s%s", ordn->number, ordn->suffix);
 }
 
+size_t bib_snprint_supl(char *restrict const dst, size_t const len, bib_supplement_t const *restrict const supl) {
+    if (bib_supplement_is_empty(supl)) {
+        return snprintf(dst, len, "");
+    }
+    size_t count = (supl->isabbr)
+                 ? snprintf(dst, len, "%s.", supl->prefix)
+                 : snprintf(dst, len, "%s", supl->prefix);
+    if (supl->number[0] != '\0') {
+        char const *const suffix = (supl->hasetc) ? ", etc." : "";
+        count += snprintf(strtail(dst, len, count), MAX(len - count, 0), " %s%s", supl->number, suffix);
+    }
+    return count;
+}
+
 size_t bib_snprint_voln(char *restrict const dst, size_t const len, bib_volume_t  const *restrict const voln) {
-    return bib_volume_is_empty(voln)
-         ? snprintf(dst, len, "")
+    if (bib_volume_is_empty(voln)) {
+        return snprintf(dst, len, "");
+    }
+    return (voln->hasetc)
+         ? snprintf(dst, len, "%s. %s, etc.", voln->prefix, voln->number)
          : snprintf(dst, len, "%s. %s", voln->prefix, voln->number);
 }
 
@@ -100,6 +123,7 @@ size_t bib_snprint_spfcseg(char *restrict const dst, size_t const len,
     switch (seg->kind) {
         case bib_lc_specification_kind_date: return bib_snprint_date(dst, len, &(seg->date));
         case bib_lc_specification_kind_ordinal: return bib_snprint_ordn(dst, len, &(seg->ordinal));
+        case bib_lc_specification_kind_supplement: return bib_snprint_supl(dst, len, &(seg->supplement));
         case bib_lc_specification_kind_volume: return bib_snprint_voln(dst, len, &(seg->volume));
         case bib_lc_specification_kind_word: return snprintf(dst, len, "%s", seg->word);
     }

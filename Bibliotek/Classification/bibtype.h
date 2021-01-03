@@ -23,8 +23,8 @@ typedef char bib_initial_t;
 /// A string of at most three alphabetic characters.
 typedef char bib_alpah03_b[4];
 
-/// A string of at most four decimal digits 0 through 9.
-typedef char bib_digit04_b[5];
+/// A string of at most six decimal digits 0 through 9.
+typedef char bib_digit06_b[7];
 
 /// A string of at most 16 decimal digits 0 through 9.
 typedef char bib_digit16_b[17];
@@ -43,18 +43,48 @@ typedef char bib_mark_b[5];
 
 #pragma mark - date
 
+typedef enum bib_month {
+    bib_month_jan =  1,
+    bib_month_feb =  2,
+    bib_month_mar =  3,
+    bib_month_apr =  4,
+    bib_month_may =  5,
+    bib_month_jun =  6,
+    bib_month_jul =  7,
+    bib_month_aug =  8,
+    bib_month_sept = 9,
+    bib_month_oct = 10,
+    bib_month_nov = 11,
+    bib_month_dec = 12
+} bib_month_t;
+
+typedef unsigned char bib_day_t;
+
 /// A year or range of years used within a call number.
 typedef struct bib_date {
     /// The initial year of the date range, or the exact year for single year values.
     bib_year_b year;
 
-    /// The character used to separate the year from the end of the range.
-    ///
-    /// This is the null character for single year values.
-    char separator;
+    bool isspan : 1;
 
-    /// The last year in the range.
-    bib_year_b span;
+    bool isdate : 1;
+
+    union {
+        struct {
+            /// The character used to separate the year from the end of the range.
+            ///
+            /// This is the null character for single year values.
+            char separator;
+
+            /// The last year in the range.
+            bib_year_b span;
+        };
+        struct {
+            bib_month_t month;
+            
+            bib_day_t   day;
+        };
+    };
 
     /// Some short optional alhpabetic suffix attached to the date.
     bib_mark_b mark;
@@ -113,10 +143,32 @@ typedef struct bib_volume {
 
     /// The integer value following the "volume" type.
     bib_digit16_b number;
+
+    /// A flag indicating that this volume value has a trailing "etcetera" indicator.
+    bool          hasetc;
 } bib_volume_t;
 
 bool bib_volume_init(bib_volume_t *vol, char const *str);
 extern bool bib_volume_is_empty(bib_volume_t const *vol);
+
+/// A word with an initial capital letter that marks a call number
+/// as being for a supplementary work to a primary work. This value
+/// is optionally followed by a number.
+typedef struct bib_supplement {
+    /// The alphabetic prefix denoting the type of "supplement".
+    bib_word_b    prefix;
+
+    /// The integer value following the "supplement" type.
+    bib_digit16_b number;
+
+    /// A flag indicating that this supplement value has a trailing "etcetera" indicator.
+    bool          hasetc;
+
+    /// A flag indicating that the supplement prefix is an abbreviation.
+    bool          isabbr;
+} bib_supplement_t;
+
+extern bool bib_supplement_is_empty(bib_supplement_t const *supl);
 
 #pragma mark - lc specification
 
@@ -124,6 +176,7 @@ extern bool bib_volume_is_empty(bib_volume_t const *vol);
 typedef enum bib_lc_specification_kind {
     bib_lc_specification_kind_date = 1,
     bib_lc_specification_kind_ordinal,
+    bib_lc_specification_kind_supplement,
     bib_lc_specification_kind_volume,
     bib_lc_specification_kind_word
 } bib_lc_specification_kind_t;
@@ -139,6 +192,9 @@ typedef struct bib_lc_specification {
 
         /// An ordinal value, marked by \c bib_lc_specification_kind_ordinal
         bib_ordinal_t  ordinal;
+
+        /// A supplementary work indicator, marked by \c bib_lc_specification_kind_supplement
+        bib_supplement_t supplement;
 
         /// A volume value, marked by \c bib_lc_specification_kind_volume
         bib_volume_t   volume;
@@ -228,7 +284,7 @@ typedef struct bib_lc_calln {
     bib_alpah03_b letters;
 
     /// The integer value of the subject matter subclass.
-    bib_digit04_b integer;
+    bib_digit06_b integer;
 
     /// The decimal portion of the subject matter subclass.
     bib_digit16_b decimal;
@@ -358,6 +414,10 @@ extern bib_calln_comparison_t bib_volume_compare(bib_calln_comparison_t status,
 extern bib_calln_comparison_t bib_ordinal_compare(bib_calln_comparison_t status,
                                                   bib_ordinal_t const *left, bib_ordinal_t const *right,
                                                   bool specify);
+
+bib_calln_comparison_t bib_supplement_compare(bib_calln_comparison_t status,
+                                              bib_supplement_t const *left, bib_supplement_t const *right,
+                                              bool specify);
 
 #pragma mark - string comparison
 
