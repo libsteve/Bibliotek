@@ -180,31 +180,45 @@ extern size_t bib_lex_char_n  (char *buffer, size_t buffer_len, bib_cpred_f pred
 /// \post \c len will point to the number of bytes remaining in the input string.
 extern bool bib_read_space(bib_strbuf_t *lexer);
 
-/// Consume a single period character from the input string.
+/// Consume a single period character \c '.' from the input string.
 /// \param lexer Pointer to a string buffer object to read from.
 /// \returns \c true when the input string begins with a period.
-/// \post \c str will point to the character after the consumed period when \c true is returned.
-/// \post \c len will point to the number of bytes remaining in the input string.
 extern bool bib_read_point(bib_strbuf_t *lexer);
 
-/// Consume a single dash character from the input string.
+/// Consume a single dash character \c '-' from the input string.
 /// \param lexer Pointer to a string buffer object to read from.
 /// \returns \c true when the input string begins with a dash.
-/// \post \c str will point to the character after the consumed dash when \c true is returned.
-/// \post \c len will point to the number of bytes remaining in the input string.
 extern bool bib_read_dash (bib_strbuf_t *lexer);
 
-/// Consume a single forward-slash character from the input string.
+/// Consume a single forward-slash character \c '/' from the input string.
 /// \param lexer Pointer to a string buffer object to read from.
 /// \returns \c true when the input string begins with a dash.
-/// \post \c str will point to the character after the consumed forward-slash when \c true is returned.
-/// \post \c len will point to the number of bytes remaining in the input string.
 extern bool bib_read_slash(bib_strbuf_t *lexer);
 
 /// Consume the string ", etc." from the input stream.
 /// \param lexer Pointer to a string buffer object to read from.
 /// \returns \c true when the input string begins with ", etc.".
 extern bool bib_read_etc(bib_strbuf_t *lexer);
+
+/// Consume a single comma character \c ',' from the input string.
+/// \param lexer Pointer to a string buffer object to read from.
+/// \returns \c true when the input string begins with a dash.
+extern bool bib_read_comma(bib_strbuf_t *lexer);
+
+/// Consume a single colon character \c ':' from the input string.
+/// \param lexer Pointer to a string buffer object to read from.
+/// \returns \c true when the input string begins with a dash.
+extern bool bib_read_colon(bib_strbuf_t *lexer);
+
+/// Consume a single open angle bracket character \c '<' from the input string.
+/// \param lexer Pointer to a string buffer object to read from.
+/// \returns \c true when the input string begins with a dash.
+extern bool bib_read_openangle(bib_strbuf_t *lexer);
+
+/// Consume a single close angle bracket character \c '>' from the input string.
+/// \param lexer Pointer to a string buffer object to read from.
+/// \returns \c true when the input string begins with a dash.
+extern bool bib_read_closeangle(bib_strbuf_t *lexer);
 
 #pragma mark - read primitives
 
@@ -228,23 +242,35 @@ extern bool bib_isupper(char c);
 /// A lowercase ASCII latin alphabet character.
 extern bool bib_islower(char c);
 
-/// A number from 0 to 9.
+/// A number from \c 0 to \c 9.
 extern bool bib_isnumber(char c);
+
+/// A whitespace character.
+extern bool bib_isspace(char c);
 
 /// Not a whitespace character.
 extern bool bib_notspace(char c);
 
-/// Period character "."
+/// Period character \c '.'.
 extern bool bib_ispoint(char c);
 
-/// Dash character "-"
+/// Dash character \c '-'.
 extern bool bib_isdash(char c);
 
-/// Forward-slash character "/"
+/// Forward-slash character \c '/'.
 extern bool bib_isslash(char c);
 
-/// Comma character \c ','
+/// Comma character \c ','.
 extern bool bib_iscomma(char c);
+
+/// Colon character \c ':'.
+extern bool bib_iscolon(char c);
+
+/// Open angle bracket \c '<'.
+extern bool bib_isopenangle(char c);
+
+/// Close angle bracket \c '>'.
+extern bool bib_iscloseangle(char c);
 
 /// Characters representing the end of data in a stream.
 /// \returns \c true when the given character represents the end of data from a stream.

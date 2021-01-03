@@ -36,9 +36,15 @@ size_t bib_snprint_date(char *restrict const dst, size_t const len, bib_date_t  
     if (bib_date_is_empty(date)) {
         return snprintf(dst, len, "");
     }
-    return bib_date_has_span(date)
-         ? snprintf(dst, len, "%s%c%s%s", date->year, date->separator, date->span, date->mark)
-         : snprintf(dst, len, "%s%s", date->year, date->mark);
+    if (date->isspan) {
+        return snprintf(dst, len, "%s%c%s%s", date->year, date->separator, date->span, date->mark);
+    }
+    if (date->isdate) {
+        return (date->day > 0)
+             ? snprintf(dst, len, "%s %d %d", date->year, date->month, date->day)
+             : snprintf(dst, len, "%s %d", date->year, date->month);
+    }
+    return snprintf(dst, len, "%s%s", date->year, date->mark);
 }
 
 size_t bib_snprint_dord(char *restrict const dst, size_t const len, bib_dateord_t const *restrict const dord) {

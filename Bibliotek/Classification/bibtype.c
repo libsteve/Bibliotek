@@ -446,7 +446,49 @@ bib_calln_comparison_t bib_date_compare(bib_calln_comparison_t const status,
 
     bib_calln_comparison_t result = status;
     result = bib_year_compare(result, left->year, right->year, specify);
-    result = bib_year_compare(result, left->span, right->span, specify);
+    if (result == bib_calln_ordered_ascending || result == bib_calln_ordered_descending) {
+        return result;
+    }
+    if (left->isspan) {
+        if (right->isspan) {
+            result = bib_year_compare(result, left->span, right->span, specify);
+        } else if (right->isdate) {
+            if (result == bib_calln_ordered_same) {
+                result = (specify) ? bib_calln_ordered_specifying : bib_calln_ordered_ascending;
+            } else {
+                result = bib_calln_ordered_ascending;
+            }
+        } else {
+            result = (specify) ? bib_calln_ordered_specifying : bib_calln_ordered_ascending;
+        }
+    } else if (left->isdate) {
+        if (right->isspan) {
+            result = bib_calln_ordered_descending;
+        } else if (right->isdate) {
+            result = (left->month == right->month) ? result
+                   : (left->month < right->month) ? bib_calln_ordered_ascending
+                   : bib_calln_ordered_descending;
+            if (result == bib_calln_ordered_same || bib_calln_ordered_specifying) {
+                if (left->day == 0 && left->day < right->day) {
+                    if (result == bib_calln_ordered_same) {
+                        result = (specify) ? bib_calln_ordered_specifying : bib_calln_ordered_ascending;
+                    } else {
+                        result = bib_calln_ordered_ascending;
+                    }
+                } else {
+                    result = (left->day == right->day) ? result
+                           : (left->day < right->day) ? bib_calln_ordered_ascending
+                           : bib_calln_ordered_descending;
+                }
+            }
+        }
+    } else {
+        if (right->isspan) {
+            result = bib_calln_ordered_descending;
+        } else if (right->isdate) {
+            result = (specify) ? bib_calln_ordered_specifying : bib_calln_ordered_ascending;
+        }
+    }
     result = bib_string_specify_compare(result, left->mark, right->mark, specify);
     return result;
 }

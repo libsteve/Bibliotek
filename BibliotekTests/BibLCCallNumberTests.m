@@ -86,16 +86,19 @@
         BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"DR1879.5.M37 M37 1988"];
         BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"DR1879.M37 M37 1988"];
         XCTAssertEqual(NSOrderedDescending, [a compare:b]);
+        XCTAssertEqual(NSOrderedAscending, [b compare:a]);
     }
     {
         BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"PE1574.F67 2012"];
         BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"PE1574.L37 1998"];
         XCTAssertEqual(NSOrderedAscending, [a compare:b]);
+        XCTAssertEqual(NSOrderedDescending, [b compare:a]);
     }
     {
         BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"PN6737.M66 N46 2011"];
         BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"PN6737.M66 V2 2005"];
         XCTAssertEqual(NSOrderedAscending, [a compare:b]);
+        XCTAssertEqual(NSOrderedDescending, [b compare:a]);
     }
     {
         BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"PE1574.L37 1998 Suppl."];
@@ -104,6 +107,27 @@
         XCTAssertEqual(NSOrderedAscending, [a compare:b]);
         XCTAssertEqual(NSOrderedAscending, [b compare:c]);
         XCTAssertEqual(NSOrderedAscending, [a compare:c]);
+        XCTAssertEqual(NSOrderedDescending, [b compare:a]);
+        XCTAssertEqual(NSOrderedDescending, [c compare:b]);
+        XCTAssertEqual(NSOrderedDescending, [c compare:a]);
+    }
+    {
+        BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"BX873 1864, Jul. 8.P3"];
+        BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"BX873 1864, Dec. 8.P3"];
+        BibLCCallNumber *const c = [[BibLCCallNumber alloc] initWithString:@"BX873 1864-1865"];
+        BibLCCallNumber *const d = [[BibLCCallNumber alloc] initWithString:@"BX873 1864"];
+        XCTAssertEqual(NSOrderedAscending, [a compare:b]);
+        XCTAssertEqual(NSOrderedAscending, [d compare:a]);
+        XCTAssertEqual(NSOrderedAscending, [d compare:b]);
+        XCTAssertEqual(NSOrderedAscending, [c compare:d]);
+        XCTAssertEqual(NSOrderedAscending, [c compare:a]);
+        XCTAssertEqual(NSOrderedAscending, [c compare:b]);
+        XCTAssertEqual(NSOrderedDescending, [b compare:a]);
+        XCTAssertEqual(NSOrderedDescending, [a compare:d]);
+        XCTAssertEqual(NSOrderedDescending, [b compare:d]);
+        XCTAssertEqual(NSOrderedDescending, [d compare:c]);
+        XCTAssertEqual(NSOrderedDescending, [a compare:c]);
+        XCTAssertEqual(NSOrderedDescending, [b compare:c]);
     }
 }
 
@@ -154,6 +178,65 @@
     XCTAssertEqualObjects([g stringWithFormatOptions:BibLCCallNumberFormatOptionsDefault], @"Q11.P6 n.s. v. 56 pt. 9");
     XCTAssertEqualObjects([g stringWithFormatOptions:BibLCCallNumberFormatOptionsPocket], @"Q 11 .P6 n.s. v. 56 pt. 9");
     XCTAssertEqualObjects([g stringWithFormatOptions:BibLCCallNumberFormatOptionsSpine], @"Q\n11\n.P6\nn.s.\nv. 56\npt. 9");
+}
+
+- (void)testStrangeCallNumbers {
+    {
+        BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"BX873 1463 Apr. 26 .C38"];
+        XCTAssertNotNil(calln.stringValue);
+    }
+    {
+        BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"BX873 1864, Dec. 8 .M3"];
+        XCTAssertNotNil(calln.stringValue);
+    }
+    {
+        BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"BX873 1864, Dec. 8.P3"];
+        XCTAssertNotNil(calln.stringValue);
+    }
+    {
+        BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"G1264.P5G46 B36 1985"];
+        XCTAssertNotNil(calln.stringValue);
+    }
+    {
+        BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"G1264.P5G46 B35 1889 fol."];
+        XCTAssertNotNil(calln.stringValue);
+    }
+    {
+        BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"G1264.P5G46 B7 1885 (G&M)"];
+        XCTAssertNotNil(calln.stringValue);
+    }
+    {
+        BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"BX873 1897 Aug.4.P7"];
+        XCTAssertNotNil(calln.stringValue);
+    }
+    {
+        BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"BX873 1993 Aug.6 .M67 1994"];
+        XCTAssertNotNil(calln.stringValue);
+    }
+    {
+        BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"BX873 1864 Dec. 8 .E5 no. 9"];
+        XCTAssertNotNil(calln.stringValue);
+    }
+    {
+        BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"QA76.76.E95 V74 1991b LANDOVR"];
+        XCTAssertNotNil(calln.stringValue);
+    }
+    {
+        BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"QA76.76.C65 [2005 02233]"];
+        XCTAssertNotNil(calln.stringValue);
+    }
+    {
+        BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"QA9 .P57 1954a"];
+        XCTAssertNotNil(calln.stringValue);
+    }
+    {
+        BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"QAC90 .B5 FT MEADE SpecMat"];
+        XCTAssertNotNil(calln.stringValue);
+    }
+    {
+        BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"QB1 .A1736 t. 10, etc."];
+        XCTAssertNotNil(calln.stringValue);
+    }
 }
 
 - (void)testLCCallNumberInclusion {

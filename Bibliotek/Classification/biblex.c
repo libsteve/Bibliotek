@@ -473,6 +473,27 @@ bool bib_read_etc(bib_strbuf_t *const lexer)
     return point_success && bib_advance_strbuf(lexer, &l);
 }
 
+bool bib_read_comma(bib_strbuf_t *const lexer)
+{
+    return bib_read_char(NULL, bib_iscomma, lexer);
+}
+
+bool bib_read_colon(bib_strbuf_t *const lexer)
+{
+    return bib_read_char(NULL, bib_iscolon, lexer);
+}
+
+bool bib_read_openangle(bib_strbuf_t *const lexer)
+{
+    return bib_read_char(NULL, bib_isopenangle, lexer);
+}
+
+bool bib_read_closeangle(bib_strbuf_t *const lexer)
+{
+    return bib_read_char(NULL, bib_iscloseangle, lexer);
+}
+
+
 #pragma mark - read primitives
 
 bool bib_read_char(char *const c, bool (*const pred)(char), bib_strbuf_t *const lexer)
@@ -506,6 +527,10 @@ bool bib_isnumber(char c) {
     return isnumber(c);
 }
 
+bool bib_isspace(char c) {
+    return isspace(c);
+}
+
 bool bib_notspace(char c) {
     return !isspace(c) && (c != '\0');
 }
@@ -522,8 +547,24 @@ bool bib_isslash(char c) {
     return c == '/';
 }
 
-bool bib_iscomma(char c) {
+bool bib_iscomma(char c)
+{
     return c == ',';
+}
+
+bool bib_iscolon(char c)
+{
+    return c == ':';
+}
+
+bool bib_isopenangle(char c)
+{
+    return c == '<';
+}
+
+bool bib_iscloseangle(char c)
+{
+    return c == '>';
 }
 
 bool bib_isstop(char c) {

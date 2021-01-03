@@ -13,10 +13,10 @@
 
 typedef struct bib_lc_calln_style {
     char separator;
-    bool split_subject;
-    bool split_cutters;
-    bool split_sections;
-    bool extra_cutpoint;
+    bool split_subject : 1;
+    bool split_cutters : 1;
+    bool split_sections : 1;
+    bool extra_cutpoint : 1;
 } bib_lc_calln_style_t;
 
 /// Write the string value of a cutter number into the \c dst buffer.

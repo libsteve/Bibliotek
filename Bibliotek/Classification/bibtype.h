@@ -43,18 +43,48 @@ typedef char bib_mark_b[5];
 
 #pragma mark - date
 
+typedef enum bib_month {
+    bib_month_jan =  1,
+    bib_month_feb =  2,
+    bib_month_mar =  3,
+    bib_month_apr =  4,
+    bib_month_may =  5,
+    bib_month_jun =  6,
+    bib_month_jul =  7,
+    bib_month_aug =  8,
+    bib_month_sept = 9,
+    bib_month_oct = 10,
+    bib_month_nov = 11,
+    bib_month_dec = 12
+} bib_month_t;
+
+typedef unsigned char bib_day_t;
+
 /// A year or range of years used within a call number.
 typedef struct bib_date {
     /// The initial year of the date range, or the exact year for single year values.
     bib_year_b year;
 
-    /// The character used to separate the year from the end of the range.
-    ///
-    /// This is the null character for single year values.
-    char separator;
+    bool isspan : 1;
 
-    /// The last year in the range.
-    bib_year_b span;
+    bool isdate : 1;
+
+    union {
+        struct {
+            /// The character used to separate the year from the end of the range.
+            ///
+            /// This is the null character for single year values.
+            char separator;
+
+            /// The last year in the range.
+            bib_year_b span;
+        };
+        struct {
+            bib_month_t month;
+            
+            bib_day_t   day;
+        };
+    };
 
     /// Some short optional alhpabetic suffix attached to the date.
     bib_mark_b mark;
@@ -239,24 +269,6 @@ extern bool bib_cuttseg_init(bib_cuttseg_t *seg, bib_cutter_t const *num, bib_da
 extern bool bib_cuttseg_is_empty(bib_cuttseg_t const *seg);
 
 #pragma mark - lc calln
-
-typedef enum bib_lc_callseg_kind {
-    bib_lc_callseg_class,
-    bib_lc_callseg_dord,
-    bib_lc_callseg_cutt,
-    bib_lc_callseg_date,
-    bib_lc_callseg_ordn,
-    bib_lc_callseg_voln,
-    bib_lc_callseg_word,
-    bib_lc_callseg_supl
-} bib_lc_callseg_kind_t;
-
-typedef struct bib_lc_callseg {
-    bib_lc_callseg_kind_t kind;
-    size_t                size;
-    size_t                indx;
-    char                  data[];
-} bib_lc_callseg_t;
 
 /// A Library of Congress call number.
 ///

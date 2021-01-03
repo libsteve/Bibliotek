@@ -10,6 +10,11 @@
 #include "biblex.h"
 #include <string.h>
 
+static bool bib_parse_date_cpred_isbreak(char c);
+static bool bib_parse_month(bib_month_t *month, bib_strbuf_t *parser);
+static bool bib_parse_date_date(bib_date_t *date, bib_strbuf_t *parser);
+static bool bib_parse_date_span(bib_date_t *date, bib_strbuf_t *parser);
+
 bool bib_parse_lc_calln(bib_lc_calln_t *const calln, bib_strbuf_t *const parser)
 {
     if (calln == NULL || parser == NULL || parser->str == NULL || parser->len == 0) {
@@ -314,6 +319,115 @@ bool bib_parse_cutter(bib_cutter_t *cut, bib_strbuf_t *const parser)
     return success;
 }
 
+static bool bib_parse_date_cpred_isbreak(char c) {
+    return bib_isspace(c) || bib_ispoint(c) || bib_isstop(c);
+}
+
+static bool bib_parse_month(bib_month_t *month, bib_strbuf_t *const parser)
+{
+    if (month == NULL || parser == NULL || parser->str == NULL || parser->len == 0) {
+        return false;
+    }
+
+    bib_strbuf_t p0 = *parser;
+
+    char abbrev[5];
+    memset(abbrev, 0, sizeof(abbrev));
+    bool abbrev_success = bib_read_char(&(abbrev[0]), bib_isupper, &p0)
+                       && bib_read_char(&(abbrev[1]), bib_islower, &p0)
+                       && bib_read_char(&(abbrev[2]), bib_islower, &p0);
+    if (!abbrev_success) {
+        *month = 0;
+        return false;
+    }
+    bib_month_t result = 0;
+    if (bib_peek_char(NULL, bib_parse_date_cpred_isbreak, &p0)) {
+        result = (strcmp("Jan", abbrev) == 0) ? bib_month_jan
+               : (strcmp("Feb", abbrev) == 0) ? bib_month_feb
+               : (strcmp("Mar", abbrev) == 0) ? bib_month_mar
+               : (strcmp("Apr", abbrev) == 0) ? bib_month_apr
+               : (strcmp("May", abbrev) == 0) ? bib_month_may
+               : (strcmp("Jun", abbrev) == 0) ? bib_month_jun
+               : (strcmp("Jul", abbrev) == 0) ? bib_month_jul
+               : (strcmp("Aug", abbrev) == 0) ? bib_month_aug
+               : (strcmp("Oct", abbrev) == 0) ? bib_month_oct
+               : (strcmp("Nov", abbrev) == 0) ? bib_month_nov
+               : (strcmp("Dec", abbrev) == 0) ? bib_month_dec
+               : 0;
+    } else {
+        bool issept = bib_read_char(&(abbrev[3]), bib_islower, &p0)
+                   && bib_peek_char(NULL, bib_parse_date_cpred_isbreak, &p0)
+                   && (strcmp("Sept", abbrev) == 0);
+        result = (issept) ? bib_month_sept : 0;
+    }
+    bool success = (result != 0) && bib_advance_strbuf(parser, &p0);
+    *month = (success) ? result : 0;
+    return success;
+}
+
+static bool bib_parse_date_date(bib_date_t *date, bib_strbuf_t *const parser)
+{
+    if (date == NULL || parser == NULL || parser->str == NULL || parser->len == 0) {
+        return false;
+    }
+    bib_strbuf_t p0 = *parser;
+    bool __unused _cma = bib_read_comma(&p0);
+    bool require_space = bib_read_space(&p0);
+    bool month_success = require_space && bib_parse_month(&(date->month), &p0);
+
+    bib_strbuf_t p1 = p0;
+    bool point_success = month_success && bib_read_point(&p1);
+    bool space_success = month_success && bib_read_space(&p1);
+
+    char day[3];
+    memset(day, 0, sizeof(day));
+    bool day_success = (point_success || space_success)
+                    && bib_lex_char_n(day, sizeof(day), bib_isnumber, &p1)
+                    && bib_peek_char(NULL, bib_parse_date_cpred_isbreak, &p1);
+    date->day = (day_success) ? atoi(day) : 0;
+    day_success = day_success && (date->day > 0) && (date->day < 32);
+
+    bib_strbuf_t p2 = p0;
+    // consume the decimal point if it's the last element from the input stream
+    bool consume_point = month_success && !day_success
+                      && bib_read_point(&p0)
+                      && bib_peek_char(NULL, bib_isstop, &p2);
+
+    bool success = (day_success || month_success) && bib_advance_strbuf(parser, (consume_point) ? &p2
+                                                                              :   (day_success) ? &p1
+                                                                              : (month_success) ? &p0
+                                                                              : NULL);
+    if (success) {
+        date->isdate = true;
+    } else {
+        date->month = 0;
+        date->day = 0;
+    }
+    return success;
+}
+
+static bool bib_parse_date_span(bib_date_t *const date, bib_strbuf_t *const parser)
+{
+    if (date == NULL || parser == NULL || parser->str == NULL || parser->len == 0) {
+        return false;
+    }
+    bib_year_b span = {};
+    bib_strbuf_t p0 = *parser;
+    bool dash_success = bib_read_dash(&p0);
+    bool slsh_success = !dash_success && bib_read_slash(&p0);
+    bool span_success = (dash_success || slsh_success)
+                     && (bib_lex_year(span, &p0) || bib_lex_year_abv(span, &p0));
+    bool success = span_success && bib_advance_strbuf(parser, &p0);
+    if (success) {
+        date->isspan = true;
+        date->separator = (dash_success) ? '-'
+                        : (slsh_success) ? '/'
+                        : '-';
+        memcpy(date->span, span, sizeof(bib_year_b));
+    }
+    return success;
+}
+
 bool bib_parse_date(bib_date_t *const date, bib_strbuf_t *const parser)
 {
     if (date == NULL || parser == NULL || parser->str == NULL || parser->len == 0) {
@@ -324,23 +438,17 @@ bool bib_parse_date(bib_date_t *const date, bib_strbuf_t *const parser)
     bool year_success = bib_lex_year(date->year, &p0);
 
     bib_strbuf_t p1 = (year_success) ? p0 : *parser;
-    bool dash_success = year_success && bib_read_dash(&p1);
-    bool slsh_success = year_success && !dash_success && bib_read_slash(&p1);
-    bool span_success = (dash_success || slsh_success)
-                     && (bib_lex_year(date->span, &p1) || bib_lex_year_abv(date->span, &p1));
+    bool span_success = year_success && bib_parse_date_span(date, &p1);
+    bool mnth_success = year_success && !span_success && bib_parse_date_date(date, &p1);
+    bool midl_success = span_success || mnth_success;
 
-    if (span_success) {
-        date->separator = (dash_success) ? '-'
-                        : (slsh_success) ? '/'
-                        : '-';
-    }
+    bib_strbuf_t p2 = (midl_success) ? p1 : p0;
+    bool mark_success = year_success && !mnth_success && bib_lex_mark(date->mark, &p2);
 
-    bib_strbuf_t p2 = (span_success) ? p1 : p0;
-    bool mark_success = year_success && bib_lex_mark(date->mark, &p2);
-
-    bool success = year_success && bib_advance_strbuf(parser, (mark_success) ? &p2
-                                                            : (span_success) ? &p1
-                                                            : &p0);
+    bool success = year_success & bib_advance_strbuf(parser, (mark_success) ? &p2
+                                                           : (midl_success) ? &p1
+                                                           : (year_success) ? &p0
+                                                           : NULL);
     if (!success) {
         memset(date, 0, sizeof(bib_date_t));
     }
