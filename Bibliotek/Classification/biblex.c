@@ -19,16 +19,26 @@
 
 #pragma mark - lex
 
-bool bib_lex_integer(bib_digit04_b buffer, char const **const str, size_t *const len)
+bool bib_lex_integer(bib_digit06_b buffer, char const **const str, size_t *const len)
 {
-    size_t length = bib_lex_digit_n(buffer, sizeof(bib_digit04_b), str, len);
-    return (length > 0);
+    if (buffer == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
+        return false;
+    }
+    char const *str_ = *str;
+    size_t      len_ = *len;
+    size_t length = bib_lex_digit_n(buffer, sizeof(bib_digit06_b), &str_, &len_);
+    return (length > 0) && bib_advance_step(length, str, len);
 }
 
 bool bib_lex_digit16(bib_digit16_b buffer, char const **const str, size_t *const len)
 {
-    size_t length = bib_lex_digit_n(buffer, sizeof(bib_digit16_b), str, len);
-    return (length > 0);
+    if (buffer == NULL || str == NULL || *str == NULL || len == NULL || *len == 0) {
+        return false;
+    }
+    char const *str_ = *str;
+    size_t      len_ = *len;
+    size_t length = bib_lex_digit_n(buffer, sizeof(bib_digit16_b), &str_, &len_);
+    return (length > 0) && bib_advance_step(length, str, len);
 }
 
 bool bib_lex_decimal(bib_digit16_b buffer, char const **const str, size_t *const len)

@@ -15,12 +15,12 @@ __BEGIN_DECLS
 
 #pragma mark - lex
 
-/// Read between one and three digits from 0-9 from the input stream into the given buffer.
+/// Read between one and six digits from 0-9 from the input stream into the given buffer.
 /// \param buffer Allocated space for the number. The written value will contain a null terminator.
 /// \param str A pointer to the input string. Characters read from the string are removed only if lexing was successful.
 /// \param len The length of the input string, including the null terminator.
 /// \returns \c true when a number between 0 and 999 is successfully read from the input string.
-extern bool bib_lex_integer (bib_digit04_b buffer, char const **str, size_t *len);
+extern bool bib_lex_integer (bib_digit06_b buffer, char const **str, size_t *len);
 
 /// Read between one and 16 digits from 0-9 from the input stream into the given buffer.
 /// \param buffer Allocated space for the number. The written value will contain a null terminator.

@@ -109,9 +109,9 @@ bool bib_parse_lc_subject_base(bib_lc_calln_t *const calln, char const **const s
     size_t final_len = (int_success) ? len_1 : len_0;
     bool success = cls_success && bib_advance_step(*len - final_len, str, len);
     if (!success) {
-        memset(calln->letters, 0, sizeof(bib_alpah03_b));
-        memset(calln->integer, 0, sizeof(bib_digit04_b));
-        memset(calln->decimal, 0, sizeof(bib_digit16_b));
+        memset(calln->letters, 0, sizeof(calln->letters));
+        memset(calln->integer, 0, sizeof(calln->integer));
+        memset(calln->decimal, 0, sizeof(calln->decimal));
     }
     return success;
 }

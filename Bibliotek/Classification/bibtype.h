@@ -23,8 +23,8 @@ typedef char bib_initial_t;
 /// A string of at most three alphabetic characters.
 typedef char bib_alpah03_b[4];
 
-/// A string of at most four decimal digits 0 through 9.
-typedef char bib_digit04_b[5];
+/// A string of at most six decimal digits 0 through 9.
+typedef char bib_digit06_b[7];
 
 /// A string of at most 16 decimal digits 0 through 9.
 typedef char bib_digit16_b[17];
@@ -228,7 +228,7 @@ typedef struct bib_lc_calln {
     bib_alpah03_b letters;
 
     /// The integer value of the subject matter subclass.
-    bib_digit04_b integer;
+    bib_digit06_b integer;
 
     /// The decimal portion of the subject matter subclass.
     bib_digit16_b decimal;

@@ -229,6 +229,18 @@
         BibAssertEqualStrings(str, " .76", @"leave decimal with leading space");
         XCTAssertEqual(len, strlen(str) + 1);
     }
+    {
+        char const *str = "KB11655";
+        bib_parser_t parser = { .str = str, .len = strlen(str) + 1 };
+        bib_lc_calln_t cap = {};
+        XCTAssertTrue(bib_parse_lc_subject_base(&cap, &parser), @"allow partial match");
+        BibAssertEqualStrings(cap.letters, "KB");
+        BibAssertEqualStrings(cap.integer, "11655");
+        BibAssertEqualStrings(cap.decimal, "");
+        BibAssertEqualStrings(parser.str, "");
+        XCTAssertEqual(parser.len, strlen(parser.str) + 1);
+
+    }
 }
 
 - (void)test_parse_lc_cutter_ordinal {

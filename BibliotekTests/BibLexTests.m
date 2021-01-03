@@ -21,7 +21,7 @@
 
 - (void)test_lex_integer {
     {
-        bib_digit04_b buffer = {};
+        bib_digit06_b buffer = {};
         char const *str = "1234";
         size_t len = strlen(str) + 1;
         XCTAssertTrue(bib_lex_integer(buffer, &str, &len), @"should read string starting with digits");
@@ -30,16 +30,16 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        bib_digit04_b buffer = {};
-        char const *str = "1234567";
+        bib_digit06_b buffer = {};
+        char const *str = "123456789";
         size_t len = strlen(str) + 1;
         XCTAssertTrue(bib_lex_integer(buffer, &str, &len), @"should read the first four difits");
-        BibAssertEqualStrings(buffer, "1234", @"buffer should only the first four  digits");
-        BibAssertEqualStrings(str, "567", @"the input string should still contain the remaining digits");
+        BibAssertEqualStrings(buffer, "123456", @"buffer should only the first six  digits");
+        BibAssertEqualStrings(str, "789", @"the input string should still contain the remaining digits");
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        bib_digit04_b buffer = {};
+        bib_digit06_b buffer = {};
         char const *str = "12";
         size_t len = strlen(str) + 1;
         XCTAssertTrue(bib_lex_integer(buffer, &str, &len), @"should read less than four digits");
@@ -48,7 +48,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        bib_digit04_b buffer = {};
+        bib_digit06_b buffer = {};
         char const *str = "A1";
         size_t len = strlen(str) + 1;
         XCTAssertFalse(bib_lex_integer(buffer, &str, &len), @"should not read string with non-digit prefix as integer");
@@ -57,7 +57,7 @@
         XCTAssertEqual(len, strlen(str) + 1, @"len should equal the input string's remaining length");
     }
     {
-        bib_digit04_b buffer = {};
+        bib_digit06_b buffer = {};
         char const *str = "";
         size_t len = strlen(str) + 1;
         XCTAssertFalse(bib_lex_integer(buffer, &str, &len), @"cannot lex the empty string");
