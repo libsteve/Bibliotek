@@ -124,11 +124,17 @@ extern bool bib_lex_caption_ordinal_suffix(bib_word_b buffer, bib_strbuf_t *lexe
 /// \note Suffixes for ordinal numbers in the sepcification section must end with a period.
 extern bool bib_lex_specification_ordinal_suffix(bib_word_b buffer, bib_strbuf_t *lexer);
 
-/// Read the a volume prefix from the input stream into the given buffer.
+/// Read a volume prefix from the input stream into the given buffer.
 /// \param buffer Allocated space for a volume prefix. The written value will contain a null terminator.
 /// \param lexer Pointer to a string buffer object to read from.
 /// \returns \c true when a volume prefix is successfully read from the input string.
 extern bool bib_lex_volume_prefix(bib_word_b buffer, bib_strbuf_t *lexer);
+
+/// Read a supplementary work prefix from the input stream into the given buffer.
+/// \param buffer Allocated space for a supplementary work prefix. The written value will contain a null terminator.
+/// \param lexer Pointer to a string buffer object to read from.
+/// \returns \c true when a supplementary work prefix is successfully read from the input string.
+extern bool bib_lex_supplement_prefix(bib_word_b buffer, bib_strbuf_t *const lexer);
 
 /// Read the value of a long word from the input stream into the given buffer.
 /// \param buffer Allocated space for a long word. The written value will contain a null terminator.
@@ -195,6 +201,11 @@ extern bool bib_read_dash (bib_strbuf_t *lexer);
 /// \post \c len will point to the number of bytes remaining in the input string.
 extern bool bib_read_slash(bib_strbuf_t *lexer);
 
+/// Consume the string ", etc." from the input stream.
+/// \param lexer Pointer to a string buffer object to read from.
+/// \returns \c true when the input string begins with ", etc.".
+extern bool bib_read_etc(bib_strbuf_t *lexer);
+
 #pragma mark - read primitives
 
 /// Consume a single character from the input string matching the given predicate.
@@ -231,6 +242,9 @@ extern bool bib_isdash(char c);
 
 /// Forward-slash character "/"
 extern bool bib_isslash(char c);
+
+/// Comma character \c ','
+extern bool bib_iscomma(char c);
 
 /// Characters representing the end of data in a stream.
 /// \returns \c true when the given character represents the end of data from a stream.

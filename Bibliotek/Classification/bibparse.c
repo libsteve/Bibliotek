@@ -215,27 +215,37 @@ bool bib_parse_lc_specification(bib_lc_specification_t *const spc, bib_strbuf_t 
                      && bib_peek_break(&p1);
 
     bib_strbuf_t p2 = *parser;
-    bool  vol_success = !date_success
+    bool supl_success = !date_success
                      && !ord_success
-                     && bib_parse_volume(&(spc->volume), &p2)
+                     && bib_parse_supplement(&(spc->supplement), &p2)
                      && bib_peek_break(&p2);
 
     bib_strbuf_t p3 = *parser;
+    bool  vol_success = !date_success
+                     && !ord_success
+                     && !supl_success
+                     && bib_parse_volume(&(spc->volume), &p3)
+                     && bib_peek_break(&p3);
+
+    bib_strbuf_t p4 = *parser;
     bool word_success = !date_success
                      && !ord_success
+                     && !supl_success
                      && !vol_success
-                     && bib_lex_longword(spc->word, &p3)
-                     && bib_peek_break(&p3);
+                     && bib_lex_longword(spc->word, &p4)
+                     && bib_peek_break(&p4);
 
     spc->kind = (date_success) ? bib_lc_specification_kind_date
               :  (ord_success) ? bib_lc_specification_kind_ordinal
+              : (supl_success) ? bib_lc_specification_kind_supplement
               :  (vol_success) ? bib_lc_specification_kind_volume
               : (word_success) ? bib_lc_specification_kind_word
               : 0;
     bool success = (spc->kind != 0) && bib_advance_strbuf(parser, (date_success) ? &p0
                                                                 :  (ord_success) ? &p1
-                                                                :  (vol_success) ? &p2
-                                                                : (word_success) ? &p3
+                                                                : (supl_success) ? &p2
+                                                                :  (vol_success) ? &p3
+                                                                : (word_success) ? &p4
                                                                 : NULL);
     if (!success) {
         bib_lc_specification_deinit(spc);
@@ -377,12 +387,40 @@ bool bib_parse_volume(bib_volume_t *const vol, bib_strbuf_t *const parser)
 
     bib_strbuf_t p = *parser;
     bool prefix_success = bib_lex_volume_prefix(vol->prefix, &p);
-    bool  space_success = prefix_success && bib_read_space(&p);
-    bool number_success = prefix_success && space_success && bib_lex_digit16(vol->number, &p);
+    bool __unused space = prefix_success && bib_read_space(&p);
+    bool number_success = prefix_success && bib_lex_digit16(vol->number, &p);
+    vol->hasetc = number_success && bib_read_etc(&p);
 
     bool success = number_success && bib_advance_strbuf(parser, &p);
     if (!success) {
         memset(vol, 0, sizeof(bib_volume_t));
+    }
+    return success;
+}
+
+bool bib_parse_supplement(bib_supplement_t *supl, bib_strbuf_t *parser)
+{
+    if (supl == NULL || parser == NULL || parser->str == NULL || parser->len == 0) {
+        return false;
+    }
+
+    bib_strbuf_t p0 = *parser;
+    bool prefix_success = bib_lex_supplement_prefix(supl->prefix, &p0);
+    supl->isabbr = prefix_success && bib_read_point(&p0);
+
+    bib_strbuf_t p1 = p0;
+    bool required_space = prefix_success && bib_read_space(&p1);
+    bool number_success = prefix_success && required_space && bib_lex_digit16(supl->number, &p1);
+
+    bib_strbuf_t p2 = p1;
+    supl->hasetc = number_success && bib_read_etc(&p2);
+
+    bool success = number_success && bib_advance_strbuf(parser, (supl->hasetc)    ? &p2
+                                                              : (number_success) ? &p1
+                                                              : (prefix_success) ? &p0
+                                                              : NULL);
+    if (!success) {
+        memset(supl, 0, sizeof(bib_supplement_t));
     }
     return success;
 }

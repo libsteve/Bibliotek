@@ -125,7 +125,16 @@ extern bool bib_parse_ordinal(bib_ordinal_t *ord, bib_lex_word_f lex_suffix, bib
 /// Read a call number's volume value from the given input stream.
 /// \param vol Allocated space for a structure representing the parsed volume value.
 /// \param parser Pointer to a string buffer object to parse from.
+/// \returns \c true when a volume value is successfully read from the input stream.
+/// \post \c vol is set to a data structure representing the volume value when parsing is successful.
 extern bool bib_parse_volume(bib_volume_t *vol, bib_strbuf_t *parser);
+
+/// Read a call number's supplementary work value from the given input stream.
+/// \param supl Allocated space for a structure representing the parsed supplementary value.
+/// \param parser Pointer to a string buffer object to parse from.
+/// \returns \c true when a supplementary work value is successfully read from the input stream.
+/// \post \c supl is set to a data structure representing the supplementary value when parsing is successful.
+extern bool bib_parse_supplement(bib_supplement_t *supl, bib_strbuf_t *parser);
 
 __END_DECLS
 

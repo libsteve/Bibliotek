@@ -874,11 +874,22 @@
     {
         bib_volume_t vol = {};
         bib_strbuf_t parser = bib_strbuf("vol.10", 0);
-        XCTAssertFalse(bib_parse_volume(&vol, &parser), @"require space before numeral");
-        XCTAssertTrue(bib_volume_is_empty(&vol));
-        BibAssertEqualStrings(vol.prefix, "");
-        BibAssertEqualStrings(vol.number, "");
-        BibAssertEqualStrings(parser.str, "vol.10");
+        XCTAssertTrue(bib_parse_volume(&vol, &parser), @"optional space before numeral");
+        XCTAssertFalse(bib_volume_is_empty(&vol));
+        BibAssertEqualStrings(vol.prefix, "vol");
+        BibAssertEqualStrings(vol.number, "10");
+        BibAssertEqualStrings(parser.str, "");
+        XCTAssertEqual(parser.len, strlen(parser.str) + 1);
+    }
+    {
+        bib_volume_t vol = {};
+        bib_strbuf_t parser = bib_strbuf("vol. 10, etc.", 0);
+        XCTAssertTrue(bib_parse_volume(&vol, &parser), @"keep track of the etcetera");
+        XCTAssertFalse(bib_volume_is_empty(&vol));
+        BibAssertEqualStrings(vol.prefix, "vol");
+        BibAssertEqualStrings(vol.number, "10");
+        XCTAssertTrue(vol.hasetc, @"keep track of the etcetera");
+        BibAssertEqualStrings(parser.str, "");
         XCTAssertEqual(parser.len, strlen(parser.str) + 1);
     }
     {
@@ -899,6 +910,83 @@
         BibAssertEqualStrings(vol.prefix, "");
         BibAssertEqualStrings(vol.number, "");
         BibAssertEqualStrings(parser.str, "vol10");
+        XCTAssertEqual(parser.len, strlen(parser.str) + 1);
+    }
+    {
+        bib_volume_t vol = {};
+        bib_strbuf_t parser = bib_strbuf("Vol. 10", 0);
+        XCTAssertFalse(bib_parse_volume(&vol, &parser), @"require lowercase letters");
+        XCTAssertTrue(bib_volume_is_empty(&vol));
+        BibAssertEqualStrings(vol.prefix, "");
+        BibAssertEqualStrings(vol.number, "");
+        BibAssertEqualStrings(parser.str, "Vol. 10");
+        XCTAssertEqual(parser.len, strlen(parser.str) + 1);
+    }
+}
+
+- (void)test_parse_supplement {
+    {
+        bib_supplement_t supl = {};
+        bib_strbuf_t parser = bib_strbuf("Suppl. 10", 0);
+        XCTAssertTrue(bib_parse_supplement(&supl, &parser));
+        BibAssertEqualStrings(supl.prefix, "Suppl", @"don't save periods");
+        BibAssertEqualStrings(supl.number, "10");
+        XCTAssertTrue(supl.isabbr, @"keep track of the period");
+        XCTAssertFalse(supl.hasetc);
+        BibAssertEqualStrings(parser.str, "");
+        XCTAssertEqual(parser.len, strlen(parser.str) + 1);
+    }
+    {
+        bib_supplement_t supl = {};
+        bib_strbuf_t parser = bib_strbuf("Suppl.10", 0);
+        XCTAssertFalse(bib_parse_supplement(&supl, &parser), @"require space before numeral");
+        XCTAssertTrue(bib_supplement_is_empty(&supl));
+        BibAssertEqualStrings(supl.prefix, "");
+        BibAssertEqualStrings(supl.number, "");
+        BibAssertEqualStrings(parser.str, "Suppl.10");
+        XCTAssertEqual(parser.len, strlen(parser.str) + 1);
+    }
+    {
+        bib_supplement_t supl = {};
+        bib_strbuf_t parser = bib_strbuf("Index 10", 0);
+        XCTAssertTrue(bib_parse_supplement(&supl, &parser), @"optional period after prefix");
+        XCTAssertFalse(bib_supplement_is_empty(&supl));
+        BibAssertEqualStrings(supl.prefix, "Index");
+        BibAssertEqualStrings(supl.number, "10");
+        XCTAssertFalse(supl.isabbr, @"keep track of the lack of a period");
+        XCTAssertFalse(supl.hasetc);
+        BibAssertEqualStrings(parser.str, "");
+        XCTAssertEqual(parser.len, strlen(parser.str) + 1);
+    }
+    {
+        bib_supplement_t supl = {};
+        bib_strbuf_t parser = bib_strbuf("Suppl10", 0);
+        XCTAssertFalse(bib_parse_supplement(&supl, &parser), @"require period after prefix");
+        XCTAssertTrue(bib_supplement_is_empty(&supl));
+        BibAssertEqualStrings(supl.prefix, "");
+        BibAssertEqualStrings(supl.number, "");
+        BibAssertEqualStrings(parser.str, "Suppl10");
+        XCTAssertEqual(parser.len, strlen(parser.str) + 1);
+    }
+    {
+        bib_supplement_t supl = {};
+        bib_strbuf_t parser = bib_strbuf("Suppl. 10, etc.", 0);
+        XCTAssertTrue(bib_parse_supplement(&supl, &parser), @"keep track of the etcetera");
+        BibAssertEqualStrings(supl.prefix, "Suppl", @"don't save periods");
+        BibAssertEqualStrings(supl.number, "10");
+        XCTAssertTrue(supl.isabbr, @"keep track of the period");
+        XCTAssertTrue(supl.hasetc, @"keep track of the etcetera");
+        BibAssertEqualStrings(parser.str, "");
+        XCTAssertEqual(parser.len, strlen(parser.str) + 1);
+    }
+    {
+        bib_supplement_t supl = {};
+        bib_strbuf_t parser = bib_strbuf("suppl. 10", 0);
+        XCTAssertFalse(bib_parse_supplement(&supl, &parser), @"require a capital initial letter");
+        XCTAssertTrue(bib_supplement_is_empty(&supl));
+        BibAssertEqualStrings(supl.prefix, "");
+        BibAssertEqualStrings(supl.number, "");
+        BibAssertEqualStrings(parser.str, "suppl. 10");
         XCTAssertEqual(parser.len, strlen(parser.str) + 1);
     }
 }
@@ -950,11 +1038,24 @@
     }
     {
         bib_lc_specification_t spc = {};
-        bib_strbuf_t parser = bib_strbuf("Suppl. 15", 0);
+        bib_strbuf_t parser = bib_strbuf("vol. 15", 0);
         XCTAssertTrue(bib_parse_lc_specification(&spc, &parser));
         XCTAssertEqual(spc.kind, bib_lc_specification_kind_volume);
-        BibAssertEqualStrings(spc.volume.prefix, "Suppl");
+        BibAssertEqualStrings(spc.volume.prefix, "vol");
         BibAssertEqualStrings(spc.volume.number, "15");
+        XCTAssertFalse(spc.volume.hasetc);
+        BibAssertEqualStrings(parser.str, "");
+        XCTAssertEqual(parser.len, strlen(parser.str) + 1);
+    }
+    {
+        bib_lc_specification_t spc = {};
+        bib_strbuf_t parser = bib_strbuf("Suppl. 15", 0);
+        XCTAssertTrue(bib_parse_lc_specification(&spc, &parser));
+        XCTAssertEqual(spc.kind, bib_lc_specification_kind_supplement);
+        BibAssertEqualStrings(spc.supplement.prefix, "Suppl");
+        BibAssertEqualStrings(spc.supplement.number, "15");
+        XCTAssertFalse(spc.supplement.hasetc);
+        XCTAssertTrue(spc.supplement.isabbr);
         BibAssertEqualStrings(parser.str, "");
         XCTAssertEqual(parser.len, strlen(parser.str) + 1);
     }

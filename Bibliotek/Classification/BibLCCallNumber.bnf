@@ -50,6 +50,7 @@ lc-specification-list := <lc-specification>
 
 lc-specification := <date>
                   | <ordinal>
+                  | <supplement>
                   | <volume>
                   | <longword>
 
@@ -58,8 +59,20 @@ ordinal := <digit16> <lc-spec-ordinal-suffix>
 ordinal-suffix := <word> '.'
                 | <word> '.' <ordinal-suffix>
 
-volume := <word> '.' <digit16>
-        | <word> '.' <space> <digit16>
+volume := <lower16> '.' <digit16>
+        | <lower16> '.' <space> <digit16>
+        | <lower16> '.' <digit16> ',' <space> "etc" '.'
+        | <lower16> '.' <space> <digit16> ',' <space> "etc" '.'
+
+supplement := <suppl-word>
+            | <suppl-word> '.'
+            | <suppl-word> <space> <digit16>
+            | <suppl-word> '.' <space> <digit16>
+            | <suppl-word> <space> <digit16> ',' <space> "etc" '.'
+            | <suppl-word> '.' <space> <digit16> ',' <space> "etc" '.'
+
+suppl-word := <upper>
+            | <upper> <letter15>
 
 digit16 := <digit04>
          | <digit04> <digit04>
@@ -71,15 +84,29 @@ digit04 := <digit>
          | <digit> <digit> <digit>
          | <digit> <digit> <digit> <digit>
 
-letter16 := <letter04>
+letter15 := <letter04>
           | <letter04> <letter04>
           | <letter04> <letter04> <letter04>
-          | <letter04> <letter04> <letter04> <letter04>
+          | <letter04> <letter04> <letter04> <letter>
+          | <letter04> <letter04> <letter04> <letter> <letter>
+          | <letter04> <letter04> <letter04> <letter> <letter> <letter>
 
-mark := <letter>
-      | <letter> <letter>
-      | <letter> <letter> <letter>
-      | <letter> <letter> <letter> <letter>
+letter04 := <letter>
+          | <letter> <letter>
+          | <letter> <letter> <letter>
+          | <letter> <letter> <letter> <letter>
+
+lower04 := <lower>
+         | <lower> <lower>
+         | <lower> <lower> <lower>
+         | <lower> <lower> <lower> <lower>
+
+lower16 := <lower04>
+         | <lower04> <lower04>
+         | <lower04> <lower04> <lower04>
+         | <lower04> <lower04> <lower04> <lower04>
+
+mark := <letter04>
 
 word := <not-space>
       | <not-space> <not-space>

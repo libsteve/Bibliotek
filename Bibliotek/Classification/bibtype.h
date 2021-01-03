@@ -113,10 +113,32 @@ typedef struct bib_volume {
 
     /// The integer value following the "volume" type.
     bib_digit16_b number;
+
+    /// A flag indicating that this volume value has a trailing "etcetera" indicator.
+    bool          hasetc;
 } bib_volume_t;
 
 bool bib_volume_init(bib_volume_t *vol, char const *str);
 extern bool bib_volume_is_empty(bib_volume_t const *vol);
+
+/// A word with an initial capital letter that marks a call number
+/// as being for a supplementary work to a primary work. This value
+/// is optionally followed by a number.
+typedef struct bib_supplement {
+    /// The alphabetic prefix denoting the type of "supplement".
+    bib_word_b    prefix;
+
+    /// The integer value following the "supplement" type.
+    bib_digit16_b number;
+
+    /// A flag indicating that this supplement value has a trailing "etcetera" indicator.
+    bool          hasetc;
+
+    /// A flag indicating that the supplement prefix is an abbreviation.
+    bool          isabbr;
+} bib_supplement_t;
+
+extern bool bib_supplement_is_empty(bib_supplement_t const *supl);
 
 #pragma mark - lc specification
 
@@ -124,6 +146,7 @@ extern bool bib_volume_is_empty(bib_volume_t const *vol);
 typedef enum bib_lc_specification_kind {
     bib_lc_specification_kind_date = 1,
     bib_lc_specification_kind_ordinal,
+    bib_lc_specification_kind_supplement,
     bib_lc_specification_kind_volume,
     bib_lc_specification_kind_word
 } bib_lc_specification_kind_t;
@@ -139,6 +162,9 @@ typedef struct bib_lc_specification {
 
         /// An ordinal value, marked by \c bib_lc_specification_kind_ordinal
         bib_ordinal_t  ordinal;
+
+        /// A supplementary work indicator, marked by \c bib_lc_specification_kind_supplement
+        bib_supplement_t supplement;
 
         /// A volume value, marked by \c bib_lc_specification_kind_volume
         bib_volume_t   volume;
@@ -213,6 +239,24 @@ extern bool bib_cuttseg_init(bib_cuttseg_t *seg, bib_cutter_t const *num, bib_da
 extern bool bib_cuttseg_is_empty(bib_cuttseg_t const *seg);
 
 #pragma mark - lc calln
+
+typedef enum bib_lc_callseg_kind {
+    bib_lc_callseg_class,
+    bib_lc_callseg_dord,
+    bib_lc_callseg_cutt,
+    bib_lc_callseg_date,
+    bib_lc_callseg_ordn,
+    bib_lc_callseg_voln,
+    bib_lc_callseg_word,
+    bib_lc_callseg_supl
+} bib_lc_callseg_kind_t;
+
+typedef struct bib_lc_callseg {
+    bib_lc_callseg_kind_t kind;
+    size_t                size;
+    size_t                indx;
+    char                  data[];
+} bib_lc_callseg_t;
 
 /// A Library of Congress call number.
 ///
@@ -358,6 +402,10 @@ extern bib_calln_comparison_t bib_volume_compare(bib_calln_comparison_t status,
 extern bib_calln_comparison_t bib_ordinal_compare(bib_calln_comparison_t status,
                                                   bib_ordinal_t const *left, bib_ordinal_t const *right,
                                                   bool specify);
+
+bib_calln_comparison_t bib_supplement_compare(bib_calln_comparison_t status,
+                                              bib_supplement_t const *left, bib_supplement_t const *right,
+                                              bool specify);
 
 #pragma mark - string comparison
 

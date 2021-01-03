@@ -316,13 +316,41 @@ bool bib_lex_volume_prefix(bib_word_b buffer, bib_strbuf_t *const lexer)
     char  *outbuf0 = buffer;
     size_t outlen0 = sizeof(bib_word_b);
 
-    size_t alphalen = bib_lex_alpha_n(outbuf0, outlen0, &l0);
+    size_t alphalen = bib_lex_char_n(outbuf0, outlen0, bib_islower, &l0);
     bool alpha_success = (alphalen > 0);
 
     bib_strbuf_t l1 = l0;
     bool point_success = alpha_success && bib_read_point(&l1);
 
     bool success = point_success && bib_advance_strbuf(lexer, &l1);
+    if (!success) {
+        memset(buffer, 0, outlen0);
+    }
+    return success;
+}
+
+bool bib_lex_supplement_prefix(bib_word_b buffer, bib_strbuf_t *const lexer)
+{
+    if (buffer == NULL || lexer == NULL || lexer->str == NULL || lexer->len == 0) {
+        return false;
+    }
+    bib_strbuf_t l0 = *lexer;
+    char  *outbuf0 = buffer;
+    size_t outlen0 = sizeof(bib_word_b);
+    bool success = bib_read_char(buffer, bib_isupper, &l0)
+                && bib_advance_step(1, (char const **)&outbuf0, &outlen0);
+    if (success) {
+        bib_strbuf_t l1 = l0;
+        char  *outbuf1 = outbuf0;
+        size_t outlen1 = outlen0;
+        size_t length = bib_lex_char_n(outbuf1, outlen1, bib_islower, &l1);
+        if (bib_advance_step(length, (char const **)&outbuf1, &outlen1)) {
+            outbuf0 = outbuf1;
+            outlen0 = outlen1;
+            l0 = l1;
+        }
+    }
+    success = success && bib_advance_strbuf(lexer, &l0);
     if (!success) {
         memset(buffer, 0, outlen0);
     }
@@ -427,6 +455,24 @@ bool bib_read_slash(bib_strbuf_t *const lexer)
     return bib_read_char(NULL, bib_isslash, lexer);
 }
 
+bool bib_read_etc(bib_strbuf_t *const lexer)
+{
+    if (lexer == NULL || lexer->str == NULL || lexer->len == 0) {
+        return false;
+    }
+    bib_strbuf_t l = *lexer;
+    char word[4] = { 0, 0, 0, 0 };
+    bool comma_success = bib_read_char(NULL, bib_iscomma, &l);
+    bool space_success = comma_success && bib_read_space(&l);
+    bool  word_success = false;
+    if (space_success) {
+        size_t length = bib_lex_char_n(word, sizeof(word), bib_islower, &l);
+        word_success = (length > 0) && (strcmp(word, "etc") == 0);
+    }
+    bool point_success = word_success && bib_read_point(&l);
+    return point_success && bib_advance_strbuf(lexer, &l);
+}
+
 #pragma mark - read primitives
 
 bool bib_read_char(char *const c, bool (*const pred)(char), bib_strbuf_t *const lexer)
@@ -474,6 +520,10 @@ bool bib_isdash(char c) {
 
 bool bib_isslash(char c) {
     return c == '/';
+}
+
+bool bib_iscomma(char c) {
+    return c == ',';
 }
 
 bool bib_isstop(char c) {

@@ -97,6 +97,14 @@
         BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"PN6737.M66 V2 2005"];
         XCTAssertEqual(NSOrderedAscending, [a compare:b]);
     }
+    {
+        BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"PE1574.L37 1998 Suppl."];
+        BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"PE1574.L37 1998 Suppl. 2"];
+        BibLCCallNumber *const c = [[BibLCCallNumber alloc] initWithString:@"PE1574.L37 1998 Suppl. 3"];
+        XCTAssertEqual(NSOrderedAscending, [a compare:b]);
+        XCTAssertEqual(NSOrderedAscending, [b compare:c]);
+        XCTAssertEqual(NSOrderedAscending, [a compare:c]);
+    }
 }
 
 /// These test cases are taken from the OCLC's documentation on the MARC bibliographic field
