@@ -125,7 +125,7 @@ bool bib_parse_cuttseg_list(bib_cuttseg_t segs[3], bib_strbuf_t *const parser)
         bool has_prev_mark = !first && !(segs[index - 1].cutter.mark[0] == '\0');
         bool space_success = !first && bib_read_space(&p1);
         bool require_space = (has_prev_date || has_prev_mark);
-        bool point_success = require_space && bib_read_point(&p1);
+        bool point_success = bib_read_point(&p1);
 
         if (require_space && !space_success && !point_success) {
             success = bib_peek_break(&p1);
@@ -283,13 +283,21 @@ bool bib_parse_cutter(bib_cutter_t *cut, bib_strbuf_t *const parser)
     }
 
     bib_strbuf_t p0 = *parser;
-    bool cutter_success = bib_lex_initial(&(cut->letter), &p0)
-                       && bib_lex_digit16(cut->number, &p0);
+    bool cutter_success = bib_lex_initial(&(cut->letter), &p0);
+    bool number_success = cutter_success && bib_lex_digit16(cut->number, &p0);
 
     bib_strbuf_t p1 = p0;
-    bool __unused _ = cutter_success && bib_lex_mark(cut->mark, &p1);
+    bool mark_success = cutter_success && number_success && bib_lex_mark(cut->mark, &p1);
+    // if a mark is only one character, we should treat it as cutter
+    if (mark_success && (strlen(cut->mark) < 2)) {
+        memset(cut->mark, 0, sizeof(bib_mark_b));
+        mark_success = false;
+        p1 = p0;
+    }
 
-    bool success = cutter_success && bib_advance_strbuf(parser, &p0);
+    bool success = cutter_success
+                && (number_success || bib_peek_char(NULL, bib_isstop, &p1))
+                && bib_advance_strbuf(parser, &p1);
     if (!success) {
         memset(cut, 0, sizeof(bib_cutter_t));
     }

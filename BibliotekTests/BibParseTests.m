@@ -711,6 +711,70 @@
         BibAssertEqualStrings(parser.str, "");
         XCTAssertEqual(parser.len, strlen(parser.str) + 1);
     }
+    {
+        bib_cuttseg_t cutters[3] = {};
+        bib_strbuf_t parser = bib_strbuf(".E59A21", 0);
+        XCTAssertTrue(bib_parse_cuttseg_list(cutters, &parser), @"parse valid cutter section");
+        BibAssertEqualStrings(cutters[0].cutter.string, "E59");
+        BibAssertEqualStrings(cutters[0].cutter.mark, "");
+        XCTAssertTrue(bib_dateord_is_empty(&(cutters[0].dateord)));
+        BibAssertEqualStrings(cutters[1].cutter.string, "A21");
+        BibAssertEqualStrings(cutters[1].cutter.mark, "");
+        XCTAssertTrue(bib_dateord_is_empty(&(cutters[1].dateord)));
+        BibAssertEqualStrings(cutters[2].cutter.string, "");
+        BibAssertEqualStrings(cutters[2].cutter.mark, "");
+        XCTAssertTrue(bib_dateord_is_empty(&(cutters[2].dateord)));
+        BibAssertEqualStrings(parser.str, "");
+        XCTAssertEqual(parser.len, strlen(parser.str) + 1);
+    }
+    {
+        bib_cuttseg_t cutters[3] = {};
+        bib_strbuf_t parser = bib_strbuf(".E59.A21", 0);
+        XCTAssertTrue(bib_parse_cuttseg_list(cutters, &parser), @"parse valid cutter section");
+        BibAssertEqualStrings(cutters[0].cutter.string, "E59");
+        BibAssertEqualStrings(cutters[0].cutter.mark, "");
+        XCTAssertTrue(bib_dateord_is_empty(&(cutters[0].dateord)));
+        BibAssertEqualStrings(cutters[1].cutter.string, "A21");
+        BibAssertEqualStrings(cutters[1].cutter.mark, "");
+        XCTAssertTrue(bib_dateord_is_empty(&(cutters[1].dateord)));
+        BibAssertEqualStrings(cutters[2].cutter.string, "");
+        BibAssertEqualStrings(cutters[2].cutter.mark, "");
+        XCTAssertTrue(bib_dateord_is_empty(&(cutters[2].dateord)));
+        BibAssertEqualStrings(parser.str, "");
+        XCTAssertEqual(parser.len, strlen(parser.str) + 1);
+    }
+    {
+        bib_cuttseg_t cutters[3] = {};
+        bib_strbuf_t parser = bib_strbuf(".E59 .A21", 0);
+        XCTAssertTrue(bib_parse_cuttseg_list(cutters, &parser), @"parse valid cutter section");
+        BibAssertEqualStrings(cutters[0].cutter.string, "E59");
+        BibAssertEqualStrings(cutters[0].cutter.mark, "");
+        XCTAssertTrue(bib_dateord_is_empty(&(cutters[0].dateord)));
+        BibAssertEqualStrings(cutters[1].cutter.string, "A21");
+        BibAssertEqualStrings(cutters[1].cutter.mark, "");
+        XCTAssertTrue(bib_dateord_is_empty(&(cutters[1].dateord)));
+        BibAssertEqualStrings(cutters[2].cutter.string, "");
+        BibAssertEqualStrings(cutters[2].cutter.mark, "");
+        XCTAssertTrue(bib_dateord_is_empty(&(cutters[2].dateord)));
+        BibAssertEqualStrings(parser.str, "");
+        XCTAssertEqual(parser.len, strlen(parser.str) + 1);
+    }
+    {
+        bib_cuttseg_t cutters[3] = {};
+        bib_strbuf_t parser = bib_strbuf(".E59.A21.Z", 0);
+        XCTAssertTrue(bib_parse_cuttseg_list(cutters, &parser), @"parse valid cutter section");
+        BibAssertEqualStrings(cutters[0].cutter.string, "E59");
+        BibAssertEqualStrings(cutters[0].cutter.mark, "");
+        XCTAssertTrue(bib_dateord_is_empty(&(cutters[0].dateord)));
+        BibAssertEqualStrings(cutters[1].cutter.string, "A21");
+        BibAssertEqualStrings(cutters[1].cutter.mark, "");
+        XCTAssertTrue(bib_dateord_is_empty(&(cutters[1].dateord)));
+        BibAssertEqualStrings(cutters[2].cutter.string, "Z");
+        BibAssertEqualStrings(cutters[2].cutter.mark, "");
+        XCTAssertTrue(bib_dateord_is_empty(&(cutters[2].dateord)));
+        BibAssertEqualStrings(parser.str, "");
+        XCTAssertEqual(parser.len, strlen(parser.str) + 1);
+    }
 }
 
 - (void)test_parse_lc_cuttseg {
@@ -760,6 +824,40 @@
 
         BibAssertEqualStrings(parser.str, " B123", @"input string should contain a space and the second cutter number");
         XCTAssertEqual(parser.len, strlen(parser.str) + 1, @"input string contains null terminator");
+    }
+    {
+        bib_cuttseg_t cut = {};
+        bib_strbuf_t parser = bib_strbuf("A123B123", 0);
+        XCTAssertTrue(bib_parse_cuttseg(&cut, &parser), @"parse valid cutter numner without work mark");
+
+        XCTAssertEqual(cut.cutter.letter, 'A', @"parse cutter initial");
+        BibAssertEqualStrings(cut.cutter.number, "123", @"parse cutter number");
+        BibAssertEqualStrings(cut.cutter.mark, "", @"don't parse a work mark");
+        XCTAssertTrue(bib_dateord_is_empty(&(cut.dateord)));
+        BibAssertEqualStrings(parser.str, "B123", @"input string should contain the second cutter number");
+        XCTAssertEqual(parser.len, strlen(parser.str) + 1, @"input string contains null terminator");
+    }
+    {
+        bib_cuttseg_t cut = {};
+        bib_strbuf_t parser = bib_strbuf("A123B", 0);
+        XCTAssertTrue(bib_parse_cuttseg(&cut, &parser), @"parse valid cutter numner without work mark");
+
+        XCTAssertEqual(cut.cutter.letter, 'A', @"parse cutter initial");
+        BibAssertEqualStrings(cut.cutter.number, "123", @"parse cutter number");
+        BibAssertEqualStrings(cut.cutter.mark, "", @"don't parse a work mark");
+        XCTAssertTrue(bib_dateord_is_empty(&(cut.dateord)));
+        BibAssertEqualStrings(parser.str, "B", @"input string should contain the second cutter number");
+        XCTAssertEqual(parser.len, strlen(parser.str) + 1, @"input string contains null terminator");
+
+        bib_cuttseg_t c2 = {};
+        bib_strbuf_t p2 = parser;
+        XCTAssertTrue(bib_parse_cuttseg(&c2, &p2), @"parse valid cutter number");
+        XCTAssertEqual(c2.cutter.letter, 'B', @"parse cutter letter");
+        BibAssertEqualStrings(c2.cutter.number, "", @"empty cutter number");
+        BibAssertEqualStrings(c2.cutter.mark, "");
+        XCTAssertTrue(bib_dateord_is_empty(&(c2.dateord)));
+        BibAssertEqualStrings(p2.str, "", @"input string should be empty");
+        XCTAssertEqual(p2.len, strlen(p2.str) + 1, @"input string contains null terminator");
     }
 }
 
