@@ -32,7 +32,7 @@ bool bib_parse_lc_calln(bib_lc_calln_t *const calln, bib_strbuf_t *const parser)
 
     // specifications[0]
     bib_strbuf_t p2 = (cut_success) ? p1 : p0;
-    bool spc_0_space_success = cut_success && bib_read_space(&p2);
+    bool spc_0_space_success = sub_success && bib_read_space(&p2);
     bool spc_0_parse_success = spc_0_space_success
                             && bib_parse_lc_specification(&(calln->specifications[0]), &p2);
 

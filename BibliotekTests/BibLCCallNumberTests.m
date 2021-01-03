@@ -237,6 +237,10 @@
         BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"QB1 .A1736 t. 10, etc."];
         XCTAssertNotNil(calln.stringValue);
     }
+    {
+        BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"JX1989.5 1944 IXb"];
+        XCTAssertNotNil(calln.stringValue);
+    }
 }
 
 - (void)testLCCallNumberInclusion {
