@@ -46,6 +46,12 @@
 		AA79FFDA24685D0100134C98 /* BibFieldPath.m in Sources */ = {isa = PBXBuildFile; fileRef = AA79FFD824685D0100134C98 /* BibFieldPath.m */; };
 		AA79FFDC246868B300134C98 /* FieldPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA79FFDB246868B300134C98 /* FieldPath.swift */; };
 		AA79FFDE2469A1AF00134C98 /* RecordFieldAccessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA79FFDD2469A1AF00134C98 /* RecordFieldAccessTests.swift */; };
+		AA7EE07525A38D74000D3271 /* Bibliotek.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA59F0D220A9FACF00D41982 /* Bibliotek.framework */; };
+		AA7EE08025A38E5F000D3271 /* BibClassComparisonTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7EE07F25A38E5F000D3271 /* BibClassComparisonTests.m */; };
+		AA7EE08625A38EF0000D3271 /* BibClassInclusionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7EE08525A38EF0000D3271 /* BibClassInclusionTests.m */; };
+		AA7EE08E25A39049000D3271 /* BibNumberParsingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7EE08D25A39049000D3271 /* BibNumberParsingTests.m */; };
+		AA7EE09225A39191000D3271 /* BibCallComparisonTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7EE09125A39191000D3271 /* BibCallComparisonTests.m */; };
+		AA7EE09A25A3BC75000D3271 /* BibStringFormattingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7EE09925A3BC75000D3271 /* BibStringFormattingTests.m */; };
 		AA83210324F18505000945B3 /* biblex.h in Headers */ = {isa = PBXBuildFile; fileRef = AA83210124F18505000945B3 /* biblex.h */; };
 		AA83210424F18505000945B3 /* biblex.c in Sources */ = {isa = PBXBuildFile; fileRef = AA83210224F18505000945B3 /* biblex.c */; };
 		AA83210724F18608000945B3 /* bibparse.h in Headers */ = {isa = PBXBuildFile; fileRef = AA83210524F18608000945B3 /* bibparse.h */; };
@@ -84,7 +90,6 @@
 		AAAFD998247B712400D2D1F0 /* BibCharacterConversionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAFD997247B712400D2D1F0 /* BibCharacterConversionTests.m */; };
 		AAAFD99B247C3A6300D2D1F0 /* BibLCCallNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = AAAFD999247C3A6300D2D1F0 /* BibLCCallNumber.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAAFD99C247C3A6300D2D1F0 /* BibLCCallNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAFD99A247C3A6300D2D1F0 /* BibLCCallNumber.m */; };
-		AAAFD9A3247CC03800D2D1F0 /* BibLCCallNumberTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAFD9A2247CC03800D2D1F0 /* BibLCCallNumberTests.m */; };
 		AAAFD9A5247CDAB200D2D1F0 /* BibLCCallNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAFD9A4247CDAB200D2D1F0 /* BibLCCallNumber.swift */; };
 		AAB7864F2454C2D90018A833 /* BibMARCOutputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB7864D2454C2D90018A833 /* BibMARCOutputStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAB786502454C2D90018A833 /* BibMARCOutputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB7864E2454C2D90018A833 /* BibMARCOutputStream.m */; };
@@ -133,6 +138,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = AA5900E620AA274F00D41982;
 			remoteInfo = libyaz;
+		};
+		AA7EE07625A38D74000D3271 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA59F0C920A9FACF00D41982 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA59F0D120A9FACF00D41982;
+			remoteInfo = Bibliotek;
 		};
 		AAAA428A20B9F32A00BDB52B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -199,6 +211,13 @@
 		AA79FFD824685D0100134C98 /* BibFieldPath.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibFieldPath.m; sourceTree = "<group>"; };
 		AA79FFDB246868B300134C98 /* FieldPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldPath.swift; sourceTree = "<group>"; };
 		AA79FFDD2469A1AF00134C98 /* RecordFieldAccessTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordFieldAccessTests.swift; sourceTree = "<group>"; };
+		AA7EE07025A38D74000D3271 /* LCCallNumberTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LCCallNumberTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA7EE07425A38D74000D3271 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AA7EE07F25A38E5F000D3271 /* BibClassComparisonTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibClassComparisonTests.m; sourceTree = "<group>"; };
+		AA7EE08525A38EF0000D3271 /* BibClassInclusionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibClassInclusionTests.m; sourceTree = "<group>"; };
+		AA7EE08D25A39049000D3271 /* BibNumberParsingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibNumberParsingTests.m; sourceTree = "<group>"; };
+		AA7EE09125A39191000D3271 /* BibCallComparisonTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibCallComparisonTests.m; sourceTree = "<group>"; };
+		AA7EE09925A3BC75000D3271 /* BibStringFormattingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibStringFormattingTests.m; sourceTree = "<group>"; };
 		AA83210124F18505000945B3 /* biblex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = biblex.h; sourceTree = "<group>"; };
 		AA83210224F18505000945B3 /* biblex.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = biblex.c; sourceTree = "<group>"; };
 		AA83210524F18608000945B3 /* bibparse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bibparse.h; sourceTree = "<group>"; };
@@ -240,7 +259,6 @@
 		AAAFD997247B712400D2D1F0 /* BibCharacterConversionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibCharacterConversionTests.m; sourceTree = "<group>"; };
 		AAAFD999247C3A6300D2D1F0 /* BibLCCallNumber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibLCCallNumber.h; sourceTree = "<group>"; };
 		AAAFD99A247C3A6300D2D1F0 /* BibLCCallNumber.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibLCCallNumber.m; sourceTree = "<group>"; };
-		AAAFD9A2247CC03800D2D1F0 /* BibLCCallNumberTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibLCCallNumberTests.m; sourceTree = "<group>"; };
 		AAAFD9A4247CDAB200D2D1F0 /* BibLCCallNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibLCCallNumber.swift; sourceTree = "<group>"; };
 		AAB7864D2454C2D90018A833 /* BibMARCOutputStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibMARCOutputStream.h; sourceTree = "<group>"; };
 		AAB7864E2454C2D90018A833 /* BibMARCOutputStream.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibMARCOutputStream.m; sourceTree = "<group>"; };
@@ -283,6 +301,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA14E83720D8D2AD00430A87 /* libyaz.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA7EE06D25A38D74000D3271 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA7EE07525A38D74000D3271 /* Bibliotek.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,6 +370,7 @@
 				AA59F0D420A9FACF00D41982 /* Bibliotek */,
 				AAAA428520B9F32A00BDB52B /* BibliotekTests */,
 				AA9F66D120D0C0F000CE4DA7 /* Bibliotek.playground */,
+				AA7EE07125A38D74000D3271 /* LCCallNumberTests */,
 				AA59F0D320A9FACF00D41982 /* Products */,
 				AA14E82720D8C2FD00430A87 /* configure */,
 				AACEDD6520C4757A004ACA07 /* LICENSE */,
@@ -359,6 +386,7 @@
 			children = (
 				AA59F0D220A9FACF00D41982 /* Bibliotek.framework */,
 				AAAA428420B9F32900BDB52B /* BibliotekTests.xctest */,
+				AA7EE07025A38D74000D3271 /* LCCallNumberTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -394,6 +422,19 @@
 				AA619E18249ECDFB00BB3A25 /* FieldIndicator.swift */,
 			);
 			path = RecordField;
+			sourceTree = "<group>";
+		};
+		AA7EE07125A38D74000D3271 /* LCCallNumberTests */ = {
+			isa = PBXGroup;
+			children = (
+				AA7EE09125A39191000D3271 /* BibCallComparisonTests.m */,
+				AA7EE07F25A38E5F000D3271 /* BibClassComparisonTests.m */,
+				AA7EE08525A38EF0000D3271 /* BibClassInclusionTests.m */,
+				AA7EE08D25A39049000D3271 /* BibNumberParsingTests.m */,
+				AA7EE09925A3BC75000D3271 /* BibStringFormattingTests.m */,
+				AA7EE07425A38D74000D3271 /* Info.plist */,
+			);
+			path = LCCallNumberTests;
 			sourceTree = "<group>";
 		};
 		AAA4E02022EE32CF0003AF7B /* ContentField */ = {
@@ -444,7 +485,6 @@
 				AAB7865A2456208E0018A833 /* BibMARCSerializationInput.m */,
 				AAB7865C2456210F0018A833 /* BibMARCSerializationOutput.m */,
 				AAAFD997247B712400D2D1F0 /* BibCharacterConversionTests.m */,
-				AAAFD9A2247CC03800D2D1F0 /* BibLCCallNumberTests.m */,
 				AA9554A42523A23000B8690C /* BibLexTests.m */,
 				AA9554A7252646AB00B8690C /* BibParseTests.m */,
 				AA19396C22E2C58000429C54 /* ClassificationRecord.marc8 */,
@@ -638,6 +678,24 @@
 			productReference = AA59F0D220A9FACF00D41982 /* Bibliotek.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		AA7EE06F25A38D74000D3271 /* LCCallNumberTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA7EE07825A38D74000D3271 /* Build configuration list for PBXNativeTarget "LCCallNumberTests" */;
+			buildPhases = (
+				AA7EE06C25A38D74000D3271 /* Sources */,
+				AA7EE06D25A38D74000D3271 /* Frameworks */,
+				AA7EE06E25A38D74000D3271 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AA7EE07725A38D74000D3271 /* PBXTargetDependency */,
+			);
+			name = LCCallNumberTests;
+			productName = LCCallNumberTests;
+			productReference = AA7EE07025A38D74000D3271 /* LCCallNumberTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		AAAA428320B9F32900BDB52B /* BibliotekTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AAAA428C20B9F32A00BDB52B /* Build configuration list for PBXNativeTarget "BibliotekTests" */;
@@ -673,6 +731,9 @@
 						CreatedOnToolsVersion = 9.3;
 						LastSwiftMigration = 0940;
 					};
+					AA7EE06F25A38D74000D3271 = {
+						CreatedOnToolsVersion = 12.3;
+					};
 					AAAA428320B9F32900BDB52B = {
 						CreatedOnToolsVersion = 9.3.1;
 						LastSwiftMigration = 1100;
@@ -693,6 +754,7 @@
 			targets = (
 				AA59F0D120A9FACF00D41982 /* Bibliotek */,
 				AAAA428320B9F32900BDB52B /* BibliotekTests */,
+				AA7EE06F25A38D74000D3271 /* LCCallNumberTests */,
 				AA5900E620AA274F00D41982 /* libyaz */,
 				AA14E83020D8D10400430A87 /* config */,
 			);
@@ -701,6 +763,13 @@
 
 /* Begin PBXResourcesBuildPhase section */
 		AA59F0D020A9FACF00D41982 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA7EE06E25A38D74000D3271 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -781,6 +850,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AA7EE06C25A38D74000D3271 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA7EE09A25A3BC75000D3271 /* BibStringFormattingTests.m in Sources */,
+				AA7EE08025A38E5F000D3271 /* BibClassComparisonTests.m in Sources */,
+				AA7EE09225A39191000D3271 /* BibCallComparisonTests.m in Sources */,
+				AA7EE08625A38EF0000D3271 /* BibClassInclusionTests.m in Sources */,
+				AA7EE08E25A39049000D3271 /* BibNumberParsingTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AAAA428020B9F32900BDB52B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -791,7 +872,6 @@
 				AAAA429120B9F35600BDB52B /* BibliotekTests.swift in Sources */,
 				AAA4DFFF22EBE2780003AF7B /* BibMARCInputStreamTests.m in Sources */,
 				AAB7865D2456210F0018A833 /* BibMARCSerializationOutput.m in Sources */,
-				AAAFD9A3247CC03800D2D1F0 /* BibLCCallNumberTests.m in Sources */,
 				AAB7865B2456208E0018A833 /* BibMARCSerializationInput.m in Sources */,
 				AA79FFDE2469A1AF00134C98 /* RecordFieldAccessTests.swift in Sources */,
 				AA9554A8252646AB00B8690C /* BibParseTests.m in Sources */,
@@ -810,6 +890,11 @@
 			isa = PBXTargetDependency;
 			target = AA5900E620AA274F00D41982 /* libyaz */;
 			targetProxy = AA14E83820D8D34000430A87 /* PBXContainerItemProxy */;
+		};
+		AA7EE07725A38D74000D3271 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA59F0D120A9FACF00D41982 /* Bibliotek */;
+			targetProxy = AA7EE07625A38D74000D3271 /* PBXContainerItemProxy */;
 		};
 		AAAA428B20B9F32A00BDB52B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1109,6 +1194,49 @@
 			};
 			name = Release;
 		};
+		AA7EE07925A38D74000D3271 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 8T447DZKLE;
+				INFOPLIST_FILE = LCCallNumberTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.stevebrun.LCCallNumberTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		AA7EE07A25A38D74000D3271 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 8T447DZKLE;
+				INFOPLIST_FILE = LCCallNumberTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.stevebrun.LCCallNumberTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		AAAA428D20B9F32A00BDB52B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1189,6 +1317,15 @@
 			buildConfigurations = (
 				AA59F0DB20A9FACF00D41982 /* Debug */,
 				AA59F0DC20A9FACF00D41982 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA7EE07825A38D74000D3271 /* Build configuration list for PBXNativeTarget "LCCallNumberTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA7EE07925A38D74000D3271 /* Debug */,
+				AA7EE07A25A38D74000D3271 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
