@@ -211,11 +211,23 @@ static inline bool bib_str_is_empty(char const *const str) { return str == NULL 
 bib_calln_comparison_t bib_integer_compare(bib_calln_comparison_t const status,
                                            char const *const left, char const *const right, bool const specify)
 {
-    if (status == bib_calln_ordered_ascending || status == bib_calln_ordered_descending) { return status; }
-    if (status == bib_calln_ordered_specifying && !bib_str_is_empty(left)) { return bib_calln_ordered_ascending; }
-
-    int const left_int = bib_str_is_empty(left) ? 0 : atoi(left);
-    int const right_int = bib_str_is_empty(right) ? 0 : atoi(right);
+    if (status == bib_calln_ordered_ascending || status == bib_calln_ordered_descending) {
+        return status;
+    }
+    bool const left_empty = bib_str_is_empty(left);
+    bool const right_empty = bib_str_is_empty(right);
+    if (status == bib_calln_ordered_specifying) {
+        return (left_empty) ? bib_calln_ordered_specifying : bib_calln_ordered_ascending;
+    }
+    if (left_empty && right_empty) {
+        return status;
+    } else if (left_empty) {
+        return (specify) ? bib_calln_ordered_specifying : bib_calln_ordered_ascending;
+    } else if (right_empty) {
+        return bib_calln_ordered_descending;
+    }
+    int const left_int = atoi(left);
+    int const right_int = atoi(right);
     if (left_int != right_int) {
         return (left_int < right_int) ? bib_calln_ordered_ascending : bib_calln_ordered_descending;
     }
