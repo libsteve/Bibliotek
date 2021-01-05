@@ -114,4 +114,40 @@
     XCTAssertTrue([a includesCallNumber:ag]);
 }
 
+- (void)test_06_AC_class_number_specifying {
+    BibLCCallNumber *const ac  = [[BibLCCallNumber alloc] initWithString:@"AC"];
+    BibLCCallNumber *const ac1 = [[BibLCCallNumber alloc] initWithString:@"AC165.5.G45"];
+    XCTAssertTrue([ac includesCallNumber:ac1]);
+}
+
+- (void)test_06_AE_class_number_specifying {
+    BibLCCallNumber *const ae  = [[BibLCCallNumber alloc] initWithString:@"AE"];
+    BibLCCallNumber *const ae3 = [[BibLCCallNumber alloc] initWithString:@"AE35.79"];
+    XCTAssertTrue([ae includesCallNumber:ae3]);
+}
+
+- (void)test_06_AG_class_number_specifying {
+    BibLCCallNumber *const ag  = [[BibLCCallNumber alloc] initWithString:@"AG"];
+    BibLCCallNumber *const ag3 = [[BibLCCallNumber alloc] initWithString:@"AG35.783"];
+    XCTAssertTrue([ag includesCallNumber:ag3]);
+}
+
+- (void)test_06_AC_class_transitive_specifying {
+    BibLCCallNumber *const a   = [[BibLCCallNumber alloc] initWithString:@"A"];
+    BibLCCallNumber *const ac1 = [[BibLCCallNumber alloc] initWithString:@"AC165.5.G45"];
+    XCTAssertTrue([a includesCallNumber:ac1]);
+}
+
+- (void)test_06_AE_class_transitive_specifying {
+    BibLCCallNumber *const a   = [[BibLCCallNumber alloc] initWithString:@"A"];
+    BibLCCallNumber *const ae3 = [[BibLCCallNumber alloc] initWithString:@"AE35.79"];
+    XCTAssertTrue([a includesCallNumber:ae3]);
+}
+
+- (void)test_06_AG_class_transitive_specifying {
+    BibLCCallNumber *const a   = [[BibLCCallNumber alloc] initWithString:@"A"];
+    BibLCCallNumber *const ag3 = [[BibLCCallNumber alloc] initWithString:@"AG35.783"];
+    XCTAssertTrue([a includesCallNumber:ag3]);
+}
+
 @end

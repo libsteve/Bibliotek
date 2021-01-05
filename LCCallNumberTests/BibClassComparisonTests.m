@@ -296,5 +296,61 @@
     XCTAssertEqual(BibClassificationOrderedSpecifying, [a compareWithCallNumber:b]);
 }
 
+#pragma mark -
+
+- (void)test_11_AC_class_letter_specifying {
+    BibLCCallNumber *const a  = [[BibLCCallNumber alloc] initWithString:@"A"];
+    BibLCCallNumber *const ac = [[BibLCCallNumber alloc] initWithString:@"AC"];
+    XCTAssertEqual(BibClassificationOrderedSpecifying, [a compareWithCallNumber:ac]);
+}
+
+- (void)test_11_AE_class_letter_specifying {
+    BibLCCallNumber *const a  = [[BibLCCallNumber alloc] initWithString:@"A"];
+    BibLCCallNumber *const ae = [[BibLCCallNumber alloc] initWithString:@"AE"];
+    XCTAssertEqual(BibClassificationOrderedSpecifying, [a compareWithCallNumber:ae]);
+}
+
+- (void)test_11_AG_class_letter_specifying {
+    BibLCCallNumber *const a  = [[BibLCCallNumber alloc] initWithString:@"A"];
+    BibLCCallNumber *const ag = [[BibLCCallNumber alloc] initWithString:@"AG"];
+    XCTAssertEqual(BibClassificationOrderedSpecifying, [a compareWithCallNumber:ag]);
+}
+
+- (void)test_11_AC_class_number_specifying {
+    BibLCCallNumber *const ac  = [[BibLCCallNumber alloc] initWithString:@"AC"];
+    BibLCCallNumber *const ac1 = [[BibLCCallNumber alloc] initWithString:@"AC165.5.G45"];
+    XCTAssertEqual(BibClassificationOrderedSpecifying, [ac compareWithCallNumber:ac1]);
+}
+
+- (void)test_11_AE_class_number_specifying {
+    BibLCCallNumber *const ae  = [[BibLCCallNumber alloc] initWithString:@"AE"];
+    BibLCCallNumber *const ae3 = [[BibLCCallNumber alloc] initWithString:@"AE35.79"];
+    XCTAssertEqual(BibClassificationOrderedSpecifying, [ae compareWithCallNumber:ae3]);
+}
+
+- (void)test_11_AG_class_number_specifying {
+    BibLCCallNumber *const ag  = [[BibLCCallNumber alloc] initWithString:@"AG"];
+    BibLCCallNumber *const ag3 = [[BibLCCallNumber alloc] initWithString:@"AG35.783"];
+    XCTAssertEqual(BibClassificationOrderedSpecifying, [ag compareWithCallNumber:ag3]);
+}
+
+- (void)test_11_AC_class_transitive_specifying {
+    BibLCCallNumber *const a   = [[BibLCCallNumber alloc] initWithString:@"A"];
+    BibLCCallNumber *const ac1 = [[BibLCCallNumber alloc] initWithString:@"AC165.5.G45"];
+    XCTAssertEqual(BibClassificationOrderedSpecifying, [a compareWithCallNumber:ac1]);
+}
+
+- (void)test_11_AE_class_transitive_specifying {
+    BibLCCallNumber *const a   = [[BibLCCallNumber alloc] initWithString:@"A"];
+    BibLCCallNumber *const ae3 = [[BibLCCallNumber alloc] initWithString:@"AE35.79"];
+    XCTAssertEqual(BibClassificationOrderedSpecifying, [a compareWithCallNumber:ae3]);
+}
+
+- (void)test_11_AG_class_transitive_specifying {
+    BibLCCallNumber *const a   = [[BibLCCallNumber alloc] initWithString:@"A"];
+    BibLCCallNumber *const ag3 = [[BibLCCallNumber alloc] initWithString:@"AG35.783"];
+    XCTAssertEqual(BibClassificationOrderedSpecifying, [a compareWithCallNumber:ag3]);
+}
+
 @end
 
