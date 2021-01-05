@@ -27,6 +27,15 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "AA59F0D120A9FACF00D41982"
+            BuildableName = "Bibliotek.framework"
+            BlueprintName = "Bibliotek"
+            ReferencedContainer = "container:Bibliotek.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <Testables>
          <TestableReference
             skipped = "NO">
@@ -38,18 +47,17 @@
                ReferencedContainer = "container:Bibliotek.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "AA7EE06F25A38D74000D3271"
+               BuildableName = "LCCallNumberTests.xctest"
+               BlueprintName = "LCCallNumberTests"
+               ReferencedContainer = "container:Bibliotek.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "AA59F0D120A9FACF00D41982"
-            BuildableName = "Bibliotek.framework"
-            BlueprintName = "Bibliotek"
-            ReferencedContainer = "container:Bibliotek.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -70,8 +78,6 @@
             ReferencedContainer = "container:Bibliotek.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
