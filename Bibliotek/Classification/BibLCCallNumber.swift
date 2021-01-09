@@ -35,6 +35,9 @@ extension LCCallNumber: RawRepresentable {
     }
 }
 
+/// The classification comparison operator.
+infix operator <<>> : ComparisonPrecedence
+
 extension LCCallNumber: Hashable, Equatable, Comparable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.rawValue)
@@ -67,14 +70,46 @@ extension LCCallNumber: Hashable, Equatable, Comparable {
     ///
     /// - parameter callNumber: The call number being compaired with the receiver.
     /// - returns:
+    ///     - `.generalizing` when the given call number's represented subject matter includes that
+    ///       represented by the receiver. The given call number, being a generalization of the receiver,
+    ///       is necessarily ordered linearly before the receiver.
     ///     - `.descending` when the given call number is ordered before the receiver.
     ///     - `.same` when the given call number is euqivalent to the receiver.
     ///     - `.ascending` when the given call number is ordered after the receiver.
     ///     - `.specifying` when the given call number's represented subject matter is included
     ///       in that represented by the receiver. The given call number, being a specialization of the receiver,
     ///       is necessarily ordered linearly after the receiver.
+    @available(*, deprecated, message: "Use the <<>> operator")
     public func compare(with callNumber: LCCallNumber) -> ClassificationComparisonResult {
         return self.storage.compare(with: callNumber as BibLCCallNumber)
+    }
+
+    /// Determine the ordering relationship between the subject matters represented by two call numbers.
+    ///
+    /// The classification `HQ76` is ordered before `QA76`.
+    ///
+    /// The classification `QA76.76` is ordered before `QA76.9`.
+    ///
+    /// The classification `P35` is ordered before `P112`.
+    ///
+    /// The classification `P327` is ordered before `PC5615`.
+    ///
+    /// The calssification `QA76` encompasses the more specific classifications `QA76.76` and `QA76.75`,
+    /// but does not include the classification `QA70`, nor its parent classification `QA`.
+    ///
+    /// - parameter callNumber: The call number being compaired with the receiver.
+    /// - returns:
+    ///     - `.generalizing` when the given call number's represented subject matter includes that
+    ///       represented by the receiver. The given call number, being a generalization of the receiver,
+    ///       is necessarily ordered linearly before the receiver.
+    ///     - `.descending` when the given call number is ordered before the receiver.
+    ///     - `.same` when the given call number is euqivalent to the receiver.
+    ///     - `.ascending` when the given call number is ordered after the receiver.
+    ///     - `.specifying` when the given call number's represented subject matter is included
+    ///       in that represented by the receiver. The given call number, being a specialization of the receiver,
+    ///       is necessarily ordered linearly after the receiver.
+    public static func <<>> (lhs: LCCallNumber, rhs: LCCallNumber) -> ClassificationComparisonResult {
+        return lhs.storage.compare(with: rhs.storage)
     }
 
     /// Does the subject matter represented by this call number include that of the given call number?

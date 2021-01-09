@@ -309,17 +309,20 @@ extern void bib_lc_calln_deinit(bib_lc_calln_t *num);
 
 /// The ordering relationship between two call number components.
 typedef enum bib_calln_comparison {
+    /// The trailing value is a superset of the trailing value, but they are not equal.
+    bib_calln_ordered_generalizing = -2,
+
     /// The leading value is ordered before the trailing value, and therefore does not specialize it.
-    bib_calln_ordered_descending = -1,
+    bib_calln_ordered_descending   = -1,
 
     /// The leading value is the same as the trailing value.
-    bib_calln_ordered_same       =  0,
+    bib_calln_ordered_same         =  0,
 
     /// The leading value is ordered after the trailing value in a way that does not specialize it.
-    bib_calln_ordered_ascending  =  1,
+    bib_calln_ordered_ascending    =  1,
 
     /// The leading value is a superset of the trailing value, but they are not equal.
-    bib_calln_ordered_specifying =  2
+    bib_calln_ordered_specifying   =  2
 
 } bib_calln_comparison_t;
 

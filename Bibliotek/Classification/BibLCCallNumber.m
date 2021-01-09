@@ -95,6 +95,7 @@ BibLCCallNumberFormatOptions const BibLCCallNumberFormatOptionsSpine = BibLCCall
 - (NSComparisonResult)compare:(BibLCCallNumber *)other
 {
     switch ([self compareWithCallNumber:other forSpecialization:NO]) {
+        case BibClassificationOrderedGeneralizing: return NSOrderedDescending;
         case BibClassificationOrderedDescending: return NSOrderedDescending;
         case BibClassificationOrderedSame: return NSOrderedSame;
         case BibClassificationOrderedAscending: return NSOrderedAscending;
@@ -123,6 +124,7 @@ BibLCCallNumberFormatOptions const BibLCCallNumberFormatOptionsSpine = BibLCCall
         case bib_calln_ordered_specifying: return BibClassificationOrderedSpecifying;
         case bib_calln_ordered_ascending: return BibClassificationOrderedAscending;
         case bib_calln_ordered_descending: return BibClassificationOrderedDescending;
+        case bib_calln_ordered_generalizing: return BibClassificationOrderedGeneralizing;
     }
 }
 
