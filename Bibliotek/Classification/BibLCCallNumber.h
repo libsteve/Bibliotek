@@ -8,11 +8,22 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSInteger, BibClassificationComparisonResult) {
-    BibClassificationOrderedDescending NS_SWIFT_NAME(descending) = -1L,
-    BibClassificationOrderedSame       NS_SWIFT_NAME(same)       =  0L,
-    BibClassificationOrderedAscending  NS_SWIFT_NAME(ascending)  =  1L,
-    BibClassificationOrderedSpecifying NS_SWIFT_NAME(specifying) =  2L
+/// The ordering relationship between classification numbers.
+typedef NS_CLOSED_ENUM(NSInteger, BibClassificationComparisonResult) {
+    /// The leading value is contained within the trailing value's classification.
+    BibClassificationOrderedGeneralizing NS_SWIFT_NAME(generalizing) = -2L,
+
+    /// The leading value is ordered after the trailing value.
+    BibClassificationOrderedDescending   NS_SWIFT_NAME(descending)   = -1L,
+
+    /// The values are equivalent.
+    BibClassificationOrderedSame         NS_SWIFT_NAME(same)         =  0L,
+
+    /// The leading value is ordered before the trailing value.
+    BibClassificationOrderedAscending    NS_SWIFT_NAME(ascending)    =  1L,
+
+    /// The leading value's classification contains the trailing value.
+    BibClassificationOrderedSpecifying   NS_SWIFT_NAME(specifying)   =  2L
 } NS_SWIFT_NAME(ClassificationComparisonResult);
 
 typedef NS_OPTIONS(NSInteger, BibLCCallNumberFormatOptions);
@@ -75,6 +86,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// does not include the classification \c QA70 nor its parent classification \c QA
 ///
 /// \param callNumber The call number being compaired with the receiver.
+/// \returns \c BibClassificationOrderedGeneralizing when the given call number's represented subject matter includes
+///          that represented by the receiver. The given call number, being a generalization of the receiver, is
+///          necessarily ordered linearly before the receiver.
 /// \returns \c BibClassificationOrderedDescending when the given call number is ordered before the receiver.
 /// \returns \c BibClassificationOrderedSame when the given call number is euqivalent to the receiver.
 /// \returns \c BibClassificationOrderedAscending when the given call number is ordered after the receiver.
