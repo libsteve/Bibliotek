@@ -9,18 +9,11 @@
 #import "BibRecord.h"
 #import "BibRecordField.h"
 #import "BibRecordKind.h"
-#import "BibControlField.h"
-#import "BibContentField.h"
 #import "BibFieldTag.h"
 #import "BibHasher.h"
 #import "BibFieldIndicator.h"
 
 #import "Bibliotek+Internal.h"
-
-static BibControlField *BibControlFieldFromRecordField(BibRecordField *recordField) DEPRECATED_ATTRIBUTE;
-static BibContentField *BibContentFieldFromRecordField(BibRecordField *recordField) DEPRECATED_ATTRIBUTE;
-static BibRecordField *BibRecordFieldFromControlField(BibControlField *controlField) DEPRECATED_ATTRIBUTE;
-static BibRecordField *BibRecordFieldFromContentField(BibContentField *contentField) DEPRECATED_ATTRIBUTE;
 
 @implementation BibRecord {
 @protected
@@ -34,26 +27,6 @@ static BibRecordField *BibRecordFieldFromContentField(BibContentField *contentFi
 @synthesize status = _status;
 @synthesize metadata = _metadata;
 @synthesize fields = _fields;
-
-- (instancetype)initWithKind:(BibRecordKind *)kind
-                      status:(BibRecordStatus)status
-                    metadata:(BibMetadata *)metadata
-               controlFields:(NSArray<BibControlField *> *)controlFields
-               contentFields:(NSArray<BibContentField *> *)contentFields {
-    NSMutableArray *const recordFields = [NSMutableArray new];
-    for (BibControlField *field in controlFields) {
-        [recordFields addObject:[[BibRecordField alloc] initWithFieldTag:field.tag controlValue:field.value]];
-    }
-    for (BibContentField *field in contentFields) {
-        BibFieldIndicator *const first = [BibFieldIndicator indicatorWithRawValue:field.indicators.firstIndicator];
-        BibFieldIndicator *const second = [BibFieldIndicator indicatorWithRawValue:field.indicators.secondIndicator];
-        [recordFields addObject:[[BibRecordField alloc] initWithFieldTag:field.tag
-                                                          firstIndicator:first
-                                                         secondIndicator:second
-                                                               subfields:field.subfields]];
-    }
-    return [self initWithKind:kind status:status metadata:metadata fields:recordFields];
-}
 
 - (instancetype)init {
     return [self initWithKind:nil
@@ -78,18 +51,6 @@ static BibRecordField *BibRecordFieldFromContentField(BibContentField *contentFi
 + (instancetype)recordWithKind:(BibRecordKind *)kind
                         status:(BibRecordStatus)status
                       metadata:(BibMetadata *)metadata
-                 controlFields:(NSArray<BibControlField *> *)controlFields
-                 contentFields:(NSArray<BibContentField *> *)contentFields {
-    return [[self alloc] initWithKind:kind
-                               status:status
-                             metadata:metadata
-                        controlFields:controlFields
-                        contentFields:contentFields];
-}
-
-+ (instancetype)recordWithKind:(BibRecordKind *)kind
-                        status:(BibRecordStatus)status
-                      metadata:(BibMetadata *)metadata
                         fields:(NSArray<BibRecordField *> *)fields {
     return [[self alloc] initWithKind:kind status:status metadata:metadata fields:fields];
 }
@@ -101,31 +62,6 @@ static BibRecordField *BibRecordFieldFromContentField(BibContentField *contentFi
 + (NSSet *)keyPathsForValuesAffectingDescription {
     return [NSSet setWithObjects:BibKey(fields), BibKeyPath(fields, debugDescription), nil];
 }
-
-- (NSArray<BibControlField *> *)controlFields {
-    NSMutableArray *const controlFields = [NSMutableArray new];
-    NSEnumerator *const enumerator = [[self fields] objectEnumerator];
-    BibRecordField *field = [enumerator nextObject];
-    for (; field != nil && field.isControlField; field = [enumerator nextObject]) {
-        [controlFields addObject:BibControlFieldFromRecordField(field)];
-    }
-    return [controlFields copy];
-}
-
-+ (NSSet *)keyPathsForValuesAffectingControlFields { return [NSSet setWithObject:BibKey(fields)]; }
-
-- (NSArray<BibContentField *> *)contentFields {
-    NSMutableArray *const contentFields = [NSMutableArray new];
-    for (BibRecordField *field in [self fields]) {
-        BibContentField *const contentField = BibContentFieldFromRecordField(field);
-        if (contentField != nil) {
-            [contentFields addObject:contentField];
-        }
-    }
-    return [contentFields copy];
-}
-
-+ (NSSet *)keyPathsForValuesAffectingContentFields { return [NSSet setWithObject:BibKey(fields)]; }
 
 @end
 
@@ -174,44 +110,6 @@ static BibRecordField *BibRecordFieldFromContentField(BibContentField *contentFi
 @end
 
 #pragma mark - Field Access
-
-@implementation BibRecord (DeprecatedFieldAccess)
-
-- (BibFieldEnumerator<BibControlField *> *)controlFieldEnumerator {
-    return [[BibFieldEnumerator alloc] initWithEnumerator:[[self controlFields] objectEnumerator]];
-}
-
-- (BibFieldEnumerator<BibContentField *> *)contentFieldEnumerator {
-    return [[BibFieldEnumerator alloc] initWithEnumerator:[[self contentFields] objectEnumerator]];
-}
-
-- (BibControlField *)firstControlFieldWithTag:(BibFieldTag *)fieldTag {
-    return [[self controlFieldEnumerator] nextFieldWithTag:fieldTag];
-}
-
-- (BibContentField *)firstContentFieldWithTag:(BibFieldTag *)fieldTag {
-    return [[self contentFieldEnumerator] nextFieldWithTag:fieldTag];
-}
-
-- (NSArray<BibControlField *> *)controlFieldsWithTag:(BibFieldTag *)fieldTag {
-    NSPredicate *const predicate = [NSPredicate predicateWithFormat:@"%K = %@", BibKey(tag), fieldTag];
-    return [[self controlFields] filteredArrayUsingPredicate:predicate];
-}
-
-- (NSArray<BibContentField *> *)contentFieldsWithTag:(BibFieldTag *)fieldTag {
-    NSPredicate *const predicate = [NSPredicate predicateWithFormat:@"%K = %@", BibKey(tag), fieldTag];
-    return [[self contentFields] filteredArrayUsingPredicate:predicate];
-}
-
-- (BibControlField *)controlFieldAtIndexPath:(NSIndexPath *)indexPath {
-    return BibControlFieldFromRecordField([self fieldAtIndexPath:indexPath]);
-}
-
-- (BibContentField *)contentFieldAtIndexPath:(NSIndexPath *)indexPath {
-    return BibContentFieldFromRecordField([self fieldAtIndexPath:indexPath]);
-}
-
-@end
 
 @implementation BibRecord (FieldAccess)
 
@@ -389,29 +287,6 @@ static BibRecordField *BibRecordFieldFromContentField(BibContentField *contentFi
     }
 }
 
-@dynamic controlFields;
-- (void)setControlFields:(NSArray<BibControlField *> *)fields {
-    NSMutableArray *newValue = [NSMutableArray new];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == YES", BibKeyPath(isDataField)];
-    for (BibControlField *field in fields) {
-        [newValue addObject:BibRecordFieldFromControlField(field)];
-    }
-    [newValue addObjectsFromArray:[self.fields filteredArrayUsingPredicate:predicate]];
-    self.fields = newValue;
-}
-+ (BOOL)automaticallyNotifiesObserversOfControlFields { return NO; }
-
-@dynamic contentFields;
-- (void)setContentFields:(NSArray<BibContentField *> *)fields {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == YES", BibKeyPath(isControlField)];
-    NSMutableArray *newValue = [[self.fields filteredArrayUsingPredicate:predicate] mutableCopy];
-    for (BibContentField *field in fields) {
-        [newValue addObject:BibRecordFieldFromContentField(field)];
-    }
-    self.fields = newValue;
-}
-+ (BOOL)automaticallyNotifiesObserversOfContentFields { return NO; }
-
 @dynamic fields;
 - (void)setFields:(NSArray<BibRecordField *> *)fields {
     if (_fields != fields) {
@@ -420,38 +295,3 @@ static BibRecordField *BibRecordFieldFromContentField(BibContentField *contentFi
 }
 
 @end
-
-#pragma mark -
-
-static BibControlField *BibControlFieldFromRecordField(BibRecordField *recordField) {
-    if (recordField.isControlField) {
-        return [[BibControlField alloc] initWithTag:recordField.fieldTag value:recordField.controlValue];
-    }
-    return nil;
-}
-
-static BibContentField *BibContentFieldFromRecordField(BibRecordField *recordField) {
-    if (recordField.isDataField) {
-        BibContentIndicatorList *const indicators =
-            [[BibContentIndicatorList alloc] initWithFirstIndicator:recordField.firstIndicator.rawValue
-                                                    secondIndicator:recordField.secondIndicator.rawValue];
-        return [[BibContentField alloc] initWithTag:recordField.fieldTag
-                                         indicators:indicators
-                                          subfields:recordField.subfields];
-    }
-    return nil;
-}
-
-static BibRecordField *BibRecordFieldFromControlField(BibControlField *controlField) {
-    return [[BibRecordField alloc] initWithFieldTag:controlField.tag controlValue:controlField.value];
-}
-
-static BibRecordField *BibRecordFieldFromContentField(BibContentField *contentField) {
-    BibFieldIndicator *const first = [BibFieldIndicator indicatorWithRawValue:contentField.indicators.firstIndicator];
-    BibFieldIndicator *const second = [BibFieldIndicator indicatorWithRawValue:contentField.indicators.secondIndicator];
-    return [[BibRecordField alloc] initWithFieldTag:contentField.tag
-                                     firstIndicator:first
-                                    secondIndicator:second
-                                          subfields:contentField.subfields];
-
-}

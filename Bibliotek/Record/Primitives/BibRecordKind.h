@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Projected Medium
 @property (class, nonatomic, readonly) BibRecordKind *projectedMedium;
 
-/// NonMusical Sound Recording
+/// Non-Musical Sound Recording
 @property (class, nonatomic, readonly) BibRecordKind *nonMusicalSoundRecording;
 
 /// Musical Sound Recording
@@ -107,7 +107,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Three-Dimensional Artifact
 @property (class, nonatomic, readonly) BibRecordKind *threeDimensionalArtifact;
 
-/// Manuscript LanguageMateral
+/// Manuscript Language Materal
 @property (class, nonatomic, readonly) BibRecordKind *manuscriptLanguageMateral;
 
 @end

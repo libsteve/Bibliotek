@@ -203,24 +203,9 @@ typedef NS_ENUM(char, BibRecordKindRawValue) {
 }
 
 - (NSString *)description {
-    switch ([self rawValue]) {
-    case BibRecordKindRawValueClassification:                      return @"Classification";
-    case BibRecordKindRawValueLanguageMaterial:                    return @"Language Material";
-    case BibRecordKindRawValueNotatedMusic:                        return @"Notated Music";
-    case BibRecordKindRawValueManuscriptNotatedMusic:              return @"Manuscript Notated Music";
-    case BibRecordKindRawValueCartographicMaterial:                return @"Cartographic Material";
-    case BibRecordKindRawValueManuscriptCartographicMaterial:      return @"Manuscript Cartographic Material";
-    case BibRecordKindRawValueProjectedMedium:                     return @"Projected Medium";
-    case BibRecordKindRawValueNonMusicalSoundRecording:            return @"NonMusical Sound Recording";
-    case BibRecordKindRawValueMusicalSoundRecording:               return @"Musical Sound Recording";
-    case BibRecordKindRawValueTwoDimensionalNonProjectableGraphic: return @"Two-Dimensional Non-Projectable Graphic";
-    case BibRecordKindRawValueComputerFile:                        return @"Computer File";
-    case BibRecordKindRawValueKit:                                 return @"Kit";
-    case BibRecordKindRawValueMixedMaterials:                      return @"Mixed Materials";
-    case BibRecordKindRawValueThreeDimensionalArtifact:            return @"Three-Dimensional Artifact";
-    case BibRecordKindRawValueManuscriptLanguageMateral:           return @"Manuscript LanguageMateral";
-    default: return [NSString stringWithFormat:@"%c", [self rawValue]];
-    }
+    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+    NSString *key = [[NSString alloc] initWithFormat:@"%c", [self rawValue]];
+    return [bundle localizedStringForKey:key value:nil table:@"RecordKind"];
 }
 
 @end

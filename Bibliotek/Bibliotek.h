@@ -24,14 +24,10 @@ FOUNDATION_EXPORT const unsigned char BibliotekVersionString[];
 #import <Bibliotek/BibRecord.h>
 #import <Bibliotek/BibRecordField.h>
 #import <Bibliotek/BibFieldIndicator.h>
-#import <Bibliotek/BibControlField.h>
-#import <Bibliotek/BibContentField.h>
-#import <Bibliotek/BibContentIndicatorList.h>
 #import <Bibliotek/BibSubfield.h>
 #import <Bibliotek/BibFieldTag.h>
 #import <Bibliotek/BibMetadata.h>
 #import <Bibliotek/BibRecordKind.h>
-#import <Bibliotek/BibField.h>
 #import <Bibliotek/BibFieldPath.h>
 
 #import <Bibliotek/BibMARCInputStream.h>

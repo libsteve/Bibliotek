@@ -10,13 +10,10 @@
 #import <Bibliotek/BibMetadata.h>
 #import <Bibliotek/BibSubfield.h>
 
-@class BibControlField;
-@class BibContentField;
 @class BibRecordField;
 @class BibRecordKind;
 
 @class BibFieldTag;
-@class BibFieldEnumerator<FieldType>;
 @class BibFieldPath;
 @protocol BibField;
 
@@ -51,29 +48,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// Use this field to access those bytes, which should be interpreted using the scheme identified in \c kind.
 @property (nonatomic, copy, readonly) BibMetadata *metadata;
 
-/// An ordered list of fields containing information and metadata about how a record's content should be processed.
-@property (nonatomic, copy, readonly) NSArray<BibControlField *> *controlFields DEPRECATED_MSG_ATTRIBUTE("replaced with '-fields'");
-
-/// An ordered list of fields containing information and metadata about the item represented by a record.
-@property (nonatomic, copy, readonly) NSArray<BibContentField *> *contentFields DEPRECATED_MSG_ATTRIBUTE("replaced with '-fields'");
-
 /// An ordered list of fields containing information and metadata about the record and its represented item.
 @property (nonatomic, copy, readonly) NSArray<BibRecordField *> *fields;
-
-/// Create a MARC 21 record with the given data.
-///
-/// \param kind The type of record.
-/// \param status The record's status in its originating database.
-/// \param metadata A set of implementation-defined bytes.
-/// \param controlFields An ordered list of fields describing how the record should be processed.
-/// \param contentFields An ordered list of fields describing the item represented by the record.
-/// \returns Returns a valid MARC 21 record for some item or entity described by the given fields.
-- (instancetype)initWithKind:(nullable BibRecordKind *)kind
-                      status:(BibRecordStatus)status
-                    metadata:(BibMetadata *)metadata
-               controlFields:(NSArray<BibControlField *> *)controlFields
-               contentFields:(NSArray<BibContentField *> *)contentFields
-    DEPRECATED_MSG_ATTRIBUTE("replaced with '-initWithKind:status:metadata:fields:'");
 
 /// Create a MARC 21 record with the given data.
 ///
@@ -86,17 +62,6 @@ NS_ASSUME_NONNULL_BEGIN
                       status:(BibRecordStatus)status
                     metadata:(BibMetadata *)metadata
                       fields:(NSArray<BibRecordField *> *)fields NS_DESIGNATED_INITIALIZER;
-
-/// Create a MARC 21 record containing data from the given leader, control fields, and data fields.
-///
-/// \returns Returns a valid MARC 21 record for some item or entity described by the given fields.
-+ (instancetype)recordWithKind:(nullable BibRecordKind *)kind
-                        status:(BibRecordStatus)status
-                      metadata:(BibMetadata *)metadata
-                 controlFields:(NSArray<BibControlField *> *)controlFields
-                 contentFields:(NSArray<BibContentField *> *)contentFields
-    NS_SWIFT_UNAVAILABLE("use 'init(kind:status:metadata:controlFields:contentFields:)'")
-    DEPRECATED_MSG_ATTRIBUTE("replaced with '+recordWithKind:status:metadata:fields:'");
 
 /// Create a MARC 21 record containing data from the given leader, control fields, and data fields.
 ///
@@ -127,22 +92,6 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 #pragma mark - Field Access
-
-@interface BibRecord (DeprecatedFieldAccess)
-
-- (BibFieldEnumerator<BibControlField *> *)controlFieldEnumerator DEPRECATED_ATTRIBUTE;
-- (BibFieldEnumerator<BibContentField *> *)contentFieldEnumerator DEPRECATED_ATTRIBUTE;
-
-- (nullable BibControlField *)firstControlFieldWithTag:(BibFieldTag *)fieldTag NS_SWIFT_NAME(firstControlField(with:)) DEPRECATED_ATTRIBUTE;
-- (nullable BibContentField *)firstContentFieldWithTag:(BibFieldTag *)fieldTag NS_SWIFT_NAME(firstControlField(with:)) DEPRECATED_ATTRIBUTE;
-
-- (NSArray<BibControlField *> *)controlFieldsWithTag:(BibFieldTag *)fieldTag NS_SWIFT_NAME(controlFields(with:)) DEPRECATED_ATTRIBUTE;
-- (NSArray<BibContentField *> *)contentFieldsWithTag:(BibFieldTag *)fieldTag NS_SWIFT_NAME(contentFields(with:)) DEPRECATED_ATTRIBUTE;
-
-- (nullable BibControlField *)controlFieldAtIndexPath:(NSIndexPath *)indexPath NS_SWIFT_NAME(controlField(at:)) DEPRECATED_MSG_ATTRIBUTE("replaced with '-fieldAtIndexPath:'");
-- (nullable BibContentField *)contentFieldAtIndexPath:(NSIndexPath *)indexPath NS_SWIFT_NAME(contentField(at:)) DEPRECATED_MSG_ATTRIBUTE("replaced with '-fieldAtIndexPath:'");
-
-@end
 
 @interface BibRecord (FieldAccess)
 
@@ -224,10 +173,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readwrite) BibRecordStatus status;
 
 @property (nonatomic, copy, readwrite) BibMetadata *metadata;
-
-@property (nonatomic, copy, readwrite) NSArray<BibControlField *> *controlFields DEPRECATED_MSG_ATTRIBUTE("replaced with '-fields'");
-
-@property (nonatomic, copy, readwrite) NSArray<BibContentField *> *contentFields DEPRECATED_MSG_ATTRIBUTE("replaced with '-fields'");
 
 /// An ordered list of fields containing information and metadata about the record and its represented item.
 @property (nonatomic, copy, readwrite) NSArray<BibRecordField *> *fields;
