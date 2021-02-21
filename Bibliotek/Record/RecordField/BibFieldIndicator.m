@@ -11,15 +11,14 @@
 #import <objc/runtime.h>
 #import <objc/message.h>
 
-/// \note Although only a lowercase ASCII characters and ASCII digits are valid indicators, the MARC8 formatted 2014
-///       Library of Congress Classification schedule at https://loc.gov/cds/products/MDSConnect-classification.html
-///       contains an indicator value of \c ')' at offset \c 42507804 , so we should be gracefully handling this case
-///       by assuming that any 8-byte value could be provided as a valid indicator. If the LoC's schedule has this
-///       indicator value, it must be valid, right‽ ¯\_(ツ)_/¯
-static size_t const BibIndicatorCount = 256;
+static size_t const BibIndicatorCount = 128;
 static size_t BibIndicatorInstanceSize;
 static void *BibIndicatorBuffer;
 
+/// An underlying backing type for immutable singleton instances of \c BibFieldIndicator for each value.
+///
+/// An instance for each of the 128 possible ASCII values is allocated at load time.
+/// When \c -initWithRawValue: is called, one of those pre-allocated instances is returned.
 @interface _BibFieldIndicator : BibFieldIndicator
 @end
 
@@ -71,12 +70,13 @@ static inline _BibFieldIndicator *BibIndicatorGetCachedInstance(char rawValue)  
 + (BOOL)supportsSecureCoding { return YES; }
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
-    char const rawValue = (char)[coder decodeIntForKey:BibKey(rawValue)];
+    char rawValue = ' ';
+    [coder decodeValueOfObjCType:@encode(char) at:&rawValue];
     return [self initWithRawValue:rawValue];
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
-    [coder encodeInt:(int)(self->rawValue) forKey:BibKey(rawValue)];
+    [coder encodeValueOfObjCType:@encode(char) at:&(self->rawValue)];
 }
 
 #pragma mark - Equality
@@ -117,7 +117,8 @@ static inline _BibFieldIndicator *BibIndicatorGetCachedInstance(char rawValue)  
 + (void)load {
     BibIndicatorInstanceSize = class_getInstanceSize(self);
     BibIndicatorBuffer = calloc(BibIndicatorCount, BibIndicatorInstanceSize);
-    for (char rawValue = 0; rawValue < BibIndicatorCount; rawValue += 1) {
+    for (size_t index = 0; index < BibIndicatorCount; index += 1) {
+        char const rawValue = (char)index;
         BibFieldIndicator *indicator = BibIndicatorGetCachedInstance(rawValue);
         objc_constructInstance(self, indicator);
         struct objc_super _super = { indicator, [NSObject self] };
@@ -142,13 +143,5 @@ static inline _BibFieldIndicator *BibIndicatorGetCachedInstance(char rawValue)  
 #pragma clang diagnostic ignored "-Wobjc-missing-super-calls"
 - (void)dealloc {}
 #pragma clang diagnostic pop
-
-- (instancetype)retain { return self; }
-
-- (oneway void)release {}
-
-- (instancetype)autorelease { return self; }
-
-- (NSUInteger)retainCount { return 1; }
 
 @end
