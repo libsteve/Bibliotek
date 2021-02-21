@@ -11,12 +11,18 @@ import Foundation
 /// A metadata value assigning some semantic meaning to a data field.
 ///
 /// Indicators are backed by an ASCII space character, an ASCII lowercase letter, or an ASCII number.
-/// Indicators are genally considered "blank" or "empty" when backed by an ASCII space character, but that value
+/// Indicators are generally considered "blank" or "empty" when backed by an ASCII space character, but that value
 /// may also have some meaning depending on the semantic definition of the field.
 ///
 /// More information about MARC 21 records can be found in the Library of Congress's documentation on
 /// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html
-public struct FieldIndicator: RawRepresentable {
+///
+/// - note: Although only a lowercase ASCII characters and ASCII digits are valid indicators, the MARC8 formatted 2014
+///         Library of Congress Classification schedule at https://loc.gov/cds/products/MDSConnect-classification.html
+///         contains an indicator value of \c ')' at offset \c 42507804 , so we should be gracefully handling this case
+///         by assuming that any 8-byte value could be provided as a valid indicator. If the LoC's schedule has this
+///         indicator value, it must be valid, right‽ ¯\_(ツ)_/¯
+@frozen public struct FieldIndicator: RawRepresentable {
     public typealias RawValue = CChar
 
     /// The ASCII value of this indicator.
@@ -27,31 +33,23 @@ public struct FieldIndicator: RawRepresentable {
     /// \returns An indicator object with some semantic metadata meaning about a data field.
     /// \note This method will throw an out-of-bounds exception for invalid indicator characters.
     public init(rawValue: CChar) {
-        guard FieldIndicator.validRawValues.contains(rawValue) else {
-            fatalError("Invalid indicator character \(UnicodeScalar(UInt8(rawValue)))")
-        }
         self.rawValue = rawValue
     }
 
     /// An indicator backed by an ASCII space character.
     ///
-    /// "Blank" indicators generally represent the absence of an assigned value, but may also be considered ameaningful
-    /// meaningful depending on the semantic definition of the field.
+    /// "Blank" indicators generally represent the absence of an assigned value, but may also be considered meaningful
+    /// depending on the semantic definition of the field.
     public static let blank: FieldIndicator = " "
-
-    private static let validRawValues: Set<CChar> =
-        ([CChar(Character(" ").asciiValue!)] as Set)
-            .union(CChar(Character("0").asciiValue!) ... CChar(Character("9").asciiValue!))
-            .union(CChar(Character("a").asciiValue!) ... CChar(Character("z").asciiValue!))
 }
 
-extension FieldIndicator: Hashable, Equatable {
+extension FieldIndicator: Equatable, Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.rawValue)
     }
 
     public static func == (lhs: FieldIndicator, rhs: FieldIndicator) -> Bool {
-        return lhs.rawValue == rhs.rawValue
+        lhs.rawValue == rhs.rawValue
     }
 }
 
@@ -72,22 +70,19 @@ extension FieldIndicator: ExpressibleByUnicodeScalarLiteral {
     public typealias UnicodeScalarLiteralType = UnicodeScalar
 
     public init(unicodeScalarLiteral value: UnicodeScalar) {
-        guard let asciiValue = Character(value).asciiValue else {
-            fatalError("Invalid indicator character \(value)")
-        }
-        self.init(rawValue: CChar(asciiValue))
+        self.init(rawValue: CChar(bitPattern: UInt8(ascii: value)))
     }
 }
 
 extension FieldIndicator: CustomStringConvertible, CustomDebugStringConvertible, CustomPlaygroundDisplayConvertible {
     public var description: String {
-        let character = Character(UnicodeScalar(UInt8(self.rawValue)))
+        let character = UnicodeScalar(UInt8(self.rawValue))
         return (character == " ") ? "␢" : "\(character)"
     }
 
-    public var debugDescription: String { return self.description }
+    public var debugDescription: String { self.description }
 
-    public var playgroundDescription: Any { return self.description }
+    public var playgroundDescription: Any { self.description }
 }
 
 // MARK: - Bridging
@@ -111,7 +106,7 @@ extension FieldIndicator: _ObjectiveCBridgeable {
 
     @_effects(readonly)
     public static func _unconditionallyBridgeFromObjectiveC(_ source: BibFieldIndicator?) -> FieldIndicator {
-        return FieldIndicator(rawValue: source!.rawValue)
+        FieldIndicator(rawValue: source!.rawValue)
     }
 
     public static func _forceBridgeFromObjectiveC(_ source: BibFieldIndicator, result: inout FieldIndicator?) {
@@ -123,13 +118,8 @@ extension BibFieldIndicator: RawRepresentable, ExpressibleByUnicodeScalarLiteral
     public typealias UnicodeScalarLiteralType = UnicodeScalar
 
     public required convenience init(unicodeScalarLiteral value: UnicodeScalar) {
-        guard let asciiValue = Character(value).asciiValue else {
-            fatalError("Invalid indicator character \(value)")
-        }
-        self.init(rawValue: CChar(asciiValue))
+        self.init(rawValue: CChar(bitPattern: UInt8(ascii: value)))
     }
 
-    public var playgroundDescription: Any {
-        return self.description
-    }
+    public var playgroundDescription: Any { self.description }
 }
