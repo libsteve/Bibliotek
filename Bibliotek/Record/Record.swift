@@ -42,7 +42,7 @@ public struct Record {
 
     /// Implementation-defined metadata from the MARC record's leader.
     ///
-    /// MARC records can have arbitrary implementation-defined data embeded in their leader.
+    /// MARC records can have arbitrary implementation-defined data embedded in their leader.
     /// The reserved bytes are located at index `7`, `8`, `17`, `18`, and `19` within the record leader.
     ///
     /// Use this field to access those bytes, which should be interpreted using the scheme identified in `kind`.
@@ -106,7 +106,7 @@ extension Record: CustomStringConvertible, CustomDebugStringConvertible, CustomP
 
     public var playgroundDescription: Any { return ["kind": self.kind?.description ?? "unset",
                                                     "status": String(format: "%c", self.status.rawValue),
-                                                    "meatdata": self.metadata,
+                                                    "metadata": self.metadata,
                                                     "fields": self.fields] }
 }
 
