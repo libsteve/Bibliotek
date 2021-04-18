@@ -9,6 +9,7 @@
 #import "BibMetadata.h"
 #import "BibMetadata+Internal.h"
 #import "BibLeader.h"
+#import "BibRecordKind.h"
 
 static BibReservedPosition const kAllReservedPositions[] = {
     BibReservedPosition07,
@@ -143,3 +144,137 @@ NSString *BibEncodingDescription(BibEncoding const encoding) {
         default: return [NSString stringWithFormat:@"%c", encoding];
     }
 }
+
+#pragma mark - Record Status
+
+NSString *BibRecordStatusDescription(BibRecordStatus const status) {
+    NSBundle *bundle = [NSBundle bundleForClass:[BibMetadata self]];
+    switch (status) {
+        case BibRecordStatusIncreaseInEncodingLevel:
+            return NSLocalizedStringWithDefaultValue(@"a", @"RecordStatus", bundle,
+                                                     @"Increase in encoding level", @"Increase in encoding level");
+        case BibRecordStatusRevised:
+            return NSLocalizedStringWithDefaultValue(@"c", @"RecordStatus", bundle,
+                                                     @"Corrected or revised", @"Corrected or revised");
+        case BibRecordStatusDeleted:
+            return NSLocalizedStringWithDefaultValue(@"d", @"RecordStatus", bundle, @"Deleted", @"Deleted");
+        case BibRecordStatusNew:
+            return NSLocalizedStringWithDefaultValue(@"n", @"RecordStatus", bundle, @"New", @"New");
+        case BibRecordStatusIncreaseInEncodingLevelFromPrePublication:
+            return NSLocalizedStringWithDefaultValue(@"p", @"RecordStatus", bundle,
+                                                     @"Increase in encoding level from prepublication",
+                                                     @"Increase in encoding level from prepublication");
+        default: {
+            NSString *key = [NSString stringWithFormat:@"%c", status];
+            return [bundle localizedStringForKey:key value:nil table:@"RecordStatus"];
+        }
+    }
+}
+
+#pragma mark - Bibliographic Level
+
+NSString *BibBibliographicLevelDescription(BibBibliographicLevel const level) {
+    NSBundle *bundle = [NSBundle bundleForClass:[BibMetadata self]];
+    switch (level) {
+        case 0: return nil;
+        case BibBibliographicLevelMonographicComponentPart:
+            return NSLocalizedStringWithDefaultValue(@"a", @"BibliographicLevel", bundle,
+                                                     @"Monographic component part", @"Monographic component part");
+        case BibBibliographicLevelSerialComponentPart:
+            return NSLocalizedStringWithDefaultValue(@"b", @"BibliographicLevel", bundle,
+                                                     @"Serial component part", @"Serial component part");
+        case BibBibliographicLevelCollection:
+            return NSLocalizedStringWithDefaultValue(@"c", @"BibliographicLevel", bundle,
+                                                     @"Collection", @"Collection");
+        case BibBibliographicLevelSubunit:
+            return NSLocalizedStringWithDefaultValue(@"d", @"BibliographicLevel", bundle,
+                                                     @"Subunit", @"Subunit");
+        case BibBibliographicLevelIntegratingResource:
+            return NSLocalizedStringWithDefaultValue(@"i", @"BibliographicLevel", bundle,
+                                                     @"Integrating resource", @"Integrating resource");
+        case BibBibliographicLevelMonograph:
+            return NSLocalizedStringWithDefaultValue(@"m", @"BibliographicLevel", bundle,
+                                                     @"Monograph/Item", @"Monograph/Item");
+        case BibBibliographicLevelSerial:
+            return NSLocalizedStringWithDefaultValue(@"s", @"BibliographicLevel", bundle,
+                                                     @"Serial", @"Serial");
+        default: {
+            NSString *key = [NSString stringWithFormat:@"%c", level];
+            return [bundle localizedStringForKey:key value:nil table:@"BibliographicLevel"];
+        }
+    }
+}
+
+#pragma mark - Bibliographic Control Type
+
+NSString *BibBibliographicControlTypeDescription(BibBibliographicControlType const type) {
+    NSBundle *bundle = [NSBundle bundleForClass:[BibMetadata self]];
+    switch (type) {
+        case 0: return nil;
+        case BibBibliographicControlTypeNone:
+            return NSLocalizedStringWithDefaultValue(@" ", @"BibliographicControlType", bundle, @"None", @"None");
+        case BibBibliographicControlTypeArchival:
+            return NSLocalizedStringWithDefaultValue(@"a", @"BibliographicControlType", bundle, @"Archival", @"Archival");
+        default: {
+            NSString *key = [NSString stringWithFormat:@"%c", type];
+            return [bundle localizedStringForKey:key value:nil table:@"BibliographicLevel"];
+        }
+    }
+}
+
+#pragma mark -
+
+@implementation BibMetadata (DefinedValues)
+
+- (BibEncoding)encoding {
+    return [[self leader] recordEncoding];
+}
+
+- (BibRecordKind *)recordKind {
+    return [[self leader] recordKind];
+}
+
+- (BibRecordStatus)recordStatus {
+    return [[self leader] recordStatus];
+}
+
+- (BibBibliographicLevel)bibliographicLevel {
+    if ([[self recordKind] isBibliographicKind]) {
+        return [self valueForReservedPosition:BibReservedPosition07];
+    }
+    return 0;
+}
+
+- (BibBibliographicControlType)bibliographicControlType {
+    if ([[self recordKind] isBibliographicKind]) {
+        return [self valueForReservedPosition:BibReservedPosition08];
+    }
+    return 0;
+}
+
+@end
+
+@implementation BibMutableMetadata (DefinedValues)
+
+- (void)setRecordKind:(BibRecordKind *)recordKind {
+    [[self leader] setRecordKind:recordKind];
+}
+
+- (void)setRecordStatus:(BibRecordStatus)recordStatus {
+    [[self leader] setRecordStatus:recordStatus];
+}
+
+- (void)setBibliographicLevel:(BibBibliographicLevel)bibliographicLevel {
+    if ([[[self leader] recordKind] isBibliographicKind]) {
+        [self setValue:(bibliographicLevel ?: ' ') forReservedPosition:BibReservedPosition07];
+    }
+}
+
+- (void)setBibliographicControlType:(BibBibliographicControlType)bibliographicControlType {
+    if ([[[self leader] recordKind] isBibliographicKind]) {
+        bibliographicControlType = (bibliographicControlType ?: BibBibliographicControlTypeNone);
+        [self setValue:bibliographicControlType forReservedPosition:BibReservedPosition08];
+    }
+}
+
+@end

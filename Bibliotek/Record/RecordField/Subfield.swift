@@ -133,3 +133,17 @@ extension SubfieldCode: ExpressibleByStringLiteral {
         self.init(rawValue: value)
     }
 }
+
+extension SubfieldCode: CustomStringConvertible, CustomDebugStringConvertible, CustomPlaygroundDisplayConvertible {
+    public var description: String {
+        self.rawValue
+    }
+
+    public var debugDescription: String {
+        "SubfieldCode(rawValue: \"\(self.rawValue)\")"
+    }
+
+    public var playgroundDescription: Any {
+        self.description
+    }
+}
