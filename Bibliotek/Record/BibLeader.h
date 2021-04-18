@@ -13,13 +13,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// A MARC record leader is always exactly 24 bytes of visible ASCII characters.
 extern NSUInteger const BibLeaderRawDataLength NS_SWIFT_NAME(Leader.rawValueLength);
 
-/// A collection of metadata preceeding a the encoded data for a record.
+/// A collection of metadata preceding a the encoded data for a record.
 ///
-/// The record leader provides information about the layout of data within a record.
-/// Such information includes the total size in memory of the record, the layout of fields' tags and indicators,
-/// and other miscellaneous metadata.
+/// The record leader provides information about the layout of data within a record, and the semantics to use
+/// when interpreting record data. Such information includes the total size in memory of the record, the layout
+/// of fields' tags and indicators, and other miscellaneous metadata.
+///
+/// The bytes located at index \c 07, \c 08, \c 17, \c 18, and \c 19 within the record leader are reserved for
+/// implementation-defined semantics. Use a record's \c kind to determine how to interpret these metadata values.
 ///
 /// More information about the MARC 21 leader can be found in the Library of Congress's documentation on
 /// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html#leader
@@ -27,6 +31,8 @@ NS_SWIFT_NAME(Leader)
 @interface BibLeader : NSObject
 
 /// The 24-byte encoded representation of the leader's data.
+///
+/// All 24 bytes within the record leader are visible ASCII characters.
 @property (nonatomic, copy, readonly) NSData *rawData NS_SWIFT_NAME(rawValue);
 
 /// Create the leader for a MARC 21 record.
@@ -97,13 +103,24 @@ NS_SWIFT_NAME(MutableLeader)
 ///
 /// MARC 21 records can represent multiple kinds of information—bibliographic, classification, etc.—which each use
 /// different schemas to present their information.
-@property (nonatomic, readonly, nullable) BibRecordKind *recordKind;
+///
+/// Use this field to determine how tags and subfield codes should be used to interpret field content.
+@property (nonatomic, readonly) BibRecordKind *recordKind;
 
 /// The character encoding used to represent textual information within the record.
 @property (nonatomic, readonly) BibEncoding recordEncoding;
 
-/// Implementation defined bytes
-- (char)valueForReservedPosition:(BibReservedPosition)position;
+/// The specificity used to identify the item represented by a bibliographic record.
+@property (nonatomic, readonly) BibBibliographicLevel bibliographicLevel NS_REFINED_FOR_SWIFT;
+
+/// The ruleset used to determine the information about the item that's included in the record.
+@property (nonatomic, readonly) BibBibliographicControlType bibliographicControlType NS_REFINED_FOR_SWIFT;
+
+/// Retrieve the byte stored within the reserved position in the MARC record's leader.
+///
+/// \param position The index location of the desired byte in the record's leader.
+/// \returns The byte held at the reserved location in the record's leader.
+- (char)valueForReservedPosition:(BibReservedPosition)position NS_SWIFT_NAME(value(forReservedPosition:));
 
 @end
 
@@ -137,12 +154,17 @@ NS_SWIFT_NAME(MutableLeader)
 ///
 /// MARC 21 records can represent multiple kinds of information—bibliographic, classification, etc.—which each use
 /// different schemas to present their information.
-@property (nonatomic, readwrite, nullable) BibRecordKind *recordKind;
+@property (nonatomic, readwrite) BibRecordKind *recordKind;
 
 /// The character encoding used to represent textual information within the record.
 @property (nonatomic, readwrite) BibEncoding recordEncoding;
 
-- (void)setValue:(char)value forReservedPosition:(BibReservedPosition)index;
+/// Set the byte value within the reserved position in the MARC record's leader.
+///
+/// \param value The byte to store within the record's leader.
+/// \param position The index location of the desired byte in the record's leader.
+- (void)setValue:(char)value forReservedPosition:(BibReservedPosition)position
+    NS_SWIFT_NAME(setValue(_:forReservedPosition:));
 
 @end
 

@@ -170,6 +170,20 @@ static NSUInteger sReadUnsignedInteger(NSData *const data, NSRange const range) 
     return buffer[0];
 }
 
+- (BibBibliographicLevel)bibliographicLevel {
+    if ([[self recordKind] isBibliographicKind]) {
+        return [self valueForReservedPosition:BibReservedPosition07];
+    }
+    return 0;
+}
+
+- (BibBibliographicControlType)bibliographicControlType {
+    if ([[self recordKind] isBibliographicKind]) {
+        return [self valueForReservedPosition:BibReservedPosition08];
+    }
+    return 0;
+}
+
 - (char)valueForReservedPosition:(BibReservedPosition)index {
     uint8_t byte;
     [[self rawData] getBytes:&byte range:NSMakeRange(index, 1)];
@@ -241,6 +255,19 @@ static void sWriteUnsignedInteger(NSMutableData *const data, NSRange const range
     NSMutableData *const data = [[self rawData] mutableCopy];
     [data replaceBytesInRange:kRecordEncodingRange withBytes:&recordEncoding];
     [self setRawData:data];
+}
+
+- (void)setBibliographicLevel:(BibBibliographicLevel)bibliographicLevel {
+    if ([[self recordKind] isBibliographicKind]) {
+        [self setValue:(bibliographicLevel ?: ' ') forReservedPosition:BibReservedPosition07];
+    }
+}
+
+- (void)setBibliographicControlType:(BibBibliographicControlType)bibliographicControlType {
+    if ([[self recordKind] isBibliographicKind]) {
+        bibliographicControlType = (bibliographicControlType ?: BibBibliographicControlTypeNone);
+        [self setValue:bibliographicControlType forReservedPosition:BibReservedPosition08];
+    }
 }
 
 - (void)setValue:(char)value forReservedPosition:(BibReservedPosition)index {
