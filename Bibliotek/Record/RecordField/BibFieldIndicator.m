@@ -144,4 +144,12 @@ static inline _BibFieldIndicator *BibIndicatorGetCachedInstance(char rawValue)  
 - (void)dealloc {}
 #pragma clang diagnostic pop
 
+- (instancetype)retain { return self; }
+
+- (oneway void)release {}
+
+- (instancetype)autorelease { return self; }
+
+- (NSUInteger)retainCount { return 1; }
+
 @end
