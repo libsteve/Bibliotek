@@ -37,6 +37,46 @@ public struct Metadata {
         }
     }
 
+    public var kind: RecordKind {
+        get { self.storage.recordKind as RecordKind }
+        set { self.mutate(keyPath: \.recordKind, with: newValue as BibRecordKind) }
+    }
+
+    public var status: RecordStatus {
+        get { self.storage.recordStatus }
+        set { self.mutate(keyPath: \.recordStatus, with: newValue) }
+    }
+
+    public var encoding: Encoding {
+        self.storage.encoding
+    }
+
+    public var bibliographicLevel: BibliographicLevel? {
+        get {
+            guard self.kind.isBibliographic else { return nil }
+            return self.storage.__bibliographicLevel
+        }
+        set {
+            guard let newValue = newValue,  self.kind.isBibliographic else {
+                return
+            }
+            self.mutate(keyPath: \.__bibliographicLevel, with: newValue)
+        }
+    }
+
+    public var bibliographicControlType: BibliographicControlType? {
+        get {
+            guard self.kind.isBibliographic else { return nil }
+            return self.storage.__bibliographicControlType
+        }
+        set {
+            guard let newValue = newValue,  self.kind.isBibliographic else {
+                return
+            }
+            self.mutate(keyPath: \.__bibliographicControlType, with: newValue)
+        }
+    }
+
     private init(storage: BibMetadata) {
         self._storage = storage.copy() as? BibMetadata
     }
@@ -44,6 +84,17 @@ public struct Metadata {
     /// Create an empty set of metadata.
     public init() {
         self._storage = BibMetadata()
+    }
+
+    private mutating func mutate<T>(keyPath: WritableKeyPath<BibMutableMetadata, T>, with newValue: T) {
+        if self._mutableStorage == nil {
+            precondition(self._storage != nil)
+            self._mutableStorage = self._storage.mutableCopy() as? BibMutableMetadata
+            self._storage = nil
+        } else if !isKnownUniquelyReferenced(&self._mutableStorage) {
+            self._mutableStorage = self._mutableStorage.mutableCopy() as? BibMutableMetadata
+        }
+        self._mutableStorage[keyPath: keyPath] = newValue
     }
 }
 
@@ -115,8 +166,42 @@ extension ReservedPosition: ExpressibleByIntegerLiteral, CaseIterable {
     }
 }
 
-extension Encoding: CustomStringConvertible, CustomPlaygroundDisplayConvertible {
-    public var description: String { return __BibEncodingDescription(self) }
+extension Encoding: CustomStringConvertible, CustomDebugStringConvertible, CustomPlaygroundDisplayConvertible {
+    public var description: String { __BibEncodingDescription(self) }
 
-    public var playgroundDescription: Any { return self.description }
+    public var debugDescription: String {
+        "Encoding(rawValue: \"\(Unicode.Scalar(UInt8(self.rawValue)))\"): \(self.description)"
+    }
+
+    public var playgroundDescription: Any { self.description }
+}
+
+extension RecordStatus: CustomStringConvertible, CustomDebugStringConvertible, CustomPlaygroundDisplayConvertible {
+    public var description: String { __BibRecordStatusDescription(self) }
+
+    public var debugDescription: String {
+        "RecordStatus(rawValue: \"\(Unicode.Scalar(UInt8(self.rawValue)))\"): \(self.description)"
+    }
+
+    public var playgroundDescription: Any { self.description }
+}
+
+extension BibliographicLevel: CustomStringConvertible, CustomDebugStringConvertible, CustomPlaygroundDisplayConvertible {
+    public var description: String { __BibBibliographicLevelDescription(self) }
+
+    public var debugDescription: String {
+        "RecordStatus(rawValue: \"\(Unicode.Scalar(UInt8(self.rawValue)))\"): \(self.description)"
+    }
+
+    public var playgroundDescription: Any { self.description }
+}
+
+extension BibliographicControlType: CustomStringConvertible, CustomDebugStringConvertible, CustomPlaygroundDisplayConvertible {
+    public var description: String { __BibBibliographicControlTypeDescription(self) }
+
+    public var debugDescription: String {
+        "RecordStatus(rawValue: \"\(Unicode.Scalar(UInt8(self.rawValue)))\"): \(self.description)"
+    }
+
+    public var playgroundDescription: Any { self.description }
 }

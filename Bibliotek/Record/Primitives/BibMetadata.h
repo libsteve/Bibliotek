@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class BibRecordKind;
+
 NS_ASSUME_NONNULL_BEGIN
 
 /// An index type used to reference implementation-specific data from a record's leader.
@@ -88,7 +90,7 @@ typedef NS_ENUM(char, BibEncoding) {
 ///
 /// \param encoding The string encoding used to represent textual data.
 /// \returns A human-readable description of \c encoding.
-NSString *BibEncodingDescription(BibEncoding const encoding) NS_REFINED_FOR_SWIFT;
+extern NSString *BibEncodingDescription(BibEncoding encoding) NS_REFINED_FOR_SWIFT;
 
 #pragma mark - Record Status
 
@@ -107,5 +109,126 @@ typedef NS_ENUM(char, BibRecordStatus) {
 
     BibRecordStatusIncreaseInEncodingLevelFromPrePublication = 'p'
 } NS_SWIFT_NAME(RecordStatus);
+
+/// A human-readable description of the status.
+///
+/// \param status The type of change last applied to a record in its originating database.
+/// \returns A human-readable description of \c status.
+extern NSString *BibRecordStatusDescription(BibRecordStatus status) NS_REFINED_FOR_SWIFT;
+
+#pragma mark - Bibliographic Level
+
+/// The specificity used to identify the item represented by a bibliographic record.
+typedef NS_ENUM(char, BibBibliographicLevel) {
+    /// Monographic component part
+    ///
+    /// An item within a larger single monographic work, such as a chapter within a book.
+    BibBibliographicLevelMonographicComponentPart = 'a',
+
+    /// Serial component part
+    ///
+    /// An item within instances of a recurring series of works, such as a regularly-appearing column in a news paper.
+    BibBibliographicLevelSerialComponentPart = 'b',
+
+    /// Collection
+    ///
+    /// An artifically combined group of items that were not originally published together.
+    BibBibliographicLevelCollection = 'c',
+
+    /// Subunit
+    ///
+    /// An item or group of items within a larger collection.
+    BibBibliographicLevelSubunit = 'd',
+
+    /// Integrating resource
+    ///
+    /// An item with components that are added and modified individually, such as individual pages in a website.
+    BibBibliographicLevelIntegratingResource = 'i',
+
+    /// Monograph/Item
+    ///
+    /// An item considered to be a single work on its own, such as a book or an album.
+    BibBibliographicLevelMonograph = 'm',
+
+    /// Serial
+    ///
+    /// An individual item within a regualr series of works, such as a magazine or news paper.
+    BibBibliographicLevelSerial = 's'
+} NS_SWIFT_NAME(BibliographicLevel);
+
+/// A human-readable description of the bibliographic level.
+///
+/// \param level The bibliographic level of the record.
+/// \returns A human-readable description of \c level.
+extern NSString *BibBibliographicLevelDescription(BibBibliographicLevel level) NS_REFINED_FOR_SWIFT;
+
+#pragma mark - Bibliographic Control Type
+
+/// The ruleset used to determine the information about the item that's included in the record.
+typedef NS_ENUM(char, BibBibliographicControlType) {
+    /// No control type specified.
+    ///
+    /// The record described the item using traditional bibliographic rules.
+    BibBibliographicControlTypeNone = ' ',
+
+    /// Archival control type.
+    ///
+    /// The record describes an item using archival rather than bibliographic rules, which can be found
+    /// in field \c 040 subfield \c $e
+    BibBibliographicControlTypeArchival = 'a'
+} NS_SWIFT_NAME(BibliographicControlType);
+
+/// A human-readable description of a bibliographic record's control type.
+///
+/// \param type The control type of a bibliographic record.
+/// \returns A human-readable description of \c type.
+extern NSString *BibBibliographicControlTypeDescription(BibBibliographicControlType type) NS_REFINED_FOR_SWIFT;
+
+#pragma mark -
+
+@interface BibMetadata (DefinedValues)
+
+/// The character encoding used to represent textual information within the record.
+@property (nonatomic, readonly) BibEncoding encoding;
+
+/// The type of data represented by a record.
+///
+/// MARC 21 records can represent multiple kinds of information—bibliographic, classification, etc.—which each use
+/// different schemas to present their information.
+///
+/// Use this field to determine how tags and subfield codes should be used to interpret field content.
+@property (nonatomic, readonly) BibRecordKind *recordKind;
+
+/// The record's current status in the database it was fetched from.
+@property (nonatomic, readonly) BibRecordStatus recordStatus;
+
+/// The specificity used to identify the item represented by a bibliographic record.
+@property (nonatomic, readonly) BibBibliographicLevel bibliographicLevel NS_REFINED_FOR_SWIFT;
+
+/// The ruleset used to determine the information about the item that's included in the record.
+@property (nonatomic, readonly) BibBibliographicControlType bibliographicControlType NS_REFINED_FOR_SWIFT;
+
+@end
+
+@interface BibMutableMetadata (DefinedValues)
+
+/// The type of data represented by a record.
+///
+/// MARC 21 records can represent multiple kinds of information—bibliographic, classification, etc.—which each use
+/// different schemas to present their information.
+///
+/// Use this field to determine how tags and subfield codes should be used to interpret field content.
+@property (nonatomic, readwrite) BibRecordKind *recordKind;
+
+/// The record's current status in the database it was fetched from.
+@property (nonatomic, readwrite) BibRecordStatus recordStatus;
+
+/// The specificity used to identify the item represented by a bibliographic record.
+@property (nonatomic, readwrite) BibBibliographicLevel bibliographicLevel NS_REFINED_FOR_SWIFT;
+
+/// The ruleset used to determine the information about the item that's included in the record.
+@property (nonatomic, readwrite) BibBibliographicControlType bibliographicControlType NS_REFINED_FOR_SWIFT;
+
+@end
 
 NS_ASSUME_NONNULL_END
