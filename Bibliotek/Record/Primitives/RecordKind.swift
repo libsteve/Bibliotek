@@ -33,10 +33,10 @@ public struct RecordKind: RawRepresentable {
 
 extension RecordKind {
     /// Does a record marked with this kind represent classification information?
-    public var isClassificationKind: Bool { return self._storage.isClassificationKind }
+    public var isClassification: Bool { return self._storage.isClassificationKind }
 
     /// Does a record marked with this kind represent bibliographic information?
-    public var isBibliographicKind: Bool { return self._storage.isBibliographicKind }
+    public var isBibliographic: Bool { return self._storage.isBibliographicKind }
 }
 
 // MARK: - MARC 21 Record Kinds
