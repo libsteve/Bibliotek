@@ -108,7 +108,7 @@
 		AAB7865F24566E2B0018A833 /* BibMARCSerialization.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB7865E24566E2B0018A833 /* BibMARCSerialization.swift */; };
 		AABDC1FC22DAAA0F00345A58 /* BibMetadata.h in Headers */ = {isa = PBXBuildFile; fileRef = AABDC1FA22DAAA0E00345A58 /* BibMetadata.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AABDC1FF22DAB2FD00345A58 /* BibLeader.m in Sources */ = {isa = PBXBuildFile; fileRef = AABDC1FD22DAB2FD00345A58 /* BibLeader.m */; };
-		AABDC20022DAB2FD00345A58 /* BibLeader.h in Headers */ = {isa = PBXBuildFile; fileRef = AABDC1FE22DAB2FD00345A58 /* BibLeader.h */; };
+		AABDC20022DAB2FD00345A58 /* BibLeader.h in Headers */ = {isa = PBXBuildFile; fileRef = AABDC1FE22DAB2FD00345A58 /* BibLeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AABDC20322DABA5300345A58 /* BibMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = AABDC1F922DAAA0E00345A58 /* BibMetadata.m */; };
 		AABDC20622DAC10500345A58 /* BibDirectoryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = AABDC20422DAC10500345A58 /* BibDirectoryEntry.m */; };
 		AABDC20722DAC10500345A58 /* BibDirectoryEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = AABDC20522DAC10500345A58 /* BibDirectoryEntry.h */; };
@@ -454,11 +454,11 @@
 			path = LCCallNumberTests;
 			sourceTree = "<group>";
 		};
-		AAA4E02022EE32CF0003AF7B /* ContentField */ = {
+		AAA4BDF925E2D050000DF08E /* MARC8 */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			path = ContentField;
+			path = MARC8;
 			sourceTree = "<group>";
 		};
 		AAA4E02322EE334C0003AF7B /* Primitives */ = {
@@ -561,6 +561,7 @@
 		AABDC1F822DAA96C00345A58 /* Record */ = {
 			isa = PBXGroup;
 			children = (
+				AAA4BDF925E2D050000DF08E /* MARC8 */,
 				AABDC22022DAE7CD00345A58 /* BibRecord.h */,
 				AABDC22122DAE7CD00345A58 /* BibRecord.m */,
 				AAA4E00A22EC119A0003AF7B /* Record.swift */,
@@ -570,7 +571,6 @@
 				AABDC20422DAC10500345A58 /* BibDirectoryEntry.m */,
 				AA67783F24843EF500997B29 /* RecordField */,
 				AAA4E02322EE334C0003AF7B /* Primitives */,
-				AAA4E02022EE32CF0003AF7B /* ContentField */,
 			);
 			path = Record;
 			sourceTree = "<group>";
