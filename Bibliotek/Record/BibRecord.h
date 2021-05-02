@@ -123,11 +123,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface BibRecord (FieldAccess)
 
-/// Get the field at the given index.
-/// \param index The index of the record field to access.
-/// \returns The data field or control field located at the given index.
-- (BibRecordField *)fieldAtIndex:(NSUInteger)index NS_SWIFT_NAME(field(at:));
-
 /// Test to see if the record contains a field with the given tag.
 /// \param fieldTag If this record has a field with this value, \c YES is returned.
 /// \returns \c YES if at least one record field is marked with the given tag.
@@ -151,7 +146,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Get the subfield referenced by the given index path.
 /// \param indexPath The index path value pointing to a specific subfield value.
-/// \returns The subfield object referenced byt the index path.
+/// \returns The subfield object referenced by the index path.
 /// \throws \c NSRangeException when given an index path that points to a field instead of its subfield,
 ///         or if the index path points into a control field instead of a data field.
 - (BibSubfield *)subfieldAtIndexPath:(NSIndexPath *)indexPath NS_SWIFT_NAME(subfield(at:));
@@ -212,6 +207,39 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// An ordered list of fields containing information and metadata about the record and its represented item.
 @property (nonatomic, copy, readwrite) NSArray<BibRecordField *> *fields;
+
+@end
+
+@interface BibRecord (Fields)
+
+@property (nonatomic, assign, readonly) NSUInteger countOfFields;
+
+/// Get the field at the given index.
+/// \param index The index for the record field to access.
+/// \returns The data field or control field located at the given index.
+- (BibRecordField *)fieldAtIndex:(NSUInteger)index NS_SWIFT_NAME(field(at:));
+
+- (NSArray<BibRecordField *> *)fieldsAtIndexes:(NSIndexSet *)indexes;
+
+@end
+
+@interface BibMutableRecord (Fields)
+
+- (void)addField:(BibRecordField *)field;
+
+- (void)insertField:(BibRecordField *)field atIndex:(NSUInteger)index;
+
+- (void)insertFields:(NSArray<BibRecordField *> *)fields atIndexes:(NSIndexSet *)indexes;
+
+- (void)replaceFieldAtIndex:(NSUInteger)index withField:(BibRecordField *)field;
+
+- (void)replaceFieldsAtIndexes:(NSIndexSet *)indexes withFields:(NSArray<BibRecordField *> *)fields;
+
+- (void)removeFieldAtIndex:(NSUInteger)index;
+
+- (void)removeFieldsAtIndexes:(NSIndexSet *)indexes;
+
+@property (nonatomic, readonly) NSMutableArray<BibRecordField *> *mutableFields;
 
 @end
 

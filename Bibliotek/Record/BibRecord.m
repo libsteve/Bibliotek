@@ -132,10 +132,6 @@
 
 @implementation BibRecord (FieldAccess)
 
-- (BibRecordField *)fieldAtIndex:(NSUInteger)index {
-    return [self.fields objectAtIndex:index];
-}
-
 - (BOOL)containsFieldWithTag:(BibFieldTag *)fieldTag {
     return [self indexOfFieldWithTag:fieldTag] != NSNotFound;
 }
@@ -315,11 +311,86 @@
     _leader = [[metadata leader] mutableCopy];
 }
 
-@dynamic fields;
+- (NSArray<BibRecordField *> *)fields {
+    return [_fields copy];
+}
+
 - (void)setFields:(NSArray<BibRecordField *> *)fields {
     if (_fields != fields) {
-        _fields = [fields copy];
+        _fields = [fields mutableCopy];
     }
+}
+
+@end
+
+#pragma mark -
+
+@implementation BibRecord (Fields)
+
+- (NSUInteger)countOfFields {
+    return [_fields count];
+}
+
+- (BibRecordField *)fieldAtIndex:(NSUInteger)index {
+    return [_fields objectAtIndex:index];
+}
+
+- (NSArray<BibRecordField *> *)fieldsAtIndexes:(NSIndexSet *)indexes {
+    return [_fields objectsAtIndexes:indexes];
+}
+
+@end
+
+@implementation BibMutableRecord (Fields)
+
+- (void)addField:(BibRecordField *)field {
+    [self insertField:field atIndex:[_fields count]];
+}
+
+- (void)insertField:(BibRecordField *)field atIndex:(NSUInteger)index {
+    [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:[[NSIndexSet alloc] initWithIndex:index]
+              forKey:BibKey(fields)];
+    [(NSMutableArray *)_fields insertObject:field atIndex:index];
+    [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:[[NSIndexSet alloc] initWithIndex:index]
+             forKey:BibKey(fields)];
+}
+
+- (void)insertFields:(NSArray<BibRecordField *> *)fields atIndexes:(NSIndexSet *)indexes {
+    [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:BibKey(fields)];
+    [(NSMutableArray *)_fields insertObjects:fields atIndexes:indexes];
+    [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:BibKey(fields)];
+}
+
+- (void)replaceFieldAtIndex:(NSUInteger)index withField:(BibRecordField *)field {
+    [self willChange:NSKeyValueChangeReplacement valuesAtIndexes:[[NSIndexSet alloc] initWithIndex:index]
+              forKey:BibKey(fields)];
+    [(NSMutableArray *)_fields replaceObjectAtIndex:index withObject:field];
+    [self didChange:NSKeyValueChangeReplacement valuesAtIndexes:[[NSIndexSet alloc] initWithIndex:index]
+             forKey:BibKey(fields)];
+}
+
+- (void)replaceFieldsAtIndexes:(NSIndexSet *)indexes withFields:(NSArray<BibRecordField *> *)fields {
+    [self willChange:NSKeyValueChangeReplacement valuesAtIndexes:indexes forKey:BibKey(fields)];
+    [(NSMutableArray *)_fields replaceObjectsAtIndexes:indexes withObjects:fields];
+    [self didChange:NSKeyValueChangeReplacement valuesAtIndexes:indexes forKey:BibKey(fields)];
+}
+
+- (void)removeFieldAtIndex:(NSUInteger)index {
+    [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:[[NSIndexSet alloc] initWithIndex:index]
+              forKey:BibKey(fields)];
+    [(NSMutableArray *)_fields removeObjectAtIndex:index];
+    [self didChange:NSKeyValueChangeRemoval valuesAtIndexes:[[NSIndexSet alloc] initWithIndex:index]
+             forKey:BibKey(fields)];
+}
+
+- (void)removeFieldsAtIndexes:(NSIndexSet *)indexes {
+    [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:BibKey(fields)];
+    [(NSMutableArray *)_fields removeObjectsAtIndexes:indexes];
+    [self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:BibKey(fields)];
+}
+
+- (NSMutableArray<BibRecordField *> *)mutableFields {
+    return [self mutableArrayValueForKey:BibKey(fields)];
 }
 
 @end
