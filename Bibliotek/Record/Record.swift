@@ -46,6 +46,18 @@ public struct Record {
     /// The reserved bytes are located at index `7`, `8`, `17`, `18`, and `19` within the record leader.
     ///
     /// Use this field to access those bytes, which should be interpreted using the scheme identified in `kind`.
+    public var leader: Leader {
+        get { return self.storage.leader }
+        set { self.mutate(keyPath: \.leader, with: newValue) }
+    }
+
+    /// Implementation-defined metadata from the MARC record's leader.
+    ///
+    /// MARC records can have arbitrary implementation-defined data embedded in their leader.
+    /// The reserved bytes are located at index `7`, `8`, `17`, `18`, and `19` within the record leader.
+    ///
+    /// Use this field to access those bytes, which should be interpreted using the scheme identified in `kind`.
+    @available(*, deprecated, message: "use leader")
     public var metadata: Metadata {
         get { return self.storage.metadata as Metadata }
         set { self.mutate(keyPath: \.metadata, with: newValue as BibMetadata) }
@@ -63,11 +75,21 @@ public struct Record {
 
     /// Create a MARC 21 record with the given data.
     ///
+    /// - parameter leader: A set of metadata describing the record, its encoding, and its state in the database.
+    /// - parameter fields: An ordered list of fields describing the item represented by the record.
+    /// - returns: Returns a valid MARC 21 record for some item or entity described by the given fields.
+    public init(leader: Leader, fields: [RecordField]) {
+        self._storage = BibRecord(leader: leader, fields: fields as [BibRecordField])
+    }
+
+    /// Create a MARC 21 record with the given data.
+    ///
     /// - parameter kind: The type of record.
     /// - parameter status: The record's status in its originating database.
     /// - parameter metadata: A set of implementation-defined bytes.
     /// - parameter fields: An ordered list of fields describing the item represented by the record.
     /// - returns: Returns a valid MARC 21 record for some item or entity described by the given fields.
+    @available(*, deprecated, message: "use init(leader:fields:)")
     public init(kind: RecordKind?, status: RecordStatus, metadata: Metadata, fields: [RecordField]) {
         self._storage = BibRecord(kind: kind as BibRecordKind?,
                                   status: status,
@@ -106,7 +128,7 @@ extension Record: CustomStringConvertible, CustomDebugStringConvertible, CustomP
 
     public var playgroundDescription: Any { return ["kind": self.kind?.description ?? "unset",
                                                     "status": String(format: "%c", self.status.rawValue),
-                                                    "metadata": self.metadata,
+                                                    "leader": self.leader,
                                                     "fields": self.fields] }
 }
 
