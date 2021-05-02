@@ -29,8 +29,7 @@ NS_SWIFT_NAME(MARCSerialization)
 ///          indicate the reason for the failure.
 /// \post If \c nil is returned and \c error is not a \c NULL pointer, its pointee is set to an \c NSError object
 ///       to indicate the reason for the failure.
-+ (nullable NSData *)dataWithRecord:(BibRecord *)record error:(out NSError *_Nullable __autoreleasing *_Nullable)error
-    NS_REFINED_FOR_SWIFT;
++ (nullable NSData *)dataWithRecord:(BibRecord *)record error:(out NSError *_Nullable __autoreleasing *_Nullable)error;
 
 /// Create serialized data from an array of \c BibRecord objects, encoded as MARC 21 data.
 /// \param records The array of records to encode as MARC 21 data.
@@ -42,7 +41,7 @@ NS_SWIFT_NAME(MARCSerialization)
 ///       to indicate the reason for the failure.
 + (nullable NSData *)dataWithRecordsInArray:(NSArray<BibRecord *> *)records
                                       error:(out NSError *_Nullable __autoreleasing *_Nullable)error
-    NS_REFINED_FOR_SWIFT;
+    NS_SWIFT_NAME(data(with:));
 
 /// Create an array of \c BibRecord objects from MARC 21 encoded data.
 /// \param data The MARC 21 encoded data containing serialized representations of records.
@@ -53,8 +52,7 @@ NS_SWIFT_NAME(MARCSerialization)
 /// \post If \c nil is returned and \c error is not a \c NULL pointer, its pointee is set to an \c NSError object
 ///       to indicate the reason for the failure.
 + (nullable NSArray<BibRecord *> *)recordsFromData:(NSData *)data
-                                             error:(out NSError *_Nullable __autoreleasing *_Nullable)error
-    NS_REFINED_FOR_SWIFT;
+                                             error:(out NSError *_Nullable __autoreleasing *_Nullable)error;
 
 /// Write an instance of \c BibRecord as MARC 21 data to the given output stream.
 /// \param record The record to write to the output stream.
@@ -68,7 +66,7 @@ NS_SWIFT_NAME(MARCSerialization)
 ///       to indicate the reason for the failure.
 + (BOOL)writeRecord:(BibRecord *)record
            toStream:(NSOutputStream *)outputStream
-              error:(out NSError *_Nullable __autoreleasing *_Nullable)error NS_REFINED_FOR_SWIFT;
+              error:(out NSError *_Nullable __autoreleasing *_Nullable)error;
 
 /// Read an instance of \c BibRecord from the MARC 21 data in the given input stream.
 /// \param inputStream The input stream to read the MARC 21 encoded data from.
@@ -80,7 +78,7 @@ NS_SWIFT_NAME(MARCSerialization)
 /// \post If \c nil is returned and \c error is not a \c NULL pointer, its pointee is set to an \c NSError object
 ///       to indicate the reason for the failure.
 + (nullable BibRecord *)recordFromStream:(NSInputStream *)inputStream
-                                   error:(out NSError *_Nullable __autoreleasing *_Nullable)error NS_REFINED_FOR_SWIFT;
+                                   error:(out NSError *_Nullable __autoreleasing *_Nullable)error;
 
 @end
 

@@ -1,0 +1,26 @@
+Name: Bibliotek
+Classes:
+- Name: "BibRecord"
+  Properties:
+  - Name: "countOfFields"
+    PropertyKind: Instance
+    Type: "NSInteger"
+  Methods:
+  - Selector: "fieldAtIndex:"
+    MethodKind: Instance
+    Parameters:
+    - Position: 0
+      Type: "NSInteger"
+- Name: "BibMutableRecord"
+  Properties:
+  Methods:
+  - Selector: "insertField:atIndex:"
+    MethodKind: Instance
+    Parameters:
+    - Position: 1
+      Type: "NSInteger"
+  - Selector: "removeFieldAtIndex:"
+    MethodKind: Instance
+    Parameters:
+    - Position: 0
+      Type: "NSInteger"

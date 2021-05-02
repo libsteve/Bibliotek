@@ -7,12 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Bibliotek/BibAttributes.h>
 #import <Bibliotek/BibSubfield.h>
 
 @class BibFieldTag;
 
 NS_ASSUME_NONNULL_BEGIN
 
+BIB_SWIFT_BRIDGE(FieldPath)
 @interface BibFieldPath : NSObject <NSCopying>
 
 @property (nonatomic, readonly, copy) BibFieldTag *fieldTag;

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Bibliotek/BibAttributes.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// different schemas to present their information.
 ///
 /// Use this value to determine how tags and subfield codes should be used to interpret a record's content.
+BIB_SWIFT_BRIDGE(RecordKind)
 @interface BibRecordKind : NSObject <NSCopying>
 
 /// The raw character value used in a record's leader to indicate the record's kind.
