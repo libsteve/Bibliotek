@@ -248,7 +248,7 @@ boolean_t BibMarcLeaderWrite(BibMarcLeader const *const leader, int8_t *const bu
     BibMarcSizeWrite(leader->recordLength, buffer, 5);
     BibMarcSizeWrite(leader->fieldsLocation, buffer + 12, 5);
 
-    memcpy(buffer + 9, "022", 3); // encoding, number of indicators, length of subfield code
+    memcpy(buffer + 9, " 22", 3); // encoding, number of indicators, length of subfield code
     memcpy(buffer + 20, "4500", 4); // directory entry map
     return true;
 }

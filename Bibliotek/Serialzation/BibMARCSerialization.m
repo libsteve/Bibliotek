@@ -172,7 +172,7 @@ static NSError *BibMARCSerializationMakeStreamAtEndError(void);
 static BibMarcRecord BibMarcRecordMakeFromBibRecord(BibRecord *bibRecord)
 {
     BibMarcRecord record;
-    NSData *const leaderData = bibRecord.metadata.leader.rawData;
+    NSData *const leaderData = bibRecord.leader.rawData;
     record.leader = BibMarcLeaderRead(leaderData.bytes, leaderData.length);
     NSMutableArray *const bibControlFields = [NSMutableArray new];
     NSMutableArray *const bibDataFields = [NSMutableArray new];
@@ -224,16 +224,12 @@ static NSArray *BibRecordFieldMakeArrayFromMarcRecord(BibMarcRecord const *marcR
 static BibRecord *BibRecordMakeFromMarcRecord(BibMarcRecord const *const marcRecord) NS_RETURNS_RETAINED
 {
     int8_t const *const leaderBytes = marcRecord->leader.leaderData;
-    BibRecordKind *const kind = [[BibRecordKind alloc] initWithRawValue:(uint8_t)marcRecord->leader.recordKind];
     NSData *const leaderData = [[NSData alloc] initWithBytes:leaderBytes length:BibLeaderRawDataLength];
     BibLeader *const bibLeader = [[BibLeader alloc] initWithData:leaderData];
-    BibMetadata *const metadata = [[BibMetadata alloc] initWithLeader:bibLeader];
 
     bib_char_converter_t const converter = bib_char_converter_open(bib_char_encoding_utf8, bib_char_encoding_marc8);
     BibRecord *const record =
-        [[BibRecord alloc] initWithKind:kind
-                                 status:metadata.leader.recordStatus
-                               metadata:metadata
+        [[BibRecord alloc] initWithLeader:bibLeader
                                  fields:BibRecordFieldMakeArrayFromMarcRecord(marcRecord, converter)];
     bib_char_converter_close(converter);
     return record;

@@ -12,6 +12,7 @@
 
 @class BibRecordField;
 @class BibRecordKind;
+@class BibLeader;
 
 @class BibFieldTag;
 @class BibFieldPath;
@@ -42,11 +43,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Implementation-defined metadata from the MARC record's leader.
 ///
-/// MARC records can have arbitrary implementation-defined data embeded in their leader.
+/// MARC records can have arbitrary implementation-defined data embedded in their leader.
 /// The reserved bytes are located at index \c 7, \c 8, \c 17, \c 18, and \c 19 within the record leader.
 ///
 /// Use this field to access those bytes, which should be interpreted using the scheme identified in \c kind.
-@property (nonatomic, copy, readonly) BibMetadata *metadata;
+@property (nonatomic, copy, readonly) BibMetadata *metadata DEPRECATED_MSG_ATTRIBUTE("use -leader");
+
+/// Implementation-defined metadata from the MARC record's leader.
+///
+/// MARC records can have arbitrary implementation-defined data embedded in their leader.
+/// The reserved bytes are located at index \c 7, \c 8, \c 17, \c 18, and \c 19 within the record leader.
+///
+/// Use this field to access those bytes, which should be interpreted using the scheme identified in \c kind.
+@property (nonatomic, copy, readonly) BibLeader *leader;
 
 /// An ordered list of fields containing information and metadata about the record and its represented item.
 @property (nonatomic, copy, readonly) NSArray<BibRecordField *> *fields;
@@ -61,7 +70,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithKind:(nullable BibRecordKind *)kind
                       status:(BibRecordStatus)status
                     metadata:(BibMetadata *)metadata
-                      fields:(NSArray<BibRecordField *> *)fields NS_DESIGNATED_INITIALIZER;
+                      fields:(NSArray<BibRecordField *> *)fields NS_DESIGNATED_INITIALIZER
+    DEPRECATED_MSG_ATTRIBUTE("use -initWithLeader:fields:");
 
 /// Create a MARC 21 record containing data from the given leader, control fields, and data fields.
 ///
@@ -70,7 +80,25 @@ NS_ASSUME_NONNULL_BEGIN
                         status:(BibRecordStatus)status
                       metadata:(BibMetadata *)metadata
                         fields:(NSArray<BibRecordField *> *)controlFields
-    NS_SWIFT_UNAVAILABLE("use 'init(kind:status:metadata:fields:)'");
+    NS_SWIFT_UNAVAILABLE("use init(kind:status:metadata:fields:)")
+    DEPRECATED_MSG_ATTRIBUTE("use +recordWithLeader:fields:");
+
+/// Create a MARC 21 record with the given data.
+///
+/// \param leader A set of metadata describing the record, its encoding, and its state in the database.
+/// \param fields An ordered list of control fields and data fields describing the record and its represented item.
+/// \returns Returns a valid MARC 21 record for some item or entity described by the given fields.
+- (instancetype)initWithLeader:(BibLeader *)leader
+                        fields:(NSArray<BibRecordField *> *)fields NS_DESIGNATED_INITIALIZER;
+
+/// Create a MARC 21 record containing data from the given leader, control fields, and data fields.
+///
+/// \param leader A set of metadata describing the record, its encoding, and its state in the database.
+/// \param fields An ordered list of control fields and data fields describing the record and its represented item.
+/// \returns Returns a valid MARC 21 record for some item or entity described by the given fields.
++ (instancetype)recordWithLeader:(BibLeader *)leader
+                          fields:(NSArray<BibRecordField *> *)fields
+    NS_SWIFT_UNAVAILABLE("use init(leader:fields:)");
 
 
 @end
@@ -172,7 +200,15 @@ NS_ASSUME_NONNULL_BEGIN
 /// The record's current status in the database it was fetched from.
 @property (nonatomic, assign, readwrite) BibRecordStatus status;
 
-@property (nonatomic, copy, readwrite) BibMetadata *metadata;
+@property (nonatomic, copy, readwrite) BibMetadata *metadata DEPRECATED_MSG_ATTRIBUTE("use -leader");
+
+/// Implementation-defined metadata from the MARC record's leader.
+///
+/// MARC records can have arbitrary implementation-defined data embedded in their leader.
+/// The reserved bytes are located at index \c 7, \c 8, \c 17, \c 18, and \c 19 within the record leader.
+///
+/// Use this field to access those bytes, which should be interpreted using the scheme identified in \c kind.
+@property (nonatomic, copy, readwrite) BibLeader *leader;
 
 /// An ordered list of fields containing information and metadata about the record and its represented item.
 @property (nonatomic, copy, readwrite) NSArray<BibRecordField *> *fields;

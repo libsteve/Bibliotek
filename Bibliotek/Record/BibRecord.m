@@ -7,6 +7,7 @@
 //
 
 #import "BibRecord.h"
+#import "BibLeader.h"
 #import "BibRecordField.h"
 #import "BibRecordKind.h"
 #import "BibFieldTag.h"
@@ -17,22 +18,25 @@
 
 @implementation BibRecord {
 @protected
-    BibRecordKind *_kind;
-    BibRecordStatus _status;
-    BibMetadata *_metadata;
+    BibLeader *_leader;
     NSArray<BibRecordField *> *_fields;
 }
 
-@synthesize kind = _kind;
-@synthesize status = _status;
-@synthesize metadata = _metadata;
+@synthesize leader = _leader;
 @synthesize fields = _fields;
 
 - (instancetype)init {
-    return [self initWithKind:nil
-                       status:BibRecordStatusNew
-                     metadata:[BibMetadata new]
-                       fields:[NSArray new]];
+    BibMutableLeader *leader = [BibMutableLeader new];
+    [leader setRecordStatus:BibRecordStatusNew];
+    return [self initWithLeader:leader fields:[NSArray new]];
+}
+
+- (instancetype)initWithLeader:(BibLeader *)leader fields:(NSArray<BibRecordField *> *)fields {
+    if (self = [super init]) {
+        _leader = [leader copy];
+        _fields = [fields copy];
+    }
+    return self;
 }
 
 - (instancetype)initWithKind:(BibRecordKind *)kind
@@ -40,12 +44,17 @@
                     metadata:(BibMetadata *)metadata
                       fields:(NSArray<BibRecordField *> *)fields {
     if (self = [super init]) {
-        _kind = kind;
-        _status = status;
-        _metadata = [metadata copy];
+        BibMutableLeader *leader = [[metadata leader] mutableCopy];
+        [leader setRecordKind:kind];
+        [leader setRecordStatus:status];
+        _leader = [leader copy];
         _fields = [fields copy];
     }
     return self;
+}
+
++ (instancetype)recordWithLeader:(BibLeader *)leader fields:(NSArray<BibRecordField *> *)fields {
+    return [[self alloc] initWithLeader:leader fields:fields];
 }
 
 + (instancetype)recordWithKind:(BibRecordKind *)kind
@@ -63,6 +72,23 @@
     return [NSSet setWithObjects:BibKey(fields), BibKeyPath(fields, debugDescription), nil];
 }
 
+#pragma mark - Properties
+
+@dynamic kind;
+- (BibRecordKind *)kind {
+    return [[self leader] recordKind];
+}
+
+@dynamic status;
+- (BibRecordStatus)status {
+    return [[self leader] recordStatus];
+}
+
+@dynamic metadata;
+- (BibMetadata *)metadata {
+    return [[BibMetadata alloc] initWithLeader:[self leader]];
+}
+
 @end
 
 #pragma mark - Copying
@@ -74,10 +100,7 @@
 }
 
 - (id)mutableCopyWithZone:(NSZone *)zone {
-    return [[BibMutableRecord allocWithZone:zone] initWithKind:[self kind]
-                                                        status:[self status]
-                                                      metadata:[self metadata]
-                                                        fields:[self fields]];
+    return [[BibMutableRecord allocWithZone:zone] initWithLeader:[self leader] fields:[self fields]];
 }
 
 @end
@@ -87,9 +110,7 @@
 @implementation BibRecord (Equality)
 
 - (BOOL)isEqualToRecord:(BibRecord *)record {
-    return [[self kind] isEqualToRecordKind:[record kind]]
-        && [self status] == [record status]
-        && [[self metadata] isEqualToMetadata:[record metadata]]
+    return [[self leader] isEqualToLeader:[record leader]]
         && [[self fields] isEqualToArray:[record fields]];
 }
 
@@ -100,9 +121,7 @@
 
 - (NSUInteger)hash {
     BibHasher *const hasher = [BibHasher new];
-    [hasher combineWithObject:[self kind]];
-    [hasher combineWithHash:[self status]];
-    [hasher combineWithObject:[self metadata]];
+    [hasher combineWithObject:[self leader]];
     [hasher combineWithObject:[self fields]];
     return [hasher hash];
 }
@@ -259,32 +278,41 @@
 
 @implementation BibMutableRecord
 
+- (instancetype)initWithLeader:(BibLeader *)leader fields:(NSArray<BibRecordField *> *)fields {
+    if (self = [super initWithLeader:leader fields:fields]) {
+        _leader = [leader mutableCopy];
+        _fields = [fields copy];
+    }
+    return self;
+}
+
 - (id)copyWithZone:(NSZone *)zone {
-    return [[BibRecord allocWithZone:zone] initWithKind:[self kind]
-                                                 status:[self status]
-                                               metadata:[self metadata]
-                                                 fields:[self fields]];
+    return [[BibRecord allocWithZone:zone] initWithLeader:[self leader] fields:[self fields]];
+}
+
+- (BibLeader *)leader {
+    return [_leader copy];
+}
+
+- (void)setLeader:(BibLeader *)leader {
+    if (_leader != leader) {
+        _leader = [leader mutableCopy];
+    }
 }
 
 @dynamic kind;
 - (void)setKind:(BibRecordKind *)kind {
-    if (_kind != kind) {
-        _kind = kind;
-    }
+    [(BibMutableLeader *)(_leader) setRecordKind:kind];
 }
 
 @dynamic status;
 - (void)setStatus:(BibRecordStatus)status {
-    if (_status != status) {
-        _status = status;
-    }
+    [(BibMutableLeader *)(_leader) setRecordStatus:status];
 }
 
 @dynamic metadata;
 - (void)setMetadata:(BibMetadata *)metadata {
-    if (_metadata != metadata) {
-        _metadata = [metadata copy];
-    }
+    _leader = [[metadata leader] mutableCopy];
 }
 
 @dynamic fields;
