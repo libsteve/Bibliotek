@@ -34,7 +34,8 @@ BibMarcLeader BibMarcLeaderRead(int8_t const *const buffer, size_t const length)
     BibMarcLeader leader = (BibMarcLeader) {
         .recordKind = buffer[6],
         .recordLength = BibMarcSizeRead(buffer, 5),
-        .fieldsLocation = BibMarcSizeRead(buffer + 12, 5),
+        .recordEncoding = buffer[9],
+        .fieldsLocation = BibMarcSizeRead(buffer + 12, 5)
     };
     memcpy(leader.leaderData, buffer, 24);
     return leader;
@@ -74,7 +75,7 @@ size_t BibMarcSubfieldRead(BibMarcSubfield *const subfield, int8_t const *const 
     assert(buffer != NULL);
     assert(length >= 3); // minimum [delimiter][code][delimiter/terminator]
 
-    // subfeild must always begin with a delimiter
+    // subfield must always begin with a delimiter
     assert(buffer[0] == kSubfieldDelimiter);
 
     // read subfield code
@@ -246,9 +247,10 @@ boolean_t BibMarcLeaderWrite(BibMarcLeader const *const leader, int8_t *const bu
 
     buffer[6] = leader->recordKind;
     BibMarcSizeWrite(leader->recordLength, buffer, 5);
+    buffer[9] = leader->recordEncoding;
     BibMarcSizeWrite(leader->fieldsLocation, buffer + 12, 5);
 
-    memcpy(buffer + 9, " 22", 3); // encoding, number of indicators, length of subfield code
+    memcpy(buffer + 10, "22", 2); // number of indicators, length of subfield code
     memcpy(buffer + 20, "4500", 4); // directory entry map
     return true;
 }
@@ -352,6 +354,7 @@ size_t BibMarcRecordWrite(BibMarcRecord const *const record, int8_t *const buffe
     BibMarcLeader leader = {
         .recordKind = record->leader.recordKind,
         .recordLength = BibMarcRecordGetWriteSize(record),
+        .recordEncoding = record->leader.recordEncoding,
         .fieldsLocation = kLeaderLength + (directory_len * kDirectoryEntryLength) + 1,
     };
     memcpy(leader.leaderData, record->leader.leaderData, 24);

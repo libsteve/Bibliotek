@@ -187,7 +187,21 @@ static BibMarcRecord BibMarcRecordMakeFromBibRecord(BibRecord *bibRecord)
     record.contentFieldsCount = bibDataFields.count;
     record.controlFields = calloc(record.controlFieldsCount, sizeof(BibMarcControlField));
     record.contentFields = calloc(record.contentFieldsCount, sizeof(BibMarcContentField));
-    bib_char_converter_t const converter = bib_char_converter_open(bib_char_encoding_marc8, bib_char_encoding_utf8);
+
+    bib_char_encoding_t to, from;
+    switch (bibRecord.leader.recordEncoding) {
+        case BibUTF8Encoding:
+            to = bib_char_encoding_utf8;
+            from = bib_char_encoding_utf8;
+            break;
+        case BibMARC8Encoding:
+        default:
+            to = bib_char_encoding_marc8;
+            from = bib_char_encoding_utf8;
+            break;
+    }
+
+    bib_char_converter_t const converter = bib_char_converter_open(to, from);
     for (size_t index = 0; index < record.controlFieldsCount; index += 1)
     {
         BibMarcControlField *const field = &(record.controlFields[index]);
@@ -227,10 +241,22 @@ static BibRecord *BibRecordMakeFromMarcRecord(BibMarcRecord const *const marcRec
     NSData *const leaderData = [[NSData alloc] initWithBytes:leaderBytes length:BibLeaderRawDataLength];
     BibLeader *const bibLeader = [[BibLeader alloc] initWithData:leaderData];
 
-    bib_char_converter_t const converter = bib_char_converter_open(bib_char_encoding_utf8, bib_char_encoding_marc8);
-    BibRecord *const record =
-        [[BibRecord alloc] initWithLeader:bibLeader
-                                 fields:BibRecordFieldMakeArrayFromMarcRecord(marcRecord, converter)];
+    bib_char_encoding_t to, from;
+    switch (marcRecord->leader.recordEncoding) {
+        case 'a':
+            to = bib_char_encoding_utf8;
+            from = bib_char_encoding_utf8;
+            break;
+        case ' ':
+        default:
+            to = bib_char_encoding_utf8;
+            from = bib_char_encoding_marc8;
+            break;
+    }
+
+    bib_char_converter_t const converter = bib_char_converter_open(to, from);
+    NSArray *fields = BibRecordFieldMakeArrayFromMarcRecord(marcRecord, converter);
+    BibRecord *const record = [[BibRecord alloc] initWithLeader:bibLeader fields:fields];
     bib_char_converter_close(converter);
     return record;
 }
