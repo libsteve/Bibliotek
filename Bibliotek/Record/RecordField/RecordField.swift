@@ -376,24 +376,23 @@ extension RecordField: _ObjectiveCBridgeable {
     public func _bridgeToObjectiveC() -> BibRecordField {
         switch self.content {
         case nil:
-            return BibRecordField(fieldTag: self.tag as BibFieldTag)
+            return BibRecordField(fieldTag: self.tag)
         case let .control(value: value):
-            return BibRecordField(fieldTag: self.tag as BibFieldTag, controlValue: value)
+            return BibRecordField(fieldTag: self.tag, controlValue: value)
         case let .data(indicators: indicators, subfields: subfields):
-            return BibRecordField(fieldTag: self.tag as BibFieldTag,
-                                  firstIndicator: indicators.first as BibFieldIndicator,
-                                  secondIndicator: indicators.second as BibFieldIndicator,
+            return BibRecordField(fieldTag: self.tag,
+                                  firstIndicator: indicators.first,
+                                  secondIndicator: indicators.second,
                                   subfields: subfields as [BibSubfield])
         }
     }
 
     public static func _forceBridgeFromObjectiveC(_ source: BibRecordField, result: inout RecordField?) {
         if source.isControlField {
-            result = RecordField(tag: source.fieldTag as FieldTag, controlValue: source.controlValue!)
+            result = RecordField(tag: source.fieldTag, controlValue: source.controlValue!)
         } else if source.isDataField {
-            result = RecordField(tag: source.fieldTag as FieldTag,
-                                 indicators: (first: source.firstIndicator! as FieldIndicator,
-                                              second: source.secondIndicator! as FieldIndicator),
+            result = RecordField(tag: source.fieldTag,
+                                 indicators: (first: source.firstIndicator!, second: source.secondIndicator!),
                                  subfields: source.subfields! as [Subfield])
         } else {
             result = .init(tag: source.fieldTag as FieldTag)

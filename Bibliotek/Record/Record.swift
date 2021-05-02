@@ -30,8 +30,8 @@ public struct Record {
     ///
     /// Use this field to determine how tags and subfield codes should be used to interpret field content.
     public var kind: RecordKind? {
-        get { return self.storage.kind as RecordKind? }
-        set { self.mutate(keyPath: \.kind, with: newValue as BibRecordKind?) }
+        get { return self.storage.kind }
+        set { self.mutate(keyPath: \.kind, with: newValue) }
     }
 
     /// The record's current status in the database it was fetched from.
@@ -91,10 +91,7 @@ public struct Record {
     /// - returns: Returns a valid MARC 21 record for some item or entity described by the given fields.
     @available(*, deprecated, message: "use init(leader:fields:)")
     public init(kind: RecordKind?, status: RecordStatus, metadata: Metadata, fields: [RecordField]) {
-        self._storage = BibRecord(kind: kind as BibRecordKind?,
-                                  status: status,
-                                  metadata: metadata as BibMetadata,
-                                  fields: fields as [BibRecordField])
+        self._storage = BibRecord(kind: kind, status: status, metadata: metadata as BibMetadata, fields: fields as [BibRecordField])
     }
 
     private mutating func mutate<T>(keyPath: WritableKeyPath<BibMutableRecord, T>, with newValue: T) {
@@ -165,15 +162,15 @@ extension Record {
 
 extension Record {
     public func indexPaths(for fieldPath: FieldPath) -> [IndexPath] {
-        return self.storage.indexPaths(for: fieldPath as BibFieldPath)
+        return self.storage.indexPaths(for: fieldPath)
     }
 
     public func indexPaths(for tag: FieldTag) -> [IndexPath] {
-        return self.storage.indexPaths(for: tag as BibFieldTag)
+        return self.storage.indexPaths(for: tag)
     }
 
     public func indexPaths(for tag: FieldTag, code: SubfieldCode) -> [IndexPath] {
-        return self.storage.indexPaths(for: tag as BibFieldTag, code: code)
+        return self.storage.indexPaths(for: tag, code: code)
     }
 
     /// Get the record field referenced by the given index path.
@@ -201,7 +198,7 @@ extension Record {
     }
 
     public func content(with fieldPath: FieldPath) -> [String] {
-        return self.storage.content(with: fieldPath as BibFieldPath)
+        return self.storage.content(with: fieldPath)
     }
 }
 

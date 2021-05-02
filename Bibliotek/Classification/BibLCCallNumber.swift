@@ -81,7 +81,7 @@ extension LCCallNumber: Hashable, Equatable, Comparable {
     ///       is necessarily ordered linearly after the receiver.
     @available(*, deprecated, message: "Use the <<>> operator")
     public func compare(with callNumber: LCCallNumber) -> ClassificationComparisonResult {
-        return self.storage.compare(with: callNumber as BibLCCallNumber)
+        return self.storage.compare(with: callNumber.storage)
     }
 
     /// Determine the ordering relationship between the subject matters represented by two call numbers.

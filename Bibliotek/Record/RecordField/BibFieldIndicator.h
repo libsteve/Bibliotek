@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Bibliotek/BibAttributes.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -24,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///       contains an indicator value of \c ')' at offset \c 42507804 , so we should be gracefully handling this case
 ///       by assuming that any ASCII character could be provided as a valid indicator. If the LoC's schedule has this
 ///       indicator value, it must be valid, right‽ ¯\_(ツ)_/¯
+BIB_SWIFT_BRIDGE(FieldIndicator)
 @interface BibFieldIndicator : NSObject <NSCopying, NSSecureCoding>
 
 /// The ASCII value backing this indicator object.

@@ -43,49 +43,49 @@ extension RecordKind {
 
 extension RecordKind {
     /// Classification
-    public static let classification = RecordKind(storage: .classification)
+    public static let classification = BibRecordKind.classification
 
     /// Language Material
-    public static let languageMaterial = RecordKind(storage: .languageMaterial)
+    public static let languageMaterial = BibRecordKind.languageMaterial
 
     /// Notated Music
-    public static let notatedMusic = RecordKind(storage: .notatedMusic)
+    public static let notatedMusic = BibRecordKind.notatedMusic
 
     /// Manuscript Notated Music
-    public static let manuscriptNotatedMusic = RecordKind(storage: .manuscriptNotatedMusic)
+    public static let manuscriptNotatedMusic = BibRecordKind.manuscriptNotatedMusic
 
     /// Cartographic Material
-    public static let cartographicMaterial = RecordKind(storage: .cartographicMaterial)
+    public static let cartographicMaterial = BibRecordKind.cartographicMaterial
 
     /// Manuscript Cartographic Material
-    public static let manuscriptCartographicMaterial = RecordKind(storage: .manuscriptCartographicMaterial)
+    public static let manuscriptCartographicMaterial = BibRecordKind.manuscriptCartographicMaterial
 
     /// Projected Medium
-    public static let projectedMedium = RecordKind(storage: .projectedMedium)
+    public static let projectedMedium = BibRecordKind.projectedMedium
 
     /// NonMusical Sound Recording
-    public static let nonMusicalSoundRecording = RecordKind(storage: .nonMusicalSoundRecording)
+    public static let nonMusicalSoundRecording = BibRecordKind.nonMusicalSoundRecording
 
     /// Musical Sound Recording
-    public static let musicalSoundRecording = RecordKind(storage: .musicalSoundRecording)
+    public static let musicalSoundRecording = BibRecordKind.musicalSoundRecording
 
     /// Two-Dimensional Non-Projectable Graphic
-    public static let twoDimensionalNonProjectableGraphic = RecordKind(storage: .twoDimensionalNonProjectableGraphic)
+    public static let twoDimensionalNonProjectableGraphic = BibRecordKind.twoDimensionalNonProjectableGraphic
 
     /// Computer File
-    public static let computerFile = RecordKind(storage: .computerFile)
+    public static let computerFile = BibRecordKind.computerFile
 
     /// Kit
-    public static let kit = RecordKind(storage: .kit)
+    public static let kit = BibRecordKind.kit
 
     /// Mixed Materials
-    public static let mixedMaterials = RecordKind(storage: .mixedMaterials)
+    public static let mixedMaterials = BibRecordKind.mixedMaterials
 
     /// Three-Dimensional Artifact
-    public static let threeDimensionalArtifact = RecordKind(storage: .threeDimensionalArtifact)
+    public static let threeDimensionalArtifact = BibRecordKind.threeDimensionalArtifact
 
     /// Manuscript LanguageMateral
-    public static let manuscriptLanguageMateral = RecordKind(storage: .manuscriptLanguageMateral)
+    public static let manuscriptLanguageMateral = BibRecordKind.manuscriptLanguageMateral
 
 }
 

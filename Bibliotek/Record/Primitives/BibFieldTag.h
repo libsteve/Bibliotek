@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Bibliotek/BibAttributes.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,9 +17,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/spechome.html
 ///
 /// \note MARC 21 tags are always 3 digit codes.
+BIB_SWIFT_BRIDGE(FieldTag)
 @interface BibFieldTag : NSObject <NSCopying, NSSecureCoding>
 
-/// A string contianing the 3-character value of the tag.
+/// A string containing the 3-character value of the tag.
 @property (nonatomic, copy, readonly) NSString *stringValue;
 
 /// Does the tag identify a control field?

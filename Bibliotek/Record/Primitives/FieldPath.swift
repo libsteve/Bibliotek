@@ -79,9 +79,9 @@ extension FieldPath: _ObjectiveCBridgeable {
     public func _bridgeToObjectiveC() -> BibFieldPath {
         switch self {
         case let .fieldPath(tag: fieldTag):
-            return BibFieldPath(fieldTag: fieldTag as BibFieldTag)
+            return BibFieldPath(fieldTag: fieldTag)
         case let .subfieldPath(tag: fieldTag, code: subfieldCode):
-            return BibFieldPath(fieldTag: fieldTag as BibFieldTag, subfieldCode: subfieldCode)
+            return BibFieldPath(fieldTag: fieldTag, subfieldCode: subfieldCode)
         }
     }
 

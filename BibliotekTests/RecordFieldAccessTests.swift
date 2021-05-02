@@ -17,7 +17,7 @@ class RecordFieldAccessTests: XCTestCase {
         super.setUp()
         let bundle = Bundle(for: RecordFieldAccessTests.self)
         let url = bundle.url(forResource: "BibliographicRecord", withExtension: "marc8")!
-        self.record = try! MARCSerialization.records(from: try! Data(contentsOf: url)).first
+        self.record = try! MARCSerialization.records(from: try! Data(contentsOf: url)).first as Record?
     }
 
     func testControlFieldAccessControlNumber() {
@@ -53,7 +53,7 @@ class RecordFieldAccessTests: XCTestCase {
 
     func testSubfieldAccessTitleStatementTitle() {
         let indexPaths = self.record.indexPaths(for: FieldPath(tag: "245", code: "a"))
-        XCTAssertEqual(indexPaths.count, 1, "Expected one title subfiled in the title statement field")
+        XCTAssertEqual(indexPaths.count, 1, "Expected one title subfield in the title statement field")
         XCTAssertEqual(indexPaths.first!.count, 2, "Index paths for subfields should have two indexes")
 
         let subfields = indexPaths.compactMap(self.record.subfield(at:))

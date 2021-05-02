@@ -38,8 +38,8 @@ public struct Metadata {
     }
 
     public var kind: RecordKind {
-        get { self.storage.recordKind as RecordKind }
-        set { self.mutate(keyPath: \.recordKind, with: newValue as BibRecordKind) }
+        get { self.storage.recordKind }
+        set { self.mutate(keyPath: \.recordKind, with: newValue) }
     }
 
     public var status: RecordStatus {

@@ -116,7 +116,7 @@ NS_SWIFT_NAME(MARCOutputStream)
 /// \note If \c streamStatus is set to \c NSStreamStatusAtEnd when this method is called, \c nil is returned, but no
 ///       \c NSError is provided through the \c error pointer.
 - (BOOL)writeRecord:(BibRecord *)record error:(out NSError *_Nullable __autoreleasing *_Nullable)error
-    NS_REFINED_FOR_SWIFT __attribute__((swift_error(nonnull_error)));
+    NS_SWIFT_NAME(write(record:)) __attribute__((swift_error(nonnull_error)));
 
 @end
 
