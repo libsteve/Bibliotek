@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Bibliotek/BibAttributes.h>
 #import <Bibliotek/BibMetadata.h>
 
 @class BibRecordKind;
@@ -14,7 +15,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /// A MARC record leader is always exactly 24 bytes of visible ASCII characters.
-extern NSUInteger const BibLeaderRawDataLength NS_SWIFT_NAME(Leader.rawValueLength);
+extern NSUInteger const BibLeaderRawDataLength NS_REFINED_FOR_SWIFT;
 
 /// A collection of metadata preceding a the encoded data for a record.
 ///
@@ -23,11 +24,11 @@ extern NSUInteger const BibLeaderRawDataLength NS_SWIFT_NAME(Leader.rawValueLeng
 /// of fields' tags and indicators, and other miscellaneous metadata.
 ///
 /// The bytes located at index \c 07, \c 08, \c 17, \c 18, and \c 19 within the record leader are reserved for
-/// implementation-defined semantics. Use a record's \c kind to determine how to interpret these metadata values.
+/// implementation-defined semantics. Use the leader's \c recordKind to determine how to interpret these values.
 ///
 /// More information about the MARC 21 leader can be found in the Library of Congress's documentation on
 /// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html#leader
-NS_SWIFT_NAME(Leader)
+BIB_SWIFT_BRIDGE(Leader)
 @interface BibLeader : NSObject
 
 /// The 24-byte encoded representation of the leader's data.
@@ -81,7 +82,6 @@ NS_SWIFT_NAME(Leader)
 ///
 /// More information about the MARC 21 leader can be found in the Library of Congress's documentation on
 /// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html#leader
-NS_SWIFT_NAME(MutableLeader)
 @interface BibMutableLeader : BibLeader
 
 /// The 24-byte encoded representation of the leader's data.
@@ -158,6 +158,12 @@ NS_SWIFT_NAME(MutableLeader)
 
 /// The character encoding used to represent textual information within the record.
 @property (nonatomic, readwrite) BibEncoding recordEncoding;
+
+/// The specificity used to identify the item represented by a bibliographic record.
+@property (nonatomic, readwrite) BibBibliographicLevel bibliographicLevel NS_REFINED_FOR_SWIFT;
+
+/// The ruleset used to determine the information about the item that's included in the record.
+@property (nonatomic, readwrite) BibBibliographicControlType bibliographicControlType NS_REFINED_FOR_SWIFT;
 
 /// Set the byte value within the reserved position in the MARC record's leader.
 ///
