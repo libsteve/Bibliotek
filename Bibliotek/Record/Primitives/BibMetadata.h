@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Bibliotek/BibAttributes.h>
 
 @class BibRecordKind;
 
@@ -29,6 +30,8 @@ typedef NS_CLOSED_ENUM(NSUInteger, BibReservedPosition) {
 /// The reserved bytes are located at index \c 7, \c 8, \c 17, \c 18, and \c 19 within the record leader.
 ///
 /// Use a record's \c kind to determine how to interpret these metadata values.
+BIB_SWIFT_BRIDGE(Metadata)
+DEPRECATED_MSG_ATTRIBUTE("Replaced with BibLeader")
 @interface BibMetadata : NSObject
 
 /// Retrieve the byte stored within the reserved position in the MARC record's leader.
@@ -60,6 +63,7 @@ typedef NS_CLOSED_ENUM(NSUInteger, BibReservedPosition) {
 /// The reserved bytes are located at index \c 7, \c 8, \c 17, \c 18, and \c 19 within the record leader.
 ///
 /// Use a record's \c kind to determine how to interpret these metadata values.
+DEPRECATED_MSG_ATTRIBUTE("Replaced with BibMutableLeader")
 @interface BibMutableMetadata : BibMetadata
 
 /// Set the byte value within the reserved position in the MARC record's leader.

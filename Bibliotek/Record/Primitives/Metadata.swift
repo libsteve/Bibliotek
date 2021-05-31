@@ -14,6 +14,7 @@ import Foundation
 /// The reserved bytes are located at index `7`, `8`, `17`, `18`, and `19` within the record leader.
 ///
 /// Use a record's `kind` to determine how to interpret these metadata values.
+@available(*, deprecated, message: "Replaced with Leader")
 public struct Metadata {
     private var _storage: BibMetadata!
     private var _mutableStorage: BibMutableMetadata!
@@ -98,6 +99,7 @@ public struct Metadata {
     }
 }
 
+@available(*, deprecated, message: "Replaced with Leader")
 extension Metadata: Hashable, Equatable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.storage)
@@ -108,6 +110,7 @@ extension Metadata: Hashable, Equatable {
     }
 }
 
+@available(*, deprecated, message: "Replaced with Leader")
 extension Metadata: CustomStringConvertible, CustomDebugStringConvertible, CustomPlaygroundDisplayConvertible {
     public var description: String { return self.storage.description }
 
@@ -118,10 +121,12 @@ extension Metadata: CustomStringConvertible, CustomDebugStringConvertible, Custo
     }
 }
 
+@available(*, deprecated, message: "Replaced with Leader")
 extension Metadata: ReferenceConvertible {
     public typealias ReferenceType = BibMetadata
 }
 
+@available(*, deprecated, message: "Replaced with Leader")
 extension Metadata: _ObjectiveCBridgeable {
     public typealias _ObjectiveCType = BibMetadata
 
@@ -143,6 +148,7 @@ extension Metadata: _ObjectiveCBridgeable {
     }
 }
 
+@available(*, deprecated, message: "Replaced with Leader")
 extension BibMetadata: CustomPlaygroundDisplayConvertible {
     public var playgroundDescription: Any { return (self as Metadata).playgroundDescription }
 }
