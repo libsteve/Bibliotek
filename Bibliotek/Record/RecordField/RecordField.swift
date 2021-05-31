@@ -49,7 +49,7 @@ public struct RecordField {
         return true
     }
 
-    /// This object is a data field with contnet indicators and subfield data.
+    /// This object is a data field with content indicators and subfield data.
     public var isDataField: Bool {
         guard case .data(indicators: _, subfields: _) = self.content else { return false }
         return true
@@ -227,7 +227,7 @@ extension RecordField {
     ///            `nil` is returned if there is no such matching subfield.
     /// - note: This method always returns `nil` for control fields.
     public func subfield(with code: SubfieldCode) -> Subfield? {
-        return self.indexOfSubfiled(with: code).map(self.subfield(at:))
+        return self.indexOfSubfield(with: code).map(self.subfield(at:))
     }
 
     /// Get the index of the first subfield marked with the given code.
@@ -235,7 +235,7 @@ extension RecordField {
     /// - returns: The index of the first subfield in this data field with the given subfield code.
     ///            `nil` is returned if there is no such matching subfield.
     /// - note: This method always returns `nil` for control fields.
-    public func indexOfSubfiled(with code: SubfieldCode) -> Int? {
+    public func indexOfSubfield(with code: SubfieldCode) -> Int? {
         switch self.content {
         case nil, .control(value: _):
             return nil
@@ -247,7 +247,7 @@ extension RecordField {
 
     /// Get this data field's subfield at the given index.
     /// - parameter index: The index of the subfield to access.
-    /// - returns: This data field's subfiled located at the given index.
+    /// - returns: This data field's subfield located at the given index.
     /// - note: This method will fatally error for control fields.
     public func subfield(at index: Int) -> Subfield {
         return self.subfields![index]
@@ -255,7 +255,7 @@ extension RecordField {
 
     /// Use indexed subscripting syntax to access a subfield from this data field.
     /// - parameter index: The index of the subfield to access.
-    /// - returns: This data field's subfiled located at the given index.
+    /// - returns: This data field's subfield located at the given index.
     /// - note: This method will throw fatally error for control fields.
     public subscript(index: Int) -> Subfield {
         get { return self.subfield(at: index) }
@@ -268,7 +268,7 @@ extension RecordField {
     ///            `false` is returned when no such subfield is found.
     /// - note: This method always returns `false` for control fields.
     public func containsSubfield(with code: SubfieldCode) -> Bool {
-        return self.indexOfSubfiled(with: code) != nil
+        return self.indexOfSubfield(with: code) != nil
     }
 }
 

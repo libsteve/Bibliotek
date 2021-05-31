@@ -62,7 +62,7 @@ extern bool bib_parse_cuttseg(bib_cuttseg_t *seg, bib_strbuf_t *parser);
 /// \post \c segs is set to an array of data structure representing the cutter segments when parsing is successful.
 extern bool bib_parse_cuttseg_list(bib_cuttseg_t segs[3], bib_strbuf_t *parser);
 
-/// Read a specification segment for a Library of Conrgess call number from the given input stream.
+/// Read a specification segment for a Library of Congress call number from the given input stream.
 /// \param spc Allocated space for a structure representing the parsed specification segment.
 /// \param parser Pointer to a string buffer object to parse from.
 /// \returns \c true when a specification segment is successfully read from the input stream.
@@ -100,7 +100,7 @@ extern bool bib_parse_cutter(bib_cutter_t *cut, bib_strbuf_t *parser);
 /// \post \c ord is set to a data structure representing the ordinal value when parsing is successful.
 extern bool bib_parse_cutter_ordinal(bib_ordinal_t *ord, bib_strbuf_t *parser);
 
-/// Read an ordinal value for a call number's caption sction from the given input stream.
+/// Read an ordinal value for a call number's caption section from the given input stream.
 /// \param ord Allocated space for a structure representing the parsed ordinal value in the caption section.
 /// \param parser Pointer to a string buffer object to parse from.
 /// \returns \c true when an ordinal value is successfully read from the input stream.

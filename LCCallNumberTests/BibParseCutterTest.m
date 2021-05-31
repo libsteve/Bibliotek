@@ -69,7 +69,7 @@
 - (void)test_segment_04_valid_without_trailing_space {
     bib_cuttseg_t cut = {};
     bib_strbuf_t parser = bib_strbuf("A123B123", 0);
-    XCTAssertTrue(bib_parse_cuttseg(&cut, &parser), @"parse valid cutter numner without work mark");
+    XCTAssertTrue(bib_parse_cuttseg(&cut, &parser), @"parse valid cutter number without work mark");
 
     XCTAssertEqual(cut.cutter.letter, 'A', @"parse cutter initial");
     BibAssertEqualStrings(cut.cutter.number, "123", @"parse cutter number");
@@ -82,7 +82,7 @@
 - (void)test_segment_05_valid_without_work_mark {
     bib_cuttseg_t cut = {};
     bib_strbuf_t parser = bib_strbuf("A123B", 0);
-    XCTAssertTrue(bib_parse_cuttseg(&cut, &parser), @"parse valid cutter numner without work mark");
+    XCTAssertTrue(bib_parse_cuttseg(&cut, &parser), @"parse valid cutter number without work mark");
 
     XCTAssertEqual(cut.cutter.letter, 'A', @"parse cutter initial");
     BibAssertEqualStrings(cut.cutter.number, "123", @"parse cutter number");

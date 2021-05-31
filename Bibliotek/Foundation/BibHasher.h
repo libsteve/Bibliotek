@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// \param object The object passed into the receiver's \c -isEqual: method.
 /// \returns \c YES when both objects are \c nil or the return value from the receiver's \c -isEqual: method.
 ///
-/// \c -isEqual: will retrun \c NO when both \c receiver and \c object are \c nil
+/// \c -isEqual: will return \c NO when both \c receiver and \c object are \c nil
 /// even though they are equivalent. This function first checks for the case where
 /// both objects are \c nil before using \c -isEqual: to account for this case.
 extern BOOL BibNullableObjectEqual(id _Nullable receiver, id _Nullable object);
@@ -74,7 +74,7 @@ extern BOOL BibNullableObjectEqual(id _Nullable receiver, id _Nullable object);
 /// \param string The string passed into the receiver's \c -isEqual: method.
 /// \returns \c YES when both strings are \c nil or the return value from the receiver's \c -isEquaToString: method.
 ///
-/// \c -isEqualToString: will retrun \c NO when both \c receiver and \c string are \c nil
+/// \c -isEqualToString: will return \c NO when both \c receiver and \c string are \c nil
 /// even though they are equivalent. This function first checks for the case where both
 /// strings are \c nil before using \c -isEqualToString: to account for this case.
 extern BOOL BibNullableStringEqual(NSString *_Nullable receiver, NSString *_Nullable string);

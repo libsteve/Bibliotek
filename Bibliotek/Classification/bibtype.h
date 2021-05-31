@@ -330,7 +330,7 @@ typedef enum bib_calln_comparison {
 /// \param left The call number at the first location.
 /// \param right The call number at the last location.
 /// \param status The result of previous specialization comparisons. This is used to continue matching
-///               prefixes for subsequent segments that have been completly equivalend thus far.
+///               prefixes for subsequent segments that have been completely equivalent thus far.
 /// \param specify Pass \c true when the comparison should include specialization ordering.
 /// \returns The ordering relationship between the \c left and \c right objects.
 ///
@@ -345,7 +345,7 @@ extern bib_calln_comparison_t bib_lc_calln_compare(bib_calln_comparison_t status
 /// \param left The cutter segment at the first location.
 /// \param right The cutter segment at the last location.
 /// \param status The result of previous specialization comparisons. This is used to continue matching
-///               prefixes for subsequent segments that have been completly equivalend thus far.
+///               prefixes for subsequent segments that have been completely equivalent thus far.
 /// \param specify Pass \c true when the comparison should include specialization ordering.
 /// \returns The ordering relationship between the \c left and \c right objects.
 extern bib_calln_comparison_t bib_cuttseg_compare(bib_calln_comparison_t status,
@@ -356,7 +356,7 @@ extern bib_calln_comparison_t bib_cuttseg_compare(bib_calln_comparison_t status,
 /// \param left The date-or-ordinal value at the first location.
 /// \param right The date-or-ordinal value at the last location.
 /// \param status The result of previous specialization comparisons. This is used to continue matching
-///               prefixes for subsequent segments that have been completly equivalend thus far.
+///               prefixes for subsequent segments that have been completely equivalent thus far.
 /// \param specify Pass \c true when the comparison should include specialization ordering.
 /// \returns The ordering relationship between the \c left and \c right objects.
 extern bib_calln_comparison_t bib_dateord_compare(bib_calln_comparison_t status,
@@ -367,7 +367,7 @@ extern bib_calln_comparison_t bib_dateord_compare(bib_calln_comparison_t status,
 /// \param left The specification segment at the first location.
 /// \param right The specification segment at the last location.
 /// \param status The result of previous specialization comparisons. This is used to continue matching
-///               prefixes for subsequent segments that have been completly equivalend thus far.
+///               prefixes for subsequent segments that have been completely equivalent thus far.
 /// \param specify Pass \c true when the comparison should include specialization ordering.
 /// \returns The ordering relationship between the \c left and \c right objects.
 extern bib_calln_comparison_t bib_specification_compare(bib_calln_comparison_t status,
@@ -378,7 +378,7 @@ extern bib_calln_comparison_t bib_specification_compare(bib_calln_comparison_t s
 /// \param left The date at the first location.
 /// \param right The date at the last location.
 /// \param status The result of previous specialization comparisons. This is used to continue matching
-///               prefixes for subsequent segments that have been completly equivalend thus far.
+///               prefixes for subsequent segments that have been completely equivalent thus far.
 /// \param specify Pass \c true when the comparison should include specialization ordering.
 /// \returns The ordering relationship between the \c left and \c right objects.
 extern bib_calln_comparison_t bib_date_compare(bib_calln_comparison_t status,
@@ -389,7 +389,7 @@ extern bib_calln_comparison_t bib_date_compare(bib_calln_comparison_t status,
 /// \param left The cutter number at the first location.
 /// \param right The cutter number at the last location.
 /// \param status The result of previous specialization comparisons. This is used to continue matching
-///               prefixes for subsequent segments that have been completly equivalend thus far.
+///               prefixes for subsequent segments that have been completely equivalent thus far.
 /// \param specify Pass \c true when the comparison should include specialization ordering.
 /// \returns The ordering relationship between the \c left and \c right objects.
 extern bib_calln_comparison_t bib_cutter_compare(bib_calln_comparison_t status,
@@ -400,7 +400,7 @@ extern bib_calln_comparison_t bib_cutter_compare(bib_calln_comparison_t status,
 /// \param left The volume number at the first location.
 /// \param right The volume number at the last location.
 /// \param status The result of previous specialization comparisons. This is used to continue matching
-///               prefixes for subsequent segments that have been completly equivalend thus far.
+///               prefixes for subsequent segments that have been completely equivalent thus far.
 /// \param specify Pass \c true when the comparison should include specialization ordering.
 /// \returns The ordering relationship between the \c left and \c right objects.
 extern bib_calln_comparison_t bib_volume_compare(bib_calln_comparison_t status,
@@ -411,7 +411,7 @@ extern bib_calln_comparison_t bib_volume_compare(bib_calln_comparison_t status,
 /// \param left The ordinal value at the first location.
 /// \param right The ordinal value at the last location.
 /// \param status The result of previous specialization comparisons. This is used to continue matching
-///               prefixes for subsequent segments that have been completly equivalend thus far.
+///               prefixes for subsequent segments that have been completely equivalent thus far.
 /// \param specify Pass \c true when the comparison should include specialization ordering.
 /// \returns The ordering relationship between the \c left and \c right objects.
 extern bib_calln_comparison_t bib_ordinal_compare(bib_calln_comparison_t status,
@@ -426,9 +426,9 @@ bib_calln_comparison_t bib_supplement_compare(bib_calln_comparison_t status,
 
 /// Determine if the given \c string begins with the given \c prefix and whether or not they are equal.
 /// \param status The result of previous specialization comparisons. This is used to continue matching
-///               prefixes for subsequent segments that have been completly equivalend thus far.
+///               prefixes for subsequent segments that have been completely equivalent thus far.
 /// \param prefix A prefix string search for.
-/// \param string A string that may or may not begin with or euqal to the given prefix
+/// \param string A string that may or may not begin with or equal to the given prefix
 /// \param specify Pass \c true when the comparison should include specialization ordering.
 extern bib_calln_comparison_t bib_string_specify_compare(bib_calln_comparison_t status,
                                                          char const *prefix, char const *string, bool specify);
