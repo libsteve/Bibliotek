@@ -8,7 +8,6 @@
 
 #import <Bibliotek/Bibliotek.h>
 
-#import <Bibliotek/BibDirectoryEntry.h>
 #import <Bibliotek/BibMetadata+Internal.h>
 
 #import <Bibliotek/BibHasher.h>

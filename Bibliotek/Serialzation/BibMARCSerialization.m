@@ -18,7 +18,6 @@
 #import "BibRecord.h"
 #import "BibLeader.h"
 #import "BibFieldTag.h"
-#import "BibDirectoryEntry.h"
 #import "BibRecordField.h"
 #import "BibFieldIndicator.h"
 #import "BibSubfield.h"
