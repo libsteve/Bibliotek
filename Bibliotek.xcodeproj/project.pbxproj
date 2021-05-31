@@ -23,6 +23,7 @@
 		AA382B2A24439CA1009F624D /* BibMarcIO.h in Headers */ = {isa = PBXBuildFile; fileRef = AA382B2824439CA1009F624D /* BibMarcIO.h */; };
 		AA382B2B24439CA1009F624D /* BibMarcIO.m in Sources */ = {isa = PBXBuildFile; fileRef = AA382B2924439CA1009F624D /* BibMarcIO.m */; };
 		AA4D08FE26657D7900C748EE /* BibAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = AA4D08FD26657CA400C748EE /* BibAttributes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA4D090A26658B1600C748EE /* Leader.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4D090926658B1600C748EE /* Leader.swift */; };
 		AA51EA8B211AA98B00BF28BE /* BibConnectionOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = AA51EA89211AA98B00BF28BE /* BibConnectionOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA51EA8C211AA98B00BF28BE /* BibConnectionOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA51EA8A211AA98B00BF28BE /* BibConnectionOptions.m */; };
 		AA51EA8E211AAAEB00BF28BE /* BibConnectionOptions+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = AA51EA8D211AAAEA00BF28BE /* BibConnectionOptions+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -183,6 +184,7 @@
 		AA382B2824439CA1009F624D /* BibMarcIO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibMarcIO.h; sourceTree = "<group>"; };
 		AA382B2924439CA1009F624D /* BibMarcIO.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibMarcIO.m; sourceTree = "<group>"; };
 		AA4D08FD26657CA400C748EE /* BibAttributes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibAttributes.h; sourceTree = "<group>"; };
+		AA4D090926658B1600C748EE /* Leader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Leader.swift; sourceTree = "<group>"; };
 		AA51EA89211AA98B00BF28BE /* BibConnectionOptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibConnectionOptions.h; sourceTree = "<group>"; };
 		AA51EA8A211AA98B00BF28BE /* BibConnectionOptions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibConnectionOptions.m; sourceTree = "<group>"; };
 		AA51EA8D211AAAEA00BF28BE /* BibConnectionOptions+Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BibConnectionOptions+Private.h"; sourceTree = "<group>"; };
@@ -560,6 +562,7 @@
 				AAA4E00A22EC119A0003AF7B /* Record.swift */,
 				AABDC1FE22DAB2FD00345A58 /* BibLeader.h */,
 				AABDC1FD22DAB2FD00345A58 /* BibLeader.m */,
+				AA4D090926658B1600C748EE /* Leader.swift */,
 				AA67783F24843EF500997B29 /* RecordField */,
 				AAA4E02322EE334C0003AF7B /* Primitives */,
 			);
@@ -786,6 +789,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA6D18D720B5B6CC00603E61 /* BibFetchRequest.m in Sources */,
+				AA4D090A26658B1600C748EE /* Leader.swift in Sources */,
 				AAA4E00B22EC119A0003AF7B /* Record.swift in Sources */,
 				AAAFD9A5247CDAB200D2D1F0 /* BibLCCallNumber.swift in Sources */,
 				AA677859248D63C900997B29 /* BibFieldIndicator.m in Sources */,

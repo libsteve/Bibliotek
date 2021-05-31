@@ -1,5 +1,19 @@
 Name: Bibliotek
 Classes:
+- Name: "BibLeader"
+  Properties:
+  - Name: "lengthOfLengthOfField"
+    PropertyKind: Instance
+    Type: "NSInteger"
+  - Name: "lengthOfFieldLocation"
+    PropertyKind: Instance
+    Type: "NSInteger"
+  - Name: "numberOfIndicators"
+    PropertyKind: Instance
+    Type: "NSInteger"
+  - Name: "lengthOfSubfieldCode"
+    PropertyKind: Instance
+    Type: "NSInteger"
 - Name: "BibRecord"
   Properties:
   - Name: "countOfFields"
