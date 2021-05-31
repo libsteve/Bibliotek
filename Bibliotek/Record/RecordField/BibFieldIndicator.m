@@ -22,8 +22,7 @@ static void *BibIndicatorBuffer;
 @interface _BibFieldIndicator : BibFieldIndicator
 @end
 
-__attribute__((always_inline))
-static inline _BibFieldIndicator *BibIndicatorGetCachedInstance(char rawValue)  {
+NS_INLINE _BibFieldIndicator *BibIndicatorGetCachedInstance(char rawValue)  {
     return BibIndicatorBuffer + (((size_t)rawValue) * BibIndicatorInstanceSize);
 }
 

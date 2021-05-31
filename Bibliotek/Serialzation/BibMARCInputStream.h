@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Bibliotek/BibAttributes.h>
 
 @class BibRecord;
 
@@ -105,8 +106,7 @@ NS_SWIFT_NAME(MARCInputStream)
 ///       opened will continue to read data as though it did not previously encounter an error.
 /// \note If \c streamStatus is set to \c NSStreamStatusAtEnd when this method is called, \c nil is returned, but no
 ///       \c NSError is provided through the \c error pointer.
-- (nullable BibRecord *)readRecord:(out NSError *_Nullable __autoreleasing *_Nullable)error
-    __attribute__((swift_error(nonnull_error)));
+- (nullable BibRecord *)readRecord:(out NSError *_Nullable __autoreleasing *_Nullable)error BIB_SWIFT_NONNULL_ERROR;
 
 @end
 
