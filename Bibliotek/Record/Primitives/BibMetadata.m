@@ -21,6 +21,9 @@ static BibReservedPosition const kAllReservedPositions[] = {
 
 #pragma mark - Metadata
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
+
 @implementation BibMetadata {
     BibLeader *_leader;
 }
@@ -148,7 +151,10 @@ NSString *BibEncodingDescription(BibEncoding const encoding) {
 #pragma mark - Record Status
 
 NSString *BibRecordStatusDescription(BibRecordStatus const status) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     NSBundle *bundle = [NSBundle bundleForClass:[BibMetadata self]];
+#pragma clang diagnostic pop
     switch (status) {
         case BibRecordStatusIncreaseInEncodingLevel:
             return NSLocalizedStringWithDefaultValue(@"a", @"RecordStatus", bundle,
@@ -174,7 +180,10 @@ NSString *BibRecordStatusDescription(BibRecordStatus const status) {
 #pragma mark - Bibliographic Level
 
 NSString *BibBibliographicLevelDescription(BibBibliographicLevel const level) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     NSBundle *bundle = [NSBundle bundleForClass:[BibMetadata self]];
+#pragma clang diagnostic pop
     switch (level) {
         case 0: return nil;
         case BibBibliographicLevelMonographicComponentPart:
@@ -208,7 +217,10 @@ NSString *BibBibliographicLevelDescription(BibBibliographicLevel const level) {
 #pragma mark - Bibliographic Control Type
 
 NSString *BibBibliographicControlTypeDescription(BibBibliographicControlType const type) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     NSBundle *bundle = [NSBundle bundleForClass:[BibMetadata self]];
+#pragma clang diagnostic pop
     switch (type) {
         case 0: return nil;
         case BibBibliographicControlTypeNone:
@@ -278,3 +290,5 @@ NSString *BibBibliographicControlTypeDescription(BibBibliographicControlType con
 }
 
 @end
+
+#pragma clang diagnostic pop

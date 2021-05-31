@@ -59,8 +59,8 @@ public struct Record {
     /// Use this field to access those bytes, which should be interpreted using the scheme identified in `kind`.
     @available(*, deprecated, message: "use leader")
     public var metadata: Metadata {
-        get { return self.storage.metadata as Metadata }
-        set { self.mutate(keyPath: \.metadata, with: newValue as BibMetadata) }
+        get { return self.storage.metadata }
+        set { self.mutate(keyPath: \.metadata, with: newValue) }
     }
 
     /// An ordered list of fields containing information and metadata about the record and its represented item.
@@ -91,7 +91,7 @@ public struct Record {
     /// - returns: Returns a valid MARC 21 record for some item or entity described by the given fields.
     @available(*, deprecated, message: "use init(leader:fields:)")
     public init(kind: RecordKind?, status: RecordStatus, metadata: Metadata, fields: [RecordField]) {
-        self._storage = BibRecord(kind: kind, status: status, metadata: metadata as BibMetadata, fields: fields as [BibRecordField])
+        self._storage = BibRecord(kind: kind, status: status, metadata: metadata , fields: fields as [BibRecordField])
     }
 
     private mutating func mutate<T>(keyPath: WritableKeyPath<BibMutableRecord, T>, with newValue: T) {
