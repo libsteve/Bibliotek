@@ -81,7 +81,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// This object is a control field containing a control value.
 @property (nonatomic, readonly) BOOL isControlField;
 
-/// This object is a data field with contnet indicators and subfield data.
+/// This object is a data field with content indicators and subfield data.
 @property (nonatomic, readonly) BOOL isDataField;
 
 /// Create an empty record field with the given record field tag.
@@ -116,13 +116,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Get this data field's subfield at the given index.
 /// \param index The index of the subfield to access.
-/// \returns This data field's subfiled located at the given index.
+/// \returns This data field's subfield located at the given index.
 /// \note This method will throw an \c NSSRangeException for control fields.
 - (BibSubfield *)subfieldAtIndex:(NSUInteger)index;
 
 /// Use indexed subscripting syntax to access a subfield from this data field.
 /// \param index The index of the subfield to access.
-/// \returns This data field's subfiled located at the given index.
+/// \returns This data field's subfield located at the given index.
 /// \note This method will throw an \c NSSRangeException for control fields.
 - (BibSubfield *)objectAtIndexedSubscript:(NSUInteger)index;
 

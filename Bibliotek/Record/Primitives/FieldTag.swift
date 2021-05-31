@@ -39,7 +39,7 @@ public struct FieldTag {
     /// Does the tag identify a data field?
     ///
     /// MARC 21 datafield tags never begin with two zeros.
-    /// For example, a bibliographic record's Library of Conrgess call number datafield has the tag `050`.
+    /// For example, a bibliographic record's Library of Congress call number datafield has the tag `050`.
     public var isDataTag: Bool { return self.storage.isDataTag }
 
     private init(storage: BibFieldTag) {

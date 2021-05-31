@@ -73,7 +73,7 @@ NS_SWIFT_NAME(Leader)
 
 #pragma mark - Mutable
 
-/// A mutable collection of metadata preceeding a the encoded data for a record.
+/// A mutable collection of metadata preceding a the encoded data for a record.
 ///
 /// The record leader provides information about the layout of data within a record.
 /// Such information includes the total size in memory of the record, the layout of fields' tags and indicators,

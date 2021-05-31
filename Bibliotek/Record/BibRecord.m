@@ -167,7 +167,7 @@
     if ([recordField isDataField]) {
         return [recordField subfieldAtIndex:[indexPath indexAtPosition:1]];
     } else {
-        [NSException raise:NSRangeException format:@"Cannot access subfileds in a control field"];
+        [NSException raise:NSRangeException format:@"Cannot access subfields in a control field"];
         return nil;
     }
 }

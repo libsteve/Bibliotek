@@ -19,7 +19,7 @@ NS_SWIFT_NAME(Connection.Endpoint)
 /// The port number used to connect to the server.
 @property(nonatomic, readonly, assign) NSInteger port;
 
-/// The name of the database with wich to make queries.
+/// The name of the database with witch to make queries.
 @property(nonatomic, readonly, copy) NSString *database;
 
 @property(nonatomic, readonly, copy, nullable) NSString *name;
@@ -47,7 +47,7 @@ NS_SWIFT_NAME(Connection.MutableEndpoint)
 /// The port number used to connect to the server.
 @property(nonatomic, readwrite, assign) NSInteger port;
 
-/// The name of the database with wich to make queries.
+/// The name of the database with witch to make queries.
 @property(nonatomic, readwrite, copy) NSString *database;
 
 @property(nonatomic, readwrite, copy, nullable) NSString *name;

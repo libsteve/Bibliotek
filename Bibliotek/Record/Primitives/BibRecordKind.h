@@ -109,8 +109,8 @@ BIB_SWIFT_BRIDGE(RecordKind)
 /// Three-Dimensional Artifact
 @property (class, nonatomic, readonly) BibRecordKind *threeDimensionalArtifact;
 
-/// Manuscript Language Materal
-@property (class, nonatomic, readonly) BibRecordKind *manuscriptLanguageMateral;
+/// Manuscript Language Material
+@property (class, nonatomic, readonly) BibRecordKind *manuscriptLanguageMaterial;
 
 @end
 

@@ -121,7 +121,7 @@ extern bool bib_lex_caption_ordinal_suffix(bib_word_b buffer, bib_strbuf_t *lexe
 /// \param lexer Pointer to a string buffer object to read from.
 /// \returns \c true when the suffix for an ordinal number in the specification segment is successfully read from the
 ///          input string.
-/// \note Suffixes for ordinal numbers in the sepcification section must end with a period.
+/// \note Suffixes for ordinal numbers in the specification section must end with a period.
 extern bool bib_lex_specification_ordinal_suffix(bib_word_b buffer, bib_strbuf_t *lexer);
 
 /// Read a volume prefix from the input stream into the given buffer.
@@ -278,7 +278,7 @@ extern bool bib_isstop(char c);
 
 #pragma mark - peek
 
-/// Read the next character in the buffer whithout consuming it.
+/// Read the next character in the buffer without consuming it.
 /// \param c Pointer to allocated space to set the read character.
 ///          Pass \c NULL to ignore the consumed value.
 /// \param pred A function that filters for characters that indicate a "successful" read.

@@ -132,7 +132,7 @@ typedef NS_ENUM(char, BibBibliographicLevel) {
 
     /// Collection
     ///
-    /// An artifically combined group of items that were not originally published together.
+    /// An artificially combined group of items that were not originally published together.
     BibBibliographicLevelCollection = 'c',
 
     /// Subunit
@@ -152,7 +152,7 @@ typedef NS_ENUM(char, BibBibliographicLevel) {
 
     /// Serial
     ///
-    /// An individual item within a regualr series of works, such as a magazine or news paper.
+    /// An individual item within a regular series of works, such as a magazine or news paper.
     BibBibliographicLevelSerial = 's'
 } NS_SWIFT_NAME(BibliographicLevel);
 

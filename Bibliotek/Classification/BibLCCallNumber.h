@@ -66,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The classification \c P327 is ordered before \c PC5615
 ///
-/// \param callNumber The call number being comparied with the receiver.
+/// \param callNumber The call number being compared with the receiver.
 /// \returns \c NSOrderedDescending when the given call number is ordered before the receiver.
 /// \returns \c NSOrderedSame when the given call number is equivalent to the receiver.
 /// \returns \c NSOrderedAscending when the given call number is ordered after the receiver.
@@ -82,15 +82,15 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// The classification \c P327 is ordered before \c PC5615
 ///
-/// The calssification \c QA76 encompasses the more specific classifications \c QA76.76 and \c QA76.75 but
+/// The classification \c QA76 encompasses the more specific classifications \c QA76.76 and \c QA76.75 but
 /// does not include the classification \c QA70 nor its parent classification \c QA
 ///
-/// \param callNumber The call number being compaired with the receiver.
+/// \param callNumber The call number being compared with the receiver.
 /// \returns \c BibClassificationOrderedGeneralizing when the given call number's represented subject matter includes
 ///          that represented by the receiver. The given call number, being a generalization of the receiver, is
 ///          necessarily ordered linearly before the receiver.
 /// \returns \c BibClassificationOrderedDescending when the given call number is ordered before the receiver.
-/// \returns \c BibClassificationOrderedSame when the given call number is euqivalent to the receiver.
+/// \returns \c BibClassificationOrderedSame when the given call number is equivalent to the receiver.
 /// \returns \c BibClassificationOrderedAscending when the given call number is ordered after the receiver.
 /// \returns \c BibClassificationOrderedSpecifying when the given call number's represented subject matter is included
 ///          in that represented by the receiver. The given call number, being a specialization of the receiver, is
@@ -98,13 +98,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (BibClassificationComparisonResult)compareWithCallNumber:(BibLCCallNumber *)callNumber;
 
 /// Does the given call number represent the same subject matter as the receiver?
-/// \param callNumber The call number being compaired with the receiver.
+/// \param callNumber The call number being compared with the receiver.
 /// \returns \c YES when the given call number is equivalent to the receiver.
 - (BOOL)isEqualToCallNumber:(BibLCCallNumber *)callNumber;
 
 /// Does the subject matter represented by this call number include that of the given call number?
 ///
-/// For example, the calssification \c QA76 encompasses the more specific classifications \c QA76.76 and \c QA76.75 but
+/// For example, the classification \c QA76 encompasses the more specific classifications \c QA76.76 and \c QA76.75 but
 /// does not include the classification \c QA70 nor its parent classification \c QA
 ///
 /// \param callNumber The call number whose subject matter may be a subset of the receiver's.
@@ -140,10 +140,10 @@ typedef NS_OPTIONS(NSInteger, BibLCCallNumberFormatOptions) {
     /// \example \c QA76.76 \c .C65A37 \c 1986
     BibLCCallNumberFormatOptionsExpandCutterMarks = 1 << 3,
 
-    /// Separate components of the call numner with a newline instead of a space.
+    /// Separate components of the call number with a newline instead of a space.
     BibLCCallNumberFormatOptionsMultiline     = 1 << 4,
 
-    /// Insert a period before any cutter numner that appears after a date or ordinal number.
+    /// Insert a period before any cutter number that appears after a date or ordinal number.
     ///
     /// \example \c JZ33.D4 \c 1999.E37
     BibLCCallNumberFormatOptionsMarkCutterAfterDate = 1 << 5

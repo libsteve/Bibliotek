@@ -65,16 +65,16 @@ extension LCCallNumber: Hashable, Equatable, Comparable {
     ///
     /// The classification `P327` is ordered before `PC5615`.
     ///
-    /// The calssification `QA76` encompasses the more specific classifications `QA76.76` and `QA76.75`,
+    /// The classification `QA76` encompasses the more specific classifications `QA76.76` and `QA76.75`,
     /// but does not include the classification `QA70`, nor its parent classification `QA`.
     ///
-    /// - parameter callNumber: The call number being compaired with the receiver.
+    /// - parameter callNumber: The call number being compared with the receiver.
     /// - returns:
     ///     - `.generalizing` when the given call number's represented subject matter includes that
     ///       represented by the receiver. The given call number, being a generalization of the receiver,
     ///       is necessarily ordered linearly before the receiver.
     ///     - `.descending` when the given call number is ordered before the receiver.
-    ///     - `.same` when the given call number is euqivalent to the receiver.
+    ///     - `.same` when the given call number is equivalent to the receiver.
     ///     - `.ascending` when the given call number is ordered after the receiver.
     ///     - `.specifying` when the given call number's represented subject matter is included
     ///       in that represented by the receiver. The given call number, being a specialization of the receiver,
@@ -94,16 +94,16 @@ extension LCCallNumber: Hashable, Equatable, Comparable {
     ///
     /// The classification `P327` is ordered before `PC5615`.
     ///
-    /// The calssification `QA76` encompasses the more specific classifications `QA76.76` and `QA76.75`,
+    /// The classification `QA76` encompasses the more specific classifications `QA76.76` and `QA76.75`,
     /// but does not include the classification `QA70`, nor its parent classification `QA`.
     ///
-    /// - parameter callNumber: The call number being compaired with the receiver.
+    /// - parameter callNumber: The call number being compared with the receiver.
     /// - returns:
     ///     - `.generalizing` when the given call number's represented subject matter includes that
     ///       represented by the receiver. The given call number, being a generalization of the receiver,
     ///       is necessarily ordered linearly before the receiver.
     ///     - `.descending` when the given call number is ordered before the receiver.
-    ///     - `.same` when the given call number is euqivalent to the receiver.
+    ///     - `.same` when the given call number is equivalent to the receiver.
     ///     - `.ascending` when the given call number is ordered after the receiver.
     ///     - `.specifying` when the given call number's represented subject matter is included
     ///       in that represented by the receiver. The given call number, being a specialization of the receiver,
@@ -114,7 +114,7 @@ extension LCCallNumber: Hashable, Equatable, Comparable {
 
     /// Does the subject matter represented by this call number include that of the given call number?
     ///
-    /// For example, the calssification `QA76` encompasses the more specific classifications `QA76.76` and `QA76.75`,
+    /// For example, the classification `QA76` encompasses the more specific classifications `QA76.76` and `QA76.75`,
     /// but does not include the classification `QA70`, nor its parent classification `QA`.
     ///
     /// - parameter callNumber: The call number whose subject matter may be a subset of the receiver's.

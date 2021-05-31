@@ -47,7 +47,7 @@ typedef NSString *BibSubfieldCode NS_EXTENSIBLE_STRING_ENUM NS_SWIFT_NAME(Subfie
 @interface BibSubfield (Equality)
 
 /// Determine if this subfield and its data is equivalent to that of the given subfield.
-/// \param subfield The subfield that is being compaired with this instance for equality.
+/// \param subfield The subfield that is being compared with this instance for equality.
 /// \returns Returns \c YES when both fields have the same subfieldCode and content.
 - (BOOL)isEqualToSubfield:(BibSubfield *)subfield;
 

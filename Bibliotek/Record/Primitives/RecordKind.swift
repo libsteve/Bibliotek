@@ -84,8 +84,8 @@ extension RecordKind {
     /// Three-Dimensional Artifact
     public static let threeDimensionalArtifact = BibRecordKind.threeDimensionalArtifact
 
-    /// Manuscript LanguageMateral
-    public static let manuscriptLanguageMateral = BibRecordKind.manuscriptLanguageMateral
+    /// Manuscript Language Material
+    public static let manuscriptLanguageMaterial = BibRecordKind.manuscriptLanguageMaterial
 
 }
 

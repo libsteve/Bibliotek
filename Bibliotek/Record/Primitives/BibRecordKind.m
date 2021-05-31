@@ -116,8 +116,8 @@ typedef NS_ENUM(char, BibRecordKindRawValue) {
     /// Three-Dimensional Artifact
     BibRecordKindRawValueThreeDimensionalArtifact = 'r',
 
-    /// Manuscript LanguageMateral
-    BibRecordKindRawValueManuscriptLanguageMateral = 't',
+    /// Manuscript LanguageMaterial
+    BibRecordKindRawValueManuscriptLanguageMaterial = 't',
 } NS_SWIFT_NAME(RecordKind);
 
 #pragma mark - MARC 21 Categories
@@ -144,7 +144,7 @@ typedef NS_ENUM(char, BibRecordKindRawValue) {
         BibRecordKindRawValueKit,
         BibRecordKindRawValueMixedMaterials,
         BibRecordKindRawValueThreeDimensionalArtifact,
-        BibRecordKindRawValueManuscriptLanguageMateral
+        BibRecordKindRawValueManuscriptLanguageMaterial
     };
     for (NSUInteger index = 0; index < sizeof(kinds); index += 1) {
         if (kinds[index] == rawValue) {
@@ -202,8 +202,8 @@ typedef NS_ENUM(char, BibRecordKindRawValue) {
 + (BibRecordKind *)threeDimensionalArtifact {
     return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueThreeDimensionalArtifact];
 }
-+ (BibRecordKind *)manuscriptLanguageMateral {
-    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueManuscriptLanguageMateral];
++ (BibRecordKind *)manuscriptLanguageMaterial {
+    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueManuscriptLanguageMaterial];
 }
 
 - (NSString *)description {
@@ -249,7 +249,7 @@ static NSCache *sFlyweightCache;
         case BibRecordKindRawValueKit:
         case BibRecordKindRawValueMixedMaterials:
         case BibRecordKindRawValueThreeDimensionalArtifact:
-        case BibRecordKindRawValueManuscriptLanguageMateral:
+        case BibRecordKindRawValueManuscriptLanguageMaterial:
             if (self = [super initWithRawValue:rawValue]) {
                 [sFlyweightCache setObject:self forKey:key];
             }
