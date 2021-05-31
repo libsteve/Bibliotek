@@ -109,8 +109,6 @@
 		AABDC1FF22DAB2FD00345A58 /* BibLeader.m in Sources */ = {isa = PBXBuildFile; fileRef = AABDC1FD22DAB2FD00345A58 /* BibLeader.m */; };
 		AABDC20022DAB2FD00345A58 /* BibLeader.h in Headers */ = {isa = PBXBuildFile; fileRef = AABDC1FE22DAB2FD00345A58 /* BibLeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AABDC20322DABA5300345A58 /* BibMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = AABDC1F922DAAA0E00345A58 /* BibMetadata.m */; };
-		AABDC20622DAC10500345A58 /* BibDirectoryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = AABDC20422DAC10500345A58 /* BibDirectoryEntry.m */; };
-		AABDC20722DAC10500345A58 /* BibDirectoryEntry.h in Headers */ = {isa = PBXBuildFile; fileRef = AABDC20522DAC10500345A58 /* BibDirectoryEntry.h */; };
 		AABDC20A22DAC17A00345A58 /* BibFieldTag.m in Sources */ = {isa = PBXBuildFile; fileRef = AABDC20822DAC17A00345A58 /* BibFieldTag.m */; };
 		AABDC20B22DAC17A00345A58 /* BibFieldTag.h in Headers */ = {isa = PBXBuildFile; fileRef = AABDC20922DAC17A00345A58 /* BibFieldTag.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AABDC21A22DAE05200345A58 /* BibSubfield.h in Headers */ = {isa = PBXBuildFile; fileRef = AABDC21822DAE05200345A58 /* BibSubfield.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -278,8 +276,6 @@
 		AABDC1FA22DAAA0E00345A58 /* BibMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibMetadata.h; sourceTree = "<group>"; };
 		AABDC1FD22DAB2FD00345A58 /* BibLeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibLeader.m; sourceTree = "<group>"; };
 		AABDC1FE22DAB2FD00345A58 /* BibLeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibLeader.h; sourceTree = "<group>"; };
-		AABDC20422DAC10500345A58 /* BibDirectoryEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibDirectoryEntry.m; sourceTree = "<group>"; };
-		AABDC20522DAC10500345A58 /* BibDirectoryEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibDirectoryEntry.h; sourceTree = "<group>"; };
 		AABDC20822DAC17A00345A58 /* BibFieldTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BibFieldTag.m; sourceTree = "<group>"; };
 		AABDC20922DAC17A00345A58 /* BibFieldTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibFieldTag.h; sourceTree = "<group>"; };
 		AABDC21822DAE05200345A58 /* BibSubfield.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BibSubfield.h; sourceTree = "<group>"; };
@@ -564,8 +560,6 @@
 				AAA4E00A22EC119A0003AF7B /* Record.swift */,
 				AABDC1FE22DAB2FD00345A58 /* BibLeader.h */,
 				AABDC1FD22DAB2FD00345A58 /* BibLeader.m */,
-				AABDC20522DAC10500345A58 /* BibDirectoryEntry.h */,
-				AABDC20422DAC10500345A58 /* BibDirectoryEntry.m */,
 				AA67783F24843EF500997B29 /* RecordField */,
 				AAA4E02322EE334C0003AF7B /* Primitives */,
 			);
@@ -585,7 +579,6 @@
 				AA4D08FE26657D7900C748EE /* BibAttributes.h in Headers */,
 				AA79FFD924685D0100134C98 /* BibFieldPath.h in Headers */,
 				AABDC20B22DAC17A00345A58 /* BibFieldTag.h in Headers */,
-				AABDC20722DAC10500345A58 /* BibDirectoryEntry.h in Headers */,
 				AA59F0D720A9FACF00D41982 /* Bibliotek.h in Headers */,
 				AAB786582455FCEB0018A833 /* BibMARCSerialization.h in Headers */,
 				AA99BAF62301E4370055C078 /* BibHasher.h in Headers */,
@@ -829,7 +822,6 @@
 				AA59055320AA43DD00D41982 /* BibConnection.m in Sources */,
 				AA619E17249ECD7500BB3A25 /* RecordField.swift in Sources */,
 				AA619E19249ECDFB00BB3A25 /* FieldIndicator.swift in Sources */,
-				AABDC20622DAC10500345A58 /* BibDirectoryEntry.m in Sources */,
 				AAA4E01D22EE0D5A0003AF7B /* BibRecordKind.m in Sources */,
 				AAE5A6A0259A2955007FFD79 /* bibtypeio.c in Sources */,
 				AACEDD6420C1A946004ACA07 /* BibConstants.swift in Sources */,
