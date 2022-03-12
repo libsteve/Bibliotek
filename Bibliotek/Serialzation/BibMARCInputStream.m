@@ -17,23 +17,6 @@ NSErrorDomain const BibMARCInputStreamErrorDomain = @"BibMARCInputStreamErrorDom
     NSError *_streamError;
 }
 
-- (instancetype)init {
-    return [self initWithData:[NSData data]];
-}
-
-- (instancetype)initWithURL:(NSURL *)url {
-    return [self initWithInputStream:[NSInputStream inputStreamWithURL:url]];
-}
-
-- (instancetype)initWithData:(NSData *)data {
-    return [self initWithInputStream:[NSInputStream inputStreamWithData:data]];
-}
-
-- (instancetype)initWithFileAtPath:(NSString *)path {
-    NSInputStream *const inputStream = [NSInputStream inputStreamWithFileAtPath:path];
-    return (inputStream) ? [self initWithInputStream:inputStream] : nil;
-}
-
 - (instancetype)initWithInputStream:(NSInputStream *)inputStream {
     if (self = [super init]) {
         _inputStream = inputStream;
@@ -41,22 +24,6 @@ NSErrorDomain const BibMARCInputStreamErrorDomain = @"BibMARCInputStreamErrorDom
         _streamError = [inputStream streamError];
     }
     return self;
-}
-
-+ (instancetype)inputStreamWithURL:(NSURL *)url {
-    return [[self alloc] initWithURL:url];
-}
-
-+ (instancetype)inputStreamWithData:(NSData *)data {
-    return [[self alloc] initWithData:data];
-}
-
-+ (instancetype)inputStreamWithFileAtPath:(NSString *)path {
-    return [[self alloc] initWithFileAtPath:path];
-}
-
-+ (instancetype)inputStreamWithInputStream:(NSInputStream *)inputStream {
-    return [[self alloc] initWithInputStream:inputStream];
 }
 
 - (void)dealloc {
@@ -76,7 +43,7 @@ NSErrorDomain const BibMARCInputStreamErrorDomain = @"BibMARCInputStreamErrorDom
 }
 
 - (instancetype)open {
-    if (_streamStatus == NSStreamStatusNotOpen) {
+    if ([self streamStatus] == NSStreamStatusNotOpen) {
         [_inputStream open];
         _streamStatus = [_inputStream streamStatus];
         _streamError = [_inputStream streamError];
@@ -85,50 +52,12 @@ NSErrorDomain const BibMARCInputStreamErrorDomain = @"BibMARCInputStreamErrorDom
 }
 
 - (instancetype)close {
-    if (_streamStatus != NSStreamStatusClosed) {
+    if ([self streamStatus] != NSStreamStatusClosed) {
         [_inputStream close];
         _streamStatus = [_inputStream streamStatus];
         _streamError = [_inputStream streamError];
     }
     return self;
-}
-
-- (BOOL)isStreamStatusOpen:(out NSError *__autoreleasing *)error {
-    switch ([self streamStatus]) {
-        case NSStreamStatusOpen:
-            return YES;
-        case NSStreamStatusAtEnd:
-            return NO;
-        case NSStreamStatusError:
-            if (error) { *error = [self streamError]; }
-            return NO;
-        case NSStreamStatusNotOpen:
-            if (error) {
-                static NSString *const message = @"An input stream must be opened before data can be read";
-                *error = [NSError errorWithDomain:BibMARCInputStreamErrorDomain
-                                             code:BibMARCInputStreamNotOpenedError
-                                         userInfo:@{ NSDebugDescriptionErrorKey : message }];
-            }
-            return NO;
-        case NSStreamStatusClosed:
-            if (error) {
-                static NSString *const message = @"A closed input stream cannot read data";
-                *error = [NSError errorWithDomain:BibMARCInputStreamErrorDomain
-                                             code:BibMARCInputStreamNotOpenedError
-                                         userInfo:@{ NSDebugDescriptionErrorKey : message }];
-            }
-            return NO;
-        default:
-            if (error) {
-                NSStreamStatus const status = [self streamStatus];
-                NSString *const message =
-                    [NSString stringWithFormat:@"Cannot read data from an input stream with status %lu", status];
-                *error = [NSError errorWithDomain:BibMARCInputStreamErrorDomain
-                                             code:BibMARCInputStreamNotOpenedError
-                                         userInfo:@{ NSDebugDescriptionErrorKey : message }];
-            }
-            return NO;
-    }
 }
 
 - (BibRecord *)readRecord:(out NSError *__autoreleasing *)error {
