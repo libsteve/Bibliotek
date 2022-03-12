@@ -164,7 +164,7 @@ static BOOL _isMARCPathExtension(NSString *extension) {
 - (id)initWithURL:(NSURL *)url {
     NSString *extension = [url pathExtension];
     if (_isXMLPathExtension(extension)) {
-//        return [[BibMARCXMLInputStream alloc] initWithURL:url];
+        return [[BibMARCXMLInputStream alloc] initWithURL:url];
     }
     if (_isMARCPathExtension(extension)) {
         return [[BibMARCInputStream alloc] initWithURL:url];
@@ -185,7 +185,7 @@ static BOOL _isMARCPathExtension(NSString *extension) {
         char buffer[2] = { '\0', '\0' };
         [data getBytes:buffer length:2];
         if (buffer[0] == '<' && buffer[1] == '?') {
-//            return [[BibMARCXMLInputStream alloc] initWithData:data];
+            return [[BibMARCXMLInputStream alloc] initWithData:data];
         }
     }
     return [[_BibUnknownInputStream alloc] initWithData:data];
@@ -194,7 +194,7 @@ static BOOL _isMARCPathExtension(NSString *extension) {
 - (id)initWithFileAtPath:(NSString *)path {
     NSString *extension = [path pathExtension];
     if (_isXMLPathExtension(extension)) {
-//        return [[BibMARCXMLInputStream alloc] initWithFileAtPath:path];
+        return [[BibMARCXMLInputStream alloc] initWithFileAtPath:path];
     }
     if (_isMARCPathExtension(extension)) {
         return [[BibMARCInputStream alloc] initWithFileAtPath:path];
@@ -298,10 +298,10 @@ static BOOL _isMARCPathExtension(NSString *extension) {
     }
     if (length >= 2) {
         if (buffer[0] == '<' && buffer[1] == '?') {
-//            _recordStream = [[BibMARCXMLInputStream alloc] initWithInputStream:_inputStream];
-//            [self didChangeValueForKey:@"_recordStream"];
-//            [_recordStream open];
-//            return self;
+            _recordStream = [[BibMARCXMLInputStream alloc] initWithInputStream:_inputStream];
+            [self didChangeValueForKey:@"_recordStream"];
+            [_recordStream open];
+            return self;
         }
     }
     _recordStream = [[_BibUnknownInputStream alloc] initWithInputStream:_inputStream.inputStream];
