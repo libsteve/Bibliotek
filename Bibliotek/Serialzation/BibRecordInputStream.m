@@ -7,7 +7,7 @@
 //
 
 #import "BibRecordInputStream.h"
-#import <Bibliotek/Bibliotek.h>
+#import <Bibliotek/Bibliotek+Internal.h>
 #import <os/log.h>
 
 NSErrorDomain const BibRecordInputStreamErrorDomain = @"BibRecordInputStreamErrorDomain";
@@ -101,44 +101,6 @@ static void BibUnimplementedMethod(id self, SEL _cmd, char const *type, char kin
 
 - (instancetype)close {
     BibUnimplementedMethod(self, _cmd, "method", '-');
-}
-
-- (BOOL)isStreamStatusOpen:(out NSError *__autoreleasing *)error {
-    switch ([self streamStatus]) {
-        case NSStreamStatusOpen:
-            return YES;
-        case NSStreamStatusAtEnd:
-            return NO;
-        case NSStreamStatusError:
-            if (error) { *error = [self streamError]; }
-            return NO;
-        case NSStreamStatusNotOpen:
-            if (error) {
-                static NSString *const message = @"An input stream must be opened before data can be read";
-                *error = [NSError errorWithDomain:BibRecordInputStreamErrorDomain
-                                             code:BibRecordInputStreamNotOpenedError
-                                         userInfo:@{ NSDebugDescriptionErrorKey : message }];
-            }
-            return NO;
-        case NSStreamStatusClosed:
-            if (error) {
-                static NSString *const message = @"A closed input stream cannot read data";
-                *error = [NSError errorWithDomain:BibRecordInputStreamErrorDomain
-                                             code:BibRecordInputStreamNotOpenedError
-                                         userInfo:@{ NSDebugDescriptionErrorKey : message }];
-            }
-            return NO;
-        default:
-            if (error) {
-                NSStreamStatus const status = [self streamStatus];
-                NSString *const message =
-                    [NSString stringWithFormat:@"Cannot read data from an input stream with status %lu", status];
-                *error = [NSError errorWithDomain:BibRecordInputStreamErrorDomain
-                                             code:BibRecordInputStreamNotOpenedError
-                                         userInfo:@{ NSDebugDescriptionErrorKey : message }];
-            }
-            return NO;
-    }
 }
 
 @end
@@ -326,7 +288,10 @@ static BOOL _isMARCPathExtension(NSString *extension) {
     if (_recordStream != nil) {
         return [_recordStream readRecord:record error:error];
     }
-    return [self isStreamStatusOpen:error];
+    if (error != NULL) {
+        *error = BibSerializationMakeInputStreamNotOpenedError(_inputStream);
+    }
+    return NO;
 }
 
 @end
@@ -494,6 +459,7 @@ typedef NS_ENUM(uint8_t, _BibUnknownInputStreamType) {
         }
     }
     NSString *message = nil;
+    // TODO: localize these strings
     switch (_type) {
         case _BibUnknownInputStreamTypeURL:
             message = [NSString stringWithFormat:@"Unable to infer record encoding for %@", [_url absoluteURL]];
@@ -504,8 +470,8 @@ typedef NS_ENUM(uint8_t, _BibUnknownInputStreamType) {
         case _BibUnknownInputStreamTypeStream:
             message = [NSString stringWithFormat:@"Unable to infer record encoding for %@", _stream];
     }
-    return [NSError errorWithDomain:BibRecordInputStreamErrorDomain
-                               code:BibRecordInputStreamMalformedDataError
+    return [NSError errorWithDomain:BibSerializationErrorDomain
+                               code:BibSerializationMalformedDataError
                            userInfo:@{ NSDebugDescriptionErrorKey : message }];
 }
 

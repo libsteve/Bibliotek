@@ -277,7 +277,7 @@
 - (instancetype)initWithLeader:(BibLeader *)leader fields:(NSArray<BibRecordField *> *)fields {
     if (self = [super initWithLeader:leader fields:fields]) {
         _leader = [leader mutableCopy];
-        _fields = [fields copy];
+        _fields = [fields mutableCopy];
     }
     return self;
 }
