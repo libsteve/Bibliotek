@@ -25,4 +25,22 @@
 #endif
 #endif
 
+/// Marks a function that's rarely called, such as an error-handling function.
+#ifndef BIB_COLD
+#if __has_attribute(cold)
+#define BIB_COLD __attribute__((cold))
+#else
+#define BIB_COLD
+#endif
+#endif
+
+/// Marks a function that never returns, such as an infinite loop or an aborting method.
+#ifndef BIB_NORETURN
+#if __has_attribute(noreturn)
+#define BIB_NORETURN __attribute__((noreturn))
+#else
+#define BIB_NORETURN
+#endif
+#endif
+
 #endif /* BibAttributes_h */

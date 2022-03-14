@@ -45,10 +45,9 @@ static NSUInteger const kRecordBufferSizeMax = 99999;
 
 - (instancetype)initWithString:(NSString *)string {
     NSData *const data = [string dataUsingEncoding:NSASCIIStringEncoding];
-    NSRange const range = NSMakeRange(0, [data length] - 1);
-    NSData *const rawData = [data subdataWithRange:range];
-    return ([rawData length] != BibLeaderRawDataLength) ? [self initWithData:rawData] : nil;
-
+    NSRange const range = NSMakeRange(0, MIN([data length], BibLeaderRawDataLength));
+    NSData *const rawData = (range.length == BibLeaderRawDataLength) ? [data subdataWithRange:range] : nil;
+    return (rawData != NULL) ? [self initWithData:rawData] : nil;
 }
 
 static void sWriteRepeatValueToBuffer(uint8_t *const buffer, NSRange const range, uint8_t const value) {

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://www.loc.gov/MARC21/slim">
+    <record xmlns="http://www.loc.gov/MARC21/slim">
+        <leader>02518cam a2200385 a 4500</leader>
+        <controlfield tag="001">15434749</controlfield>
+        <controlfield tag="005">20100224151844.0</controlfield>
+        <controlfield tag="008">080902s2009    nyua     b    001 0 eng  </controlfield>
+        <datafield tag="906" ind1=" " ind2=" ">
+            <subfield code="a">7</subfield>
+            <subfield code="b">cbc</subfield>
+            <subfield code="c">orignew</subfield>
+            <subfield code="d">1</subfield>
+            <subfield code="e">ecip</subfield>
+            <subfield code="f">20</subfield>
+            <subfield code="g">y-gencatlg</subfield>
+        </datafield>
+        <datafield tag="925" ind1="0" ind2=" ">
+            <subfield code="a">acquire</subfield>
+            <subfield code="b">2 shelf copies</subfield>
+            <subfield code="x">policy default</subfield>
+        </datafield>
+        <datafield tag="955" ind1=" " ind2=" ">
+            <subfield code="a">lf11 2008-09-02</subfield>
+            <subfield code="c">lf11 2008-09-02 to Slavic HLCD for subj (P)</subfield>
+            <subfield code="d">le03 2008-09-04</subfield>
+            <subfield code="e">le03 2008-09-04 to Dewey;</subfield>
+            <subfield code="a">aa11 2008-09-04</subfield>
+            <subfield code="a">xe05 2009-06-10 1 copy rec&apos;d., to CIP ver.</subfield>
+            <subfield code="f">rf07 2009-06-17 Z-CipVer</subfield>
+            <subfield code="t">xg22 2010-02-24 copy 2 added</subfield>
+        </datafield>
+        <datafield tag="010" ind1=" " ind2=" ">
+            <subfield code="a">  2008038732</subfield>
+        </datafield>
+        <datafield tag="020" ind1=" " ind2=" ">
+            <subfield code="a">9780385527880</subfield>
+        </datafield>
+        <datafield tag="020" ind1=" " ind2=" ">
+            <subfield code="a">0385527888</subfield>
+        </datafield>
+        <datafield tag="035" ind1=" " ind2=" ">
+            <subfield code="a">(OCoLC)ocn233939416</subfield>
+        </datafield>
+        <datafield tag="040" ind1=" " ind2=" ">
+            <subfield code="a">DLC</subfield>
+            <subfield code="c">DLC</subfield>
+            <subfield code="d">BTCTA</subfield>
+            <subfield code="d">BAKER</subfield>
+            <subfield code="d">YDXCP</subfield>
+            <subfield code="d">UPZ</subfield>
+            <subfield code="d">JAO</subfield>
+            <subfield code="d">MOF</subfield>
+            <subfield code="d">C#P</subfield>
+            <subfield code="d">DLC</subfield>
+        </datafield>
+        <datafield tag="050" ind1="0" ind2="0">
+            <subfield code="a">PM8008</subfield>
+            <subfield code="b">.O37 2009</subfield>
+        </datafield>
+        <datafield tag="082" ind1="0" ind2="0">
+            <subfield code="a">499/.99</subfield>
+            <subfield code="2">22</subfield>
+        </datafield>
+        <datafield tag="100" ind1="1" ind2=" ">
+            <subfield code="a">Okrent, Arika.</subfield>
+        </datafield>
+        <datafield tag="245" ind1="1" ind2="0">
+            <subfield code="a">In the land of invented languages :</subfield>
+            <subfield code="b">Esperanto rock stars, Klingon poets, Loglan lovers, and the mad dreamers who tried to build a perfect language /</subfield>
+            <subfield code="c">Arika Okrent.</subfield>
+        </datafield>
+        <datafield tag="250" ind1=" " ind2=" ">
+            <subfield code="a">1st ed.</subfield>
+        </datafield>
+        <datafield tag="260" ind1=" " ind2=" ">
+            <subfield code="a">New York :</subfield>
+            <subfield code="b">Spiegel &amp; Grau,</subfield>
+            <subfield code="c">2009.</subfield>
+        </datafield>
+        <datafield tag="300" ind1=" " ind2=" ">
+            <subfield code="a">342 p. :</subfield>
+            <subfield code="b">ill. ;</subfield>
+            <subfield code="c">22 cm.</subfield>
+        </datafield>
+        <datafield tag="504" ind1=" " ind2=" ">
+            <subfield code="a">Includes bibliographical references (p. [323]-329) and index.</subfield>
+        </datafield>
+        <datafield tag="505" ind1="0" ind2=" ">
+            <subfield code="a">Nine hundred languages, nine hundred years -- John Wilkins and the language of truth -- Ludwik Zambof and the language of peace -- Charles Bliss and the language of symbols -- James Cooke Brown and the language of logic -- The Klingons, the Conlangers, and the art of language.</subfield>
+        </datafield>
+        <datafield tag="520" ind1=" " ind2=" ">
+            <subfield code="a">Okrent tells the fascinating and highly entertaining history of man&apos;s enduring quest to build a better language. Peopled with charming eccentrics and exasperating megalomaniacs, the land of invented languages is a place where you can recite the Lord&apos;s Prayer in John Wilkins&apos;s Philosophical Language, say your wedding vows in Loglan, and read &quot;Alice&apos;s Adventures in Wonderland&quot; in Lojban--not to mention Babm, Blissymbolics, and the nearly nine hundred other invented languages featured in this language-lover&apos;s book.</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Languages, Artificial.</subfield>
+        </datafield>
+        <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Esperanto.</subfield>
+        </datafield>
+            <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Klingon (Artificial language)</subfield>
+        </datafield>
+            <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Blissymbolics.</subfield>
+        </datafield>
+            <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Lojban (Artificial language)</subfield>
+        </datafield>
+            <datafield tag="650" ind1=" " ind2="0">
+            <subfield code="a">Loglan (Artificial language)</subfield>
+        </datafield>
+        <datafield tag="856" ind1="4" ind2="1">
+            <subfield code="3">Table of contents only</subfield>
+            <subfield code="u">http://www.loc.gov/catdir/toc/ecip0827/2008038732.html</subfield>
+        </datafield>
+        <datafield tag="856" ind1="4" ind2="2">
+            <subfield code="3">Contributor biographical information</subfield>
+            <subfield code="u">http://www.loc.gov/catdir/enhancements/fy0917/2008038732-b.html</subfield>
+        </datafield>
+        <datafield tag="856" ind1="4" ind2="2">
+            <subfield code="3">Publisher description</subfield>
+            <subfield code="u">http://www.loc.gov/catdir/enhancements/fy0917/2008038732-d.html</subfield>
+        </datafield>
+    </record>
+</collection>
+
