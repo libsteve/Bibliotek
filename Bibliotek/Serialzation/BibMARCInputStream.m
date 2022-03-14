@@ -8,6 +8,7 @@
 
 #import "BibMARCInputStream.h"
 #import "BibMARCSerialization.h"
+#import <Bibliotek/Bibliotek+Internal.h>
 
 NSErrorDomain const BibMARCInputStreamErrorDomain = @"BibMARCInputStreamErrorDomain";
 
@@ -61,7 +62,13 @@ NSErrorDomain const BibMARCInputStreamErrorDomain = @"BibMARCInputStreamErrorDom
 }
 
 - (BibRecord *)readRecord:(out NSError *__autoreleasing *)error {
-    if (![self isStreamStatusOpen:error]) {
+    if ([self streamStatus] != NSStreamStatusOpen) {
+        if ([self streamStatus] == NSStreamStatusAtEnd) {
+            return nil;
+        }
+        if (error != NULL) {
+            *error = BibSerializationMakeInputStreamNotOpenedError(_inputStream);
+        }
         return nil;
     }
     NSError *err = nil;
@@ -77,6 +84,21 @@ NSErrorDomain const BibMARCInputStreamErrorDomain = @"BibMARCInputStreamErrorDom
         _streamStatus = NSStreamStatusAtEnd;
     }
     return record;
+}
+
+- (BOOL)readRecord:(out BibRecord *__autoreleasing *)record error:(out NSError *__autoreleasing *)error {
+    NSError *_error = nil;
+    BibRecord *_record = [self readRecord:&_error];
+    if (_error == nil) {
+        if (record != NULL) {
+            *record = _record;
+        }
+        return YES;
+    }
+    if (error != NULL) {
+        *error = _error;
+    }
+    return NO;
 }
 
 @end

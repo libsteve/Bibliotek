@@ -9,6 +9,7 @@
 #import <Bibliotek/Bibliotek.h>
 
 #import <Bibliotek/BibMetadata+Internal.h>
+#import <Bibliotek/BibSerializationError+Internal.h>
 
 #import <Bibliotek/BibHasher.h>
 

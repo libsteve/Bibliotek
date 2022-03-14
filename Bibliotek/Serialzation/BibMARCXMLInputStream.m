@@ -8,6 +8,7 @@
 
 #import "BibMARCXMLInputStream.h"
 #import <Bibliotek/Bibliotek.h>
+#import <Bibliotek/Bibliotek+Internal.h>
 #import <libxml/xmlreader.h>
 
 static int bib_marcxml_read(void *context, char *buffer, int length);
@@ -93,8 +94,8 @@ static void bib_marcxml_handleTextReaderError(void *context, char const *message
     }
     NSString *debug = [NSString stringWithFormat:@"xmlTextReader %s: %s", _parserErrorLevel(severity), message];
     self->_streamStatus = NSStreamStatusError;
-    self->_streamError = [[NSError alloc] initWithDomain:BibRecordInputStreamErrorDomain
-                                                    code:BibRecordInputStreamMalformedDataError
+    self->_streamError = [[NSError alloc] initWithDomain:BibSerializationErrorDomain
+                                                    code:BibSerializationMalformedDataError
                                                 userInfo:@{ NSDebugDescriptionErrorKey : debug }];
 }
 
@@ -589,7 +590,20 @@ static void bib_marcxml_handleTextReaderError(void *context, char const *message
 #pragma mark -
 
 - (BOOL)readRecord:(out BibRecord *__autoreleasing *)record error:(out NSError *__autoreleasing *)error {
-    if (![self isStreamStatusOpen:error]) {
+    if ([self streamStatus] != NSStreamStatusOpen) {
+        if ([self streamStatus] == NSStreamStatusAtEnd) {
+            return NO;
+        }
+        if (error != NULL) {
+            *error = BibSerializationMakeInputStreamNotOpenedError(_inputStream);
+        }
+        return NO;
+    }
+    NSError *_error = BibSerializationMakeInputStreamNotOpenedError(_inputStream);
+    if (_error == nil) {
+        if (error != NULL) {
+            *error = _error;
+        }
         return NO;
     }
     if (!_didReadCollectionElement) {
@@ -614,7 +628,6 @@ static void bib_marcxml_handleTextReaderError(void *context, char const *message
             return NO;
         }
     }
-    NSError *_error = nil;
     if (![self _readRecordOrCollectionEnd:record error:&_error]) {
         if (error != NULL) {
             *error = _error;
@@ -659,13 +672,21 @@ static NSString *debugDescriptionWithReason(NSString *message, NSString *format,
 }
 
 static NSError *BibMARCXMLInputStreamMakeMissingDataError(NSString *format, ...) {
-    va_list args;
-    va_start(args, format);
-    NSString *message = debugDescriptionWithReason(@"Expected to read more MARC XML data", format, args);
-    va_end(args);
+    NSMutableDictionary *userInfo = [NSMutableDictionary new];
+    userInfo[NSDebugDescriptionErrorKey] = @"Expected to read more MARCXML data.";
+//    NSLocalizedStringWithDefaultValue(@"serialization-error.marc-xml.missing-data",
+//                                      @"Localized", [NSBundle bundleForClass:[BibMARCXMLInputStream self]],
+//                                      @"Expected to read more MARCXML data.",
+//                                      @"Error");
+    if (format != nil) {
+        va_list args;
+        va_start(args, format);
+        userInfo[NSDebugDescriptionErrorKey] = [[NSString alloc] initWithFormat:format arguments:args];
+        va_end(args);
+    }
     return  [NSError errorWithDomain:BibMARCSerializationErrorDomain
                                 code:BibMARCSerializationMissingDataError
-                            userInfo:@{ NSDebugDescriptionErrorKey : message }];
+                            userInfo:userInfo];
 }
 
 static NSError *BibMARCXMLInputStreamMakeMalformedDataError(NSString *format, ...) {
