@@ -22,7 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// for you.
 ///
 /// \note Custom subclasses of \c RecordInputStream must provide implementations for
-///       \c -streamStatus \c streamError \c -initWithInputStream: and \c -readRecord:
+///       \c -streamStatus \c streamError \c -open \c -close \c -initWithInputStream:
+///       \c -init and \c -readRecord:
 NS_SWIFT_NAME(RecordInputStream)
 @interface BibRecordInputStream : NSObject
 
@@ -101,8 +102,6 @@ NS_SWIFT_NAME(RecordInputStream)
 /// Once an input stream has been opened and then closed, it cannot be opened again.
 - (instancetype)close;
 
-- (BOOL)isStreamStatusOpen:(out NSError *_Nullable __autoreleasing *_Nullable)error BIB_SWIFT_NONNULL_ERROR;
-
 /// Read an instance of \c BibRecord from the MARC 21 data in the input stream.
 /// \param error A pointer to an \c NSError variable that can be used to return an error value when \c nil is returned.
 /// \returns A \c BibRecord object is returned when a record could be successfully read from the input stream.
@@ -121,20 +120,5 @@ NS_SWIFT_NAME(RecordInputStream)
              error:(out NSError *_Nullable __autoreleasing *_Nullable)error BIB_SWIFT_NONNULL_ERROR;
 
 @end
-
-/// An error encountered when reading a record from a \c BibRecordInputStream instance.
-extern NSErrorDomain const BibRecordInputStreamErrorDomain;
-
-/// The error code for an error in the \c BibRecordInputStreamErrorDomain error domain.
-typedef NS_ERROR_ENUM(BibRecordInputStreamErrorDomain, BibRecordInputStreamErrorCode) {
-    /// The input stream encountered conflicting or invalid data while reading MARC 21 record data.
-    BibRecordInputStreamMalformedDataError NS_SWIFT_NAME(malformedData),
-
-    /// The input stream reached the end of its data when more should have been available.
-    BibRecordInputStreamPrematureEndOfDataError NS_SWIFT_NAME(prematureEndOfData),
-
-    /// The input stream is not opened and therefore cannot read record data.
-    BibRecordInputStreamNotOpenedError NS_SWIFT_NAME(notOpened)
-} NS_SWIFT_NAME(MARC21ReaderError);
 
 NS_ASSUME_NONNULL_END

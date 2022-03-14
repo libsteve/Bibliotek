@@ -371,7 +371,7 @@ static BOOL BibMARCSerializationCanUseStream(NSStream *const stream, NSError *__
             return NO;
         case NSStreamStatusOpening:
             if (error) {
-                static NSString *const message = @"Cannot read/write data from a stream while its opening";
+                static NSString *const message = @"Cannot read/write data from a stream while it's opening";
                 *error = [NSError errorWithDomain:BibMARCSerializationErrorDomain
                                              code:BibMARCSerializationStreamBusyError
                                          userInfo:@{ NSDebugDescriptionErrorKey : message }];
@@ -379,7 +379,7 @@ static BOOL BibMARCSerializationCanUseStream(NSStream *const stream, NSError *__
             return NO;
         case NSStreamStatusReading:
             if (error) {
-                static NSString *const message = @"Cannot read/write data from a stream while its reading data";
+                static NSString *const message = @"Cannot read/write data from a stream while it's reading data";
                 *error = [NSError errorWithDomain:BibMARCSerializationErrorDomain
                                              code:BibMARCSerializationStreamBusyError
                                          userInfo:@{ NSDebugDescriptionErrorKey : message }];
@@ -387,7 +387,7 @@ static BOOL BibMARCSerializationCanUseStream(NSStream *const stream, NSError *__
             return NO;
         case NSStreamStatusWriting:
             if (error) {
-                static NSString *const message = @"Cannot read/write data from a stream while its writing data";
+                static NSString *const message = @"Cannot read/write data from a stream while it's writing data";
                 *error = [NSError errorWithDomain:BibMARCSerializationErrorDomain
                                              code:BibMARCSerializationStreamBusyError
                                          userInfo:@{ NSDebugDescriptionErrorKey : message }];
