@@ -8,8 +8,8 @@
 
 #import "BibMARCOutputStream.h"
 #import "BibMARCSerialization.h"
-
-NSErrorDomain const BibMARCOutputStreamErrorDomain = @"BibMARCOutputStreamErrorDomain";
+#import "BibSerializationError+Internal.h"
+#import "Bibliotek+Internal.h"
 
 @implementation BibMARCOutputStream {
     NSOutputStream *_outputStream;
@@ -21,19 +21,6 @@ NSErrorDomain const BibMARCOutputStreamErrorDomain = @"BibMARCOutputStreamErrorD
     return [self initToMemory];
 }
 
-- (instancetype)initToMemory {
-    return [self initWithOutputStream:[NSOutputStream outputStreamToMemory]];
-}
-
-- (instancetype)initWithURL:(NSURL *)url append:(BOOL)shouldAppend {
-    return [self initWithOutputStream:[NSOutputStream outputStreamWithURL:url append:shouldAppend]];
-}
-
-- (nullable instancetype)initWithFileAtPath:(NSString *)path append:(BOOL)shouldAppend {
-    NSOutputStream *const outputStream = [NSOutputStream outputStreamToFileAtPath:path append:shouldAppend];
-    return (outputStream) ? [self initWithOutputStream:outputStream] : nil;
-}
-
 - (instancetype)initWithOutputStream:(NSOutputStream *)outputStream {
     if (self = [super init]) {
         _outputStream = outputStream;
@@ -41,22 +28,6 @@ NSErrorDomain const BibMARCOutputStreamErrorDomain = @"BibMARCOutputStreamErrorD
         _streamError = [outputStream streamError];
     }
     return self;
-}
-
-+ (instancetype)outputStreamToMemory {
-    return [[self alloc] initToMemory];
-}
-
-+ (instancetype)outputStreamWithURL:(NSURL *)url append:(BOOL)shouldAppend {
-    return [[self alloc] initWithURL:url append:shouldAppend];
-}
-
-+ (instancetype)outputStreamWithFileAtPath:(NSString *)path append:(BOOL)shouldAppend {
-    return [[self alloc] initWithFileAtPath:path append:shouldAppend];
-}
-
-+ (instancetype)outputStreamWithOutputStream:(NSOutputStream *)outputStream {
-    return [[self alloc] initWithOutputStream:outputStream];
 }
 
 - (void)dealloc {
@@ -97,47 +68,20 @@ NSErrorDomain const BibMARCOutputStreamErrorDomain = @"BibMARCOutputStreamErrorD
     return self;
 }
 
-- (BOOL)isStreamStatusOpen:(out NSError *__autoreleasing *)error {
+- (BOOL)writeRecord:(BibRecord *)record error:(out NSError * _Nullable __autoreleasing *)error {
     switch ([self streamStatus]) {
         case NSStreamStatusOpen:
-            return YES;
-        case NSStreamStatusAtEnd:
-            return NO;
+            break;
         case NSStreamStatusError:
-            if (error) { *error = [self streamError]; }
-            return NO;
-        case NSStreamStatusNotOpen:
-            if (error) {
-                static NSString *const message = @"An output stream must be opened before data can be written";
-                *error = [NSError errorWithDomain:BibMARCOutputStreamErrorDomain
-                                             code:BibMARCOutputStreamNotOpenedError
-                                         userInfo:@{ NSDebugDescriptionErrorKey : message }];
-            }
-            return NO;
-        case NSStreamStatusClosed:
-            if (error) {
-                static NSString *const message = @"A closed output stream cannot write data";
-                *error = [NSError errorWithDomain:BibMARCOutputStreamErrorDomain
-                                             code:BibMARCOutputStreamNotOpenedError
-                                         userInfo:@{ NSDebugDescriptionErrorKey : message }];
+            if (error != NULL) {
+                *error = [self streamError];
             }
             return NO;
         default:
-            if (error) {
-                NSStreamStatus const status = [self streamStatus];
-                NSString *const message =
-                    [NSString stringWithFormat:@"Cannot write data to an output stream with status %lu", status];
-                *error = [NSError errorWithDomain:BibMARCOutputStreamErrorDomain
-                                             code:BibMARCOutputStreamNotOpenedError
-                                         userInfo:@{ NSDebugDescriptionErrorKey : message }];
+            if (error != NULL) {
+                *error = BibSerializationMakeOutputStreamNotOpenedError(_outputStream);
             }
             return NO;
-    }
-}
-
-- (BOOL)writeRecord:(BibRecord *)record error:(out NSError * _Nullable __autoreleasing *)error {
-    if (![self isStreamStatusOpen:error]) {
-        return NO;
     }
     NSError *err = nil;
     BOOL const success = [BibMARCSerialization writeRecord:record toStream:_outputStream error:&err];
