@@ -13,6 +13,12 @@
 
 #import <Bibliotek/BibHasher.h>
 
+#if __has_attribute(objc_direct)
+#define BIB_DIRECT __attribute__((objc_direct))
+#else
+#define BIB_DIRECT
+#endif
+
 #define BibMApply(M, ...) M(__VA_ARGS__)
 #define BibMConcat(M, ...) M ## __VA_ARGS__
 #define BibMCount(...) _BibMCount_Sequence(__VA_ARGS__, 8, 7, 6, 5, 4, 3, 2, 1)
