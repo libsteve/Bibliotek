@@ -29,6 +29,7 @@ static NSString *BibXMLReaderTypeDescription(xmlReaderTypes type);
     NSStreamStatus _streamStatus;
     NSError *_streamError;
     BOOL _didReadCollectionElement;
+    BOOL _didReadRootRecordElement;
     NSInputStream *_inputStream;
     BOOL _warningsAsErrors;
 }
@@ -525,7 +526,7 @@ static void bib_marcxml_handleTextReaderError(void *context, char const *message
 }
 
 - (BOOL)_readRecordOrCollectionEnd:(BibRecord *__autoreleasing *)record error:(NSError *__autoreleasing *)error {
-    if (![self _advanceReader:error]) {
+    if (_didReadCollectionElement && ![self _advanceReader:error]) {
         return NO;
     }
     xmlReaderTypes type = xmlTextReaderNodeType(_reader);
@@ -589,13 +590,13 @@ static void bib_marcxml_handleTextReaderError(void *context, char const *message
         return NO;
     }
     NSError *_error = BibSerializationMakeInputStreamNotOpenedError(_inputStream);
-    if (_error == nil) {
+    if (_error != nil) {
         if (error != NULL) {
             *error = _error;
         }
         return NO;
     }
-    if (!_didReadCollectionElement) {
+    if (!_didReadCollectionElement && !_didReadRootRecordElement) {
         NSError *_error = nil;
         if (![self _advanceReader:&_error]) {
             if (error != NULL) {
@@ -608,6 +609,9 @@ static void bib_marcxml_handleTextReaderError(void *context, char const *message
         if (xmlTextReaderNodeType(_reader) == XML_READER_TYPE_ELEMENT
             && xmlStrEqual(xmlTextReaderConstName(_reader), MARCXMLCollection)) {
             _didReadCollectionElement = YES;
+        } else if (xmlTextReaderNodeType(_reader) == XML_READER_TYPE_ELEMENT
+                   && xmlStrEqual(xmlTextReaderConstName(_reader), MARCXMLRecord)) {
+            _didReadRootRecordElement = YES;
         } else {
             if (error != NULL) {
                 *error = _error;
