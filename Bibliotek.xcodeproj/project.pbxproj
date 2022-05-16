@@ -22,6 +22,8 @@
 		AA2E475228289FC900E2434A /* BibRecordOutputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = AA2E475028289FC900E2434A /* BibRecordOutputStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA2E475328289FC900E2434A /* BibRecordOutputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2E475128289FC900E2434A /* BibRecordOutputStream.m */; };
 		AA2E47552828A1CA00E2434A /* Bibliotek+Internal.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2E47542828A1CA00E2434A /* Bibliotek+Internal.m */; };
+		AA2E47582828C87000E2434A /* BibMARCXMLOutputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = AA2E47562828C87000E2434A /* BibMARCXMLOutputStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA2E47592828C87000E2434A /* BibMARCXMLOutputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2E47572828C87000E2434A /* BibMARCXMLOutputStream.m */; };
 		AA2E475E2828F52D00E2434A /* BibMARCXMLConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = AA2E475C2828F52D00E2434A /* BibMARCXMLConstants.h */; };
 		AA2E475F2828F52D00E2434A /* BibMARCXMLConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2E475D2828F52D00E2434A /* BibMARCXMLConstants.m */; };
 		AA2F88DC2121171A0085A637 /* libyaz.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA14E82A20D8C84B00430A87 /* libyaz.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -199,6 +201,8 @@
 		AA2E475028289FC900E2434A /* BibRecordOutputStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibRecordOutputStream.h; sourceTree = "<group>"; };
 		AA2E475128289FC900E2434A /* BibRecordOutputStream.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibRecordOutputStream.m; sourceTree = "<group>"; };
 		AA2E47542828A1CA00E2434A /* Bibliotek+Internal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Bibliotek+Internal.m"; sourceTree = "<group>"; };
+		AA2E47562828C87000E2434A /* BibMARCXMLOutputStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibMARCXMLOutputStream.h; sourceTree = "<group>"; };
+		AA2E47572828C87000E2434A /* BibMARCXMLOutputStream.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibMARCXMLOutputStream.m; sourceTree = "<group>"; };
 		AA2E475C2828F52D00E2434A /* BibMARCXMLConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibMARCXMLConstants.h; sourceTree = "<group>"; };
 		AA2E475D2828F52D00E2434A /* BibMARCXMLConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibMARCXMLConstants.m; sourceTree = "<group>"; };
 		AA37678820CDB34000CF101D /* Brewfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Brewfile; sourceTree = "<group>"; };

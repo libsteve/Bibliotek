@@ -11,6 +11,33 @@
 
 @implementation BibMARCXMLSerialization
 
++ (NSData *)dataWithRecord:(BibRecord *)record error:(out NSError *__autoreleasing *)error {
+    if (record != nil) {
+        return [self dataWithRecordsInArray:@[ record ] error:error];
+    }
+    return nil;
+}
+
++ (NSData *)dataWithRecordsInArray:(NSArray<BibRecord *> *)records error:(out NSError *__autoreleasing *)error {
+    BibMARCXMLOutputStream *outputStream = [[[BibMARCXMLOutputStream alloc] initToMemory] open];
+    if ([outputStream streamStatus] == NSStreamStatusError) {
+        if (error != NULL) {
+            *error = [outputStream streamError];
+        }
+        return nil;
+    }
+    NSError *_error = nil;
+    for (BibRecord *record in records) {
+        if (![outputStream writeRecord:record error:&_error] && _error != NULL) {
+            if (error != NULL) {
+                *error = _error;
+            }
+            return nil;
+        }
+    }
+    return [[outputStream close] data];
+}
+
 + (NSArray<BibRecord *> *)recordsFromData:(NSData *)data error:(out NSError * _Nullable __autoreleasing *)error {
     BibRecordInputStream *inputStream = [[[BibMARCXMLInputStream alloc] initWithData:data] open];
     if ([inputStream streamStatus] == NSStreamStatusError) {
