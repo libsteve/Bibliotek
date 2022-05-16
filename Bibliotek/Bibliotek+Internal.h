@@ -54,3 +54,57 @@
 #define _BibKeyPath_N(...) BibMApply(__BibKeyPath_N(BibMCount(__VA_ARGS__)), __VA_ARGS__)
 
 #endif
+
+#pragma mark -
+
+/// Describe a class or instance method, i.e. \c -addObject:
+///
+/// \param self The receiver of the method call. This can be either an object or a class.
+/// \param _cmd The method's selector, given to each method with its \c _cmd argument.
+extern NSString *BibMethodName(id self, SEL _cmd);
+
+/// Describe a method with the class of its receivers, i.e. \c -[NSArray \c addObject:]
+///
+/// \param self The receiver of the method call. This can be either an object or a class.
+/// \param clss The \c Class where the method was originally defined.
+///             The class of \c self is used when \c clss is \c nil
+/// \param _cmd The method's selector, given to each method with its \c _cmd argument.
+extern NSString *BibFullMethodName(id self, Class clss, SEL _cmd);
+
+#pragma mark - Unimplemented Method Exceptions
+
+/// Throw an exception when an abstract method isn't overridden by its subclass.
+///
+/// \param self The object or class that received a call to the unimplemented initializer.
+/// \param clss The class that declared the unimplemented abstract initializer.
+/// \param _cmd The selector of the unimplemented initializer, provided by its \c _cmd argument.
+/// \throws An \c NSInvalidArgumentException on every call.
+extern void BibUnimplementedInitializer(id self, Class clss, SEL _cmd) BIB_COLD BIB_NORETURN;
+
+/// Throw an exception when an abstract method isn't overridden by its subclass.
+///
+/// \param self The object or class that received a call to the unimplemented property.
+/// \param clss The class that declared the unimplemented abstract property.
+/// \param _cmd The selector of the unimplemented property, provided by its \c _cmd argument.
+/// \throws An \c NSInvalidArgumentException on every call.
+extern void BibUnimplementedProperty(id self, Class clss, SEL _cmd) BIB_COLD BIB_NORETURN;
+
+/// Throw an exception when an abstract method isn't overridden by its subclass.
+///
+/// \param self The object or class that received a call to the unimplemented method.
+/// \param clss cThe lass that declared the unimplemented abstract method.
+/// \param _cmd The selector of the unimplemented method, provided by its \c _cmd argument.
+/// \throws An \c NSInvalidArgumentException on every call.
+extern void BibUnimplementedMethod(id self, Class clss, SEL _cmd) BIB_COLD BIB_NORETURN;
+
+/// Throw an exception when an abstract method isn't overridden by its subclass.
+///
+/// \param self The object or class that received a call to the unimplemented selector.
+/// \param _cmd The selector of the unimplemented method, provided by its \c _cmd argument.
+/// \throws An \c NSInvalidArgumentException on every call.
+extern void BibUnimplementedSelector(id self, SEL _cmd) BIB_COLD BIB_NORETURN;
+
+#define BibUnimplementedInitializerFrom(KLASS) BibUnimplementedInitializer(self, [KLASS self], _cmd)
+#define BibUnimplementedPropertyFrom(KLASS) BibUnimplementedProperty(self, [KLASS self], _cmd)
+#define BibUnimplementedMethodFrom(KLASS) BibUnimplementedMethod(self, [KLASS self], _cmd)
+#define BibUnimplemented() BibUnimplementedSelector(self, _cmd)
