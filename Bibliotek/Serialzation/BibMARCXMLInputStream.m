@@ -7,6 +7,7 @@
 //
 
 #import "BibMARCXMLInputStream.h"
+#import "BibMARCXMLConstants.h"
 #import <Bibliotek/Bibliotek.h>
 #import <Bibliotek/Bibliotek+Internal.h>
 #import <libxml/xmlreader.h>
@@ -19,18 +20,6 @@ static NSError *BibMARCXMLInputStreamMakeMalformedDataError(NSString *format, ..
 static NSError *BibMARCXMLInputStreamMakeStreamAtEndError(NSString *format, ...) NS_FORMAT_FUNCTION(1, 2);
 
 static NSString *BibXMLReaderTypeDescription(xmlReaderTypes type);
-
-static xmlChar const *const MARCXMLCollection = BAD_CAST "collection";
-static xmlChar const *const MARCXMLRecord = BAD_CAST "record";
-static xmlChar const *const MARCXMLLeader = BAD_CAST "leader";
-static xmlChar const *const MARCXMLControlfield = BAD_CAST "controlfield";
-static xmlChar const *const MARCXMLDatafield = BAD_CAST "datafield";
-static xmlChar const *const MARCXMLSubfield = BAD_CAST "subfield";
-
-static xmlChar const *const MARCXMLTag = BAD_CAST "tag";
-static xmlChar const *const MARCXMLInd1 = BAD_CAST "ind1";
-static xmlChar const *const MARCXMLInd2 = BAD_CAST "ind2";
-static xmlChar const *const MARCXMLCode = BAD_CAST "code";
 
 #pragma mark -
 
