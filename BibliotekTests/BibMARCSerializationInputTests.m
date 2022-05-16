@@ -1,5 +1,5 @@
 //
-//  BibMARCSerializationInput.m
+//  BibMARCSerializationInputTests.m
 //  BibliotekTests
 //
 //  Created by Steve Brunwasser on 4/26/20.
@@ -10,11 +10,11 @@
 #import <Bibliotek/Bibliotek.h>
 #import <yaz/yaz-iconv.h>
 
-@interface BibMARCSerializationInput : XCTestCase
+@interface BibMARCSerializationInputTests : XCTestCase
 
 @end
 
-@implementation BibMARCSerializationInput
+@implementation BibMARCSerializationInputTests
 
 - (NSInputStream *)inputStreamForRecordNamed:(NSString *)recordName {
     NSBundle *const bundle = [NSBundle bundleForClass:[self class]];
