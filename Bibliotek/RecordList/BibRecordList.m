@@ -13,7 +13,7 @@
 #import "BibRecord.h"
 #import "BibRecordList.h"
 #import "BibRecordList+Private.h"
-#import "BibMARCInputStream.h"
+#import "BibRecordInputStream.h"
 #import <yaz/zoom.h>
 
 #define BibAssert(condition, exception, message, ...) ({ \
@@ -95,8 +95,9 @@
     char const *const type = "raw; charset=utf8";
     char const *const bytes = ZOOM_record_get(zoomRecord, type, &length);
     NSData *const data = [NSData dataWithBytes:bytes length:length];
-    BibMARCInputStream *const inputStream = [[BibMARCInputStream alloc] initWithData:data];
-    BibRecord *const record = [[inputStream open] readRecord:NULL];
+    BibRecordInputStream *const inputStream = [[BibRecordInputStream alloc] initWithData:data];
+    BibRecord *record = nil;
+    [[inputStream open] readRecord:&record error:NULL];
     return record;
 }
 
