@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// \note Custom subclasses of \c RecordInputStream must provide implementations for
 ///       \c -streamStatus \c streamError \c -open \c -close \c -initWithInputStream:
-///       \c -init and \c -readRecord:
+///       \c -init and \c -readRecord:error:
 NS_SWIFT_NAME(RecordInputStream)
 @interface BibRecordInputStream : NSObject
 

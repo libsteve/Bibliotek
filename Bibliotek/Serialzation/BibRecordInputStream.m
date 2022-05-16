@@ -21,24 +21,18 @@ NSErrorDomain const BibRecordInputStreamErrorDomain = @"BibRecordInputStreamErro
 @interface _BibUnknownInputStream : BibRecordInputStream
 @end
 
-/// \param self object with the unimplemented method
-/// \param _cmd selector of the unimplemented method
-/// \param type \c "initializer" \c "method" or \c "property"
-/// \param kind \c '-' for instance methods, \c '+' for class methods
-static void BibUnimplementedMethod(id self, SEL _cmd, char const *type, char kind) BIB_COLD BIB_NORETURN;
-
 #pragma mark -
 
 @implementation BibRecordInputStream
 
 @dynamic streamStatus;
 - (NSStreamStatus)streamStatus {
-    BibUnimplementedMethod(self, _cmd, "property", '-');
+    BibUnimplementedProperty(self, [BibRecordInputStream self], _cmd);
 }
 
 @dynamic streamError;
 - (NSError *)streamError {
-    BibUnimplementedMethod(self, _cmd, "property", '-');
+    BibUnimplementedProperty(self, [BibRecordInputStream self], _cmd);
 }
 
 + (instancetype)allocWithZone:(NSZone *)zone {
@@ -62,7 +56,7 @@ static void BibUnimplementedMethod(id self, SEL _cmd, char const *type, char kin
 }
 
 - (instancetype)initWithData:(NSData *)data {
-    return [self initWithInputStream:[NSInputStream inputStreamWithData:data]];
+    return [self initWithInputStream:[NSInputStream inputStreamWithData:data ?: [NSData new]]];
 }
 
 - (instancetype)initWithFileAtPath:(NSString *)path {
@@ -71,7 +65,7 @@ static void BibUnimplementedMethod(id self, SEL _cmd, char const *type, char kin
 }
 
 - (instancetype)initWithInputStream:(NSInputStream *)inputStream {
-//    BibUnimplementedMethod(self, _cmd, "initializer", '-');
+//    BibUnimplementedInitializer(self, [BibRecordInputStream self], _cmd);
     return [super init];
 }
 
@@ -91,16 +85,16 @@ static void BibUnimplementedMethod(id self, SEL _cmd, char const *type, char kin
     return [[self alloc] initWithInputStream:inputStream];
 }
 
-- (BOOL)readRecord:(BibRecord *__autoreleasing *)record error:(NSError *__autoreleasing *)error {
-    BibUnimplementedMethod(self, _cmd, "method", '-');
-}
-
 - (instancetype)open {
-    BibUnimplementedMethod(self, _cmd, "method", '-');
+    BibUnimplementedMethod(self, [BibRecordInputStream self], _cmd);
 }
 
 - (instancetype)close {
-    BibUnimplementedMethod(self, _cmd, "method", '-');
+    BibUnimplementedMethod(self, [BibRecordInputStream self], _cmd);
+}
+
+- (BOOL)readRecord:(BibRecord *__autoreleasing *)record error:(NSError *__autoreleasing *)error {
+    BibUnimplementedMethod(self, [BibRecordInputStream self], _cmd);
 }
 
 @end
@@ -136,18 +130,22 @@ static BOOL _isMARCPathExtension(NSString *extension) {
 
 - (id)initWithData:(NSData *)data {
     NSUInteger length = [data length];
+    if (length >= 2) {
+        char buffer[2] = { '\0', '\0' };
+        [data getBytes:buffer length:2];
+        if (buffer[0] == '<') {
+            switch (buffer[1]) {
+                case '?': case 'c': case 'C': case 'r': case 'R':
+                    return [[BibMARCXMLInputStream alloc] initWithData:data];
+                default: break;
+            }
+        }
+    }
     if (length >= BibLeaderRawDataLength) {
         NSData *leaderData = [data subdataWithRange:NSMakeRange(0, BibLeaderRawDataLength)];
         BibLeader *leader = [[BibLeader alloc] initWithData:leaderData];
         if (leader != nil) {
             return [[BibMARCInputStream alloc] initWithData:data];
-        }
-    }
-    if (length >= 2) {
-        char buffer[2] = { '\0', '\0' };
-        [data getBytes:buffer length:2];
-        if (buffer[0] == '<' && buffer[1] == '?') {
-            return [[BibMARCXMLInputStream alloc] initWithData:data];
         }
     }
     return [[_BibUnknownInputStream alloc] initWithData:data];
@@ -248,19 +246,23 @@ static BOOL _isMARCPathExtension(NSString *extension) {
         return self;
     }
     [self willChangeValueForKey:@"_recordStream"];
+    if (length >= 2) {
+        if (buffer[0] == '<') {
+            switch (buffer[1]) {
+                case '?': case 'c': case 'C': case 'r': case 'R':
+                    _recordStream = [[BibMARCXMLInputStream alloc] initWithInputStream:_inputStream];
+                    [self didChangeValueForKey:@"_recordStream"];
+                    [_recordStream open];
+                    return self;
+                default: break;
+            }
+        }
+    }
     if (length >= BibLeaderRawDataLength) {
         NSData *leaderData = [NSData dataWithBytes:buffer length:length];
         BibLeader *leader = [[BibLeader alloc] initWithData:leaderData];
         if (leader != nil) {
             _recordStream = [[BibMARCInputStream alloc] initWithInputStream:_inputStream];
-            [self didChangeValueForKey:@"_recordStream"];
-            [_recordStream open];
-            return self;
-        }
-    }
-    if (length >= 2) {
-        if (buffer[0] == '<' && buffer[1] == '?') {
-            _recordStream = [[BibMARCXMLInputStream alloc] initWithInputStream:_inputStream];
             [self didChangeValueForKey:@"_recordStream"];
             [_recordStream open];
             return self;
@@ -500,12 +502,3 @@ typedef NS_ENUM(uint8_t, _BibUnknownInputStreamType) {
 }
 
 @end
-
-#pragma mark -
-
-static void BibUnimplementedMethod(id self, SEL _cmd, char const *type, char kind) {
-    os_log_t log = os_log_create("Bibliotek", "UnimplementedMethods");
-    os_log_fault(log, "%{public}@ does not implement the required %s %c[%{public}@ %{public}@]", [self className],
-                 type, kind, NSStringFromClass([BibRecordInputStream self]), NSStringFromSelector(_cmd));
-    abort();
-}
