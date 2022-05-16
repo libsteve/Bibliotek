@@ -1,5 +1,5 @@
 //
-//  BibMARCSerializationOutput.m
+//  BibMARCSerializationOutputTests.m
 //  BibliotekTests
 //
 //  Created by Steve Brunwasser on 4/26/20.
@@ -9,11 +9,11 @@
 #import <XCTest/XCTest.h>
 #import <Bibliotek/Bibliotek.h>
 
-@interface BibMARCSerializationOutput : XCTestCase
+@interface BibMARCSerializationOutputTests : XCTestCase
 
 @end
 
-@implementation BibMARCSerializationOutput
+@implementation BibMARCSerializationOutputTests
 
 - (NSData *)dataForRecordNamed:(NSString *)recordName {
     NSBundle *const bundle = [NSBundle bundleForClass:[self class]];
