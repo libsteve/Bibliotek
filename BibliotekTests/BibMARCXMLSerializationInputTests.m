@@ -32,6 +32,42 @@
 
 #pragma mark -
 
+- (void)testReadClassificationRecordFromData {
+    NSData *const data = [self dataForRecordNamed:@"ClassificationRecord"];
+    NSError *error = nil;
+    NSArray<BibRecord *> *const records = [BibMARCXMLSerialization recordsFromData:data error:&error];
+    XCTAssertNil(error);
+    XCTAssertNotNil(records);
+    BibRecord *const record = records.firstObject;
+    XCTAssertNotNil(record);
+    BibFieldTag *const titleStatementFieldTag = [[BibFieldTag alloc] initWithString:@"153"];
+    BibRecordField *const field = [[record allFieldsWithTag:titleStatementFieldTag] firstObject];
+    XCTAssertEqualObjects([[field subfieldWithCode:@"a"] content], @"KJV5461.3");
+    NSUInteger const firstIndex = [field indexOfSubfieldWithCode:@"h"];
+    XCTAssertEqualObjects([[field subfieldAtIndex:firstIndex] content], @"Law of France");
+    XCTAssertEqualObjects([[field subfieldAtIndex:firstIndex + 1] content],
+                          @"Cultural affairs. L'action culturelle des pouvoirs publics");
+    XCTAssertEqualObjects([[field subfieldAtIndex:firstIndex + 2] content], @"Education");
+    XCTAssertEqualObjects([[field subfieldWithCode:@"j"] content], @"Private schools");
+}
+
+- (void)testReadClassificationRecordFromInputStream {
+    NSInputStream *const inputStream = [self inputStreamForRecordNamed:@"ClassificationRecord"];
+    NSError *error = nil;
+    BibRecord *const record = [BibMARCXMLSerialization recordFromStream:inputStream error:&error];
+    XCTAssertNil(error);
+    XCTAssertNotNil(record);
+    BibFieldTag *const titleStatementFieldTag = [[BibFieldTag alloc] initWithString:@"153"];
+    BibRecordField *const field = [[record allFieldsWithTag:titleStatementFieldTag] firstObject];
+    XCTAssertEqualObjects([[field subfieldWithCode:@"a"] content], @"KJV5461.3");
+    NSUInteger const firstIndex = [field indexOfSubfieldWithCode:@"h"];
+    XCTAssertEqualObjects([[field subfieldAtIndex:firstIndex] content], @"Law of France");
+    XCTAssertEqualObjects([[field subfieldAtIndex:firstIndex + 1] content],
+                          @"Cultural affairs. L'action culturelle des pouvoirs publics");
+    XCTAssertEqualObjects([[field subfieldAtIndex:firstIndex + 2] content], @"Education");
+    XCTAssertEqualObjects([[field subfieldWithCode:@"j"] content], @"Private schools");
+}
+
 - (void)testReadBibliographicRecordFromData {
     NSData *const data = [self dataForRecordNamed:@"BibliographicRecord"];
     NSError *error = nil;

@@ -116,6 +116,7 @@
 		AAAFD99B247C3A6300D2D1F0 /* BibLCCallNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = AAAFD999247C3A6300D2D1F0 /* BibLCCallNumber.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAAFD99C247C3A6300D2D1F0 /* BibLCCallNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAFD99A247C3A6300D2D1F0 /* BibLCCallNumber.m */; };
 		AAAFD9A5247CDAB200D2D1F0 /* BibLCCallNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAFD9A4247CDAB200D2D1F0 /* BibLCCallNumber.swift */; };
+		AAB4367A282CDEC000A1DFA2 /* ClassificationRecord.xml in Resources */ = {isa = PBXBuildFile; fileRef = AAB43679282CDEC000A1DFA2 /* ClassificationRecord.xml */; };
 		AAB6BADB263F224700E37CD4 /* Bibliotek.apinotes in Headers */ = {isa = PBXBuildFile; fileRef = AAB6BADA263F224700E37CD4 /* Bibliotek.apinotes */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAB7864F2454C2D90018A833 /* BibMARCOutputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB7864D2454C2D90018A833 /* BibMARCOutputStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAB786502454C2D90018A833 /* BibMARCOutputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = AAB7864E2454C2D90018A833 /* BibMARCOutputStream.m */; };
@@ -302,6 +303,7 @@
 		AAAFD999247C3A6300D2D1F0 /* BibLCCallNumber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibLCCallNumber.h; sourceTree = "<group>"; };
 		AAAFD99A247C3A6300D2D1F0 /* BibLCCallNumber.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibLCCallNumber.m; sourceTree = "<group>"; };
 		AAAFD9A4247CDAB200D2D1F0 /* BibLCCallNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibLCCallNumber.swift; sourceTree = "<group>"; };
+		AAB43679282CDEC000A1DFA2 /* ClassificationRecord.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ClassificationRecord.xml; sourceTree = "<group>"; };
 		AAB6BADA263F224700E37CD4 /* Bibliotek.apinotes */ = {isa = PBXFileReference; lastKnownFileType = text.apinotes; path = Bibliotek.apinotes; sourceTree = "<group>"; };
 		AAB7864D2454C2D90018A833 /* BibMARCOutputStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibMARCOutputStream.h; sourceTree = "<group>"; };
 		AAB7864E2454C2D90018A833 /* BibMARCOutputStream.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibMARCOutputStream.m; sourceTree = "<group>"; };
@@ -531,6 +533,7 @@
 				AA19396C22E2C58000429C54 /* ClassificationRecord.marc8 */,
 				AA19397422E7708900429C54 /* BibliographicRecord.marc8 */,
 				AAA14CF127C93068007DA083 /* BibliographicRecord.xml */,
+				AAB43679282CDEC000A1DFA2 /* ClassificationRecord.xml */,
 				AA091796247AFBEE0074CF6E /* MARC8Record1.marc8 */,
 				AAAFD991247B5F1F00D2D1F0 /* MARC8Record2.marc8 */,
 				AAAA428820B9F32A00BDB52B /* Info.plist */,
@@ -841,6 +844,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAB4367A282CDEC000A1DFA2 /* ClassificationRecord.xml in Resources */,
 				AA091797247AFBEE0074CF6E /* MARC8Record1.marc8 in Resources */,
 				AA19397522E7708900429C54 /* BibliographicRecord.marc8 in Resources */,
 				AA19396D22E2C58000429C54 /* ClassificationRecord.marc8 in Resources */,
