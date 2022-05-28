@@ -97,6 +97,12 @@ NSErrorDomain const BibRecordInputStreamErrorDomain = @"BibRecordInputStreamErro
     BibUnimplementedMethod(self, [BibRecordInputStream self], _cmd);
 }
 
+- (BibRecord *)readRecord:(out NSError *__autoreleasing *)error {
+    BibRecord *record = nil;
+    [self readRecord:&record error:error];
+    return record;
+}
+
 @end
 
 #pragma mark -
