@@ -68,11 +68,11 @@ NSString *const kDefaultDatabase = @"Default";
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     if (self = [super init]) {
-        _host = [aDecoder decodeObjectForKey:@"host"];
+        _host = [aDecoder decodeObjectOfClass:[NSString self] forKey:@"host"];
         _port = [aDecoder decodeIntegerForKey:@"port"];
-        _database = [aDecoder decodeObjectForKey:@"database"];
-        _name = [aDecoder decodeObjectForKey:@"name"];
-        _catalog = [aDecoder decodeObjectForKey:@"catalog"];
+        _database = [aDecoder decodeObjectOfClass:[NSString self] forKey:@"database"];
+        _name = [aDecoder decodeObjectOfClass:[NSString self] forKey:@"name"];
+        _catalog = [aDecoder decodeObjectOfClass:[NSString self] forKey:@"catalog"];
     }
     return self;
 }
