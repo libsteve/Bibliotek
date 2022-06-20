@@ -93,58 +93,42 @@
 
 @dynamic user;
 - (void)setUser:(NSString *)user {
-    [self willChangeValueForKey:@"user"];
     ZOOM_options_set(_options, "user", [user UTF8String]);
-    [self didChangeValueForKey:@"user"];
 }
 
 @dynamic group;
 - (void)setGroup:(NSString *)group {
-    [self willChangeValueForKey:@"group"];
     ZOOM_options_set(_options, "group", [group UTF8String]);
-    [self didChangeValueForKey:@"group"];
 }
 
 @dynamic password;
 - (void)setPassword:(NSString *)password {
-    [self willChangeValueForKey:@"password"];
     ZOOM_options_set(_options, "password", [password UTF8String]);
-    [self didChangeValueForKey:@"password"];
 }
 
 @dynamic authentication;
 - (void)setAuthentication:(BibAuthenticationMode)authentication {
-    [self willChangeValueForKey:@"authentication"];
     ZOOM_options_set(_options, "authenticationMode", [authentication UTF8String]);
-    [self didChangeValueForKey:@"authentication"];
 }
 
 @dynamic lang;
 - (void)setLang:(NSString *)lang {
-    [self willChangeValueForKey:@"lang"];
     ZOOM_options_set(_options, "lang", [lang UTF8String]);
-    [self didChangeValueForKey:@"lang"];
 }
 
 @dynamic charset;
 - (void)setCharset:(NSString *)charset {
-    [self willChangeValueForKey:@"charset"];
     ZOOM_options_set(_options, "charset", [charset UTF8String]);
-    [self didChangeValueForKey:@"charset"];
 }
 
 @dynamic timeout;
 - (void)setTimeout:(NSUInteger)timeout {
-    [self willChangeValueForKey:@"timeout"];
     ZOOM_options_set(_options, "timeout", [[@(timeout) stringValue] UTF8String]);
-    [self didChangeValueForKey:@"timeout"];
 }
 
 @dynamic needsEventPolling;
 - (void)setNeedsEventPolling:(BOOL)needsEventPolling {
-    [self willChangeValueForKey:@"needsEventPolling"];
     ZOOM_options_set(_options, "async", (needsEventPolling ? "1" : "0"));
-    [self didChangeValueForKey:@"needsEventPolling"];
 }
 
 @end
