@@ -33,3 +33,6 @@ xcuserdata/
 *.dSYM.zip
 *.dSYM
 
+# YAZ source
+
+libyaz/
