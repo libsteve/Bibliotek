@@ -1,3 +1,0 @@
-[submodule "libyaz"]
-	path = libyaz
-	url = https://github.com/indexdata/yaz.git
