@@ -66,7 +66,7 @@ extension FieldTag: Hashable, Equatable {
     }
 
     public static func == (lhs: FieldTag, rhs: FieldTag) -> Bool {
-        return lhs.storage.isEqual(to: rhs.storage)
+        return lhs.storage.isEqual(rhs.storage)
     }
 }
 

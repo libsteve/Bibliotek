@@ -173,7 +173,7 @@ extension Leader: Hashable, Equatable {
     }
 
     public static func == (lhs: Leader, rhs: Leader) -> Bool {
-        return lhs.storage.isEqual(to: rhs.storage)
+        return lhs.storage.isEqual(rhs.storage)
     }
 }
 
