@@ -106,7 +106,7 @@ extension Metadata: Hashable, Equatable {
     }
 
     public static func == (lhs: Metadata, rhs: Metadata) -> Bool {
-        return lhs.storage.isEqual(to: rhs.storage)
+        return lhs.storage.isEqual(rhs.storage)
     }
 }
 

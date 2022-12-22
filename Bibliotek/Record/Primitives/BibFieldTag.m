@@ -18,7 +18,7 @@
 @synthesize isDataTag = _isDataTag;
 
 + (instancetype)allocWithZone:(struct _NSZone *)zone {
-    return [self isEqualTo:[BibFieldTag class]]
+    return [self isEqual:[BibFieldTag class]]
          ? [_BibFieldTag allocWithZone:zone]
          : [super allocWithZone:zone];
 }

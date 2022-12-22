@@ -97,7 +97,7 @@ extension RecordKind: Hashable, Equatable {
     }
 
     public static func == (lhs: RecordKind, rhs: RecordKind) -> Bool {
-        return lhs._storage.isEqual(to: rhs._storage)
+        return lhs._storage.isEqual(rhs._storage)
     }
 }
 

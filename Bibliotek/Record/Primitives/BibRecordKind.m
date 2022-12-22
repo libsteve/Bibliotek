@@ -20,7 +20,7 @@
 @synthesize rawValue = _rawValue;
 
 + (instancetype)allocWithZone:(struct _NSZone *)zone {
-    return [self isEqualTo:[BibRecordKind class]]
+    return [self isEqual:[BibRecordKind class]]
          ? [_BibRecordKind allocWithZone:zone]
          : [super allocWithZone:zone];
 }
