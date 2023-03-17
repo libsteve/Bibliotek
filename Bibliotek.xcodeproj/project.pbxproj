@@ -83,6 +83,7 @@
 		AA83210824F18608000945B3 /* bibparse.c in Sources */ = {isa = PBXBuildFile; fileRef = AA83210624F18608000945B3 /* bibparse.c */; };
 		AA83210B24F186DD000945B3 /* bibtype.h in Headers */ = {isa = PBXBuildFile; fileRef = AA83210924F186DD000945B3 /* bibtype.h */; };
 		AA83210C24F186DD000945B3 /* bibtype.c in Sources */ = {isa = PBXBuildFile; fileRef = AA83210A24F186DD000945B3 /* bibtype.c */; };
+		AA8F75FB29C413DF006FEFDB /* libyaz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8F75FA29C413DF006FEFDB /* libyaz.dylib */; };
 		AA99BAF62301E4370055C078 /* BibHasher.h in Headers */ = {isa = PBXBuildFile; fileRef = AA99BAF42301E4370055C078 /* BibHasher.h */; };
 		AA99BAF72301E4370055C078 /* BibHasher.m in Sources */ = {isa = PBXBuildFile; fileRef = AA99BAF52301E4370055C078 /* BibHasher.m */; };
 		AAA14CF227C93068007DA083 /* BibliographicRecord.xml in Resources */ = {isa = PBXBuildFile; fileRef = AAA14CF127C93068007DA083 /* BibliographicRecord.xml */; };
@@ -137,14 +138,13 @@
 		AACEDD6420C1A946004ACA07 /* BibConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACEDD6320C1A946004ACA07 /* BibConstants.swift */; };
 		AAD8D25A29528FFA00217DDD /* Buildfile in Resources */ = {isa = PBXBuildFile; fileRef = AAD8D25929528FF900217DDD /* Buildfile */; };
 		AAD8D25C2952920800217DDD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAD8D25B2952920800217DDD /* Foundation.framework */; };
-		AAD8D260295292D500217DDD /* libyaz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AAD8D25E295292D500217DDD /* libyaz.dylib */; };
 		AADE536620CE2E8F0043CE5B /* BibRecordList.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADE536520CE2E8F0043CE5B /* BibRecordList.swift */; };
 		AAE5A69F259A2955007FFD79 /* bibtypeio.h in Headers */ = {isa = PBXBuildFile; fileRef = AAE5A69D259A2955007FFD79 /* bibtypeio.h */; };
 		AAE5A6A0259A2955007FFD79 /* bibtypeio.c in Sources */ = {isa = PBXBuildFile; fileRef = AAE5A69E259A2955007FFD79 /* bibtypeio.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		AA14E83820D8D34000430A87 /* PBXContainerItemProxy */ = {
+		AA61C86F29C412D20063226B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AA59F0C920A9FACF00D41982 /* Project object */;
 			proxyType = 1;
@@ -250,6 +250,7 @@
 		AA83210924F186DD000945B3 /* bibtype.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bibtype.h; sourceTree = "<group>"; };
 		AA83210A24F186DD000945B3 /* bibtype.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = bibtype.c; sourceTree = "<group>"; };
 		AA83210D24F39835000945B3 /* BibLCCallNumber.bnf */ = {isa = PBXFileReference; lastKnownFileType = text; path = BibLCCallNumber.bnf; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
+		AA8F75FA29C413DF006FEFDB /* libyaz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libyaz.dylib; path = lib/libyaz.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA99BAF42301E4370055C078 /* BibHasher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibHasher.h; sourceTree = "<group>"; };
 		AA99BAF52301E4370055C078 /* BibHasher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibHasher.m; sourceTree = "<group>"; };
 		AA9F66D120D0C0F000CE4DA7 /* Bibliotek.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Bibliotek.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -308,8 +309,6 @@
 		AACEDD6620C47583004ACA07 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		AAD8D25929528FF900217DDD /* Buildfile */ = {isa = PBXFileReference; explicitFileType = sourcecode.make; fileEncoding = 4; path = Buildfile; sourceTree = "<group>"; };
 		AAD8D25B2952920800217DDD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		AAD8D25D295292D500217DDD /* libyaz.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libyaz.5.dylib; path = "../../Library/Developer/Xcode/DerivedData/Bibliotek-ehsalbphyktnukgvhtdakogblibl/Build/Products/Debug/libyaz/lib/libyaz.5.dylib"; sourceTree = "<group>"; };
-		AAD8D25E295292D500217DDD /* libyaz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libyaz.dylib; path = libyaz/lib/libyaz.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		AADE536520CE2E8F0043CE5B /* BibRecordList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibRecordList.swift; sourceTree = "<group>"; };
 		AAE5A69D259A2955007FFD79 /* bibtypeio.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bibtypeio.h; sourceTree = "<group>"; };
 		AAE5A69E259A2955007FFD79 /* bibtypeio.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = bibtypeio.c; sourceTree = "<group>"; };
@@ -320,7 +319,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAD8D260295292D500217DDD /* libyaz.dylib in Frameworks */,
+				AA8F75FB29C413DF006FEFDB /* libyaz.dylib in Frameworks */,
 				AAD8D25C2952920800217DDD /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -348,8 +347,7 @@
 			isa = PBXGroup;
 			children = (
 				AAD8D25B2952920800217DDD /* Foundation.framework */,
-				AAD8D25D295292D500217DDD /* libyaz.5.dylib */,
-				AAD8D25E295292D500217DDD /* libyaz.dylib */,
+				AA8F75FA29C413DF006FEFDB /* libyaz.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -710,7 +708,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				AA14E83920D8D34000430A87 /* PBXTargetDependency */,
+				AA61C87029C412D20063226B /* PBXTargetDependency */,
 			);
 			name = Bibliotek;
 			productName = YazKit;
@@ -760,7 +758,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1010;
-				LastUpgradeCheck = 0930;
+				LastUpgradeCheck = 1420;
 				ORGANIZATIONNAME = "Steve Brunwasser";
 				TargetAttributes = {
 					AA5900E620AA274F00D41982 = {
@@ -785,6 +783,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = AA59F0C820A9FACF00D41982;
 			productRefGroup = AA59F0D320A9FACF00D41982 /* Products */;
@@ -933,10 +932,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		AA14E83920D8D34000430A87 /* PBXTargetDependency */ = {
+		AA61C87029C412D20063226B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AA5900E620AA274F00D41982 /* libyaz */;
-			targetProxy = AA14E83820D8D34000430A87 /* PBXContainerItemProxy */;
+			targetProxy = AA61C86F29C412D20063226B /* PBXContainerItemProxy */;
 		};
 		AA7EE07725A38D74000D3271 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -955,6 +954,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUGGING_SYMBOLS = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -981,6 +981,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				OTHER_CFLAGS = (
 					"-H$(SDKROOT)/usr/include/libxml2",
@@ -1027,6 +1028,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1035,7 +1037,8 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0.3.2;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -1091,6 +1094,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1099,7 +1103,8 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 0.3.2;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1125,10 +1130,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 0.3.1;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1145,7 +1150,6 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/lib";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 0.3.1;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = brun.steve.Bibliotek;
@@ -1163,10 +1167,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 0.3.1;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1183,7 +1187,6 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/lib";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 0.3.1;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = brun.steve.Bibliotek;
@@ -1203,6 +1206,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = LCCallNumberTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1225,6 +1229,7 @@
 				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = LCCallNumberTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1248,6 +1253,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/include";
 				INFOPLIST_FILE = BibliotekTests/Info.plist;
@@ -1273,6 +1279,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/include";
 				INFOPLIST_FILE = BibliotekTests/Info.plist;
