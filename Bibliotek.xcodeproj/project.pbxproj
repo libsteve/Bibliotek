@@ -137,7 +137,6 @@
 		AABDC22222DAE7CD00345A58 /* BibRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = AABDC22022DAE7CD00345A58 /* BibRecord.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AABDC22322DAE7CD00345A58 /* BibRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = AABDC22122DAE7CD00345A58 /* BibRecord.m */; };
 		AACEDD6420C1A946004ACA07 /* BibConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACEDD6320C1A946004ACA07 /* BibConstants.swift */; };
-		AAD8D25A29528FFA00217DDD /* Buildfile in Resources */ = {isa = PBXBuildFile; fileRef = AAD8D25929528FF900217DDD /* Buildfile */; };
 		AAD8D25C2952920800217DDD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAD8D25B2952920800217DDD /* Foundation.framework */; };
 		AADE536620CE2E8F0043CE5B /* BibRecordList.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADE536520CE2E8F0043CE5B /* BibRecordList.swift */; };
 		AAE5A69F259A2955007FFD79 /* bibtypeio.h in Headers */ = {isa = PBXBuildFile; fileRef = AAE5A69D259A2955007FFD79 /* bibtypeio.h */; };
@@ -820,7 +819,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA0167BA25D0B4BB00860B58 /* RecordKind.strings in Resources */,
-				AAD8D25A29528FFA00217DDD /* Buildfile in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
