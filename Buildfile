@@ -57,6 +57,9 @@ $(YAZ_TEMP_DIR)/Makefile $(YAZ_TEMP_DIR)/%/Makefile: $(YAZ_SOURCE_DIR)/configure
 # Build and install the YAZ library.
 $(YAZ_BUILD_DIR)/lib/libyaz.dylib: $(YAZ_TEMP_DIR)/src/Makefile $(YAZ_BUILD_DIR)
 	cd $(YAZ_TEMP_DIR)/src && $(MAKE) && $(MAKE) install
+	install_name_tool -id "@rpath/libyaz.5.dylib" $(YAZ_BUILD_DIR)/lib/libyaz.5.dylib
+	install_name_tool -id "@rpath/libyaz_icu.5.dylib" $(YAZ_BUILD_DIR)/lib/libyaz_icu.5.dylib
+	install_name_tool -id "@rpath/libyaz_server.5.dylib" $(YAZ_BUILD_DIR)/lib/libyaz_server.5.dylib
 
 # Install the YAZ headers.
 $(YAZ_BUILD_DIR)/include/yaz/yaz-version.h: $(YAZ_TEMP_DIR)/include/Makefile $(YAZ_BUILD_DIR)
