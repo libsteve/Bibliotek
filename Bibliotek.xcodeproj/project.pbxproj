@@ -46,6 +46,8 @@
 		AA59055320AA43DD00D41982 /* BibConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AA59055120AA43DD00D41982 /* BibConnection.m */; };
 		AA59056820AB419C00D41982 /* BibConnection+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = AA59056720AB419900D41982 /* BibConnection+Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		AA59F0D720A9FACF00D41982 /* Bibliotek.h in Headers */ = {isa = PBXBuildFile; fileRef = AA59F0D520A9FACF00D41982 /* Bibliotek.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA5F30EF29C445D400D22B6B /* libyaz.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA5F30EE29C445D400D22B6B /* libyaz.5.dylib */; };
+		AA5F30F029C445E700D22B6B /* libyaz.5.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = AA5F30EE29C445D400D22B6B /* libyaz.5.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		AA619E17249ECD7500BB3A25 /* RecordField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA619E16249ECD7500BB3A25 /* RecordField.swift */; };
 		AA619E19249ECDFB00BB3A25 /* FieldIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA619E18249ECDFB00BB3A25 /* FieldIndicator.swift */; };
 		AA67784224843F1300997B29 /* BibRecordField.h in Headers */ = {isa = PBXBuildFile; fileRef = AA67784024843F1300997B29 /* BibRecordField.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -83,7 +85,6 @@
 		AA83210824F18608000945B3 /* bibparse.c in Sources */ = {isa = PBXBuildFile; fileRef = AA83210624F18608000945B3 /* bibparse.c */; };
 		AA83210B24F186DD000945B3 /* bibtype.h in Headers */ = {isa = PBXBuildFile; fileRef = AA83210924F186DD000945B3 /* bibtype.h */; };
 		AA83210C24F186DD000945B3 /* bibtype.c in Sources */ = {isa = PBXBuildFile; fileRef = AA83210A24F186DD000945B3 /* bibtype.c */; };
-		AA8F75FB29C413DF006FEFDB /* libyaz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA8F75FA29C413DF006FEFDB /* libyaz.dylib */; };
 		AA99BAF62301E4370055C078 /* BibHasher.h in Headers */ = {isa = PBXBuildFile; fileRef = AA99BAF42301E4370055C078 /* BibHasher.h */; };
 		AA99BAF72301E4370055C078 /* BibHasher.m in Sources */ = {isa = PBXBuildFile; fileRef = AA99BAF52301E4370055C078 /* BibHasher.m */; };
 		AAA14CF227C93068007DA083 /* BibliographicRecord.xml in Resources */ = {isa = PBXBuildFile; fileRef = AAA14CF127C93068007DA083 /* BibliographicRecord.xml */; };
@@ -167,6 +168,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		AA8F75FD29C42D60006FEFDB /* Embed Libraries */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				AA5F30F029C445E700D22B6B /* libyaz.5.dylib in Embed Libraries */,
+			);
+			name = "Embed Libraries";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		AA0167B925D0B4BB00860B58 /* RecordKind.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = RecordKind.strings; sourceTree = "<group>"; };
 		AA091796247AFBEE0074CF6E /* MARC8Record1.marc8 */ = {isa = PBXFileReference; lastKnownFileType = text; path = MARC8Record1.marc8; sourceTree = "<group>"; };
@@ -210,6 +225,7 @@
 		AA59F0D220A9FACF00D41982 /* Bibliotek.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Bibliotek.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA59F0D520A9FACF00D41982 /* Bibliotek.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bibliotek.h; sourceTree = "<group>"; };
 		AA59F0D620A9FACF00D41982 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AA5F30EE29C445D400D22B6B /* libyaz.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libyaz.5.dylib; path = lib/libyaz.5.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA619E16249ECD7500BB3A25 /* RecordField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordField.swift; sourceTree = "<group>"; };
 		AA619E18249ECDFB00BB3A25 /* FieldIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldIndicator.swift; sourceTree = "<group>"; };
 		AA67784024843F1300997B29 /* BibRecordField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibRecordField.h; sourceTree = "<group>"; };
@@ -250,7 +266,6 @@
 		AA83210924F186DD000945B3 /* bibtype.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bibtype.h; sourceTree = "<group>"; };
 		AA83210A24F186DD000945B3 /* bibtype.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = bibtype.c; sourceTree = "<group>"; };
 		AA83210D24F39835000945B3 /* BibLCCallNumber.bnf */ = {isa = PBXFileReference; lastKnownFileType = text; path = BibLCCallNumber.bnf; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = "<none>"; };
-		AA8F75FA29C413DF006FEFDB /* libyaz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libyaz.dylib; path = lib/libyaz.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA99BAF42301E4370055C078 /* BibHasher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibHasher.h; sourceTree = "<group>"; };
 		AA99BAF52301E4370055C078 /* BibHasher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibHasher.m; sourceTree = "<group>"; };
 		AA9F66D120D0C0F000CE4DA7 /* Bibliotek.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Bibliotek.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -319,8 +334,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA8F75FB29C413DF006FEFDB /* libyaz.dylib in Frameworks */,
 				AAD8D25C2952920800217DDD /* Foundation.framework in Frameworks */,
+				AA5F30EF29C445D400D22B6B /* libyaz.5.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -347,7 +362,7 @@
 			isa = PBXGroup;
 			children = (
 				AAD8D25B2952920800217DDD /* Foundation.framework */,
-				AA8F75FA29C413DF006FEFDB /* libyaz.dylib */,
+				AA5F30EE29C445D400D22B6B /* libyaz.5.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -704,6 +719,7 @@
 				AA59F0CE20A9FACF00D41982 /* Frameworks */,
 				AA59F0CF20A9FACF00D41982 /* Headers */,
 				AA59F0D020A9FACF00D41982 /* Resources */,
+				AA8F75FD29C42D60006FEFDB /* Embed Libraries */,
 			);
 			buildRules = (
 			);
@@ -1040,6 +1056,7 @@
 				CURRENT_PROJECT_VERSION = 0.3.2;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1106,6 +1123,7 @@
 				CURRENT_PROJECT_VERSION = 0.3.2;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
