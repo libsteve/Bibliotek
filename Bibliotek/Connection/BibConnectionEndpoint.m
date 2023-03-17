@@ -98,31 +98,26 @@ NSString *const kDefaultDatabase = @"Default";
 
 @dynamic host;
 - (void)setHost:(NSString *)host {
-    NSString *const key = NSStringFromSelector(@selector(host));
     _host = [host copy];
 }
 
 @dynamic port;
 - (void)setPort:(NSInteger)port {
-    NSString *const key = NSStringFromSelector(@selector(port));
     _port = port;
 }
 
 @dynamic database;
 - (void)setDatabase:(NSString *)database {
-    NSString *const key = NSStringFromSelector(@selector(database));
     _database = [database copy];
 }
 
 @dynamic name;
 - (void)setName:(NSString *)name {
-    NSString *const key = NSStringFromSelector(@selector(name));
     _name = [name copy];
 }
 
 @dynamic catalog;
 - (void)setCatalog:(NSString *)catalog {
-    NSString *const key = NSStringFromSelector(@selector(catalog));
     _catalog = [catalog copy];
 }
 
