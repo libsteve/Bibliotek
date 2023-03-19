@@ -201,7 +201,6 @@
 		AA2E47572828C87000E2434A /* BibMARCXMLOutputStream.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibMARCXMLOutputStream.m; sourceTree = "<group>"; };
 		AA2E475C2828F52D00E2434A /* BibMARCXMLConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibMARCXMLConstants.h; sourceTree = "<group>"; };
 		AA2E475D2828F52D00E2434A /* BibMARCXMLConstants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibMARCXMLConstants.m; sourceTree = "<group>"; };
-		AA37678820CDB34000CF101D /* Brewfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Brewfile; sourceTree = "<group>"; };
 		AA382B2824439CA1009F624D /* BibMarcIO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibMarcIO.h; sourceTree = "<group>"; };
 		AA382B2924439CA1009F624D /* BibMarcIO.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibMarcIO.m; sourceTree = "<group>"; };
 		AA4D08FD26657CA400C748EE /* BibAttributes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibAttributes.h; sourceTree = "<group>"; };
@@ -411,7 +410,6 @@
 				AAD8D25929528FF900217DDD /* Buildfile */,
 				AACEDD6520C4757A004ACA07 /* LICENSE */,
 				AACEDD6620C47583004ACA07 /* README.md */,
-				AA37678820CDB34000CF101D /* Brewfile */,
 				AA14E83620D8D2AD00430A87 /* Frameworks */,
 			);
 			sourceTree = "<group>";
