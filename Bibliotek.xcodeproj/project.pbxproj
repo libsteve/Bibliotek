@@ -453,12 +453,18 @@
 				AA67784024843F1300997B29 /* BibRecordField.h */,
 				AA67784124843F1300997B29 /* BibRecordField.m */,
 				AA619E16249ECD7500BB3A25 /* RecordField.swift */,
+				AABDC20922DAC17A00345A58 /* BibFieldTag.h */,
+				AABDC20822DAC17A00345A58 /* BibFieldTag.m */,
+				AAA4E00022EBF5D20003AF7B /* FieldTag.swift */,
 				AA677856248D63C900997B29 /* BibFieldIndicator.h */,
 				AA677857248D63C900997B29 /* BibFieldIndicator.m */,
 				AA619E18249ECDFB00BB3A25 /* FieldIndicator.swift */,
 				AABDC21822DAE05200345A58 /* BibSubfield.h */,
 				AABDC21922DAE05200345A58 /* BibSubfield.m */,
 				AAA4E00422EBFF670003AF7B /* Subfield.swift */,
+				AA79FFD724685D0100134C98 /* BibFieldPath.h */,
+				AA79FFD824685D0100134C98 /* BibFieldPath.m */,
+				AA79FFDB246868B300134C98 /* FieldPath.swift */,
 			);
 			path = RecordField;
 			sourceTree = "<group>";
@@ -489,16 +495,12 @@
 			path = LCCallNumberTests;
 			sourceTree = "<group>";
 		};
-		AAA4BDF925E2D050000DF08E /* MARC8 */ = {
+		AAA4E02322EE334C0003AF7B /* Leader */ = {
 			isa = PBXGroup;
 			children = (
-			);
-			path = MARC8;
-			sourceTree = "<group>";
-		};
-		AAA4E02322EE334C0003AF7B /* Primitives */ = {
-			isa = PBXGroup;
-			children = (
+				AABDC1FE22DAB2FD00345A58 /* BibLeader.h */,
+				AABDC1FD22DAB2FD00345A58 /* BibLeader.m */,
+				AA4D090926658B1600C748EE /* Leader.swift */,
 				AABDC1FA22DAAA0E00345A58 /* BibMetadata.h */,
 				AAA4E01622ED66A70003AF7B /* BibMetadata+Internal.h */,
 				AABDC1F922DAAA0E00345A58 /* BibMetadata.m */,
@@ -507,14 +509,8 @@
 				AAA4E01B22EE0D5A0003AF7B /* BibRecordKind.m */,
 				AAA4E01E22EE270E0003AF7B /* RecordKind.swift */,
 				AA0167B925D0B4BB00860B58 /* RecordKind.strings */,
-				AABDC20922DAC17A00345A58 /* BibFieldTag.h */,
-				AABDC20822DAC17A00345A58 /* BibFieldTag.m */,
-				AAA4E00022EBF5D20003AF7B /* FieldTag.swift */,
-				AA79FFD724685D0100134C98 /* BibFieldPath.h */,
-				AA79FFD824685D0100134C98 /* BibFieldPath.m */,
-				AA79FFDB246868B300134C98 /* FieldPath.swift */,
 			);
-			path = Primitives;
+			path = Leader;
 			sourceTree = "<group>";
 		};
 		AAAA428520B9F32A00BDB52B /* BibliotekTests */ = {
@@ -620,15 +616,11 @@
 		AABDC1F822DAA96C00345A58 /* Record */ = {
 			isa = PBXGroup;
 			children = (
-				AAA4BDF925E2D050000DF08E /* MARC8 */,
 				AABDC22022DAE7CD00345A58 /* BibRecord.h */,
 				AABDC22122DAE7CD00345A58 /* BibRecord.m */,
 				AAA4E00A22EC119A0003AF7B /* Record.swift */,
-				AABDC1FE22DAB2FD00345A58 /* BibLeader.h */,
-				AABDC1FD22DAB2FD00345A58 /* BibLeader.m */,
-				AA4D090926658B1600C748EE /* Leader.swift */,
+				AAA4E02322EE334C0003AF7B /* Leader */,
 				AA67783F24843EF500997B29 /* RecordField */,
-				AAA4E02322EE334C0003AF7B /* Primitives */,
 			);
 			path = Record;
 			sourceTree = "<group>";
