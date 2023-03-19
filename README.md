@@ -52,12 +52,10 @@ Instructions
 
 Clone the repository and all its submodules to your local machine.
 
-        git clone --recurse-submodules https://github.com/stevebrun/Bibliotek.git
+        git clone https://github.com/stevebrun/Bibliotek.git
 
-When you build the `Bibliotek` target for the first time, the `./configure` script will be run to install
-prerequisite tools with [Homebrew][brew] before proceeding to build YAZ into the project's build product's directory.
-
-[brew]: https://brew.sh
+Xcode will download and build the YAZ source code as needed when building the `libyaz` target.
+The `Bibliotek` target depends on `libyaz`, so this will happen automatically when building `Bibliotek`.
 
 References
 ---
