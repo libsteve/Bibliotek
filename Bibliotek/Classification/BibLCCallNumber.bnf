@@ -1,149 +1,209 @@
-lc-calln := <lc-subject>
-          | <lc-subject> '.' <lc-cutter-section>
-          | <lc-subject> <space> '.' <lc-cutter-section>
-          | <lc-subject> '.' <lc-cutter-section> <space> <lc-specification-list>
-          | <lc-subject> <space> '.' <lc-cutter-section> <space> <lc-specification-list>
+;
+; BibLCCallNumber.bnf
+; Bibliotek
+;
+; A grammar for Library of Congress classification and call numbers.
+;
 
-lc-subject := <lc-subject-base>
-            | <lc-subject-base> <space> <lc-subject-dateord>
+; MARK: ------------------------------------------------------------------------
+; MARK: Whitespace and Words
 
-lc-subject-base := <lc-subject-class>
-                 | <lc-subject-class> <lc-subject-subclass>
-                 | <lc-subject-class> <space> <lc-subject-subclass>
+      <space> ::= ' ' | '\n' | '\t' | <space> <space>
+    <nospace> ::= '.' | '-' | <letter> | <digit> | ...
 
-lc-subject-class := <upper>
-                  | <upper> <upper>
-                  | <upper> <upper> <upper>
+       <word> ::= <nospace>
+                | <nospace> <nospace>
+                | <nospace> <nospace> <nospace>
+                | <nospace> <nospace> <nospace> <nospace>
+   <longword> ::= <word>
+                | <word> <word>
+                | <word> <word> <word>
+                | <word> <word> <word> <word>
 
-lc-subject-subclass := <digit06>
-                     | <digit06> '.' <digit16>
+; MARK: ------------------------------------------------------------------------
+; MARK: Digits
 
-lc-subject-dateord := <date>
-                    | <digit16> <word>
+      <digit> ::= '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
+    <digit02> ::= <digit>
+                | <digit> <digit>
+    <digit03> ::= <digit>
+                | <digit> <digit>
+                | <digit> <digit> <digit>
+    <digit04> ::= <digit>
+                | <digit> <digit>
+                | <digit> <digit> <digit>
+                | <digit> <digit> <digit> <digit>
+    <digit16> ::= <digit04>
+                | <digit04> <digit04>
+                | <digit04> <digit04> <digit04>
+                | <digit04> <digit04> <digit04> <digit04>
 
-date := <date-body>
-      | <date-body> <mark>
+; MARK: ------------------------------------------------------------------------
+; MARK: Lowercase letters
 
-date-body := <year>
-           | <date-span>
-           | <year-month-day>
+      <lower> ::= 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j'
+                | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't'
+                | 'u' | 'v' | 'w' | 'x' | 'y' | 'z'
+    <lower04> ::= <lower>
+                | <lower> <lower>
+                | <lower> <lower> <lower>
+                | <lower> <lower> <lower> <lower>
+    <lower16> ::= <lower04>
+                | <lower04> <lower04>
+                | <lower04> <lower04> <lower04>
+                | <lower04> <lower04> <lower04> <lower04>
 
-date-span := <year> <date-sep> <year>
-           | <year> <date-sep> <year-abv>
+; MARK: ------------------------------------------------------------------------
+; MARK: Uppercase letters
 
-year-month-day := <year-month>
-                | <year-month>
-                | <year-month> <space> <digit02>
-                | <year-month> '.' <space> <digit02>
+    <upper> ::= 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J'
+              | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T'
+              | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z'
 
-year-month := <year> <space> <month>
-            | <year> ',' <space> <month>
+; MARK: ------------------------------------------------------------------------
+; MARK: Alphabetic characters
 
-year := <digit> <digit> <digit> <digit>
+     <letter> ::= <upper> | <lower>
+   <letter04> ::= <letter>
+                | <letter> <letter>
+                | <letter> <letter> <letter>
+                | <letter> <letter> <letter> <letter>
+   <letter15> ::= <letter04>
+                | <letter04> <letter04>
+                | <letter04> <letter04> <letter04>
+                | <letter04> <letter04> <letter04> <letter>
+                | <letter04> <letter04> <letter04> <letter> <letter>
+                | <letter04> <letter04> <letter04> <letter> <letter> <letter>
 
-year-abv := <digit> <digit>
+; MARK: ------------------------------------------------------------------------
+; MARK: Date Primitives
 
-date-sep := '-' | '/'
+       <year> ::= <digit> <digit> <digit> <digit>
+  <year-abbr> ::= <digit> <digit>
+ <month-abbr> ::= "Jan"  | "Feb" | "Mar" | "Apr"
+                | "May"  | "Jun" | "Jul" | "Aug"
+                | "Sept" | "Oct" | "Nov" | "Dec"
+  <day-digit> ::= '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
+ <day-number> ::= <day-digit>
+                | '0' <day-digit>
+                | '1' <day-digit>
+                | '2' <day-digit>
+                | '3' '0'
+                | '3' '1'
+  <date-mark> ::= <letter04>
 
-lc-cutter-section := <cutter-number>
-                   | <cutter-number> <lc-cutter-section>
-                   | <cutter-number> <space> <lc-cutter-section>
-                   | <cutter-number> <space> <lc-cutter-dateord>
-                   | <cutter-number> <space> <lc-cutter-dateord> <space> <lc-cutter-section>
-                   | <cutter-number> <space> <lc-cutter-dateord> <space> '.' <lc-cutter-section>
-                   | <cutter-number> <space> <lc-cutter-dateord> '.' <lc-cutter-section>
+; MARK: ------------------------------------------------------------------------
+; MARK: Date Components
 
-lc-cutter-dateord := <date>
-                   | <digit16> <word>
+      <day-component> ::= <day-number>
+    <month-component> ::= <month-abbr>
+<month-day-component> ::= <month-component> <month-day-divider> <day-component>
+  <month-day-divider> ::= '.'
+                        | <space>
+                        | '.' <space>
 
-lc-specification-list := <lc-specification>
-                       | <lc-specification> <space> <lc-specification-list>
+     <year-component> ::= <year-full>
+                        | <year-abbr>
+ <year-month-divider> ::= <space>
+                        | ',' <space>
 
-lc-specification := <date>
-                  | <ordinal>
-                  | <supplement>
-                  | <volume>
-                  | <longword>
+  <date-span-divider> ::= '-' | '/'
+<date-span-component> ::= <year-component> <date-span-divider> <year-component>
 
-ordinal := <digit16> <lc-spec-ordinal-suffix>
+       <date> ::= <year-component>
+                | <year-component> <date-mark>
+                | <date-span-component>
+                | <date-span-component> <date-mark>
+                | <year-component> <year-month-divider> <month-component>
+                | <year-component> <year-month-divider> <month-day-component>
 
-ordinal-suffix := <word> '.'
-                | <word> '.' <ordinal-suffix>
+; MARK: ------------------------------------------------------------------------
+; MARK: Cutter numbers
 
-volume := <lower16> '.' <digit16>
-        | <lower16> '.' <space> <digit16>
-        | <lower16> '.' <digit16> ',' <space> "etc" '.'
-        | <lower16> '.' <space> <digit16> ',' <space> "etc" '.'
+  <cutter-letter> ::= <letter>
+  <cutter-number> ::= <cutter-letter> <digit16>
+ <cutter-ordinal> ::= <digit16> <word>
+    <cutter-mark> ::= <letter> <letter>
+                    | <letter> <letter> <letter>
 
-supplement := <suppl-word>
-            | <suppl-word> '.'
-            | <suppl-word> <space> <digit16>
-            | <suppl-word> '.' <space> <digit16>
-            | <suppl-word> <space> <digit16> ',' <space> "etc" '.'
-            | <suppl-word> '.' <space> <digit16> ',' <space> "etc" '.'
+    <cutter-tail> ::= <space> <date>
+                    | <space> <cutter-mark>
+                    | <space> <cutter-mark> <space> <date>
+ <cutter-divider> ::= '.'
+                    | <space> '.'
+                    | <space> <cutter-ordinal> <space> '.'
+<cutter-list-end> ::= <cutter-letter>
+                    | <cutter-number>
+                    | <cutter-number> <cutter-tail>
+                    | <cutter-number> <space> <cutter-ordinal>
+                    | <cutter-number> <space> <cutter-ordinal> '.'
+    <cutter-list> ::= <cutter-list-end>
+                    | <cutter-number> <cutter-divider> <cutter-list>
+                    | <cutter-number> <cutter-tail> <space> '.' <cutter-list>
 
-suppl-word := <upper>
-            | <upper> <letter15>
+; MARK: ------------------------------------------------------------------------
+; MARK: Etcetera
 
-digit16 := <digit04>
-         | <digit04> <digit04>
-         | <digit04> <digit04> <digit04>
-         | <digit04> <digit04> <digit04> <digit04>
+            <etc> ::= ',' <space> "etc"
+                    | ',' <space> "etc" '.'
 
-digit04 := <digit>
-         | <digit> <digit>
-         | <digit> <digit> <digit>
-         | <digit> <digit> <digit> <digit>
+; MARK: ------------------------------------------------------------------------
+; MARK: Volume
 
-digit02 := <digit>
-         | <digit> <digit>
+  <volume-prefix> ::= <word> '.'
+  <volume-suffix> ::= <digit16>
+                    | <digit16> <etc>
+         <volume> ::= <volume-prefix> <volume-suffix>
+                    | <volume-prefix> <space> <volume-suffix>
 
-letter15 := <letter04>
-          | <letter04> <letter04>
-          | <letter04> <letter04> <letter04>
-          | <letter04> <letter04> <letter04> <letter>
-          | <letter04> <letter04> <letter04> <letter> <letter>
-          | <letter04> <letter04> <letter04> <letter> <letter> <letter>
+; MARK: ------------------------------------------------------------------------
+; MARK: Supplement
 
-letter04 := <letter>
-          | <letter> <letter>
-          | <letter> <letter> <letter>
-          | <letter> <letter> <letter> <letter>
+  <supplement-prefix> ::= <upper>
+                        | <upper> <letter15>
+  <supplement-suffix> ::= <space> <digit16>
+                        | <space> <digit16> <etc>
+         <supplement> ::= <supplement-prefix> <supplement-suffix>
+                        | <supplement-prefix> '.' <supplement-suffix>
 
-lower04 := <lower>
-         | <lower> <lower>
-         | <lower> <lower> <lower>
-         | <lower> <lower> <lower> <lower>
+; MARK: ------------------------------------------------------------------------
+; MARK: Specification
 
-lower16 := <lower04>
-         | <lower04> <lower04>
-         | <lower04> <lower04> <lower04>
-         | <lower04> <lower04> <lower04> <lower04>
+      <specification> ::= <date>
+                        | <spec-ordinal>
+                        | <supplement>
+                        | <volume>
+                        | <longword>
+       <spec-ordinal> ::= <digit16> <spec-ordinal-suffix>
+<spec-ordinal-suffix> ::= <word> '.'
+                        | <word> '.' <spec-ordinal-suffix>
 
-mark := <letter04>
+; MARK: ------------------------------------------------------------------------
+; MARK: Classification subject
 
-word := <not-space>
-      | <not-space> <not-space>
-      | <not-space> <not-space> <not-space>
-      | <not-space> <not-space> <not-space> <not-space>
+       <subclass> ::= <letter>
+                    | <letter> <letter>
+                    | <letter> <letter> <letter>
+        <integer> ::= <digit03>
+                    | <digit03> <digit03>
+        <decimal> ::= '.' <digit16>
 
-longword := <word>
-          | <word> <word>
-          | <word> <word> <word>
-          | <word> <word> <word> <word>
+        <subject> ::= <subject-base>
+                    | <subject-base> <space> <date>
+                    | <subject-base> <space> <subject-ordinal>
+   <subject-base> ::= <subclass>
+                    | <subclass> <space> <integer>
+                    | <subclass> <space> <integer> <decimal>
+<subject-ordinal> ::= <digit16> <word>
 
-letter := <upper> | <lower>
+; MARK: ------------------------------------------------------------------------
+; MARK: Call number
 
-upper := 'A' | 'B' | 'C' | ... | 'Z'
+    <call-number> ::= <subject>
+                    | <subject> <call-cutters>
+                    | <subject> <call-cutters> <call-spec-list>
+   <call-cutters> ::= '.' <cutter-list>
+                    | <space> '.' <cutter-list>
+ <call-spec-list> ::= <space> <specification>
+                    | <space> <specification> <call-spec-list>
 
-lower := 'a' | 'b' | 'c' | ... | 'z'
-
-digit := '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
-
-space := ' ' | '\n' | '\t' | <space> <space>
-
-not-space := '.' | '-' | <letter> | <digit> | ...
-
-month := "Jan"  | "Feb" | "Mar" | "Apr"
-       | "May"  | "Jun" | "Jul" | "Aug"
-       | "Sept" | "Oct" | "Nov" | "Dec"
