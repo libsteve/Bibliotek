@@ -15,10 +15,10 @@ static size_t const BibIndicatorCount = 128;
 static size_t BibIndicatorInstanceSize;
 static void *BibIndicatorBuffer;
 
-/// An underlying backing type for immutable singleton instances of \c BibFieldIndicator for each value.
+/// An underlying backing type for immutable singleton instances of ``BibFieldIndicator`` for each value.
 ///
 /// An instance for each of the 128 possible ASCII values is allocated at load time.
-/// When \c -initWithRawValue: is called, one of those pre-allocated instances is returned.
+/// When ``BibFieldIndicator/initWithRawValue`` is called, one of those pre-allocated instances is returned.
 @interface _BibFieldIndicator : BibFieldIndicator
 @end
 

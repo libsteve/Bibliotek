@@ -23,11 +23,13 @@ extern NSUInteger const BibLeaderRawDataLength NS_REFINED_FOR_SWIFT;
 /// when interpreting record data. Such information includes the total size in memory of the record, the layout
 /// of fields' tags and indicators, and other miscellaneous metadata.
 ///
-/// The bytes located at index \c 07, \c 08, \c 17, \c 18, and \c 19 within the record leader are reserved for
-/// implementation-defined semantics. Use the leader's \c recordKind to determine how to interpret these values.
+/// The bytes located at index `07`, `08`, `17`, `18`, and `19` within the record leader are reserved for
+/// implementation-defined semantics. Use the leader's ``recordKind`` to determine how to interpret these values.
 ///
-/// More information about the MARC 21 leader can be found in the Library of Congress's documentation on
-/// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html#leader
+/// More information about the MARC 21 leader can be found in
+/// [the Library of Congress's documentation on MARC 21 Record Structure][record-structure].
+///
+/// [record-structure]: (https://www.loc.gov/marc/specifications/specrecstruc.html#leader)
 BIB_SWIFT_BRIDGE(Leader)
 @interface BibLeader : NSObject
 
@@ -38,17 +40,19 @@ BIB_SWIFT_BRIDGE(Leader)
 
 /// Create the leader for a MARC 21 record.
 ///
-/// \param data A buffer of 24 bytes in which leader data is encoded.
-/// \returns A new record leader backed by the given data representation.
+/// - parameter data: A buffer of 24 bytes in which leader data is encoded.
+/// - returns: A new record leader backed by the given data representation.
 /// 
-/// \discussion More information about the MARC 21 leader can be found in the Library of Congress's
-/// documentation on MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html#leader
+/// More information about the MARC 21 leader can be found in
+/// [the Library of Congress's documentation on MARC 21 Record Structure][record-structure].
+///
+/// [record-structure]: (https://www.loc.gov/marc/specifications/specrecstruc.html#leader)
 - (instancetype)initWithData:(NSData *)data NS_DESIGNATED_INITIALIZER;
 
 /// Create the leader for a MARC 21 record.
 ///
-/// \param string The raw string representation of the leader data.
-/// \returns Returns a new record leader backed by the given string value.
+/// - parameter string: The raw string representation of the leader data.
+/// - returns: Returns a new record leader backed by the given string value.
 - (nullable instancetype)initWithString:(NSString *)string;
 
 @end
@@ -64,10 +68,10 @@ BIB_SWIFT_BRIDGE(Leader)
 
 /// Determine whether or not the given leader describes the same MARC 21 record as the receiver.
 ///
-/// \param leader The leader with which the receiver should be compared.
-/// \returns Returns \c YES if the given leader and the receiver describe the same MARC 21 record.
+/// - parameter leader: The leader with which the receiver should be compared.
+/// - returns: Returns `YES` if the given leader and the receiver describe the same MARC 21 record.
 ///
-/// \note This method cannot be used to determine equality between two MARC 21 records.
+/// - note: This method cannot be used to determine equality between two MARC 21 records.
 - (BOOL)isEqualToLeader:(BibLeader *)leader;
 
 @end
@@ -80,8 +84,10 @@ BIB_SWIFT_BRIDGE(Leader)
 /// Such information includes the total size in memory of the record, the layout of fields' tags and indicators,
 /// and other miscellaneous metadata.
 ///
-/// More information about the MARC 21 leader can be found in the Library of Congress's documentation on
-/// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html#leader
+/// More information about the MARC 21 leader can be found in
+/// [the Library of Congress's documentation on MARC 21 Record Structure][record-structure].
+///
+/// [record-structure]: (https://www.loc.gov/marc/specifications/specrecstruc.html#leader)
 @interface BibMutableLeader : BibLeader
 
 /// The 24-byte encoded representation of the leader's data.
@@ -118,8 +124,8 @@ BIB_SWIFT_BRIDGE(Leader)
 
 /// Retrieve the byte stored within the reserved position in the MARC record's leader.
 ///
-/// \param position The index location of the desired byte in the record's leader.
-/// \returns The byte held at the reserved location in the record's leader.
+/// - parameter position: The index location of the desired byte in the record's leader.
+/// - returns: The byte held at the reserved location in the record's leader.
 - (char)valueForReservedPosition:(BibReservedPosition)position NS_SWIFT_NAME(value(forReservedPosition:));
 
 @end
@@ -167,8 +173,8 @@ BIB_SWIFT_BRIDGE(Leader)
 
 /// Set the byte value within the reserved position in the MARC record's leader.
 ///
-/// \param value The byte to store within the record's leader.
-/// \param position The index location of the desired byte in the record's leader.
+/// - parameter value: The byte to store within the record's leader.
+/// - parameter position: The index location of the desired byte in the record's leader.
 - (void)setValue:(char)value forReservedPosition:(BibReservedPosition)position
     NS_SWIFT_NAME(setValue(_:forReservedPosition:));
 

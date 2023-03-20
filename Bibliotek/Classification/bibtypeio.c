@@ -86,7 +86,7 @@ size_t bib_snprint_voln(char *restrict const dst, size_t const len, bib_volume_t
          : snprintf(dst, len, "%s. %s", voln->prefix, voln->number);
 }
 
-/// Write a cutter segment to the \c dst buffer using the given \c style options.
+/// Write a cutter segment to the `dst` buffer using the given `style` options.
 static size_t bib_snprint_cuttseg_(char *restrict const dst, size_t const len,
                                    bib_cuttseg_t const *restrict const seg,
                                    bib_lc_calln_style_t const style) {
@@ -129,7 +129,7 @@ size_t bib_snprint_spfcseg(char *restrict const dst, size_t const len,
     }
 }
 
-/// Write an array of cutter segments to the \c dst buffer.
+/// Write an array of cutter segments to the `dst` buffer.
 static size_t bib_snprint_cuttseg_lst(char *restrict const dst, size_t const len,
                                       bib_cuttseg_t const *restrict const seglst, size_t const seglen,
                                       bib_lc_calln_style_t const style) {
@@ -163,7 +163,7 @@ static size_t bib_snprint_cuttseg_lst(char *restrict const dst, size_t const len
     return count;
 }
 
-/// Write an array of specification segments to the \c dst buffer.
+/// Write an array of specification segments to the `dst` buffer.
 static size_t bib_snprint_spfcseg_lst(char *restrict const dst, size_t const len,
                                       bib_lc_specification_t const *restrict const seglst, size_t const seglen,
                                       bib_lc_calln_style_t const style) {

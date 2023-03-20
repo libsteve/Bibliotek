@@ -213,27 +213,27 @@ static bib_calln_comparison_t bib_integer_compare(bib_calln_comparison_t status,
 
 /// Given that the left or right values may be empty, determine whether or not a comparison function
 /// should return early with the updated comparison result.
-/// \param status A pointer to the comparison result leading up to the current segmnent's comparison.
-/// \param left_empty A flag inicating that the left-hand value is empty.
-/// \param right_empty A flag indicating that the right-hand value is empty.
-/// \param specify A flag indicating that the comparison should include specializing and genralizing values.
-/// \returns \c true when the comparison function should return early with the current \c status value.
-/// \post \c status is set to the appropriate comparison value for the given \c status \c left_empty \c right_empty
-///       and \c specify values.
+/// - parameter status: A pointer to the comparison result leading up to the current segment's comparison.
+/// - parameter left_empty: A flag indicating that the left-hand value is empty.
+/// - parameter right_empty: A flag indicating that the right-hand value is empty.
+/// - parameter specify: A flag indicating that the comparison should include specializing and generalizing values.
+/// - returns: `true` when the comparison function should return early with the current `status` value.
+/// - postcondition: `status` is set to the appropriate comparison value for the given `status`, `left_empty`,
+///                  `right_empty`, and `specify` values.
 static bool bib_should_return_empty_comparison(bib_calln_comparison_t *status, bool left_empty, bool right_empty,
                                                bool specify);
 
-/// Given that the comparison function may consider further segments, determine whethero or not it should
+/// Given that the comparison function may consider further segments, determine whether or not it should
 /// return early with the updated comparison result.
-/// \param status A pointer to the comparison result leading up to the current segmnent's comparison.
-/// \param same_result The value that \c status should be set to if it is equal to \c bib_calln_ordered_same.
-/// \param specify A flag indicating that the comparison should include specializing and genralizing values.
-/// \returns \c true when the comparison function should return early with the current \c status value.
-/// \post \c status is set to the appropriate comparison value for the given \c status \c same_result
-///       and \c specify values.
-/// \note If \c same_result is set to either \c bib_calln_ordered_generalizing or \c bib_calln_ordered_specifying
-///       when \c specify is \c false then \c status will be set to \c bib_calln_ordered_descending and
-///       \c bib_calln_ordered_ascending respectively instead of their exact value.
+/// - parameter status: A pointer to the comparison result leading up to the current segment's comparison.
+/// - parameter same_result: The value that `status` should be set to if it is equal to `bib_calln_ordered_same`.
+/// - parameter specify: A flag indicating that the comparison should include specializing and generalizing values.
+/// - returns: `true` when the comparison function should return early with the current `status` value.
+/// - postcondition: `status` is set to the appropriate comparison value for the given `status`, `same_result`, and
+///                  `specify` values.
+/// - note: If `same_result` is set to either `bib_calln_ordered_generalizing` or `bib_calln_ordered_specifying`
+///         when `specify` is `false`, then `status` will be set to `bib_calln_ordered_descending` and
+///        `bib_calln_ordered_ascending` respectively instead of their exact value.
 static bool bib_should_return_after_normalization(bib_calln_comparison_t *status, bib_calln_comparison_t same_result,
                                                   bool specify);
 

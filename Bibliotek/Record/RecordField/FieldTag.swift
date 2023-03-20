@@ -10,12 +10,10 @@ import Foundation
 
 /// A 3-character value identifying the semantic purpose of a record field.
 ///
-/// More information about the tags used with MARC 21 records can be found in the Library of Congress's documentation on
-/// MARC 21 Record Structure: [https://www.loc.gov/marc/specifications/spechome.html][spec-home]
+/// More information about the tags used with MARC 21 records can be found in the Library of Congress's
+/// documentation on [MARC 21 Record Structure](https://www.loc.gov/marc/specifications/spechome.html).
 ///
 /// - note: MARC 21 tags are always 3 digit codes.
-///
-/// [spec-home]: https://www.loc.gov/marc/specifications/spechome.html
 public struct FieldTag {
     private var storage: BibFieldTag
 
@@ -30,16 +28,16 @@ public struct FieldTag {
 
     /// Does the tag identify a control field?
     ///
-    /// MARC 21 controlfield tags always begin with two zeros.
-    /// For example, a record's control number controlfield has the tag `001`.
+    /// MARC 21 control-field tags always begin with two zeros.
+    /// For example, a record's control number control-field has the tag `001`.
     ///
-    /// - note: The tag `000` is neither a controlfield tag nor a datafield tag.
+    /// - note: The tag `000` is neither a control-field tag nor a data-field tag.
     public var isControlTag: Bool { return self.storage.isControlTag }
 
     /// Does the tag identify a data field?
     ///
-    /// MARC 21 datafield tags never begin with two zeros.
-    /// For example, a bibliographic record's Library of Congress call number datafield has the tag `050`.
+    /// MARC 21 data-field tags never begin with two zeros.
+    /// For example, a bibliographic record's Library of Congress call number data-field has the tag `050`.
     public var isDataTag: Bool { return self.storage.isDataTag }
 
     private init(storage: BibFieldTag) {

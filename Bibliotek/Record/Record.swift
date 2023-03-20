@@ -15,9 +15,7 @@ import Foundation
 /// or other data describing the represented item or entity.
 ///
 /// More information about MARC 21 records can be found in the Library of Congress's documentation on
-/// MARC 21 Record Structure: [https://www.loc.gov/marc/specifications/spechome.html][spec-home]
-///
-/// [spec-home]: https://www.loc.gov/marc/specifications/spechome.html
+/// [MARC 21 Record Structure](https://www.loc.gov/marc/specifications/spechome.html)
 public struct Record {
     private var _storage: BibRecord!
     private var _mutableStorage: BibMutableRecord!
@@ -131,7 +129,7 @@ extension Record: CustomStringConvertible, CustomDebugStringConvertible, CustomP
 
 extension Record {
     /// Test to see if the record contains a field with the given tag.
-    /// - parameter tag: If this record has a field with this value, \c YES is returned.
+    /// - parameter tag: If this record has a field with this value, `YES` is returned.
     /// - returns: `true` if at least one record field is marked with the given tag.
     public func containsField(with tag: FieldTag) -> Bool {
         return self.indexOfField(with: tag) != nil

@@ -23,15 +23,15 @@ BIB_SWIFT_BRIDGE(RecordKind)
 /// The raw character value used in a record's leader to indicate the record's kind.
 @property (nonatomic, assign, readonly) uint8_t rawValue;
 
-/// Create a \c BibRecordKind instance using the given byte.
+/// Create a `BibRecordKind` instance using the given byte.
 ///
-/// \param rawValue The character value in a record's leader that indicates a record's kind.
+/// - parameter rawValue: The character value in a record's leader that indicates a record's kind.
 - (nullable instancetype)initWithRawValue:(uint8_t)rawValue;
 
-/// Create a \c BibRecordKind instance using the given byte.
+/// Create a ``BibRecordKind`` instance using the given byte.
 ///
-/// \param rawValue The character value in a record's leader that indicates a record's kind.
-/// \returns An instance of \c BibRecordKind when given a \c rawValue representing a known record kind.
+/// - parameter rawValue: The character value in a record's leader that indicates a record's kind.
+/// - returns: An instance of ``BibRecordKind`` when given a `rawValue` representing a known record kind.
 + (nullable instancetype)recordKindWithRawValue:(uint8_t)rawValue NS_SWIFT_UNAVAILABLE("Use init(rawValue:)");
 
 - (instancetype)init NS_UNAVAILABLE;
@@ -45,8 +45,8 @@ BIB_SWIFT_BRIDGE(RecordKind)
 
 /// Is the given record kind equivalent to the receiver?
 ///
-/// \param recordKind The record kind with which the receiver should be compared.
-/// \returns Returns \c YES if the given record kind and the receiver are equivalent.
+/// - parameter recordKind: The record kind with which the receiver should be compared.
+/// - returns: Returns `YES` if the given record kind and the receiver are equivalent.
 - (BOOL)isEqualToRecordKind:(BibRecordKind *)recordKind;
 
 @end

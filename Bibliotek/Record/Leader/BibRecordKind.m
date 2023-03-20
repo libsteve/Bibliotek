@@ -8,10 +8,10 @@
 
 #import "BibRecordKind.h"
 
-/// An underlying backing type for immutable singleton instances of \c BibRecordKind for each value.
+/// An underlying backing type for immutable singleton instances of ``BibRecordKind`` for each value.
 ///
 /// An instance for each of the 128 possible ASCII values is allocated at load time.
-/// When \c -initWithRawValue: is called, one of those pre-allocated instances is returned.
+/// When ``BibRecordKind/initWithRawValue:`` is called, one of those pre-allocated instances is returned.
 @interface _BibRecordKind : BibRecordKind
 @end
 

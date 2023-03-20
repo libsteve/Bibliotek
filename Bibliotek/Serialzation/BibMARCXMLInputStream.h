@@ -16,9 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 NS_SWIFT_NAME(MARCXMLInputStream)
 @interface BibMARCXMLInputStream : BibRecordInputStream
 
-/// Initializes and returns a \c BibMARCXMLInputStream for reading from the given input stream.
-/// \param inputStream The \c NSInputStream object from which record data should be read.
-/// \returns An initialized \c BibMARCXMLInputStream object that reads \c BibRecord objects from the given input stream.
+/// Initializes and returns a ``BibMARCXMLInputStream`` for reading from the given input stream.
+/// - parameter inputStream: The `NSInputStream` object from which record data should be read.
+/// - returns: An initialized ``BibMARCXMLInputStream`` object that reads `BibRecord` objects
+///            from the given input stream.
 - (instancetype)initWithInputStream:(NSInputStream *)inputStream NS_DESIGNATED_INITIALIZER;
 
 @end

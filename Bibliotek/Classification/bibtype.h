@@ -23,10 +23,10 @@ typedef char bib_initial_t;
 /// A string of at most three alphabetic characters.
 typedef char bib_alpah03_b[4];
 
-/// A string of at most six decimal digits 0 through 9.
+/// A string of at most six decimal digits `0` through `9`.
 typedef char bib_digit06_b[7];
 
-/// A string of at most 16 decimal digits 0 through 9.
+/// A string of at most 16 decimal digits `0` through `9`.
 typedef char bib_digit16_b[17];
 
 /// A string of at most 16 non-whitespace characters.
@@ -35,7 +35,7 @@ typedef char bib_word_b[17];
 /// A string of at most 14 non-whitespace characters.
 typedef char bib_longword_b[25];
 
-/// A string of either two or four decimal digits 0 through 9.
+/// A string of either two or four decimal digits `0` through `9`.
 typedef char bib_year_b[5];
 
 /// A string of at most four alphabetic characters
@@ -86,7 +86,7 @@ typedef struct bib_date {
         };
     };
 
-    /// Some short optional alhpabetic suffix attached to the date.
+    /// Some short optional alphabetic suffix attached to the date.
     bib_mark_b mark;
 } bib_date_t;
 
@@ -136,7 +136,7 @@ extern bool bib_ordinal_is_empty(bib_ordinal_t const *ord);
 
 #pragma mark - volume
 
-/// An integer value preceeded by some alphabetic marker. i.e. "vol. 1"
+/// An integer value preceded by some alphabetic marker. i.e. "vol. 1"
 typedef struct bib_volume {
     /// The alphabetic prefix denoting the type of "volume".
     bib_word_b    prefix;
@@ -187,19 +187,19 @@ typedef struct bib_lc_specification {
     bib_lc_specification_kind_t kind;
 
     union {
-        /// A date value, marked by \c bib_lc_specification_kind_date
+        /// A date value, marked by `bib_lc_specification_kind_date`
         bib_date_t     date;
 
-        /// An ordinal value, marked by \c bib_lc_specification_kind_ordinal
+        /// An ordinal value, marked by `bib_lc_specification_kind_ordinal`
         bib_ordinal_t  ordinal;
 
-        /// A supplementary work indicator, marked by \c bib_lc_specification_kind_supplement
+        /// A supplementary work indicator, marked by `bib_lc_specification_kind_supplement`
         bib_supplement_t supplement;
 
-        /// A volume value, marked by \c bib_lc_specification_kind_volume
+        /// A volume value, marked by `bib_lc_specification_kind_volume`
         bib_volume_t   volume;
 
-        /// A long word value, marked by \c bib_lc_specification_kind_word
+        /// A long word value, marked by `bib_lc_specification_kind_word`
         bib_longword_b word;
     };
 } bib_lc_specification_t;
@@ -210,7 +210,7 @@ extern bool bib_lc_specification_is_empty(bib_lc_specification_t const *spc);
 
 /// A list of specification segment values.
 typedef struct bib_lc_specification_list {
-    /// The raw heap-allocated buffer contianing the heap-allocated segments.
+    /// The raw heap-allocated buffer containing the heap-allocated segments.
     bib_lc_specification_t *buffer;
 
     /// The amount of specification segments within this list.
@@ -236,10 +236,10 @@ typedef struct bib_dateord {
     bib_dateord_kind_t kind;
 
     union {
-        /// A date value, marked by \c bib_dateord_kind_date
+        /// A date value, marked by `bib_dateord_kind_date`
         bib_date_t date;
 
-        /// An ordinal value, marked by \c bib_dateord_kind_ordinal
+        /// An ordinal value, marked by `bib_dateord_kind_ordinal`
         bib_ordinal_t ordinal;
     };
 } bib_dateord_t;
@@ -272,13 +272,12 @@ extern bool bib_cuttseg_is_empty(bib_cuttseg_t const *seg);
 
 /// A Library of Congress call number.
 ///
-/// This structure is based in part on the sorting strategy described in "A Comprehensive
+/// This structure is based in part on the sorting strategy described in ["A Comprehensive
 /// Approach to Algorithmic Machine Sorting of Library of Congress Call Numbers" by Scott Wagner
-/// and Corey Wetherington \a https://doi.org/10.6017/ital.v38i4.11585
+/// and Corey Wetherington](https://doi.org/10.6017/ital.v38i4.11585)
 ///
 /// Other parts of this structure are based on description found in the OCLC's documentation on
-/// the MARC bibliographic field 050 Library of Congress Call Number
-/// \a https://www.oclc.org/bibformats/en/0xx/050.html
+/// the [MARC bibliographic field 050 Library of Congress Call Number](https://www.oclc.org/bibformats/en/0xx/050.html)
 typedef struct bib_lc_calln {
     /// The at most three letter initial of the subject matter class.
     bib_alpah03_b letters;
@@ -327,93 +326,93 @@ typedef enum bib_calln_comparison {
 } bib_calln_comparison_t;
 
 /// Get the ordering relationship between two call numbers.
-/// \param left The call number at the first location.
-/// \param right The call number at the last location.
-/// \param status The result of previous specialization comparisons. This is used to continue matching
-///               prefixes for subsequent segments that have been completely equivalent thus far.
-/// \param specify Pass \c true when the comparison should include specialization ordering.
-/// \returns The ordering relationship between the \c left and \c right objects.
+/// - parameter left: The call number at the first location.
+/// - parameter right: The call number at the last location.
+/// - parameter status: The result of previous specialization comparisons. This is used to continue matching
+///                     prefixes for subsequent segments that have been completely equivalent thus far.
+/// - parameter specify: Pass `true` when the comparison should include specialization ordering.
+/// - returns: The ordering relationship between the `left` and `right` objects.
 ///
 /// Sorting strategy based on that described in "A Comprehensive Approach to Algorithmic Machine Sorting
 /// of Library of Congress Call Numbers" by Scott Wagner and Corey Wetherington.
-/// \a https://doi.org/10.6017/ital.v38i4.11585
+/// [https://doi.org/10.6017/ital.v38i4.11585](https://doi.org/10.6017/ital.v38i4.11585)
 extern bib_calln_comparison_t bib_lc_calln_compare(bib_calln_comparison_t status,
                                                    bib_lc_calln_t const *left, bib_lc_calln_t const *right,
                                                    bool specify);
 
 /// Get the ordering relationship between two cutter segments.
-/// \param left The cutter segment at the first location.
-/// \param right The cutter segment at the last location.
-/// \param status The result of previous specialization comparisons. This is used to continue matching
-///               prefixes for subsequent segments that have been completely equivalent thus far.
-/// \param specify Pass \c true when the comparison should include specialization ordering.
-/// \returns The ordering relationship between the \c left and \c right objects.
+/// - parameter left: The cutter segment at the first location.
+/// - parameter right: The cutter segment at the last location.
+/// - parameter status: The result of previous specialization comparisons. This is used to continue matching
+///                     prefixes for subsequent segments that have been completely equivalent thus far.
+/// - parameter specify: Pass `true` when the comparison should include specialization ordering.
+/// - returns: The ordering relationship between the `left` and `right` objects.
 extern bib_calln_comparison_t bib_cuttseg_compare(bib_calln_comparison_t status,
                                                   bib_cuttseg_t const *left, bib_cuttseg_t const *right,
                                                   bool specify);
 
 /// Get the ordering relationship between two date-or-ordinal values.
-/// \param left The date-or-ordinal value at the first location.
-/// \param right The date-or-ordinal value at the last location.
-/// \param status The result of previous specialization comparisons. This is used to continue matching
-///               prefixes for subsequent segments that have been completely equivalent thus far.
-/// \param specify Pass \c true when the comparison should include specialization ordering.
-/// \returns The ordering relationship between the \c left and \c right objects.
+/// - parameter left: The date-or-ordinal value at the first location.
+/// - parameter right: The date-or-ordinal value at the last location.
+/// - parameter status: The result of previous specialization comparisons. This is used to continue matching
+///                     prefixes for subsequent segments that have been completely equivalent thus far.
+/// - parameter specify: Pass `true` when the comparison should include specialization ordering.
+/// - returns: The ordering relationship between the `left` and `right` objects.
 extern bib_calln_comparison_t bib_dateord_compare(bib_calln_comparison_t status,
                                                   bib_dateord_t const *left, bib_dateord_t const *right,
                                                   bool specify);
 
 /// Get the ordering relationship between two specification segments.
-/// \param left The specification segment at the first location.
-/// \param right The specification segment at the last location.
-/// \param status The result of previous specialization comparisons. This is used to continue matching
-///               prefixes for subsequent segments that have been completely equivalent thus far.
-/// \param specify Pass \c true when the comparison should include specialization ordering.
-/// \returns The ordering relationship between the \c left and \c right objects.
+/// - parameter left: The specification segment at the first location.
+/// - parameter right: The specification segment at the last location.
+/// - parameter status: The result of previous specialization comparisons. This is used to continue matching
+///                     prefixes for subsequent segments that have been completely equivalent thus far.
+/// - parameter specify: Pass `true` when the comparison should include specialization ordering.
+/// - returns: The ordering relationship between the `left` and `right` objects.
 extern bib_calln_comparison_t bib_specification_compare(bib_calln_comparison_t status,
                                                         bib_lc_specification_t const *left,
                                                         bib_lc_specification_t const *right,
                                                         bool specify);
 /// Get the ordering relationship between two dates.
-/// \param left The date at the first location.
-/// \param right The date at the last location.
-/// \param status The result of previous specialization comparisons. This is used to continue matching
-///               prefixes for subsequent segments that have been completely equivalent thus far.
-/// \param specify Pass \c true when the comparison should include specialization ordering.
-/// \returns The ordering relationship between the \c left and \c right objects.
+/// - parameter left: The date at the first location.
+/// - parameter right: The date at the last location.
+/// - parameter status: The result of previous specialization comparisons. This is used to continue matching
+///                     prefixes for subsequent segments that have been completely equivalent thus far.
+/// - parameter specify: Pass `true` when the comparison should include specialization ordering.
+/// - returns: The ordering relationship between the `left` and `right` objects.
 extern bib_calln_comparison_t bib_date_compare(bib_calln_comparison_t status,
                                                bib_date_t const *left, bib_date_t const *right,
                                                bool specify);
 
 /// Get the ordering relationship between two cutter numbers.
-/// \param left The cutter number at the first location.
-/// \param right The cutter number at the last location.
-/// \param status The result of previous specialization comparisons. This is used to continue matching
-///               prefixes for subsequent segments that have been completely equivalent thus far.
-/// \param specify Pass \c true when the comparison should include specialization ordering.
-/// \returns The ordering relationship between the \c left and \c right objects.
+/// - parameter left: The cutter number at the first location.
+/// - parameter right: The cutter number at the last location.
+/// - parameter status: The result of previous specialization comparisons. This is used to continue matching
+///                     prefixes for subsequent segments that have been completely equivalent thus far.
+/// - parameter specify: Pass `true` when the comparison should include specialization ordering.
+/// - returns: The ordering relationship between the `left` and `right` objects.
 extern bib_calln_comparison_t bib_cutter_compare(bib_calln_comparison_t status,
                                                  bib_cutter_t const *left, bib_cutter_t const *right,
                                                  bool specify);
 
 /// Get the ordering relationship between two volume numbers.
-/// \param left The volume number at the first location.
-/// \param right The volume number at the last location.
-/// \param status The result of previous specialization comparisons. This is used to continue matching
-///               prefixes for subsequent segments that have been completely equivalent thus far.
-/// \param specify Pass \c true when the comparison should include specialization ordering.
-/// \returns The ordering relationship between the \c left and \c right objects.
+/// - parameter left: The volume number at the first location.
+/// - parameter right: The volume number at the last location.
+/// - parameter status: The result of previous specialization comparisons. This is used to continue matching
+///                     prefixes for subsequent segments that have been completely equivalent thus far.
+/// - parameter specify: Pass `true` when the comparison should include specialization ordering.
+/// - returns: The ordering relationship between the `left` and `right` objects.
 extern bib_calln_comparison_t bib_volume_compare(bib_calln_comparison_t status,
                                                  bib_volume_t const *left, bib_volume_t const *right,
                                                  bool specify);
 
 /// Get the ordering relationship between two ordinal values.
-/// \param left The ordinal value at the first location.
-/// \param right The ordinal value at the last location.
-/// \param status The result of previous specialization comparisons. This is used to continue matching
-///               prefixes for subsequent segments that have been completely equivalent thus far.
-/// \param specify Pass \c true when the comparison should include specialization ordering.
-/// \returns The ordering relationship between the \c left and \c right objects.
+/// - parameter left: The ordinal value at the first location.
+/// - parameter right: The ordinal value at the last location.
+/// - parameter status: The result of previous specialization comparisons. This is used to continue matching
+///                     prefixes for subsequent segments that have been completely equivalent thus far.
+/// - parameter specify: Pass `true` when the comparison should include specialization ordering.
+/// - returns: The ordering relationship between the `left` and `right` objects.
 extern bib_calln_comparison_t bib_ordinal_compare(bib_calln_comparison_t status,
                                                   bib_ordinal_t const *left, bib_ordinal_t const *right,
                                                   bool specify);
@@ -424,12 +423,12 @@ bib_calln_comparison_t bib_supplement_compare(bib_calln_comparison_t status,
 
 #pragma mark - string comparison
 
-/// Determine if the given \c string begins with the given \c prefix and whether or not they are equal.
-/// \param status The result of previous specialization comparisons. This is used to continue matching
-///               prefixes for subsequent segments that have been completely equivalent thus far.
-/// \param prefix A prefix string search for.
-/// \param string A string that may or may not begin with or equal to the given prefix
-/// \param specify Pass \c true when the comparison should include specialization ordering.
+/// Determine if the given `string` begins with the given `prefix` and whether or not they are equal.
+/// - parameter status: The result of previous specialization comparisons. This is used to continue matching
+///                     prefixes for subsequent segments that have been completely equivalent thus far.
+/// - parameter prefix: A prefix string search for.
+/// - parameter string: A string that may or may not begin with or equal to the given prefix
+/// - parameter specify: Pass `true` when the comparison should include specialization ordering.
 extern bib_calln_comparison_t bib_string_specify_compare(bib_calln_comparison_t status,
                                                          char const *prefix, char const *string, bool specify);
 

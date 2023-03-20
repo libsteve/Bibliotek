@@ -27,17 +27,17 @@ typedef NS_CLOSED_ENUM(NSUInteger, BibReservedPosition) {
 /// A collection of bytes embeded within a MARC record's leader.
 ///
 /// The significance of these metadata values are specific to the scheme used to encode the MARC record.
-/// The reserved bytes are located at index \c 7, \c 8, \c 17, \c 18, and \c 19 within the record leader.
+/// The reserved bytes are located at index `7,` `8`,`17,` `18`,and `19` within the record leader.
 ///
-/// Use a record's \c kind to determine how to interpret these metadata values.
+/// Use a record's `kind` to determine how to interpret these metadata values.
 BIB_SWIFT_BRIDGE(Metadata)
 DEPRECATED_MSG_ATTRIBUTE("Replaced with BibLeader")
 @interface BibMetadata : NSObject
 
 /// Retrieve the byte stored within the reserved position in the MARC record's leader.
 ///
-/// \param position The index location of the desired byte in the record's leader.
-/// \returns The byte held at the reserved location in the record's leader.
+/// - parameter position: The index location of the desired byte in the record's leader.
+/// - returns: The byte held at the reserved location in the record's leader.
 - (int8_t)valueForReservedPosition:(BibReservedPosition)position NS_SWIFT_NAME(value(forReservedPosition:));
 
 @end
@@ -49,8 +49,8 @@ DEPRECATED_MSG_ATTRIBUTE("Replaced with BibLeader")
 
 /// Determine whether or not the given metadata describes the same type of record as the receiver.
 ///
-/// \param metadata The set of metadata with which the receiver should be compared.
-/// \returns Returns \c YES if the given metadata and the receiver describe the same type of record.
+/// - parameter metadata: The set of metadata with which the receiver should be compared.
+/// - returns: Returns `YES` if the given metadata and the receiver describe the same type of record.
 - (BOOL)isEqualToMetadata:(BibMetadata *)metadata;
 
 @end
@@ -60,16 +60,16 @@ DEPRECATED_MSG_ATTRIBUTE("Replaced with BibLeader")
 /// A collection of bytes embeded within a MARC record's leader.
 ///
 /// The significance of these metadata values are specific to the scheme used to encode the MARC record.
-/// The reserved bytes are located at index \c 7, \c 8, \c 17, \c 18, and \c 19 within the record leader.
+/// The reserved bytes are located at index `7,` `8`,`17,` `18`,and `19` within the record leader.
 ///
-/// Use a record's \c kind to determine how to interpret these metadata values.
+/// Use a record's `kind` to determine how to interpret these metadata values.
 DEPRECATED_MSG_ATTRIBUTE("Replaced with BibMutableLeader")
 @interface BibMutableMetadata : BibMetadata
 
 /// Set the byte value within the reserved position in the MARC record's leader.
 ///
-/// \param value The byte to store within the record's leader.
-/// \param position The index location of the desired byte in the record's leader.
+/// - parameter value: The byte to store within the record's leader.
+/// - parameter position: The index location of the desired byte in the record's leader.
 - (void)setValue:(int8_t)value forReservedPosition:(BibReservedPosition)position
     NS_SWIFT_NAME(setValue(_:forReservedPosition:));
 
@@ -92,8 +92,8 @@ typedef NS_ENUM(char, BibEncoding) {
 
 /// A human-readable description of the encoding.
 ///
-/// \param encoding The string encoding used to represent textual data.
-/// \returns A human-readable description of \c encoding.
+/// - parameter encoding: The string encoding used to represent textual data.
+/// - returns: A human-readable description of `encoding`.
 extern NSString *BibEncodingDescription(BibEncoding encoding) NS_REFINED_FOR_SWIFT;
 
 #pragma mark - Record Status
@@ -116,8 +116,8 @@ typedef NS_ENUM(char, BibRecordStatus) {
 
 /// A human-readable description of the status.
 ///
-/// \param status The type of change last applied to a record in its originating database.
-/// \returns A human-readable description of \c status.
+/// - parameter status: The type of change last applied to a record in its originating database.
+/// - returns: A human-readable description of `status`.
 extern NSString *BibRecordStatusDescription(BibRecordStatus status) NS_REFINED_FOR_SWIFT;
 
 #pragma mark - Bibliographic Level
@@ -162,8 +162,8 @@ typedef NS_ENUM(char, BibBibliographicLevel) {
 
 /// A human-readable description of the bibliographic level.
 ///
-/// \param level The bibliographic level of the record.
-/// \returns A human-readable description of \c level.
+/// - parameter level: The bibliographic level of the record.
+/// - returns: A human-readable description of `level`.
 extern NSString *BibBibliographicLevelDescription(BibBibliographicLevel level) NS_REFINED_FOR_SWIFT;
 
 #pragma mark - Bibliographic Control Type
@@ -178,14 +178,14 @@ typedef NS_ENUM(char, BibBibliographicControlType) {
     /// Archival control type.
     ///
     /// The record describes an item using archival rather than bibliographic rules, which can be found
-    /// in field \c 040 subfield \c $e
+    /// in field `040` subfield `$e`
     BibBibliographicControlTypeArchival = 'a'
 } NS_SWIFT_NAME(BibliographicControlType);
 
 /// A human-readable description of a bibliographic record's control type.
 ///
-/// \param type The control type of a bibliographic record.
-/// \returns A human-readable description of \c type.
+/// - parameter type: The control type of a bibliographic record.
+/// - returns: A human-readable description of `type`.
 extern NSString *BibBibliographicControlTypeDescription(BibBibliographicControlType type) NS_REFINED_FOR_SWIFT;
 
 #pragma mark -

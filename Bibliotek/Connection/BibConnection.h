@@ -45,7 +45,7 @@ NS_SWIFT_NAME(Connection)
 #pragma mark - Connection
 
 /// Get the connection ready to process events.
-/// \returns @c YES if the connection is ready to process events, but @c NO in the case of an error.
+/// - returns: `YES` if the connection is ready to process events, but `NO` in the case of an error.
 - (BOOL)open:(NSError *_Nullable __autoreleasing *_Nullable)error;
 
 /// End the current connection session, and stop processing events.
@@ -54,9 +54,11 @@ NS_SWIFT_NAME(Connection)
 #pragma mark - Search
 
 /// Search the database for records matching the given request query.
-/// \param request A description of the properties matching requested records.
-/// \returns A collection of records whose properties match those described in the fetch request.
-- (nullable BibRecordList *)fetchRecordsWithRequest:(BibFetchRequest *)request error:(NSError *__autoreleasing _Nullable *_Nullable)error NS_SWIFT_NAME(fetchRecords(request:));
+/// - parameter request: A description of the properties matching requested records.
+/// - returns: A collection of records whose properties match those described in the fetch request.
+- (nullable BibRecordList *)fetchRecordsWithRequest:(BibFetchRequest *)request
+                                              error:(NSError *__autoreleasing _Nullable *_Nullable)error
+NS_SWIFT_NAME(fetchRecords(request:));
 
 #pragma mark - Event polling
 
@@ -65,29 +67,35 @@ NS_SWIFT_NAME(Connection)
 @property(nonatomic, readonly, assign) BibConnectionEvent lastProcessedEvent NS_REFINED_FOR_SWIFT;
 
 /// Manually poll the network to get the latest network result for this connection.
-/// \param error An error pointer to communicate when a problem occurred while processing an event.
-///              The error will contain this connection in its @c userInfo dictionary with the key
-///              @c BibConnectionErrorConnectionKey, and the event with @c BibConnectionErrorEventKey.
-/// \returns The latest event performed by the connection. If no events happened, @c BibConnectionEventNone is returned.
-/// \post The returned connection's @c lastProcessedEvent property will be set to the recently processed event.
+/// - parameter error: An error pointer to communicate when a problem occurred while processing an event.
+///                    The error will contain this connection in its `userInfo` dictionary with the key
+///                    ``BibConnectionErrorConnectionKey``, and the event with ``BibConnectionErrorEventKey``.
+/// - returns: The latest event performed by the connection. If no events happened, ``BibConnectionEvent/none``
+///            is returned.
+/// - postcondition: The returned connection's ``lastProcessedEvent`` property will be set to the recently
+///                  processed event.
 - (BibConnectionEvent)processNextEvent:(NSError *__autoreleasing _Nullable *_Nullable)error NS_REFINED_FOR_SWIFT;
 
 /// Manually poll the network for any new events that have occurred for the given connections.
-/// \param connections A list of connection objects that should be polled for any network events.
-/// \param error An error pointer to communicate when a problem occurred with some connection's event.
-///              The error will contain the offending connection in its @c userInfo dictionary with
-///              the key @c BibConnectionErrorConnectionKey, and the event with @c BibConnectionErrorEventKey.
-/// \returns The latest connection for which an event occurred. If no events recently occurred, @c nil is returned.
-/// \post The returned connection's @c lastProcessedEvent property will be set to the recently processed event.
-+ (nullable BibConnection *)processNextEventForConnections:(NSArray<BibConnection *> *)connections error:(NSError *__autoreleasing _Nullable *_Nullable)error NS_SWIFT_NAME(processEvents(for:)) NS_SWIFT_UNAVAILABLE("Use processNextEvent(for:)");
+/// - parameter connections: A list of connection objects that should be polled for any network events.
+/// - parameter error: An error pointer to communicate when a problem occurred with some connection's event.
+///                    The error will contain the offending connection in its `userInfo` dictionary with
+///                    the key ``BibConnectionErrorConnectionKey``, and the event with ``BibConnectionErrorEventKey``.
+/// - returns: The latest connection for which an event occurred. If no events recently occurred, `nil` is returned.
+/// - postcondition: The returned connection's ``lastProcessedEvent`` property will be set to the recently processed
+///                  event.
++ (nullable BibConnection *)processNextEventForConnections:(NSArray<BibConnection *> *)connections
+                                                     error:(NSError *__autoreleasing _Nullable *_Nullable)error
+NS_SWIFT_UNAVAILABLE("Use processNextEvent(for:)");
 
 /// Manually poll the network for any new events that have occurred for the given connections.
-/// \param connections A list of connection objects that should be polled for any network events.
-/// \returns When an event has been successfully processed, that event's connection will be returned.
-///          If there is a problem while processing an event, an @c NSError will be returned. The connection
-///          with which the error occurred will be available in the error's @c userInfo dictionary with the
-///          key @c BibConnectionErrorConnectionKey, and the offending event with @c BibConnectionErrorEventKey.
-/// \post The returned connection's @c lastProcessedEvent property will be set to the recently processed event.
+/// - parameter connections: A list of connection objects that should be polled for any network events.
+/// - returns: When an event has been successfully processed, that event's connection will be returned.
+///            If there is a problem while processing an event, an `NSError` will be returned. The connection
+///            with which the error occurred will be available in the error's `userInfo` dictionary with the
+///            key ``BibConnectionErrorConnectionKey``, and the offending event with ``BibConnectionErrorEventKey``.
+/// - postcondition: The returned connection's ``lastProcessedEvent`` property will be set to the recently processed
+///                  event.
 + (nullable id)processNextEventForConnections:(NSArray<BibConnection *> *)connections NS_REFINED_FOR_SWIFT;
 
 @end
