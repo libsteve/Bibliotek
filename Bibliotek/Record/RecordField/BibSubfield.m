@@ -108,10 +108,10 @@
     return [[BibSubfield allocWithZone:zone] initWithCode:[self subfieldCode] content:[self content]];
 }
 
-@dynamic code;
-- (void)setCode:(BibSubfieldCode)code {
-    if (_subfieldCode != code) {
-        _subfieldCode = [code copy];
+@dynamic subfieldCode;
+- (void)setSubfieldCode:(BibSubfieldCode)subfieldCode {
+    if (_subfieldCode != subfieldCode) {
+        _subfieldCode = [subfieldCode copy];
     }
 }
 
