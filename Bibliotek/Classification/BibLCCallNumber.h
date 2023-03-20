@@ -9,21 +9,85 @@
 #import <Foundation/Foundation.h>
 
 /// The ordering relationship between classification numbers.
+///
+/// Comparison between classification numbers can be tricky. Since classification systems model a
+/// hierarchical structure, classification numbers can be compared by their direct parentage as well
+/// as their canonical order. This introduces the "specifies" and "generalizes" relations, analogous
+/// to the "less than" and "greater than" relations respectively, that compare ancestors with their
+/// descendants. A classification number that "specifies" another is a direct descendant of the latter,
+/// whereas a classification number that "generalizes" another is a direct ancestor.
+///
+/// Although any two numbers are guaranteed to have a linear, canonical ordering, not all numbers can
+/// share a parentage relation. For example, `QA76` (Electronic computers. Computer science) contains
+/// within it `QA76.76` (Computer software) and is therefore its direct ancestor. However, `HQ76.13`
+/// (Gay fathers) and `HQ76.5` (Gay rights movement. Gay liberation movement) are mutually exclusive
+/// exclusive classifications that don't share a parentage relation even they share a common ancestor.
+///
+/// ``BibClassificationComparisonResult`` provides ``BibClassificationOrderedSpecifying`` and
+/// ``BibClassificationOrderedGeneralizing`` to let comparisons between classification numbers express
+/// the parentage relationships possible in hierarchical classification systems.
 typedef NS_CLOSED_ENUM(NSInteger, BibClassificationComparisonResult) {
-    /// The leading value is contained within the trailing value's classification.
-    BibClassificationOrderedGeneralizing NS_SWIFT_NAME(generalizing) = -2L,
-
-    /// The leading value is ordered after the trailing value.
-    BibClassificationOrderedDescending   NS_SWIFT_NAME(descending)   = -1L,
-
-    /// The values are equivalent.
-    BibClassificationOrderedSame         NS_SWIFT_NAME(same)         =  0L,
+    /// The leading classification includes the trailing value's subject matter.
+    ///
+    /// For example, the following equation represents the "specifying" relation:
+    ///
+    ///     QA76 ∋ QA76.76
+    ///
+    /// The classification `QA76` (Electronic computers. Computer science) includes `QA76.76`
+    /// (Computer software), so they're ordered  "specifying" when `QA76` appears before `QA76.76.
+    ///
+    /// The leading classification is linearly ordered `NSOrderedAscending` with the trailing
+    /// classification. That is, it appears before the trailing classification when sorted linearly.
+    BibClassificationOrderedSpecifying   NS_SWIFT_NAME(specifying)   = NSOrderedAscending - 1,
 
     /// The leading value is ordered before the trailing value.
-    BibClassificationOrderedAscending    NS_SWIFT_NAME(ascending)    =  1L,
+    ///
+    /// For example, the following equation represents the "ascending" relation:
+    ///
+    ///     HQ76.13 < HQ76.5
+    ///
+    /// The classification `HQ76.13` (Gay fathers) is ordered before `HQ76.5` (Gay rights movement.
+    /// Gay liberation movement.) on the shelf. Neither classification is a superset of the other,
+    /// with their first common ancestor being `HQ76` (Homosexuality. Lesbianism).
+    BibClassificationOrderedAscending    NS_SWIFT_NAME(ascending)    = NSOrderedAscending,
 
-    /// The leading value's classification contains the trailing value.
-    BibClassificationOrderedSpecifying   NS_SWIFT_NAME(specifying)   =  2L
+    /// The leading and trailing values are equivalent.
+    ///
+    /// For example, the following equation represents the "same" relation:
+    ///
+    ///     PM8001 = PM8001
+    ///
+    /// The classification `PM8001` (Artificial languages. Universal languages) is equal to itself.
+    ///
+    /// - note: Although both `PM8001` and `PM8008` identify the same classification caption hierarchy,
+    ///         they are not the same classification number, and would therefore be ordered as either
+    ///         ``BibClassificationOrderedAscending`` or ``BibClassificationOrderedDescending``,
+    ///         depending on their order.
+    BibClassificationOrderedSame         NS_SWIFT_NAME(same)         = NSOrderedSame,
+
+    /// The leading value is ordered after the trailing value.
+    ///
+    /// For example, the following equation represents the "descending" relation:
+    ///
+    ///     HQ76.5 > HQ76.13
+    ///
+    /// The classification `HQ76.5` (Gay rights movement. Gay liberation movement.) is ordered
+    /// after `HQ76.13` (Gay fathers) on the shelf. Neither classification is a superset of the
+    /// other, with their first common ancestor being `HQ76` (Homosexuality. Lesbianism).
+    BibClassificationOrderedDescending   NS_SWIFT_NAME(descending)   = NSOrderedDescending,
+
+    /// The leading value's subject matter is included in the tailing classification.
+    ///
+    /// For example, the following equation demonstrates the "generalizing" relation:
+    ///
+    ///     QA76.76 ∈ QA76
+    ///
+    /// The classification `QA76.76` (Computer software) is a member of `QA76` (Electronic computers.
+    /// Computer science), so they're ordered  "generalizing" when `QA76.76 appears before `QA76`.
+    ///
+    /// The leading subject matter is linearly ordered `NSOrderedDescending` with the trailing
+    /// classification. That is, it appears after the trailing classification when sorted linearly.
+    BibClassificationOrderedGeneralizing NS_SWIFT_NAME(generalizing) = NSOrderedDescending + 1
 } NS_SWIFT_NAME(ClassificationComparisonResult);
 
 typedef NS_OPTIONS(NSInteger, BibLCCallNumberFormatOptions);
