@@ -677,8 +677,8 @@ static NSError *BibMARCXMLInputStreamMakeMissingDataError(NSString *format, ...)
         userInfo[NSDebugDescriptionErrorKey] = [[NSString alloc] initWithFormat:format arguments:args];
         va_end(args);
     }
-    return  [NSError errorWithDomain:BibMARCSerializationErrorDomain
-                                code:BibMARCSerializationMissingDataError
+    return  [NSError errorWithDomain:BibSerializationErrorDomain
+                                code:BibSerializationStreamAtEndError
                             userInfo:userInfo];
 }
 
@@ -687,8 +687,8 @@ static NSError *BibMARCXMLInputStreamMakeMalformedDataError(NSString *format, ..
     va_start(args, format);
     NSString *message = debugDescriptionWithReason(@"Malformed MARC XML data", format, args);
     va_end(args);
-    return [NSError errorWithDomain:BibMARCSerializationErrorDomain
-                               code:BibMARCSerializationMalformedDataError
+    return [NSError errorWithDomain:BibSerializationErrorDomain
+                               code:BibSerializationMalformedDataError
                            userInfo:@{ NSDebugDescriptionErrorKey : message }];
 }
 
@@ -698,8 +698,8 @@ static NSError *BibMARCXMLInputStreamMakeStreamAtEndError(NSString *format, ...)
     static NSString *const message = @"Cannot read/write data from a the end of a stream";
     NSString *debug = debugDescriptionWithReason(message, format, args);
     va_end(args);
-    return [NSError errorWithDomain:BibMARCSerializationErrorDomain
-                               code:BibMARCSerializationStreamAtEndError
+    return [NSError errorWithDomain:BibSerializationErrorDomain
+                               code:BibSerializationStreamAtEndError
                            userInfo:@{ NSDebugDescriptionErrorKey : debug }];
 }
 
