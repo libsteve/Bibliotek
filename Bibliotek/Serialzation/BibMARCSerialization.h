@@ -103,27 +103,5 @@ NS_SWIFT_NAME(MARCSerialization)
 
 @end
 
-/// An error encountered when using \c BibMARCSerialization to encode or decode a record.
-extern NSErrorDomain const BibMARCSerializationErrorDomain;
-
-/// The error code for an error in the \c BibMARCSerializationErrorDomain error domain.
-typedef NS_ERROR_ENUM(BibMARCSerializationErrorDomain, BibMARCSerializationErrorCode) {
-    /// The serializer encountered conflicting or invalid data with the MARC 21 record data.
-    BibMARCSerializationMalformedDataError NS_SWIFT_NAME(malformedData),
-
-    /// The serializer reached the end of its given data when more was expected.
-    BibMARCSerializationMissingDataError NS_SWIFT_NAME(missingData),
-
-    /// The input or output stream is not opened and therefore cannot be used to read or write record data.
-    BibMARCSerializationStreamNotOpenedError NS_SWIFT_NAME(streamNotOpened),
-
-    /// The input or output stream was at the end of its available data before the record could be read or written.
-    BibMARCSerializationStreamAtEndError NS_SWIFT_NAME(streamAtEnd),
-
-    /// The input or output stream is buys reading, writing, or opening,
-    /// and is therefore blocked from reading or writing data.
-    BibMARCSerializationStreamBusyError NS_SWIFT_NAME(streamBusy)
-} NS_SWIFT_NAME(MARCSerializationError);
-
 
 NS_ASSUME_NONNULL_END

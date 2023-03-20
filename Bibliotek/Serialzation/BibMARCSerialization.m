@@ -10,6 +10,7 @@
 #import "BibRecord.h"
 #import "BibMARCInputStream.h"
 #import "BibMARCOutputStream.h"
+#import "BibSerializationError.h"
 
 #import "BibMetadata+Internal.h"
 
@@ -24,8 +25,6 @@
 #import "BibRecordKind.h"
 
 #import "BibMarcIO.h"
-
-NSErrorDomain const BibMARCSerializationErrorDomain = @"BibMARCSerializationErrorDomain";
 
 static BibMarcRecord BibMarcRecordMakeFromBibRecord(BibRecord *record);
 static BibRecord *BibRecordMakeFromMarcRecord(BibMarcRecord const *marcRecord) NS_RETURNS_RETAINED;
@@ -356,40 +355,40 @@ static BOOL BibMARCSerializationCanUseStream(NSStream *const stream, NSError *__
         case NSStreamStatusNotOpen:
             if (error) {
                 static NSString *const message = @"A stream must be opened before data can be read/written";
-                *error = [NSError errorWithDomain:BibMARCSerializationErrorDomain
-                                             code:BibMARCSerializationStreamNotOpenedError
+                *error = [NSError errorWithDomain:BibSerializationErrorDomain
+                                             code:BibSerializationStreamNotOpenedError
                                          userInfo:@{ NSDebugDescriptionErrorKey : message }];
             }
             return NO;
         case NSStreamStatusClosed:
             if (error) {
                 static NSString *const message = @"A closed stream cannot read/write data";
-                *error = [NSError errorWithDomain:BibMARCSerializationErrorDomain
-                                             code:BibMARCSerializationStreamNotOpenedError
+                *error = [NSError errorWithDomain:BibSerializationErrorDomain
+                                             code:BibSerializationStreamNotOpenedError
                                          userInfo:@{ NSDebugDescriptionErrorKey : message }];
             }
             return NO;
         case NSStreamStatusOpening:
             if (error) {
                 static NSString *const message = @"Cannot read/write data from a stream while it's opening";
-                *error = [NSError errorWithDomain:BibMARCSerializationErrorDomain
-                                             code:BibMARCSerializationStreamBusyError
+                *error = [NSError errorWithDomain:BibSerializationErrorDomain
+                                             code:BibSerializationStreamBusyError
                                          userInfo:@{ NSDebugDescriptionErrorKey : message }];
             }
             return NO;
         case NSStreamStatusReading:
             if (error) {
                 static NSString *const message = @"Cannot read/write data from a stream while it's reading data";
-                *error = [NSError errorWithDomain:BibMARCSerializationErrorDomain
-                                             code:BibMARCSerializationStreamBusyError
+                *error = [NSError errorWithDomain:BibSerializationErrorDomain
+                                             code:BibSerializationStreamBusyError
                                          userInfo:@{ NSDebugDescriptionErrorKey : message }];
             }
             return NO;
         case NSStreamStatusWriting:
             if (error) {
                 static NSString *const message = @"Cannot read/write data from a stream while it's writing data";
-                *error = [NSError errorWithDomain:BibMARCSerializationErrorDomain
-                                             code:BibMARCSerializationStreamBusyError
+                *error = [NSError errorWithDomain:BibSerializationErrorDomain
+                                             code:BibSerializationStreamBusyError
                                          userInfo:@{ NSDebugDescriptionErrorKey : message }];
             }
             return NO;
@@ -397,20 +396,20 @@ static BOOL BibMARCSerializationCanUseStream(NSStream *const stream, NSError *__
 }
 
 static NSError *BibMARCSerializationMakeMissingDataError() {
-    return  [NSError errorWithDomain:BibMARCSerializationErrorDomain
-                                code:BibMARCSerializationMissingDataError
+    return  [NSError errorWithDomain:BibSerializationErrorDomain
+                                code:BibSerializationStreamAtEndError
                             userInfo:@{ NSDebugDescriptionErrorKey : @"Expected to read more MARC 21 data" }];
 }
 
 static NSError *BibMARCSerializationMakeMalformedDataError() {
-    return [NSError errorWithDomain:BibMARCSerializationErrorDomain
-                               code:BibMARCSerializationMalformedDataError
+    return [NSError errorWithDomain:BibSerializationErrorDomain
+                               code:BibSerializationMalformedDataError
                            userInfo:@{ NSDebugDescriptionErrorKey : @"Malformed MARC 21 data" }];
 }
 
 static NSError *BibMARCSerializationMakeStreamAtEndError() {
     static NSString *const message = @"Cannot read/write data from a the end of a stream";
-    return [NSError errorWithDomain:BibMARCSerializationErrorDomain
-                               code:BibMARCSerializationStreamAtEndError
+    return [NSError errorWithDomain:BibSerializationErrorDomain
+                               code:BibSerializationStreamAtEndError
                            userInfo:@{ NSDebugDescriptionErrorKey : message }];
 }
