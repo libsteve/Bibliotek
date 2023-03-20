@@ -9,8 +9,8 @@
 import Foundation
 
 extension ConnectionError {
-    public var connection: Connection {
-        return errorUserInfo[BibConnectionErrorConnectionKey] as! Connection
+    public var connection: Connection! {
+        return errorUserInfo[BibConnectionErrorConnectionKey] as? Connection
     }
 
     public var event: Connection.Event? {
