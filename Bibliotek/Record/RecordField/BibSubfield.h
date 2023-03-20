@@ -67,7 +67,7 @@ typedef NSString *BibSubfieldCode NS_EXTENSIBLE_STRING_ENUM NS_SWIFT_NAME(Subfie
 /// A record subfield's identifier identifies the semantic purpose of the content within a subfield.
 ///
 /// The semantics of each identifier is determined by the record field's tag as defined in the relevant MARC 21 format.
-@property (nonatomic, copy, readwrite) BibSubfieldCode code;
+@property (nonatomic, copy, readwrite) BibSubfieldCode subfieldCode;
 
 /// A string representation of the information stored in the subfield.
 @property (nonatomic, copy, readwrite) NSString *content;
