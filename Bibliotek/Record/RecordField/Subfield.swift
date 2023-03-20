@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// A portion of data in a content field semantically identified by its \c code.
+/// A portion of data in a content field semantically identified by its ``Subfield/code``.
 ///
 /// Content fields hold data within labeled subfields. Each subfield's identifier marks the semantic meaning of its
 /// content, which is determined by the record field's tag as defined in the appropriate MARC 21 format specification.

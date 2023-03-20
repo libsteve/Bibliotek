@@ -17,8 +17,10 @@ import Foundation
 /// The bytes located at index `07`, `08`, `17`, `18`, and `19` within the record leader are reserved for
 /// implementation-defined semantics. Use the leader's `recordKind` to determine how to interpret these values.
 ///
-/// More information about the MARC 21 leader can be found in the Library of Congress's documentation on
-/// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html#leader
+/// More information about the MARC 21 leader can be found in
+/// [the Library of Congress's documentation on MARC 21 Record Structure][record-structure].
+///
+/// [record-structure]: (https://www.loc.gov/marc/specifications/specrecstruc.html#leader)
 public struct Leader {
     private var _storage: BibLeader!
     private var _mutableStorage: BibMutableLeader!
@@ -138,8 +140,10 @@ public struct Leader {
     /// - parameter data: A buffer of 24 bytes in which leader data is encoded.
     /// - returns: A new record leader backed by the given data representation.
     ///
-    /// More information about the MARC 21 leader can be found in the Library of Congress's
-    /// documentation on MARC 21 Record Structure: https://www.loc.gov/marc/specifications/specrecstruc.html#leader
+    /// More information about the MARC 21 leader can be found in
+    /// [the Library of Congress's documentation on MARC 21 Record Structure][record-structure].
+    ///
+    /// [record-structure]: (https://www.loc.gov/marc/specifications/specrecstruc.html#leader)
     public init(data: Data) {
         self._storage = BibLeader(data: data)
     }

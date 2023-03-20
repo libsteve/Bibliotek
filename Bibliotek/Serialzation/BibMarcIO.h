@@ -55,17 +55,23 @@ typedef struct BibMarcRecord {
 BibMarcLeader BibMarcLeaderRead(int8_t const *buffer, size_t length);
 BibMarcDirectoryEntry BibMarcDirectoryEntryRead(int8_t const *buffer, size_t length);
 
-/// \param field Allocated space for a control field structure where data read from the buffer will be written.
-/// \param entry The directory entry describing the control field in the buffer.
-/// \param buffer The raw data containing the record's control fields and content fields.
-/// \param length The length of the raw data buffer containing the record's control and content fields.
+/// - parameter field: Allocated space for a control field structure where data read from
+///                    the buffer will be written.
+/// - parameter entry: The directory entry describing the control field in the buffer.
+/// - parameter buffer: The raw data containing the record's control fields and content
+///                     fields.
+/// - parameter length: The length of the raw data buffer containing the record's control
+///                     and content fields.
 boolean_t BibMarcControlFieldRead(BibMarcControlField *field, BibMarcDirectoryEntry const *entry, int8_t const *buffer, size_t length);
 size_t BibMarcSubfieldRead(BibMarcSubfield *subfield, int8_t const *buffer, size_t length);
 
-/// \param field Allocated space for a content field structure where data read from the buffer will be written.
-/// \param entry The directory entry describing the content field in the buffer.
-/// \param buffer The raw data containing the record's control fields and content fields.
-/// \param length The length of the raw data buffer containing the record's control and content fields.
+/// - parameter field: Allocated space for a content field structure where data read from
+///                    the buffer will be written.
+/// - parameter entry: The directory entry describing the content field in the buffer.
+/// - parameter buffer: The raw data containing the record's control fields and content
+///                     fields.
+/// - parameter length: The length of the raw data buffer containing the record's control
+///                     and content fields.
 boolean_t BibMarcContentFieldRead(BibMarcContentField *field, BibMarcDirectoryEntry const *entry, int8_t const *buffer, size_t length);
 size_t BibMarcRecordRead(BibMarcRecord *record, int8_t const *buffer, size_t length);
 
@@ -74,13 +80,17 @@ size_t BibMarcRecordRead(BibMarcRecord *record, int8_t const *buffer, size_t len
 boolean_t BibMarcLeaderWrite(BibMarcLeader const *leader, int8_t *buffer, size_t length);
 boolean_t BibMarcDirectoryEntryWrite(BibMarcDirectoryEntry const *entry, int8_t *buffer, size_t length);
 
-/// \param buffer A buffer to write the record's control and content fields—including the record terminator.
-/// \param length The length of the raw data buffer to write the record's control and content fields.
+/// - parameter buffer: A buffer to write the record's control and content fields,
+///                     including the record terminator.
+/// - parameter length: The length of the raw data buffer to write the record's control
+///                     and content fields.
 boolean_t BibMarcControlFieldWrite(BibMarcControlField const *field, BibMarcDirectoryEntry const *entry, int8_t *buffer, size_t length);
 size_t BibMarcSubfieldWrite(BibMarcSubfield const *subfield, int8_t *buffer, size_t length);
 
-/// \param buffer A buffer to write the record's control and content fields—including the record terminator.
-/// \param length The length of the raw data buffer to write the record's control and content fields.
+/// - parameter buffer: A buffer to write the record's control and content fields,
+///                     including the record terminator.
+/// - parameter length: The length of the raw data buffer to write the record's control
+///                     and content fields.
 boolean_t BibMarcContentFieldWrite(BibMarcContentField const *field, BibMarcDirectoryEntry const *entry, int8_t *buffer, size_t length);
 size_t BibMarcRecordWrite(BibMarcRecord const *record, int8_t *buffer, size_t length);
 

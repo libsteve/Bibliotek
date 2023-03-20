@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// or other data describing the represented item or entity.
 ///
 /// More information about MARC 21 records can be found in the Library of Congress's documentation on
-/// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/spechome.html
+/// [MARC 21 Record Structure](https://www.loc.gov/marc/specifications/spechome.html).
 @interface BibRecord : NSObject
 
 /// The type of data represented by the record.
@@ -44,17 +44,17 @@ NS_ASSUME_NONNULL_BEGIN
 /// Implementation-defined metadata from the MARC record's leader.
 ///
 /// MARC records can have arbitrary implementation-defined data embedded in their leader.
-/// The reserved bytes are located at index \c 7, \c 8, \c 17, \c 18, and \c 19 within the record leader.
+/// The reserved bytes are located at index `7`, `8`, `17`, `18`, and `19` within the record leader.
 ///
-/// Use this field to access those bytes, which should be interpreted using the scheme identified in \c kind.
+/// Use this field to access those bytes, which should be interpreted using the scheme identified in `kind`.
 @property (nonatomic, copy, readonly) BibMetadata *metadata DEPRECATED_MSG_ATTRIBUTE("use -leader");
 
 /// Implementation-defined metadata from the MARC record's leader.
 ///
 /// MARC records can have arbitrary implementation-defined data embedded in their leader.
-/// The reserved bytes are located at index \c 7, \c 8, \c 17, \c 18, and \c 19 within the record leader.
+/// The reserved bytes are located at index `7`, `8`, `17`, `18`, and `19` within the record leader.
 ///
-/// Use this field to access those bytes, which should be interpreted using the scheme identified in \c kind.
+/// Use this field to access those bytes, which should be interpreted using the scheme identified in `kind`.
 @property (nonatomic, copy, readonly) BibLeader *leader;
 
 /// An ordered list of fields containing information and metadata about the record and its represented item.
@@ -62,11 +62,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Create a MARC 21 record with the given data.
 ///
-/// \param kind The type of record.
-/// \param status The record's status in its originating database.
-/// \param metadata A set of implementation-defined bytes.
-/// \param fields An ordered list of control fields and data fields describing the record and its represented item.
-/// \returns Returns a valid MARC 21 record for some item or entity described by the given fields.
+/// - parameter kind: The type of record.
+/// - parameter status: The record's status in its originating database.
+/// - parameter metadata: A set of implementation-defined bytes.
+/// - parameter fields: An ordered list of control fields and data fields describing the record and its
+///                     represented item.
+/// - returns: Returns a valid MARC 21 record for some item or entity described by the given fields.
 - (instancetype)initWithKind:(nullable BibRecordKind *)kind
                       status:(BibRecordStatus)status
                     metadata:(BibMetadata *)metadata
@@ -75,7 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Create a MARC 21 record containing data from the given leader, control fields, and data fields.
 ///
-/// \returns Returns a valid MARC 21 record for some item or entity described by the given fields.
+/// - returns: Returns a valid MARC 21 record for some item or entity described by the given fields.
 + (instancetype)recordWithKind:(nullable BibRecordKind *)kind
                         status:(BibRecordStatus)status
                       metadata:(BibMetadata *)metadata
@@ -85,17 +86,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Create a MARC 21 record with the given data.
 ///
-/// \param leader A set of metadata describing the record, its encoding, and its state in the database.
-/// \param fields An ordered list of control fields and data fields describing the record and its represented item.
-/// \returns Returns a valid MARC 21 record for some item or entity described by the given fields.
+/// - parameter leader: A set of metadata describing the record, its encoding, and its state in the database.
+/// - parameter fields: An ordered list of control fields and data fields describing the record and its
+///                     represented item.
+/// - returns: Returns a valid MARC 21 record for some item or entity described by the given fields.
 - (instancetype)initWithLeader:(BibLeader *)leader
                         fields:(NSArray<BibRecordField *> *)fields NS_DESIGNATED_INITIALIZER;
 
 /// Create a MARC 21 record containing data from the given leader, control fields, and data fields.
 ///
-/// \param leader A set of metadata describing the record, its encoding, and its state in the database.
-/// \param fields An ordered list of control fields and data fields describing the record and its represented item.
-/// \returns Returns a valid MARC 21 record for some item or entity described by the given fields.
+/// - parameter leader: A set of metadata describing the record, its encoding, and its state in the database.
+/// - parameter fields: An ordered list of control fields and data fields describing the record and its
+///                     represented item.
+/// - returns Returns a valid MARC 21 record for some item or entity described by the given fields.
 + (instancetype)recordWithLeader:(BibLeader *)leader
                           fields:(NSArray<BibRecordField *> *)fields
     NS_SWIFT_UNAVAILABLE("use init(leader:fields:)");
@@ -113,8 +116,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface BibRecord (Equality)
 
 /// Determine whether or not the given MARC 21 record contains the same data as the receiver.
-/// \param record The record with which the receiver should be compared.
-/// \returns Returns \c YES if the given record and the receiver contain the same data
+/// - parameter record: The record with which the receiver should be compared.
+/// - returns: Returns `YES` if the given record and the receiver contain the same data
 - (BOOL)isEqualToRecord:(BibRecord *)record;
 
 @end
@@ -124,36 +127,37 @@ NS_ASSUME_NONNULL_BEGIN
 @interface BibRecord (FieldAccess)
 
 /// Test to see if the record contains a field with the given tag.
-/// \param fieldTag If this record has a field with this value, \c YES is returned.
-/// \returns \c YES if at least one record field is marked with the given tag.
+/// - parameter fieldTag: If this record has a field with this value, `YES` is returned.
+/// - returns: `YES` if at least one record field is marked with the given tag.
 - (BOOL)containsFieldWithTag:(BibFieldTag *)fieldTag NS_SWIFT_NAME(containsField(with:));
 
 /// Get the index of the first record field with the given tag.
-/// \param fieldTag The field tag marking the data field or control field to access.
-/// \returns The index of the first record with the given tag. If no such field exists, \c NSNotFound is returned.
+/// - parameter fieldTag: The field tag marking the data field or control field to access.
+/// - returns: The index of the first record with the given tag. If no such field exists, `NSNotFound` is returned.
 - (NSUInteger)indexOfFieldWithTag:(BibFieldTag *)fieldTag NS_SWIFT_NAME(indexOfField(with:));
 
 /// Get the first record field with the given tag.
-/// \param fieldTag The field tag marking the data field or control field to access.
-/// \returns The first record with the given tag. If no such field exists, \c nil is returned.
+/// - parameter fieldTag: The field tag marking the data field or control field to access.
+/// - returns: The first record with the given tag. If no such field exists, `nil` is returned.
 - (nullable BibRecordField *)fieldWithTag:(BibFieldTag *)fieldTag NS_SWIFT_NAME(field(with:));
 
 /// Get the record field referenced by the given index path.
-/// \param indexPath The index path value pointing to the field or one of its subfields.
-/// \returns The record field referenced by the index path.
-///          If the index path points to a subfield, its field is returned.
+/// - parameter indexPath: The index path value pointing to the field or one of its subfields.
+/// - returns: The record field referenced by the index path.
+///            If the index path points to a subfield, its field is returned.
 - (BibRecordField *)fieldAtIndexPath:(NSIndexPath *)indexPath NS_SWIFT_NAME(field(at:));
 
 /// Get the subfield referenced by the given index path.
-/// \param indexPath The index path value pointing to a specific subfield value.
-/// \returns The subfield object referenced by the index path.
-/// \throws \c NSRangeException when given an index path that points to a field instead of its subfield,
-///         or if the index path points into a control field instead of a data field.
+/// - parameter indexPath: The index path value pointing to a specific subfield value.
+/// - returns: The subfield object referenced by the index path.
+/// - throws: `NSRangeException` when given an index path that points to a field instead of its subfield,
+///            or if the index path points into a control field instead of a data field.
 - (BibSubfield *)subfieldAtIndexPath:(NSIndexPath *)indexPath NS_SWIFT_NAME(subfield(at:));
 
 /// Get a string representation of the value stored at the given index path.
-/// \param indexPath The index path of a control field, data field, or subfield.
-/// \returns A string representation of the data contained within the referenced control field, data field, or subfield.
+/// - parameter indexPath: The index path of a control field, data field, or subfield.
+/// - returns: A string representation of the data contained within the referenced control field, data field,
+///            or subfield.
 - (NSString *)contentAtIndexPath:(NSIndexPath *)indexPath NS_SWIFT_NAME(content(at:));
 
 @end
@@ -183,7 +187,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// or other data describing the represented item or entity.
 ///
 /// More information about MARC 21 records can be found in the Library of Congress's documentation on
-/// MARC 21 Record Structure: https://www.loc.gov/marc/specifications/spechome.html
+/// [MARC 21 Record Structure](https://www.loc.gov/marc/specifications/spechome.html).
 @interface BibMutableRecord : BibRecord
 
 /// The type of data represented by the record.
@@ -200,9 +204,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// Implementation-defined metadata from the MARC record's leader.
 ///
 /// MARC records can have arbitrary implementation-defined data embedded in their leader.
-/// The reserved bytes are located at index \c 7, \c 8, \c 17, \c 18, and \c 19 within the record leader.
+/// The reserved bytes are located at index `7`, `8`, `17`, `18`, and `19` within the record leader.
 ///
-/// Use this field to access those bytes, which should be interpreted using the scheme identified in \c kind.
+/// Use this field to access those bytes, which should be interpreted using the scheme identified in `kind`.
 @property (nonatomic, copy, readwrite) BibLeader *leader;
 
 /// An ordered list of fields containing information and metadata about the record and its represented item.
@@ -215,8 +219,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) NSUInteger countOfFields;
 
 /// Get the field at the given index.
-/// \param index The index for the record field to access.
-/// \returns The data field or control field located at the given index.
+/// - parameter index: The index for the record field to access.
+/// - returns: The data field or control field located at the given index.
 - (BibRecordField *)fieldAtIndex:(NSUInteger)index NS_SWIFT_NAME(field(at:));
 
 - (NSArray<BibRecordField *> *)fieldsAtIndexes:(NSIndexSet *)indexes;

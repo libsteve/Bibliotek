@@ -40,75 +40,77 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, copy) NSString *stringValue;
 
 /// Create a Library of Congress call number with the given string representation.
-/// \param string The string value of the call number.
+/// - parameter string: The string value of the call number.
 - (nullable instancetype)initWithString:(NSString *)string NS_DESIGNATED_INITIALIZER;
 
 /// Create a Library of Congress call number with the given string representation.
-/// \param string The string value of the call number.
+/// - parameter string: The string value of the call number.
 + (nullable instancetype)callNumberWithString:(NSString *)string NS_SWIFT_UNAVAILABLE("Use init(string:)");
 
 /// Create a string representation of the call number using the given style attributes.
-/// \param options Attributes describing the format of the resulting string value.
-/// \returns A string representation of the call number in a format described by the given attributes.
+/// - parameter options: Attributes describing the format of the resulting string value.
+/// - returns: A string representation of the call number in a format described by the given attributes.
 - (NSString *)stringWithFormatOptions:(BibLCCallNumberFormatOptions)options;
 
 /// Determine the linear ordering relationship between two call numbers.
 ///
-/// \b Examples
+/// ## Examples
 ///
-/// The classification \c HQ76 is ordered before \c QA76
+/// The classification `HQ76` is ordered before `QA76`
 ///
-/// The classification \c QA76 is ordered before \c QA76.76
+/// The classification `QA76` is ordered before `QA76.76`
 ///
-/// The classification \c QA76.76 is ordered before \c QA76.9
+/// The classification `QA76.76` is ordered before `QA76.9`
 ///
-/// The classification \c P35 is ordered before \c P112
+/// The classification `P35` is ordered before `P112`
 ///
-/// The classification \c P327 is ordered before \c PC5615
+/// The classification `P327` is ordered before `PC5615`
 ///
-/// \param callNumber The call number being compared with the receiver.
-/// \returns \c NSOrderedDescending when the given call number is ordered before the receiver.
-/// \returns \c NSOrderedSame when the given call number is equivalent to the receiver.
-/// \returns \c NSOrderedAscending when the given call number is ordered after the receiver.
+/// - parameter callNumber: The call number being compared with the receiver.
+/// - returns: `NSOrderedDescending` when the given call number is ordered before the receiver.
+///            `NSOrderedSame` when the given call number is equivalent to the receiver.
+///            `NSOrderedAscending` when the given call number is ordered after the receiver.
+///
+/// - seealso: ``compareWithCallNumber:``
+/// - seealso: ``isEqualToCallNumber:``
+/// - seealso: ``includesCallNumber:``
 - (NSComparisonResult)compare:(BibLCCallNumber *)callNumber;
 
 /// Determine the ordering relationship between the subject matters represented by two call numbers.
 ///
-/// The classification \c HQ76 is ordered before \c QA76
+/// The classification `HQ76` is ordered before `QA76`
 ///
-/// The classification \c QA76.76 is ordered before \c QA76.9
+/// The classification `QA76.76` is ordered before `QA76.9`
 ///
-/// The classification \c P35 is ordered before \c P112
+/// The classification `P35` is ordered before `P112`
 ///
-/// The classification \c P327 is ordered before \c PC5615
+/// The classification `P327` is ordered before `PC5615`
 ///
-/// The classification \c QA76 encompasses the more specific classifications \c QA76.76 and \c QA76.75 but
-/// does not include the classification \c QA70 nor its parent classification \c QA
+/// The classification `QA76` encompasses the more specific classifications `QA76.76` and `QA76.75` but
+/// does not include the classification `QA70` nor its parent classification `QA`
 ///
-/// \param callNumber The call number being compared with the receiver.
-/// \returns \c BibClassificationOrderedGeneralizing when the given call number's represented subject matter includes
-///          that represented by the receiver. The given call number, being a generalization of the receiver, is
-///          necessarily ordered linearly before the receiver.
-/// \returns \c BibClassificationOrderedDescending when the given call number is ordered before the receiver.
-/// \returns \c BibClassificationOrderedSame when the given call number is equivalent to the receiver.
-/// \returns \c BibClassificationOrderedAscending when the given call number is ordered after the receiver.
-/// \returns \c BibClassificationOrderedSpecifying when the given call number's represented subject matter is included
-///          in that represented by the receiver. The given call number, being a specialization of the receiver, is
-///          necessarily ordered linearly after the receiver.
+/// - parameter callNumber: The call number being compared with the receiver.
+/// - returns: ``BibClassificationOrderedSpecifying`` when the given call number's represented subject matter is
+///            included in that represented by the receiver.
+///            ``BibClassificationOrderedAscending`` when the given call number is ordered after the receiver.
+///            ``BibClassificationOrderedSame`` when the given call number is equivalent to the receiver.
+///            ``BibClassificationOrderedDescending`` when the given call number is ordered before the receiver.
+///            ``BibClassificationOrderedGeneralizing`` when the given call number's represented subject matter
+///            includes that represented by the receiver.
 - (BibClassificationComparisonResult)compareWithCallNumber:(BibLCCallNumber *)callNumber;
 
 /// Does the given call number represent the same subject matter as the receiver?
-/// \param callNumber The call number being compared with the receiver.
-/// \returns \c YES when the given call number is equivalent to the receiver.
+/// - parameter callNumber: The call number being compared with the receiver.
+/// - returns: `YES` when the given call number is equivalent to the receiver.
 - (BOOL)isEqualToCallNumber:(BibLCCallNumber *)callNumber;
 
 /// Does the subject matter represented by this call number include that of the given call number?
 ///
-/// For example, the classification \c QA76 encompasses the more specific classifications \c QA76.76 and \c QA76.75 but
-/// does not include the classification \c QA70 nor its parent classification \c QA
+/// For example, the classification `QA76` encompasses the more specific classifications `QA76.76` and `QA76.75`
+/// but does not include the classification `QA70` nor its parent classification `QA`.
 ///
-/// \param callNumber The call number whose subject matter may be a subset of the receiver's.
-/// \returns \c YES when the given call number belongs within the receiver's domain.
+/// - parameter callNumber: The call number whose subject matter may be a subset of the receiver's.
+/// - returns: `YES` when the given call number belongs within the receiver's domain.
 - (BOOL)includesCallNumber:(BibLCCallNumber *)callNumber NS_SWIFT_NAME(includes(_:));
 
 - (instancetype)init NS_UNAVAILABLE;
@@ -122,22 +124,30 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NS_OPTIONS(NSInteger, BibLCCallNumberFormatOptions) {
     /// A compact single-line call number.
     ///
-    /// \example QA76.76.C65A37 \c 1986
+    /// ## Example
+    ///
+    ///     QA76.76.C65A37 1986
     BibLCCallNumberFormatOptionsDefault NS_SWIFT_NAME(default) = 0,
 
     /// Insert a space between the class letters and the subclass number.
     ///
-    /// \example \c QA \c 76.76.C65A37 \c 1986
+    /// ## Example
+    ///
+    ///     QA 76.76.C65A37 1986
     BibLCCallNumberFormatOptionsExpandSubject = 1 << 1,
 
     /// Insert a space between adjacent cutter numbers.
     ///
-    /// \example \c QA76.76.C65 \c A37 \c 1986
+    /// ## Example
+    ///
+    ///     QA76.76.C65 A37 1986
     BibLCCallNumberFormatOptionsExpandCutters = 1 << 2,
 
     /// Insert a space before the period marking a cutter section.
     ///
-    /// \example \c QA76.76 \c .C65A37 \c 1986
+    /// ## Example
+    ///
+    ///     QA76.76 .C65A37 1986
     BibLCCallNumberFormatOptionsExpandCutterMarks = 1 << 3,
 
     /// Separate components of the call number with a newline instead of a space.
@@ -145,30 +155,30 @@ typedef NS_OPTIONS(NSInteger, BibLCCallNumberFormatOptions) {
 
     /// Insert a period before any cutter number that appears after a date or ordinal number.
     ///
-    /// \example \c JZ33.D4 \c 1999.E37
+    /// ## Example
+    ///
+    ///     JZ33.D4 1999.E37
     BibLCCallNumberFormatOptionsMarkCutterAfterDate = 1 << 5
 
 } NS_SWIFT_NAME(BibLCCallNumber.FormatOptions);
 
 /// The format for a call number appearing on a book's pocket label.
 ///
-/// \example \c QA \c 76.76 \c .C65 \c A37 \c 1986
+/// ## Example
+///
+///     QA 76.76 .C65 A37 1986
 extern BibLCCallNumberFormatOptions const BibLCCallNumberFormatOptionsPocket
 NS_SWIFT_NAME(BibLCCallNumberFormatOptions.pocket);
 
 /// The format for a call number appearing on a book's spine label.
 ///
-/// \example
+/// ## Example
 ///
-/// \c QA
-///
-/// \c 76.76
-///
-/// \c .C65
-///
-/// \c A37
-///
-/// \c 1986
+///     QA
+///     76.76
+///     .C65
+///     A37
+///     1986
 extern BibLCCallNumberFormatOptions const BibLCCallNumberFormatOptionsSpine
 NS_SWIFT_NAME(BibLCCallNumberFormatOptions.spine);
 

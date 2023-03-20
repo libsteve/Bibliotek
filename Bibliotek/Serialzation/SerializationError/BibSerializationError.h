@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// An error encountered when encoding or decoding MARC record data.
 extern NSErrorDomain const BibSerializationErrorDomain;
 
-/// The error code for an error in the \c BibSerializationErrorDomain error domain.
+/// The error code for an error in the `BibSerializationErrorDomain` error domain.
 typedef NS_ERROR_ENUM(BibSerializationErrorDomain, BibSerializationErrorCode) {
     /// The serializer encountered conflicting or invalid data with the MARC 21 record data.
     BibSerializationMalformedDataError NS_SWIFT_NAME(malformedData) = 1,

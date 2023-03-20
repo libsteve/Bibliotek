@@ -15,9 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 NS_SWIFT_NAME(MARCXMLOutputStream)
 @interface BibMARCXMLOutputStream : BibRecordOutputStream
 
-/// Initializes and returns a \c BibMARCXMLOutputStream for writing to the given input stream.
-/// \param outputStream The \c NSOutputStream object to which record data should be written.
-/// \returns An initialized \c BibMARCOutputStream object that writes \c BibRecord objects to the given input stream.
+/// Initializes and returns a ``BibMARCXMLOutputStream`` for writing to the given input stream.
+/// - parameter outputStream: The `NSOutputStream` object to which record data should be written.
+/// - returns: An initialized ``BibMARCOutputStream`` object that writes ``BibRecord`` objects to the given input stream.
 - (instancetype)initWithOutputStream:(NSOutputStream *)outputStream NS_DESIGNATED_INITIALIZER;
 
 @end

@@ -11,15 +11,15 @@
 #import <objc/runtime.h>
 #import <objc/message.h>
 
-/// Get the \c + or \c - prefix for a class or instance method respectfully.
+/// Get the `+` or `-` prefix for a class or instance method respectfully.
 ///
-/// \param self The receiver for a method: either an object or a class.
-/// \returns \c '+' for classes and \c '-' for objects.
+/// - parameter self: The receiver for a method: either an object or a class.
+/// - returns: `'+'` for classes and `'-'` for objects.
 ///
-/// Both \c -class and \c +class return the same value for an object and its class.
-/// With this knowledge, we can determine whether \c self is an object or class by
-/// comparing \c self to \c [self \c class] to see if they're equal. \c -class is
-/// is never equal to its object receiver, but \c +class always equals its receiver.
+/// Both `-class` and `+class` return the same value for an object and its class.
+/// With this knowledge, we can determine whether `self` is an object or class by
+/// comparing `self` to `[self class]` to see if they're equal. `-class` is
+/// is never equal to its object receiver, but `+class` always equals its receiver.
 static inline char BibSelectorPrefixForObject(id self) {
     return (self == [self class]) ? '+' : '-';
 }
@@ -47,11 +47,11 @@ BIB_COLD static os_log_t BibUnimplementedMethodsLog(void) {
 
 /// Throw an exception for unimplemented methods with the specified semantics.
 ///
-/// \param self The object or class that received a call to the unimplemented method.
-/// \param clss The class that declared the unimplemented abstract method.
-/// \param _cmd The selector of the unimplemented method, provided by its \c _cmd argument.
-/// \param type The special semantics for a method, describing it as either
-///             an \c "initializer" a \c "property" or a regular \c "method"
+/// - parameter self: The object or class that received a call to the unimplemented method.
+/// - parameter clss: The class that declared the unimplemented abstract method.
+/// - parameter _cmd: The selector of the unimplemented method, provided by its `_cmd` argument.
+/// - parameter type: The special semantics for a method, describing it as either
+///                   an `"initializer"` a `"property"` or a regular `"method"`
 BIB_COLD BIB_NORETURN static inline void _BibUnimplementedSelector(id self, Class clss, SEL _cmd, char const *type) {
     os_log_t const log = BibUnimplementedMethodsLog();
     NSString *const method = BibFullMethodName(self, clss, _cmd);

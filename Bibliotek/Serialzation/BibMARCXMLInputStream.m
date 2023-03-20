@@ -202,7 +202,7 @@ static void bib_marcxml_handleTextReaderError(void *context, char const *message
     return NO;
 }
 
-/// \note You must call \c xmlFree() on the provided \c attribute when this method succeeds.
+/// - note: You must call `xmlFree()` on the provided `attribute` when this method succeeds.
 - (BOOL)_xmlAttribute:(xmlChar **)attribute name:(xmlChar const *)name error:(NSError *__autoreleasing *)error {
     NSParameterAssert(name != NULL);
     if (![self _assertExpectedNodeType:XML_READER_TYPE_ELEMENT name:nil error:error]) {
