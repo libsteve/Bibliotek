@@ -86,8 +86,8 @@
   <day-digit> ::= '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
  <day-number> ::= <day-digit>
                 | '0' <day-digit>
-                | '1' <day-digit>
-                | '2' <day-digit>
+                | '1' <digit>
+                | '2' <digit>
                 | '3' '0'
                 | '3' '1'
   <date-mark> ::= <letter04>
