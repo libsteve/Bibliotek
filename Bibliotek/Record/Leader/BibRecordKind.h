@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// different schemas to present their information.
 ///
 /// Use this value to determine how tags and subfield codes should be used to interpret a record's content.
-BIB_SWIFT_BRIDGE(RecordKind)
+BIB_SWIFT_BRIDGE(RecordKind) NS_SWIFT_SENDABLE
 @interface BibRecordKind : NSObject <NSCopying>
 
 /// The raw character value used in a record's leader to indicate the record's kind.
@@ -53,7 +53,17 @@ BIB_SWIFT_BRIDGE(RecordKind)
 
 #pragma mark - MARC 21 Categories
 
+typedef NS_ENUM(uint8_t, BibRecordFormat) {
+    BibRecordFormatBibliographic,
+    BibRecordFormatClassification,
+    BibRecordFormatAuthority,
+    BibRecordFormatHoldings,
+    BibRecordFormatCommunity
+} NS_SWIFT_NAME(BibRecord.Format);
+
 @interface BibRecordKind (MARC21Categories)
+
+@property (nonatomic, readonly) BibRecordFormat recordFormat;
 
 /// Does a record marked with this kind represent classification information?
 @property (nonatomic, readonly) BOOL isClassificationKind;
@@ -66,9 +76,6 @@ BIB_SWIFT_BRIDGE(RecordKind)
 #pragma mark - MARC 21 Record Kinds
 
 @interface BibRecordKind (MARC21RecordKinds)
-
-/// Classification
-@property (class, nonatomic, readonly) BibRecordKind *classification;
 
 /// Language Material
 @property (class, nonatomic, readonly) BibRecordKind *languageMaterial;
@@ -106,11 +113,33 @@ BIB_SWIFT_BRIDGE(RecordKind)
 /// Mixed Materials
 @property (class, nonatomic, readonly) BibRecordKind *mixedMaterials;
 
+/// Community Information
+@property (class, nonatomic, readonly) BibRecordKind *communityInformation;
+
 /// Three-Dimensional Artifact
 @property (class, nonatomic, readonly) BibRecordKind *threeDimensionalArtifact;
 
 /// Manuscript Language Material
 @property (class, nonatomic, readonly) BibRecordKind *manuscriptLanguageMaterial;
+
+/// Unknown Holdings
+@property (class, nonatomic, readonly) BibRecordKind *unknownHoldings;
+
+/// Multipart Item Holdings
+@property (class, nonatomic, readonly) BibRecordKind *multipartItemHoldings;
+
+/// Classification
+@property (class, nonatomic, readonly) BibRecordKind *classification;
+
+/// Single Part Item Holdings
+@property (class, nonatomic, readonly) BibRecordKind *singlePartItemHoldings;
+
+/// Serial Item Holdings
+@property (class, nonatomic, readonly) BibRecordKind *serialItemHoldings;
+
+/// Authority Data
+@property (class, nonatomic, readonly) BibRecordKind *authorityData;
+
 
 @end
 

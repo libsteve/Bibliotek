@@ -6,9 +6,6 @@
   Copyright © 2021 Steve Brunwasser. All rights reserved.
 */
 
-/* Classification */
-"w" = "Classification";
-
 /* Language Material */
 "a" = "Language Material";
 
@@ -45,8 +42,29 @@
 /* Mixed Materials */
 "p" = "Mixed Materials";
 
+/* Community Information */
+"q" = "Community Information";
+
 /* Three-Dimensional Artifact */
 "r" = "Three-Dimensional Artifact";
 
 /* Manuscript Language Material */
 "t" = "Manuscript Language Material";
+
+/* Unknown Holdings */
+"u" = "Unknown Holdings";
+
+/* Multipart Item Holdings */
+"v" = "Multipart Item Holdings";
+
+/* Classification */
+"w" = "Classification";
+
+/* Single Part Item Holdings */
+"x" = "Single Part Item Holdings";
+
+/* Serial Item Holdings */
+"y" = "Serial Item Holdings";
+
+/* Authority Data */
+"z" = "Authority Data";

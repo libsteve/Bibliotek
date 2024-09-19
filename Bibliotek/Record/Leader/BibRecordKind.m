@@ -74,9 +74,6 @@
 #pragma mark - Raw Values
 
 typedef NS_ENUM(char, BibRecordKindRawValue) {
-    /// Classification
-    BibRecordKindRawValueClassification = 'w',
-
     /// Language Material
     BibRecordKindRawValueLanguageMaterial = 'a',
 
@@ -113,16 +110,69 @@ typedef NS_ENUM(char, BibRecordKindRawValue) {
     /// Mixed Materials
     BibRecordKindRawValueMixedMaterials = 'p',
 
+    /// Community Information
+    BibRecordKindRawValueCommunityInformation = 'q',
+
     /// Three-Dimensional Artifact
     BibRecordKindRawValueThreeDimensionalArtifact = 'r',
 
     /// Manuscript LanguageMaterial
     BibRecordKindRawValueManuscriptLanguageMaterial = 't',
+
+    /* Unknown Holdings */
+    BibRecordKindRawValueUnknownHoldings = 'u',
+
+    /* Multipart Item Holdings */
+    BibRecordKindRawValueMultipartItemHoldings = 'v',
+
+    /* Classification */
+    BibRecordKindRawValueClassification = 'w',
+
+    /* Single Part Item Holdings */
+    BibRecordKindRawValueSinglePartItemHoldings = 'x',
+
+    /* Serial Item Holdings */
+    BibRecordKindRawValueSerialItemHoldings = 'y',
+
+    /* Authority Data */
+    BibRecordKindRawValueAuthorityData = 'z',
 } NS_SWIFT_NAME(RecordKind);
 
 #pragma mark - MARC 21 Categories
 
 @implementation BibRecordKind (MARC21Categories)
+
+- (BibRecordFormat)recordFormat
+{
+    switch ((BibRecordKindRawValue)[self rawValue]) {
+        case BibRecordKindRawValueLanguageMaterial:
+        case BibRecordKindRawValueNotatedMusic:
+        case BibRecordKindRawValueManuscriptNotatedMusic:
+        case BibRecordKindRawValueCartographicMaterial:
+        case BibRecordKindRawValueManuscriptCartographicMaterial:
+        case BibRecordKindRawValueProjectedMedium:
+        case BibRecordKindRawValueNonMusicalSoundRecording:
+        case BibRecordKindRawValueMusicalSoundRecording:
+        case BibRecordKindRawValueTwoDimensionalNonProjectableGraphic:
+        case BibRecordKindRawValueComputerFile:
+        case BibRecordKindRawValueKit:
+        case BibRecordKindRawValueMixedMaterials:
+        case BibRecordKindRawValueThreeDimensionalArtifact:
+        case BibRecordKindRawValueManuscriptLanguageMaterial:
+            return BibRecordFormatBibliographic;
+        case BibRecordKindRawValueCommunityInformation:
+            return BibRecordFormatCommunity;
+        case BibRecordKindRawValueUnknownHoldings:
+        case BibRecordKindRawValueMultipartItemHoldings:
+        case BibRecordKindRawValueSinglePartItemHoldings:
+        case BibRecordKindRawValueSerialItemHoldings:
+            return BibRecordFormatHoldings;
+        case BibRecordKindRawValueClassification:
+            return BibRecordFormatClassification;
+        case BibRecordKindRawValueAuthorityData:
+            return BibRecordFormatAuthority;
+    }
+}
 
 - (BOOL)isClassificationKind {
     return [self rawValue] == BibRecordKindRawValueClassification;
@@ -160,9 +210,6 @@ typedef NS_ENUM(char, BibRecordKindRawValue) {
 
 @implementation BibRecordKind (MARC21RecordKinds)
 
-+ (BibRecordKind *)classification {
-    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueClassification];
-}
 + (BibRecordKind *)languageMaterial {
     return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueLanguageMaterial];
 }
@@ -199,11 +246,32 @@ typedef NS_ENUM(char, BibRecordKindRawValue) {
 + (BibRecordKind *)mixedMaterials {
     return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueMixedMaterials];
 }
++ (BibRecordKind *)communityInformation {
+    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueCommunityInformation];
+}
 + (BibRecordKind *)threeDimensionalArtifact {
     return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueThreeDimensionalArtifact];
 }
 + (BibRecordKind *)manuscriptLanguageMaterial {
     return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueManuscriptLanguageMaterial];
+}
++ (BibRecordKind *)unknownHoldings {
+    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueUnknownHoldings];
+}
++ (BibRecordKind *)multipartItemHoldings {
+    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueMultipartItemHoldings];
+}
++ (BibRecordKind *)classification {
+    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueClassification];
+}
++ (BibRecordKind *)singlePartItemHoldings {
+    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueSinglePartItemHoldings];
+}
++ (BibRecordKind *)serialItemHoldings {
+    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueSerialItemHoldings];
+}
++ (BibRecordKind *)authorityData {
+    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueAuthorityData];
 }
 
 - (NSString *)description {
@@ -234,8 +302,7 @@ static NSCache *sFlyweightCache;
     if (recordKind) {
         return recordKind;
     }
-    switch (rawValue) {
-        case BibRecordKindRawValueClassification:
+    switch ((BibRecordKindRawValue)rawValue) {
         case BibRecordKindRawValueLanguageMaterial:
         case BibRecordKindRawValueNotatedMusic:
         case BibRecordKindRawValueManuscriptNotatedMusic:
@@ -248,15 +315,22 @@ static NSCache *sFlyweightCache;
         case BibRecordKindRawValueComputerFile:
         case BibRecordKindRawValueKit:
         case BibRecordKindRawValueMixedMaterials:
+        case BibRecordKindRawValueCommunityInformation:
         case BibRecordKindRawValueThreeDimensionalArtifact:
         case BibRecordKindRawValueManuscriptLanguageMaterial:
+        case BibRecordKindRawValueUnknownHoldings:
+        case BibRecordKindRawValueMultipartItemHoldings:
+        case BibRecordKindRawValueClassification:
+        case BibRecordKindRawValueSinglePartItemHoldings:
+        case BibRecordKindRawValueSerialItemHoldings:
+        case BibRecordKindRawValueAuthorityData:
             if (self = [super initWithRawValue:rawValue]) {
                 [sFlyweightCache setObject:self forKey:key];
             }
             return self;
-        default:
-            return nil;
     }
+    // Don't put this in a default clause so that the compiler warns us when we need to add a  new case.
+    return nil;
 }
 
 @end
