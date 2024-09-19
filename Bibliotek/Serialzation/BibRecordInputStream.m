@@ -7,12 +7,15 @@
 //
 
 #import "BibRecordInputStream.h"
+#import "BibStaticClassRef.h"
 #import <Bibliotek/Bibliotek+Internal.h>
 #import <os/log.h>
 
 NSErrorDomain const BibRecordInputStreamErrorDomain = @"BibRecordInputStreamErrorDomain";
 
 @interface _BibRecordInputStreamPlaceholder : BibRecordInputStream
+DECLARE_STATIC_CLASS_REF(_BibRecordInputStreamPlaceholder);
+DECLARE_STATIC_CLASS_STRUCT(_BibRecordInputStreamPlaceholder);
 @end
 
 @interface _BibInferredInputStream : BibRecordInputStream
@@ -37,12 +40,10 @@ NSErrorDomain const BibRecordInputStreamErrorDomain = @"BibRecordInputStreamErro
 
 + (instancetype)allocWithZone:(NSZone *)zone {
     if (self == [BibRecordInputStream self]) {
-        static _BibRecordInputStreamPlaceholder *placeholder;
-        dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            placeholder = [_BibRecordInputStreamPlaceholder alloc];
-        });
-        return placeholder;
+        static struct _BibRecordInputStreamPlaceholder const placeholder = {
+            STATIC_CLASS_REF(_BibRecordInputStreamPlaceholder)
+        };
+        return (__bridge BibRecordInputStream *)&placeholder;
     }
     return [super allocWithZone:zone];
 }
@@ -119,6 +120,10 @@ static BOOL _isMARCPathExtension(NSString *extension) {
         || [extension caseInsensitiveCompare:@"marc"] == NSOrderedSame
         || [extension caseInsensitiveCompare:@"mrc8"] == NSOrderedSame
         || [extension caseInsensitiveCompare:@"marc8"] == NSOrderedSame;
+}
+
++ (void)load {
+    static_class_apply_overrides(self);
 }
 
 #pragma clang diagnostic push
