@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		AA0167BA25D0B4BB00860B58 /* RecordKind.strings in Resources */ = {isa = PBXBuildFile; fileRef = AA0167B925D0B4BB00860B58 /* RecordKind.strings */; };
 		AA091797247AFBEE0074CF6E /* MARC8Record1.marc8 in Resources */ = {isa = PBXBuildFile; fileRef = AA091796247AFBEE0074CF6E /* MARC8Record1.marc8 */; };
+		AA12F6012C9CACBC0084551E /* BibStaticClassRef.h in Headers */ = {isa = PBXBuildFile; fileRef = AA12F6002C9CACBC0084551E /* BibStaticClassRef.h */; };
 		AA19396D22E2C58000429C54 /* ClassificationRecord.marc8 in Resources */ = {isa = PBXBuildFile; fileRef = AA19396C22E2C58000429C54 /* ClassificationRecord.marc8 */; };
 		AA19396F22E6366B00429C54 /* Bibliotek+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = AA19396E22E635CF00429C54 /* Bibliotek+Internal.h */; };
 		AA19397522E7708900429C54 /* BibliographicRecord.marc8 in Resources */ = {isa = PBXBuildFile; fileRef = AA19397422E7708900429C54 /* BibliographicRecord.marc8 */; };
@@ -185,6 +186,7 @@
 /* Begin PBXFileReference section */
 		AA0167B925D0B4BB00860B58 /* RecordKind.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = RecordKind.strings; sourceTree = "<group>"; };
 		AA091796247AFBEE0074CF6E /* MARC8Record1.marc8 */ = {isa = PBXFileReference; lastKnownFileType = text; path = MARC8Record1.marc8; sourceTree = "<group>"; };
+		AA12F6002C9CACBC0084551E /* BibStaticClassRef.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibStaticClassRef.h; sourceTree = "<group>"; };
 		AA19396C22E2C58000429C54 /* ClassificationRecord.marc8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ClassificationRecord.marc8; sourceTree = "<group>"; };
 		AA19396E22E635CF00429C54 /* Bibliotek+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bibliotek+Internal.h"; sourceTree = "<group>"; };
 		AA19397422E7708900429C54 /* BibliographicRecord.marc8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BibliographicRecord.marc8; sourceTree = "<group>"; };
@@ -437,6 +439,7 @@
 				AAAA429C20BB0E3600BDB52B /* BibConstants.h */,
 				AAAA429D20BB0E3600BDB52B /* BibConstants.m */,
 				AACEDD6320C1A946004ACA07 /* BibConstants.swift */,
+				AA12F6002C9CACBC0084551E /* BibStaticClassRef.h */,
 				AAAFD99D247C3A6C00D2D1F0 /* Classification */,
 				AAAE231C212090FC00BB7E66 /* Connection */,
 				AA2F88D3212092000085A637 /* FetchRequest */,
@@ -644,6 +647,7 @@
 				AA59F0D720A9FACF00D41982 /* Bibliotek.h in Headers */,
 				AAAE2ECB27DD480100E4D6F1 /* BibSerializationError.h in Headers */,
 				AAB786582455FCEB0018A833 /* BibMARCSerialization.h in Headers */,
+				AA12F6012C9CACBC0084551E /* BibStaticClassRef.h in Headers */,
 				AA99BAF62301E4370055C078 /* BibHasher.h in Headers */,
 				AABDC20022DAB2FD00345A58 /* BibLeader.h in Headers */,
 				AA51EA8E211AAAEB00BF28BE /* BibConnectionOptions+Private.h in Headers */,
