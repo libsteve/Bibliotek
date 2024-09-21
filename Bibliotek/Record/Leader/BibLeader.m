@@ -39,6 +39,10 @@ static NSUInteger const kRecordBufferSizeMax = 99999;
              @"Leader must contain exactly %lu bytes of data.", BibLeaderRawDataLength);
     if (self = [super init]) {
         _rawData = [data copy];
+        if (self.recordKind == nil) {
+            [NSException raise:NSInvalidArgumentException
+                        format:@"*** MARC 21 Leader data contains an invalid record kind."];
+        }
     }
     return self;
 }

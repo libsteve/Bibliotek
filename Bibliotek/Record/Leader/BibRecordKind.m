@@ -297,6 +297,10 @@ static NSCache *sFlyweightCache;
 }
 
 - (instancetype)initWithRawValue:(uint8_t)rawValue {
+    if (rawValue < 0x20 || rawValue > 0x7F) {
+        [NSException raise:NSRangeException
+                    format:@"*** A record kind's raw value must be a graphic ASCII character."];
+    }
     NSNumber *const key = [[NSNumber alloc] initWithChar:rawValue];
     _BibRecordKind *const recordKind = [sFlyweightCache objectForKey:key];
     if (recordKind) {
