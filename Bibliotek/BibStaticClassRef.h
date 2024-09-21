@@ -24,9 +24,11 @@
 #define STATIC_CLASS_NAME(CLASS) __StaticClass_##CLASS
 #define STATIC_CLASS_REF(CLASS) ((__bridge Class)&STATIC_CLASS_NAME(CLASS))
 
+#define DECLARE_CLASS_ISA Class __ptrauth_objc_isa_pointer isa
+
 #define DECLARE_STATIC_CLASS_STRUCT(CLASS, ...) \
     struct CLASS {                              \
-        Class __ptrauth_objc_isa_pointer isa;   \
+        DECLARE_CLASS_ISA;                      \
         __VA_ARGS__                             \
     }
 
