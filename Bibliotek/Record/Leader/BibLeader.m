@@ -66,6 +66,9 @@ static void sWriteRepeatValueToBuffer(uint8_t *const buffer, NSRange const range
     sWriteRepeatValueToBuffer(buffer, NSMakeRange(0, BibLeaderRawDataLength), ' ');
     sWriteRepeatValueToBuffer(buffer, kRecordLengthRange, '0');
     sWriteRepeatValueToBuffer(buffer, kRecordLocationRange, '0');
+    buffer[kRecordKindRange.location] = [[BibRecordKind languageMaterial] rawValue];
+    buffer[kRecordStatusRange.location] = BibRecordStatusNew;
+    buffer[kRecordEncodingRange.location] = BibUTF8Encoding;
     buffer[kNumberOfIndicatorsRange.location]   = '2';
     buffer[kLengthOfSubfieldCodeRange.location] = '2';
     memcpy(buffer + kLengthOfLengthOfFieldRange.location * sizeof(uint8_t), "4500", 4); // entry map
