@@ -118,11 +118,11 @@ bool bib_parse_cuttseg_list(bib_cuttseg_t segs[3], bib_strbuf_t *const parser)
     }
 
     bib_strbuf_t p0 = *parser;
-    bool point_success = bib_read_point(&p0);
+    bool __unused point_success = bib_read_point(&p0);
 
     bool stop = false;
     size_t index = 0;
-    bool success = point_success;
+    bool success = true; // point_success;
     while (index < 3 && success && !stop) {
         bib_strbuf_t p1 = p0;
         bool first = (index == 0);

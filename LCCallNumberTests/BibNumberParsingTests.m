@@ -62,6 +62,12 @@
     XCTAssertEqualObjects(calln.stringValue, @"DR1879.5 1988.C786 15th.ed. Suppl. 3");
 }
 
+- (void)test_09 {
+    BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"BX9875.5A"];
+    XCTAssertNotNil(calln);
+    XCTAssertEqualObjects(calln.stringValue, @"BX9875.5.A");
+}
+
 #pragma mark -
 
 - (void)test_complex_number_01 {
