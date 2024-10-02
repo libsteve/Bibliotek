@@ -10,7 +10,7 @@ import Foundation
 
 /// More information about Library of Congress Classification can be found at
 /// https://www.librarianshipstudies.com/2017/11/library-of-congress-classification.html
-public struct LCCallNumber {
+public struct LCCallNumber: Sendable {
     private var storage: BibLCCallNumber
 
     /// Create a Library of Congress call number with the given string representation.
@@ -44,15 +44,15 @@ extension LCCallNumber: Hashable, Equatable, Comparable {
     }
 
     public static func == (lhs: LCCallNumber, rhs: LCCallNumber) -> Bool {
-        return lhs.storage.isEqual(to: rhs.storage)
+        return lhs.storage.isEqual(to: rhs)
     }
 
     public static func < (lhs: LCCallNumber, rhs: LCCallNumber) -> Bool {
-        return lhs.storage.compare(rhs.storage) == ComparisonResult.orderedAscending
+        return lhs.storage.compare(rhs) == ComparisonResult.orderedAscending
     }
 
     public static func > (lhs: LCCallNumber, rhs: LCCallNumber) -> Bool {
-        return lhs.storage.compare(rhs.storage) == ComparisonResult.orderedDescending
+        return lhs.storage.compare(rhs) == ComparisonResult.orderedDescending
     }
 
     /// Determine the ordering relationship between the subject matters represented by two call numbers.
@@ -81,7 +81,7 @@ extension LCCallNumber: Hashable, Equatable, Comparable {
     ///       is necessarily ordered linearly after the receiver.
     @available(*, deprecated, message: "Use the <<>> operator")
     public func compare(with callNumber: LCCallNumber) -> ClassificationComparisonResult {
-        return self.storage.compare(with: callNumber.storage)
+        return self.storage.compare(with: callNumber)
     }
 
     /// Determine the ordering relationship between the subject matters represented by two call numbers.
@@ -109,7 +109,7 @@ extension LCCallNumber: Hashable, Equatable, Comparable {
     ///       in that represented by the receiver. The given call number, being a specialization of the receiver,
     ///       is necessarily ordered linearly after the receiver.
     public static func <<>> (lhs: LCCallNumber, rhs: LCCallNumber) -> ClassificationComparisonResult {
-        return lhs.storage.compare(with: rhs.storage)
+        return lhs.storage.compare(with: rhs)
     }
 
     /// Does the subject matter represented by this call number include that of the given call number?
@@ -120,7 +120,7 @@ extension LCCallNumber: Hashable, Equatable, Comparable {
     /// - parameter callNumber: The call number whose subject matter may be a subset of the receiver's.
     /// - returns: `true` when the given call number belongs within the receiver's domain.
     public func includes(_ callNumber: LCCallNumber) -> Bool {
-        return self.storage.includes(callNumber.storage)
+        return self.storage.includes(callNumber)
     }
 }
 

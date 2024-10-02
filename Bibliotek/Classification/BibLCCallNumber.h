@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Bibliotek/BibAttributes.h>
 
 /// The ordering relationship between classification numbers.
 ///
@@ -98,6 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// More information about Library of Congress Classification can be found at
 /// https://www.librarianshipstudies.com/2017/11/library-of-congress-classification.html
+BIB_SWIFT_BRIDGE(LCCallNumber) NS_SWIFT_SENDABLE
 @interface BibLCCallNumber : NSObject <NSCopying>
 
 /// A string representation of the call number.
