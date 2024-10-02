@@ -61,9 +61,10 @@ typedef NS_CLOSED_ENUM(NSInteger, BibClassificationComparisonResult) {
     /// The classification `PM8001` (Artificial languages. Universal languages) is equal to itself.
     ///
     /// - note: Although both `PM8001` and `PM8008` identify the same classification caption hierarchy,
-    ///         they are not the same classification number, and would therefore be ordered as either
-    ///         ``BibClassificationOrderedAscending`` or ``BibClassificationOrderedDescending``,
-    ///         depending on their order.
+    ///     they are not the same classification number, and would therefore be ordered as either
+    ///     ``BibClassificationComparisonResult/BibClassificationOrderedAscending`` or
+    ///     ``BibClassificationComparisonResult/BibClassificationOrderedDescending``, depending on
+    ///     their order.
     BibClassificationOrderedSame         NS_SWIFT_NAME(same)         = NSOrderedSame,
 
     /// The leading value is ordered after the trailing value.
@@ -144,25 +145,78 @@ BIB_SWIFT_BRIDGE(LCCallNumber) NS_SWIFT_SENDABLE
 
 /// Determine the ordering relationship between the subject matters represented by two call numbers.
 ///
-/// The classification `HQ76` is ordered before `QA76`
-///
-/// The classification `QA76.76` is ordered before `QA76.9`
-///
-/// The classification `P35` is ordered before `P112`
-///
-/// The classification `P327` is ordered before `PC5615`
-///
-/// The classification `QA76` encompasses the more specific classifications `QA76.76` and `QA76.75` but
-/// does not include the classification `QA70` nor its parent classification `QA`
-///
 /// - parameter callNumber: The call number being compared with the receiver.
-/// - returns: ``BibClassificationOrderedSpecifying`` when the given call number's represented subject matter is
-///            included in that represented by the receiver.
-///            ``BibClassificationOrderedAscending`` when the given call number is ordered after the receiver.
-///            ``BibClassificationOrderedSame`` when the given call number is equivalent to the receiver.
-///            ``BibClassificationOrderedDescending`` when the given call number is ordered before the receiver.
-///            ``BibClassificationOrderedGeneralizing`` when the given call number's represented subject matter
-///            includes that represented by the receiver.
+///
+/// ## Return Value
+///
+/// - ``BibClassificationComparisonResult/BibClassificationOrderedGeneralizing`` when the given call number's
+///   represented subject matter includes that represented by the receiver. The given call number, being a
+///   generalization of the receiver, is necessarily ordered linearly before the receiver.
+/// - ``BibClassificationComparisonResult/BibClassificationOrderedDescending`` when the given call number is
+///   ordered before the receiver.
+/// - ``BibClassificationComparisonResult/BibClassificationOrderedSame`` when the given call number is equivalent
+///   to the receiver.
+/// - ``BibClassificationComparisonResult/BibClassificationOrderedAscending`` when the given call number is
+///   ordered after the receiver.
+/// - ``BibClassificationComparisonResult/BibClassificationOrderedSpecifying`` when the given call number's
+///   represented subject matter is included in that represented by the receiver. The given call number, being a
+///   specialization of the receiver, is necessarily ordered linearly after the receiver.
+///
+/// ## Example
+///
+/// The classification `HQ76` is ordered before `QA76`.
+///
+/// ```objc
+/// BibLCCallNumber *hq = [BibLCCallNumber callNumberWithString:@"HQ76"];
+/// BibLCCallNumber *qa = [BibLCCallNumber callNumberWithString:@"QA76"];
+/// [hq compareWithCallNumber:qa] == BibClassificationOrderedAscending;
+/// ```
+///
+/// The classification `QA76.76` is ordered before `QA76.9`.
+///
+/// ```objc
+/// BibLCCallNumber *a = [BibLCCallNumber callNumberWithString:@"QA76.76"];
+/// BibLCCallNumber *b = [BibLCCallNumber callNumberWithString:@"QA76.9"];
+/// [a compareWithCallNumber:b] == BibClassificationOrderedAscending;
+/// ```
+///
+/// The classification `P35` is ordered before `P112`.
+///
+/// ```objc
+/// BibLCCallNumber *a = [BibLCCallNumber callNumberWithString:@"P35"];
+/// BibLCCallNumber *b = [BibLCCallNumber callNumberWithString:@"P112"];
+/// [a compareWithCallNumber:b] == BibClassificationOrderedAscending;
+/// ```
+///
+/// The classification `P327` is ordered before `PC5615`.
+///
+/// ```objc
+/// BibLCCallNumber *a = [BibLCCallNumber callNumberWithString:@"P327"];
+/// BibLCCallNumber *b = [BibLCCallNumber callNumberWithString:@"PC5615"];
+/// [a compareWithCallNumber:b] == BibClassificationOrderedAscending;
+/// ```
+///
+/// The classification `QA76` encompasses the more specific classifications `QA76.76` and `QA76.75`.
+///
+/// ```objc
+/// BibLCCallNumber *a = [BibLCCallNumber callNumberWithString:@"QA76"];
+/// BibLCCallNumber *b = [BibLCCallNumber callNumberWithString:@"QA76.76"];
+/// [a compareWithCallNumber:b] == BibClassificationOrderedSpecifying;
+///
+/// BibLCCallNumber *c = [BibLCCallNumber callNumberWithString:@"QA76.75"];
+/// [a compareWithCallNumber:c] == BibClassificationOrderedSpecifying;
+/// ```
+///
+/// The classification `QA76` does not include the classification `QA70`, nor its parent classification `QA`.
+///
+/// ```objc
+/// BibLCCallNumber *a = [BibLCCallNumber callNumberWithString:@"QA76"];
+/// BibLCCallNumber *b = [BibLCCallNumber callNumberWithString:@"QA70"];
+/// [a compareWithCallNumber:b] == BibClassificationOrderedDescending;
+///
+/// BibLCCallNumber *c = [BibLCCallNumber callNumberWithString:@"QA"];
+/// [a compareWithCallNumber:c] == BibClassificationOrderedGeneralizing;
+/// ```
 - (BibClassificationComparisonResult)compareWithCallNumber:(BibLCCallNumber *)callNumber;
 
 /// Does the given call number represent the same subject matter as the receiver?
