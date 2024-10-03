@@ -33,19 +33,11 @@
 }
 
 - (NSString *)description {
-    return [self content];
-}
-
-+ (NSSet *)keyPathsForValuesAffectingDescription {
-    return [NSSet setWithObject:BibKey(content)];
-}
-
-- (NSString *)debugDescription {
     return [NSString stringWithFormat:@"\u2021%@%@", [self subfieldCode], [self content]];
 }
 
-+ (NSSet *)keyPathsForValuesAffectingDebugDescription {
-    return [NSSet setWithObjects:BibKey(code), BibKey(content), nil];
++ (NSSet *)keyPathsForValuesAffectingDescription {
+    return [NSSet setWithObjects:BibKey(subfieldCode), BibKey(content)];
 }
 
 @end

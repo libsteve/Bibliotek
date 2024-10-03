@@ -383,7 +383,7 @@ extension RecordField: _ObjectiveCBridgeable {
             return BibRecordField(fieldTag: self.tag,
                                   firstIndicator: indicators.first,
                                   secondIndicator: indicators.second,
-                                  subfields: subfields as [BibSubfield])
+                                  subfields: subfields)
         }
     }
 

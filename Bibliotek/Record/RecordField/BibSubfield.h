@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Bibliotek/BibAttributes.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -22,6 +23,7 @@ typedef NSString *BibSubfieldCode NS_EXTENSIBLE_STRING_ENUM NS_SWIFT_NAME(Subfie
 ///
 /// Content fields hold data within labeled subfields. Each subfield's identifier marks the semantic meaning of its
 /// content, which is determined by the record field's tag as defined in the appropriate MARC 21 format specification.
+BIB_SWIFT_BRIDGE(Subfield)
 @interface BibSubfield : NSObject
 
 /// A record subfield's identifier identifies the semantic purpose of the content within a subfield.
