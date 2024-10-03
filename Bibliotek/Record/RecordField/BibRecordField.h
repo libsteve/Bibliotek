@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <Bibliotek/BibSubfield.h>
+#import <Bibliotek/BibAttributes.h>
 
 @class BibFieldIndicator;
 @class BibFieldTag;
@@ -37,6 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// [isbd]: https://en.wikipedia.org/wiki/International_Standard_Bibliographic_Description
 /// [spec]: https://www.ifla.org/files/assets/cataloguing/isbd/isbd-cons_20110321.pdf
 /// [marc]: https://www.loc.gov/marc/specifications/specrecstruc.html
+BIB_SWIFT_BRIDGE(RecordField)
 @interface BibRecordField : NSObject <NSCopying, NSMutableCopying>
 
 /// A value indicating the semantic purpose of the record field.

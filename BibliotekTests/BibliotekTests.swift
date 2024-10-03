@@ -98,8 +98,8 @@ class BibliotekTests: XCTestCase {
             let isbn13Field = record.fields.first(where: { $0.tag == "020" })
             XCTAssertNotNil(isbn13Field)
             XCTAssertTrue(isbn13Field?.isDataField == true)
-            XCTAssertEqual(isbn13Field?.subfields?.count, 1)
-            let isbn13 = isbn13Field?.subfields?.first(where: { $0.code == "a" }).map { $0.content }
+            XCTAssertEqual(isbn13Field?.subfields.count, 1)
+            let isbn13 = isbn13Field?.subfields.first(where: { $0.code == "a" }).map { $0.content }
             XCTAssertNotNil(isbn13)
             XCTAssertEqual(isbn13, r.keywords.first!)
         } catch {

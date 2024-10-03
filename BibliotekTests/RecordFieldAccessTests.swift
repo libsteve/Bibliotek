@@ -42,8 +42,8 @@ class RecordFieldAccessTests: XCTestCase {
 
         let fields = indexPaths.compactMap(self.record.field(at:)).filter { $0.isDataField }
         XCTAssertEqual(fields.count, indexPaths.count, "Expected a data field for all index paths")
-        XCTAssertEqual(fields.first!.subfields!.map(\.content).joined(), "9780385527880")
-        XCTAssertEqual(fields.last!.subfields!.map(\.content).joined(), "0385527888")
+        XCTAssertEqual(fields.first!.subfields.map(\.content).joined(), "9780385527880")
+        XCTAssertEqual(fields.last!.subfields.map(\.content).joined(), "0385527888")
 
         let fieldContents = indexPaths.map(self.record.content(at:))
         XCTAssertEqual(fieldContents.count, indexPaths.count, "Expected content for all index paths")

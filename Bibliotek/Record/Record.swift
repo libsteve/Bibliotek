@@ -63,8 +63,8 @@ public struct Record {
 
     /// An ordered list of fields containing information and metadata about the record and its represented item.
     public var fields: [RecordField] {
-        get { return self.storage.fields as [RecordField] }
-        set { self.mutate(keyPath: \.fields, with: newValue as [BibRecordField]) }
+        get { return self.storage.fields }
+        set { self.mutate(keyPath: \.fields, with: newValue) }
     }
 
     private init(storage: BibRecord) {
@@ -75,9 +75,8 @@ public struct Record {
     ///
     /// - parameter leader: A set of metadata describing the record, its encoding, and its state in the database.
     /// - parameter fields: An ordered list of fields describing the item represented by the record.
-    /// - returns: Returns a valid MARC 21 record for some item or entity described by the given fields.
     public init(leader: Leader, fields: [RecordField]) {
-        self._storage = BibRecord(leader: leader, fields: fields as [BibRecordField])
+        self._storage = BibRecord(leader: leader, fields: fields)
     }
 
     /// Create a MARC 21 record with the given data.
@@ -86,10 +85,9 @@ public struct Record {
     /// - parameter status: The record's status in its originating database.
     /// - parameter metadata: A set of implementation-defined bytes.
     /// - parameter fields: An ordered list of fields describing the item represented by the record.
-    /// - returns: Returns a valid MARC 21 record for some item or entity described by the given fields.
     @available(*, deprecated, message: "use init(leader:fields:)")
     public init(kind: RecordKind?, status: RecordStatus, metadata: Metadata, fields: [RecordField]) {
-        self._storage = BibRecord(kind: kind, status: status, metadata: metadata , fields: fields as [BibRecordField])
+        self._storage = BibRecord(kind: kind, status: status, metadata: metadata , fields: fields)
     }
 
     private mutating func mutate<T>(keyPath: WritableKeyPath<BibMutableRecord, T>, with newValue: T) {
