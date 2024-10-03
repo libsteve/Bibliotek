@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// documentation on [MARC 21 Record Structure](https://www.loc.gov/marc/specifications/spechome.html).
 ///
 /// - note: MARC 21 tags are always 3 digit codes.
-BIB_SWIFT_BRIDGE(FieldTag)
+BIB_SWIFT_BRIDGE(FieldTag) NS_SWIFT_SENDABLE
 @interface BibFieldTag : NSObject <NSCopying, NSSecureCoding>
 
 /// A string containing the 3-character value of the tag.
@@ -41,7 +41,7 @@ BIB_SWIFT_BRIDGE(FieldTag)
 ///
 /// - parameter stringValue: A string containing the 3-character tag value.
 /// - returns: Returns a valid field tag only if the given string is exactly 3 characters long.
-- (nullable instancetype)initWithString:(NSString *)stringValue NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithString:(NSString *)stringValue;
 
 /// Create a tag with the given string value.
 ///

@@ -14,11 +14,17 @@
 @implementation BibFieldTag
 
 @synthesize stringValue = _stringValue;
-@synthesize isControlTag = _isControlTag;
-@synthesize isDataTag = _isDataTag;
+
+- (BOOL)isControlTag {
+    return [[self stringValue] hasPrefix:@"00"];
+}
+
+- (BOOL)isDataTag {
+    return ![self isControlTag];
+}
 
 + (instancetype)allocWithZone:(struct _NSZone *)zone {
-    return [self isEqual:[BibFieldTag class]]
+    return self == [BibFieldTag class]
          ? [_BibFieldTag allocWithZone:zone]
          : [super allocWithZone:zone];
 }
@@ -27,10 +33,14 @@
     if ([stringValue length] != 3) {
         return nil;
     }
+    for (NSUInteger index = 0; index < 3; index += 1) {
+        unichar character = [stringValue characterAtIndex:index];
+        if (character < 0x30 || character > 0x39) {
+            return nil;
+        }
+    }
     if (self = [super init]) {
         _stringValue = [stringValue copy];
-        _isControlTag = [stringValue hasPrefix:@"00"];
-        _isDataTag = !_isControlTag && ![stringValue isEqualToString:@"000"];
     }
     return self;
 }
@@ -41,10 +51,6 @@
 
 - (instancetype)initWithData:(NSData *)data {
     return [self initWithString:[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding]];
-}
-
-- (instancetype)init {
-    return [self initWithString:@"000"];
 }
 
 + (BOOL)supportsSecureCoding { return YES; }
@@ -94,6 +100,14 @@
 #pragma mark -
 
 @implementation _BibFieldTag
+
+- (instancetype)init {
+    return [self initWithString:@"000"];
+}
+
+- (Class)classForCoder {
+    return [BibFieldTag self];
+}
 
 static NSCache *sFlyweightCache;
 
