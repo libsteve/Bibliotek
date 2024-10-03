@@ -25,13 +25,6 @@ BIB_SWIFT_BRIDGE(FieldTag)
 
 /// Does the tag identify a control field?
 ///
-/// MARC 21 control field tags always begin with two zeros.
-/// For example, a record's control number field has the tag `001`.
-@property (nonatomic, assign, readonly, getter=isControlFieldTag) BOOL controlFieldTag
-    DEPRECATED_MSG_ATTRIBUTE("Use -isControlTag");
-
-/// Does the tag identify a control field?
-///
 /// MARC 21 control-field tags always begin with two zeros.
 /// For example, a record's control number control-field has the tag `001`.
 ///
