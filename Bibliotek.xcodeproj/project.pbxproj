@@ -769,6 +769,7 @@
 		AA59F0C920A9FACF00D41982 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = Bib;
 				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 1420;
 				ORGANIZATIONNAME = "Steve Brunwasser";
