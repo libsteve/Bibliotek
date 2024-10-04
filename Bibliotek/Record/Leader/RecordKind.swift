@@ -46,37 +46,37 @@ public enum RecordKind: UInt8, RawRepresentable, Hashable, Sendable {
     case computerFile = 0x6D // 'm'
 
     /// Kit
-    case kit = 0x70 // 'o'
+    case kit = 0x6F // 'o'
 
     /// Mixed Materials
-    case mixedMaterials = 0x71 // 'p'
+    case mixedMaterials = 0x70 // 'p'
 
     /// Community Information
-    case communityInformation = 0x72 // 'q'
+    case communityInformation = 0x71 // 'q'
 
     /// Three-Dimensional Artifact
-    case threeDimensionalArtifact = 0x73 // 'r'
+    case threeDimensionalArtifact = 0x72 // 'r'
 
     /// Manuscript LanguageMaterial
-    case manuscriptLanguageMaterial = 0x75 // 't'
+    case manuscriptLanguageMaterial = 0x74 // 't'
 
     /* Unknown Holdings */
-    case unknownHoldings = 0x76 // 'u'
+    case unknownHoldings = 0x75 // 'u'
 
     /* Multipart Item Holdings */
-    case multipartItemHoldings = 0x77 // 'v'
+    case multipartItemHoldings = 0x76 // 'v'
 
     /* Classification */
-    case classification = 0x78 // 'w'
+    case classification = 0x77 // 'w'
 
     /* Single Part Item Holdings */
-    case singlePartItemHoldings = 0x79 // 'x'
+    case singlePartItemHoldings = 0x78 // 'x'
 
     /* Serial Item Holdings */
-    case serialItemHoldings = 0x7A // 'y'
+    case serialItemHoldings = 0x79 // 'y'
 
     /* Authority Data */
-    case authorityData = 0x7B // 'z'
+    case authorityData = 0x7A // 'z'
 }
 
 // MARK: - MARC 21 Categories
