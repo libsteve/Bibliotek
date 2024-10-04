@@ -48,6 +48,16 @@
 @synthesize secondIndicator = _secondIndicator;
 @synthesize subfields = _subfields;
 
+- (NSString *)stringValue {
+    if ([self isControlField]) {
+        return [self controlValue];
+    } else if ([self isDataField]) {
+        return [[[self subfields] valueForKey:BibKey(description)] componentsJoinedByString:@""];
+    } else {
+        return @"";
+    }
+}
+
 - (instancetype)init {
     return [self initWithFieldTag:[BibFieldTag new]];
 }
@@ -198,9 +208,40 @@
     return NSNotFound;
 }
 
+- (NSUInteger)indexOfSubfieldWithCode:(BibSubfieldCode)subfieldCode afterIndex:(NSUInteger)startIndex {
+    NSArray *const subfields = self.subfields;
+    NSUInteger const count = subfields.count;
+    for (NSUInteger index = (startIndex + 1); index < count; index += 1) {
+        if ([[[subfields objectAtIndex:index] subfieldCode] isEqualToString:subfieldCode]) {
+            return index;
+        }
+    }
+    return NSNotFound;
+}
+
+- (NSIndexSet *)indexesOfSubfieldsWithCode:(BibSubfieldCode)subfieldCode {
+    return [[self subfields] indexesOfObjectsPassingTest:^BOOL(BibSubfield *subfield, NSUInteger idx, BOOL *stop) {
+        return [[subfield subfieldCode] isEqualToString:subfieldCode];
+    }];
+}
+
 - (BibSubfield *)subfieldWithCode:(BibSubfieldCode)subfieldCode {
     NSUInteger const index = [self indexOfSubfieldWithCode:subfieldCode];
     return (index == NSNotFound) ? nil : [self subfieldAtIndex:index];
+}
+
+- (nullable BibSubfield *)subfieldWithCode:(BibSubfieldCode)subfieldCode afterIndex:(NSUInteger)index {
+    NSUInteger const nextIndex = [self indexOfSubfieldWithCode:subfieldCode afterIndex:index];
+    return (nextIndex == NSNotFound) ? nil : [self subfieldAtIndex:nextIndex];
+}
+
+- (NSArray<BibSubfield *> *)subfieldsWithCode:(BibSubfieldCode)subfieldCode {
+    NSIndexSet *indexSet = [self indexesOfSubfieldsWithCode:subfieldCode];
+    NSMutableArray *subfields = [NSMutableArray arrayWithCapacity:[indexSet count]];
+    [indexSet enumerateIndexesUsingBlock:^(NSUInteger index, BOOL *stop) {
+        [subfields addObject:[self.subfields objectAtIndex:index]];
+    }];
+    return [subfields copy];
 }
 
 - (BOOL)containsSubfieldWithCode:(BibSubfieldCode)subfieldCode {
@@ -347,14 +388,6 @@
 + (BOOL)automaticallyNotifiesObserversOfFirstIndicator { return NO; }
 + (BOOL)automaticallyNotifiesObserversOfSecondIndicator { return NO; }
 + (BOOL)automaticallyNotifiesObserversOfSubfields { return NO; }
-
-- (void)setFieldTag:(BibFieldTag *)fieldTag {
-    if (_fieldTag != fieldTag) {
-        [self willChangeValueForKey:BibKey(fieldTag)];
-        _fieldTag = [fieldTag copy];
-        [self didChangeValueForKey:BibKey(fieldTag)];
-    }
-}
 
 - (void)setControlValue:(NSString *)controlValue {
     if (_controlValue != controlValue) {

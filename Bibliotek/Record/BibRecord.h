@@ -136,10 +136,20 @@ NS_ASSUME_NONNULL_BEGIN
 /// - returns: The index of the first record with the given tag. If no such field exists, `NSNotFound` is returned.
 - (NSUInteger)indexOfFieldWithTag:(BibFieldTag *)fieldTag NS_SWIFT_NAME(indexOfField(with:));
 
+- (NSUInteger)indexOfFieldWithTag:(BibFieldTag *)fieldTag afterIndex:(NSUInteger)index NS_SWIFT_NAME(indexOfField(with:after:));
+
+- (NSIndexSet *)indexesOfFieldsWithTag:(BibFieldTag *)fieldTag NS_SWIFT_NAME(indexesOfFields(with:));
+
+- (nullable BibRecordField *)fieldAtIndex:(NSUInteger)index NS_SWIFT_NAME(field(at:));
+
 /// Get the first record field with the given tag.
 /// - parameter fieldTag: The field tag marking the data field or control field to access.
 /// - returns: The first record with the given tag. If no such field exists, `nil` is returned.
 - (nullable BibRecordField *)fieldWithTag:(BibFieldTag *)fieldTag NS_SWIFT_NAME(field(with:));
+
+- (nullable BibRecordField *)fieldWithTag:(BibFieldTag *)fieldTag afterIndex:(NSUInteger)index NS_SWIFT_NAME(field(with:after:));
+
+- (NSArray<BibRecordField *> *)fieldsWithTag:(BibFieldTag *)fieldTag NS_SWIFT_NAME(fields(with:));
 
 /// Get the record field referenced by the given index path.
 /// - parameter indexPath: The index path value pointing to the field or one of its subfields.

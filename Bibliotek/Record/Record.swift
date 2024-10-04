@@ -125,34 +125,112 @@ extension Record: CustomStringConvertible, CustomDebugStringConvertible, CustomP
                                                     "fields": self.fields] }
 }
 
+extension Record: Collection, MutableCollection, RandomAccessCollection {
+    public typealias Element = RecordField
+    
+    public var count: Int { self.storage.countOfFields }
+    public var startIndex: Int { 0 }
+    public var endIndex: Int { self.storage.countOfFields }
+
+    public subscript(index: Int) -> RecordField {
+        _read { yield self.fields[index] }
+        _modify { yield &self.fields[index] }
+        set { self.fields[index] = newValue }
+    }
+
+    public mutating func replaceSubrange<C: Collection>(
+        _ subrange: Indices, with newElements: C
+    ) where C.Element == RecordField {
+        self.fields.replaceSubrange(subrange, with: newElements)
+    }
+}
+
+extension IteratorProtocol where Element == RecordField {
+    public mutating func next(with tag: FieldTag) -> RecordField? {
+        while let next = self.next() {
+            if next.tag == tag {
+                return next
+            }
+        }
+        return nil
+    }
+}
+
 extension Record {
     /// Test to see if the record contains a field with the given tag.
-    /// - parameter tag: If this record has a field with this value, `YES` is returned.
+    ///
+    /// - parameter tag: If this record has a field with this value, `true` is returned.
     /// - returns: `true` if at least one record field is marked with the given tag.
     public func containsField(with tag: FieldTag) -> Bool {
-        return self.indexOfField(with: tag) != nil
+        return self.firstIndex(ofField: tag) != nil
     }
 
     /// Get the index of the first record field with the given tag.
+    ///
     /// - parameter tag: The field tag marking the data field or control field to access.
-    /// - returns: The index of the first record with the given tag. If no such field exists, `nil` is returned.
-    public func indexOfField(with tag: FieldTag) -> Int? {
-        let fields = self.fields
-        return fields.indices.first(where: { fields[$0].tag == tag })
+    /// - returns: The index of the first record field with the given tag. If no such field exists, `nil` is returned.
+    public func firstIndex(ofField tag: FieldTag) -> Int? {
+        self.fields.firstIndex(where: { $0.tag == tag })
     }
 
-    /// Get the first record field with the given tag.
-    /// - parameter fieldTag: The field tag marking the data field or control field to access.
-    /// - returns: The first record with the given tag. If no such field exists, `nil` is returned.
-    public func field(with tag: FieldTag) -> RecordField? {
-        return self.indexOfField(with: tag).map(self.field(at:))
+    public func lastIndex(ofField tag: FieldTag) -> Int? {
+        self.fields.lastIndex(where: { $0.tag == tag })
+    }
+
+    /// Get the index of the first record field with the given tag after the given index.
+    ///
+    /// - parameter tag: The field tag marking the data field or control field to access.
+    /// - parameter index: The index before the first location to search for a field with the given tag.
+    /// - returns: The index of the first record field with the given tag. If no such field exists, `nil` is returned.
+    public func firstIndex(ofField tag: FieldTag, after index: Int) -> Int? {
+        self.fields[self.fields.index(after: index)..<self.fields.endIndex]
+            .firstIndex(where: { $0.tag == tag })
     }
 
     /// Get the field at the given index.
+    /// 
     /// - parameter index: The index of the record field to access.
     /// - returns: The data field or control field located at the given index.
     public func field(at index: Int) -> RecordField {
-        return self.fields[index]
+        self.fields[index]
+    }
+
+    @available(macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
+    public func indices(ofField tag: FieldTag) -> RangeSet<Int> {
+        self.fields.indices(where: { $0.tag == tag })
+    }
+
+    @available(macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
+    public func fields(at indices: RangeSet<Index>) -> DiscontiguousSlice<[RecordField]> {
+        self.fields[indices]
+    }
+}
+
+extension Record {
+    /// Get the first record field with the given tag.
+    ///
+    /// - parameter fieldTag: The field tag marking the data field or control field to access.
+    /// - returns: The first record field with the given tag. If no such field exists, `nil` is returned.
+    public func firstField(with tag: FieldTag) -> RecordField? {
+        self.firstIndex(ofField: tag).map(self.field(at:))
+    }
+
+    /// Get the first record field with the given tag.
+    ///
+    /// - parameter fieldTag: The field tag marking the data field or control field to access.
+    /// - returns: The last record field with the given tag. If no such field exists, `nil` is returned.
+    public func lastField(with tag: FieldTag) -> RecordField? {
+        self.lastIndex(ofField: tag).map(self.field(at:))
+    }
+
+    public func firstField(with tag: FieldTag, after index: Int) -> RecordField? {
+        self.fields[self.fields.index(after: index)..<self.fields.endIndex]
+            .first(where: { $0.tag == tag })
+    }
+
+    public func lastField(with tag: FieldTag, before index: Int) -> RecordField? {
+        self.fields[self.fields.startIndex..<self.fields.index(before: index)]
+            .last(where: { $0.tag == tag })
     }
 }
 

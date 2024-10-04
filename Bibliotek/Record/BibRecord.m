@@ -137,7 +137,7 @@
 }
 
 - (NSUInteger)indexOfFieldWithTag:(BibFieldTag *)fieldTag {
-    NSArray *const recordFields = self.fields;
+    NSArray<BibRecordField *> *const recordFields = self.fields;
     NSUInteger const count = recordFields.count;
     for (NSUInteger index = 0; index < count; index += 1) {
         if ([[[recordFields objectAtIndex:index] fieldTag] isEqualToTag:fieldTag]) {
@@ -147,9 +147,60 @@
     return NSNotFound;
 }
 
+- (NSUInteger)indexOfFieldWithTag:(BibFieldTag *)fieldTag afterIndex:(NSUInteger)index {
+    if (index == NSNotFound) {
+        return NSNotFound;
+    }
+    NSArray<BibRecordField *> *const recordFields = self.fields;
+    NSUInteger const count = recordFields.count;
+    for (NSUInteger i = index + 1; i < count; index += 1) {
+        if ([[[recordFields objectAtIndex:index] fieldTag] isEqualToTag:fieldTag]) {
+            return index;
+        }
+    }
+    return NSNotFound;
+}
+
+- (NSIndexSet *)indexesOfFieldsWithTag:(BibFieldTag *)fieldTag {
+    NSMutableIndexSet *indexSet = [NSMutableIndexSet new];
+    NSArray<BibRecordField *> *const recordFields = self.fields;
+    NSUInteger const count = recordFields.count;
+    for (NSUInteger index = 0; index < count; index += 1) {
+        if ([[[recordFields objectAtIndex:index] fieldTag] isEqualToTag:fieldTag]) {
+            [indexSet addIndex:index];
+        }
+    }
+    return [indexSet copy];
+}
+
+- (BibRecordField *)fieldAtIndex:(NSUInteger)index {
+    return [[self fields] objectAtIndex:index];
+}
+
 - (BibRecordField *)fieldWithTag:(BibFieldTag *)fieldTag {
     NSUInteger const index = [self indexOfFieldWithTag:fieldTag];
     return (index == NSNotFound) ? nil : [self fieldAtIndex:index];
+}
+
+- (nullable BibRecordField *)fieldWithTag:(BibFieldTag *)fieldTag afterIndex:(NSUInteger)index {
+    NSUInteger i = [self indexOfFieldWithTag:fieldTag afterIndex:index];
+    if (i != NSNotFound) {
+        return [[self fields] objectAtIndex:i];
+    }
+    return nil;
+}
+
+- (NSArray<BibRecordField *> *)fieldsWithTag:(BibFieldTag *)fieldTag {
+    NSArray<BibRecordField *> *const fields = [self fields];
+    NSMutableArray *const array = [NSMutableArray new];
+    NSUInteger const count = [fields count];
+    for (NSUInteger index = 0; index < count; index += 1) {
+        BibRecordField *field = [fields objectAtIndex:index];
+        if ([[field fieldTag] isEqualToTag:fieldTag]) {
+            [array addObject:field];
+        }
+    }
+    return [array copy];
 }
 
 - (BibRecordField *)fieldAtIndexPath:(NSIndexPath *)indexPath {

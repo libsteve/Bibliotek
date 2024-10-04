@@ -52,6 +52,8 @@ BIB_SWIFT_BRIDGE(RecordField)
 /// Setting it to `nil` will change its value to the empty string.
 @property (nonatomic, readonly, copy, nullable) NSString *controlValue;
 
+@property (nonatomic, readonly) NSString *stringValue;
+
 /// The first metadata value in a data field, which can identify some semantic meaning to the field as a whole.
 ///
 /// - note: This value is `nil` for control fields.
@@ -66,20 +68,21 @@ BIB_SWIFT_BRIDGE(RecordField)
 ///         Setting it to `nil` will change its value to the blank indicator.
 @property (nonatomic, readonly, copy, nullable) BibFieldIndicator *secondIndicator;
 
-/// An ordered list of subfields containing portions of data semantically identified by their `subfieldCode`.
+/// An ordered list of subfields containing portions of data semantically identified by their ``BibSubfield/subfieldCode``.
 /// The interpretation of data within a content field is often determined by the formatting of its subfields' contents.
 /// For example, a bibliographic record's title statement, identified with the tag `245`,formats its content using
 /// ISBD principles and uses subfield codes to semantically tag each piece of the full statement.
 ///
-/// You can read more about ISBD on its Wikipedia page:
-/// https://en.wikipedia.org/wiki/International_Standard_Bibliographic_Description
+/// You can read more about ISBD on its Wikipedia page: [International Standard Bibliographic Description][isbd].
 ///
-/// The ISBD punctuation standard can be found in section A3 in this consolidated technical specification:
-/// https://www.ifla.org/files/assets/cataloguing/isbd/isbd-cons_20110321.pdf
+/// The ISBD punctuation standard can be found in section A3 in [the consolidated technical specification][spec].
 ///
 /// - note: This value is `nil` for control fields.
 /// - note: This value is never `nil` for data fields.
 ///         Setting it to `nil` will change its value to an empty array.
+///
+/// [isbd]: https://en.wikipedia.org/wiki/International_Standard_Bibliographic_Description
+/// [spec]: https://www.ifla.org/files/assets/cataloguing/isbd/isbd-cons_20110321.pdf
 @property (nonatomic, readonly, copy, nullable) NSArray<BibSubfield *> *subfields;
 
 /// This object is a control field containing a control value.
@@ -137,12 +140,20 @@ BIB_SWIFT_BRIDGE(RecordField)
 /// - note: This method always returns `nil` for control fields.
 - (nullable BibSubfield *)subfieldWithCode:(BibSubfieldCode)subfieldCode;
 
+- (nullable BibSubfield *)subfieldWithCode:(BibSubfieldCode)subfieldCode afterIndex:(NSUInteger)index;
+
+- (NSArray<BibSubfield *> *)subfieldsWithCode:(BibSubfieldCode)subfieldCode;
+
 /// Get the index of the first subfield marked with the given code.
 /// - parameter subfieldCode: The subfield code that the resulting subfield should have.
 /// - returns: The index of the first subfield in this data field with the given subfield code.
 ///            `NSNotFound` is returned if there is no such matching subfield.
 /// - note: This method always returns `NSNotFound` for control fields.
 - (NSUInteger)indexOfSubfieldWithCode:(BibSubfieldCode)subfieldCode;
+
+- (NSUInteger)indexOfSubfieldWithCode:(BibSubfieldCode)subfieldCode afterIndex:(NSUInteger)index;
+
+- (NSIndexSet *)indexesOfSubfieldsWithCode:(BibSubfieldCode)subfieldCode;
 
 /// Check to see if this data field has a subfield marked with the given code.
 /// - parameter subfieldCode: The subfield code used to check the presence of any relevant subfields.
@@ -169,9 +180,6 @@ BIB_SWIFT_BRIDGE(RecordField)
 #pragma mark - Mutable
 
 @interface BibMutableRecordField : BibRecordField
-
-/// A value indicating the semantic purpose of the record field.
-@property (nonatomic, readwrite, strong) BibFieldTag *fieldTag;
 
 /// The information contained within the control field.
 ///
