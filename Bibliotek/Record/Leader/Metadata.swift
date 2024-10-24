@@ -172,16 +172,6 @@ extension ReservedPosition: ExpressibleByIntegerLiteral, CaseIterable {
     }
 }
 
-extension Encoding: CustomStringConvertible, CustomDebugStringConvertible, CustomPlaygroundDisplayConvertible {
-    public var description: String { __BibEncodingDescription(self) }
-
-    public var debugDescription: String {
-        "Encoding(rawValue: \"\(Unicode.Scalar(UInt8(self.rawValue)))\"): \(self.description)"
-    }
-
-    public var playgroundDescription: Any { self.description }
-}
-
 extension BibliographicLevel: CustomStringConvertible, CustomDebugStringConvertible, CustomPlaygroundDisplayConvertible {
     public var description: String { __BibBibliographicLevelDescription(self) }
 

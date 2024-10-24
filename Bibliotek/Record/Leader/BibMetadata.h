@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <Bibliotek/BibAttributes.h>
 #import <Bibliotek/BibRecordStatus.h>
+#import <Bibliotek/BibEncoding.h>
 
 @class BibRecordKind;
 
@@ -75,27 +76,6 @@ DEPRECATED_MSG_ATTRIBUTE("Replaced with BibMutableLeader")
     NS_SWIFT_NAME(setValue(_:forReservedPosition:));
 
 @end
-
-#pragma mark - Encoding
-
-/// The character encoding used to represent textual data in a MARC record.
-typedef NS_ENUM(char, BibEncoding) {
-    /// MARC8 Encoding
-    ///
-    /// String data is encoded using the ASCII standard.
-    BibMARC8Encoding NS_SWIFT_NAME(marc8) = ' ',
-
-    /// UTF-8 Encoding
-    ///
-    /// String data is encoded using the UTF-8 standard.
-    BibUTF8Encoding  NS_SWIFT_NAME(utf8)  = 'a'
-} NS_SWIFT_NAME(Encoding);
-
-/// A human-readable description of the encoding.
-///
-/// - parameter encoding: The string encoding used to represent textual data.
-/// - returns: A human-readable description of `encoding`.
-extern NSString *BibEncodingDescription(BibEncoding encoding) NS_REFINED_FOR_SWIFT;\
 
 #pragma mark - Bibliographic Level
 

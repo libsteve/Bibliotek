@@ -138,16 +138,6 @@ static BibReservedPosition const kAllReservedPositions[] = {
 
 @end
 
-#pragma mark - Encoding
-
-NSString *BibEncodingDescription(BibEncoding const encoding) {
-    switch (encoding) {
-        case BibMARC8Encoding: return @"MARC8";
-        case BibUTF8Encoding:  return @"UTF8";
-        default: return [NSString stringWithFormat:@"%c", encoding];
-    }
-}
-
 #pragma mark - Bibliographic Level
 
 NSString *BibBibliographicLevelDescription(BibBibliographicLevel const level) {
