@@ -10,6 +10,7 @@
 #import <Bibliotek/BibAttributes.h>
 #import <Bibliotek/BibRecordStatus.h>
 #import <Bibliotek/BibEncoding.h>
+#import <Bibliotek/BibBibliographicControlType.h>
 
 @class BibRecordKind;
 
@@ -122,28 +123,6 @@ typedef NS_ENUM(char, BibBibliographicLevel) {
 /// - parameter level: The bibliographic level of the record.
 /// - returns: A human-readable description of `level`.
 extern NSString *BibBibliographicLevelDescription(BibBibliographicLevel level) NS_REFINED_FOR_SWIFT;
-
-#pragma mark - Bibliographic Control Type
-
-/// The ruleset used to determine the information about the item that's included in the record.
-typedef NS_ENUM(char, BibBibliographicControlType) {
-    /// No control type specified.
-    ///
-    /// The record described the item using traditional bibliographic rules.
-    BibBibliographicControlTypeNone = ' ',
-
-    /// Archival control type.
-    ///
-    /// The record describes an item using archival rather than bibliographic rules, which can be found
-    /// in field `040` subfield `$e`
-    BibBibliographicControlTypeArchival = 'a'
-} NS_SWIFT_NAME(BibliographicControlType);
-
-/// A human-readable description of a bibliographic record's control type.
-///
-/// - parameter type: The control type of a bibliographic record.
-/// - returns: A human-readable description of `type`.
-extern NSString *BibBibliographicControlTypeDescription(BibBibliographicControlType type) NS_REFINED_FOR_SWIFT;
 
 #pragma mark -
 

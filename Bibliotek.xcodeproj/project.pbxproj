@@ -105,6 +105,10 @@
 		AAA4A2932CCAF57300A718F6 /* BibEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA4A2912CCAF57300A718F6 /* BibEncoding.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAA4A2942CCAF57300A718F6 /* BibEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA4A2922CCAF57300A718F6 /* BibEncoding.m */; };
 		AAA4A2962CCAF5E900A718F6 /* Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA4A2952CCAF5E900A718F6 /* Encoding.swift */; };
+		AAA4A2A72CCAF7BD00A718F6 /* BibliographicControlType.strings in Resources */ = {isa = PBXBuildFile; fileRef = AAA4A2A42CCAF7BD00A718F6 /* BibliographicControlType.strings */; };
+		AAA4A2A82CCAF7BD00A718F6 /* BibBibliographicControlType.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA4A2A12CCAF7BD00A718F6 /* BibBibliographicControlType.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAA4A2A92CCAF7BD00A718F6 /* BibliographicControlType.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA4A2A52CCAF7BD00A718F6 /* BibliographicControlType.swift */; };
+		AAA4A2AA2CCAF7BD00A718F6 /* BibBibliographicControlType.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA4A2A22CCAF7BD00A718F6 /* BibBibliographicControlType.m */; };
 		AAA4DFFF22EBE2780003AF7B /* BibMARCInputStreamTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA4DFFE22EBE2780003AF7B /* BibMARCInputStreamTests.m */; };
 		AAA4E00122EBF5D20003AF7B /* FieldTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA4E00022EBF5D20003AF7B /* FieldTag.swift */; };
 		AAA4E00522EBFF670003AF7B /* Subfield.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA4E00422EBFF670003AF7B /* Subfield.swift */; };
@@ -298,6 +302,10 @@
 		AAA4A2912CCAF57300A718F6 /* BibEncoding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibEncoding.h; sourceTree = "<group>"; };
 		AAA4A2922CCAF57300A718F6 /* BibEncoding.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibEncoding.m; sourceTree = "<group>"; };
 		AAA4A2952CCAF5E900A718F6 /* Encoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encoding.swift; sourceTree = "<group>"; };
+		AAA4A2A12CCAF7BD00A718F6 /* BibBibliographicControlType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibBibliographicControlType.h; sourceTree = "<group>"; };
+		AAA4A2A22CCAF7BD00A718F6 /* BibBibliographicControlType.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibBibliographicControlType.m; sourceTree = "<group>"; };
+		AAA4A2A32CCAF7BD00A718F6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/BibliographicControlType.strings; sourceTree = "<group>"; };
+		AAA4A2A52CCAF7BD00A718F6 /* BibliographicControlType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibliographicControlType.swift; sourceTree = "<group>"; };
 		AAA4DFFE22EBE2780003AF7B /* BibMARCInputStreamTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibMARCInputStreamTests.m; sourceTree = "<group>"; };
 		AAA4E00022EBF5D20003AF7B /* FieldTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldTag.swift; sourceTree = "<group>"; };
 		AAA4E00422EBFF670003AF7B /* Subfield.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subfield.swift; sourceTree = "<group>"; };
@@ -566,6 +574,17 @@
 			path = Encoding;
 			sourceTree = "<group>";
 		};
+		AAA4A2A62CCAF7BD00A718F6 /* BibliographicControlType */ = {
+			isa = PBXGroup;
+			children = (
+				AAA4A2A12CCAF7BD00A718F6 /* BibBibliographicControlType.h */,
+				AAA4A2A22CCAF7BD00A718F6 /* BibBibliographicControlType.m */,
+				AAA4A2A52CCAF7BD00A718F6 /* BibliographicControlType.swift */,
+				AAA4A2A42CCAF7BD00A718F6 /* BibliographicControlType.strings */,
+			);
+			path = BibliographicControlType;
+			sourceTree = "<group>";
+		};
 		AAA4E02322EE334C0003AF7B /* Leader */ = {
 			isa = PBXGroup;
 			children = (
@@ -580,6 +599,7 @@
 				AAA4A27D2CCAF08B00A718F6 /* RecordKind */,
 				AAA4A2672CCAA0EC00A718F6 /* RecordFormat */,
 				AAA4A2862CCAF33D00A718F6 /* RecordStatus */,
+				AAA4A2A62CCAF7BD00A718F6 /* BibliographicControlType */,
 			);
 			path = Leader;
 			sourceTree = "<group>";
@@ -733,6 +753,7 @@
 				AAA4A27E2CCAF08B00A718F6 /* BibRecordKind.h in Headers */,
 				AA83210B24F186DD000945B3 /* bibtype.h in Headers */,
 				AABDC22222DAE7CD00345A58 /* BibRecord.h in Headers */,
+				AAA4A2A82CCAF7BD00A718F6 /* BibBibliographicControlType.h in Headers */,
 				AA4D0943266DCEBF00C748EE /* BibMARCXMLInputStream.h in Headers */,
 				AA51EA91211AB79A00BF28BE /* BibConnectionEndpoint.h in Headers */,
 				AAAFD995247B65EC00D2D1F0 /* BibCharacterConversion.h in Headers */,
@@ -884,6 +905,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAA4A2A72CCAF7BD00A718F6 /* BibliographicControlType.strings in Resources */,
 				AAA4A26D2CCAA11C00A718F6 /* RecordFormat.strings in Resources */,
 				AAA4A2902CCAF39400A718F6 /* RecordStatus.strings in Resources */,
 				AAA4A2812CCAF08B00A718F6 /* RecordKind.strings in Resources */,
@@ -946,6 +968,8 @@
 				AA51EA98211AC9DF00BF28BE /* BibConnectionOptions.swift in Sources */,
 				AA99BAF72301E4370055C078 /* BibHasher.m in Sources */,
 				AAB786592455FCEB0018A833 /* BibMARCSerialization.m in Sources */,
+				AAA4A2A92CCAF7BD00A718F6 /* BibliographicControlType.swift in Sources */,
+				AAA4A2AA2CCAF7BD00A718F6 /* BibBibliographicControlType.m in Sources */,
 				AAA4E00522EBFF670003AF7B /* Subfield.swift in Sources */,
 				AA4D0944266DCEBF00C748EE /* BibMARCXMLInputStream.m in Sources */,
 				AA79FFDA24685D0100134C98 /* BibFieldPath.m in Sources */,
@@ -1061,6 +1085,14 @@
 				AAA4A28F2CCAF39400A718F6 /* en */,
 			);
 			name = RecordStatus.strings;
+			sourceTree = "<group>";
+		};
+		AAA4A2A42CCAF7BD00A718F6 /* BibliographicControlType.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AAA4A2A32CCAF7BD00A718F6 /* en */,
+			);
+			name = BibliographicControlType.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

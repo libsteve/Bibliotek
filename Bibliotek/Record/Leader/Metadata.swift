@@ -181,13 +181,3 @@ extension BibliographicLevel: CustomStringConvertible, CustomDebugStringConverti
 
     public var playgroundDescription: Any { self.description }
 }
-
-extension BibliographicControlType: CustomStringConvertible, CustomDebugStringConvertible, CustomPlaygroundDisplayConvertible {
-    public var description: String { __BibBibliographicControlTypeDescription(self) }
-
-    public var debugDescription: String {
-        "RecordStatus(rawValue: \"\(Unicode.Scalar(UInt8(self.rawValue)))\"): \(self.description)"
-    }
-
-    public var playgroundDescription: Any { self.description }
-}

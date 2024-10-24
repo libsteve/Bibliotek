@@ -175,26 +175,6 @@ NSString *BibBibliographicLevelDescription(BibBibliographicLevel const level) {
     }
 }
 
-#pragma mark - Bibliographic Control Type
-
-NSString *BibBibliographicControlTypeDescription(BibBibliographicControlType const type) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    NSBundle *bundle = [NSBundle bundleForClass:[BibMetadata self]];
-#pragma clang diagnostic pop
-    switch (type) {
-        case 0: return nil;
-        case BibBibliographicControlTypeNone:
-            return NSLocalizedStringWithDefaultValue(@" ", @"BibliographicControlType", bundle, @"None", @"None");
-        case BibBibliographicControlTypeArchival:
-            return NSLocalizedStringWithDefaultValue(@"a", @"BibliographicControlType", bundle, @"Archival", @"Archival");
-        default: {
-            NSString *key = [NSString stringWithFormat:@"%c", type];
-            return [bundle localizedStringForKey:key value:nil table:@"BibliographicLevel"];
-        }
-    }
-}
-
 #pragma mark -
 
 @implementation BibMetadata (DefinedValues)
