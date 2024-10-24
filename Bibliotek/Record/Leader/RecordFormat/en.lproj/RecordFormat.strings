@@ -1,0 +1,22 @@
+/* 
+  RecordFormat.strings
+  Bibliotek
+
+  Created by Steve Brunwasser on 10/21/24.
+  Copyright © 2024 Steve Brunwasser. All rights reserved.
+*/
+
+/* The title of the format for a record containing work information about books, manuscripts, files, music, etc. */
+"format:b" = "Bibliographic";
+
+/* The title of the format for a record containing the definitive method for referencing some piece of information. */
+"format:a" = "Authority";
+
+/* The title of the format for a record containing information about the items held within a library's collection. */
+"format:h" = "Holdings";
+
+/* The title of the format for a record containing a class number and caption hierarchy from a classification schedule. */
+"format:c" = "Classification";
+
+/* The title of the format for a record containing non-bibliographic resources held by the library for the community. */
+"format:o" = "Community";

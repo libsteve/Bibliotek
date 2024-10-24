@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <Bibliotek/BibAttributes.h>
+#import <Bibliotek/BibRecordFormat.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -52,14 +53,6 @@ BIB_SWIFT_BRIDGE(RecordKind) NS_SWIFT_SENDABLE
 @end
 
 #pragma mark - MARC 21 Categories
-
-typedef NS_ENUM(uint8_t, BibRecordFormat) {
-    BibRecordFormatBibliographic,
-    BibRecordFormatClassification,
-    BibRecordFormatAuthority,
-    BibRecordFormatHoldings,
-    BibRecordFormatCommunity
-} NS_SWIFT_NAME(BibRecord.Format);
 
 @interface BibRecordKind (MARC21Categories)
 
