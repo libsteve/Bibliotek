@@ -55,7 +55,7 @@ BIB_COLD static os_log_t BibUnimplementedMethodsLog(void) {
 BIB_COLD BIB_NORETURN static inline void _BibUnimplementedSelector(id self, Class clss, SEL _cmd, char const *type) {
     os_log_t const log = BibUnimplementedMethodsLog();
     NSString *const method = BibFullMethodName(self, clss, _cmd);
-    os_log_fault(log, "%{public}@ does not implement the required %s %{public}@", [self className], type, method);
+    os_log_fault(log, "%{public}@ does not implement the required %{public}s %{public}@", [self className], type, method);
     [NSException raise:NSInvalidArgumentException
                 format:@"%@ does not implement the required %s %@", [self className], type, method];
     __builtin_unreachable();
