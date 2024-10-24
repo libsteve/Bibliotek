@@ -148,35 +148,6 @@ NSString *BibEncodingDescription(BibEncoding const encoding) {
     }
 }
 
-#pragma mark - Record Status
-
-NSString *BibRecordStatusDescription(BibRecordStatus const status) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    NSBundle *bundle = [NSBundle bundleForClass:[BibMetadata self]];
-#pragma clang diagnostic pop
-    switch (status) {
-        case BibRecordStatusIncreaseInEncodingLevel:
-            return NSLocalizedStringWithDefaultValue(@"a", @"RecordStatus", bundle,
-                                                     @"Increase in encoding level", @"Increase in encoding level");
-        case BibRecordStatusRevised:
-            return NSLocalizedStringWithDefaultValue(@"c", @"RecordStatus", bundle,
-                                                     @"Corrected or revised", @"Corrected or revised");
-        case BibRecordStatusDeleted:
-            return NSLocalizedStringWithDefaultValue(@"d", @"RecordStatus", bundle, @"Deleted", @"Deleted");
-        case BibRecordStatusNew:
-            return NSLocalizedStringWithDefaultValue(@"n", @"RecordStatus", bundle, @"New", @"New");
-        case BibRecordStatusIncreaseInEncodingLevelFromPrePublication:
-            return NSLocalizedStringWithDefaultValue(@"p", @"RecordStatus", bundle,
-                                                     @"Increase in encoding level from prepublication",
-                                                     @"Increase in encoding level from prepublication");
-        default: {
-            NSString *key = [NSString stringWithFormat:@"%c", status];
-            return [bundle localizedStringForKey:key value:nil table:@"RecordStatus"];
-        }
-    }
-}
-
 #pragma mark - Bibliographic Level
 
 NSString *BibBibliographicLevelDescription(BibBibliographicLevel const level) {

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <Bibliotek/BibAttributes.h>
+#import <Bibliotek/BibRecordStatus.h>
 
 @class BibRecordKind;
 
@@ -94,31 +95,7 @@ typedef NS_ENUM(char, BibEncoding) {
 ///
 /// - parameter encoding: The string encoding used to represent textual data.
 /// - returns: A human-readable description of `encoding`.
-extern NSString *BibEncodingDescription(BibEncoding encoding) NS_REFINED_FOR_SWIFT;
-
-#pragma mark - Record Status
-
-/// The type of change last applied to a record in its originating database.
-typedef NS_ENUM(char, BibRecordStatus) {
-    BibRecordStatusIncreaseInEncodingLevel = 'a',
-
-    /// The record has been edited with new information.
-    BibRecordStatusRevised                 = 'c',
-
-    /// The record has been deleted from the database.
-    BibRecordStatusDeleted                 = 'd',
-
-    /// The record is a new entry in the database.
-    BibRecordStatusNew                     = 'n',
-
-    BibRecordStatusIncreaseInEncodingLevelFromPrePublication = 'p'
-} NS_SWIFT_NAME(RecordStatus);
-
-/// A human-readable description of the status.
-///
-/// - parameter status: The type of change last applied to a record in its originating database.
-/// - returns: A human-readable description of `status`.
-extern NSString *BibRecordStatusDescription(BibRecordStatus status) NS_REFINED_FOR_SWIFT;
+extern NSString *BibEncodingDescription(BibEncoding encoding) NS_REFINED_FOR_SWIFT;\
 
 #pragma mark - Bibliographic Level
 

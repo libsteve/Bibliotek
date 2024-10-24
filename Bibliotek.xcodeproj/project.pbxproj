@@ -98,6 +98,10 @@
 		AAA4A27F2CCAF08B00A718F6 /* BibRecordKind.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA4A2792CCAF08B00A718F6 /* BibRecordKind.m */; };
 		AAA4A2802CCAF08B00A718F6 /* RecordKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA4A27C2CCAF08B00A718F6 /* RecordKind.swift */; };
 		AAA4A2812CCAF08B00A718F6 /* RecordKind.strings in Resources */ = {isa = PBXBuildFile; fileRef = AAA4A27B2CCAF08B00A718F6 /* RecordKind.strings */; };
+		AAA4A2872CCAF33D00A718F6 /* RecordStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA4A2852CCAF33D00A718F6 /* RecordStatus.swift */; };
+		AAA4A2882CCAF33D00A718F6 /* BibRecordStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA4A2832CCAF33D00A718F6 /* BibRecordStatus.m */; };
+		AAA4A28A2CCAF33D00A718F6 /* BibRecordStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = AAA4A2822CCAF33D00A718F6 /* BibRecordStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAA4A2902CCAF39400A718F6 /* RecordStatus.strings in Resources */ = {isa = PBXBuildFile; fileRef = AAA4A28E2CCAF39400A718F6 /* RecordStatus.strings */; };
 		AAA4DFFF22EBE2780003AF7B /* BibMARCInputStreamTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA4DFFE22EBE2780003AF7B /* BibMARCInputStreamTests.m */; };
 		AAA4E00122EBF5D20003AF7B /* FieldTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA4E00022EBF5D20003AF7B /* FieldTag.swift */; };
 		AAA4E00522EBFF670003AF7B /* Subfield.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA4E00422EBFF670003AF7B /* Subfield.swift */; };
@@ -284,6 +288,10 @@
 		AAA4A2792CCAF08B00A718F6 /* BibRecordKind.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibRecordKind.m; sourceTree = "<group>"; };
 		AAA4A27A2CCAF08B00A718F6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/RecordKind.strings; sourceTree = "<group>"; };
 		AAA4A27C2CCAF08B00A718F6 /* RecordKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordKind.swift; sourceTree = "<group>"; };
+		AAA4A2822CCAF33D00A718F6 /* BibRecordStatus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibRecordStatus.h; sourceTree = "<group>"; };
+		AAA4A2832CCAF33D00A718F6 /* BibRecordStatus.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibRecordStatus.m; sourceTree = "<group>"; };
+		AAA4A2852CCAF33D00A718F6 /* RecordStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordStatus.swift; sourceTree = "<group>"; };
+		AAA4A28F2CCAF39400A718F6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/RecordStatus.strings; sourceTree = "<group>"; };
 		AAA4DFFE22EBE2780003AF7B /* BibMARCInputStreamTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibMARCInputStreamTests.m; sourceTree = "<group>"; };
 		AAA4E00022EBF5D20003AF7B /* FieldTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldTag.swift; sourceTree = "<group>"; };
 		AAA4E00422EBFF670003AF7B /* Subfield.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subfield.swift; sourceTree = "<group>"; };
@@ -531,6 +539,17 @@
 			path = RecordKind;
 			sourceTree = "<group>";
 		};
+		AAA4A2862CCAF33D00A718F6 /* RecordStatus */ = {
+			isa = PBXGroup;
+			children = (
+				AAA4A2822CCAF33D00A718F6 /* BibRecordStatus.h */,
+				AAA4A2832CCAF33D00A718F6 /* BibRecordStatus.m */,
+				AAA4A2852CCAF33D00A718F6 /* RecordStatus.swift */,
+				AAA4A28E2CCAF39400A718F6 /* RecordStatus.strings */,
+			);
+			path = RecordStatus;
+			sourceTree = "<group>";
+		};
 		AAA4E02322EE334C0003AF7B /* Leader */ = {
 			isa = PBXGroup;
 			children = (
@@ -543,6 +562,7 @@
 				AAA4E01822ED719F0003AF7B /* Metadata.swift */,
 				AAA4A27D2CCAF08B00A718F6 /* RecordKind */,
 				AAA4A2672CCAA0EC00A718F6 /* RecordFormat */,
+				AAA4A2862CCAF33D00A718F6 /* RecordStatus */,
 			);
 			path = Leader;
 			sourceTree = "<group>";
@@ -689,6 +709,7 @@
 				AAAFD99B247C3A6300D2D1F0 /* BibLCCallNumber.h in Headers */,
 				AA2E475E2828F52D00E2434A /* BibMARCXMLConstants.h in Headers */,
 				AAAA429E20BB0E3600BDB52B /* BibConstants.h in Headers */,
+				AAA4A28A2CCAF33D00A718F6 /* BibRecordStatus.h in Headers */,
 				AAAE2ECE27DD4DAC00E4D6F1 /* BibSerializationError+Internal.h in Headers */,
 				AA19396F22E6366B00429C54 /* Bibliotek+Internal.h in Headers */,
 				AAA4A27E2CCAF08B00A718F6 /* BibRecordKind.h in Headers */,
@@ -846,6 +867,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAA4A26D2CCAA11C00A718F6 /* RecordFormat.strings in Resources */,
+				AAA4A2902CCAF39400A718F6 /* RecordStatus.strings in Resources */,
 				AAA4A2812CCAF08B00A718F6 /* RecordKind.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -882,6 +904,8 @@
 				AAA4E00B22EC119A0003AF7B /* Record.swift in Sources */,
 				AA4D093C266D591B00C748EE /* BibMARCXMLSerialization.m in Sources */,
 				AA2E475F2828F52D00E2434A /* BibMARCXMLConstants.m in Sources */,
+				AAA4A2872CCAF33D00A718F6 /* RecordStatus.swift in Sources */,
+				AAA4A2882CCAF33D00A718F6 /* BibRecordStatus.m in Sources */,
 				AAAFD9A5247CDAB200D2D1F0 /* BibLCCallNumber.swift in Sources */,
 				AA677859248D63C900997B29 /* BibFieldIndicator.m in Sources */,
 				AAA4A27F2CCAF08B00A718F6 /* BibRecordKind.m in Sources */,
@@ -1009,6 +1033,14 @@
 				AAA4A27A2CCAF08B00A718F6 /* en */,
 			);
 			name = RecordKind.strings;
+			sourceTree = "<group>";
+		};
+		AAA4A28E2CCAF39400A718F6 /* RecordStatus.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AAA4A28F2CCAF39400A718F6 /* en */,
+			);
+			name = RecordStatus.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

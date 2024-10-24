@@ -182,16 +182,6 @@ extension Encoding: CustomStringConvertible, CustomDebugStringConvertible, Custo
     public var playgroundDescription: Any { self.description }
 }
 
-extension RecordStatus: CustomStringConvertible, CustomDebugStringConvertible, CustomPlaygroundDisplayConvertible {
-    public var description: String { __BibRecordStatusDescription(self) }
-
-    public var debugDescription: String {
-        "RecordStatus(rawValue: \"\(Unicode.Scalar(UInt8(self.rawValue)))\"): \(self.description)"
-    }
-
-    public var playgroundDescription: Any { self.description }
-}
-
 extension BibliographicLevel: CustomStringConvertible, CustomDebugStringConvertible, CustomPlaygroundDisplayConvertible {
     public var description: String { __BibBibliographicLevelDescription(self) }
 

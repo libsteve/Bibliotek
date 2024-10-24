@@ -1,0 +1,23 @@
+/* 
+  RecordStatus.strings
+  Bibliotek
+
+  Created by Steve Brunwasser on 10/19/24.
+  Copyright © 2024 Steve Brunwasser. All rights reserved.
+*/
+
+"status:a" = "Increase in encoding level";
+
+"status:c" = "Corrected or revised";
+
+"status:d" = "Deleted";
+
+"status:n" = "New";
+
+"status:o" = "Obsolete";
+
+"status:p" = "Increase in encoding level from prepublication";
+
+"status:s" = "Deleted; heading split into two or more";
+
+"status:x" = "Deleted; heading replaced by another heading";
