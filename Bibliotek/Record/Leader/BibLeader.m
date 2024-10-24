@@ -66,7 +66,7 @@ static void sWriteRepeatValueToBuffer(uint8_t *const buffer, NSRange const range
     sWriteRepeatValueToBuffer(buffer, NSMakeRange(0, BibLeaderRawDataLength), ' ');
     sWriteRepeatValueToBuffer(buffer, kRecordLengthRange, '0');
     sWriteRepeatValueToBuffer(buffer, kRecordLocationRange, '0');
-    buffer[kRecordKindRange.location] = [[BibRecordKind languageMaterial] rawValue];
+    buffer[kRecordKindRange.location] = [[BibRecordKind languageMaterial] byteValue];
     buffer[kRecordStatusRange.location] = BibRecordStatusNew;
     buffer[kRecordEncodingRange.location] = BibUTF8Encoding;
     buffer[kNumberOfIndicatorsRange.location]   = '2';
@@ -167,7 +167,7 @@ static NSUInteger sReadUnsignedInteger(NSData *const data, NSRange const range) 
 - (BibRecordKind *)recordKind {
     uint8_t buffer[kRecordKindRange.length];
     [[self rawData] getBytes:buffer range:kRecordKindRange];
-    return [BibRecordKind recordKindWithRawValue:buffer[0]];
+    return [BibRecordKind recordKindWithByte:buffer[0]];
 }
 
 - (BibEncoding)recordEncoding {
@@ -252,7 +252,7 @@ static void sWriteUnsignedInteger(NSMutableData *const data, NSRange const range
 
 - (void)setRecordKind:(BibRecordKind *)recordKind {
     NSMutableData *const data = [[self rawData] mutableCopy];
-    uint8_t const recordKindRawValue = [recordKind rawValue];
+    uint8_t const recordKindRawValue = [recordKind byteValue];
     [data replaceBytesInRange:kRecordKindRange withBytes:&recordKindRawValue];
     [self setRawData:data];
 }

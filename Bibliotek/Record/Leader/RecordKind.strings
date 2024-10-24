@@ -7,64 +7,64 @@
 */
 
 /* Language Material */
-"a" = "Language Material";
+"kind:a" = "Language Material";
 
 /* Notated Music */
-"c" = "Notated Music";
+"kind:c" = "Notated Music";
 
 /* Manuscript Notated Music */
-"d" = "Manuscript Notated Music";
+"kind:d" = "Manuscript Notated Music";
 
 /* Cartographic Material */
-"e" = "Cartographic Material";
+"kind:e" = "Cartographic Material";
 
 /* Manuscript Cartographic Material */
-"f" = "Manuscript Cartographic Material";
+"kind:f" = "Manuscript Cartographic Material";
 
 /* Projected Medium */
-"g" = "Projected Medium";
+"kind:g" = "Projected Medium";
 
 /* Non-musical Sound Recording */
-"i" = "Non-musical Sound Recording";
+"kind:i" = "Non-musical Sound Recording";
 
 /* Musical Sound Recording */
-"j" = "Musical Sound Recording";
+"kind:j" = "Musical Sound Recording";
 
 /* Two-Dimensional Non-Projectable Graphic */
-"k" = "Two-Dimensional Non-Projectable Graphic";
+"kind:k" = "Two-Dimensional Non-Projectable Graphic";
 
 /* Computer File */
-"m" = "Computer File";
+"kind:m" = "Computer File";
 
 /* Kit */
-"o" = "Kit";
+"kind:o" = "Kit";
 
 /* Mixed Materials */
-"p" = "Mixed Materials";
+"kind:p" = "Mixed Materials";
 
 /* Community Information */
-"q" = "Community Information";
+"kind:q" = "Community Information";
 
 /* Three-Dimensional Artifact */
-"r" = "Three-Dimensional Artifact";
+"kind:r" = "Three-Dimensional Artifact";
 
 /* Manuscript Language Material */
-"t" = "Manuscript Language Material";
+"kind:t" = "Manuscript Language Material";
 
 /* Unknown Holdings */
-"u" = "Unknown Holdings";
+"kind:u" = "Unknown Holdings";
 
 /* Multipart Item Holdings */
-"v" = "Multipart Item Holdings";
+"kind:v" = "Multipart Item Holdings";
 
 /* Classification */
-"w" = "Classification";
+"kind:w" = "Classification";
 
 /* Single Part Item Holdings */
-"x" = "Single Part Item Holdings";
+"kind:x" = "Single Part Item Holdings";
 
 /* Serial Item Holdings */
-"y" = "Serial Item Holdings";
+"kind:y" = "Serial Item Holdings";
 
 /* Authority Data */
-"z" = "Authority Data";
+"kind:z" = "Authority Data";

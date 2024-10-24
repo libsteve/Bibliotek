@@ -7,37 +7,91 @@
 //
 
 #import "BibRecordKind.h"
+#import "BibStaticClassRef.h"
+#import "Bibliotek+Internal.h"
 
 /// An underlying backing type for immutable singleton instances of ``BibRecordKind`` for each value.
 ///
 /// An instance for each of the 128 possible ASCII values is allocated at load time.
 /// When ``BibRecordKind/initWithRawValue:`` is called, one of those pre-allocated instances is returned.
 @interface _BibRecordKind : BibRecordKind
+DECLARE_STATIC_CLASS_REF(_BibRecordKind);
+DECLARE_STATIC_CLASS_STRUCT(_BibRecordKind);
 @end
+
+@interface _BibBibliographicRecordKind : BibBibliographicRecordKind
+DECLARE_STATIC_CLASS_REF(_BibBibliographicRecordKind);
+DECLARE_STATIC_CLASS_STRUCT(_BibBibliographicRecordKind, uint8_t byteValue;);
+@end
+
+@interface _BibAuthorityRecordKind : BibAuthorityRecordKind
+DECLARE_STATIC_CLASS_REF(_BibAuthorityRecordKind);
+DECLARE_STATIC_CLASS_STRUCT(_BibAuthorityRecordKind, uint8_t byteValue;);
+@end
+
+@interface _BibHoldingsRecordKind : BibHoldingsRecordKind
+DECLARE_STATIC_CLASS_REF(_BibHoldingsRecordKind);
+DECLARE_STATIC_CLASS_STRUCT(_BibHoldingsRecordKind, uint8_t byteValue;);
+@end
+
+@interface _BibClassificationRecordKind : BibClassificationRecordKind
+DECLARE_STATIC_CLASS_REF(_BibClassificationRecordKind);
+DECLARE_STATIC_CLASS_STRUCT(_BibClassificationRecordKind, uint8_t byteValue;);
+@end
+
+@interface _BibCommunityRecordKind : BibCommunityRecordKind
+DECLARE_STATIC_CLASS_REF(_BibCommunityRecordKind);
+DECLARE_STATIC_CLASS_STRUCT(_BibCommunityRecordKind, uint8_t byteValue;);
+@end
+
+#pragma mark -
+
 
 @implementation BibRecordKind
 
-@synthesize rawValue = _rawValue;
-
-+ (instancetype)allocWithZone:(struct _NSZone *)zone {
-    return [self isEqual:[BibRecordKind class]]
-         ? [_BibRecordKind allocWithZone:zone]
-         : [super allocWithZone:zone];
+- (uint8_t)byteValue {
+    BibUnimplementedPropertyFrom(BibRecordKind);
 }
 
-- (instancetype)initWithRawValue:(uint8_t)rawValue {
-    if (self = [super init]) {
-        _rawValue = rawValue;
+- (BibRecordFormat)recordFormat {
+    BibUnimplementedPropertyFrom(BibRecordKind);
+}
+
++ (instancetype)allocWithZone:(NSZone *)zone {
+    if (self == [BibRecordKind class]) {
+        static struct _BibRecordKind const placeholder = STATIC_CLASS_STRUCT(_BibRecordKind);
+        return (__bridge id)&placeholder;
     }
-    return self;
+    return [super allocWithZone:zone];
 }
 
-+ (instancetype)recordKindWithRawValue:(uint8_t)rawValue {
-    return [[self alloc] initWithRawValue:rawValue];
+- (instancetype)initWithByte:(uint8_t)byteValue {
+    Method original = class_getInstanceMethod([BibRecordKind class], @selector(initWithByte:));
+    Method current = class_getInstanceMethod([self class], @selector(initWithByte:));
+    if (original == current) {
+        BibUnimplementedInitializerFrom(BibRecordKind);
+    }
+    if (byteValue < 0x20 || byteValue > 0x7E) {
+        return nil;
+//        [NSException raise:NSRangeException
+//                    format:@"*** A record kind's raw value must be a graphic ASCII character."];
+    }
+    return [super init];
+}
+
++ (instancetype)recordKindWithByte:(uint8_t)byteValue {
+    return [[self alloc] initWithByte:byteValue];
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-    return self;
+    return [[BibRecordKind allocWithZone:zone] initWithByte:[self byteValue]];
+}
+
+- (NSString *)description {
+    NSBundle *bundle = [NSBundle bundleForClass:[BibRecordKind class]];
+    NSString *value = [NSString stringWithFormat:@"%c", [self byteValue]];
+    NSString *key = [NSString stringWithFormat:@"kind:%c", [self byteValue]];
+    return [bundle localizedStringForKey:key value:value table:@"RecordKind"];
 }
 
 - (instancetype)init {
@@ -57,7 +111,7 @@
 @implementation BibRecordKind (Equality)
 
 - (BOOL)isEqualToRecordKind:(BibRecordKind *)recordKind {
-    return self == recordKind || [self rawValue] == [recordKind rawValue];
+    return self == recordKind || [self byteValue] == [recordKind byteValue];
 }
 
 - (BOOL)isEqual:(id)object {
@@ -66,142 +120,21 @@
 }
 
 - (NSUInteger)hash {
-    return [self rawValue];
+    return [self byteValue];
 }
 
 @end
-
-#pragma mark - Raw Values
-
-typedef NS_ENUM(char, BibRecordKindRawValue) {
-    /// Language Material
-    BibRecordKindRawValueLanguageMaterial = 'a',
-
-    /// Notated Music
-    BibRecordKindRawValueNotatedMusic = 'c',
-
-    /// Manuscript Notated Music
-    BibRecordKindRawValueManuscriptNotatedMusic = 'd',
-
-    /// Cartographic Material
-    BibRecordKindRawValueCartographicMaterial = 'e',
-
-    /// Manuscript Cartographic Material
-    BibRecordKindRawValueManuscriptCartographicMaterial = 'f',
-
-    /// Projected Medium
-    BibRecordKindRawValueProjectedMedium = 'g',
-
-    /// NonMusical Sound Recording
-    BibRecordKindRawValueNonMusicalSoundRecording = 'i',
-
-    /// Musical Sound Recording
-    BibRecordKindRawValueMusicalSoundRecording = 'j',
-
-    /// Two-Dimensional Non-Projectable Graphic
-    BibRecordKindRawValueTwoDimensionalNonProjectableGraphic = 'k',
-
-    /// Computer File
-    BibRecordKindRawValueComputerFile = 'm',
-
-    /// Kit
-    BibRecordKindRawValueKit = 'o',
-
-    /// Mixed Materials
-    BibRecordKindRawValueMixedMaterials = 'p',
-
-    /// Community Information
-    BibRecordKindRawValueCommunityInformation = 'q',
-
-    /// Three-Dimensional Artifact
-    BibRecordKindRawValueThreeDimensionalArtifact = 'r',
-
-    /// Manuscript LanguageMaterial
-    BibRecordKindRawValueManuscriptLanguageMaterial = 't',
-
-    /* Unknown Holdings */
-    BibRecordKindRawValueUnknownHoldings = 'u',
-
-    /* Multipart Item Holdings */
-    BibRecordKindRawValueMultipartItemHoldings = 'v',
-
-    /* Classification */
-    BibRecordKindRawValueClassification = 'w',
-
-    /* Single Part Item Holdings */
-    BibRecordKindRawValueSinglePartItemHoldings = 'x',
-
-    /* Serial Item Holdings */
-    BibRecordKindRawValueSerialItemHoldings = 'y',
-
-    /* Authority Data */
-    BibRecordKindRawValueAuthorityData = 'z',
-} NS_SWIFT_NAME(RecordKind);
 
 #pragma mark - MARC 21 Categories
 
 @implementation BibRecordKind (MARC21Categories)
 
-- (BibRecordFormat)recordFormat
-{
-    switch ((BibRecordKindRawValue)[self rawValue]) {
-        case BibRecordKindRawValueLanguageMaterial:
-        case BibRecordKindRawValueNotatedMusic:
-        case BibRecordKindRawValueManuscriptNotatedMusic:
-        case BibRecordKindRawValueCartographicMaterial:
-        case BibRecordKindRawValueManuscriptCartographicMaterial:
-        case BibRecordKindRawValueProjectedMedium:
-        case BibRecordKindRawValueNonMusicalSoundRecording:
-        case BibRecordKindRawValueMusicalSoundRecording:
-        case BibRecordKindRawValueTwoDimensionalNonProjectableGraphic:
-        case BibRecordKindRawValueComputerFile:
-        case BibRecordKindRawValueKit:
-        case BibRecordKindRawValueMixedMaterials:
-        case BibRecordKindRawValueThreeDimensionalArtifact:
-        case BibRecordKindRawValueManuscriptLanguageMaterial:
-            return BibRecordFormatBibliographic;
-        case BibRecordKindRawValueCommunityInformation:
-            return BibRecordFormatCommunity;
-        case BibRecordKindRawValueUnknownHoldings:
-        case BibRecordKindRawValueMultipartItemHoldings:
-        case BibRecordKindRawValueSinglePartItemHoldings:
-        case BibRecordKindRawValueSerialItemHoldings:
-            return BibRecordFormatHoldings;
-        case BibRecordKindRawValueClassification:
-            return BibRecordFormatClassification;
-        case BibRecordKindRawValueAuthorityData:
-            return BibRecordFormatAuthority;
-    }
-}
-
 - (BOOL)isClassificationKind {
-    return [self rawValue] == BibRecordKindRawValueClassification;
+    return [self recordFormat] == BibRecordFormatClassification;
 }
 
 - (BOOL)isBibliographicKind {
-    uint8_t const rawValue = [self rawValue];
-    static BibRecordKindRawValue const kinds[] = {
-        BibRecordKindRawValueLanguageMaterial,
-        BibRecordKindRawValueNotatedMusic,
-        BibRecordKindRawValueManuscriptNotatedMusic,
-        BibRecordKindRawValueCartographicMaterial,
-        BibRecordKindRawValueManuscriptCartographicMaterial,
-        BibRecordKindRawValueProjectedMedium,
-        BibRecordKindRawValueNonMusicalSoundRecording,
-        BibRecordKindRawValueMusicalSoundRecording,
-        BibRecordKindRawValueTwoDimensionalNonProjectableGraphic,
-        BibRecordKindRawValueComputerFile,
-        BibRecordKindRawValueKit,
-        BibRecordKindRawValueMixedMaterials,
-        BibRecordKindRawValueThreeDimensionalArtifact,
-        BibRecordKindRawValueManuscriptLanguageMaterial
-    };
-    for (NSUInteger index = 0; index < sizeof(kinds); index += 1) {
-        if (kinds[index] == rawValue) {
-            return YES;
-        }
-    }
-    return NO;
+    return [self recordFormat] == BibRecordFormatBibliographic;
 }
 
 @end
@@ -210,131 +143,358 @@ typedef NS_ENUM(char, BibRecordKindRawValue) {
 
 @implementation BibRecordKind (MARC21RecordKinds)
 
-+ (BibRecordKind *)languageMaterial {
-    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueLanguageMaterial];
++ (BibBibliographicRecordKind *)languageMaterial {
+    static struct _BibBibliographicRecordKind kind = STATIC_CLASS_STRUCT(_BibBibliographicRecordKind, 'a');
+    return (__bridge BibBibliographicRecordKind *)&kind;
 }
-+ (BibRecordKind *)notatedMusic {
-    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueNotatedMusic];
++ (BibBibliographicRecordKind *)notatedMusic {
+    static struct _BibBibliographicRecordKind kind = STATIC_CLASS_STRUCT(_BibBibliographicRecordKind, 'c');
+    return (__bridge BibBibliographicRecordKind *)&kind;
 }
-+ (BibRecordKind *)manuscriptNotatedMusic {
-    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueManuscriptNotatedMusic];
++ (BibBibliographicRecordKind *)manuscriptNotatedMusic {
+    static struct _BibBibliographicRecordKind kind = STATIC_CLASS_STRUCT(_BibBibliographicRecordKind, 'd');
+    return (__bridge BibBibliographicRecordKind *)&kind;
 }
-+ (BibRecordKind *)cartographicMaterial {
-    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueCartographicMaterial];
++ (BibBibliographicRecordKind *)cartographicMaterial {
+    static struct _BibBibliographicRecordKind kind = STATIC_CLASS_STRUCT(_BibBibliographicRecordKind, 'e');
+    return (__bridge BibBibliographicRecordKind *)&kind;
 }
-+ (BibRecordKind *)manuscriptCartographicMaterial {
-    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueManuscriptCartographicMaterial];
++ (BibBibliographicRecordKind *)manuscriptCartographicMaterial {
+    static struct _BibBibliographicRecordKind kind = STATIC_CLASS_STRUCT(_BibBibliographicRecordKind, 'f');
+    return (__bridge BibBibliographicRecordKind *)&kind;
 }
-+ (BibRecordKind *)projectedMedium {
-    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueProjectedMedium];
++ (BibBibliographicRecordKind *)projectedMedium {
+    static struct _BibBibliographicRecordKind kind = STATIC_CLASS_STRUCT(_BibBibliographicRecordKind, 'g');
+    return (__bridge BibBibliographicRecordKind *)&kind;
 }
-+ (BibRecordKind *)nonMusicalSoundRecording {
-    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueNonMusicalSoundRecording];
++ (BibBibliographicRecordKind *)nonMusicalSoundRecording {
+    static struct _BibBibliographicRecordKind kind = STATIC_CLASS_STRUCT(_BibBibliographicRecordKind, 'i');
+    return (__bridge BibBibliographicRecordKind *)&kind;
 }
-+ (BibRecordKind *)musicalSoundRecording {
-    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueMusicalSoundRecording];
++ (BibBibliographicRecordKind *)musicalSoundRecording {
+    static struct _BibBibliographicRecordKind kind = STATIC_CLASS_STRUCT(_BibBibliographicRecordKind, 'j');
+    return (__bridge BibBibliographicRecordKind *)&kind;
 }
-+ (BibRecordKind *)twoDimensionalNonProjectableGraphic {
-    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueTwoDimensionalNonProjectableGraphic];
++ (BibBibliographicRecordKind *)twoDimensionalNonProjectableGraphic {
+    static struct _BibBibliographicRecordKind kind = STATIC_CLASS_STRUCT(_BibBibliographicRecordKind, 'k');
+    return (__bridge BibBibliographicRecordKind *)&kind;
 }
-+ (BibRecordKind *)computerFile {
-    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueComputerFile];
++ (BibBibliographicRecordKind *)computerFile {
+    static struct _BibBibliographicRecordKind kind = STATIC_CLASS_STRUCT(_BibBibliographicRecordKind, 'm');
+    return (__bridge BibBibliographicRecordKind *)&kind;
 }
-+ (BibRecordKind *)kit {
-    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueKit];
++ (BibBibliographicRecordKind *)kit {
+    static struct _BibBibliographicRecordKind kind = STATIC_CLASS_STRUCT(_BibBibliographicRecordKind, 'o');
+    return (__bridge BibBibliographicRecordKind *)&kind;
 }
-+ (BibRecordKind *)mixedMaterials {
-    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueMixedMaterials];
++ (BibBibliographicRecordKind *)mixedMaterials {
+    static struct _BibBibliographicRecordKind kind = STATIC_CLASS_STRUCT(_BibBibliographicRecordKind, 'p');
+    return (__bridge BibBibliographicRecordKind *)&kind;
 }
-+ (BibRecordKind *)communityInformation {
-    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueCommunityInformation];
++ (BibCommunityRecordKind *)communityInformation {
+    static struct _BibCommunityRecordKind kind = STATIC_CLASS_STRUCT(_BibCommunityRecordKind, 'q');
+    return (__bridge BibCommunityRecordKind *)&kind;
 }
-+ (BibRecordKind *)threeDimensionalArtifact {
-    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueThreeDimensionalArtifact];
++ (BibBibliographicRecordKind *)threeDimensionalArtifact {
+    static struct _BibBibliographicRecordKind kind = STATIC_CLASS_STRUCT(_BibBibliographicRecordKind, 'r');
+    return (__bridge BibBibliographicRecordKind *)&kind;
 }
-+ (BibRecordKind *)manuscriptLanguageMaterial {
-    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueManuscriptLanguageMaterial];
++ (BibBibliographicRecordKind *)manuscriptLanguageMaterial {
+    static struct _BibBibliographicRecordKind kind = STATIC_CLASS_STRUCT(_BibBibliographicRecordKind, 't');
+    return (__bridge BibBibliographicRecordKind *)&kind;
 }
-+ (BibRecordKind *)unknownHoldings {
-    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueUnknownHoldings];
++ (BibHoldingsRecordKind *)unknownHoldings {
+    static struct _BibHoldingsRecordKind kind = STATIC_CLASS_STRUCT(_BibHoldingsRecordKind, 'u');
+    return (__bridge BibHoldingsRecordKind *)&kind;
 }
-+ (BibRecordKind *)multipartItemHoldings {
-    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueMultipartItemHoldings];
++ (BibHoldingsRecordKind *)multipartItemHoldings {
+    static struct _BibHoldingsRecordKind kind = STATIC_CLASS_STRUCT(_BibHoldingsRecordKind, 'v');
+    return (__bridge BibHoldingsRecordKind *)&kind;
 }
-+ (BibRecordKind *)classification {
-    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueClassification];
++ (BibClassificationRecordKind *)classification {
+    static struct _BibClassificationRecordKind kind = STATIC_CLASS_STRUCT(_BibClassificationRecordKind, 'w');
+    return (__bridge BibClassificationRecordKind *)&kind;
 }
-+ (BibRecordKind *)singlePartItemHoldings {
-    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueSinglePartItemHoldings];
++ (BibHoldingsRecordKind *)singlePartItemHoldings {
+    static struct _BibHoldingsRecordKind kind = STATIC_CLASS_STRUCT(_BibHoldingsRecordKind, 'x');
+    return (__bridge BibHoldingsRecordKind *)&kind;
 }
-+ (BibRecordKind *)serialItemHoldings {
-    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueSerialItemHoldings];
++ (BibHoldingsRecordKind *)serialItemHoldings {
+    static struct _BibHoldingsRecordKind kind = STATIC_CLASS_STRUCT(_BibHoldingsRecordKind, 'y');
+    return (__bridge BibHoldingsRecordKind *)&kind;
 }
-+ (BibRecordKind *)authorityData {
-    return [BibRecordKind recordKindWithRawValue:BibRecordKindRawValueAuthorityData];
-}
-
-- (NSString *)description {
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    NSString *key = [[NSString alloc] initWithFormat:@"%c", [self rawValue]];
-    return [bundle localizedStringForKey:key value:nil table:@"RecordKind"];
++ (BibAuthorityRecordKind *)authorityData {
+    static struct _BibAuthorityRecordKind kind = STATIC_CLASS_STRUCT(_BibAuthorityRecordKind, 'z');
+    return (__bridge BibAuthorityRecordKind *)&kind;
 }
 
 @end
 
-#pragma mark - Internal Representation
-
 @implementation _BibRecordKind
 
-static NSCache *sFlyweightCache;
-
-+ (void)initialize {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sFlyweightCache = [[NSCache alloc] init];
-        [sFlyweightCache setName:@"_BibRecordKindCache"];
-    });
++ (void)load {
+    static_class_apply_overrides(self);
 }
 
-- (instancetype)initWithRawValue:(uint8_t)rawValue {
-    if (rawValue < 0x20 || rawValue > 0x7F) {
-        [NSException raise:NSRangeException
-                    format:@"*** A record kind's raw value must be a graphic ASCII character."];
+- (instancetype)initWithByte:(uint8_t)byteValue {
+    switch (byteValue) {
+        case 'a': return (id)[BibRecordKind languageMaterial];
+        case 'c': return (id)[BibRecordKind notatedMusic];
+        case 'd': return (id)[BibRecordKind manuscriptNotatedMusic];
+        case 'e': return (id)[BibRecordKind cartographicMaterial];
+        case 'f': return (id)[BibRecordKind manuscriptCartographicMaterial];
+        case 'g': return (id)[BibRecordKind projectedMedium];
+        case 'i': return (id)[BibRecordKind nonMusicalSoundRecording];
+        case 'j': return (id)[BibRecordKind musicalSoundRecording];
+        case 'k': return (id)[BibRecordKind twoDimensionalNonProjectableGraphic];
+        case 'm': return (id)[BibRecordKind computerFile];
+        case 'o': return (id)[BibRecordKind kit];
+        case 'p': return (id)[BibRecordKind mixedMaterials];
+        case 'q': return (id)[BibRecordKind communityInformation];
+        case 'r': return (id)[BibRecordKind threeDimensionalArtifact];
+        case 't': return (id)[BibRecordKind manuscriptLanguageMaterial];
+        case 'u': return (id)[BibRecordKind unknownHoldings];
+        case 'v': return (id)[BibRecordKind multipartItemHoldings];
+        case 'w': return (id)[BibRecordKind classification];
+        case 'x': return (id)[BibRecordKind singlePartItemHoldings];
+        case 'y': return (id)[BibRecordKind serialItemHoldings];
+        case 'z': return (id)[BibRecordKind authorityData];
+        default: return nil;
     }
-    NSNumber *const key = [[NSNumber alloc] initWithChar:rawValue];
-    _BibRecordKind *const recordKind = [sFlyweightCache objectForKey:key];
-    if (recordKind) {
-        return recordKind;
+}
+
+@end
+
+#pragma mark - Bibliographic
+
+@implementation BibBibliographicRecordKind
+
+- (BibRecordFormat)recordFormat {
+    return BibRecordFormatBibliographic;
+}
+
++ (instancetype)allocWithZone:(NSZone *)zone {
+    if (self == [BibBibliographicRecordKind class]) {
+        static struct _BibBibliographicRecordKind placeholder =
+            STATIC_CLASS_STRUCT(_BibBibliographicRecordKind, 0x00);
+        return (__bridge BibBibliographicRecordKind *)&placeholder;
     }
-    switch ((BibRecordKindRawValue)rawValue) {
-        case BibRecordKindRawValueLanguageMaterial:
-        case BibRecordKindRawValueNotatedMusic:
-        case BibRecordKindRawValueManuscriptNotatedMusic:
-        case BibRecordKindRawValueCartographicMaterial:
-        case BibRecordKindRawValueManuscriptCartographicMaterial:
-        case BibRecordKindRawValueProjectedMedium:
-        case BibRecordKindRawValueNonMusicalSoundRecording:
-        case BibRecordKindRawValueMusicalSoundRecording:
-        case BibRecordKindRawValueTwoDimensionalNonProjectableGraphic:
-        case BibRecordKindRawValueComputerFile:
-        case BibRecordKindRawValueKit:
-        case BibRecordKindRawValueMixedMaterials:
-        case BibRecordKindRawValueCommunityInformation:
-        case BibRecordKindRawValueThreeDimensionalArtifact:
-        case BibRecordKindRawValueManuscriptLanguageMaterial:
-        case BibRecordKindRawValueUnknownHoldings:
-        case BibRecordKindRawValueMultipartItemHoldings:
-        case BibRecordKindRawValueClassification:
-        case BibRecordKindRawValueSinglePartItemHoldings:
-        case BibRecordKindRawValueSerialItemHoldings:
-        case BibRecordKindRawValueAuthorityData:
-            if (self = [super initWithRawValue:rawValue]) {
-                [sFlyweightCache setObject:self forKey:key];
-            }
-            return self;
+    return [super allocWithZone:zone];
+}
+
+@end
+
+@implementation _BibBibliographicRecordKind
+
++ (void)load {
+    static_class_apply_overrides(self);
+}
+
+- (uint8_t)byteValue {
+    return ((__bridge struct _BibBibliographicRecordKind *)self)->byteValue;
+}
+
+- (instancetype)initWithByte:(uint8_t)byteValue {
+    switch (byteValue) {
+    case 'a': return (id)[BibRecordKind languageMaterial];
+    case 'c': return (id)[BibRecordKind notatedMusic];
+    case 'd': return (id)[BibRecordKind manuscriptNotatedMusic];
+    case 'e': return (id)[BibRecordKind cartographicMaterial];
+    case 'f': return (id)[BibRecordKind manuscriptCartographicMaterial];
+    case 'g': return (id)[BibRecordKind projectedMedium];
+    case 'i': return (id)[BibRecordKind nonMusicalSoundRecording];
+    case 'j': return (id)[BibRecordKind musicalSoundRecording];
+    case 'k': return (id)[BibRecordKind twoDimensionalNonProjectableGraphic];
+    case 'm': return (id)[BibRecordKind computerFile];
+    case 'o': return (id)[BibRecordKind kit];
+    case 'p': return (id)[BibRecordKind mixedMaterials];
+    case 'r': return (id)[BibRecordKind threeDimensionalArtifact];
+    case 't': return (id)[BibRecordKind manuscriptLanguageMaterial];
+    default: return nil;
     }
-    // Don't put this in a default clause so that the compiler warns us when we need to add a  new case.
-    return nil;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    return self;
+}
+
+@end
+
+#pragma mark - Authority
+
+@implementation BibAuthorityRecordKind
+
+- (BibRecordFormat)recordFormat {
+    return BibRecordFormatAuthority;
+}
+
++ (instancetype)allocWithZone:(NSZone *)zone {
+    if (self == [BibAuthorityRecordKind class]) {
+        static struct _BibAuthorityRecordKind placeholder =
+            STATIC_CLASS_STRUCT(_BibAuthorityRecordKind, 0x00);
+        return (__bridge BibAuthorityRecordKind *)&placeholder;
+    }
+    return [super allocWithZone:zone];
+}
+
+@end
+
+@implementation _BibAuthorityRecordKind
+
++ (void)load {
+    static_class_apply_overrides(self);
+}
+
+- (uint8_t)byteValue {
+    return ((__bridge struct _BibAuthorityRecordKind *)self)->byteValue;
+}
+
+- (instancetype)initWithByte:(uint8_t)byteValue {
+    switch (byteValue) {
+    case 'z': return (id)[BibAuthorityRecordKind authorityData];
+    default: return nil;
+    }
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    return self;
+}
+
+@end
+
+#pragma mark - Holdings
+
+@implementation BibHoldingsRecordKind
+
+- (BibRecordFormat)recordFormat {
+    return BibRecordFormatHoldings;
+}
+
++ (instancetype)allocWithZone:(NSZone *)zone {
+    if (self == [BibHoldingsRecordKind class]) {
+        static struct _BibHoldingsRecordKind placeholder =
+            STATIC_CLASS_STRUCT(_BibHoldingsRecordKind, 0x00);
+        return (__bridge BibHoldingsRecordKind *)&placeholder;
+    }
+    return [super allocWithZone:zone];
+}
+
+@end
+
+@implementation _BibHoldingsRecordKind
+
++ (void)load {
+    static_class_apply_overrides(self);
+}
+
+- (uint8_t)byteValue {
+    return ((__bridge struct _BibHoldingsRecordKind *)self)->byteValue;
+}
+
+- (instancetype)initWithByte:(uint8_t)byteValue {
+    switch (byteValue) {
+    case 'u': return (id)[BibRecordKind unknownHoldings];
+    case 'v': return (id)[BibRecordKind multipartItemHoldings];
+    case 'x': return (id)[BibRecordKind singlePartItemHoldings];
+    case 'y': return (id)[BibRecordKind serialItemHoldings];
+    default: return nil;
+    }
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    return self;
+}
+
+@end
+
+#pragma mark - Classification
+
+@implementation BibClassificationRecordKind
+
+- (BibRecordFormat)recordFormat {
+    return BibRecordFormatClassification;
+}
+
++ (instancetype)allocWithZone:(NSZone *)zone {
+    if (self == [BibClassificationRecordKind class]) {
+        static struct _BibClassificationRecordKind placeholder =
+            STATIC_CLASS_STRUCT(_BibClassificationRecordKind, 0x00);
+        return (__bridge BibClassificationRecordKind *)&placeholder;
+    }
+    return [super allocWithZone:zone];
+}
+
+@end
+
+@implementation _BibClassificationRecordKind
+
++ (void)load {
+    static_class_apply_overrides(self);
+}
+
+- (uint8_t)byteValue {
+    return ((__bridge struct _BibClassificationRecordKind *)self)->byteValue;
+}
+
+- (instancetype)initWithByte:(uint8_t)byteValue {
+    switch (byteValue) {
+    case 'w': return (id)[BibRecordKind classification];
+    default: return nil;
+    }
+}
+
+- (instancetype)init {
+    return (id)[BibRecordKind classification];
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    return self;
+}
+
+@end
+
+#pragma mark - Community
+
+@implementation BibCommunityRecordKind
+
+- (BibRecordFormat)recordFormat {
+    return BibRecordFormatCommunity;
+}
+
++ (instancetype)allocWithZone:(NSZone *)zone {
+    if (self == [BibCommunityRecordKind class]) {
+        static struct _BibCommunityRecordKind placeholder =
+            STATIC_CLASS_STRUCT(_BibCommunityRecordKind, 0x00);
+        return (__bridge BibCommunityRecordKind *)&placeholder;
+    }
+    return [super allocWithZone:zone];
+}
+
+@end
+
+@implementation _BibCommunityRecordKind
+
++ (void)load {
+    static_class_apply_overrides(self);
+}
+
+- (uint8_t)byteValue {
+    return ((__bridge struct _BibCommunityRecordKind *)self)->byteValue;
+}
+
+- (instancetype)initWithByte:(uint8_t)byteValue {
+    switch (byteValue) {
+    case 'q': return (id)[BibRecordKind communityInformation];
+    default: return nil;
+    }
+}
+
+- (instancetype)init {
+    return (id)[BibRecordKind communityInformation];
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    return self;
 }
 
 @end
