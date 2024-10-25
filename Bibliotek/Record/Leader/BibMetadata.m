@@ -138,43 +138,6 @@ static BibReservedPosition const kAllReservedPositions[] = {
 
 @end
 
-#pragma mark - Bibliographic Level
-
-NSString *BibBibliographicLevelDescription(BibBibliographicLevel const level) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    NSBundle *bundle = [NSBundle bundleForClass:[BibMetadata self]];
-#pragma clang diagnostic pop
-    switch (level) {
-        case 0: return nil;
-        case BibBibliographicLevelMonographicComponentPart:
-            return NSLocalizedStringWithDefaultValue(@"a", @"BibliographicLevel", bundle,
-                                                     @"Monographic component part", @"Monographic component part");
-        case BibBibliographicLevelSerialComponentPart:
-            return NSLocalizedStringWithDefaultValue(@"b", @"BibliographicLevel", bundle,
-                                                     @"Serial component part", @"Serial component part");
-        case BibBibliographicLevelCollection:
-            return NSLocalizedStringWithDefaultValue(@"c", @"BibliographicLevel", bundle,
-                                                     @"Collection", @"Collection");
-        case BibBibliographicLevelSubunit:
-            return NSLocalizedStringWithDefaultValue(@"d", @"BibliographicLevel", bundle,
-                                                     @"Subunit", @"Subunit");
-        case BibBibliographicLevelIntegratingResource:
-            return NSLocalizedStringWithDefaultValue(@"i", @"BibliographicLevel", bundle,
-                                                     @"Integrating resource", @"Integrating resource");
-        case BibBibliographicLevelMonograph:
-            return NSLocalizedStringWithDefaultValue(@"m", @"BibliographicLevel", bundle,
-                                                     @"Monograph/Item", @"Monograph/Item");
-        case BibBibliographicLevelSerial:
-            return NSLocalizedStringWithDefaultValue(@"s", @"BibliographicLevel", bundle,
-                                                     @"Serial", @"Serial");
-        default: {
-            NSString *key = [NSString stringWithFormat:@"%c", level];
-            return [bundle localizedStringForKey:key value:nil table:@"BibliographicLevel"];
-        }
-    }
-}
-
 #pragma mark -
 
 @implementation BibMetadata (DefinedValues)

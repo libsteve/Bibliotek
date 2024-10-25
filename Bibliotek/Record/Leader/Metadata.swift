@@ -171,13 +171,3 @@ extension ReservedPosition: ExpressibleByIntegerLiteral, CaseIterable {
         self.init(rawValue: value)!
     }
 }
-
-extension BibliographicLevel: CustomStringConvertible, CustomDebugStringConvertible, CustomPlaygroundDisplayConvertible {
-    public var description: String { __BibBibliographicLevelDescription(self) }
-
-    public var debugDescription: String {
-        "RecordStatus(rawValue: \"\(Unicode.Scalar(UInt8(self.rawValue)))\"): \(self.description)"
-    }
-
-    public var playgroundDescription: Any { self.description }
-}
