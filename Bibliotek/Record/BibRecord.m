@@ -39,29 +39,8 @@
     return self;
 }
 
-- (instancetype)initWithKind:(BibRecordKind *)kind
-                      status:(BibRecordStatus)status
-                    metadata:(BibMetadata *)metadata
-                      fields:(NSArray<BibRecordField *> *)fields {
-    if (self = [super init]) {
-        BibMutableLeader *leader = [[metadata leader] mutableCopy];
-        [leader setRecordKind:kind];
-        [leader setRecordStatus:status];
-        _leader = [leader copy];
-        _fields = [fields copy];
-    }
-    return self;
-}
-
 + (instancetype)recordWithLeader:(BibLeader *)leader fields:(NSArray<BibRecordField *> *)fields {
     return [[self alloc] initWithLeader:leader fields:fields];
-}
-
-+ (instancetype)recordWithKind:(BibRecordKind *)kind
-                        status:(BibRecordStatus)status
-                      metadata:(BibMetadata *)metadata
-                        fields:(NSArray<BibRecordField *> *)fields {
-    return [[self alloc] initWithKind:kind status:status metadata:metadata fields:fields];
 }
 
 - (NSString *)description {
@@ -82,11 +61,6 @@
 @dynamic status;
 - (BibRecordStatus)status {
     return [[self leader] recordStatus];
-}
-
-@dynamic metadata;
-- (BibMetadata *)metadata {
-    return [[BibMetadata alloc] initWithLeader:[self leader]];
 }
 
 @end
@@ -355,11 +329,6 @@
 @dynamic status;
 - (void)setStatus:(BibRecordStatus)status {
     [(BibMutableLeader *)(_leader) setRecordStatus:status];
-}
-
-@dynamic metadata;
-- (void)setMetadata:(BibMetadata *)metadata {
-    _leader = [[metadata leader] mutableCopy];
 }
 
 - (NSArray<BibRecordField *> *)fields {

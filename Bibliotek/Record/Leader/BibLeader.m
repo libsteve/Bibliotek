@@ -178,22 +178,20 @@ static NSUInteger sReadUnsignedInteger(NSData *const data, NSRange const range) 
 
 - (BibBibliographicLevel)bibliographicLevel {
     if ([[self recordKind] isBibliographicKind]) {
-        return [self valueForReservedPosition:BibReservedPosition07];
+        uint8_t byte;
+        [[self rawData] getBytes:&byte range:NSMakeRange(7, 1)];
+        return (BibBibliographicLevel)byte;
     }
     return 0;
 }
 
 - (BibBibliographicControlType)bibliographicControlType {
     if ([[self recordKind] isBibliographicKind]) {
-        return [self valueForReservedPosition:BibReservedPosition08];
+        uint8_t byte;
+        [[self rawData] getBytes:&byte range:NSMakeRange(8, 1)];
+        return (BibBibliographicControlType)byte;
     }
     return 0;
-}
-
-- (char)valueForReservedPosition:(BibReservedPosition)index {
-    uint8_t byte;
-    [[self rawData] getBytes:&byte range:NSMakeRange(index, 1)];
-    return byte;
 }
 
 @end
@@ -265,21 +263,20 @@ static void sWriteUnsignedInteger(NSMutableData *const data, NSRange const range
 
 - (void)setBibliographicLevel:(BibBibliographicLevel)bibliographicLevel {
     if ([[self recordKind] isBibliographicKind]) {
-        [self setValue:(bibliographicLevel ?: ' ') forReservedPosition:BibReservedPosition07];
+        NSMutableData *const data = [[self rawData] mutableCopy];
+        bibliographicLevel = bibliographicLevel ?: ' ';
+        [data replaceBytesInRange:NSMakeRange(7, 1) withBytes:&bibliographicLevel];
+        [self setRawData:data];
     }
 }
 
 - (void)setBibliographicControlType:(BibBibliographicControlType)bibliographicControlType {
     if ([[self recordKind] isBibliographicKind]) {
+        NSMutableData *const data = [[self rawData] mutableCopy];
         bibliographicControlType = (bibliographicControlType ?: BibBibliographicControlTypeNone);
-        [self setValue:bibliographicControlType forReservedPosition:BibReservedPosition08];
+        [data replaceBytesInRange:NSMakeRange(8, 1) withBytes:&bibliographicControlType];
+        [self setRawData:data];
     }
-}
-
-- (void)setValue:(char)value forReservedPosition:(BibReservedPosition)index {
-    NSMutableData *const data = [[self rawData] mutableCopy];
-    [data replaceBytesInRange:NSMakeRange(index, 1) withBytes:&value];
-    [self setRawData:data];
 }
 
 @end

@@ -108,24 +108,6 @@ public struct Leader {
         Int(self.storage.lengthOfSubfieldCode)
     }
 
-    /// Retrieve the byte stored within the reserved position in the MARC record's leader.
-    ///
-    /// - parameter position: The index location of the desired byte in the record's leader.
-    /// - returns: The byte held at the reserved location in the record's leader.
-    public subscript(position: ReservedPosition) -> Int8 {
-        get { return self.storage.value(forReservedPosition: position) }
-        set {
-            if self._mutableStorage ==  nil {
-                precondition(self._storage != nil)
-                self._mutableStorage = self._storage.mutableCopy() as? BibMutableLeader
-                self._storage = nil
-            } else if !isKnownUniquelyReferenced(&self._mutableStorage) {
-                self._mutableStorage = self._mutableStorage.mutableCopy() as? BibMutableLeader
-            }
-            self._mutableStorage.setValue(newValue, forReservedPosition: position)
-        }
-    }
-
     private init(storage: BibLeader) {
         self._storage = storage.copy() as? BibLeader
     }
@@ -196,7 +178,7 @@ extension Leader: CustomStringConvertible, CustomDebugStringConvertible, CustomP
     public var debugDescription: String { return self.storage.debugDescription }
 
     public var playgroundDescription: Any {
-        return ReservedPosition.allCases.map { String(format: "%c", self[$0]) }
+        self.description
     }
 }
 

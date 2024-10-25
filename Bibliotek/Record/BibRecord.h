@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <Bibliotek/BibMetadata.h>
 #import <Bibliotek/BibSubfield.h>
+#import <Bibliotek/BibRecordStatus.h>
 
 @class BibRecordField;
 @class BibRecordKind;
@@ -47,42 +47,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// The reserved bytes are located at index `7`, `8`, `17`, `18`, and `19` within the record leader.
 ///
 /// Use this field to access those bytes, which should be interpreted using the scheme identified in `kind`.
-@property (nonatomic, copy, readonly) BibMetadata *metadata DEPRECATED_MSG_ATTRIBUTE("use -leader");
-
-/// Implementation-defined metadata from the MARC record's leader.
-///
-/// MARC records can have arbitrary implementation-defined data embedded in their leader.
-/// The reserved bytes are located at index `7`, `8`, `17`, `18`, and `19` within the record leader.
-///
-/// Use this field to access those bytes, which should be interpreted using the scheme identified in `kind`.
 @property (nonatomic, copy, readonly) BibLeader *leader;
 
 /// An ordered list of fields containing information and metadata about the record and its represented item.
 @property (nonatomic, copy, readonly) NSArray<BibRecordField *> *fields;
-
-/// Create a MARC 21 record with the given data.
-///
-/// - parameter kind: The type of record.
-/// - parameter status: The record's status in its originating database.
-/// - parameter metadata: A set of implementation-defined bytes.
-/// - parameter fields: An ordered list of control fields and data fields describing the record and its
-///                     represented item.
-/// - returns: Returns a valid MARC 21 record for some item or entity described by the given fields.
-- (instancetype)initWithKind:(nullable BibRecordKind *)kind
-                      status:(BibRecordStatus)status
-                    metadata:(BibMetadata *)metadata
-                      fields:(NSArray<BibRecordField *> *)fields NS_DESIGNATED_INITIALIZER
-    DEPRECATED_MSG_ATTRIBUTE("use -initWithLeader:fields:");
-
-/// Create a MARC 21 record containing data from the given leader, control fields, and data fields.
-///
-/// - returns: Returns a valid MARC 21 record for some item or entity described by the given fields.
-+ (instancetype)recordWithKind:(nullable BibRecordKind *)kind
-                        status:(BibRecordStatus)status
-                      metadata:(BibMetadata *)metadata
-                        fields:(NSArray<BibRecordField *> *)controlFields
-    NS_SWIFT_UNAVAILABLE("use init(kind:status:metadata:fields:)")
-    DEPRECATED_MSG_ATTRIBUTE("use +recordWithLeader:fields:");
 
 /// Create a MARC 21 record with the given data.
 ///
@@ -208,8 +176,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// The record's current status in the database it was fetched from.
 @property (nonatomic, assign, readwrite) BibRecordStatus status;
-
-@property (nonatomic, copy, readwrite) BibMetadata *metadata DEPRECATED_MSG_ATTRIBUTE("use -leader");
 
 /// Implementation-defined metadata from the MARC record's leader.
 ///

@@ -8,7 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import <Bibliotek/BibAttributes.h>
-#import <Bibliotek/BibMetadata.h>
+#import <Bibliotek/BibRecordKind.h>
+#import <Bibliotek/BibRecordFormat.h>
+#import <Bibliotek/BibRecordStatus.h>
+#import <Bibliotek/BibBibliographicLevel.h>
+#import <Bibliotek/BibBibliographicControlType.h>
+#import <Bibliotek/BibEncoding.h>
 
 @class BibRecordKind;
 
@@ -122,12 +127,6 @@ BIB_SWIFT_BRIDGE(Leader)
 /// The ruleset used to determine the information about the item that's included in the record.
 @property (nonatomic, readonly) BibBibliographicControlType bibliographicControlType NS_REFINED_FOR_SWIFT;
 
-/// Retrieve the byte stored within the reserved position in the MARC record's leader.
-///
-/// - parameter position: The index location of the desired byte in the record's leader.
-/// - returns: The byte held at the reserved location in the record's leader.
-- (char)valueForReservedPosition:(BibReservedPosition)position NS_SWIFT_NAME(value(forReservedPosition:));
-
 @end
 
 @interface BibLeader (EntryMap)
@@ -170,13 +169,6 @@ BIB_SWIFT_BRIDGE(Leader)
 
 /// The ruleset used to determine the information about the item that's included in the record.
 @property (nonatomic, readwrite) BibBibliographicControlType bibliographicControlType NS_REFINED_FOR_SWIFT;
-
-/// Set the byte value within the reserved position in the MARC record's leader.
-///
-/// - parameter value: The byte to store within the record's leader.
-/// - parameter position: The index location of the desired byte in the record's leader.
-- (void)setValue:(char)value forReservedPosition:(BibReservedPosition)position
-    NS_SWIFT_NAME(setValue(_:forReservedPosition:));
 
 @end
 

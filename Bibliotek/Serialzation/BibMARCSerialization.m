@@ -12,8 +12,6 @@
 #import "BibMARCOutputStream.h"
 #import "BibSerializationError.h"
 
-#import "BibMetadata+Internal.h"
-
 #import "BibCharacterConversion.h"
 
 #import "BibRecord.h"

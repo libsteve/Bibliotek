@@ -49,18 +49,6 @@ public struct Record {
         set { self.mutate(keyPath: \.leader, with: newValue) }
     }
 
-    /// Implementation-defined metadata from the MARC record's leader.
-    ///
-    /// MARC records can have arbitrary implementation-defined data embedded in their leader.
-    /// The reserved bytes are located at index `7`, `8`, `17`, `18`, and `19` within the record leader.
-    ///
-    /// Use this field to access those bytes, which should be interpreted using the scheme identified in `kind`.
-    @available(*, deprecated, message: "use leader")
-    public var metadata: Metadata {
-        get { return self.storage.metadata }
-        set { self.mutate(keyPath: \.metadata, with: newValue) }
-    }
-
     /// An ordered list of fields containing information and metadata about the record and its represented item.
     public var fields: [RecordField] {
         get { return self.storage.fields }
@@ -77,17 +65,6 @@ public struct Record {
     /// - parameter fields: An ordered list of fields describing the item represented by the record.
     public init(leader: Leader, fields: [RecordField]) {
         self._storage = BibRecord(leader: leader, fields: fields)
-    }
-
-    /// Create a MARC 21 record with the given data.
-    ///
-    /// - parameter kind: The type of record.
-    /// - parameter status: The record's status in its originating database.
-    /// - parameter metadata: A set of implementation-defined bytes.
-    /// - parameter fields: An ordered list of fields describing the item represented by the record.
-    @available(*, deprecated, message: "use init(leader:fields:)")
-    public init(kind: RecordKind?, status: RecordStatus, metadata: Metadata, fields: [RecordField]) {
-        self._storage = BibRecord(kind: kind, status: status, metadata: metadata , fields: fields)
     }
 
     private mutating func mutate<T>(keyPath: WritableKeyPath<BibMutableRecord, T>, with newValue: T) {
