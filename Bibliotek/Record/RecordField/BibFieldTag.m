@@ -16,11 +16,13 @@
 @synthesize stringValue = _stringValue;
 
 - (BOOL)isControlTag {
-    return [[self stringValue] hasPrefix:@"00"];
+    NSString *stringValue = [self stringValue];
+    return [stringValue hasPrefix:@"00"] && ![stringValue isEqualToString:@"000"];
 }
 
 - (BOOL)isDataTag {
-    return ![self isControlTag];
+    NSString *stringValue = [self stringValue];
+    return ![stringValue hasPrefix:@"00"] && ![stringValue isEqualToString:@"000"];
 }
 
 + (instancetype)allocWithZone:(struct _NSZone *)zone {
@@ -99,7 +101,18 @@
 
 #pragma mark -
 
-@implementation _BibFieldTag
+@implementation _BibFieldTag {
+    BOOL _isControlTag;
+    BOOL _isDataTag;
+}
+
+- (BOOL)isControlTag {
+    return _isControlTag;
+}
+
+- (BOOL)isDataTag {
+    return _isDataTag;
+}
 
 - (instancetype)init {
     return [self initWithString:@"000"];
@@ -125,6 +138,9 @@ static NSCache *sFlyweightCache;
         return tag;
     }
     if (self = [super initWithString:stringValue]) {
+        BOOL isZeroTag = [stringValue isEqualToString:@"000"];
+        _isControlTag = [stringValue hasPrefix:@"00"] && !isZeroTag;
+        _isDataTag = !_isControlTag && !isZeroTag;
         [sFlyweightCache setObject:self forKey:stringValue];
     }
     return self;
