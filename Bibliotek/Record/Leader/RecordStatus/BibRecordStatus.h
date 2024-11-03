@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /// The type of change last applied to a record in its originating database.
-typedef NS_ENUM(uint8_t, BibRecordStatus) {
+typedef NS_ENUM(char, BibRecordStatus) {
     BibRecordStatusIncreaseInEncodingLevel  = 'a',
 
     /// The record has been edited with new information.

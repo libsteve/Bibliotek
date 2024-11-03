@@ -65,7 +65,7 @@ DECLARE_STATIC_CLASS_STRUCT(_BibCommunityRecordKind, uint8_t byteValue;);
     return [super allocWithZone:zone];
 }
 
-- (instancetype)initWithByte:(uint8_t)byteValue {
+- (instancetype)initWithByte:(char)byteValue {
     Method original = class_getInstanceMethod([BibRecordKind class], @selector(initWithByte:));
     Method current = class_getInstanceMethod([self class], @selector(initWithByte:));
     if (original == current) {
@@ -79,7 +79,7 @@ DECLARE_STATIC_CLASS_STRUCT(_BibCommunityRecordKind, uint8_t byteValue;);
     return [super init];
 }
 
-+ (instancetype)recordKindWithByte:(uint8_t)byteValue {
++ (instancetype)recordKindWithByte:(char)byteValue {
     return [[self alloc] initWithByte:byteValue];
 }
 
@@ -236,7 +236,7 @@ DECLARE_STATIC_CLASS_STRUCT(_BibCommunityRecordKind, uint8_t byteValue;);
     static_class_apply_overrides(self);
 }
 
-- (instancetype)initWithByte:(uint8_t)byteValue {
+- (instancetype)initWithByte:(char)byteValue {
     switch (byteValue) {
         case 'a': return (id)[BibRecordKind languageMaterial];
         case 'c': return (id)[BibRecordKind notatedMusic];
@@ -294,7 +294,7 @@ DECLARE_STATIC_CLASS_STRUCT(_BibCommunityRecordKind, uint8_t byteValue;);
     return ((__bridge struct _BibBibliographicRecordKind *)self)->byteValue;
 }
 
-- (instancetype)initWithByte:(uint8_t)byteValue {
+- (instancetype)initWithByte:(char)byteValue {
     switch (byteValue) {
     case 'a': return (id)[BibRecordKind languageMaterial];
     case 'c': return (id)[BibRecordKind notatedMusic];
@@ -391,7 +391,7 @@ DECLARE_STATIC_CLASS_STRUCT(_BibCommunityRecordKind, uint8_t byteValue;);
     return ((__bridge struct _BibHoldingsRecordKind *)self)->byteValue;
 }
 
-- (instancetype)initWithByte:(uint8_t)byteValue {
+- (instancetype)initWithByte:(char)byteValue {
     switch (byteValue) {
     case 'u': return (id)[BibRecordKind unknownHoldings];
     case 'v': return (id)[BibRecordKind multipartItemHoldings];

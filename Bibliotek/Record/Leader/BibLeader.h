@@ -22,6 +22,23 @@ NS_ASSUME_NONNULL_BEGIN
 /// A MARC record leader is always exactly 24 bytes of visible ASCII characters.
 extern NSUInteger const BibLeaderRawDataLength NS_REFINED_FOR_SWIFT;
 
+typedef char BibLeaderValue NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(LeaderValue);
+
+typedef NS_ENUM(uint8_t, BibLeaderLocation) {
+    BibLeaderLocationRecordStatus = 5,
+    BibLeaderLocationRecordKind = 6,
+    BibLeaderLocationBibliographicLevel = 7,
+    BibLeaderLocationKindOfCommunityData = 7,
+    BibLeaderLocationBibliographicControlType = 8,
+    BibLeaderLocationCharacterEncoding = 9,
+    BibLeaderLocationEncodingLevel = 17,
+    BibLeaderLocationDescriptiveCatalogingForm = 18,
+    BibLeaderLocationPunctuationPolicy = 18,
+    BibLeaderLocationMultipartRecordLevel = 19
+} NS_SWIFT_NAME(LeaderLocation);
+
+#pragma mark - Leader
+
 /// A collection of metadata preceding a the encoded data for a record.
 ///
 /// The record leader provides information about the layout of data within a record, and the semantics to use
@@ -52,13 +69,15 @@ BIB_SWIFT_BRIDGE(Leader)
 /// [the Library of Congress's documentation on MARC 21 Record Structure][record-structure].
 ///
 /// [record-structure]: (https://www.loc.gov/marc/specifications/specrecstruc.html#leader)
-- (instancetype)initWithData:(NSData *)data NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithData:(NSData *)data NS_DESIGNATED_INITIALIZER;
 
 /// Create the leader for a MARC 21 record.
 ///
 /// - parameter string: The raw string representation of the leader data.
 /// - returns: Returns a new record leader backed by the given string value.
 - (nullable instancetype)initWithString:(NSString *)string;
+
+- (BibLeaderValue)leaderValueAtLocation:(BibLeaderLocation)location;
 
 @end
 
@@ -81,7 +100,7 @@ BIB_SWIFT_BRIDGE(Leader)
 
 @end
 
-#pragma mark - Mutable
+#pragma mark - Mutable Leader
 
 /// A mutable collection of metadata preceding a the encoded data for a record.
 ///
@@ -97,6 +116,8 @@ BIB_SWIFT_BRIDGE(Leader)
 
 /// The 24-byte encoded representation of the leader's data.
 @property (nonatomic, copy, readwrite) NSData *rawData NS_SWIFT_NAME(rawValue);
+
+- (void)setLeaderValue:(BibLeaderValue)value atLocation:(BibLeaderLocation)location;
 
 @end
 

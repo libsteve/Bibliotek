@@ -34,14 +34,53 @@ static NSUInteger const kRecordBufferSizeMax = 99999;
 
 @synthesize rawData = _rawData;
 
+static BOOL sVerifyNumericValuesInRange(NSData *data, NSRange range) {
+    char bytes[range.length];
+    [data getBytes:bytes range:range];
+    for (int i = 0; i < range.length; i += 1) {
+        if (!isnumber(bytes[i])) {
+            return NO;
+        }
+    }
+    return YES;
+}
+
+static BOOL sVerifyValueInRange(NSData *data, NSRange range, char const *value) {
+    char bytes[range.length];
+    [data getBytes:bytes range:range];
+    return memcmp(bytes, value, range.length) == 0;
+}
+
+static BOOL sVerifyLeaderValuesInData(NSData *data) {
+    if ([data length] != BibLeaderRawDataLength) {
+        return NO;
+    }
+    char bytes[BibLeaderRawDataLength];
+    [data getBytes:bytes length:BibLeaderRawDataLength];
+    for (int i = 0; i < BibLeaderRawDataLength; i += 1) {
+        if (bytes[i] < 0x20 || bytes[i] > 0x7E) {
+            return NO;
+        }
+    }
+    return sVerifyNumericValuesInRange(data, kRecordLocationRange)
+        && sVerifyNumericValuesInRange(data, kRecordLengthRange)
+        && sVerifyValueInRange(data, kNumberOfIndicatorsRange, "2")
+        && sVerifyValueInRange(data, kLengthOfSubfieldCodeRange, "2")
+        && sVerifyValueInRange(data, kLengthOfLengthOfFieldRange, "4500");
+}
+
 - (instancetype)initWithData:(NSData *)data {
-    NSAssert([data length] == BibLeaderRawDataLength,
-             @"Leader must contain exactly %lu bytes of data.", BibLeaderRawDataLength);
+//    NSAssert([data length] == BibLeaderRawDataLength,
+//             @"Leader must contain exactly %lu bytes of data.", BibLeaderRawDataLength);
+    if (!sVerifyLeaderValuesInData(data)) {
+        return nil;
+    }
     if (self = [super init]) {
         _rawData = [data copy];
         if (self.recordKind == nil) {
-            [NSException raise:NSInvalidArgumentException
-                        format:@"*** MARC 21 Leader data contains an invalid record kind."];
+//            [NSException raise:NSInvalidArgumentException
+//                        format:@"*** MARC 21 Leader data contains an invalid record kind."];
+            return nil;
         }
     }
     return self;
@@ -77,6 +116,12 @@ static void sWriteRepeatValueToBuffer(uint8_t *const buffer, NSRange const range
 
 - (NSString *)description {
     return [[NSString alloc] initWithData:[self rawData] encoding:NSUTF8StringEncoding];
+}
+
+- (BibLeaderValue)leaderValueAtLocation:(BibLeaderLocation)location {
+    BibLeaderValue byte;
+    [[self rawData] getBytes:&byte range:NSMakeRange(location, sizeof(byte))];
+    return byte;
 }
 
 @end
@@ -129,6 +174,16 @@ static void sWriteRepeatValueToBuffer(uint8_t *const buffer, NSRange const range
     }
 }
 
+- (void)setLeaderValue:(BibLeaderValue)value atLocation:(BibLeaderLocation)location {
+    if (value < 0x20 || value > 0x7E) {
+        [NSException raise:NSInvalidArgumentException
+                    format:@"Leader value must be a printable ASCII character."];
+    }
+    NSMutableData *data = [[self rawData] mutableCopy];
+    [data replaceBytesInRange:NSMakeRange(location, sizeof(value)) withBytes:&value];
+    [self setRawData:data];
+}
+
 @end
 
 #pragma mark - Metadata
@@ -159,37 +214,27 @@ static NSUInteger sReadUnsignedInteger(NSData *const data, NSRange const range) 
 }
 
 - (BibRecordStatus)recordStatus {
-    BibRecordStatus buffer[kRecordStatusRange.length];
-    [[self rawData] getBytes:buffer range:kRecordStatusRange];
-    return buffer[0];
+    return [self leaderValueAtLocation:BibLeaderLocationRecordStatus];
 }
 
 - (BibRecordKind *)recordKind {
-    uint8_t buffer[kRecordKindRange.length];
-    [[self rawData] getBytes:buffer range:kRecordKindRange];
-    return [BibRecordKind recordKindWithByte:buffer[0]];
+    return [BibRecordKind recordKindWithByte:[self leaderValueAtLocation:BibLeaderLocationRecordKind]];
 }
 
 - (BibEncoding)recordEncoding {
-    BibEncoding buffer[kRecordEncodingRange.length];
-    [[self rawData] getBytes:buffer range:kRecordEncodingRange];
-    return buffer[0];
+    return [self leaderValueAtLocation:BibLeaderLocationCharacterEncoding];
 }
 
 - (BibBibliographicLevel)bibliographicLevel {
     if ([[self recordKind] isBibliographicKind]) {
-        uint8_t byte;
-        [[self rawData] getBytes:&byte range:NSMakeRange(7, 1)];
-        return (BibBibliographicLevel)byte;
+        return [self leaderValueAtLocation:BibLeaderLocationBibliographicLevel];
     }
     return 0;
 }
 
 - (BibBibliographicControlType)bibliographicControlType {
     if ([[self recordKind] isBibliographicKind]) {
-        uint8_t byte;
-        [[self rawData] getBytes:&byte range:NSMakeRange(8, 1)];
-        return (BibBibliographicControlType)byte;
+        return [self leaderValueAtLocation:BibLeaderLocationBibliographicControlType];
     }
     return 0;
 }
@@ -243,30 +288,21 @@ static void sWriteUnsignedInteger(NSMutableData *const data, NSRange const range
 }
 
 - (void)setRecordStatus:(BibRecordStatus)recordStatus {
-    NSMutableData *const data = [[self rawData] mutableCopy];
-    [data replaceBytesInRange:kRecordStatusRange withBytes:&recordStatus];
-    [self setRawData:data];
+    [self setLeaderValue:recordStatus atLocation:BibLeaderLocationRecordStatus];
 }
 
 - (void)setRecordKind:(BibRecordKind *)recordKind {
-    NSMutableData *const data = [[self rawData] mutableCopy];
-    uint8_t const recordKindRawValue = [recordKind byteValue];
-    [data replaceBytesInRange:kRecordKindRange withBytes:&recordKindRawValue];
-    [self setRawData:data];
+    [self setLeaderValue:[recordKind byteValue] atLocation:BibLeaderLocationRecordKind];
 }
 
 - (void)setRecordEncoding:(BibEncoding)recordEncoding {
-    NSMutableData *const data = [[self rawData] mutableCopy];
-    [data replaceBytesInRange:kRecordEncodingRange withBytes:&recordEncoding];
-    [self setRawData:data];
+    [self setLeaderValue:recordEncoding atLocation:BibLeaderLocationCharacterEncoding];
 }
 
 - (void)setBibliographicLevel:(BibBibliographicLevel)bibliographicLevel {
     if ([[self recordKind] isBibliographicKind]) {
-        NSMutableData *const data = [[self rawData] mutableCopy];
         bibliographicLevel = bibliographicLevel ?: ' ';
-        [data replaceBytesInRange:NSMakeRange(7, 1) withBytes:&bibliographicLevel];
-        [self setRawData:data];
+        [self setLeaderValue:bibliographicLevel atLocation:BibLeaderLocationBibliographicLevel];
     }
 }
 
@@ -274,8 +310,7 @@ static void sWriteUnsignedInteger(NSMutableData *const data, NSRange const range
     if ([[self recordKind] isBibliographicKind]) {
         NSMutableData *const data = [[self rawData] mutableCopy];
         bibliographicControlType = (bibliographicControlType ?: BibBibliographicControlTypeNone);
-        [data replaceBytesInRange:NSMakeRange(8, 1) withBytes:&bibliographicControlType];
-        [self setRawData:data];
+        [self setLeaderValue:bibliographicControlType atLocation:BibLeaderLocationBibliographicControlType];
     }
 }
 

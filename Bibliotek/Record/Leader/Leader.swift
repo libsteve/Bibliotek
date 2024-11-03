@@ -8,6 +8,34 @@
 
 import Foundation
 
+extension LeaderValue: ExpressibleByUnicodeScalarLiteral {
+    public init(unicodeScalarLiteral value: Unicode.Scalar) {
+        precondition(value.isASCII && 0x20 as UInt32 ..< 0x7F ~= value.value,
+                     "Leader value must be an ASCII printable character.")
+        self.init(CChar(truncatingIfNeeded: value.value))
+    }
+}
+
+extension LeaderValue: ExpressibleByIntegerLiteral {
+    public init(integerLiteral value: CChar) {
+        precondition(0x20 as CChar ..< 0x7F ~= value,
+                     "Leader value must be an ASCII printable character.")
+        self.init(value)
+    }
+}
+
+extension LeaderValue: Strideable {
+    public typealias Stride = Int
+
+    public func distance(to other: LeaderValue) -> Int {
+        self.rawValue.distance(to: other.rawValue)
+    }
+
+    public func advanced(by n: Int) -> LeaderValue {
+        LeaderValue(self.rawValue.advanced(by: n))
+    }
+}
+
 /// A collection of metadata preceding a the encoded data for a record.
 ///
 /// The record leader provides information about the layout of data within a record, and the semantics to use
@@ -39,19 +67,39 @@ public struct Leader {
         BibLeader.rawValueLength
     }
 
+    public subscript(location: LeaderLocation) -> LeaderValue {
+        get { self.leaderValue(at: location) }
+        set { self.setLeaderValue(newValue, at: location) }
+    }
+
+    public func leaderValue(at location: LeaderLocation) -> LeaderValue {
+        self.storage.leaderValue(at: location)
+    }
+
+    public mutating func setLeaderValue(_ value: LeaderValue, at location: LeaderLocation) {
+        if self._mutableStorage == nil {
+            precondition(self._storage != nil)
+            self._mutableStorage = self._storage.mutableCopy() as? BibMutableLeader
+            self._storage = nil
+        } else if !isKnownUniquelyReferenced(&self._mutableStorage) {
+            self._mutableStorage = self._mutableStorage.mutableCopy() as? BibMutableLeader
+        }
+        self._mutableStorage.setLeaderValue(value, at: location)
+    }
+
     /// The type of data represented by the record.
     ///
     /// MARC 21 records can represent multiple kinds of information—bibliographic, classification, etc.—which each use
     /// different schemas to present their information.
-    public var recordKind: RecordKind {
-        get { self.storage.recordKind }
-        set { self.mutate(keyPath: \.recordKind, with: newValue) }
+    public var recordKind: RecordKind! {
+        get { RecordKind.init(rawValue: self[.recordKind].rawValue) }
+        set { self[.recordKind] = LeaderValue(newValue.rawValue) }
     }
 
     /// The record's current status in the database it was fetched from.
-    public var recordStatus: RecordStatus {
-        get { self.storage.recordStatus }
-        set { self.mutate(keyPath: \.recordStatus, with: newValue) }
+    public var recordStatus: RecordStatus! {
+        get { RecordStatus(rawValue: self[.recordStatus].rawValue) }
+        set { self[.recordStatus] = LeaderValue(newValue.rawValue) }
     }
 
     /// The character encoding used to represent textual information within the record.
@@ -120,14 +168,16 @@ public struct Leader {
     /// Create the leader for a MARC 21 record.
     ///
     /// - parameter data: A buffer of 24 bytes in which leader data is encoded.
-    /// - returns: A new record leader backed by the given data representation.
     ///
     /// More information about the MARC 21 leader can be found in
     /// [the Library of Congress's documentation on MARC 21 Record Structure][record-structure].
     ///
     /// [record-structure]: (https://www.loc.gov/marc/specifications/specrecstruc.html#leader)
-    public init(data: Data) {
-        self._storage = BibLeader(data: data)
+    public init?(data: Data) {
+        guard let storage = BibLeader(data: data) else {
+            return nil
+        }
+        self._storage = storage
     }
 
     /// Create the leader for a MARC 21 record.

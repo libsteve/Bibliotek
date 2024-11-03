@@ -9,7 +9,7 @@
 import Foundation
 
 extension RecordKind: RawRepresentable {
-    public typealias RawValue = UInt8
+    public typealias RawValue = CChar
 }
 
 extension RecordKind: CustomPlaygroundDisplayConvertible {

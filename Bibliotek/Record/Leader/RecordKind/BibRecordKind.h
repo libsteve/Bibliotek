@@ -27,7 +27,7 @@ NS_SWIFT_NAME(RecordKind) NS_SWIFT_SENDABLE
 @interface BibRecordKind : NSObject <NSCopying>
 
 /// The raw character value used in a record's leader to indicate the record's kind.
-@property (nonatomic, assign, readonly) uint8_t byteValue NS_SWIFT_NAME(rawValue);
+@property (nonatomic, assign, readonly) char byteValue NS_SWIFT_NAME(rawValue);
 
 /// Identifies the general kind of data contained in a record.
 @property (nonatomic, readonly) BibRecordFormat recordFormat;
@@ -35,13 +35,13 @@ NS_SWIFT_NAME(RecordKind) NS_SWIFT_SENDABLE
 /// Create a `BibRecordKind` instance using the given byte.
 ///
 /// - parameter byteValue: The character value in a record's leader that indicates a record's kind.
-- (nullable instancetype)initWithByte:(uint8_t)byteValue NS_SWIFT_NAME(init(rawValue:));
+- (nullable instancetype)initWithByte:(char)byteValue NS_SWIFT_NAME(init(rawValue:));
 
 /// Create a ``BibRecordKind`` instance using the given byte.
 ///
 /// - parameter byteValue: The character value in a record's leader that indicates a record's kind.
 /// - returns: An instance of ``BibRecordKind`` when given a `byteValue` representing a known record kind.
-+ (nullable instancetype)recordKindWithByte:(uint8_t)byteValue NS_SWIFT_UNAVAILABLE("Use init(rawValue:)");
++ (nullable instancetype)recordKindWithByte:(char)byteValue NS_SWIFT_UNAVAILABLE("Use init(rawValue:)");
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;

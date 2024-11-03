@@ -14,7 +14,7 @@ extension RecordStatus: CustomStringConvertible,
                         CustomPlaygroundDisplayConvertible {
     public init(unicodeScalarLiteral value: Unicode.Scalar) {
         precondition(value.isASCII)
-        guard let level = Self(rawValue: UInt8(truncatingIfNeeded: value.value)) else {
+        guard let level = Self(rawValue: CChar(truncatingIfNeeded: value.value)) else {
             preconditionFailure()
         }
         self = level
