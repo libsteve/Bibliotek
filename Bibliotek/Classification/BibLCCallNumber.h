@@ -98,8 +98,12 @@ typedef NS_OPTIONS(NSInteger, BibLCCallNumberFormatOptions);
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// The Library of Congress Classification call number identifying a cataloged item.
+///
 /// More information about Library of Congress Classification can be found at
-/// https://www.librarianshipstudies.com/2017/11/library-of-congress-classification.html
+/// [librarianshipstudies.com][1].
+///
+/// [1]: https://www.librarianshipstudies.com/2017/11/library-of-congress-classification.html
 BIB_SWIFT_BRIDGE(LCCallNumber) NS_SWIFT_SENDABLE
 @interface BibLCCallNumber : NSObject <NSCopying>
 
@@ -121,26 +125,24 @@ BIB_SWIFT_BRIDGE(LCCallNumber) NS_SWIFT_SENDABLE
 
 /// Determine the linear ordering relationship between two call numbers.
 ///
-/// ## Examples
-///
-/// The classification `HQ76` is ordered before `QA76`
-///
-/// The classification `QA76` is ordered before `QA76.76`
-///
-/// The classification `QA76.76` is ordered before `QA76.9`
-///
-/// The classification `P35` is ordered before `P112`
-///
-/// The classification `P327` is ordered before `PC5615`
-///
 /// - parameter callNumber: The call number being compared with the receiver.
 /// - returns: `NSOrderedDescending` when the given call number is ordered before the receiver.
 ///            `NSOrderedSame` when the given call number is equivalent to the receiver.
 ///            `NSOrderedAscending` when the given call number is ordered after the receiver.
 ///
-/// - seealso: ``compareWithCallNumber:``
-/// - seealso: ``isEqualToCallNumber:``
-/// - seealso: ``includesCallNumber:``
+/// ## Examples
+///
+/// - The classification `HQ76` is ordered before `QA76`
+/// - The classification `QA76` is ordered before `QA76.76`
+/// - The classification `QA76.76` is ordered before `QA76.9`
+/// - The classification `P35` is ordered before `P112`
+/// - The classification `P327` is ordered before `PC5615`
+///
+/// ## See Also
+///
+/// - ``compareWithCallNumber:``
+/// - ``isEqualToCallNumber:``
+/// - ``includesCallNumber:``
 - (NSComparisonResult)compare:(BibLCCallNumber *)callNumber;
 
 /// Determine the ordering relationship between the subject matters represented by two call numbers.
