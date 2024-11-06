@@ -63,7 +63,9 @@ bool bib_lex_decimal(bib_digit16_b buffer, bib_strbuf_t *const lexer)
         return false;
     }
     bib_strbuf_t l = *lexer;
-    bool success = bib_read_point(&l)
+    // The use of commas instead of periods is a common mistake in the official
+    // Library of Congress Classification schedule, so we'll allow it.
+    bool success = (bib_read_point(&l) || bib_read_comma(&l))
                 && bib_lex_digit16(buffer, &l)
                 && bib_advance_strbuf(lexer, &l);
     if (!success) {

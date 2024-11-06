@@ -187,6 +187,7 @@
         <integer> ::= <digit03>
                     | <digit03> <digit03>
         <decimal> ::= '.' <digit16>
+                    | ',' <digit16>
 
         <subject> ::= <subject-base>
                     | <subject-base> <space> <date>
