@@ -78,7 +78,7 @@
 ; MARK: ------------------------------------------------------------------------
 ; MARK: Date Primitives
 
-       <year> ::= <digit> <digit> <digit> <digit>
+  <year-full> ::= <digit> <digit> <digit> <digit>
   <year-abbr> ::= <digit> <digit>
  <month-abbr> ::= "Jan"  | "Feb" | "Mar" | "Apr"
                 | "May"  | "Jun" | "Jul" | "Aug"
