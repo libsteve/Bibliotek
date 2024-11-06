@@ -145,4 +145,32 @@
     XCTAssertNotNil(calln.stringValue);
 }
 
+#pragma mark -
+
+- (void)test_basic_number_01 {
+    BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"A"];
+    XCTAssertNotNil(calln.stringValue);
+}
+
+- (void)test_basic_number_02 {
+    BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"AB"];
+    XCTAssertNotNil(calln.stringValue);
+}
+
+- (void)test_basic_number_03 {
+    BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"ABC"];
+    XCTAssertNotNil(calln.stringValue);
+}
+
+- (void)test_basic_number_04 {
+    XCTSkip(@"We'll get back to this another time.");
+    BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"ABCD"];
+    XCTAssertNil(calln.stringValue);
+}
+
+- (void)test_basic_number_05 {
+    BibLCCallNumber *const calln = [[BibLCCallNumber alloc] initWithString:@"ABCDE"];
+    XCTAssertNil(calln.stringValue);
+}
+
 @end

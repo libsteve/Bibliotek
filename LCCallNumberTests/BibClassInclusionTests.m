@@ -150,4 +150,22 @@
     XCTAssertTrue([a includesCallNumber:ag3]);
 }
 
+- (void)test_07 {
+    BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"QA7.7"];
+    BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"QA7.76"];
+    XCTAssertFalse([a includesCallNumber:b]);
+}
+
+- (void)test_08 {
+    BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"QA 76.76 .A"];
+    BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"QA 76.76 .A36"];
+    XCTAssertFalse([a includesCallNumber:b]);
+}
+
+- (void)test_09 {
+    BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"QA 76.76"];
+    BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"QA 76.76 .A"];
+    XCTAssertTrue([a includesCallNumber:b]);
+}
+
 @end

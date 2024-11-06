@@ -464,5 +464,83 @@
     XCTAssertEqual(BibClassificationOrderedGeneralizing, [ag3 compareWithCallNumber:a]);
 }
 
+#pragma mark -
+
+- (void)test_12_decimal_segment_ascending {
+    BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"QA76.7"];
+    BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"QA76.76"];
+    XCTAssertEqual(BibClassificationOrderedAscending, [a compareWithCallNumber:b]);
+}
+
+- (void)test_12_decimal_segment_descending {
+    BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"QA76.76"];
+    BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"QA76.7"];
+    XCTAssertEqual(BibClassificationOrderedDescending, [a compareWithCallNumber:b]);
+}
+
+- (void)test_12_decimal_segment_specifying {
+    BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"QA76"];
+    BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"QA76.76"];
+    XCTAssertEqual(BibClassificationOrderedSpecifying, [a compareWithCallNumber:b]);
+}
+
+- (void)test_12_decimal_segment_generalizing {
+    BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"QA76.76"];
+    BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"QA76"];
+    XCTAssertEqual(BibClassificationOrderedGeneralizing, [a compareWithCallNumber:b]);
+}
+
+#pragma mark -
+
+- (void)test_13_cutter_segment_ascending {
+    BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"QA76.76.O"];
+    BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"QA76.76.O99"];
+    XCTAssertEqual(BibClassificationOrderedAscending, [a compareWithCallNumber:b]);
+}
+
+- (void)test_13_cutter_segment_descending {
+    BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"QA76.76.O99"];
+    BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"QA76.76.O"];
+    XCTAssertEqual(BibClassificationOrderedDescending, [a compareWithCallNumber:b]);
+}
+
+- (void)test_13_cutter_segment_specifying {
+    BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"QA76.76"];
+    BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"QA76.76.O"];
+    XCTAssertEqual(BibClassificationOrderedSpecifying, [a compareWithCallNumber:b]);
+}
+
+- (void)test_13_cutter_segment_generalizing {
+    BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"QA76.76.O"];
+    BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"QA76.76"];
+    XCTAssertEqual(BibClassificationOrderedGeneralizing, [a compareWithCallNumber:b]);
+}
+
+#pragma mark -
+
+- (void)test_14_work_segment_ascending {
+    BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"QA76.76.O99A"];
+    BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"QA76.76.O99Ab"];
+    XCTAssertEqual(BibClassificationOrderedAscending, [a compareWithCallNumber:b]);
+}
+
+- (void)test_14_work_segment_descending {
+    BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"QA76.76.O99Ab"];
+    BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"QA76.76.O99A"];
+    XCTAssertEqual(BibClassificationOrderedDescending, [a compareWithCallNumber:b]);
+}
+
+- (void)test_14_work_segment_specifying {
+    BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"QA76.76.O99"];
+    BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"QA76.76.O99Ab"];
+    XCTAssertEqual(BibClassificationOrderedSpecifying, [a compareWithCallNumber:b]);
+}
+
+- (void)test_14_work_segment_generalizing {
+    BibLCCallNumber *const a = [[BibLCCallNumber alloc] initWithString:@"QA76.76.O99Ab"];
+    BibLCCallNumber *const b = [[BibLCCallNumber alloc] initWithString:@"QA76.76.O99"];
+    XCTAssertEqual(BibClassificationOrderedGeneralizing, [a compareWithCallNumber:b]);
+}
+
 @end
 

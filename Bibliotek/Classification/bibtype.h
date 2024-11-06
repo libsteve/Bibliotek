@@ -432,6 +432,23 @@ bib_calln_comparison_t bib_supplement_compare(bib_calln_comparison_t status,
 extern bib_calln_comparison_t bib_string_specify_compare(bib_calln_comparison_t status,
                                                          char const *prefix, char const *string, bool specify);
 
+#pragma mark - decimal comparison
+
+/// Compare the left and right decimal values to see if they're in ascending or descending order.
+///
+/// - parameter status: The result of previous specialization comparisons. This is used to continue matching
+///                     prefixes for subsequent segments that have been completely equivalent thus far.
+/// - parameter left: The decimal value on the left side of the comparison operation.
+/// - parameter right: The decimal value on the right side of the comparison operation.
+/// - parameter specify: Pass `true` when the comparison should include specialization ordering.
+/// - returns: The ordering relationship between the `left` and `right` objects.
+///
+/// Because specification happens on the segment level, not the decimal level, this function will only return
+/// a specifying or generalizing relationship if either `left` or `right` is empty respectively.
+extern bib_calln_comparison_t bib_decimal_specify_compare(bib_calln_comparison_t const status,
+                                                          char const *const left, char const *const right,
+                                                          bool const specify);
+
 __END_DECLS
 
 #endif /* bibtype_h */
