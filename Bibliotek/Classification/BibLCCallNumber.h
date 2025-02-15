@@ -39,7 +39,7 @@ typedef NS_CLOSED_ENUM(NSInteger, BibClassificationComparisonResult) {
     ///
     /// The leading classification is linearly ordered `NSOrderedAscending` with the trailing
     /// classification. That is, it appears before the trailing classification when sorted linearly.
-    BibClassificationOrderedSpecifying   NS_SWIFT_NAME(specifying)   = NSOrderedAscending - 1,
+    BibClassificationOrderedSpecifying   NS_SWIFT_NAME(orderedSpecifying)   = NSOrderedAscending - 1,
 
     /// The leading value is ordered before the trailing value.
     ///
@@ -50,7 +50,7 @@ typedef NS_CLOSED_ENUM(NSInteger, BibClassificationComparisonResult) {
     /// The classification `HQ76.13` (Gay fathers) is ordered before `HQ76.5` (Gay rights movement.
     /// Gay liberation movement.) on the shelf. Neither classification is a superset of the other,
     /// with their first common ancestor being `HQ76` (Homosexuality. Lesbianism).
-    BibClassificationOrderedAscending    NS_SWIFT_NAME(ascending)    = NSOrderedAscending,
+    BibClassificationOrderedAscending    NS_SWIFT_NAME(orderedAscending)    = NSOrderedAscending,
 
     /// The leading and trailing values are equivalent.
     ///
@@ -65,7 +65,7 @@ typedef NS_CLOSED_ENUM(NSInteger, BibClassificationComparisonResult) {
     ///     ``BibClassificationComparisonResult/BibClassificationOrderedAscending`` or
     ///     ``BibClassificationComparisonResult/BibClassificationOrderedDescending``, depending on
     ///     their order.
-    BibClassificationOrderedSame         NS_SWIFT_NAME(same)         = NSOrderedSame,
+    BibClassificationOrderedSame         NS_SWIFT_NAME(orderedSame)         = NSOrderedSame,
 
     /// The leading value is ordered after the trailing value.
     ///
@@ -76,7 +76,7 @@ typedef NS_CLOSED_ENUM(NSInteger, BibClassificationComparisonResult) {
     /// The classification `HQ76.5` (Gay rights movement. Gay liberation movement.) is ordered
     /// after `HQ76.13` (Gay fathers) on the shelf. Neither classification is a superset of the
     /// other, with their first common ancestor being `HQ76` (Homosexuality. Lesbianism).
-    BibClassificationOrderedDescending   NS_SWIFT_NAME(descending)   = NSOrderedDescending,
+    BibClassificationOrderedDescending   NS_SWIFT_NAME(orderedDescending)   = NSOrderedDescending,
 
     /// The leading value's subject matter is included in the tailing classification.
     ///
@@ -89,7 +89,7 @@ typedef NS_CLOSED_ENUM(NSInteger, BibClassificationComparisonResult) {
     ///
     /// The leading subject matter is linearly ordered `NSOrderedDescending` with the trailing
     /// classification. That is, it appears after the trailing classification when sorted linearly.
-    BibClassificationOrderedGeneralizing NS_SWIFT_NAME(generalizing) = NSOrderedDescending + 1
+    BibClassificationOrderedGeneralizing NS_SWIFT_NAME(orderedGeneralizing) = NSOrderedDescending + 1
 } NS_SWIFT_NAME(ClassificationComparisonResult);
 
 typedef NS_OPTIONS(NSInteger, BibLCCallNumberFormatOptions);

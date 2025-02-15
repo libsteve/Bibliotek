@@ -261,3 +261,20 @@ extension LCCallNumber: _ObjectiveCBridgeable {
 extension BibLCCallNumber: CustomPlaygroundDisplayConvertible {
     public var playgroundDescription: Any { return self.description }
 }
+
+extension ClassificationComparisonResult {
+    @available(*, deprecated, renamed: "orderedSpecifying")
+    public static let specifying: Self = .orderedSpecifying
+
+    @available(*, deprecated, renamed: "orderedAscending")
+    public static let ascending: Self = .orderedAscending
+
+    @available(*, deprecated, renamed: "orderedSame")
+    public static let same: Self = .orderedSame
+
+    @available(*, deprecated, renamed: "orderedDescending")
+    public static let descending: Self = .orderedDescending
+
+    @available(*, deprecated, renamed: "orderedGeneralizing")
+    public static let generalizing: Self = .orderedGeneralizing
+}
