@@ -77,7 +77,7 @@ static BOOL sVerifyLeaderValuesInData(NSData *data) {
     }
     if (self = [super init]) {
         _rawData = [data copy];
-        if (self.recordKind == nil) {
+        if (self.recordKind == 0) {
 //            [NSException raise:NSInvalidArgumentException
 //                        format:@"*** MARC 21 Leader data contains an invalid record kind."];
             return nil;
@@ -105,7 +105,7 @@ static void sWriteRepeatValueToBuffer(uint8_t *const buffer, NSRange const range
     sWriteRepeatValueToBuffer(buffer, NSMakeRange(0, BibLeaderRawDataLength), ' ');
     sWriteRepeatValueToBuffer(buffer, kRecordLengthRange, '0');
     sWriteRepeatValueToBuffer(buffer, kRecordLocationRange, '0');
-    buffer[kRecordKindRange.location] = [[BibRecordKind languageMaterial] byteValue];
+    buffer[kRecordKindRange.location] = BibRecordKindLanguageMaterial;
     buffer[kRecordStatusRange.location] = BibRecordStatusNew;
     buffer[kRecordEncodingRange.location] = BibUTF8Encoding;
     buffer[kNumberOfIndicatorsRange.location]   = '2';
@@ -217,8 +217,8 @@ static NSUInteger sReadUnsignedInteger(NSData *const data, NSRange const range) 
     return [self leaderValueAtLocation:BibLeaderLocationRecordStatus];
 }
 
-- (BibRecordKind *)recordKind {
-    return [BibRecordKind recordKindWithByte:[self leaderValueAtLocation:BibLeaderLocationRecordKind]];
+- (BibRecordKind)recordKind {
+    return [self leaderValueAtLocation:BibLeaderLocationRecordKind];
 }
 
 - (BibEncoding)recordEncoding {
@@ -226,14 +226,14 @@ static NSUInteger sReadUnsignedInteger(NSData *const data, NSRange const range) 
 }
 
 - (BibBibliographicLevel)bibliographicLevel {
-    if ([[self recordKind] isBibliographicKind]) {
+    if (BibRecordKindFormat([self recordKind]) == BibRecordFormatBibliographic) {
         return [self leaderValueAtLocation:BibLeaderLocationBibliographicLevel];
     }
     return 0;
 }
 
 - (BibBibliographicControlType)bibliographicControlType {
-    if ([[self recordKind] isBibliographicKind]) {
+    if (BibRecordKindFormat([self recordKind]) == BibRecordFormatBibliographic) {
         return [self leaderValueAtLocation:BibLeaderLocationBibliographicControlType];
     }
     return 0;
@@ -291,8 +291,8 @@ static void sWriteUnsignedInteger(NSMutableData *const data, NSRange const range
     [self setLeaderValue:recordStatus atLocation:BibLeaderLocationRecordStatus];
 }
 
-- (void)setRecordKind:(BibRecordKind *)recordKind {
-    [self setLeaderValue:[recordKind byteValue] atLocation:BibLeaderLocationRecordKind];
+- (void)setRecordKind:(BibRecordKind)recordKind {
+    [self setLeaderValue:recordKind atLocation:BibLeaderLocationRecordKind];
 }
 
 - (void)setRecordEncoding:(BibEncoding)recordEncoding {
@@ -300,14 +300,14 @@ static void sWriteUnsignedInteger(NSMutableData *const data, NSRange const range
 }
 
 - (void)setBibliographicLevel:(BibBibliographicLevel)bibliographicLevel {
-    if ([[self recordKind] isBibliographicKind]) {
+    if (BibRecordKindFormat([self recordKind]) == BibRecordFormatBibliographic) {
         bibliographicLevel = bibliographicLevel ?: ' ';
         [self setLeaderValue:bibliographicLevel atLocation:BibLeaderLocationBibliographicLevel];
     }
 }
 
 - (void)setBibliographicControlType:(BibBibliographicControlType)bibliographicControlType {
-    if ([[self recordKind] isBibliographicKind]) {
+    if (BibRecordKindFormat([self recordKind]) == BibRecordFormatBibliographic) {
         NSMutableData *const data = [[self rawData] mutableCopy];
         bibliographicControlType = (bibliographicControlType ?: BibBibliographicControlTypeNone);
         [self setLeaderValue:bibliographicControlType atLocation:BibLeaderLocationBibliographicControlType];

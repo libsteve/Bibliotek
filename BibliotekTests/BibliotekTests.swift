@@ -94,7 +94,7 @@ class BibliotekTests: XCTestCase {
             let rs = try c.fetchRecords(request: r)
             XCTAssertEqual(rs.count, 1)
             guard let record = rs.first else { return XCTFail("Failure to fetch record by ISBN") }
-            XCTAssertTrue(record.kind?.isBibliographic ?? false)
+            XCTAssertEqual(record.kind.format, .bibliographic)
             let isbn13Field = record.fields.first(where: { $0.tag == "020" })
             XCTAssertNotNil(isbn13Field)
             XCTAssertTrue(isbn13Field?.isDataField == true)

@@ -54,7 +54,7 @@
 #pragma mark - Properties
 
 @dynamic kind;
-- (BibRecordKind *)kind {
+- (BibRecordKind)kind {
     return [[self leader] recordKind];
 }
 
@@ -322,7 +322,7 @@
 }
 
 @dynamic kind;
-- (void)setKind:(BibRecordKind *)kind {
+- (void)setKind:(BibRecordKind)kind {
     [(BibMutableLeader *)(_leader) setRecordKind:kind];
 }
 

@@ -12,6 +12,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+#pragma mark Record Kind
+
 /// The type of data represented by a MARC 21 record.
 ///
 /// MARC 21 records can represent multiple kinds of information—bibliographic,
@@ -21,60 +23,339 @@ NS_ASSUME_NONNULL_BEGIN
 /// Use this value to determine how tags and subfield codes should be used to
 /// interpret a record's content.
 ///
-/// - note: ``BibRecordKind`` is a class cluster. Subclasses must implement
-///   ``initWithByte:``, ``byteValue``, and ``recordFormat``.
-NS_SWIFT_NAME(RecordKind) NS_SWIFT_SENDABLE
-@interface BibRecordKind : NSObject <NSCopying>
-
-/// The raw character value used in a record's leader to indicate the record's kind.
-@property (nonatomic, assign, readonly) char byteValue NS_SWIFT_NAME(rawValue);
-
-/// Identifies the general kind of data contained in a record.
-@property (nonatomic, readonly) BibRecordFormat recordFormat;
-
-/// Create a `BibRecordKind` instance using the given byte.
+/// ## Topics
 ///
-/// - parameter byteValue: The character value in a record's leader that indicates a record's kind.
-- (nullable instancetype)initWithByte:(char)byteValue NS_SWIFT_NAME(init(rawValue:));
-
-/// Create a ``BibRecordKind`` instance using the given byte.
+/// ### Bibliographic Records
 ///
-/// - parameter byteValue: The character value in a record's leader that indicates a record's kind.
-/// - returns: An instance of ``BibRecordKind`` when given a `byteValue` representing a known record kind.
-+ (nullable instancetype)recordKindWithByte:(char)byteValue NS_SWIFT_UNAVAILABLE("Use init(rawValue:)");
+/// Bibliographic records contain information about print, manuscript text,
+/// computer files, music, maps, visual media, and physical materials.
+///
+/// - ``BibRecordKindLanguageMaterial``
+/// - ``BibRecordKindNotatedMusic``
+/// - ``BibRecordKindManuscriptNotatedMusic``
+/// - ``BibRecordKindCartographicMaterial``
+/// - ``BibRecordKindManuscriptCartographicMaterial``
+/// - ``BibRecordKindProjectedMedium``
+/// - ``BibRecordKindNonMusicalSoundRecording``
+/// - ``BibRecordKindMusicalSoundRecording``
+/// - ``BibRecordKindTwoDimensionalNonProjectableGraphic``
+/// - ``BibRecordKindComputerFile``
+/// - ``BibRecordKindKit``
+/// - ``BibRecordKindMixedMaterials``
+/// - ``BibRecordKindThreeDimensionalArtifact``
+/// - ``BibRecordKindManuscriptLanguageMaterial``
+///
+/// ### Community Records
+///
+/// Community records contain information about non-bibliographic resources
+/// available to a library's community.
+///
+/// - ``BibRecordKindCommunityInformation``
+///
+/// ### Holdings Records
+///
+/// Holdings records contain information about the specific cataloged owned,
+/// controlled, or licensed in a collection. They include information about
+/// the specific copies of bibliographic items in a collection, such as their
+/// location, condition, and availability.
+///
+/// - ``BibRecordKindUnknownHoldings``
+/// - ``BibRecordKindMultipartItemHoldings``
+/// - ``BibRecordKindSinglePartItemHoldings``
+/// - ``BibRecordKindSerialItemHoldings``
+///
+/// ### Classification Records
+///
+/// Classification records contain information about classification numbers
+/// and the caption hierarchies associated with them.
+///
+/// - ``BibRecordKindClassification``
+///
+/// ### Authority Records
+///
+/// Authority records contain the authorized forms of names, subjects, and
+/// subject subdivisions that should appear in a MARC record.
+///
+/// - ``BibRecordKindAuthorityData``
+///
+/// ### RecordKind Subtypes
+///
+/// - ``BibBibliographicRecordKind``
+/// - ``BibCommunityRecordKind``
+/// - ``BibHoldingsRecordKind``
+/// - ``BibClassificationRecordKind``
+/// - ``BibAuthorityRecordKind``
+typedef NS_ENUM(char, BibRecordKind) {
+    /// Language Material
+    ///
+    /// For more information about bibliographic records, see the Library of
+    /// Congress document [MARC 21 Format for Bibliographic Data: Introduction][1].
+    ///
+    /// [1]: https://www.loc.gov/marc/bibliographic/bdintro.html
+    BibRecordKindLanguageMaterial = 'a',
 
-- (instancetype)init NS_UNAVAILABLE;
-+ (instancetype)new NS_UNAVAILABLE;
+    /// Notated Music
+    ///
+    /// For more information about bibliographic records, see the Library of
+    /// Congress document [MARC 21 Format for Bibliographic Data: Introduction][1].
+    ///
+    /// [1]: https://www.loc.gov/marc/bibliographic/bdintro.html
+    BibRecordKindNotatedMusic = 'c',
 
-@end
+    /// Manuscript Notated Music
+    ///
+    /// For more information about bibliographic records, see the Library of
+    /// Congress document [MARC 21 Format for Bibliographic Data: Introduction][1].
+    ///
+    /// [1]: https://www.loc.gov/marc/bibliographic/bdintro.html
+   BibRecordKindManuscriptNotatedMusic = 'd',
 
-#pragma mark -
+    /// Cartographic Material
+    ///
+    /// For more information about bibliographic records, see the Library of
+    /// Congress document [MARC 21 Format for Bibliographic Data: Introduction][1].
+    ///
+    /// [1]: https://www.loc.gov/marc/bibliographic/bdintro.html
+   BibRecordKindCartographicMaterial = 'e',
+
+    /// Manuscript Cartographic Material
+    ///
+    /// For more information about bibliographic records, see the Library of
+    /// Congress document [MARC 21 Format for Bibliographic Data: Introduction][1].
+    ///
+    /// [1]: https://www.loc.gov/marc/bibliographic/bdintro.html
+    BibRecordKindManuscriptCartographicMaterial = 'f',
+
+    /// Projected Medium
+    ///
+    /// For more information about bibliographic records, see the Library of
+    /// Congress document [MARC 21 Format for Bibliographic Data: Introduction][1].
+    ///
+    /// [1]: https://www.loc.gov/marc/bibliographic/bdintro.html
+    BibRecordKindProjectedMedium = 'g',
+
+    /// Non-Musical Sound Recording
+    ///
+    /// For more information about bibliographic records, see the Library of
+    /// Congress document [MARC 21 Format for Bibliographic Data: Introduction][1].
+    ///
+    /// [1]: https://www.loc.gov/marc/bibliographic/bdintro.html
+    BibRecordKindNonMusicalSoundRecording = 'i',
+
+    /// Musical Sound Recording
+    ///
+    /// For more information about bibliographic records, see the Library of
+    /// Congress document [MARC 21 Format for Bibliographic Data: Introduction][1].
+    ///
+    /// [1]: https://www.loc.gov/marc/bibliographic/bdintro.html
+    BibRecordKindMusicalSoundRecording = 'j',
+
+    /// Two-Dimensional Non-Projectable Graphic
+    ///
+    /// For more information about bibliographic records, see the Library of
+    /// Congress document [MARC 21 Format for Bibliographic Data: Introduction][1].
+    ///
+    /// [1]: https://www.loc.gov/marc/bibliographic/bdintro.html
+    BibRecordKindTwoDimensionalNonProjectableGraphic = 'k',
+
+    /// Computer File
+    ///
+    /// For more information about bibliographic records, see the Library of
+    /// Congress document [MARC 21 Format for Bibliographic Data: Introduction][1].
+    ///
+    /// [1]: https://www.loc.gov/marc/bibliographic/bdintro.html
+    BibRecordKindComputerFile = 'm',
+
+    /// Kit
+    ///
+    /// For more information about bibliographic records, see the Library of
+    /// Congress document [MARC 21 Format for Bibliographic Data: Introduction][1].
+    ///
+    /// [1]: https://www.loc.gov/marc/bibliographic/bdintro.html
+    BibRecordKindKit = 'o',
+
+    /// Mixed Materials
+    ///
+    /// For more information about bibliographic records, see the Library of
+    /// Congress document [MARC 21 Format for Bibliographic Data: Introduction][1].
+    ///
+    /// [1]: https://www.loc.gov/marc/bibliographic/bdintro.html
+    BibRecordKindMixedMaterials = 'p',
+
+    /// Community Information
+    ///
+    /// Community record containing information about non-bibliographic resources
+    /// available to a library's community.
+    ///
+    /// For more information about community records, see the Library of Congress
+    /// document [MARC 21 Format for Community Data: Introduction][1].
+    ///
+    /// [1]: https://www.loc.gov/marc/community/ciintro.html
+    BibRecordKindCommunityInformation = 'q',
+
+    /// Three-Dimensional Artifact
+    ///
+    /// For more information about bibliographic records, see the Library of
+    /// Congress document [MARC 21 Format for Bibliographic Data: Introduction][1].
+    ///
+    /// [1]: https://www.loc.gov/marc/bibliographic/bdintro.html
+    BibRecordKindThreeDimensionalArtifact = 'r',
+
+    /// Manuscript Language Material
+    ///
+    /// For more information about bibliographic records, see the Library of
+    /// Congress document [MARC 21 Format for Bibliographic Data: Introduction][1].
+    ///
+    /// [1]: https://www.loc.gov/marc/bibliographic/bdintro.html
+    BibRecordKindManuscriptLanguageMaterial = 't',
+
+    /// Unknown Holdings
+    ///
+    /// Holdings records contain information about the specific cataloged owned,
+    /// controlled, or licensed in a collection. They include information about
+    /// the specific copies of bibliographic items in a collection, such as their
+    /// location, condition, and availability.
+    ///
+    /// For more information about holdings records, see the Library of Congress
+    /// document [MARC 21 Format for Holdings Data: Introduction][1].
+    ///
+    /// [1]: https://www.loc.gov/marc/holdings/hdintro.html
+    BibRecordKindUnknownHoldings = 'u',
+
+    /// Multipart Item Holdings
+    ///
+    /// Holdings records contain information about the specific cataloged owned,
+    /// controlled, or licensed in a collection. They include information about
+    /// the specific copies of bibliographic items in a collection, such as their
+    /// location, condition, and availability.
+    ///
+    /// For more information about holdings records, see the Library of Congress
+    /// document [MARC 21 Format for Holdings Data: Introduction][1].
+    ///
+    /// [1]: https://www.loc.gov/marc/holdings/hdintro.html
+    BibRecordKindMultipartItemHoldings = 'v',
+
+    /// Classification
+    ///
+    /// Classification records contain information about classification numbers
+    /// and the caption hierarchies associated with them.
+    ///
+    /// For more information about classification records, see the Library of
+    /// Congress document [MARC 21 Format for Classification Data: Introduction][1].
+    ///
+    /// [1]: https://www.loc.gov/marc/classification/cdintro.html
+    BibRecordKindClassification = 'w',
+
+    /// Single Part Item Holdings
+    ///
+    /// Holdings records contain information about the specific cataloged owned,
+    /// controlled, or licensed in a collection. They include information about
+    /// the specific copies of bibliographic items in a collection, such as their
+    /// location, condition, and availability.
+    ///
+    /// For more information about holdings records, see the Library of Congress
+    /// document [MARC 21 Format for Holdings Data: Introduction][1].
+    ///
+    /// [1]: https://www.loc.gov/marc/holdings/hdintro.html
+    BibRecordKindSinglePartItemHoldings = 'x',
+
+    /// Serial Item Holdings
+    ///
+    /// Holdings records contain information about the specific cataloged owned,
+    /// controlled, or licensed in a collection. They include information about
+    /// the specific copies of bibliographic items in a collection, such as their
+    /// location, condition, and availability.
+    ///
+    /// For more information about holdings records, see the Library of Congress
+    /// document [MARC 21 Format for Holdings Data: Introduction][1].
+    ///
+    /// [1]: https://www.loc.gov/marc/holdings/hdintro.html
+    BibRecordKindSerialItemHoldings = 'y',
+
+    /// Authority Data
+    ///
+    /// Authority records contain the authorized forms of names, subjects, and
+    /// subject subdivisions that should appear in a MARC record.
+    ///
+    /// For more information about authority records, see the Library of Congress
+    /// document [MARC 21 Format for Authority Data: Introduction][1].
+    ///
+    /// [1]: https://www.loc.gov/marc/authority/adintro.html
+    BibRecordKindAuthorityData = 'z'
+} NS_SWIFT_NAME(RecordKind);
+
+#pragma mark - Bibliographic Record Kind
 
 /// The type of bibliographic information contained in a record.
 ///
 /// Bibliographic records contain information about print, manuscript text,
 /// computer files, music, maps, visual media, and physical materials.
 ///
-/// For more information about authority records, see the Library of Congress
-/// document [MARC 21 Format for Bibliographic Data: Introduction][1].
+/// For more information about bibliographic records, see the Library of
+/// Congress document [MARC 21 Format for Bibliographic Data: Introduction][1].
 ///
 /// [1]: https://www.loc.gov/marc/bibliographic/bdintro.html
-NS_SWIFT_NAME(BibRecordKind.Bibliographic) NS_SWIFT_SENDABLE
-@interface BibBibliographicRecordKind : BibRecordKind
-@end
+typedef NS_ENUM(char, BibBibliographicRecordKind) {
+    /// Language Material
+    BibBibliographicRecordKindLanguageMaterial = BibRecordKindLanguageMaterial,
 
-/// The type of authority information contained in a record.
+    /// Notated Music
+    BibBibliographicRecordKindNotatedMusic = BibRecordKindNotatedMusic,
+
+    /// Manuscript Notated Music
+    BibBibliographicRecordKindManuscriptNotatedMusic = BibRecordKindManuscriptNotatedMusic,
+
+    /// Cartographic Material
+    BibBibliographicRecordKindCartographicMaterial = BibRecordKindCartographicMaterial,
+
+    /// Manuscript Cartographic Material
+    BibBibliographicRecordKindManuscriptCartographicMaterial = BibRecordKindManuscriptCartographicMaterial,
+
+    /// Projected Medium
+    BibBibliographicRecordKindProjectedMedium = BibRecordKindProjectedMedium,
+
+    /// Non-Musical Sound Recording
+    BibBibliographicRecordKindNonMusicalSoundRecording = BibRecordKindNonMusicalSoundRecording,
+
+    /// Musical Sound Recording
+    BibBibliographicRecordKindMusicalSoundRecording = BibRecordKindMusicalSoundRecording,
+
+    /// Two-Dimensional Non-Projectable Graphic
+    BibBibliographicRecordKindTwoDimensionalNonProjectableGraphic = BibRecordKindTwoDimensionalNonProjectableGraphic,
+
+    /// Computer File
+    BibBibliographicRecordKindComputerFile = BibRecordKindComputerFile,
+
+    /// Kit
+    BibBibliographicRecordKindKit = BibRecordKindKit,
+
+    /// Mixed Materials
+    BibBibliographicRecordKindMixedMaterials = BibRecordKindMixedMaterials,
+
+    /// Three-Dimensional Artifact
+    BibBibliographicRecordKindThreeDimensionalArtifact = BibRecordKindThreeDimensionalArtifact,
+
+    /// Manuscript Language Material
+    BibBibliographicRecordKindManuscriptLanguageMaterial = BibRecordKindManuscriptLanguageMaterial
+} NS_SWIFT_NAME(BibRecordKind.Bibliographic);
+
+#pragma mark - Community Record Kind
+
+/// The kind of community information contained in a record.
 ///
-/// Authority records contain the authorized forms of names, subjects, and
-/// subject subdivisions that should appear in a MARC record.
+/// Community record containing information about non-bibliographic resources
+/// available to a library's community.
 ///
-/// For more information about authority records, see the Library of Congress
-/// document [MARC 21 Format for Authority Data: Introduction][1].
+/// For more information about community records, see the Library of Congress
+/// document [MARC 21 Format for Community Data: Introduction][1].
 ///
-/// [1]: https://www.loc.gov/marc/authority/adintro.html
-NS_SWIFT_NAME(BibRecordKind.Authority) NS_SWIFT_SENDABLE
-@interface BibAuthorityRecordKind : BibRecordKind
-@end
+/// [1]: https://www.loc.gov/marc/community/ciintro.html
+typedef NS_ENUM(char, BibCommunityRecordKind) {
+    /// Community Information
+    BibCommunityRecordKindCommunityInformation = BibRecordKindCommunityInformation
+} NS_SWIFT_NAME(BibRecordKind.Community);
+
+#pragma mark - Holdings Record Kind
 
 /// The type of holdings information contained in a record.
 ///
@@ -87,127 +368,56 @@ NS_SWIFT_NAME(BibRecordKind.Authority) NS_SWIFT_SENDABLE
 /// document [MARC 21 Format for Holdings Data: Introduction][1].
 ///
 /// [1]: https://www.loc.gov/marc/holdings/hdintro.html
-NS_SWIFT_NAME(BibRecordKind.Holdings) NS_SWIFT_SENDABLE
-@interface BibHoldingsRecordKind : BibRecordKind
-@end
+typedef NS_ENUM(char, BibHoldingsRecordKind) {
+    /// Unknown Holdings
+    BibHoldingsRecordKindUnknownHoldings = BibRecordKindUnknownHoldings,
+
+    /// Multipart Item Holdings
+    BibHoldingsRecordKindMultipartItemHoldings = BibRecordKindMultipartItemHoldings,
+
+    /// Single Part Item Holdings
+    BibHoldingsRecordKindSinglePartItemHoldings = BibRecordKindSinglePartItemHoldings,
+
+    /// Serial Item Holdings
+    BibHoldingsRecordKindSerialItemHoldings = BibRecordKindSerialItemHoldings
+} NS_SWIFT_NAME(BibRecordKind.Holdings);
+
+#pragma mark - Classification Record Kind
 
 /// The kind of classification information contained in a record.
 ///
 /// Classification records contain information about classification numbers
 /// and the caption hierarchies associated with them.
 ///
-/// For more information about holdings records, see the Library of Congress
-/// document [MARC 21 Format for Classification Data: Introduction][1].
+/// For more information about classification records, see the Library of
+/// Congress document [MARC 21 Format for Classification Data: Introduction][1].
 ///
 /// [1]: https://www.loc.gov/marc/classification/cdintro.html
-NS_SWIFT_NAME(BibRecordKind.Classification) NS_SWIFT_SENDABLE
-@interface BibClassificationRecordKind : BibRecordKind
-@end
+typedef NS_ENUM(char, BibClassificationRecordKind) {
+    /// Classification
+    BibClassificationRecordKindClassification = BibRecordKindClassification
+} NS_SWIFT_NAME(BibRecordKind.Classification);
 
-/// The kind of community information contained in a record.
+#pragma mark - Authority Record Kind
+
+/// The type of authority information contained in a record.
 ///
-/// Community record containing information about non-bibliographic resources
-/// available to a library's community.
+/// Authority records contain the authorized forms of names, subjects, and
+/// subject subdivisions that should appear in a MARC record.
 ///
-/// For more information about community records, see the Library of Congress
-/// document [MARC 21 Format for Community Data: Introduction][1].
+/// For more information about authority records, see the Library of Congress
+/// document [MARC 21 Format for Authority Data: Introduction][1].
 ///
-/// [1]: https://www.loc.gov/marc/community/ciintro.html
-NS_SWIFT_NAME(BibRecordKind.Community) NS_SWIFT_SENDABLE
-@interface BibCommunityRecordKind : BibRecordKind
-@end
+/// [1]: https://www.loc.gov/marc/authority/adintro.html
+typedef NS_ENUM(char, BibAuthorityRecordKind) {
+    /// Authority Data
+    BibAuthorityRecordKindAuthorityData = BibRecordKindAuthorityData
+} NS_SWIFT_NAME(BibRecordKind.Authority);
 
-#pragma mark - Equality
+#pragma mark - Description
 
-@interface BibRecordKind (Equality)
+FOUNDATION_EXTERN BibRecordFormat BibRecordKindFormat(BibRecordKind kind) NS_REFINED_FOR_SWIFT;
 
-/// Is the given record kind equivalent to the receiver?
-///
-/// - parameter recordKind: The record kind with which the receiver should be compared.
-/// - returns: Returns `YES` if the given record kind and the receiver are equivalent.
-- (BOOL)isEqualToRecordKind:(BibRecordKind *)recordKind;
-
-@end
-
-#pragma mark - MARC 21 Categories
-
-@interface BibRecordKind (MARC21Categories)
-
-/// Does a record marked with this kind represent classification information?
-@property (nonatomic, readonly) BOOL isClassificationKind NS_SWIFT_NAME(isClassification);
-
-/// Does a record marked with this kind represent bibliographic information?
-@property (nonatomic, readonly) BOOL isBibliographicKind NS_SWIFT_NAME(isBibliographic);
-
-@end
-
-#pragma mark - MARC 21 Record Kinds
-
-@interface BibRecordKind (MARC21RecordKinds)
-
-/// Language Material
-@property (class, nonatomic, readonly) BibBibliographicRecordKind *languageMaterial;
-
-/// Notated Music
-@property (class, nonatomic, readonly) BibBibliographicRecordKind *notatedMusic;
-
-/// Manuscript Notated Music
-@property (class, nonatomic, readonly) BibBibliographicRecordKind *manuscriptNotatedMusic;
-
-/// Cartographic Material
-@property (class, nonatomic, readonly) BibBibliographicRecordKind *cartographicMaterial;
-
-/// Manuscript Cartographic Material
-@property (class, nonatomic, readonly) BibBibliographicRecordKind *manuscriptCartographicMaterial;
-
-/// Projected Medium
-@property (class, nonatomic, readonly) BibBibliographicRecordKind *projectedMedium;
-
-/// Non-Musical Sound Recording
-@property (class, nonatomic, readonly) BibBibliographicRecordKind *nonMusicalSoundRecording;
-
-/// Musical Sound Recording
-@property (class, nonatomic, readonly) BibBibliographicRecordKind *musicalSoundRecording;
-
-/// Two-Dimensional Non-Projectable Graphic
-@property (class, nonatomic, readonly) BibBibliographicRecordKind *twoDimensionalNonProjectableGraphic;
-
-/// Computer File
-@property (class, nonatomic, readonly) BibBibliographicRecordKind *computerFile;
-
-/// Kit
-@property (class, nonatomic, readonly) BibBibliographicRecordKind *kit;
-
-/// Mixed Materials
-@property (class, nonatomic, readonly) BibBibliographicRecordKind *mixedMaterials;
-
-/// Community Information
-@property (class, nonatomic, readonly) BibCommunityRecordKind *communityInformation;
-
-/// Three-Dimensional Artifact
-@property (class, nonatomic, readonly) BibBibliographicRecordKind *threeDimensionalArtifact;
-
-/// Manuscript Language Material
-@property (class, nonatomic, readonly) BibBibliographicRecordKind *manuscriptLanguageMaterial;
-
-/// Unknown Holdings
-@property (class, nonatomic, readonly) BibHoldingsRecordKind *unknownHoldings;
-
-/// Multipart Item Holdings
-@property (class, nonatomic, readonly) BibHoldingsRecordKind *multipartItemHoldings;
-
-/// Classification
-@property (class, nonatomic, readonly) BibClassificationRecordKind *classification;
-
-/// Single Part Item Holdings
-@property (class, nonatomic, readonly) BibHoldingsRecordKind *singlePartItemHoldings;
-
-/// Serial Item Holdings
-@property (class, nonatomic, readonly) BibHoldingsRecordKind *serialItemHoldings;
-
-/// Authority Data
-@property (class, nonatomic, readonly) BibAuthorityRecordKind *authorityData;
-
-@end
+FOUNDATION_EXTERN NSString *BibRecordKindDescription(BibRecordKind kind) NS_REFINED_FOR_SWIFT;
 
 NS_ASSUME_NONNULL_END

@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <Bibliotek/BibSubfield.h>
 #import <Bibliotek/BibRecordStatus.h>
+#import <Bibliotek/BibRecordKind.h>
 
 @class BibRecordField;
-@class BibRecordKind;
 @class BibLeader;
 
 @class BibFieldTag;
@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// different schemas to present their information.
 ///
 /// Use this field to determine how tags and subfield codes should be used to interpret field content.
-@property (nonatomic, strong, readonly, nullable) BibRecordKind *kind;
+@property (nonatomic, assign, readonly) BibRecordKind kind;
 
 /// The record's current status in the database it was fetched from.
 @property (nonatomic, assign, readonly) BibRecordStatus status;
@@ -172,7 +172,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// MARC 21 records can represent multiple kinds of information—bibliographic, classification, etc.—which each use
 /// different schemas to present their information.
-@property (nonatomic, strong, readwrite, nullable) BibRecordKind *kind;
+@property (nonatomic, assign, readwrite) BibRecordKind kind;
 
 /// The record's current status in the database it was fetched from.
 @property (nonatomic, assign, readwrite) BibRecordStatus status;

@@ -547,8 +547,8 @@
 			children = (
 				AAA4A2782CCAF08B00A718F6 /* BibRecordKind.h */,
 				AAA4A2792CCAF08B00A718F6 /* BibRecordKind.m */,
-				AAA4A27B2CCAF08B00A718F6 /* RecordKind.strings */,
 				AAA4A27C2CCAF08B00A718F6 /* RecordKind.swift */,
+				AAA4A27B2CCAF08B00A718F6 /* RecordKind.strings */,
 			);
 			path = RecordKind;
 			sourceTree = "<group>";

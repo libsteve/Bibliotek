@@ -14,8 +14,7 @@
 #import <Bibliotek/BibBibliographicLevel.h>
 #import <Bibliotek/BibBibliographicControlType.h>
 #import <Bibliotek/BibEncoding.h>
-
-@class BibRecordKind;
+#import <Bibliotek/BibRecordKind.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -137,7 +136,7 @@ BIB_SWIFT_BRIDGE(Leader)
 /// different schemas to present their information.
 ///
 /// Use this field to determine how tags and subfield codes should be used to interpret field content.
-@property (nonatomic, readonly) BibRecordKind *recordKind;
+@property (nonatomic, readonly) BibRecordKind recordKind;
 
 /// The character encoding used to represent textual information within the record.
 @property (nonatomic, readonly) BibEncoding recordEncoding;
@@ -180,7 +179,7 @@ BIB_SWIFT_BRIDGE(Leader)
 ///
 /// MARC 21 records can represent multiple kinds of information—bibliographic, classification, etc.—which each use
 /// different schemas to present their information.
-@property (nonatomic, readwrite) BibRecordKind *recordKind;
+@property (nonatomic, readwrite) BibRecordKind recordKind;
 
 /// The character encoding used to represent textual information within the record.
 @property (nonatomic, readwrite) BibEncoding recordEncoding;

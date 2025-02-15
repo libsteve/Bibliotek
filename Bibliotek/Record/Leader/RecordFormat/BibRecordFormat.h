@@ -10,11 +10,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// Identifies the general kind of data contained in a record.
+/// Identifies the MARC 21 record format used for data in a record.
 ///
 /// Use ``BibRecordKind`` to get more specific information about what data is
 /// contained within a record.
-typedef NS_ENUM(uint8_t, BibRecordFormat) {
+typedef NS_ENUM(char, BibRecordFormat) {
     /// The format for a bibliographic record containing information about
     /// cataloged items.
     ///
@@ -71,12 +71,12 @@ typedef NS_ENUM(uint8_t, BibRecordFormat) {
     /// document [MARC 21 Format for Community Data: Introduction][1].
     ///
     /// [1]: https://www.loc.gov/marc/community/ciintro.html
-    BibRecordFormatCommunity = 'o',
+    BibRecordFormatCommunity = 'o'
 } NS_SWIFT_NAME(RecordFormat);
 
 /// A human-readable description of the format.
 ///
-/// - parameter format: The type of change last applied to a record in its originating database.
+/// - parameter format: The format used to encode information in a record.
 /// - returns: A human-readable description of `format`.
 FOUNDATION_EXTERN NSString *BibRecordFormatDescription(BibRecordFormat format) NS_REFINED_FOR_SWIFT;
 

@@ -20,3 +20,6 @@
 
 /* The title of the format for a record containing non-bibliographic resources held by the library for the community. */
 "format:o" = "Community";
+
+/* The title of an unrecognized format. */
+"format: " = "Unknown";

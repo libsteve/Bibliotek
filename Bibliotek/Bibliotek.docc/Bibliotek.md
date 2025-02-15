@@ -73,9 +73,8 @@ record.content(with: .titleStatement)
 - ``BibEncoding``
 - ``BibBibliographicLevel``
 - ``BibBibliographicControlType``
-- ``BibReservedPosition``
-- ``RecordKind``
 - ``BibRecordKind``
+- ``BibRecordFormat``
 
 ### Library Connections
 

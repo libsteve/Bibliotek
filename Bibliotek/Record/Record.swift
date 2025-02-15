@@ -27,7 +27,7 @@ public struct Record {
     /// different schemas to present their information.
     ///
     /// Use this field to determine how tags and subfield codes should be used to interpret field content.
-    public var kind: RecordKind? {
+    public var kind: RecordKind {
         get { return self.storage.kind }
         set { self.mutate(keyPath: \.kind, with: newValue) }
     }
@@ -96,7 +96,7 @@ extension Record: CustomStringConvertible, CustomDebugStringConvertible, CustomP
 
     public var debugDescription: String { return self.storage.debugDescription }
 
-    public var playgroundDescription: Any { return ["kind": self.kind?.description ?? "unset",
+    public var playgroundDescription: Any { return ["kind": self.kind.description,
                                                     "status": String(format: "%c", self.status.rawValue),
                                                     "leader": self.leader,
                                                     "fields": self.fields] }
