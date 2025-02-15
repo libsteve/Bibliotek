@@ -19,7 +19,7 @@ __BEGIN_DECLS
 /// them to be copied-by-value to easily implement look-ahead without needing to mutate the
 /// original string buffer.
 typedef struct bib_strbuf {
-    /// Tthe current reading position in the input stream.
+    /// The current reading position in the input stream.
     ///
     /// Characters read from the stream are removed only when parsing is successful.
     char const *str;

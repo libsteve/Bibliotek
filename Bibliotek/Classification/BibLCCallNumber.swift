@@ -8,8 +8,14 @@
 
 import Foundation
 
+/// The Library of Congress Classification call number identifying a cataloged item.
+///
 /// More information about Library of Congress Classification can be found at
-/// https://www.librarianshipstudies.com/2017/11/library-of-congress-classification.html
+/// [librarianshipstudies.com][1] and at the Library of Congress's [Cataloger's
+/// Learning Workshop][training].
+///
+/// [1]: https://www.librarianshipstudies.com/2017/11/library-of-congress-classification.html
+/// [training]: https://www.loc.gov/catworkshop/lcc/index.html
 public struct LCCallNumber: Sendable {
     private var storage: BibLCCallNumber
 

@@ -101,9 +101,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// The Library of Congress Classification call number identifying a cataloged item.
 ///
 /// More information about Library of Congress Classification can be found at
-/// [librarianshipstudies.com][1].
+/// [librarianshipstudies.com][1] and at the Library of Congress's [Cataloger's
+/// Learning Workshop][training].
 ///
 /// [1]: https://www.librarianshipstudies.com/2017/11/library-of-congress-classification.html
+/// [training]: https://www.loc.gov/catworkshop/lcc/index.html
 BIB_SWIFT_BRIDGE(LCCallNumber) NS_SWIFT_SENDABLE
 @interface BibLCCallNumber : NSObject <NSCopying>
 
@@ -243,6 +245,22 @@ BIB_SWIFT_BRIDGE(LCCallNumber) NS_SWIFT_SENDABLE
 #pragma mark -
 
 /// Attributes describing the format of a string value representing a Library of Congress call number.
+///
+/// ## Topics
+///
+/// ### Format Options
+///
+/// - ``BibLCCallNumberFormatOptionsDefault``
+/// - ``BibLCCallNumberFormatOptionsExpandSubject``
+/// - ``BibLCCallNumberFormatOptionsExpandCutters``
+/// - ``BibLCCallNumberFormatOptionsExpandCutterMarks``
+/// - ``BibLCCallNumberFormatOptionsMultiline``
+/// - ``BibLCCallNumberFormatOptionsMarkCutterAfterDate``
+///
+/// ### Standard Formats
+///
+/// - ``BibLCCallNumberFormatOptionsPocket``
+/// - ``BibLCCallNumberFormatOptionsSpine``
 typedef NS_OPTIONS(NSInteger, BibLCCallNumberFormatOptions) {
     /// A compact single-line call number.
     ///
