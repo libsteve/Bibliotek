@@ -19,13 +19,13 @@ NSErrorUserInfoKey const BibConnectionErrorEventKey = @"brun.steve.bibliotek.con
 #pragma mark - Authentication Mode
 
 BibAuthenticationMode const BibAuthenticationModeBasic = @"basic";
-BibAuthenticationMode const BibAuthenticationModeUrl = @"url";
+BibAuthenticationMode const BibAuthenticationModeURL = @"url";
 
 #pragma mark - Sort Strategy
 
 BibSortStrategy const BibSortStrategyZ3950 = @"z39.50";
 BibSortStrategy const BibSortStrategyType7 = @"type7";
-BibSortStrategy const BibSortStrategyCql = @"cql";
+BibSortStrategy const BibSortStrategyCQL = @"cql";
 BibSortStrategy const BibSortStrategySrull = @"srull";
 BibSortStrategy const BibSortStrategySolr = @"solr";
 BibSortStrategy const BibSortStrategyEmbed = @"embed";
@@ -35,7 +35,7 @@ BibSortStrategy const BibSortStrategyEmbed = @"embed";
 BibFetchRequestScope const BibFetchRequestScopePersonalName = @"@attr 1=1";
 BibFetchRequestScope const BibFetchRequestScopeTitle = @"@attr 1=4";
 BibFetchRequestScope const BibFetchRequestScopeTitleSeries = @"@attr 1=5";
-BibFetchRequestScope const BibFetchRequestScopeIsbn = @"@attr 1=7";
+BibFetchRequestScope const BibFetchRequestScopeISBN = @"@attr 1=7";
 BibFetchRequestScope const BibFetchRequestScopeDDC = @"@attr 1=13";
 BibFetchRequestScope const BibFetchRequestScopeLCC = @"@attr 1=16";
 BibFetchRequestScope const BibFetchRequestScopeSubject = @"@attr 1=21";
@@ -52,7 +52,7 @@ NSString *BibFetchRequestScopeDescription(BibFetchRequestScope const scope) {
     if ([scope isEqualToString:BibFetchRequestScopePersonalName]) return @"Personal-Name";
     if ([scope isEqualToString:BibFetchRequestScopeTitle]) return @"Title";
     if ([scope isEqualToString:BibFetchRequestScopeTitleSeries]) return @"Title-Series";
-    if ([scope isEqualToString:BibFetchRequestScopeIsbn]) return @"ISBN";
+    if ([scope isEqualToString:BibFetchRequestScopeISBN]) return @"ISBN";
     if ([scope isEqualToString:BibFetchRequestScopeDDC]) return @"Dewey-Decimal-Classification";
     if ([scope isEqualToString:BibFetchRequestScopeLCC]) return @"Library-of-Congress-Classification";
     if ([scope isEqualToString:BibFetchRequestScopeSubject]) return @"Subject";

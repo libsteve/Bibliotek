@@ -13,6 +13,13 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark - Error Domain
 
 /// An error pertaining to the connection with a z39.50 host.
+///
+/// ## Topics
+///
+/// ### User Info Keys
+///
+/// - ``BibConnectionErrorConnectionKey``
+/// - ``BibConnectionErrorEventKey``
 extern NSErrorDomain const BibConnectionErrorDomain;
 
 extern NSErrorUserInfoKey const BibConnectionErrorConnectionKey;
@@ -36,20 +43,33 @@ typedef NS_ERROR_ENUM(BibConnectionErrorDomain, BibConnectionErrorCode) {
 #pragma mark Query Notation
 
 typedef NS_ENUM(NSInteger, BibFetchRequestNotation) {
-    BibFetchRequestNotationPqf,
-    BibFetchRequestNotationCql
+    BibFetchRequestNotationPQF NS_SWIFT_NAME(pqf),
+    BibFetchRequestNotationCQL NS_SWIFT_NAME(cql)
 } NS_SWIFT_NAME(QueryNotation);
 
 #pragma mark - Authentication Mode
 
+/// ## Topics
+///
+/// - ``BibAuthenticationModeBasic``
+/// - ``BibAuthenticationModeURL``
 typedef NSString *BibAuthenticationMode NS_TYPED_ENUM NS_SWIFT_NAME(AuthenticationMode);
 
 extern BibAuthenticationMode const BibAuthenticationModeBasic;
-extern BibAuthenticationMode const BibAuthenticationModeUrl;
+extern BibAuthenticationMode const BibAuthenticationModeURL NS_SWIFT_NAME(url);
 
 #pragma mark - Sort Strategy
 
 /// The type of sorting that should be used when returning results from a fetch request.
+///
+/// ## Topics
+///
+/// - ``BibSortStrategyZ3950``
+/// - ``BibSortStrategyType7``
+/// - ``BibSortStrategyCQL``
+/// - ``BibSortStrategySrull``
+/// - ``BibSortStrategySolr``
+/// - ``BibSortStrategyEmbed``
 typedef NSString *BibSortStrategy NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(ZoomSortStrategy);
 
 /// Z39.50 resultset sort.
@@ -59,7 +79,7 @@ extern BibSortStrategy const BibSortStrategyZ3950;
 extern BibSortStrategy const BibSortStrategyType7;
 
 /// CQL SORTBY.
-extern BibSortStrategy const BibSortStrategyCql;
+extern BibSortStrategy const BibSortStrategyCQL;
 
 /// SRU sortKeys parameter.
 extern BibSortStrategy const BibSortStrategySrull;
@@ -73,6 +93,30 @@ extern BibSortStrategy const BibSortStrategyEmbed;
 #pragma mark - Bibliographic Fields
 
 /// The semantic meaning for search terms used in a fetch request.
+///
+/// ## Topics
+///
+/// ### Scopes
+///
+/// - ``BibFetchRequestScopePersonalName``
+/// - ``BibFetchRequestScopeTitle``
+/// - ``BibFetchRequestScopeTitleSeries``
+/// - ``BibFetchRequestScopeISBN``
+/// - ``BibFetchRequestScopeDDC``
+/// - ``BibFetchRequestScopeLCC``
+/// - ``BibFetchRequestScopeSubject``
+/// - ``BibFetchRequestScopeLanguage``
+/// - ``BibFetchRequestScopeName``
+/// - ``BibFetchRequestScopeAuthor``
+/// - ``BibFetchRequestScopeBodyOfText``
+/// - ``BibFetchRequestScopeAny``
+/// - ``BibFetchRequestScopePublisher``
+/// - ``BibFetchRequestScopeAnywhere``
+/// - ``BibFetchRequestScopeAuthorTitleSubject``
+///
+/// ### Functions
+///
+/// - ``BibFetchRequestScopeDescription``
 typedef NSString *BibFetchRequestScope NS_TYPED_ENUM NS_SWIFT_NAME(FetchRequest.Scope);
 
 extern BibFetchRequestScope const BibFetchRequestScopePersonalName;
@@ -84,7 +128,7 @@ extern BibFetchRequestScope const BibFetchRequestScopeTitle;
 extern BibFetchRequestScope const BibFetchRequestScopeTitleSeries;
 
 /// Find records whose ISBN matches a query.
-extern BibFetchRequestScope const BibFetchRequestScopeIsbn;
+extern BibFetchRequestScope const BibFetchRequestScopeISBN NS_SWIFT_NAME(isbn);
 
 /// Find records whose Dewey Decimal classifications match a query.
 extern BibFetchRequestScope const BibFetchRequestScopeDDC NS_SWIFT_NAME(ddc);
@@ -124,6 +168,23 @@ extern NSString *BibFetchRequestScopeDescription(BibFetchRequestScope const scop
 #pragma mark - Query Structure
 
 /// The method with which a fetch request should treat keywords.
+///
+/// ## Topics
+///
+/// ### Structures
+///
+/// - ``BibFetchRequestStructurePhrase``
+/// - ``BibFetchRequestStructureWord``
+/// - ``BibFetchRequestStructureKey``
+/// - ``BibFetchRequestStructureYear``
+/// - ``BibFetchRequestStructureDate``
+/// - ``BibFetchRequestStructureWordList``
+/// - ``BibFetchRequestStructureFreeFormText``
+/// - ``BibFetchRequestStructureDocumentText``
+///
+/// ### Functions
+///
+/// - ``BibFetchRequestStructureDescription``
 typedef NSString *BibFetchRequestStructure NS_TYPED_ENUM NS_SWIFT_NAME(FetchRequest.Structure);
 
 /// Treat the keywords in a fetch request as a complete phrase.
@@ -150,6 +211,21 @@ extern NSString *BibFetchRequestStructureDescription(BibFetchRequestStructure co
 #pragma mark - Query Search Strategy
 
 /// The location within the search scope to match keywords within a fetch request.
+///
+/// ## Topics
+///
+/// ### Search Strategies
+///
+/// - ``BibFetchRequestSearchStrategySuffix``
+/// - ``BibFetchRequestSearchStrategyPrefix``
+/// - ``BibFetchRequestSearchStrategySubstring``
+/// - ``BibFetchRequestSearchStrategyStrict``
+/// - ``BibFetchRequestSearchStrategyFuzzy``
+/// - ``BibFetchRequestSearchStrategyRegex``
+///
+/// ### Functions
+///
+/// - ``BibFetchRequestSearchStrategyDescription``
 typedef NSString *BibFetchRequestSearchStrategy NS_TYPED_ENUM NS_SWIFT_NAME(FetchRequest.SearchStrategy);
 
 /// Match keywords to records only if the relevant scope ends with the keyword.
@@ -185,7 +261,7 @@ extern BibFetchRequestSearchStrategy const BibFetchRequestSearchStrategyRegex;
 /// \returns A string description of the given strategy.
 extern NSString *BibFetchRequestSearchStrategyDescription(BibFetchRequestSearchStrategy const strategy) NS_REFINED_FOR_SWIFT;
 
-#pragma mark - Connetion Events
+#pragma mark - Connection Events
 
 typedef NS_ENUM(NSInteger, BibConnectionEvent) {
     BibConnectionEventNone = 0,

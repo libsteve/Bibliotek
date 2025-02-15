@@ -120,8 +120,6 @@ record.content(with: .titleStatement)
 - ``ConnectionError``
 - ``BibConnectionErrorCode``
 - ``BibConnectionErrorDomain``
-- ``BibConnectionErrorConnectionKey``
-- ``BibConnectionErrorEventKey``
 
 - ``SerializationError``
 - ``BibSerializationErrorCode``
