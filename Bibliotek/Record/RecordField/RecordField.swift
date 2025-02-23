@@ -32,19 +32,31 @@ import Foundation
 /// [marc]: https://www.loc.gov/marc/specifications/specrecstruc.html
 public struct RecordField: Sendable {
     /// A value indicating the semantic purpose of the record field.
-    public let tag: FieldTag
+    public var tag: FieldTag {
+        didSet {
+            if tag.isDataTag && oldValue.isControlTag {
+                content = .data(indicators: (.blank, .blank), subfields: [])
+            } else if tag.isControlTag && oldValue.isDataTag {
+                content = .control(value: "")
+            } else if !tag.isDataTag && !tag.isControlTag {
+                content = .none
+            }
+        }
+    }
 
-    private(set) public var content: Content
+    private var content: Content
 
-    public enum Content: Sendable, CustomStringConvertible, CustomDebugStringConvertible {
+    fileprivate enum Content: Sendable, CustomStringConvertible, CustomDebugStringConvertible {
+        case none
         case control(value: String)
         case data(indicators: (first: FieldIndicator, second: FieldIndicator), subfields: [Subfield])
 
         public var description: String {
             switch self {
+            case .none: return ""
             case let .control(value: value): return value
             case let .data(indicators: indicators, subfields: subfields):
-                return "\(indicators.first)\(indicators.second)\(subfields.map(\.description).joined())"
+                return "\(indicators.first)\(indicators.second) \(subfields.map(\.description).joined())"
             }
         }
 
@@ -53,26 +65,30 @@ public struct RecordField: Sendable {
         }
     }
 
-    public init(tag: FieldTag, content: Content? = nil) {
+    private init(tag: FieldTag, content: Content? = nil) {
         self.tag = tag
         switch content {
+        case .none?:
+            precondition(!tag.isControlTag && !tag.isDataTag)
+            self.content = .none
         case .control(value: _)?:
-            precondition(tag.isControlTag)
+            precondition(tag.isControlTag, "Cannot create a control field with a data field tag.")
             self.content = content!
         case .data(indicators: _, subfields: _)?:
-            precondition(tag.isDataTag)
+            precondition(tag.isDataTag, "Cannot create a data field with a control field tag.")
             self.content = content!
         case nil where tag.isControlTag:
             self.content = .control(value: "")
         case nil where tag.isDataTag:
             self.content = .data(indicators: (.blank, .blank), subfields: [])
         case nil:
-            preconditionFailure("\(tag) is neither a control field tag nor a data field tag.")
+            self.content = .none
         }
     }
 
     public var stringValue: String {
         switch content {
+        case .none: return ""
         case let .control(value): return value
         case let .data(indicators: _, subfields: subfields):
             return subfields.map(\.description).joined()
@@ -181,7 +197,7 @@ extension RecordField {
         }
     }
 
-    /// Create an empty record field with the given record field tag.
+    /// Create a control field with the given record field tag.
     ///
     /// - parameter tag: The field tag identifying the semantic purpose for the new record field.
     /// - parameter controlValue: The control value for the field.
@@ -192,7 +208,7 @@ extension RecordField {
         self.init(tag: tag, content: .control(value: controlValue))
     }
 
-    /// Create an empty record field with the given record field tag.
+    /// Create a data field with the given record field tag.
     ///
     /// - parameter tag: The field tag identifying the semantic purpose for the new record field.
     /// - parameter indicators: The first and second indicator values for a data field.
@@ -209,6 +225,7 @@ extension RecordField: Hashable, Equatable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(self.tag)
         switch self.content {
+        case .none: break
         case let .control(value: value):
             hasher.combine(value)
         case let .data(indicators: indicators, subfields: subfields):
@@ -224,6 +241,11 @@ extension RecordField: Hashable, Equatable {
         }
 
         switch lhs.content {
+        case .none:
+            guard case .none = rhs.content else {
+                return false
+            }
+            return true
         case let .control(value: lhsValue):
             guard case let .control(value: rhsValue) = rhs.content else {
                 return false
@@ -287,9 +309,16 @@ extension RecordField {
         self.subfields.contains(where: { $0.code == code })
     }
 
-    public func containsSubfield(with code: SubfieldCode, after index: Int) -> Bool {
-        self.subfields[index..<self.subfields.endIndex]
-            .contains(where: { $0.code == code })
+    /// Check to see if this data field has a subfield marked with the given code within a certain range.
+    ///
+    /// - parameter code: The subfield code used to check the presence of any relevant subfields.
+    /// - parameter range: The range to search within for any subfield with the given code.
+    /// - returns: `true` when this data field contains a subfield marked with the given code.
+    ///            `false` is returned when no such subfield is found.
+    ///
+    /// - note: This method always returns `false` for control fields.
+    public func containsSubfield(with code: SubfieldCode, in range: Range<Int>) -> Bool {
+        self.subfields[range].contains(where: { $0.code == code })
     }
 }
 
@@ -301,17 +330,43 @@ extension RecordField {
     ///            `nil` is returned if there is no such matching subfield.
     ///
     /// - note: This method always returns `nil` for control fields.
-    public func firstIndex(OfSubfield code: SubfieldCode) -> Int? {
+    public func firstIndexOfSubfield(with code: SubfieldCode) -> Int? {
         self.subfields.firstIndex(where: { $0.code == code })
     }
 
-    public func lastIndex(ofSubfield code: SubfieldCode) -> Int? {
+    /// Get the index of the first subfield marked with the given code within a given range.
+    ///
+    /// - parameter code: The subfield code that the resulting subfield should have.
+    /// - parameter range: The range of indexes to search within for the subfield with the given code.
+    /// - returns: The index of the first subfield in this data field with the given subfield code.
+    ///            `nil` is returned if there is no such matching subfield.
+    ///
+    /// - note: This method always returns `nil` for control fields.
+    public func firstIndexOfSubfield(with code: SubfieldCode, in range: Range<Int>) -> Int? {
+        self.subfields[range].firstIndex(where: { $0.code == code })
+    }
+
+    /// Get the index of the last subfield marked with the given code.
+    ///
+    /// - parameter code: The subfield code that the resulting subfield should have.
+    /// - returns: The index of the last subfield in this data field with the given subfield code.
+    ///            `nil` is returned if there is no such matching subfield.
+    ///
+    /// - note: This method always returns `nil` for control fields.
+    public func lastIndexOfSubfield(with code: SubfieldCode) -> Int? {
         self.subfields.lastIndex(where: { $0.code == code })
     }
 
-    public func index(OfSubfield code: SubfieldCode, after index: Int) -> Int? {
-        self.subfields[self.subfields.index(after: index)..<self.subfields.endIndex]
-            .firstIndex(where: { $0.code == code })
+    /// Get the index of the last subfield marked with the given code within a given range.
+    ///
+    /// - parameter code: The subfield code that the resulting subfield should have.
+    /// - parameter range: The range of indexes to search within for the subfield with the given code.
+    /// - returns: The index of the last subfield in this data field with the given subfield code.
+    ///            `nil` is returned if there is no such matching subfield.
+    ///
+    /// - note: This method always returns `nil` for control fields.
+    public func lastIndexOfSubfield(with code: SubfieldCode, in range: Range<Int>) -> Int? {
+        self.subfields[range].lastIndex(where: { $0.code == code })
     }
 
     /// Get this data field's subfield at the given index.
@@ -324,11 +379,23 @@ extension RecordField {
         return self.subfields[index]
     }
 
+    /// Get the indices for all subfields with the given code.
+    ///
+    /// - parameter code: The subfield code that the indexed subfields should have.
+    /// - returns: The range set of all indices for subfields with the given code.
+    ///
+    /// - note: This method always returns the empty range set for control fields.
     @available(macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
-    public func indices(ofSubfield code: SubfieldCode) -> RangeSet<Int> {
+    public func indicesOfSubfields(with code: SubfieldCode) -> RangeSet<Int> {
         self.subfields.indices(where: { $0.code == code })
     }
 
+    /// Get all subfields for the given set of index ranges.
+    ///
+    /// - parameter indices: The ranges of indices for all the subfields to get.
+    /// - returns: A discontinuous slice of the subfields at the given indices.
+    ///
+    /// - note: This method always returns the empty slice for control fields.
     @available(macOS 15.0, iOS 18.0, macCatalyst 18.0, tvOS 18.0, watchOS 11.0, visionOS 2.0, *)
     public func subfields(at indices: RangeSet<Index>) -> DiscontiguousSlice<[Subfield]> {
         self.subfields[indices]
@@ -347,6 +414,18 @@ extension RecordField {
         self.subfields.first(where: { $0.code == code })
     }
 
+    /// Get the first subfield marked with the given code in a specified range.
+    ///
+    /// - parameter code: The subfield code that the resulting subfield should have.
+    /// - parameter range: The range of indexes to search within for the subfield with the given code.
+    /// - returns: The first subfield in this data field with the given subfield code.
+    ///            `nil` is returned if there is no such matching subfield.
+    ///
+    /// - note: This method always returns `nil` for control fields.
+    public func firstSubfield(with code: SubfieldCode, in range: Range<Int>) -> Subfield? {
+        self.subfields[range].first(where: { $0.code == code })
+    }
+
     /// Get the last subfield marked with the given code.
     ///
     /// - parameter code: The subfield code that the resulting subfield should have.
@@ -358,9 +437,16 @@ extension RecordField {
         self.subfields.last(where: { $0.code == code })
     }
 
-    public func firstSubfield(with code: SubfieldCode, after index: Int) -> Subfield? {
-        self.subfields[self.subfields.index(after: index)..<self.subfields.endIndex]
-            .first(where: { $0.code == code })
+    /// Get the last subfield marked with the given code.
+    ///
+    /// - parameter code: The subfield code that the resulting subfield should have.
+    /// - parameter range: The range of indexes to search within for the subfield with the given code.
+    /// - returns: The first subfield in this data field with the given subfield code.
+    ///            `nil` is returned if there is no such matching subfield.
+    ///
+    /// - note: This method always returns `nil` for control fields.
+    public func lastSubfield(with code: SubfieldCode, in range: Range<Int>) -> Subfield? {
+        self.subfields[range].last(where: { $0.code == code })
     }
 
     public func subfields(with code: SubfieldCode) -> [Subfield] {
@@ -400,7 +486,9 @@ extension RecordField.Content: Codable {
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let controlValue = try? container.decode(String.self) {
+        if container.decodeNil() {
+            self = .none
+        } else if let controlValue = try? container.decode(String.self) {
             self = .control(value: controlValue)
         } else {
             let dataFieldContent = try container.decode(DataFieldContent.self)
@@ -413,6 +501,8 @@ extension RecordField.Content: Codable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
+        case .none:
+            try container.encodeNil()
         case let .control(value: value):
             try container.encode(value)
         case let .data(indicators: indicators, subfields: subfields):
@@ -427,6 +517,7 @@ extension RecordField.Content: Codable {
 extension RecordField: CustomStringConvertible, CustomDebugStringConvertible, CustomPlaygroundDisplayConvertible {
     public var description: String {
         switch self.content {
+        case .none: return ""
         case let .control(value: value): return value
         case let .data(indicators: _, subfields: subfields): return subfields.map { "\($0)" }.joined(separator: " ")
         }
@@ -434,16 +525,20 @@ extension RecordField: CustomStringConvertible, CustomDebugStringConvertible, Cu
 
     public var debugDescription: String {
         switch self.content {
-            case let .control(value: value):
-                return "\(self.tag) \(value)"
-            case let .data(indicators: indicators, subfields: subfields):
-                let content = subfields.map { "$\($0.code)\($0.content)" }.joined()
-                return "\(self.tag) \(indicators.first)\(indicators.second) \(content)"
+        case .none:
+            return "\(self.tag)"
+        case let .control(value: value):
+            return "\(self.tag) \(value)"
+        case let .data(indicators: indicators, subfields: subfields):
+            let content = subfields.map { "$\($0.code)\($0.content)" }.joined()
+            return "\(self.tag) \(indicators.first)\(indicators.second) \(content)"
         }
     }
 
     public var playgroundDescription: Any {
         switch self.content {
+        case .none:
+            return ["tag" : self.tag]
         case let .control(value: value):
             return ["tag" : self.tag,
                     "control value" : value]
@@ -466,6 +561,8 @@ extension RecordField: _ObjectiveCBridgeable {
 
     public func _bridgeToObjectiveC() -> BibRecordField {
         switch self.content {
+        case .none:
+            return BibRecordField(fieldTag: self.tag)
         case let .control(value: value):
             return BibRecordField(fieldTag: self.tag, controlValue: value)
         case let .data(indicators: indicators, subfields: subfields):

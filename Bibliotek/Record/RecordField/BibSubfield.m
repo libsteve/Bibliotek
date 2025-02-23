@@ -37,7 +37,7 @@
 }
 
 + (NSSet *)keyPathsForValuesAffectingDescription {
-    return [NSSet setWithObjects:BibKey(subfieldCode), BibKey(content)];
+    return [NSSet setWithObjects:BibKey(subfieldCode), BibKey(content), nil];
 }
 
 @end

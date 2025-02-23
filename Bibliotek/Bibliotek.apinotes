@@ -38,3 +38,58 @@ Classes:
     Parameters:
     - Position: 0
       Type: "NSInteger"
+- Name: "BibRecordField"
+  Properties:
+  - Name: "subfieldCount"
+    PropertyKind: Instance
+    Type: "NSInteger"
+  Methods:
+  - Selector: "subfieldAtIndex:"
+    MethodKind: Instance
+    Parameters:
+    - Position: 0
+      Type: "NSInteger"
+  - Selector: "objectAtIndexedSubscript:"
+    MethodKind: Instance
+    Parameters:
+    - Position: 0
+      Type: "NSInteger"
+  - Selector: "indexOfSubfieldWithCode:"
+    MethodKind: Instance
+    ResultType: "NSInteger"
+  - Selector: "indexOfSubfieldWithCode:inRange:"
+    MethodKind: Instance
+    ResultType: "NSInteger"
+- Name: "BibMutableRecordField"
+  Properties:
+  Methods:
+  - Selector: "subfieldAtIndex:"
+    MethodKind: Instance
+    Parameters:
+    - Position: 0
+      Type: "NSInteger"
+  - Selector: "objectAtIndexedSubscript:"
+    MethodKind: Instance
+    Parameters:
+    - Position: 0
+      Type: "NSInteger"
+  - Selector: "removeSubfieldAtIndex:"
+    MethodKind: Instance
+    Parameters:
+    - Position: 0
+      Type: "NSInteger"
+  - Selector: "insertSubfield:atIndex:"
+    MethodKind: Instance
+    Parameters:
+    - Position: 1
+      Type: "NSInteger"
+  - Selector: "replaceSubfieldAtIndex:withSubfield:"
+    MethodKind: Instance
+    Parameters:
+    - Position: 0
+      Type: "NSInteger"
+  - Selector: "setObject:atIndexedSubscript:"
+    MethodKind: Instance
+    Parameters:
+    - Position: 1
+      Type: "NSInteger"

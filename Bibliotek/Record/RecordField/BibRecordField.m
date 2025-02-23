@@ -11,36 +11,23 @@
 #import "BibFieldIndicator.h"
 #import "Bibliotek+Internal.h"
 #import "BibHasher.h"
-#import <objc/runtime.h>
+#import "BibSubfield.h"
 
-@interface _BibRecordNofield : BibRecordField
+/// Overrides `copyWithZone:` to return `self` as an optimization.
+@interface _BibIRecordField : BibRecordField
 @end
 
-@interface _BibRecordDatafield : BibRecordField
-@end
-
-@interface _BibRecordControlfield : BibRecordField
-@end
-
-@interface _BibMutableRecordNofield : BibMutableRecordField
-@end
-
-@interface _BibMutableRecordDatafield : BibMutableRecordField
-@end
-
-@interface _BibMutableRecordControlfield : BibMutableRecordField
-@end
-
-#pragma mark - Field
-
-@implementation BibRecordField {
-@public
+@interface BibRecordField () {
+@protected
     BibFieldTag *_fieldTag;
     NSString *_controlValue;
     BibFieldIndicator *_firstIndicator;
     BibFieldIndicator *_secondIndicator;
-    NSMutableArray<BibSubfield *> *_subfields;
+    NSArray<BibSubfield *> *_subfields;
 }
+@end
+
+@implementation BibRecordField
 
 @synthesize fieldTag = _fieldTag;
 @synthesize controlValue = _controlValue;
@@ -48,52 +35,38 @@
 @synthesize secondIndicator = _secondIndicator;
 @synthesize subfields = _subfields;
 
-- (NSString *)stringValue {
-    if ([self isControlField]) {
-        return [self controlValue];
-    } else if ([self isDataField]) {
-        return [[[self subfields] valueForKey:BibKey(description)] componentsJoinedByString:@""];
-    } else {
-        return @"";
++ (instancetype)allocWithZone:(NSZone *)zone {
+    if (self == [BibRecordField class]) {
+        return [_BibIRecordField allocWithZone:zone];
     }
+    return [super allocWithZone:zone];
 }
 
 - (instancetype)init {
-    return [self initWithFieldTag:[BibFieldTag new]];
+    return [self initWithFieldTag:[[BibFieldTag alloc] initWithString:@"000"]];
 }
 
 - (instancetype)initWithFieldTag:(BibFieldTag *)fieldTag {
-    if (fieldTag == nil) {
-        return nil;
-    }
     if (self = [super init]) {
         _fieldTag = [fieldTag copy];
-        if ([self class] == [BibRecordField self]) {
-            if ([_fieldTag isControlTag]) {
-                _controlValue = @"";
-                object_setClass(self, [_BibRecordControlfield self]);
-            } else if ([_fieldTag isDataTag]) {
-                _subfields = [NSMutableArray new];
-                object_setClass(self, [_BibRecordDatafield self]);
-            } else {
-                object_setClass(self, [_BibRecordNofield self]);
-            }
-        } else if ([self class] == [BibMutableRecordField self]) {
-            if ([_fieldTag isControlTag]) {
-                object_setClass(self, [_BibMutableRecordControlfield self]);
-            } else if ([_fieldTag isDataTag]) {
-                object_setClass(self, [_BibMutableRecordDatafield self]);
-            } else {
-                object_setClass(self, [_BibMutableRecordNofield self]);
-            }
+        if ([fieldTag isDataTag]) {
+            _firstIndicator = [BibFieldIndicator blank];
+            _secondIndicator = [BibFieldIndicator blank];
+            _subfields = [NSArray new];
+        } else if ([fieldTag isControlTag]) {
+            _controlValue = @"";
         }
     }
     return self;
 }
 
 - (instancetype)initWithFieldTag:(BibFieldTag *)fieldTag controlValue:(NSString *)controlValue {
-    NSParameterAssert(fieldTag.isControlTag);
-    if (self = [self initWithFieldTag:fieldTag]) {
+    if (![fieldTag isControlTag]) {
+        [NSException raise:NSInvalidArgumentException
+                    format:@"*** Cannot create a data field with the tag %@.", fieldTag];
+    }
+    if (self = [super init]) {
+        _fieldTag = [fieldTag copy];
         _controlValue = [controlValue copy];
     }
     return self;
@@ -103,64 +76,52 @@
                   firstIndicator:(BibFieldIndicator *)firstIndicator
                  secondIndicator:(BibFieldIndicator *)secondIndicator
                        subfields:(NSArray<BibSubfield *> *)subfields {
-    NSParameterAssert(fieldTag.isDataTag);
-    if (self = [self initWithFieldTag:fieldTag]) {
+    if (![fieldTag isDataTag]) {
+        [NSException raise:NSInvalidArgumentException
+                    format:@"*** Cannot create a data field with the tag %@.", fieldTag];
+    }
+    if (self = [super init]) {
+        _fieldTag = [fieldTag copy];
         _firstIndicator = [firstIndicator copy];
         _secondIndicator = [secondIndicator copy];
-        _subfields = [subfields mutableCopy];
+        _subfields = [subfields copy];
     }
     return self;
 }
 
-- (NSString *)controlValue { return [self isControlField] ? (_controlValue ?: @"") : nil; }
+- (BOOL)isControlField {
+    return [[self fieldTag] isControlTag];
+}
 
-- (BibFieldIndicator *)firstIndicator { return [self isDataField] ? (_firstIndicator ?: [BibFieldIndicator new]) : nil; }
-- (BibFieldIndicator *)secondIndicator { return [self isDataField] ? (_secondIndicator ?: [BibFieldIndicator new]) : nil; }
-- (NSArray<BibSubfield *> *)subfields { return [self isDataField] ? ([_subfields copy] ?: [NSArray new]) : nil; }
-
-- (BOOL)isControlField { return [[self fieldTag] isControlTag]; }
-- (BOOL)isDataField { return [[self fieldTag] isDataTag]; }
-
-+ (NSSet *)keyPathsForValuesAffectingControlValue { return [NSSet setWithObject:BibKeyPath(fieldTag)]; }
-+ (NSSet *)keyPathsForValuesAffectingFirstIndicator { return [NSSet setWithObject:BibKeyPath(fieldTag)]; }
-+ (NSSet *)keyPathsForValuesAffectingSecondIndicator { return [NSSet setWithObject:BibKeyPath(fieldTag)]; }
-+ (NSSet *)keyPathsForValuesAffectingSubfields { return [NSSet setWithObject:BibKeyPath(fieldTag)]; }
-+ (NSSet *)keyPathsForValuesAffectingIsControlfield { return [NSSet setWithObject:BibKeyPath(fieldTag)]; }
-+ (NSSet *)keyPathsForValuesAffectingIsDatafield { return [NSSet setWithObject:BibKeyPath(fieldTag)]; }
+- (BOOL)isDataField {
+    return [[self fieldTag] isDataTag];
+}
 
 - (id)copyWithZone:(NSZone *)zone {
+    BibRecordField *field = [BibRecordField allocWithZone:zone];
     if ([self isDataField]) {
-        _BibRecordDatafield *const copy = [_BibRecordDatafield new];
-        copy->_fieldTag = [[self fieldTag] copy];
-        copy->_firstIndicator = [[self firstIndicator] copy];
-        copy->_secondIndicator = [[self secondIndicator] copy];
-        copy->_subfields = [[self subfields] mutableCopy] ?: [NSMutableArray new];
-        return copy;
+        return [field initWithFieldTag:[self fieldTag]
+                        firstIndicator:[self firstIndicator]
+                       secondIndicator:[self secondIndicator]
+                             subfields:[self subfields]];
     } else if ([self isControlField]) {
-        _BibRecordControlfield *const copy = [_BibRecordControlfield new];
-        copy->_fieldTag = [[self fieldTag] copy];
-        copy->_controlValue = [[self controlValue] copy];
-        return copy;
+        return [field initWithFieldTag:[self fieldTag] controlValue:[self controlValue]];
     } else {
-        return [_BibRecordNofield new];
+        return [field initWithFieldTag:[self fieldTag]];
     }
 }
 
 - (id)mutableCopyWithZone:(NSZone *)zone {
+    BibMutableRecordField *field = [BibMutableRecordField allocWithZone:zone];
     if ([self isDataField]) {
-        _BibMutableRecordDatafield *const mutableCopy = [_BibMutableRecordDatafield new];
-        mutableCopy->_fieldTag = [[self fieldTag] copy];
-        mutableCopy->_firstIndicator = [[self firstIndicator] copy];
-        mutableCopy->_secondIndicator = [[self secondIndicator] copy];
-        mutableCopy->_subfields = [[self subfields] mutableCopy] ?: [NSMutableArray new];
-        return mutableCopy;
+        return [field initWithFieldTag:[self fieldTag]
+                        firstIndicator:[self firstIndicator]
+                       secondIndicator:[self secondIndicator]
+                             subfields:[self subfields]];
     } else if ([self isControlField]) {
-        _BibMutableRecordControlfield *const mutableCopy = [_BibMutableRecordControlfield new];
-        mutableCopy->_fieldTag = [[self fieldTag] copy];
-        mutableCopy->_controlValue = [[self controlValue] copy];
-        return mutableCopy;
+        return [field initWithFieldTag:[self fieldTag] controlValue:[self controlValue]];
     } else {
-        return [_BibMutableRecordNofield new];
+        return [field initWithFieldTag:[self fieldTag]];
     }
 }
 
@@ -185,70 +146,13 @@
         return [NSString stringWithFormat:@"%@ %@", self.fieldTag, self.controlValue];
 
     } else {
-        return self.firstIndicator.description;
+        return [NSString stringWithFormat:@"%@", self.fieldTag];
     }
 }
 
 @end
 
-@implementation BibRecordField (SubfieldAccess)
-
-- (NSUInteger)subfieldCount { return self.subfields.count; }
-- (BibSubfield *)subfieldAtIndex:(NSUInteger)index { return [self.subfields objectAtIndex:index]; }
-- (BibSubfield *)objectAtIndexedSubscript:(NSUInteger)index { return [self subfieldAtIndex:index]; }
-
-- (NSUInteger)indexOfSubfieldWithCode:(BibSubfieldCode)subfieldCode {
-    NSArray *const subfields = self.subfields;
-    NSUInteger const count = subfields.count;
-    for (NSUInteger index = 0; index < count; index += 1) {
-        if ([[[subfields objectAtIndex:index] subfieldCode] isEqualToString:subfieldCode]) {
-            return index;
-        }
-    }
-    return NSNotFound;
-}
-
-- (NSUInteger)indexOfSubfieldWithCode:(BibSubfieldCode)subfieldCode afterIndex:(NSUInteger)startIndex {
-    NSArray *const subfields = self.subfields;
-    NSUInteger const count = subfields.count;
-    for (NSUInteger index = (startIndex + 1); index < count; index += 1) {
-        if ([[[subfields objectAtIndex:index] subfieldCode] isEqualToString:subfieldCode]) {
-            return index;
-        }
-    }
-    return NSNotFound;
-}
-
-- (NSIndexSet *)indexesOfSubfieldsWithCode:(BibSubfieldCode)subfieldCode {
-    return [[self subfields] indexesOfObjectsPassingTest:^BOOL(BibSubfield *subfield, NSUInteger idx, BOOL *stop) {
-        return [[subfield subfieldCode] isEqualToString:subfieldCode];
-    }];
-}
-
-- (BibSubfield *)subfieldWithCode:(BibSubfieldCode)subfieldCode {
-    NSUInteger const index = [self indexOfSubfieldWithCode:subfieldCode];
-    return (index == NSNotFound) ? nil : [self subfieldAtIndex:index];
-}
-
-- (nullable BibSubfield *)subfieldWithCode:(BibSubfieldCode)subfieldCode afterIndex:(NSUInteger)index {
-    NSUInteger const nextIndex = [self indexOfSubfieldWithCode:subfieldCode afterIndex:index];
-    return (nextIndex == NSNotFound) ? nil : [self subfieldAtIndex:nextIndex];
-}
-
-- (NSArray<BibSubfield *> *)subfieldsWithCode:(BibSubfieldCode)subfieldCode {
-    NSIndexSet *indexSet = [self indexesOfSubfieldsWithCode:subfieldCode];
-    NSMutableArray *subfields = [NSMutableArray arrayWithCapacity:[indexSet count]];
-    [indexSet enumerateIndexesUsingBlock:^(NSUInteger index, BOOL *stop) {
-        [subfields addObject:[self.subfields objectAtIndex:index]];
-    }];
-    return [subfields copy];
-}
-
-- (BOOL)containsSubfieldWithCode:(BibSubfieldCode)subfieldCode {
-    return [self indexOfSubfieldWithCode:subfieldCode] != NSNotFound;
-}
-
-@end
+#pragma mark - Equality
 
 @implementation BibRecordField (Equality)
 
@@ -283,6 +187,8 @@
 
 @end
 
+#pragma mark - Serialization
+
 @implementation BibRecordField (Serialization)
 
 + (BOOL)supportsSecureCoding { return YES; }
@@ -315,63 +221,27 @@
 
 @end
 
-#pragma mark - Field Specialization
+#pragma mark - Immutable Optimizations
 
-@implementation _BibRecordNofield
+@implementation _BibIRecordField
 
-- (BOOL)isControlField { return NO; }
-- (BOOL)isDataField { return NO; }
-- (NSString *)controlValue { return nil; }
-- (BibFieldIndicator *)firstIndicator { return nil; }
-- (BibFieldIndicator *)secondIndicator { return nil; }
-- (NSArray<BibSubfield *> *)subfields { return nil; }
-
-- (NSUInteger)subfieldCount { return 0; }
-- (BibSubfield *)subfieldAtIndex:(NSUInteger)index { return [[NSArray new] objectAtIndex:index]; }
-- (NSUInteger)indexOfSubfieldWithCode:(BibSubfieldCode)subfieldCode { return NSNotFound; }
-- (BibSubfield *)subfieldWithCode:(BibSubfieldCode)subfieldCode { return nil; }
-- (BOOL)containsSubfieldWithCode:(BibSubfieldCode)subfieldCode { return NO; }
-
-- (Class)classForCoder { return [BibRecordField self]; }
+- (id)copyWithZone:(NSZone *)zone {
+    NSZone *current = NSZoneFromPointer((__bridge void *)self);
+    if ((zone == nil && current == NSDefaultMallocZone()) || current == zone) {
+        return self;
+    }
+    return [super copyWithZone:zone];
+}
 
 @end
 
-@implementation _BibRecordDatafield
+#pragma mark - Lazy Copying Arrays
 
-- (BOOL)isControlField { return NO; }
-- (BOOL)isDataField { return YES; }
-- (NSString *)controlValue { return nil; }
-- (BibFieldIndicator *)firstIndicator { return _firstIndicator; }
-- (BibFieldIndicator *)secondIndicator { return _secondIndicator; }
-- (NSArray<BibSubfield *> *)subfields { return [_subfields copy] ?: [NSArray array]; }
-
-- (NSUInteger)subfieldCount { return _subfields.count; }
-- (BibSubfield *)subfieldAtIndex:(NSUInteger)index { return [_subfields objectAtIndex:index]; }
-
-- (Class)classForCoder { return [BibRecordField self]; }
-
+@interface _BibLazyMutableSubfieldArray : NSMutableArray<BibMutableSubfield *>
+- (instancetype)initWithSubfields:(NSArray<BibSubfield *> *)subfields;
 @end
 
-@implementation _BibRecordControlfield
-
-- (BOOL)isControlField { return YES; }
-- (BOOL)isDataField { return NO; }
-- (NSString *)controlValue { return (_controlValue ?: @""); }
-- (BibFieldIndicator *)firstIndicator { return nil; }
-- (BibFieldIndicator *)secondIndicator { return nil; }
-- (NSArray<BibSubfield *> *)subfields { return nil; }
-
-- (NSUInteger)subfieldCount { return 0; }
-- (BibSubfield *)subfieldAtIndex:(NSUInteger)index { return [[NSArray new] objectAtIndex:index]; }
-- (NSUInteger)indexOfSubfieldWithCode:(BibSubfieldCode)subfieldCode { return NSNotFound; }
-- (BibSubfield *)subfieldWithCode:(BibSubfieldCode)subfieldCode { return nil; }
-- (BOOL)containsSubfieldWithCode:(BibSubfieldCode)subfieldCode { return NO; }
-
-- (Class)classForCoder { return [BibRecordField self]; }
-
-@end
-
-#pragma mark - Mutable Field
+#pragma mark - Mutable Record Field
 
 @implementation BibMutableRecordField
 
@@ -381,212 +251,286 @@
 @dynamic secondIndicator;
 @dynamic subfields;
 
-- (Class)classForCoder { return [BibRecordField self]; }
-
-+ (BOOL)automaticallyNotifiesObserversOfFieldTag { return NO; }
-+ (BOOL)automaticallyNotifiesObserversOfControlValue { return NO; }
-+ (BOOL)automaticallyNotifiesObserversOfFirstIndicator { return NO; }
-+ (BOOL)automaticallyNotifiesObserversOfSecondIndicator { return NO; }
-+ (BOOL)automaticallyNotifiesObserversOfSubfields { return NO; }
+- (void)setFieldTag:(BibFieldTag *)fieldTag {
+    if (_fieldTag != fieldTag) {
+        if (![self isControlField] && [fieldTag isControlTag]) {
+            _fieldTag = [fieldTag copy];
+            [self setControlValue:@""];
+            [self setFirstIndicator:nil];
+            [self setSecondIndicator:nil];
+            [self setSubfields:nil];
+        } else if (![self isDataField] && [fieldTag isDataTag]) {
+            _fieldTag = [fieldTag copy];
+            [self setControlValue:nil];
+            [self setFirstIndicator:[BibFieldIndicator blank]];
+            [self setSecondIndicator:[BibFieldIndicator blank]];
+            [self setSubfields:[NSArray new]];
+        } else if (![fieldTag isDataTag] && ![fieldTag isDataTag]) {
+            _fieldTag = [fieldTag copy];
+            [self setControlValue:nil];
+            [self setFirstIndicator:nil];
+            [self setSecondIndicator:nil];
+            [self setSubfields:nil];
+        }
+    }
+}
 
 - (void)setControlValue:(NSString *)controlValue {
-    if (_controlValue != controlValue) {
-        [self willChangeValueForKey:BibKey(controlValue)];
-        _controlValue = [controlValue copy] ?: @"";
-        [self didChangeValueForKey:BibKey(controlValue)];
+    if ([self isControlField]) {
+        if (_controlValue != controlValue) {
+            _controlValue = [controlValue copy] ?: @"";
+        }
+    } else {
+        _controlValue = nil;
     }
 }
 
 - (void)setFirstIndicator:(BibFieldIndicator *)firstIndicator {
-    if (_firstIndicator != firstIndicator) {
-        [self willChangeValueForKey:BibKey(firstIndicator)];
-        _firstIndicator = [firstIndicator copy] ?: [BibFieldIndicator new];
-        [self didChangeValueForKey:BibKey(firstIndicator)];
+    if ([self isDataField]) {
+        if (_firstIndicator != firstIndicator) {
+            _firstIndicator = [firstIndicator copy] ?: [BibFieldIndicator blank];
+        }
+    } else {
+        _firstIndicator = nil;
     }
 }
 
 - (void)setSecondIndicator:(BibFieldIndicator *)secondIndicator {
-    if (_secondIndicator != secondIndicator) {
-        [self willChangeValueForKey:BibKey(secondIndicator)];
-        _secondIndicator = [secondIndicator copy] ?: [BibFieldIndicator new];
-        [self didChangeValueForKey:BibKey(secondIndicator)];
-    }
-}
-
-- (void)setSubfields:(NSArray<BibSubfield *> *)subfields {
-    if (_subfields != subfields) {
-        [self willChangeValueForKey:BibKey(subfields)];
-        _subfields = [subfields mutableCopy] ?: [NSMutableArray new];
-        [self didChangeValueForKey:BibKey(subfields)];
-    }
-}
-
-@end
-
-@implementation BibMutableRecordField (SubfieldAccess)
-
-- (void)addSubfield:(BibSubfield *)subfield {
-    [self insertSubfield:subfield atIndex:_subfields.count];
-}
-
-- (void)removeSubfield:(BibSubfield *)subfield {
-    NSUInteger const index = [_subfields indexOfObject:subfield];
-    if (index != NSNotFound) {
-        NSIndexSet *const indexes = [[NSIndexSet alloc] initWithIndex:index];
-        [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:BibKey(subfields)];
-        [_subfields removeObjectAtIndex:index];
-        [self willChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:BibKey(subfields)];
-    }
-}
-
-- (void)insertSubfield:(BibSubfield *)subfield atIndex:(NSUInteger)index {
-    NSIndexSet *const indexes = [[NSIndexSet alloc] initWithIndex:_subfields.count];
-    [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:BibKey(subfields)];
-    [_subfields insertObject:[subfield copy] atIndex:index];
-    [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:BibKey(subfields)];
-}
-
-- (void)replaceSubfieldAtIndex:(NSUInteger)index withSubfield:(BibSubfield *)subfield {
-    NSIndexSet *const indexes = [[NSIndexSet alloc] initWithIndex:_subfields.count];
-    [self willChange:NSKeyValueChangeReplacement valuesAtIndexes:indexes forKey:BibKey(subfields)];
-    [_subfields replaceObjectAtIndex:index withObject:[subfield copy]];
-    [self didChange:NSKeyValueChangeReplacement valuesAtIndexes:indexes forKey:BibKey(subfields)];
-}
-
-- (void)setSubfield:(BibSubfield *)subfield atIndex:(NSUInteger)index {
-    [self replaceSubfieldAtIndex:index withSubfield:subfield];
-}
-
-- (void)setObject:(BibSubfield *)subfield atIndexedSubscript:(NSUInteger)index {
-    [self replaceSubfieldAtIndex:index withSubfield:subfield];
-}
-
-@end
-
-#pragma mark - Mutable Field Specialization
-
-@implementation _BibMutableRecordNofield
-
-- (BOOL)isControlField { return NO; }
-- (BOOL)isDataField { return NO; }
-- (NSString *)controlValue { return nil; }
-- (BibFieldIndicator *)firstIndicator { return nil; }
-- (BibFieldIndicator *)secondIndicator { return nil; }
-- (NSArray<BibSubfield *> *)subfields { return nil; }
-
-- (NSUInteger)subfieldCount { return 0; }
-- (BibSubfield *)subfieldAtIndex:(NSUInteger)index { return [[NSArray new] objectAtIndex:index]; }
-- (NSUInteger)indexOfSubfieldWithCode:(BibSubfieldCode)subfieldCode { return NSNotFound; }
-- (BibSubfield *)subfieldWithCode:(BibSubfieldCode)subfieldCode { return nil; }
-- (BOOL)containsSubfieldWithCode:(BibSubfieldCode)subfieldCode { return NO; }
-
-- (void)setFieldTag:(BibFieldTag *)fieldTag {
-    if (_fieldTag != fieldTag) {
-        [self willChangeValueForKey:BibKey(fieldTag)];
-        _fieldTag = [fieldTag copy];
-        if ([fieldTag isDataTag]) {
-            object_setClass(self, [_BibMutableRecordDatafield self]);
-            self->_firstIndicator = [BibFieldIndicator new];
-            self->_secondIndicator = [BibFieldIndicator new];
-            self->_subfields = [NSMutableArray new];
-        } else if ([fieldTag isControlTag]) {
-            object_setClass(self, [_BibMutableRecordControlfield self]);
-            self->_controlValue = @"";
+    if ([self isDataField]) {
+        if (_secondIndicator != secondIndicator) {
+            _secondIndicator = [secondIndicator copy] ?: [BibFieldIndicator blank];
         }
-        [self didChangeValueForKey:BibKey(fieldTag)];
+    } else {
+        _secondIndicator = nil;
     }
 }
 
-- (void)setControlValue:(NSString *)controlValue {}
-- (void)setFirstIndicator:(NSString *)firstIndicator {}
-- (void)setSecondIndicator:(NSString *)secondIndicator {}
-- (void)setSubfields:(NSArray<BibSubfield *> *)subfields {}
+- (NSArray<BibMutableSubfield *> *)subfields {
+    return [_subfields copy];
+}
 
-- (void)addSubfield:(BibSubfield *)subfield {}
-- (void)removeSubfield:(BibSubfield *)subfield {}
-- (void)insertSubfield:(BibSubfield *)subfield atIndex:(NSUInteger)index {}
-- (void)replaceSubfieldAtIndex:(NSUInteger)index withSubfield:(BibSubfield *)subfield {}
+- (void)setSubfields:(NSArray<BibMutableSubfield *> *)subfields {
+    if ([self isDataField]) {
+        if (_subfields != subfields) {
+            _subfields = [subfields mutableCopy] ?: [NSMutableArray new];
+        }
+    } else {
+        _subfields = nil;
+    }
+}
+
+- (instancetype)initWithFieldTag:(BibFieldTag *)fieldTag
+                  firstIndicator:(BibFieldIndicator *)firstIndicator
+                 secondIndicator:(BibFieldIndicator *)secondIndicator
+                       subfields:(NSArray<BibSubfield *> *)subfields {
+    if (self = [super initWithFieldTag:fieldTag
+                        firstIndicator:firstIndicator
+                       secondIndicator:secondIndicator
+                             subfields:[NSArray new]]) {
+        _subfields = [[_BibLazyMutableSubfieldArray alloc] initWithSubfields:_subfields];
+    }
+    return self;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    BibRecordField *field = [BibRecordField allocWithZone:zone];
+    if ([self isDataField]) {
+        NSMutableArray *subfields = [[NSMutableArray allocWithZone:zone] initWithCapacity:[[self subfields] count]];
+        for (BibSubfield *subfield in [self subfields]) {
+            [subfields addObject:[subfield copy]];
+        }
+        return [field initWithFieldTag:[self fieldTag]
+                        firstIndicator:[self firstIndicator]
+                       secondIndicator:[self secondIndicator]
+                             subfields:subfields];
+    } else if ([self isControlField]) {
+        return [field initWithFieldTag:[self fieldTag] controlValue:[self controlValue]];
+    } else {
+        return [field initWithFieldTag:[self fieldTag]];
+    }
+}
+
+- (id)mutableCopyWithZone:(NSZone *)zone {
+    BibMutableRecordField *field = [BibMutableRecordField allocWithZone:zone];
+    if ([self isDataField]) {
+        return [field initWithFieldTag:[self fieldTag]
+                        firstIndicator:[self firstIndicator]
+                       secondIndicator:[self secondIndicator]
+                             subfields:[self subfields]];
+    } else if ([self isControlField]) {
+        return [field initWithFieldTag:[self fieldTag] controlValue:[self controlValue]];
+    } else {
+        return [field initWithFieldTag:[self fieldTag]];
+    }
+}
 
 @end
 
-@implementation _BibMutableRecordDatafield
+#pragma mark - Subfield Access
 
-- (BOOL)isControlField { return NO; }
-- (BOOL)isDataField { return YES; }
-- (NSString *)controlValue { return nil; }
-- (BibFieldIndicator *)firstIndicator { return _firstIndicator; }
-- (BibFieldIndicator *)secondIndicator { return _secondIndicator; }
-- (NSArray<BibSubfield *> *)subfields { return [_subfields copy]; }
+@implementation BibRecordField (SubfieldAccess)
 
-- (NSUInteger)subfieldCount { return _subfields.count; }
-- (BibSubfield *)subfieldAtIndex:(NSUInteger)index { return [_subfields objectAtIndex:index]; }
-
-- (void)setFieldTag:(BibFieldTag *)fieldTag {
-    if (_fieldTag != fieldTag) {
-        [self willChangeValueForKey:BibKey(fieldTag)];
-        _fieldTag = [fieldTag copy];
-        if ([fieldTag isDataTag]) {
-        } else if ([fieldTag isControlTag]) {
-            object_setClass(self, [_BibMutableRecordControlfield self]);
-            self->_controlValue = @"";
-            self->_firstIndicator = nil;
-            self->_secondIndicator = nil;
-            self->_subfields = nil;
-        } else {
-            object_setClass(self, [_BibMutableRecordNofield self]);
-            self->_firstIndicator = nil;
-            self->_secondIndicator = nil;
-            self->_subfields = nil;
-        }
-        [self didChangeValueForKey:BibKey(fieldTag)];
-    }
+- (NSUInteger)subfieldCount {
+    return [[self subfields] count];
 }
 
-- (void)setControlValue:(NSString *)controlValue {}
+- (BibSubfield *)subfieldAtIndex:(NSUInteger)index {
+    return [[self subfields] objectAtIndex:index];
+}
+
+- (BibSubfield *)objectAtIndexedSubscript:(NSUInteger)index {
+    return [self subfieldAtIndex:index];
+}
+
+- (BibSubfield *)subfieldWithCode:(BibSubfieldCode)subfieldCode {
+    for (BibSubfield *subfield in [self subfields]) {
+        if ([[subfield subfieldCode] isEqual:subfieldCode]) {
+            return subfield;
+        }
+    }
+    return nil;
+}
+
+- (BibSubfield *)subfieldWithCode:(BibSubfieldCode)subfieldCode inRange:(NSRange)range {
+    for (BibSubfield *subfield in [[self subfields] subarrayWithRange:range]) {
+        if ([[subfield subfieldCode] isEqual:subfieldCode]) {
+            return subfield;
+        }
+    }
+    return nil;
+}
+
+- (NSArray<BibSubfield *> *)subfieldsWithCode:(BibSubfieldCode)subfieldCode {
+    NSMutableArray *subfields = [NSMutableArray new];
+    if ([self subfields] == nil) {
+        return [subfields copy];
+    }
+    for (BibSubfield *subfield in [self subfields]) {
+        if ([[subfield subfieldCode] isEqual:subfieldCode]) {
+            [subfields addObject:subfield];
+        }
+    }
+    return [subfields copy];
+}
+
+- (NSUInteger)indexOfSubfieldWithCode:(BibSubfieldCode)subfieldCode {
+    NSArray *subfields = [self subfields];
+    if (subfields == nil) {
+        return NSNotFound;
+    }
+    return [subfields indexOfObjectPassingTest:^BOOL(BibSubfield *subfield, NSUInteger idx, BOOL *stop) {
+        return [[subfield subfieldCode] isEqualToString:subfieldCode];
+    }];
+}
+
+- (NSUInteger)indexOfSubfieldWithCode:(BibSubfieldCode)subfieldCode inRange:(NSRange)range {
+    NSArray *subarray = [[self subfields] subarrayWithRange:range];
+    if (subarray == nil) {
+        return NSNotFound;
+    }
+    NSUInteger index = [subarray indexOfObjectPassingTest:^BOOL(BibSubfield *subfield, NSUInteger idx, BOOL *stop) {
+        return [[subfield subfieldCode] isEqualToString:subfieldCode];
+    }];
+    return (index != NSNotFound) ? (index + range.location) : NSNotFound;
+}
+
+- (NSIndexSet *)indexesOfSubfieldsWithCode:(BibSubfieldCode)subfieldCode {
+    return [[self subfields] indexesOfObjectsPassingTest:^BOOL(BibSubfield *subfield, NSUInteger idx, BOOL *stop) {
+        return [[subfield subfieldCode] isEqualToString:subfieldCode];
+    }] ?: [NSIndexSet new];
+}
+
+- (BOOL)containsSubfieldWithCode:(BibSubfieldCode)subfieldCode {
+    NSArray *subfields = [self subfields];
+    if (subfields == nil) {
+        return NO;
+    }
+    for (BibSubfield *subfield in subfields) {
+        if ([[subfield subfieldCode] isEqual:subfieldCode]) {
+            return YES;
+        }
+    }
+    return NO;
+}
 
 @end
 
-@implementation _BibMutableRecordControlfield
+#pragma mark - Subfield Modifications
 
-- (BOOL)isControlField { return YES; }
-- (BOOL)isDataField { return NO; }
-- (NSString *)controlValue { return _controlValue ?: @""; }
-- (BibFieldIndicator *)firstIndicator { return nil; }
-- (BibFieldIndicator *)secondIndicator { return nil; }
-- (NSArray<BibSubfield *> *)subfields { return nil; }
+@implementation BibMutableRecordField (SubfieldModification)
 
-- (NSUInteger)subfieldCount { return 0; }
-- (BibSubfield *)subfieldAtIndex:(NSUInteger)index { return [[NSArray new] objectAtIndex:index]; }
-- (NSUInteger)indexOfSubfieldWithCode:(BibSubfieldCode)subfieldCode { return NSNotFound; }
-- (BibSubfield *)subfieldWithCode:(BibSubfieldCode)subfieldCode { return nil; }
-- (BOOL)containsSubfieldWithCode:(BibSubfieldCode)subfieldCode { return NO; }
+- (void)addSubfield:(BibMutableSubfield *)subfield {
+    [(NSMutableArray *)_subfields addObject:subfield];
+}
 
-- (void)setFieldTag:(BibFieldTag *)fieldTag {
-    if (_fieldTag != fieldTag) {
-        [self willChangeValueForKey:BibKey(fieldTag)];
-        _fieldTag = [fieldTag copy];
-        if ([fieldTag isDataTag]) {
-            object_setClass(self, [_BibMutableRecordDatafield self]);
-            self->_controlValue = nil;
-            self->_firstIndicator = [BibFieldIndicator new];
-            self->_secondIndicator = [BibFieldIndicator new];
-            self->_subfields = [NSMutableArray new];
-        } else if ([fieldTag isControlTag]) {
-        } else {
-            object_setClass(self, [_BibMutableRecordNofield self]);
-            self->_controlValue = nil;
-        }
-        [self didChangeValueForKey:BibKey(fieldTag)];
+- (void)removeSubfield:(BibMutableSubfield *)subfield {
+    [(NSMutableArray *)_subfields removeObject:subfield];
+}
+
+- (void)removeSubfieldAtIndex:(NSUInteger)index {
+    [(NSMutableArray *)_subfields removeObjectAtIndex:index];
+}
+
+- (void)insertSubfield:(BibMutableSubfield *)subfield atIndex:(NSUInteger)index {
+    [(NSMutableArray *)_subfields insertObject:subfield atIndex:index];
+}
+
+- (void)replaceSubfieldAtIndex:(NSUInteger)index withSubfield:(BibMutableSubfield *)subfield {
+    [(NSMutableArray *)_subfields replaceObjectAtIndex:index withObject:subfield];
+}
+
+- (void)setObject:(BibMutableSubfield *)subfield atIndexedSubscript:(NSUInteger)index {
+    [(NSMutableArray *)_subfields setObject:subfield atIndexedSubscript:index];
+}
+
+@end
+
+#pragma mark - Lazy Copying Arrays
+
+@implementation _BibLazyMutableSubfieldArray {
+    NSMutableArray<BibSubfield *> *_subfields;
+}
+
+- (instancetype)initWithSubfields:(NSArray<BibSubfield *> *)subfields {
+    if (self = [super init]) {
+        _subfields = [subfields mutableCopy];
+    }
+    return self;
+}
+
+- (NSUInteger)count {
+    return [_subfields count];
+}
+
+- (BibMutableSubfield *)objectAtIndex:(NSUInteger)index {
+    BibSubfield *subfield = [_subfields objectAtIndex:index];
+    if ([subfield isKindOfClass:[BibMutableSubfield class]]) {
+        return (BibMutableSubfield *)subfield;
+    } else {
+        BibMutableSubfield *mutableSubfield = [subfield mutableCopy];
+        [_subfields replaceObjectAtIndex:index withObject:mutableSubfield];
+        return mutableSubfield;
     }
 }
 
-- (void)setFirstIndicator:(BibFieldIndicator *)firstIndicator {}
-- (void)setSecondIndicator:(BibFieldIndicator *)secondIndicator {}
-- (void)setSubfields:(NSArray<BibSubfield *> *)subfields {}
+- (void)insertObject:(id)anObject atIndex:(NSUInteger)index {
+    [_subfields insertObject:anObject atIndex:index];
+}
 
-- (void)addSubfield:(BibSubfield *)subfield {}
-- (void)removeSubfield:(BibSubfield *)subfield {}
-- (void)insertSubfield:(BibSubfield *)subfield atIndex:(NSUInteger)index {}
-- (void)replaceSubfieldAtIndex:(NSUInteger)index withSubfield:(BibSubfield *)subfield {}
+- (void)removeObjectAtIndex:(NSUInteger)index {
+    [_subfields removeObjectAtIndex:index];
+}
+
+- (void)addObject:(id)anObject {
+    [_subfields addObject:anObject];
+}
+
+- (void)removeLastObject {
+    [_subfields removeLastObject];
+}
+
+- (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject {
+    [_subfields replaceObjectAtIndex:index withObject:anObject];
+}
 
 @end
