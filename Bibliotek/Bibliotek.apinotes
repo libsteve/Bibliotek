@@ -25,13 +25,29 @@ Classes:
     Parameters:
     - Position: 0
       Type: "NSInteger"
+  - Selector: "indexOfFieldWithTag:"
+    MethodKind: Instance
+    ResultType: "NSInteger"
+  - Selector: "indexOfFieldWithTag:inRange:"
+    MethodKind: Instance
+    ResultType: "NSInteger"
 - Name: "BibMutableRecord"
   Properties:
   Methods:
+  - Selector: "fieldAtIndex:"
+    MethodKind: Instance
+    Parameters:
+    - Position: 0
+      Type: "NSInteger"
   - Selector: "insertField:atIndex:"
     MethodKind: Instance
     Parameters:
     - Position: 1
+      Type: "NSInteger"
+  - Selector: "replaceFieldAtIndex:withField:"
+    MethodKind: Instance
+    Parameters:
+    - Position: 0
       Type: "NSInteger"
   - Selector: "removeFieldAtIndex:"
     MethodKind: Instance

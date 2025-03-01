@@ -49,7 +49,7 @@ extension LeaderValue: Strideable {
 /// [the Library of Congress's documentation on MARC 21 Record Structure][record-structure].
 ///
 /// [record-structure]: (https://www.loc.gov/marc/specifications/specrecstruc.html#leader)
-public struct Leader {
+public struct Leader: @unchecked Sendable {
     private var _storage: BibLeader!
     private var _mutableStorage: BibMutableLeader!
     private var storage: BibLeader! { return self._storage ?? self._mutableStorage }

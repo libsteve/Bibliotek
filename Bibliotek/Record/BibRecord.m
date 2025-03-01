@@ -106,12 +106,16 @@
 
 @implementation BibRecord (FieldAccess)
 
+- (NSUInteger)countOfFields {
+    return [[self fields] count];
+}
+
 - (BOOL)containsFieldWithTag:(BibFieldTag *)fieldTag {
     return [self indexOfFieldWithTag:fieldTag] != NSNotFound;
 }
 
 - (NSUInteger)indexOfFieldWithTag:(BibFieldTag *)fieldTag {
-    NSArray<BibRecordField *> *const recordFields = self.fields;
+    NSArray<BibRecordField *> *const recordFields = [self fields];
     NSUInteger const count = recordFields.count;
     for (NSUInteger index = 0; index < count; index += 1) {
         if ([[[recordFields objectAtIndex:index] fieldTag] isEqualToTag:fieldTag]) {
@@ -121,14 +125,11 @@
     return NSNotFound;
 }
 
-- (NSUInteger)indexOfFieldWithTag:(BibFieldTag *)fieldTag afterIndex:(NSUInteger)index {
-    if (index == NSNotFound) {
-        return NSNotFound;
-    }
-    NSArray<BibRecordField *> *const recordFields = self.fields;
-    NSUInteger const count = recordFields.count;
-    for (NSUInteger i = index + 1; i < count; index += 1) {
-        if ([[[recordFields objectAtIndex:index] fieldTag] isEqualToTag:fieldTag]) {
+- (NSUInteger)indexOfFieldWithTag:(BibFieldTag *)fieldTag inRange:(NSRange)range {
+    NSArray<BibRecordField *> *const fields = [[self fields] subarrayWithRange:range];
+    NSUInteger const count = [fields count];
+    for (NSUInteger index = 0; index < count; index += 1) {
+        if ([[[fields objectAtIndex:index] fieldTag] isEqualToTag:fieldTag]) {
             return index;
         }
     }
@@ -137,8 +138,8 @@
 
 - (NSIndexSet *)indexesOfFieldsWithTag:(BibFieldTag *)fieldTag {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet new];
-    NSArray<BibRecordField *> *const recordFields = self.fields;
-    NSUInteger const count = recordFields.count;
+    NSArray<BibRecordField *> *const recordFields = [self fields];
+    NSUInteger const count = [recordFields count];
     for (NSUInteger index = 0; index < count; index += 1) {
         if ([[[recordFields objectAtIndex:index] fieldTag] isEqualToTag:fieldTag]) {
             [indexSet addIndex:index];
@@ -151,43 +152,48 @@
     return [[self fields] objectAtIndex:index];
 }
 
-- (BibRecordField *)fieldWithTag:(BibFieldTag *)fieldTag {
-    NSUInteger const index = [self indexOfFieldWithTag:fieldTag];
-    return (index == NSNotFound) ? nil : [self fieldAtIndex:index];
+- (NSArray<BibRecordField *> *)fieldsAtIndexes:(NSIndexSet *)indexes {
+    return [[self fields] objectsAtIndexes:indexes];
 }
 
-- (nullable BibRecordField *)fieldWithTag:(BibFieldTag *)fieldTag afterIndex:(NSUInteger)index {
-    NSUInteger i = [self indexOfFieldWithTag:fieldTag afterIndex:index];
-    if (i != NSNotFound) {
-        return [[self fields] objectAtIndex:i];
+- (BibRecordField *)fieldWithTag:(BibFieldTag *)fieldTag {
+    for (BibRecordField *field in [self fields]) {
+        if ([[field fieldTag] isEqualToTag:fieldTag]) {
+            return field;
+        }
+    }
+    return nil;
+}
+
+- (nullable BibRecordField *)fieldWithTag:(BibFieldTag *)fieldTag inRange:(NSRange)range {
+    for (BibRecordField *field in [[self fields] subarrayWithRange:range]) {
+        if ([[field fieldTag] isEqualToTag:fieldTag]) {
+            return field;
+        }
     }
     return nil;
 }
 
 - (NSArray<BibRecordField *> *)fieldsWithTag:(BibFieldTag *)fieldTag {
-    NSArray<BibRecordField *> *const fields = [self fields];
-    NSMutableArray *const array = [NSMutableArray new];
-    NSUInteger const count = [fields count];
-    for (NSUInteger index = 0; index < count; index += 1) {
-        BibRecordField *field = [fields objectAtIndex:index];
-        if ([[field fieldTag] isEqualToTag:fieldTag]) {
-            [array addObject:field];
-        }
-    }
-    return [array copy];
+    NSPredicate *const predicate = [NSPredicate predicateWithFormat:@"%K = %@", BibKey(fieldTag), fieldTag];
+    return [[self fields] filteredArrayUsingPredicate:predicate];
 }
 
 - (BibRecordField *)fieldAtIndexPath:(NSIndexPath *)indexPath {
-    NSUInteger const index = [indexPath indexAtPosition:0];
-    if (indexPath.length != 1) {
+    if ([indexPath length] > 2) {
         [NSException raise:NSRangeException format:@"Too many indexes in path for record field access"];
         return nil;
     }
+    NSUInteger const index = [indexPath indexAtPosition:0];
     NSArray *const fields = [self fields];
     return [fields objectAtIndex:index];
 }
 
 - (BibSubfield *)subfieldAtIndexPath:(NSIndexPath *)indexPath {
+    if ([indexPath length] > 2) {
+        [NSException raise:NSRangeException format:@"Too many indexes in path for record field access"];
+        return nil;
+    }
     BibRecordField *const recordField = [[self fields] objectAtIndex:[indexPath indexAtPosition:0]];
     if ([recordField isDataField]) {
         return [recordField subfieldAtIndex:[indexPath indexAtPosition:1]];
@@ -295,14 +301,19 @@
 
 @end
 
-#pragma mark - Mutable
+#pragma mark - Lazy Mutable Field Array
+
+@interface _BibLazyMutableRecordFieldArray : NSMutableArray<BibMutableRecordField *>
+@end
+
+#pragma mark - Mutable Record
 
 @implementation BibMutableRecord
 
 - (instancetype)initWithLeader:(BibLeader *)leader fields:(NSArray<BibRecordField *> *)fields {
     if (self = [super initWithLeader:leader fields:fields]) {
         _leader = [leader mutableCopy];
-        _fields = [fields mutableCopy];
+        _fields = [[_BibLazyMutableRecordFieldArray alloc] initWithArray:(NSArray *)fields];
     }
     return self;
 }
@@ -331,13 +342,13 @@
     [(BibMutableLeader *)(_leader) setRecordStatus:status];
 }
 
-- (NSArray<BibRecordField *> *)fields {
+- (NSArray<BibMutableRecordField *> *)fields {
     return [_fields copy];
 }
 
-- (void)setFields:(NSArray<BibRecordField *> *)fields {
+- (void)setFields:(NSArray<BibMutableRecordField *> *)fields {
     if (_fields != fields) {
-        _fields = [fields mutableCopy];
+        _fields = [[_BibLazyMutableRecordFieldArray alloc] initWithArray:fields];
     }
 }
 
@@ -345,29 +356,13 @@
 
 #pragma mark -
 
-@implementation BibRecord (Fields)
+@implementation BibMutableRecord (FieldModification)
 
-- (NSUInteger)countOfFields {
-    return [_fields count];
-}
-
-- (BibRecordField *)fieldAtIndex:(NSUInteger)index {
-    return [_fields objectAtIndex:index];
-}
-
-- (NSArray<BibRecordField *> *)fieldsAtIndexes:(NSIndexSet *)indexes {
-    return [_fields objectsAtIndexes:indexes];
-}
-
-@end
-
-@implementation BibMutableRecord (Fields)
-
-- (void)addField:(BibRecordField *)field {
+- (void)addField:(BibMutableRecordField *)field {
     [self insertField:field atIndex:[_fields count]];
 }
 
-- (void)insertField:(BibRecordField *)field atIndex:(NSUInteger)index {
+- (void)insertField:(BibMutableRecordField *)field atIndex:(NSUInteger)index {
     [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:[[NSIndexSet alloc] initWithIndex:index]
               forKey:BibKey(fields)];
     [(NSMutableArray *)_fields insertObject:field atIndex:index];
@@ -375,13 +370,13 @@
              forKey:BibKey(fields)];
 }
 
-- (void)insertFields:(NSArray<BibRecordField *> *)fields atIndexes:(NSIndexSet *)indexes {
+- (void)insertFields:(NSArray<BibMutableRecordField *> *)fields atIndexes:(NSIndexSet *)indexes {
     [self willChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:BibKey(fields)];
     [(NSMutableArray *)_fields insertObjects:fields atIndexes:indexes];
     [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:indexes forKey:BibKey(fields)];
 }
 
-- (void)replaceFieldAtIndex:(NSUInteger)index withField:(BibRecordField *)field {
+- (void)replaceFieldAtIndex:(NSUInteger)index withField:(BibMutableRecordField *)field {
     [self willChange:NSKeyValueChangeReplacement valuesAtIndexes:[[NSIndexSet alloc] initWithIndex:index]
               forKey:BibKey(fields)];
     [(NSMutableArray *)_fields replaceObjectAtIndex:index withObject:field];
@@ -389,7 +384,7 @@
              forKey:BibKey(fields)];
 }
 
-- (void)replaceFieldsAtIndexes:(NSIndexSet *)indexes withFields:(NSArray<BibRecordField *> *)fields {
+- (void)replaceFieldsAtIndexes:(NSIndexSet *)indexes withFields:(NSArray<BibMutableRecordField *> *)fields {
     [self willChange:NSKeyValueChangeReplacement valuesAtIndexes:indexes forKey:BibKey(fields)];
     [(NSMutableArray *)_fields replaceObjectsAtIndexes:indexes withObjects:fields];
     [self didChange:NSKeyValueChangeReplacement valuesAtIndexes:indexes forKey:BibKey(fields)];
@@ -409,8 +404,58 @@
     [self didChange:NSKeyValueChangeRemoval valuesAtIndexes:indexes forKey:BibKey(fields)];
 }
 
-- (NSMutableArray<BibRecordField *> *)mutableFields {
+- (NSMutableArray<BibMutableRecordField *> *)mutableFields {
     return [self mutableArrayValueForKey:BibKey(fields)];
+}
+
+@end
+
+#pragma mark - Lazy Mutable Field Array
+
+@implementation _BibLazyMutableRecordFieldArray {
+    NSMutableArray<BibRecordField *> *_fields;
+}
+
+- (instancetype)initWithArray:(NSArray<BibRecordField *> *)array {
+    if (self = [super init]) {
+        _fields = [array mutableCopy];
+    }
+    return self;
+}
+
+- (NSUInteger)count {
+    return [_fields count];
+}
+
+- (BibMutableRecordField *)objectAtIndex:(NSUInteger)index {
+    BibRecordField *field = [_fields objectAtIndex:index];
+    if ([field isKindOfClass:[BibMutableRecordField class]]) {
+        return (BibMutableRecordField *)field;
+    } else {
+        BibMutableRecordField *mutableField = [field mutableCopy];
+        [_fields replaceObjectAtIndex:index withObject:mutableField];
+        return mutableField;
+    }
+}
+
+- (void)insertObject:(id)anObject atIndex:(NSUInteger)index {
+    [_fields insertObject:anObject atIndex:index];
+}
+
+- (void)removeObjectAtIndex:(NSUInteger)index {
+    [_fields removeObjectAtIndex:index];
+}
+
+- (void)addObject:(id)anObject {
+    [_fields addObject:anObject];
+}
+
+- (void)removeLastObject {
+    [_fields removeLastObject];
+}
+
+- (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)anObject {
+    [_fields replaceObjectAtIndex:index withObject:anObject];
 }
 
 @end
