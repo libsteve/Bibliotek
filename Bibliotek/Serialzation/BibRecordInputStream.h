@@ -132,14 +132,15 @@ NS_SWIFT_NAME(RecordInputStream)
 
 /// Read an instance of `BibRecord` from the MARC 21 data in the input stream.
 ///
+/// - parameter record: A pointer to a ``BibRecord`` variable that can be used to provide
+///                     the resulting record when `YES` is returned.
 /// - parameter error: A pointer to an `NSError` variable that can be used to return an
-///                    error alue when `nil` is returned.
-/// - returns: A ``BibRecord`` object is returned when a record could be successfully read
-///            from the input stream. Otherwise, `nil` is returned and, if `error` is not
-///            `NULL`, its pointee is set to an `NSError` object to indicate the reason
-///            for the failure. If there are no more records to be read from the input
-///            stream, `nil` is returned without setting the `error` pointee to an
-///            `NSError` instance.
+///                    error value when `NO` is returned.
+/// - returns: `YES` when a record could be successfully read from the input stream.
+///            Otherwise, `NO` is returned and, if `error` is not `NULL`, its pointee
+///            is set to an `NSError` object to indicate the reason for the failure.
+///            If there are no more records to be read from the input stream, `NO`
+///            is returned without setting the `error` pointee to an `NSError` instance.
 /// - precondition: If the input stream must be opened.
 /// - postcondition: If the input stream is opened and `nil` is returned, ``streamStatus``
 ///                  is set to `NSStreamStatusError`, and ``streamError`` is set to an

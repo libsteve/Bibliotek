@@ -31,9 +31,8 @@ import Foundation
     public var rawValue: CChar
 
     /// Create an indicator with the given raw value.
-    /// \param rawValue An ASCII space, lowercase letter, or number.
-    /// \returns An indicator object with some semantic metadata meaning about a data field.
-    /// \note This method will throw an out-of-bounds exception for invalid indicator characters.
+    /// - parameter rawValue: An ASCII space, lowercase letter, or number.
+    /// - throws: This method will throw an out-of-bounds exception for invalid indicator characters.
     public init(rawValue: CChar) {
         self.rawValue = rawValue
     }

@@ -288,7 +288,7 @@ extern bool bib_isstop(char c);
 ///            `false` is returned when a character matching the predicate isn't found, or when the buffer is empty.
 extern bool bib_peek_char(char *c, bib_cpred_f pred, bib_strbuf_t const *lexer);
 
-/// Check if the next character seaprates one word from another—such as whitespace, the null terminator, or EOF.
+/// Check if the next character separates one word from another—such as whitespace, the null terminator, or EOF.
 /// - parameter lexer: Pointer to a string buffer object to read from.
 /// - returns: `true` when the input string begins with a word-separating character.
 extern bool bib_peek_break(bib_strbuf_t const *lexer);
