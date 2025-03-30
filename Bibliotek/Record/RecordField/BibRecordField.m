@@ -327,7 +327,7 @@
                         firstIndicator:firstIndicator
                        secondIndicator:secondIndicator
                              subfields:[NSArray new]]) {
-        _subfields = [[_BibLazyMutableSubfieldArray alloc] initWithSubfields:_subfields];
+        _subfields = [[_BibLazyMutableSubfieldArray alloc] initWithSubfields:subfields];
     }
     return self;
 }
