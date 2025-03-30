@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		AA091797247AFBEE0074CF6E /* MARC8Record1.marc8 in Resources */ = {isa = PBXBuildFile; fileRef = AA091796247AFBEE0074CF6E /* MARC8Record1.marc8 */; };
+		AA0B8FF62D74EBBB002B1805 /* PunctuationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0B8FF32D74EBBB002B1805 /* PunctuationPolicy.swift */; };
+		AA0B8FF72D74EBBB002B1805 /* BibPunctuationPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0B8FF22D74EBBB002B1805 /* BibPunctuationPolicy.m */; };
+		AA0B8FF82D74EBBB002B1805 /* BibPunctuationPolicy.h in Headers */ = {isa = PBXBuildFile; fileRef = AA0B8FF12D74EBBB002B1805 /* BibPunctuationPolicy.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA0B8FF92D74EBBB002B1805 /* PunctuationPolicy.strings in Resources */ = {isa = PBXBuildFile; fileRef = AA0B8FF52D74EBBB002B1805 /* PunctuationPolicy.strings */; };
+		AA0B90002D74F101002B1805 /* BibDescriptiveCatalogingForm.h in Headers */ = {isa = PBXBuildFile; fileRef = AA0B8FFA2D74F101002B1805 /* BibDescriptiveCatalogingForm.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA0B90012D74F101002B1805 /* DescriptiveCatalogingForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0B8FFC2D74F101002B1805 /* DescriptiveCatalogingForm.swift */; };
+		AA0B90022D74F101002B1805 /* BibDescriptiveCatalogingForm.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0B8FFB2D74F101002B1805 /* BibDescriptiveCatalogingForm.m */; };
+		AA0B90032D74F101002B1805 /* DescriptiveCatalogingForm.strings in Resources */ = {isa = PBXBuildFile; fileRef = AA0B8FFE2D74F101002B1805 /* DescriptiveCatalogingForm.strings */; };
 		AA12F6012C9CACBC0084551E /* BibStaticClassRef.h in Headers */ = {isa = PBXBuildFile; fileRef = AA12F6002C9CACBC0084551E /* BibStaticClassRef.h */; };
 		AA19396D22E2C58000429C54 /* ClassificationRecord.marc8 in Resources */ = {isa = PBXBuildFile; fileRef = AA19396C22E2C58000429C54 /* ClassificationRecord.marc8 */; };
 		AA19396F22E6366B00429C54 /* Bibliotek+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = AA19396E22E635CF00429C54 /* Bibliotek+Internal.h */; };
@@ -200,6 +208,14 @@
 
 /* Begin PBXFileReference section */
 		AA091796247AFBEE0074CF6E /* MARC8Record1.marc8 */ = {isa = PBXFileReference; lastKnownFileType = text; path = MARC8Record1.marc8; sourceTree = "<group>"; };
+		AA0B8FF12D74EBBB002B1805 /* BibPunctuationPolicy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibPunctuationPolicy.h; sourceTree = "<group>"; };
+		AA0B8FF22D74EBBB002B1805 /* BibPunctuationPolicy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibPunctuationPolicy.m; sourceTree = "<group>"; };
+		AA0B8FF32D74EBBB002B1805 /* PunctuationPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PunctuationPolicy.swift; sourceTree = "<group>"; };
+		AA0B8FF42D74EBBB002B1805 /* BibliographicLevel.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = BibliographicLevel.strings; path = en.lproj/PunctuationPolicy.strings; sourceTree = "<group>"; };
+		AA0B8FFA2D74F101002B1805 /* BibDescriptiveCatalogingForm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibDescriptiveCatalogingForm.h; sourceTree = "<group>"; };
+		AA0B8FFB2D74F101002B1805 /* BibDescriptiveCatalogingForm.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibDescriptiveCatalogingForm.m; sourceTree = "<group>"; };
+		AA0B8FFC2D74F101002B1805 /* DescriptiveCatalogingForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptiveCatalogingForm.swift; sourceTree = "<group>"; };
+		AA0B8FFD2D74F101002B1805 /* PunctuationPolicy.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = PunctuationPolicy.strings; path = en.lproj/DescriptiveCatalogingForm.strings; sourceTree = "<group>"; };
 		AA12F6002C9CACBC0084551E /* BibStaticClassRef.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibStaticClassRef.h; sourceTree = "<group>"; };
 		AA19396C22E2C58000429C54 /* ClassificationRecord.marc8 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ClassificationRecord.marc8; sourceTree = "<group>"; };
 		AA19396E22E635CF00429C54 /* Bibliotek+Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bibliotek+Internal.h"; sourceTree = "<group>"; };
@@ -390,6 +406,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AA0B8FF02D74EBA0002B1805 /* PunctuationPolicy */ = {
+			isa = PBXGroup;
+			children = (
+				AA0B8FF12D74EBBB002B1805 /* BibPunctuationPolicy.h */,
+				AA0B8FF22D74EBBB002B1805 /* BibPunctuationPolicy.m */,
+				AA0B8FF32D74EBBB002B1805 /* PunctuationPolicy.swift */,
+				AA0B8FF52D74EBBB002B1805 /* PunctuationPolicy.strings */,
+			);
+			path = PunctuationPolicy;
+			sourceTree = "<group>";
+		};
+		AA0B8FFF2D74F101002B1805 /* DescriptiveCatalogingForm */ = {
+			isa = PBXGroup;
+			children = (
+				AA0B8FFA2D74F101002B1805 /* BibDescriptiveCatalogingForm.h */,
+				AA0B8FFB2D74F101002B1805 /* BibDescriptiveCatalogingForm.m */,
+				AA0B8FFC2D74F101002B1805 /* DescriptiveCatalogingForm.swift */,
+				AA0B8FFE2D74F101002B1805 /* DescriptiveCatalogingForm.strings */,
+			);
+			path = DescriptiveCatalogingForm;
+			sourceTree = "<group>";
+		};
 		AA14E83620D8D2AD00430A87 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -608,6 +646,8 @@
 				AAA4A2862CCAF33D00A718F6 /* RecordStatus */,
 				AAA4A2A62CCAF7BD00A718F6 /* BibliographicControlType */,
 				AAA4A2AE2CCB4C5E00A718F6 /* BibliographicLevel */,
+				AA0B8FFF2D74F101002B1805 /* DescriptiveCatalogingForm */,
+				AA0B8FF02D74EBA0002B1805 /* PunctuationPolicy */,
 			);
 			path = Leader;
 			sourceTree = "<group>";
@@ -738,6 +778,7 @@
 				AA79FFD924685D0100134C98 /* BibFieldPath.h in Headers */,
 				AABDC20B22DAC17A00345A58 /* BibFieldTag.h in Headers */,
 				AA59F0D720A9FACF00D41982 /* Bibliotek.h in Headers */,
+				AA0B8FF82D74EBBB002B1805 /* BibPunctuationPolicy.h in Headers */,
 				AAAE2ECB27DD480100E4D6F1 /* BibSerializationError.h in Headers */,
 				AAA4A2B12CCB4C5E00A718F6 /* BibBibliographicLevel.h in Headers */,
 				AAB786582455FCEB0018A833 /* BibMARCSerialization.h in Headers */,
@@ -755,6 +796,7 @@
 				AAA4A2932CCAF57300A718F6 /* BibEncoding.h in Headers */,
 				AA2E475E2828F52D00E2434A /* BibMARCXMLConstants.h in Headers */,
 				AAAA429E20BB0E3600BDB52B /* BibConstants.h in Headers */,
+				AA0B90002D74F101002B1805 /* BibDescriptiveCatalogingForm.h in Headers */,
 				AAA4A28A2CCAF33D00A718F6 /* BibRecordStatus.h in Headers */,
 				AAAE2ECE27DD4DAC00E4D6F1 /* BibSerializationError+Internal.h in Headers */,
 				AA19396F22E6366B00429C54 /* Bibliotek+Internal.h in Headers */,
@@ -914,9 +956,11 @@
 			files = (
 				AAA4A2B42CCB4CA400A718F6 /* BibliographicLevel.strings in Resources */,
 				AAA4A2A72CCAF7BD00A718F6 /* BibliographicControlType.strings in Resources */,
+				AA0B90032D74F101002B1805 /* DescriptiveCatalogingForm.strings in Resources */,
 				AAA4A26D2CCAA11C00A718F6 /* RecordFormat.strings in Resources */,
 				AAA4A2902CCAF39400A718F6 /* RecordStatus.strings in Resources */,
 				AAA4A2812CCAF08B00A718F6 /* RecordKind.strings in Resources */,
+				AA0B8FF92D74EBBB002B1805 /* PunctuationPolicy.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -955,6 +999,7 @@
 				AAA4A2872CCAF33D00A718F6 /* RecordStatus.swift in Sources */,
 				AAA4A2882CCAF33D00A718F6 /* BibRecordStatus.m in Sources */,
 				AAAFD9A5247CDAB200D2D1F0 /* BibLCCallNumber.swift in Sources */,
+				AA0B90022D74F101002B1805 /* BibDescriptiveCatalogingForm.m in Sources */,
 				AA677859248D63C900997B29 /* BibFieldIndicator.m in Sources */,
 				AAA4A27F2CCAF08B00A718F6 /* BibRecordKind.m in Sources */,
 				AAA4A2802CCAF08B00A718F6 /* RecordKind.swift in Sources */,
@@ -983,6 +1028,7 @@
 				AA79FFDA24685D0100134C98 /* BibFieldPath.m in Sources */,
 				AAAE2EC827D51FFA00E4D6F1 /* BibRecordInputStream.m in Sources */,
 				AAAE2ECC27DD480100E4D6F1 /* BibSerializationError.m in Sources */,
+				AA0B90012D74F101002B1805 /* DescriptiveCatalogingForm.swift in Sources */,
 				AA51EA96211AC93C00BF28BE /* BibConnectionEndpoint.swift in Sources */,
 				AA79FFDC246868B300134C98 /* FieldPath.swift in Sources */,
 				AA83210824F18608000945B3 /* bibparse.c in Sources */,
@@ -1002,6 +1048,8 @@
 				AA619E17249ECD7500BB3A25 /* RecordField.swift in Sources */,
 				AAA4A2AF2CCB4C5E00A718F6 /* BibliographicLevel.swift in Sources */,
 				AAA4A2B02CCB4C5E00A718F6 /* BibBibliographicLevel.m in Sources */,
+				AA0B8FF62D74EBBB002B1805 /* PunctuationPolicy.swift in Sources */,
+				AA0B8FF72D74EBBB002B1805 /* BibPunctuationPolicy.m in Sources */,
 				AA619E19249ECDFB00BB3A25 /* FieldIndicator.swift in Sources */,
 				AAE5A6A0259A2955007FFD79 /* bibtypeio.c in Sources */,
 				AACEDD6420C1A946004ACA07 /* BibConstants.swift in Sources */,
@@ -1071,6 +1119,22 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		AA0B8FF52D74EBBB002B1805 /* PunctuationPolicy.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AA0B8FF42D74EBBB002B1805 /* BibliographicLevel.strings */,
+			);
+			name = PunctuationPolicy.strings;
+			sourceTree = "<group>";
+		};
+		AA0B8FFE2D74F101002B1805 /* DescriptiveCatalogingForm.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AA0B8FFD2D74F101002B1805 /* PunctuationPolicy.strings */,
+			);
+			name = DescriptiveCatalogingForm.strings;
+			sourceTree = "<group>";
+		};
 		AAA4A26B2CCAA11C00A718F6 /* RecordFormat.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
