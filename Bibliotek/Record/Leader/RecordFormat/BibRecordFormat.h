@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///
 /// Use ``BibRecordKind`` to get more specific information about what data is
 /// contained within a record.
-typedef NS_ENUM(char, BibRecordFormat) {
+typedef NS_CLOSED_ENUM(char, BibRecordFormat) {
     /// The format for a bibliographic record containing information about
     /// cataloged items.
     ///
