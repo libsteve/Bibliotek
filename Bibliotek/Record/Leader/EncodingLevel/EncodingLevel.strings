@@ -1,0 +1,71 @@
+/*
+  EncodingLevel.strings
+  Bibliotek
+
+  Created by Steve Brunwasser on 4/5/25.
+  Copyright © 2025 Steve Brunwasser. All rights reserved.
+*/
+
+/* Identifies a complete MARC record created after examining the material. */
+"bibliographic: " = "Full level";
+
+/* Identifies a complete MARC record created without directly looking at the material. */
+"bibliographic:1" = "Full level, material not examined";
+
+/* Identifies a record whose encoding level is less than the full level, and was created without directly looking at the material. */
+"bibliographic:2" = "Less-than-full level, material not examined";
+
+/* Identifies a record that does not meet the threshold for minimal cataloging standards. */
+"bibliographic:3" = "Abbreviated level";
+
+/* Identifies a record that meets the core of the standards for completeness. */
+"bibliographic:4" = "Core level";
+
+/* Identifies a record with preliminary cataloging information. */
+"bibliographic:5" = "Partial (preliminary) level";
+
+/* Identifies a record that meets the U.S. National Level Bibliographic Record minimal level cataloging specifications. */
+"bibliographic:7" = "Minimal level";
+
+/* Identifies a record created before the material's publication. */
+"bibliographic:8" = "Prepublication level";
+
+/* Identifies a record with a "local" non-standard encoding level. */
+"bibliographic:u" = "Unknown";
+
+/* Identifies a record where the idea of an encoding level does not apply. */
+"bibliographic:z" = "Not applicable";
+
+/* The record is complete with information for national-level requirements. */
+"authority:n" = "Complete authority record";
+
+/* The record is incomplete, and may not meet national-level requirements. */
+"authority:o" = "Incomplete authority record";
+
+/* Holdings level 1. */
+"holdings:1" = "Holdings level 1";
+
+/* Holdings level 2. */
+"holdings:2" = "Holdings level 2";
+
+/* Holdings level 3. */
+"holdings:3" = "Holdings level 3";
+
+/* Holdings level 4. */
+"holdings:4" = "Holdings level 4";
+
+/* Holdings level 4 with piece designation. */
+"holdings:5" = "Holdings level 4 with piece designation";
+
+/* A mix of different holdings levels. */
+"holdings:m" = "Mixed level";
+
+/* An unknown holdings level. */
+"holdings:u" = "Unknown";
+
+/* Another holdings level. */
+"holdings:z" = "Other level";
+
+"classification:n" = "Complete classification record";
+
+"classification:o" = "Incomplete classification record";

@@ -77,6 +77,7 @@ record.content(with: .titleStatement)
 - ``BibRecordFormat``
 - ``BibDescriptiveCatalogingForm``
 - ``BibPunctuationPolicy``
+- ``BibEncodingLevel``
 
 ### Library Connections
 
