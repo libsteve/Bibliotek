@@ -96,6 +96,12 @@ extension Record: Collection, MutableCollection, RandomAccessCollection {
     }
 }
 
+extension Record: RangeReplaceableCollection {
+    @_spi(Unavailable) public init() {
+        self.init(leader: Leader(), fields: [])
+    }
+}
+
 extension IteratorProtocol where Element == RecordField {
     public mutating func next(with tag: FieldTag) -> RecordField? {
         while let next = self.next() {
