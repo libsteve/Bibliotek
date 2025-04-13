@@ -165,6 +165,10 @@
 		AAC31E942DA22D26008E5DE4 /* BibEncodingLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC31E922DA22D26008E5DE4 /* BibEncodingLevel.m */; };
 		AAC31E962DA22D98008E5DE4 /* EncodingLevel.strings in Resources */ = {isa = PBXBuildFile; fileRef = AAC31E952DA22D8F008E5DE4 /* EncodingLevel.strings */; };
 		AAC31E982DA22DC1008E5DE4 /* EncodingLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC31E972DA22DBB008E5DE4 /* EncodingLevel.swift */; };
+		AAC31E9C2DAC149D008E5DE4 /* BibMultipartResourceRecordLevel.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC31E9A2DAC149D008E5DE4 /* BibMultipartResourceRecordLevel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAC31E9D2DAC149D008E5DE4 /* BibMultipartResourceRecordLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC31E9B2DAC149D008E5DE4 /* BibMultipartResourceRecordLevel.m */; };
+		AAC31E9F2DAC176A008E5DE4 /* MultipartResourceRecordLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC31E9E2DAC1760008E5DE4 /* MultipartResourceRecordLevel.swift */; };
+		AAC31EA12DAC177B008E5DE4 /* MultipartResourceRecordLevel.strings in Resources */ = {isa = PBXBuildFile; fileRef = AAC31EA02DAC1772008E5DE4 /* MultipartResourceRecordLevel.strings */; };
 		AACEDD6420C1A946004ACA07 /* BibConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACEDD6320C1A946004ACA07 /* BibConstants.swift */; };
 		AAD8D25C2952920800217DDD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAD8D25B2952920800217DDD /* Foundation.framework */; };
 		AADE536620CE2E8F0043CE5B /* BibRecordList.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADE536520CE2E8F0043CE5B /* BibRecordList.swift */; };
@@ -375,6 +379,10 @@
 		AAC31E922DA22D26008E5DE4 /* BibEncodingLevel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibEncodingLevel.m; sourceTree = "<group>"; };
 		AAC31E952DA22D8F008E5DE4 /* EncodingLevel.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = EncodingLevel.strings; sourceTree = "<group>"; };
 		AAC31E972DA22DBB008E5DE4 /* EncodingLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncodingLevel.swift; sourceTree = "<group>"; };
+		AAC31E9A2DAC149D008E5DE4 /* BibMultipartResourceRecordLevel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibMultipartResourceRecordLevel.h; sourceTree = "<group>"; };
+		AAC31E9B2DAC149D008E5DE4 /* BibMultipartResourceRecordLevel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibMultipartResourceRecordLevel.m; sourceTree = "<group>"; };
+		AAC31E9E2DAC1760008E5DE4 /* MultipartResourceRecordLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipartResourceRecordLevel.swift; sourceTree = "<group>"; };
+		AAC31EA02DAC1772008E5DE4 /* MultipartResourceRecordLevel.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = MultipartResourceRecordLevel.strings; sourceTree = "<group>"; };
 		AACEDD6320C1A946004ACA07 /* BibConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibConstants.swift; sourceTree = "<group>"; };
 		AACEDD6520C4757A004ACA07 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		AACEDD6620C47583004ACA07 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -657,6 +665,7 @@
 				AA0B8FFF2D74F101002B1805 /* DescriptiveCatalogingForm */,
 				AA0B8FF02D74EBA0002B1805 /* PunctuationPolicy */,
 				AAC31E902DA22D05008E5DE4 /* EncodingLevel */,
+				AAC31E992DAC146D008E5DE4 /* MultipartResourceRecordLevel */,
 			);
 			path = Leader;
 			sourceTree = "<group>";
@@ -784,6 +793,17 @@
 			path = EncodingLevel;
 			sourceTree = "<group>";
 		};
+		AAC31E992DAC146D008E5DE4 /* MultipartResourceRecordLevel */ = {
+			isa = PBXGroup;
+			children = (
+				AAC31E9A2DAC149D008E5DE4 /* BibMultipartResourceRecordLevel.h */,
+				AAC31E9B2DAC149D008E5DE4 /* BibMultipartResourceRecordLevel.m */,
+				AAC31E9E2DAC1760008E5DE4 /* MultipartResourceRecordLevel.swift */,
+				AAC31EA02DAC1772008E5DE4 /* MultipartResourceRecordLevel.strings */,
+			);
+			path = MultipartResourceRecordLevel;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -812,6 +832,7 @@
 				AA83210324F18505000945B3 /* biblex.h in Headers */,
 				AAB7864F2454C2D90018A833 /* BibMARCOutputStream.h in Headers */,
 				AA382B2A24439CA1009F624D /* BibMarcIO.h in Headers */,
+				AAC31E9C2DAC149D008E5DE4 /* BibMultipartResourceRecordLevel.h in Headers */,
 				AAAFD99B247C3A6300D2D1F0 /* BibLCCallNumber.h in Headers */,
 				AAA4A2932CCAF57300A718F6 /* BibEncoding.h in Headers */,
 				AA2E475E2828F52D00E2434A /* BibMARCXMLConstants.h in Headers */,
@@ -977,6 +998,7 @@
 			files = (
 				AAA4A2B42CCB4CA400A718F6 /* BibliographicLevel.strings in Resources */,
 				AAA4A2A72CCAF7BD00A718F6 /* BibliographicControlType.strings in Resources */,
+				AAC31EA12DAC177B008E5DE4 /* MultipartResourceRecordLevel.strings in Resources */,
 				AA0B90032D74F101002B1805 /* DescriptiveCatalogingForm.strings in Resources */,
 				AAA4A26D2CCAA11C00A718F6 /* RecordFormat.strings in Resources */,
 				AAA4A2902CCAF39400A718F6 /* RecordStatus.strings in Resources */,
@@ -1023,6 +1045,7 @@
 				AAAFD9A5247CDAB200D2D1F0 /* BibLCCallNumber.swift in Sources */,
 				AA0B90022D74F101002B1805 /* BibDescriptiveCatalogingForm.m in Sources */,
 				AA677859248D63C900997B29 /* BibFieldIndicator.m in Sources */,
+				AAC31E9F2DAC176A008E5DE4 /* MultipartResourceRecordLevel.swift in Sources */,
 				AAA4A27F2CCAF08B00A718F6 /* BibRecordKind.m in Sources */,
 				AAA4A2802CCAF08B00A718F6 /* RecordKind.swift in Sources */,
 				AAAFD996247B65EC00D2D1F0 /* BibCharacterConversion.m in Sources */,
@@ -1061,6 +1084,7 @@
 				AAAFD99C247C3A6300D2D1F0 /* BibLCCallNumber.m in Sources */,
 				AAAA42A320BB156100BDB52B /* BibRecordList.m in Sources */,
 				AAA4A2942CCAF57300A718F6 /* BibEncoding.m in Sources */,
+				AAC31E9D2DAC149D008E5DE4 /* BibMultipartResourceRecordLevel.m in Sources */,
 				AA67784324843F1300997B29 /* BibRecordField.m in Sources */,
 				AABDC20A22DAC17A00345A58 /* BibFieldTag.m in Sources */,
 				AA83210424F18505000945B3 /* biblex.c in Sources */,

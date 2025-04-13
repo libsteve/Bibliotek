@@ -1,0 +1,19 @@
+/*
+  MultipartResourceRecordLevel.strings
+  Bibliotek
+
+  Created by Steve Brunwasser on 4/13/25.
+  Copyright © 2025 Steve Brunwasser. All rights reserved.
+*/
+
+/* The record level is not specified or not applicable. */
+"level: " = "Not specified or not applicable";
+
+/* The record describes the entire set of a multipart resource. */
+"level:a" = "Set";
+
+/* The record describes a part of a multipart resource that has its own title independent of the set. */
+"level:b" = "Part with independent title";
+
+/* The record describes a part of a multipart resource that has a title that relies on the set for identification. */
+"level:c" = "Part with dependent title";
