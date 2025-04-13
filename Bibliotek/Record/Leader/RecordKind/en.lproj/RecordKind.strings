@@ -9,6 +9,9 @@
 /* Language Material */
 "kind:a" = "Language Material";
 
+/* Archival and Manuscripts Control [OBSOLETE] */
+"kind:b" = "Archival and Manuscripts Control [OBSOLETE]";
+
 /* Notated Music */
 "kind:c" = "Notated Music";
 
@@ -24,6 +27,9 @@
 /* Projected Medium */
 "kind:g" = "Projected Medium";
 
+/* Microform Publications [OBSOLETE] */
+"kind:h" = "Microform Publications [OBSOLETE]";
+
 /* Non-musical Sound Recording */
 "kind:i" = "Non-musical Sound Recording";
 
@@ -35,6 +41,9 @@
 
 /* Computer File */
 "kind:m" = "Computer File";
+
+/* Special Instructional Material [OBSOLETE] */
+"kind:n" = "Special Instructional Material [OBSOLETE]";
 
 /* Kit */
 "kind:o" = "Kit";

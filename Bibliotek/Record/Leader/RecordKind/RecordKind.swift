@@ -10,31 +10,31 @@ import Foundation
 
 extension RecordKind {
     /// Creates a new ``RecordKind`` from the given bibliographic record kind.
-    /// - parameter The kind of a bibliographic record.
+    /// - parameter kind: The kind of a bibliographic record.
     public init(_ kind: RecordKind.Bibliographic) {
         self.init(rawValue: kind.rawValue)!
     }
 
     /// Creates a new ``RecordKind`` from the given community record kind.
-    /// - parameter The kind of a community record.
+    /// - parameter kind: The kind of a community record.
    public init(_ kind: RecordKind.Community) {
         self.init(rawValue: kind.rawValue)!
     }
 
     /// Creates a new ``RecordKind`` from the given holdings record kind.
-    /// - parameter The kind of a holdings record.
+    /// - parameter kind: The kind of a holdings record.
     public init(_ kind: RecordKind.Holdings) {
         self.init(rawValue: kind.rawValue)!
     }
 
     /// Creates a new ``RecordKind`` from the given classification record kind.
-    /// - parameter The kind of a classification record.
+    /// - parameter kind: The kind of a classification record.
     public init(_ kind: RecordKind.Classification) {
         self.init(rawValue: kind.rawValue)!
     }
 
     /// Creates a new ``RecordKind`` from the given authority record kind.
-    /// - parameter The kind of a authority record.
+    /// - parameter kind: The kind of a authority record.
     public init(_ kind: RecordKind.Authority) {
         self.init(rawValue: kind.rawValue)!
     }
@@ -80,6 +80,8 @@ extension RecordKind: CustomStringConvertible, CustomDebugStringConvertible,
         switch self {
         case .languageMaterial: 
             return "\(Self.self).languageMaterial"
+        case .archivalAndManuscriptsControl:
+            return "\(Self.self).archivalAndManuscriptsControl"
         case .notatedMusic:
             return "\(Self.self).notatedMusic"
         case .manuscriptNotatedMusic:
@@ -90,6 +92,8 @@ extension RecordKind: CustomStringConvertible, CustomDebugStringConvertible,
             return "\(Self.self).manuscriptCartographicMaterial"
         case .projectedMedium:
             return "\(Self.self).projectedMedium"
+        case .microformPublications:
+            return "\(Self.self).microformPublications"
         case .nonMusicalSoundRecording:
             return "\(Self.self).nonMusicalSoundRecording"
         case .musicalSoundRecording:
@@ -98,6 +102,8 @@ extension RecordKind: CustomStringConvertible, CustomDebugStringConvertible,
             return "\(Self.self).twoDimensionalNonProjectableGraphic"
         case .computerFile:
             return "\(Self.self).computerFile"
+        case .specialInstructionalMaterial:
+            return "\(Self.self).specialInstructionalMaterial"
         case .kit:
             return "\(Self.self).kit"
         case .mixedMaterials:
@@ -153,6 +159,8 @@ extension RecordKind.Bibliographic: CustomStringConvertible,
         switch self {
         case .languageMaterial:
             return "\(Self.self).languageMaterial"
+        case .archivalAndManuscriptsControl:
+            return "\(Self.self).archivalAndManuscriptsControl"
         case .notatedMusic:
             return "\(Self.self).notatedMusic"
         case .manuscriptNotatedMusic:
@@ -163,6 +171,8 @@ extension RecordKind.Bibliographic: CustomStringConvertible,
             return "\(Self.self).manuscriptCartographicMaterial"
         case .projectedMedium:
             return "\(Self.self).projectedMedium"
+        case .microformPublications:
+            return "\(Self.self).microformPublications"
         case .nonMusicalSoundRecording:
             return "\(Self.self).nonMusicalSoundRecording"
         case .musicalSoundRecording:
@@ -171,6 +181,8 @@ extension RecordKind.Bibliographic: CustomStringConvertible,
             return "\(Self.self).twoDimensionalNonProjectableGraphic"
         case .computerFile:
             return "\(Self.self).computerFile"
+        case .specialInstructionalMaterial:
+            return "\(Self.self).specialInstructionalMaterial"
         case .kit:
             return "\(Self.self).kit"
         case .mixedMaterials:
@@ -243,14 +255,14 @@ extension RecordKind.Holdings: CustomStringConvertible,
 
     public var debugDescription: String {
         switch self {
-        case .unknownHoldings: 
-            return "\(Self.self).unknownHoldings"
-        case .multipartItemHoldings:
-            return "\(Self.self).multipartItemHoldings"
-        case .singlePartItemHoldings:
-            return "\(Self.self).singlePartItemHoldings"
-        case .serialItemHoldings:
-            return "\(Self.self).serialItemHoldings"
+        case .unknown: 
+            return "\(Self.self).unknown"
+        case .multipartItem:
+            return "\(Self.self).multipartItem"
+        case .singlePartItem:
+            return "\(Self.self).singlePartItem"
+        case .serialItem:
+            return "\(Self.self).serialItem"
         case _ where 0x20...0x7E ~= rawValue:
             return "\(Self.self)(rawValue: '\(UnicodeScalar(UInt8(rawValue)))')"
         default:

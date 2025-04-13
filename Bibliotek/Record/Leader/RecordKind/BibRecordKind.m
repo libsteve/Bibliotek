@@ -12,15 +12,18 @@
 BibRecordFormat BibRecordKindFormat(BibRecordKind kind) {
     switch (kind) {
         case BibRecordKindLanguageMaterial:
+        case /*BibRecordKindArchivalAndManuscriptsControl*/ 'b':
         case BibRecordKindNotatedMusic:
         case BibRecordKindManuscriptNotatedMusic:
         case BibRecordKindCartographicMaterial:
         case BibRecordKindManuscriptCartographicMaterial:
         case BibRecordKindProjectedMedium:
+        case /*BibBibliographicRecordKindMicroformPublications*/ 'h':
         case BibRecordKindNonMusicalSoundRecording:
         case BibRecordKindMusicalSoundRecording:
         case BibRecordKindTwoDimensionalNonProjectableGraphic:
         case BibRecordKindComputerFile:
+        case /*BibRecordKindSpecialInstructionalMaterial*/ 'n':
         case BibRecordKindKit:
         case BibRecordKindMixedMaterials:
             return BibRecordFormatBibliographic;

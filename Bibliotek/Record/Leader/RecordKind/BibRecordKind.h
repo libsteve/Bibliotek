@@ -45,6 +45,12 @@ NS_ASSUME_NONNULL_BEGIN
 /// - ``BibRecordKindThreeDimensionalArtifact``
 /// - ``BibRecordKindManuscriptLanguageMaterial``
 ///
+/// #### Deprecated
+///
+/// - ``BibRecordKindArchivalAndManuscriptsControl``
+/// - ``BibRecordKindMicroformPublications``
+/// - ``BibRecordKindSpecialInstructionalMaterial``
+///
 /// ### Community Records
 ///
 /// Community records contain information about non-bibliographic resources
@@ -85,6 +91,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// - ``BibHoldingsRecordKind``
 /// - ``BibClassificationRecordKind``
 /// - ``BibAuthorityRecordKind``
+///
+/// ### Functions
+///
+/// - ``BibRecordKindFormat``
+/// - ``BibRecordKindDescription``
 typedef NS_ENUM(char, BibRecordKind) {
     /// Language Material
     ///
@@ -93,6 +104,14 @@ typedef NS_ENUM(char, BibRecordKind) {
     ///
     /// [1]: https://www.loc.gov/marc/bibliographic/bdintro.html
     BibRecordKindLanguageMaterial = 'a',
+
+    /// Archival and Manuscripts Control [OBSOLETE]
+    ///
+    /// For more information about bibliographic records, see the Library of
+    /// Congress document [MARC 21 Format for Bibliographic Data: Introduction][1].
+    ///
+    /// [1]: https://www.loc.gov/marc/bibliographic/bdintro.html
+    BibRecordKindArchivalAndManuscriptsControl DEPRECATED_MSG_ATTRIBUTE("Obsoleted in 1995") = 'b',
 
     /// Notated Music
     ///
@@ -134,6 +153,14 @@ typedef NS_ENUM(char, BibRecordKind) {
     /// [1]: https://www.loc.gov/marc/bibliographic/bdintro.html
     BibRecordKindProjectedMedium = 'g',
 
+    /// Microform Publications [OBSOLETE]
+    ///
+    /// For more information about bibliographic records, see the Library of
+    /// Congress document [MARC 21 Format for Bibliographic Data: Introduction][1].
+    ///
+    /// [1]: https://www.loc.gov/marc/bibliographic/bdintro.html
+    BibRecordKindMicroformPublications DEPRECATED_MSG_ATTRIBUTE("Obsoleted in 1972") = 'h',
+
     /// Non-Musical Sound Recording
     ///
     /// For more information about bibliographic records, see the Library of
@@ -165,6 +192,14 @@ typedef NS_ENUM(char, BibRecordKind) {
     ///
     /// [1]: https://www.loc.gov/marc/bibliographic/bdintro.html
     BibRecordKindComputerFile = 'm',
+
+    /// Special Instructional Material [OBSOLETE]
+    ///
+    /// For more information about bibliographic records, see the Library of
+    /// Congress document [MARC 21 Format for Bibliographic Data: Introduction][1].
+    ///
+    /// [1]: https://www.loc.gov/marc/bibliographic/bdintro.html
+    BibRecordKindSpecialInstructionalMaterial DEPRECATED_MSG_ATTRIBUTE("Obsoleted in 1983") = 'n',
 
     /// Kit
     ///
@@ -295,9 +330,37 @@ typedef NS_ENUM(char, BibRecordKind) {
 /// Congress document [MARC 21 Format for Bibliographic Data: Introduction][1].
 ///
 /// [1]: https://www.loc.gov/marc/bibliographic/bdintro.html
+///
+/// ## Topics
+///
+/// ### Enumeration Cases
+///
+/// - ``BibBibliographicRecordKindLanguageMaterial``
+/// - ``BibBibliographicRecordKindNotatedMusic``
+/// - ``BibBibliographicRecordKindManuscriptNotatedMusic``
+/// - ``BibBibliographicRecordKindCartographicMaterial``
+/// - ``BibBibliographicRecordKindManuscriptCartographicMaterial``
+/// - ``BibBibliographicRecordKindProjectedMedium``
+/// - ``BibBibliographicRecordKindNonMusicalSoundRecording``
+/// - ``BibBibliographicRecordKindMusicalSoundRecording``
+/// - ``BibBibliographicRecordKindTwoDimensionalNonProjectableGraphic``
+/// - ``BibBibliographicRecordKindComputerFile``
+/// - ``BibBibliographicRecordKindKit``
+/// - ``BibBibliographicRecordKindMixedMaterials``
+/// - ``BibBibliographicRecordKindThreeDimensionalArtifact``
+/// - ``BibBibliographicRecordKindManuscriptLanguageMaterial``
+///
+/// #### Deprecated
+///
+/// - ``BibBibliographicRecordKindArchivalAndManuscriptsControl``
+/// - ``BibBibliographicRecordKindMicroformPublications``
+/// - ``BibBibliographicRecordKindSpecialInstructionalMaterial``
 typedef NS_ENUM(char, BibBibliographicRecordKind) {
     /// Language Material
     BibBibliographicRecordKindLanguageMaterial = BibRecordKindLanguageMaterial,
+
+    /// Archival and Manuscripts Control [OBSOLETE]
+    BibBibliographicRecordKindArchivalAndManuscriptsControl DEPRECATED_MSG_ATTRIBUTE("Obsoleted in 1995") = BibRecordKindArchivalAndManuscriptsControl,
 
     /// Notated Music
     BibBibliographicRecordKindNotatedMusic = BibRecordKindNotatedMusic,
@@ -314,6 +377,9 @@ typedef NS_ENUM(char, BibBibliographicRecordKind) {
     /// Projected Medium
     BibBibliographicRecordKindProjectedMedium = BibRecordKindProjectedMedium,
 
+    /// Microform Publications [OBSOLETE]
+    BibBibliographicRecordKindMicroformPublications DEPRECATED_MSG_ATTRIBUTE("Obsoleted in 1972") = BibRecordKindMicroformPublications,
+
     /// Non-Musical Sound Recording
     BibBibliographicRecordKindNonMusicalSoundRecording = BibRecordKindNonMusicalSoundRecording,
 
@@ -325,6 +391,9 @@ typedef NS_ENUM(char, BibBibliographicRecordKind) {
 
     /// Computer File
     BibBibliographicRecordKindComputerFile = BibRecordKindComputerFile,
+
+    /// Special Instructional Material [OBSOLETE]
+    BibBibliographicRecordKindSpecialInstructionalMaterial DEPRECATED_MSG_ATTRIBUTE("Obsoleted in 1983") = BibRecordKindSpecialInstructionalMaterial,
 
     /// Kit
     BibBibliographicRecordKindKit = BibRecordKindKit,
@@ -368,18 +437,27 @@ typedef NS_ENUM(char, BibCommunityRecordKind) {
 /// document [MARC 21 Format for Holdings Data: Introduction][1].
 ///
 /// [1]: https://www.loc.gov/marc/holdings/hdintro.html
+///
+/// ## Topics
+///
+/// ### Enumeration Cases
+///
+/// - ``BibHoldingsRecordKindUnknown``
+/// - ``BibHoldingsRecordKindMultipartItem``
+/// - ``BibHoldingsRecordKindSinglePartItem``
+/// - ``BibHoldingsRecordKindSerialItem``
 typedef NS_ENUM(char, BibHoldingsRecordKind) {
     /// Unknown Holdings
-    BibHoldingsRecordKindUnknownHoldings = BibRecordKindUnknownHoldings,
+    BibHoldingsRecordKindUnknown = BibRecordKindUnknownHoldings,
 
     /// Multipart Item Holdings
-    BibHoldingsRecordKindMultipartItemHoldings = BibRecordKindMultipartItemHoldings,
+    BibHoldingsRecordKindMultipartItem = BibRecordKindMultipartItemHoldings,
 
     /// Single Part Item Holdings
-    BibHoldingsRecordKindSinglePartItemHoldings = BibRecordKindSinglePartItemHoldings,
+    BibHoldingsRecordKindSinglePartItem = BibRecordKindSinglePartItemHoldings,
 
     /// Serial Item Holdings
-    BibHoldingsRecordKindSerialItemHoldings = BibRecordKindSerialItemHoldings
+    BibHoldingsRecordKindSerialItem = BibRecordKindSerialItemHoldings
 } NS_SWIFT_NAME(BibRecordKind.Holdings);
 
 #pragma mark - Classification Record Kind
@@ -416,8 +494,16 @@ typedef NS_ENUM(char, BibAuthorityRecordKind) {
 
 #pragma mark - Description
 
+/// Get the MARC 21 format for a record kind.
+///
+/// - parameter kind: The MARC 21 record kind.
+/// - returns: The MARC21 format of the given record kind.
 FOUNDATION_EXTERN BibRecordFormat BibRecordKindFormat(BibRecordKind kind) NS_REFINED_FOR_SWIFT;
 
+/// A human-readable description of the record kind.
+///
+/// - parameter kind: The MARC 21 record kind.
+/// - returns: A human-readable description of `kind`.
 FOUNDATION_EXTERN NSString *BibRecordKindDescription(BibRecordKind kind) NS_REFINED_FOR_SWIFT;
 
 NS_ASSUME_NONNULL_END
