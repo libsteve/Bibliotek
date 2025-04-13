@@ -10,6 +10,10 @@
 #import "BibLeader.h"
 
 NSString *BibRecordStatusDescription(BibRecordStatus const status) {
+    union { char c; unsigned char uc; } v = { .c = status };
+    if (v.uc < 0x20 || v.uc >= 0x7F) {
+        return [NSString stringWithFormat:@"0x%2Xu", v.uc];
+    }
     NSBundle *bundle = [NSBundle bundleForClass:[BibLeader self]];
     NSString *value = [NSString stringWithFormat:@"status:%c", status];
     NSString *key = [NSString stringWithFormat:@"%c", status];

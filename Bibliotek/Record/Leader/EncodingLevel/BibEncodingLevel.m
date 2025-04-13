@@ -12,6 +12,10 @@
 #pragma mark Bibliographic
 
 NSString *BibBibliographicEncodingLevelDescription(BibBibliographicEncodingLevel const level) {
+    union { char c; unsigned char uc; } v = { .c = level };
+    if (v.uc < 0x20 || v.uc >= 0x7F) {
+        return [NSString stringWithFormat:@"0x%2Xu", v.uc];
+    }
     NSBundle *bundle = [NSBundle bundleForClass:[BibLeader self]];
     NSString *value = [NSString stringWithFormat:@"%c", level];
     NSString *key = [NSString stringWithFormat:@"bibliographic:%c", level];
@@ -21,6 +25,10 @@ NSString *BibBibliographicEncodingLevelDescription(BibBibliographicEncodingLevel
 #pragma mark - Authority
 
 NSString *BibAuthorityEncodingLevelDescription(BibAuthorityEncodingLevel level) {
+    union { char c; unsigned char uc; } v = { .c = level };
+    if (v.uc < 0x20 || v.uc >= 0x7F) {
+        return [NSString stringWithFormat:@"0x%2Xu", v.uc];
+    }
     NSBundle *bundle = [NSBundle bundleForClass:[BibLeader self]];
     NSString *value = [NSString stringWithFormat:@"%c", level];
     NSString *key = [NSString stringWithFormat:@"authority:%c", level];
@@ -30,6 +38,10 @@ NSString *BibAuthorityEncodingLevelDescription(BibAuthorityEncodingLevel level) 
 #pragma mark - Holdings
 
 NSString *BibHoldingsEncodingLevelDescription(BibHoldingsEncodingLevel level) {
+    union { char c; unsigned char uc; } v = { .c = level };
+    if (v.uc < 0x20 || v.uc >= 0x7F) {
+        return [NSString stringWithFormat:@"0x%2Xu", v.uc];
+    }
     NSBundle *bundle = [NSBundle bundleForClass:[BibLeader self]];
     NSString *value = [NSString stringWithFormat:@"%c", level];
     NSString *key = [NSString stringWithFormat:@"holdings:%c", level];
@@ -39,6 +51,10 @@ NSString *BibHoldingsEncodingLevelDescription(BibHoldingsEncodingLevel level) {
 #pragma mark - Classification
 
 NSString *BibClassificationEncodingLevelDescription(BibClassificationEncodingLevel level) {
+    union { char c; unsigned char uc; } v = { .c = level };
+    if (v.uc < 0x20 || v.uc >= 0x7F) {
+        return [NSString stringWithFormat:@"0x%2Xu", v.uc];
+    }
     NSBundle *bundle = [NSBundle bundleForClass:[BibLeader self]];
     NSString *value = [NSString stringWithFormat:@"%c", level];
     NSString *key = [NSString stringWithFormat:@"classification:%c", level];
