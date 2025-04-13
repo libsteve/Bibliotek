@@ -41,7 +41,7 @@
     BibRecord *const record = records.firstObject;
     XCTAssertNotNil(record);
     BibFieldTag *const titleStatementFieldTag = [[BibFieldTag alloc] initWithString:@"153"];
-    BibRecordField *const field = [[record allFieldsWithTag:titleStatementFieldTag] firstObject];
+    BibRecordField *const field = [[record fieldsWithTag:titleStatementFieldTag] firstObject];
     XCTAssertEqualObjects([[field subfieldWithCode:@"a"] content], @"KJV5461.3");
     NSUInteger const firstIndex = [field indexOfSubfieldWithCode:@"h"];
     XCTAssertEqualObjects([[field subfieldAtIndex:firstIndex] content], @"Law of France");
@@ -58,7 +58,7 @@
     XCTAssertNil(error);
     XCTAssertNotNil(record);
     BibFieldTag *const titleStatementFieldTag = [[BibFieldTag alloc] initWithString:@"153"];
-    BibRecordField *const field = [[record allFieldsWithTag:titleStatementFieldTag] firstObject];
+    BibRecordField *const field = [[record fieldsWithTag:titleStatementFieldTag] firstObject];
     XCTAssertEqualObjects([[field subfieldWithCode:@"a"] content], @"KJV5461.3");
     NSUInteger const firstIndex = [field indexOfSubfieldWithCode:@"h"];
     XCTAssertEqualObjects([[field subfieldAtIndex:firstIndex] content], @"Law of France");
@@ -77,7 +77,7 @@
     BibRecord *const record = records.firstObject;
     XCTAssertNotNil(record);
     BibFieldTag *const titleStatementFieldTag = [[BibFieldTag alloc] initWithString:@"245"];
-    BibRecordField *const field = [[record allFieldsWithTag:titleStatementFieldTag] firstObject];
+    BibRecordField *const field = [[record fieldsWithTag:titleStatementFieldTag] firstObject];
     XCTAssertEqualObjects([[field subfieldWithCode:@"a"] content], @"In the land of invented languages :");
     XCTAssertEqualObjects([[field subfieldWithCode:@"b"] content], @"Esperanto rock stars, Klingon poets, "
                                                                    @"Loglan lovers, and the mad dreamers "
@@ -92,7 +92,7 @@
     XCTAssertNil(error);
     XCTAssertNotNil(record);
     BibFieldTag *const titleStatementFieldTag = [[BibFieldTag alloc] initWithString:@"245"];
-    BibRecordField *const field = [[record allFieldsWithTag:titleStatementFieldTag] firstObject];
+    BibRecordField *const field = [[record fieldsWithTag:titleStatementFieldTag] firstObject];
     XCTAssertEqualObjects([[field subfieldWithCode:@"a"] content], @"In the land of invented languages :");
     XCTAssertEqualObjects([[field subfieldWithCode:@"b"] content], @"Esperanto rock stars, Klingon poets, "
                                                                    @"Loglan lovers, and the mad dreamers "
@@ -109,7 +109,7 @@
     XCTAssertNil(error);
     XCTAssertNotNil(record);
     BibFieldTag *const classificationFieldNumberTag = [[BibFieldTag alloc] initWithString:@"153"];
-    BibRecordField *const field = [[record allFieldsWithTag:classificationFieldNumberTag] firstObject];
+    BibRecordField *const field = [[record fieldsWithTag:classificationFieldNumberTag] firstObject];
     XCTAssertEqualObjects([[field subfieldWithCode:@"j"] content], @"K\x6F\xCC\x88nig, Josef, 1893-1974");
 }
 
@@ -120,7 +120,7 @@
     XCTAssertNil(error);
     XCTAssertNotNil(record);
     BibFieldTag *const classificationFieldNumberTag = [[BibFieldTag alloc] initWithString:@"153"];
-    BibRecordField *const field = [[record allFieldsWithTag:classificationFieldNumberTag] firstObject];
+    BibRecordField *const field = [[record fieldsWithTag:classificationFieldNumberTag] firstObject];
     XCTAssertEqualObjects([[field subfieldWithCode:@"a"] content], @"E585.I75");
 }
 

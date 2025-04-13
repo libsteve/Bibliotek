@@ -11,6 +11,20 @@ import Foundation
 @testable import Bibliotek
 
 class BibliotekTests: XCTestCase {
+    func testFoo() {
+        let record = BibMutableRecordField(
+            fieldTag: "245",
+            firstIndicator: "0",
+            secondIndicator: "0",
+            subfields: [
+                Subfield(code: "a", content: "In the land of invented languages / "),
+                Subfield(code: "c", content: "by Arika Okrent.")
+            ]
+        )
+        print(record.subfieldCount)
+        print(record.description)
+    }
+
     func testConnectSucceeds() {
         XCTAssertNoThrow(try Connection(host: "z3950.loc.gov", port: 7090, database: "VOYAGER"))
     }
