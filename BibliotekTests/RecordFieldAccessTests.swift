@@ -47,8 +47,8 @@ class RecordFieldAccessTests: XCTestCase {
 
         let fieldContents = indexPaths.map(self.record.content(at:))
         XCTAssertEqual(fieldContents.count, indexPaths.count, "Expected content for all index paths")
-        XCTAssertEqual(fieldContents.first!, "9780385527880")
-        XCTAssertEqual(fieldContents.last!, "0385527888")
+        XCTAssertEqual(fieldContents.first!, "‡a9780385527880")
+        XCTAssertEqual(fieldContents.last!, "‡a0385527888")
     }
 
     func testSubfieldAccessTitleStatementTitle() {
